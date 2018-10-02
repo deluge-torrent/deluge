@@ -40,22 +40,18 @@ DEFAULT_PREFS = {
     'smtp_tls': False,  # SSL or TLS
     'smtp_recipients': [],
     # Subscriptions
-    'subscriptions': {
-        'email': [],
-    },
+    'subscriptions': {'email': []},
 }
 
 
 class CoreNotifications(CustomNotifications):
-
     def __init__(self, plugin_name=None):
         CustomNotifications.__init__(self, plugin_name)
 
     def enable(self):
         CustomNotifications.enable(self)
         self.register_custom_email_notification(
-            'TorrentFinishedEvent',
-            self._on_torrent_finished_event,
+            'TorrentFinishedEvent', self._on_torrent_finished_event
         )
 
     def disable(self):
@@ -80,8 +76,7 @@ class CoreNotifications(CustomNotifications):
             return defer.succeed('SMTP notification not enabled.')
         subject, message = result
         log.debug(
-            'Spawning new thread to send email with subject: %s: %s',
-            subject, message,
+            'Spawning new thread to send email with subject: %s: %s', subject, message
         )
         # Spawn thread because we don't want Deluge to lock up while we send the
         # email.
@@ -109,20 +104,25 @@ class CoreNotifications(CustomNotifications):
             'smtp_recipients': to_addrs_str,
             'date': formatdate(),
         }
-        headers = """\
+        headers = (
+            """\
 From: %(smtp_from)s
 To: %(smtp_recipients)s
 Subject: %(subject)s
 Date: %(date)s
 
 
-""" % headers_dict
+"""
+            % headers_dict
+        )
 
         message = '\r\n'.join((headers + message).splitlines())
 
         try:
             # Python 2.6
-            server = smtplib.SMTP(self.config['smtp_host'], self.config['smtp_port'], timeout=60)
+            server = smtplib.SMTP(
+                self.config['smtp_host'], self.config['smtp_port'], timeout=60
+            )
         except Exception as ex:
             err_msg = _('There was an error sending the notification email: %s') % ex
             log.error(err_msg)
@@ -154,7 +154,9 @@ Date: %(date)s
             try:
                 server.sendmail(self.config['smtp_from'], to_addrs, message)
             except smtplib.SMTPException as ex:
-                err_msg = _('There was an error sending the notification email: %s') % ex
+                err_msg = (
+                    _('There was an error sending the notification email: %s') % ex
+                )
                 log.error(err_msg)
                 return ex
         finally:
@@ -162,6 +164,7 @@ Date: %(date)s
                 # avoid false failure detection when the server closes
                 # the SMTP connection with TLS enabled
                 import socket
+
                 try:
                     server.quit()
                 except socket.sslerror:
@@ -176,13 +179,16 @@ Date: %(date)s
         torrent_status = torrent.get_status({})
         # Email
         subject = _('Finished Torrent "%(name)s"') % torrent_status
-        message = _(
-            'This email is to inform you that Deluge has finished '
-            'downloading "%(name)s", which includes %(num_files)i files.'
-            '\nTo stop receiving these alerts, simply turn off email '
-            "notification in Deluge's preferences.\n\n"
-            'Thank you,\nDeluge.',
-        ) % torrent_status
+        message = (
+            _(
+                'This email is to inform you that Deluge has finished '
+                'downloading "%(name)s", which includes %(num_files)i files.'
+                '\nTo stop receiving these alerts, simply turn off email '
+                "notification in Deluge's preferences.\n\n"
+                'Thank you,\nDeluge.'
+            )
+            % torrent_status
+        )
         return subject, message
 
         # d = defer.maybeDeferred(self.handle_custom_email_notification,
@@ -201,7 +207,7 @@ class Core(CorePluginBase, CoreNotifications):
     def enable(self):
         CoreNotifications.enable(self)
         self.config = deluge.configmanager.ConfigManager(
-            'notifications-core.conf', DEFAULT_PREFS,
+            'notifications-core.conf', DEFAULT_PREFS
         )
         log.debug('ENABLING CORE NOTIFICATIONS')
 

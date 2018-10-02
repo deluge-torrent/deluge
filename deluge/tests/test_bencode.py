@@ -14,7 +14,6 @@ from . import common
 
 
 class BencodeTestCase(unittest.TestCase):
-
     def test_bencode_unicode_metainfo(self):
         filename = common.get_test_data_file('test.torrent')
         with open(filename, 'rb') as _file:

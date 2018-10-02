@@ -41,14 +41,12 @@ SEARCH_FORMAT = {
     SEARCH_EMPTY: '{!black,white!}Search torrents: %s{!black,white!}',
     SEARCH_SUCCESS: '{!black,white!}Search torrents: {!black,green!}%s{!black,white!}',
     SEARCH_FAILING: '{!black,white!}Search torrents: {!black,red!}%s{!black,white!}',
-    SEARCH_START_REACHED:
-    '{!black,white!}Search torrents: {!black,yellow!}%s{!black,white!} (start reached)',
+    SEARCH_START_REACHED: '{!black,white!}Search torrents: {!black,yellow!}%s{!black,white!} (start reached)',
     SEARCH_END_REACHED: '{!black,white!}Search torrents: {!black,yellow!}%s{!black,white!} (end reached)',
 }
 
 
 class SearchMode(InputKeyHandler):
-
     def __init__(self, torrentlist):
         super(SearchMode, self).__init__()
         self.torrentlist = torrentlist
@@ -58,10 +56,16 @@ class SearchMode(InputKeyHandler):
 
     def update_cursor(self):
         util.safe_curs_set(util.Curser.VERY_VISIBLE)
-        move_cursor(self.torrentlist.stdscr, self.torrentlist.rows - 1, len(self.search_string) + 17)
+        move_cursor(
+            self.torrentlist.stdscr,
+            self.torrentlist.rows - 1,
+            len(self.search_string) + 17,
+        )
 
     def set_statusbar_args(self, statusbar_args):
-        statusbar_args['bottombar'] = SEARCH_FORMAT[self.search_state] % self.search_string
+        statusbar_args['bottombar'] = (
+            SEARCH_FORMAT[self.search_state] % self.search_string
+        )
         statusbar_args['bottombar_help'] = False
 
     def update_colors(self, tidx, colors):
@@ -92,18 +96,23 @@ class SearchMode(InputKeyHandler):
         if direction == 'last':
             search_space = reversed(search_space)
         elif direction == 'next':
-            search_space = search_space[self.torrentview.cursel + 1:]
+            search_space = search_space[self.torrentview.cursel + 1 :]
         elif direction == 'previous':
-            search_space = reversed(search_space[:self.torrentview.cursel])
+            search_space = reversed(search_space[: self.torrentview.cursel])
 
         search_string = self.search_string.lower()
         for i, n in search_space:
             n = n.lower()
             if n.find(search_string) != -1:
                 self.torrentview.cursel = i
-                if (self.torrentview.curoff + self.torrentview.torrent_rows - self.torrentview.torrentlist_offset)\
-                   < self.torrentview.cursel:
-                    self.torrentview.curoff = self.torrentview.cursel - self.torrentview.torrent_rows + 1
+                if (
+                    self.torrentview.curoff
+                    + self.torrentview.torrent_rows
+                    - self.torrentview.torrentlist_offset
+                ) < self.torrentview.cursel:
+                    self.torrentview.curoff = (
+                        self.torrentview.cursel - self.torrentview.torrent_rows + 1
+                    )
                 elif (self.torrentview.curoff + 1) > self.torrentview.cursel:
                     self.torrentview.curoff = max(0, self.torrentview.cursel)
                 self.search_state = SEARCH_SUCCESS
@@ -120,7 +129,10 @@ class SearchMode(InputKeyHandler):
         cname = self.torrentview.torrent_names[self.torrentview.cursel]
         refresh = True
 
-        if c in [util.KEY_ESC, util.KEY_BELL]:  # If Escape key or CTRL-g, we abort search
+        if c in [
+            util.KEY_ESC,
+            util.KEY_BELL,
+        ]:  # If Escape key or CTRL-g, we abort search
             self.torrentlist.set_minor_mode(None)
             self.search_state = SEARCH_EMPTY
         elif c in [curses.KEY_BACKSPACE, util.KEY_BACKSPACE2]:
@@ -175,9 +187,9 @@ class SearchMode(InputKeyHandler):
                 self.search_string += uchar
 
             still_matching = (
-                cname.lower().find(self.search_string.lower()) ==
-                cname.lower().find(old_search_string.lower()) and
-                cname.lower().find(self.search_string.lower()) != -1
+                cname.lower().find(self.search_string.lower())
+                == cname.lower().find(old_search_string.lower())
+                and cname.lower().find(self.search_string.lower()) != -1
             )
 
             if self.search_string and not still_matching:

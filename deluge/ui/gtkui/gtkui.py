@@ -17,6 +17,7 @@ import sys
 import time
 
 import pygtk  # isort:skip (Required before gtk import).
+
 pygtk.require('2.0')  # NOQA: E402
 
 # isort:imports-thirdparty
@@ -36,7 +37,13 @@ except ReactorAlreadyInstalledError as ex:
 
 # isort:imports-firstparty
 import deluge.component as component
-from deluge.common import fsize, fspeed, get_default_download_dir, osx_check, windows_check
+from deluge.common import (
+    fsize,
+    fspeed,
+    get_default_download_dir,
+    osx_check,
+    windows_check,
+)
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.error import DaemonRunningError
 from deluge.ui.client import client
@@ -68,6 +75,7 @@ log = logging.getLogger(__name__)
 try:
     from setproctitle import setproctitle, getproctitle
 except ImportError:
+
     def setproctitle(title):
         return
 
@@ -149,10 +157,12 @@ class GtkUI(object):
 
         if windows_check():
             from win32api import SetConsoleCtrlHandler
+
             SetConsoleCtrlHandler(on_die, True)
             log.debug('Win32 "die" handler registered')
         elif osx_check() and WINDOWING == 'quartz':
             import gtkosx_application
+
             self.osxapp = gtkosx_application.gtkosx_application_get()
             self.osxapp.connect('NSApplicationWillTerminate', on_die)
             log.debug('OSX quartz "die" handler registered')
@@ -202,13 +212,16 @@ class GtkUI(object):
         self.addtorrentdialog = AddTorrentDialog()
 
         if osx_check() and WINDOWING == 'quartz':
+
             def nsapp_open_file(osxapp, filename):
                 # Ignore command name which is raised at app launch (python opening main script).
                 if filename == sys.argv[0]:
                     return True
                 process_args([filename])
+
             self.osxapp.connect('NSApplicationOpenFile', nsapp_open_file)
             from deluge.ui.gtkui.menubar_osx import menubar_osx
+
             menubar_osx(self, self.osxapp)
             self.osxapp.ready()
 
@@ -286,7 +299,13 @@ class GtkUI(object):
         self.daemon_bps = (t, sent, recv)
         sent_rate = fspeed(delta_sent / delta_time)
         recv_rate = fspeed(delta_recv / delta_time)
-        log.debug('RPC: Sent %s (%s) Recv %s (%s)', fsize(sent), sent_rate, fsize(recv), recv_rate)
+        log.debug(
+            'RPC: Sent %s (%s) Recv %s (%s)',
+            fsize(sent),
+            sent_rate,
+            fsize(recv),
+            recv_rate,
+        )
 
     def _on_reactor_start(self):
         log.debug('_on_reactor_start')
@@ -301,25 +320,25 @@ class GtkUI(object):
         except DaemonRunningError:
             err_msg = _(
                 'A Deluge daemon (deluged) is already running.\n'
-                'To use Standalone mode, stop local daemon and restart Deluge.',
+                'To use Standalone mode, stop local daemon and restart Deluge.'
             )
         except ImportError as ex:
             if 'No module named libtorrent' in ex.message:
                 err_msg = _(
                     'Only Thin Client mode is available because libtorrent is not installed.\n'
-                    'To use Standalone mode, please install libtorrent package.',
+                    'To use Standalone mode, please install libtorrent package.'
                 )
             else:
                 log.exception(ex)
                 err_msg = _(
                     'Only Thin Client mode is available due to unknown Import Error.\n'
-                    'To use Standalone mode, please see logs for error details.',
+                    'To use Standalone mode, please see logs for error details.'
                 )
         except Exception as ex:
             log.exception(ex)
             err_msg = _(
                 'Only Thin Client mode is available due to unknown Import Error.\n'
-                'To use Standalone mode, please see logs for error details.',
+                'To use Standalone mode, please see logs for error details.'
             )
         else:
             component.start()
@@ -347,6 +366,7 @@ class GtkUI(object):
 
         # Check to see if we need to start the localhost daemon
         if self.config['autostart_localhost']:
+
             def on_localhost_status(status_info, port):
                 if status_info[1] == 'Offline':
                     log.debug('Autostarting localhost: %s', host_config[0:3])

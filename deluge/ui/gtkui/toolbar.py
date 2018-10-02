@@ -45,7 +45,7 @@ class ToolBar(component.Component):
 
     def start(self):
         self.main_builder.get_object('toolbutton_connectionmanager').set_visible(
-            not self.config['standalone'],
+            not self.config['standalone']
         )
 
         for widget in self.change_sensitivity:
@@ -63,7 +63,9 @@ class ToolBar(component.Component):
 
         self.config['show_toolbar'] = visible
 
-    def add_toolbutton(self, callback, label=None, image=None, stock=None, tooltip=None):
+    def add_toolbutton(
+        self, callback, label=None, image=None, stock=None, tooltip=None
+    ):
         """Adds a toolbutton to the toolbar"""
         toolbutton = ToolButton()
         if stock is not None:

@@ -28,6 +28,7 @@ class BaseWindow(object):
     """
     BaseWindow creates a curses screen to be used for showing panels and popup dialogs
     """
+
     def __init__(self, title, width, height, posy=0, posx=0, encoding=None):
         """
         Args:
@@ -42,6 +43,7 @@ class BaseWindow(object):
         self.posy, self.posx = posy, posx
         if encoding is None:
             from deluge import component
+
             encoding = component.get('ConsoleUI').encoding
         self.encoding = encoding
 
@@ -117,7 +119,9 @@ class BaseWindow(object):
         if content_height <= self.visible_content_pane_height:
             return
 
-        percent_scroll = float(self.lineoff) / (content_height - self.visible_content_pane_height)
+        percent_scroll = float(self.lineoff) / (
+            content_height - self.visible_content_pane_height
+        )
         indicator_row = int(self.visible_content_pane_height * percent_scroll) + 1
 
         # Never greater than height
@@ -125,8 +129,13 @@ class BaseWindow(object):
         indicator_col = self.width + 1
 
         add_string(
-            indicator_row, '{!red,black,bold!}#', screen, self.encoding,
-            col=indicator_col, pad=False, trim=False,
+            indicator_row,
+            '{!red,black,bold!}#',
+            screen,
+            self.encoding,
+            col=indicator_col,
+            pad=False,
+            trim=False,
         )
 
     def refresh(self):
@@ -136,7 +145,13 @@ class BaseWindow(object):
 
         if self.title:
             toff = max(1, (self.width // 2) - (len(self.title) // 2))
-            self.add_string(0, '{!white,black,bold!}%s' % self.title, scr=self.outer_screen, col=toff, pad=False)
+            self.add_string(
+                0,
+                '{!white,black,bold!}%s' % self.title,
+                scr=self.outer_screen,
+                col=toff,
+                pad=False,
+            )
 
         self.draw_scroll_indicator(self.outer_screen)
         self.outer_screen.noutrefresh()
@@ -151,10 +166,20 @@ class BaseWindow(object):
             smincol = self.posx + 1
             smaxrow = height + self.posy
             smaxcol = width + self.posx
-            self.screen.noutrefresh(pminrow, pmincol, sminrow, smincol, smaxrow, smaxcol)
+            self.screen.noutrefresh(
+                pminrow, pmincol, sminrow, smincol, smaxrow, smaxcol
+            )
         except curses.error as ex:
             import traceback
+
             log.warning(
                 'Error on screen.noutrefresh(%s, %s, %s, %s, %s, %s) Error: %s\nStack: %s',
-                pminrow, pmincol, sminrow, smincol, smaxrow, smaxcol, ex, ''.join(traceback.format_stack()),
+                pminrow,
+                pmincol,
+                sminrow,
+                smincol,
+                smaxrow,
+                smaxcol,
+                ex,
+                ''.join(traceback.format_stack()),
             )

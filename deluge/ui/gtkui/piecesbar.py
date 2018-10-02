@@ -82,7 +82,9 @@ class PiecesBar(DrawingArea):
         self.cr.clip()
 
     def roundcorners_border(self):
-        self.create_roundcorners_subpath(self.cr, 0.5, 0.5, self.width - 1, self.height - 1)
+        self.create_roundcorners_subpath(
+            self.cr, 0.5, 0.5, self.width - 1, self.height - 1
+        )
         self.cr.set_source_rgba(0, 0, 0, 0.9)
         self.cr.stroke()
 
@@ -94,7 +96,9 @@ class PiecesBar(DrawingArea):
         degrees = pi / 180
         ctx.new_sub_path()
         ctx.arc(x + width - radius, y + radius, radius, -90 * degrees, 0 * degrees)
-        ctx.arc(x + width - radius, y + height - radius, radius, 0 * degrees, 90 * degrees)
+        ctx.arc(
+            x + width - radius, y + height - radius, radius, 0 * degrees, 90 * degrees
+        )
         ctx.arc(x + radius, y + height - radius, radius, 90 * degrees, 180 * degrees)
         ctx.arc(x + radius, y + radius, radius, 180 * degrees, 270 * degrees)
         ctx.close_path()
@@ -105,7 +109,11 @@ class PiecesBar(DrawingArea):
             # Nothing to draw.
             return
 
-        if self.resized() or self.pieces != self.prev_pieces or self.pieces_overlay is None:
+        if (
+            self.resized()
+            or self.pieces != self.prev_pieces
+            or self.pieces_overlay is None
+        ):
             # Need to recreate the cache drawing
             self.pieces_overlay = ImageSurface(FORMAT_ARGB32, self.width, self.height)
             ctx = Context(self.pieces_overlay)
@@ -118,7 +126,10 @@ class PiecesBar(DrawingArea):
             start_pos = 0
             piece_width = self.width / len(pieces)
             pieces_colors = [
-                [color / 65535 for color in self.gtkui_config['pieces_color_%s' % state]]
+                [
+                    color / 65535
+                    for color in self.gtkui_config['pieces_color_%s' % state]
+                ]
                 for state in COLOR_STATES
             ]
             for state in pieces:
@@ -135,7 +146,11 @@ class PiecesBar(DrawingArea):
             # Nothing useful to draw, return now!
             return
 
-        if self.resized() or self.fraction != self.prev_fraction or self.progress_overlay is None:
+        if (
+            self.resized()
+            or self.fraction != self.prev_fraction
+            or self.progress_overlay is None
+        ):
             # Need to recreate the cache drawing
             self.progress_overlay = ImageSurface(FORMAT_ARGB32, self.width, self.height)
             ctx = Context(self.progress_overlay)

@@ -24,7 +24,4 @@ class AuthManagerTestCase(BaseTestCase):
         return component.shutdown()
 
     def test_authorize(self):
-        self.assertEqual(
-            self.auth.authorize(*get_localhost_auth()),
-            AUTH_LEVEL_ADMIN,
-        )
+        self.assertEqual(self.auth.authorize(*get_localhost_auth()), AUTH_LEVEL_ADMIN)

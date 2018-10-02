@@ -10,7 +10,13 @@
 from __future__ import division, print_function, unicode_literals
 
 from OpenSSL.crypto import FILETYPE_PEM
-from twisted.internet.ssl import AcceptableCiphers, Certificate, CertificateOptions, KeyPair, TLSVersion
+from twisted.internet.ssl import (
+    AcceptableCiphers,
+    Certificate,
+    CertificateOptions,
+    KeyPair,
+    TLSVersion,
+)
 
 # A TLS ciphers list.
 # Sources for more information on TLS ciphers:
@@ -25,16 +31,17 @@ from twisted.internet.ssl import AcceptableCiphers, Certificate, CertificateOpti
 # - prefer cipher suites that offer perfect forward secrecy (ECDHE),
 # - prefer AES-GCM over ChaCha20 because hardware-accelerated AES is common,
 # - disable NULL authentication, MD5 MACs and DSS for security reasons.
-TLS_CIPHERS = ':'.join([
-    'ECDH+AESGCM',
-    'ECDH+CHACHA20',
-    'AES256-GCM-SHA384',
-    'AES128-GCM-SHA256',
-    '!DSS'
-    '!aNULL',
-    '!eNULL',
-    '!MD5'
-])
+TLS_CIPHERS = ':'.join(
+    [
+        'ECDH+AESGCM',
+        'ECDH+CHACHA20',
+        'AES256-GCM-SHA384',
+        'AES128-GCM-SHA256',
+        '!DSS' '!aNULL',
+        '!eNULL',
+        '!MD5',
+    ]
+)
 
 # This value tells OpenSSL to disable all SSL/TLS renegotiation.
 SSL_OP_NO_RENEGOTIATION = 0x40000000

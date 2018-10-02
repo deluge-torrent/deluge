@@ -24,15 +24,26 @@ from deluge.ui.translations_util import set_dummy_trans
 def add_daemon_options(parser):
     group = parser.add_argument_group(_('Daemon Options'))
     group.add_argument(
-        '-u', '--ui-interface', metavar='<ip-addr>', action='store',
+        '-u',
+        '--ui-interface',
+        metavar='<ip-addr>',
+        action='store',
         help=_('IP address to listen for UI connections'),
     )
     group.add_argument(
-        '-p', '--port', metavar='<port>', action='store', type=int,
+        '-p',
+        '--port',
+        metavar='<port>',
+        action='store',
+        type=int,
         help=_('Port to listen for UI connections on'),
     )
     group.add_argument(
-        '-i', '--interface', metavar='<ip-addr>', dest='listen_interface', action='store',
+        '-i',
+        '--interface',
+        metavar='<ip-addr>',
+        dest='listen_interface',
+        action='store',
         help=_('IP address to listen for BitTorrent connections'),
     )
     group.add_argument(
@@ -44,8 +55,12 @@ def add_daemon_options(parser):
         help=_('The interface adapter name for outgoing BitTorrent connections.'),
     )
     group.add_argument(
-        '--read-only-config-keys', metavar='<comma-separated-keys>', action='store',
-        help=_('Config keys to be unmodified by `set_config` RPC'), type=str, default='',
+        '--read-only-config-keys',
+        metavar='<comma-separated-keys>',
+        action='store',
+        help=_('Config keys to be unmodified by `set_config` RPC'),
+        type=str,
+        default='',
     )
     parser.add_process_arg_group()
 
@@ -71,11 +86,12 @@ def start_daemon(skip_start=False):
 
     # Check for any daemons running with this same config
     from deluge.core.daemon import is_daemon_running
+
     pid_file = get_config_dir('deluged.pid')
     if is_daemon_running(pid_file):
         print(
             'Cannot run multiple daemons with same config directory.\n'
-            'If you believe this is an error, force starting by deleting: %s' % pid_file,
+            'If you believe this is an error, force starting by deleting: %s' % pid_file
         )
         sys.exit(1)
 
@@ -90,6 +106,7 @@ def start_daemon(skip_start=False):
     def run_daemon(options):
         try:
             from deluge.core.daemon import Daemon
+
             daemon = Daemon(
                 listen_interface=options.listen_interface,
                 outgoing_interface=options.outgoing_interface,
@@ -105,7 +122,8 @@ def start_daemon(skip_start=False):
             log.error(
                 'Cannot start deluged, listen port in use.\n'
                 ' Check for other running daemons or services using this port: %s:%s',
-                ex.interface, ex.port,
+                ex.interface,
+                ex.port,
             )
             sys.exit(1)
         except Exception as ex:
@@ -118,4 +136,6 @@ def start_daemon(skip_start=False):
             if options.pidfile:
                 os.remove(options.pidfile)
 
-    return run_profiled(run_daemon, options, output_file=options.profile, do_profile=options.profile)
+    return run_profiled(
+        run_daemon, options, output_file=options.profile, do_profile=options.profile
+    )

@@ -39,14 +39,15 @@ Change queue position of selected torrents
 
 
 class QueueMode(object):
-
     def __init__(self, torrentslist, torrent_ids):
         self.torrentslist = torrentslist
         self.torrentview = torrentslist.torrentview
         self.torrent_ids = torrent_ids
 
     def set_statusbar_args(self, statusbar_args):
-        statusbar_args['bottombar'] = '{!black,white!}Queue mode: change queue position of selected torrents.'
+        statusbar_args[
+            'bottombar'
+        ] = '{!black,white!}Queue mode: change queue position of selected torrents.'
         statusbar_args['bottombar_help'] = ' Press [h] for help'
 
     def update_cursor(self):
@@ -59,9 +60,22 @@ class QueueMode(object):
         if c in [util.KEY_ESC, util.KEY_BELL]:  # If Escape key or CTRL-g, we abort
             self.torrentslist.set_minor_mode(None)
         elif c == ord('h'):
-            popup = MessagePopup(self.torrentslist, 'Help', QUEUE_MODE_HELP_STR, width_req=0.65, border_off_west=1)
+            popup = MessagePopup(
+                self.torrentslist,
+                'Help',
+                QUEUE_MODE_HELP_STR,
+                width_req=0.65,
+                border_off_west=1,
+            )
             self.torrentslist.push_popup(popup, clear=True)
-        elif c in [curses.KEY_UP, curses.KEY_DOWN, curses.KEY_HOME, curses.KEY_END, curses.KEY_NPAGE, curses.KEY_PPAGE]:
+        elif c in [
+            curses.KEY_UP,
+            curses.KEY_DOWN,
+            curses.KEY_HOME,
+            curses.KEY_END,
+            curses.KEY_NPAGE,
+            curses.KEY_PPAGE,
+        ]:
             action = key_to_action[c]
             self.do_queue(action)
 
@@ -78,38 +92,64 @@ class QueueMode(object):
                     selected_num += 1
         if qact == ACTION.QUEUE_TOP:
             if self.torrentview.marked:
-                self.torrentview.cursel = 1 + sorted(self.torrentview.marked).index(self.torrentview.cursel)
+                self.torrentview.cursel = 1 + sorted(self.torrentview.marked).index(
+                    self.torrentview.cursel
+                )
             else:
                 self.torrentview.cursel = 1
             self.torrentview.marked = list(range(1, selected_num + 1))
         elif qact == ACTION.QUEUE_UP:
             self.torrentview.cursel = max(1, self.torrentview.cursel - 1)
             self.torrentview.marked = [marked - 1 for marked in self.torrentview.marked]
-            self.torrentview.marked = [marked for marked in self.torrentview.marked if marked > 0]
+            self.torrentview.marked = [
+                marked for marked in self.torrentview.marked if marked > 0
+            ]
         elif qact == ACTION.QUEUE_DOWN:
             self.torrentview.cursel = min(queue_length, self.torrentview.cursel + 1)
             self.torrentview.marked = [marked + 1 for marked in self.torrentview.marked]
-            self.torrentview.marked = [marked for marked in self.torrentview.marked if marked <= queue_length]
+            self.torrentview.marked = [
+                marked for marked in self.torrentview.marked if marked <= queue_length
+            ]
         elif qact == ACTION.QUEUE_BOTTOM:
             if self.torrentview.marked:
-                self.torrentview.cursel = (queue_length - selected_num + 1 +
-                                           sorted(self.torrentview.marked).index(self.torrentview.cursel))
+                self.torrentview.cursel = (
+                    queue_length
+                    - selected_num
+                    + 1
+                    + sorted(self.torrentview.marked).index(self.torrentview.cursel)
+                )
             else:
                 self.torrentview.cursel = queue_length
-            self.torrentview.marked = list(range(queue_length - selected_num + 1, queue_length + 1))
+            self.torrentview.marked = list(
+                range(queue_length - selected_num + 1, queue_length + 1)
+            )
 
     def do_queue(self, qact, *args, **kwargs):
         if qact == ACTION.QUEUE_TOP:
-            client.core.queue_top(self.torrent_ids).addCallback(self.move_selection, qact)
+            client.core.queue_top(self.torrent_ids).addCallback(
+                self.move_selection, qact
+            )
         elif qact == ACTION.QUEUE_BOTTOM:
-            client.core.queue_bottom(self.torrent_ids).addCallback(self.move_selection, qact)
+            client.core.queue_bottom(self.torrent_ids).addCallback(
+                self.move_selection, qact
+            )
         elif qact == ACTION.QUEUE_UP:
-            client.core.queue_up(self.torrent_ids).addCallback(self.move_selection, qact)
+            client.core.queue_up(self.torrent_ids).addCallback(
+                self.move_selection, qact
+            )
         elif qact == ACTION.QUEUE_DOWN:
-            client.core.queue_down(self.torrent_ids).addCallback(self.move_selection, qact)
+            client.core.queue_down(self.torrent_ids).addCallback(
+                self.move_selection, qact
+            )
 
     def popup(self, **kwargs):
-        popup = SelectablePopup(self.torrentslist, 'Queue Action', self.do_queue, cb_args=kwargs, border_off_west=1)
+        popup = SelectablePopup(
+            self.torrentslist,
+            'Queue Action',
+            self.do_queue,
+            cb_args=kwargs,
+            border_off_west=1,
+        )
         popup.add_line(ACTION.QUEUE_TOP, '_Top')
         popup.add_line(ACTION.QUEUE_UP, '_Up')
         popup.add_line(ACTION.QUEUE_DOWN, '_Down')

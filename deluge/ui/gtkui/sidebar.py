@@ -25,6 +25,7 @@ class SideBar(component.Component):
     manages the sidebar-tabs.
     purpose : plugins
     """
+
     def __init__(self):
         component.Component.__init__(self, 'SideBar')
         main_builder = component.get('MainWindow').get_builder()

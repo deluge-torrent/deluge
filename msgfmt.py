@@ -68,8 +68,14 @@ def generate():
     for _id in keys:
         # For each string, we need size and file offset when encoded. Each string is NUL
         # terminated; the NUL does not count into the size.
-        offsets.append((len(ids.encode('utf8')), len(_id.encode('utf8')),
-                        len(strs.encode('utf8')), len(MESSAGES[_id].encode('utf8'))))
+        offsets.append(
+            (
+                len(ids.encode('utf8')),
+                len(_id.encode('utf8')),
+                len(strs.encode('utf8')),
+                len(MESSAGES[_id].encode('utf8')),
+            )
+        )
         ids += _id + '\x00'
         strs += MESSAGES[_id] + '\x00'
 
@@ -87,13 +93,16 @@ def generate():
         koffsets += [l1, o1 + keystart]
         voffsets += [l2, o2 + valuestart]
     offsets = koffsets + voffsets
-    output = struct.pack('Iiiiiii',
-                         0x950412de,       # Magic
-                         0,                 # Version
-                         len(keys),         # # of entries
-                         7 * 4,             # start of key index
-                         7 * 4 + len(keys) * 8,   # start of value index
-                         0, 0)              # size and offset of hash table
+    output = struct.pack(
+        'Iiiiiii',
+        0x950412DE,  # Magic
+        0,  # Version
+        len(keys),  # # of entries
+        7 * 4,  # start of key index
+        7 * 4 + len(keys) * 8,  # start of value index
+        0,
+        0,
+    )  # size and offset of hash table
     if sys.version_info.major == 2:
         output += array.array(b'i', offsets).tostring()
     else:
@@ -119,6 +128,7 @@ def make(filename, outfile):
 
     try:
         import io
+
         with io.open(infile, encoding='utf8') as _file:
             lines = _file.readlines()
     except IOError as msg:
@@ -165,7 +175,7 @@ def make(filename, outfile):
                 if not line.startswith('[0]'):
                     msgstr += '\x00'
                 # Ignore the index - must come in sequence
-                line = line[line.index(']') + 1:]
+                line = line[line.index(']') + 1 :]
         # Skip empty lines
         line = line.strip()
         if not line:
@@ -198,8 +208,9 @@ def make(filename, outfile):
 
 def main():
     try:
-        opts, args = getopt.getopt(sys.argv[1:], 'hVo:',
-                                   ['help', 'version', 'output-file='])
+        opts, args = getopt.getopt(
+            sys.argv[1:], 'hVo:', ['help', 'version', 'output-file=']
+        )
     except getopt.error as msg:
         usage(1, msg)
 

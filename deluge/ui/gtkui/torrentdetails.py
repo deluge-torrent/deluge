@@ -33,7 +33,9 @@ class Tab(object):
         self.weight = -1
 
         self.main_builder = component.get('MainWindow').get_builder()
-        self._child_widget = self.main_builder.get_object(child_widget)if child_widget else None
+        self._child_widget = (
+            self.main_builder.get_object(child_widget) if child_widget else None
+        )
         self._tab_label = self.main_builder.get_object(tab_label) if tab_label else None
 
         self.tab_widgets = {}
@@ -161,7 +163,10 @@ class TorrentDetails(component.Component):
             state = default_order
 
         # We need to rename the tab in the state for backwards compat
-        self.state = [(tab_name.replace('Statistics', 'Status'), visible) for tab_name, visible in state]
+        self.state = [
+            (tab_name.replace('Statistics', 'Status'), visible)
+            for tab_name, visible in state
+        ]
 
         for tab in default_tabs.values():
             self.add_tab(tab(), generate_menu=False)
@@ -175,8 +180,7 @@ class TorrentDetails(component.Component):
         # weights is a list of visible tab names in weight order
 
         weights = sorted(
-            (tab.weight, name)
-            for name, tab in self.tabs.items() if tab.is_visible
+            (tab.weight, name) for name, tab in self.tabs.items() if tab.is_visible
         )
 
         log.debug('weights: %s', weights)
@@ -216,9 +220,7 @@ class TorrentDetails(component.Component):
             insert_pos = self.tab_insert_position(weight)
             log.debug('Trying to insert tab at %d', insert_pos)
             pos = self.notebook.insert_page(
-                tab.get_child_widget(),
-                tab.get_tab_label(),
-                insert_pos,
+                tab.get_child_widget(), tab.get_tab_label(), insert_pos
             )
             log.debug('Tab inserted at %d', pos)
             tab.position = pos
@@ -288,8 +290,10 @@ class TorrentDetails(component.Component):
 
     def show_tab(self, tab_name, generate_menu=True):
         log.debug(
-            '%s\n%s\n%s', self.tabs[tab_name].get_child_widget(),
-            self.tabs[tab_name].get_tab_label(), self.tabs[tab_name].position,
+            '%s\n%s\n%s',
+            self.tabs[tab_name].get_child_widget(),
+            self.tabs[tab_name].get_tab_label(),
+            self.tabs[tab_name].position,
         )
 
         position = self.tab_insert_position(self.tabs[tab_name].weight)
@@ -395,7 +399,10 @@ class TorrentDetails(component.Component):
                 # Get the tab name
                 name = None
                 for tab in self.tabs:
-                    if self.tabs[tab].position == page_num and self.tabs[tab].is_visible:
+                    if (
+                        self.tabs[tab].position == page_num
+                        and self.tabs[tab].is_visible
+                    ):
                         name = tab
             except IndexError:
                 return

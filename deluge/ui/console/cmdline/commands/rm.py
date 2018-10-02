@@ -22,33 +22,50 @@ log = logging.getLogger(__name__)
 
 class Command(BaseCommand):
     """Remove a torrent"""
+
     aliases = ['del']
 
     def add_arguments(self, parser):
         parser.add_argument(
-            '--remove_data', action='store_true', default=False,
+            '--remove_data',
+            action='store_true',
+            default=False,
             help=_('Also removes the torrent data'),
         )
         parser.add_argument(
-            '-c', '--confirm', action='store_true', default=False,
+            '-c',
+            '--confirm',
+            action='store_true',
+            default=False,
             help=_('List the matching torrents without removing.'),
         )
-        parser.add_argument('torrent_ids', metavar='<torrent-id>', nargs='+', help=_('One or more torrent ids'))
+        parser.add_argument(
+            'torrent_ids',
+            metavar='<torrent-id>',
+            nargs='+',
+            help=_('One or more torrent ids'),
+        )
 
     def handle(self, options):
         self.console = component.get('ConsoleUI')
         torrent_ids = self.console.match_torrents(options.torrent_ids)
 
         if not options.confirm:
-            self.console.write('{!info!}%d %s %s{!info!}' % (
-                len(torrent_ids),
-                _n('torrent', 'torrents', len(torrent_ids)),
-                _n('match', 'matches', len(torrent_ids)),
-            ))
+            self.console.write(
+                '{!info!}%d %s %s{!info!}'
+                % (
+                    len(torrent_ids),
+                    _n('torrent', 'torrents', len(torrent_ids)),
+                    _n('match', 'matches', len(torrent_ids)),
+                )
+            )
             for t_id in torrent_ids:
                 name = self.console.get_torrent_name(t_id)
                 self.console.write('* %-50s (%s)' % (name, t_id))
-            self.console.write(_('Confirm with -c to remove the listed torrents (Count: %d)') % len(torrent_ids))
+            self.console.write(
+                _('Confirm with -c to remove the listed torrents (Count: %d)')
+                % len(torrent_ids)
+            )
             return
 
         def on_removed_finished(errors):

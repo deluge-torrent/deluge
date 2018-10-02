@@ -55,6 +55,7 @@ def export(auth_level=AUTH_LEVEL_DEFAULT):
     :type auth_level: int
 
     """
+
     def wrap(func, *args, **kwargs):
         func._json_export = True
         func._json_auth_level = auth_level
@@ -95,9 +96,11 @@ class JSON(resource.Resource, component.Component):
         Returns:
             t.i.d.Deferred: A deferred returning the available remote methods
         """
+
         def on_get_methods(methods):
             self._remote_methods = methods
             return methods
+
         return client.daemon.get_method_list().addCallback(on_get_methods)
 
     def _exec_local(self, method, params, request):
@@ -144,7 +147,9 @@ class JSON(resource.Resource, component.Component):
             request_id = request_data['id']
         except KeyError as ex:
             message = 'Invalid JSON request, missing param %s in %s' % (
-                ex, request_data)
+                ex,
+                request_data,
+            )
             raise JSONException(message)
 
         result = None
@@ -178,7 +183,10 @@ class JSON(resource.Resource, component.Component):
         Handles any failures that occurred while making an rpc call.
         """
         log.error(reason)
-        response['error'] = {'message': '%s: %s' % (reason.__class__.__name__, str(reason)), 'code': 4}
+        response['error'] = {
+            'message': '%s: %s' % (reason.__class__.__name__, str(reason)),
+            'code': 4,
+        }
         return self._send_response(request, response)
 
     def _on_json_request(self, request):
@@ -187,7 +195,9 @@ class JSON(resource.Resource, component.Component):
         _handle_request method for further processing.
         """
         if request.getHeader(b'content-type') != b'application/json':
-            message = 'Invalid JSON request content-type: %s' % request.getHeader('content-type')
+            message = 'Invalid JSON request content-type: %s' % request.getHeader(
+                'content-type'
+            )
             raise JSONException(message)
 
         log.debug('json-request: %s', request.json)
@@ -208,7 +218,8 @@ class JSON(resource.Resource, component.Component):
         """
         log.error(reason)
         response = {
-            'result': None, 'id': None,
+            'result': None,
+            'id': None,
             'error': {
                 'code': 5,
                 'message': '%s: %s' % (reason.__class__.__name__, str(reason)),
@@ -355,13 +366,8 @@ class WebApi(JSONComponent):
     the web interface. The complete web json interface also exposes all the
     methods available from the core RPC.
     """
-    XSS_VULN_KEYS = [
-        'name',
-        'message',
-        'comment',
-        'tracker_status',
-        'peers',
-    ]
+
+    XSS_VULN_KEYS = ['name', 'message', 'comment', 'tracker_status', 'peers']
 
     def __init__(self):
         super(WebApi, self).__init__('Web', depend=['SessionProxy'])
@@ -374,8 +380,12 @@ class WebApi(JSONComponent):
             self.sessionproxy = SessionProxy()
 
     def disable(self):
-        client.deregister_event_handler('PluginEnabledEvent', self._json.get_remote_methods)
-        client.deregister_event_handler('PluginDisabledEvent', self._json.get_remote_methods)
+        client.deregister_event_handler(
+            'PluginEnabledEvent', self._json.get_remote_methods
+        )
+        client.deregister_event_handler(
+            'PluginDisabledEvent', self._json.get_remote_methods
+        )
 
         if client.is_standalone():
             component.get('Web.PluginManager').stop()
@@ -384,8 +394,12 @@ class WebApi(JSONComponent):
             client.set_disconnect_callback(None)
 
     def enable(self):
-        client.register_event_handler('PluginEnabledEvent', self._json.get_remote_methods)
-        client.register_event_handler('PluginDisabledEvent', self._json.get_remote_methods)
+        client.register_event_handler(
+            'PluginEnabledEvent', self._json.get_remote_methods
+        )
+        client.register_event_handler(
+            'PluginDisabledEvent', self._json.get_remote_methods
+        )
 
         if client.is_standalone():
             component.get('Web.PluginManager').start()
@@ -452,6 +466,7 @@ class WebApi(JSONComponent):
 
         def on_disconnect(reason):
             return str(reason)
+
         d.addCallback(on_disconnect)
         return d
 
@@ -487,10 +502,16 @@ class WebApi(JSONComponent):
             ui_info['stats']['num_connections'] = stats['num_peers']
             ui_info['stats']['upload_rate'] = stats['payload_upload_rate']
             ui_info['stats']['download_rate'] = stats['payload_download_rate']
-            ui_info['stats']['download_protocol_rate'] = stats['download_rate'] - stats['payload_download_rate']
-            ui_info['stats']['upload_protocol_rate'] = stats['upload_rate'] - stats['payload_upload_rate']
+            ui_info['stats']['download_protocol_rate'] = (
+                stats['download_rate'] - stats['payload_download_rate']
+            )
+            ui_info['stats']['upload_protocol_rate'] = (
+                stats['upload_rate'] - stats['payload_upload_rate']
+            )
             ui_info['stats']['dht_nodes'] = stats['dht_nodes']
-            ui_info['stats']['has_incoming_connections'] = stats['has_incoming_connections']
+            ui_info['stats']['has_incoming_connections'] = stats[
+                'has_incoming_connections'
+            ]
 
         def got_filters(filters):
             ui_info['filters'] = filters
@@ -513,15 +534,17 @@ class WebApi(JSONComponent):
         d2 = client.core.get_filter_tree()
         d2.addCallback(got_filters)
 
-        d3 = client.core.get_session_status([
-            'num_peers',
-            'payload_download_rate',
-            'payload_upload_rate',
-            'download_rate',
-            'upload_rate',
-            'dht_nodes',
-            'has_incoming_connections',
-        ])
+        d3 = client.core.get_session_status(
+            [
+                'num_peers',
+                'payload_download_rate',
+                'payload_upload_rate',
+                'download_rate',
+                'upload_rate',
+                'dht_nodes',
+                'has_incoming_connections',
+            ]
+        )
         d3.addCallback(got_stats)
 
         d4 = client.core.get_free_space(self.core_config.get('download_location'))
@@ -697,7 +720,8 @@ class WebApi(JSONComponent):
             if is_magnet(torrent['path']):
                 log.info(
                     'Adding torrent from magnet uri `%s` with options `%r`',
-                    torrent['path'], torrent['options'],
+                    torrent['path'],
+                    torrent['options'],
                 )
                 d = client.core.add_torrent_magnet(torrent['path'], torrent['options'])
                 deferreds.append(d)
@@ -707,9 +731,12 @@ class WebApi(JSONComponent):
                     fdump = b64encode(_file.read())
                 log.info(
                     'Adding torrent from file `%s` with options `%r`',
-                    filename, torrent['options'],
+                    filename,
+                    torrent['options'],
                 )
-                d = client.core.add_torrent_file_async(filename, fdump, torrent['options'])
+                d = client.core.add_torrent_file_async(
+                    filename, fdump, torrent['options']
+                )
                 deferreds.append(d)
         return DeferredList(deferreds, consumeErrors=False)
 
@@ -742,6 +769,7 @@ class WebApi(JSONComponent):
         :type host_id: string
 
         """
+
         def response(result):
             return result
 
@@ -820,12 +848,13 @@ class WebApi(JSONComponent):
             return main_deferred
 
         try:
+
             def on_connect(connected, c):
                 if not connected:
                     main_deferred.callback((False, _('Daemon not running')))
                     return
                 c.daemon.shutdown()
-                main_deferred.callback((True, ))
+                main_deferred.callback((True,))
 
             def on_connect_failed(reason):
                 main_deferred.callback((False, reason))
@@ -951,6 +980,7 @@ class WebUtils(JSONComponent):
     """
     Utility functions for the webui that do not fit in the WebApi.
     """
+
     def __init__(self):
         super(WebUtils, self).__init__('WebUtils')
 

@@ -19,7 +19,13 @@ from deluge.config import Config
 
 from .common import set_tmp_config_dir
 
-DEFAULTS = {'string': 'foobar', 'int': 1, 'float': 0.435, 'bool': True, 'unicode': 'foobar'}
+DEFAULTS = {
+    'string': 'foobar',
+    'int': 1,
+    'float': 0.435,
+    'bool': True,
+    'unicode': 'foobar',
+}
 
 
 class ConfigTestCase(unittest.TestCase):
@@ -92,6 +98,7 @@ class ConfigTestCase(unittest.TestCase):
 
         # Test opening a previous 1.2 config file of just a json object
         import json
+
         with open(os.path.join(self.config_dir, 'test.conf'), 'wb') as _file:
             json.dump(DEFAULTS, getwriter('utf8')(_file), **JSON_FORMAT)
 

@@ -27,7 +27,6 @@ def print_totals(totals):
 
 
 class StatsTestCase(BaseTestCase):
-
     def set_up(self):
         defer.setDebugging(True)
         tests_common.set_tmp_config_dir()

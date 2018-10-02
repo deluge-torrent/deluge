@@ -25,7 +25,9 @@ class Command(BaseCommand):
     """Displays help on other commands"""
 
     def add_arguments(self, parser):
-        parser.add_argument('commands', metavar='<command>', nargs='*', help=_('One or more commands'))
+        parser.add_argument(
+            'commands', metavar='<command>', nargs='*', help=_('One or more commands')
+        )
 
     def handle(self, options):
         self.console = component.get('ConsoleUI')
@@ -51,8 +53,15 @@ class Command(BaseCommand):
                 if cmd in self._commands[cmd].aliases:
                     continue
                 parser = self._commands[cmd].create_parser()
-                cmd_doc = '{!info!}' + '%-9s' % self._commands[cmd].name_with_alias + '{!input!} - '\
-                          + self._commands[cmd].__doc__ + '\n     ' + parser.format_usage() or ''
+                cmd_doc = (
+                    '{!info!}'
+                    + '%-9s' % self._commands[cmd].name_with_alias
+                    + '{!input!} - '
+                    + self._commands[cmd].__doc__
+                    + '\n     '
+                    + parser.format_usage()
+                    or ''
+                )
                 cmds_doc += parser.formatter.format_colors(cmd_doc)
             self.console.write(cmds_doc)
             self.console.write(' ')

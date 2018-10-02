@@ -35,13 +35,25 @@ def module_exists(module_name):
 
 # Imports sorted by resulting file size.
 if module_exists('closure'):
+
     def minify_closure(file_in, file_out):
         try:
-            subprocess.check_call(['closure', '-W', 'QUIET',
-                                   '--js', file_in, '--js_output_file', file_out])
+            subprocess.check_call(
+                [
+                    'closure',
+                    '-W',
+                    'QUIET',
+                    '--js',
+                    file_in,
+                    '--js_output_file',
+                    file_out,
+                ]
+            )
             return True
         except subprocess.CalledProcessError:
             return False
+
+
 elif module_exists('slimit'):
     from slimit import minify
 else:
@@ -108,7 +120,10 @@ def minify_js_dir(source_dir):
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
-        JS_SOURCE_DIRS = ['deluge/ui/web/js/deluge-all', 'deluge/ui/web/js/extjs/ext-extensions']
+        JS_SOURCE_DIRS = [
+            'deluge/ui/web/js/deluge-all',
+            'deluge/ui/web/js/extjs/ext-extensions',
+        ]
     else:
         JS_SOURCE_DIRS = [os.path.abspath(sys.argv[1])]
 

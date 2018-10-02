@@ -18,12 +18,15 @@ from . import BaseCommand
 
 class Command(BaseCommand):
     """Update tracker for torrent(s)"""
+
     usage = 'update_tracker [ * | <torrent-id> [<torrent-id> ...] ]'
     aliases = ['reannounce']
 
     def add_arguments(self, parser):
         parser.add_argument(
-            'torrent_ids', metavar='<torrent-id>', nargs='+',
+            'torrent_ids',
+            metavar='<torrent-id>',
+            nargs='+',
             help='One or more torrent ids. "*" updates all torrents',
         )
 

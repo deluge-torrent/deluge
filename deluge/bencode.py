@@ -33,9 +33,9 @@ def decode_int(x, f):
     f += 1
     newf = x.index(END_DELIM, f)
     n = int(x[f:newf])
-    if x[f:f + 1] == b'-' and x[f + 1:f + 2] == b'0':
+    if x[f : f + 1] == b'-' and x[f + 1 : f + 2] == b'0':
         raise ValueError
-    elif x[f:f + 1] == b'0' and newf != f + 1:
+    elif x[f : f + 1] == b'0' and newf != f + 1:
         raise ValueError
     return (n, newf + 1)
 
@@ -43,25 +43,25 @@ def decode_int(x, f):
 def decode_string(x, f):
     colon = x.index(BYTE_SEP, f)
     n = int(x[f:colon])
-    if x[f:f + 1] == b'0' and colon != f + 1:
+    if x[f : f + 1] == b'0' and colon != f + 1:
         raise ValueError
     colon += 1
-    return (x[colon:colon + n], colon + n)
+    return (x[colon : colon + n], colon + n)
 
 
 def decode_list(x, f):
     r, f = [], f + 1
-    while x[f:f + 1] != END_DELIM:
-        v, f = decode_func[x[f:f + 1]](x, f)
+    while x[f : f + 1] != END_DELIM:
+        v, f = decode_func[x[f : f + 1]](x, f)
         r.append(v)
     return (r, f + 1)
 
 
 def decode_dict(x, f):
     r, f = {}, f + 1
-    while x[f:f + 1] != END_DELIM:
+    while x[f : f + 1] != END_DELIM:
         k, f = decode_string(x, f)
-        r[k], f = decode_func[x[f:f + 1]](x, f)
+        r[k], f = decode_func[x[f : f + 1]](x, f)
     return (r, f + 1)
 
 

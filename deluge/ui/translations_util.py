@@ -20,15 +20,20 @@ from six.moves import builtins
 import deluge.common
 
 log = logging.getLogger(__name__)
-log.addHandler(logging.NullHandler())  # Silence: No handlers could be found for logger "deluge.util.lang"
+log.addHandler(
+    logging.NullHandler()
+)  # Silence: No handlers could be found for logger "deluge.util.lang"
 
 
 def set_dummy_trans(warn_msg=None):
-
     def _func(*txt):
         if warn_msg:
-            log.warning('"%s" has been marked for translation, but translation is unavailable.', txt[0])
+            log.warning(
+                '"%s" has been marked for translation, but translation is unavailable.',
+                txt[0],
+            )
         return txt[0]
+
     builtins.__dict__['_'] = _func
     builtins.__dict__['ngettext'] = builtins.__dict__['_n'] = _func
 
@@ -77,7 +82,9 @@ def set_language(lang):
 
     translations_path = get_translations_path()
     try:
-        ro = gettext.translation('deluge', localedir=translations_path, languages=[lang])
+        ro = gettext.translation(
+            'deluge', localedir=translations_path, languages=[lang]
+        )
         ro.install()
     except IOError as ex:
         log.warning('IOError when loading translations: %s', ex)
@@ -95,13 +102,16 @@ def setup_translations(setup_gettext=True, setup_pygtk=False):
 
             if deluge.common.windows_check():
                 import ctypes
+
                 try:
                     libintl = ctypes.cdll.intl
                 except WindowsError:
                     # Fallback to named dll.
                     libintl = ctypes.cdll.LoadLibrary('libintl-8.dll')
 
-                libintl.bindtextdomain(domain, translations_path.encode(sys.getfilesystemencoding()))
+                libintl.bindtextdomain(
+                    domain, translations_path.encode(sys.getfilesystemencoding())
+                )
                 libintl.textdomain(domain)
                 libintl.bind_textdomain_codeset(domain, 'UTF-8')
                 libintl.gettext.restype = ctypes.c_char_p
@@ -109,6 +119,7 @@ def setup_translations(setup_gettext=True, setup_pygtk=False):
             # Use glade for plugins that still uses it
             import gtk
             import gtk.glade
+
             gtk.glade.bindtextdomain(domain, translations_path)
             gtk.glade.textdomain(domain)
         except Exception as ex:

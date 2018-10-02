@@ -21,7 +21,6 @@ common.disable_new_release_check()
 
 
 class WebUIPluginTestCase(BaseTestCase):
-
     def set_up(self):
         common.set_tmp_config_dir()
         self.rpcserver = RPCServer(listen=False)
@@ -29,10 +28,10 @@ class WebUIPluginTestCase(BaseTestCase):
         return component.start()
 
     def tear_down(self):
-
         def on_shutdown(result):
             del self.rpcserver
             del self.core
+
         return component.shutdown().addCallback(on_shutdown)
 
     def test_enable_webui(self):

@@ -23,8 +23,17 @@ from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.error import AuthManagerError, NotAuthorizedError
 from deluge.ui.client import client
 from deluge.ui.common import DISK_CACHE_KEYS, PREFS_CATOG_TRANS
-from deluge.ui.gtkui.common import associate_magnet_links, get_clipboard_text, get_deluge_icon
-from deluge.ui.gtkui.dialogs import AccountDialog, ErrorDialog, InformationDialog, YesNoDialog
+from deluge.ui.gtkui.common import (
+    associate_magnet_links,
+    get_clipboard_text,
+    get_deluge_icon,
+)
+from deluge.ui.gtkui.dialogs import (
+    AccountDialog,
+    ErrorDialog,
+    InformationDialog,
+    YesNoDialog,
+)
 from deluge.ui.gtkui.path_chooser import PathChooser
 from deluge.ui.translations_util import get_languages
 
@@ -56,9 +65,11 @@ class Preferences(component.Component):
     def __init__(self):
         component.Component.__init__(self, 'Preferences')
         self.builder = gtk.Builder()
-        self.builder.add_from_file(deluge.common.resource_filename(
-            'deluge.ui.gtkui', os.path.join('glade', 'preferences_dialog.ui'),
-        ))
+        self.builder.add_from_file(
+            deluge.common.resource_filename(
+                'deluge.ui.gtkui', os.path.join('glade', 'preferences_dialog.ui')
+            )
+        )
         self.pref_dialog = self.builder.get_object('pref_dialog')
         self.pref_dialog.set_transient_for(component.get('MainWindow').window)
         self.pref_dialog.set_icon(get_deluge_icon())
@@ -70,7 +81,7 @@ class Preferences(component.Component):
         self.load_pref_dialog_state()
 
         self.builder.get_object('image_magnet').set_from_file(
-            deluge.common.get_pixmap('magnet.png'),
+            deluge.common.get_pixmap('magnet.png')
         )
 
         # Hide the unused associate magnet button on OSX see: #2420
@@ -86,8 +97,16 @@ class Preferences(component.Component):
 
         # Add the default categories
         prefs_categories = (
-            'interface', 'downloads', 'bandwidth', 'queue', 'network', 'proxy',
-            'cache', 'other', 'daemon', 'plugins',
+            'interface',
+            'downloads',
+            'bandwidth',
+            'queue',
+            'network',
+            'proxy',
+            'cache',
+            'other',
+            'daemon',
+            'plugins',
         )
         for idx, category in enumerate(prefs_categories):
             self.liststore.append([idx, category, PREFS_CATOG_TRANS[category]])
@@ -96,6 +115,7 @@ class Preferences(component.Component):
         def set_separator(model, _iter, data=None):
             if model.get_value(_iter, 1) == '_separator_':
                 return True
+
         self.treeview.set_row_separator_func(set_separator, None)
         self.liststore.append([len(self.liststore), '_separator_', ''])
         # Add a dummy notebook page to keep indexing synced with liststore.
@@ -105,20 +125,28 @@ class Preferences(component.Component):
         self.accounts_levels_mapping = None
         self.accounts_authlevel = self.builder.get_object('accounts_authlevel')
         self.accounts_liststore = gtk.ListStore(str, str, str, int)
-        self.accounts_liststore.set_sort_column_id(ACCOUNTS_USERNAME, gtk.SORT_ASCENDING)
+        self.accounts_liststore.set_sort_column_id(
+            ACCOUNTS_USERNAME, gtk.SORT_ASCENDING
+        )
         self.accounts_listview = self.builder.get_object('accounts_listview')
         self.accounts_listview.append_column(
-            gtk.TreeViewColumn(_('Username'), gtk.CellRendererText(), text=ACCOUNTS_USERNAME),
+            gtk.TreeViewColumn(
+                _('Username'), gtk.CellRendererText(), text=ACCOUNTS_USERNAME
+            )
         )
         self.accounts_listview.append_column(
-            gtk.TreeViewColumn(_('Level'), gtk.CellRendererText(), text=ACCOUNTS_LEVEL),
+            gtk.TreeViewColumn(_('Level'), gtk.CellRendererText(), text=ACCOUNTS_LEVEL)
         )
-        password_column = gtk.TreeViewColumn('password', gtk.CellRendererText(), text=ACCOUNTS_PASSWORD)
+        password_column = gtk.TreeViewColumn(
+            'password', gtk.CellRendererText(), text=ACCOUNTS_PASSWORD
+        )
         self.accounts_listview.append_column(password_column)
         password_column.set_visible(False)
         self.accounts_listview.set_model(self.accounts_liststore)
 
-        self.accounts_listview.get_selection().connect('changed', self.on_accounts_selection_changed)
+        self.accounts_listview.get_selection().connect(
+            'changed', self.on_accounts_selection_changed
+        )
         self.accounts_frame = self.builder.get_object('AccountsFrame')
 
         # Setup plugin tab listview
@@ -130,14 +158,20 @@ class Preferences(component.Component):
         render = gtk.CellRendererToggle()
         render.connect('toggled', self.on_plugin_toggled)
         render.set_property('activatable', True)
-        self.plugin_listview.append_column(gtk.TreeViewColumn(_('Enabled'), render, active=1))
-        self.plugin_listview.append_column(gtk.TreeViewColumn(_('Plugin'), gtk.CellRendererText(), text=2))
+        self.plugin_listview.append_column(
+            gtk.TreeViewColumn(_('Enabled'), render, active=1)
+        )
+        self.plugin_listview.append_column(
+            gtk.TreeViewColumn(_('Plugin'), gtk.CellRendererText(), text=2)
+        )
 
         # Connect to the 'changed' event of TreeViewSelection to get selection
         # changes.
         self.treeview.get_selection().connect('changed', self.on_selection_changed)
 
-        self.plugin_listview.get_selection().connect('changed', self.on_plugin_selection_changed)
+        self.plugin_listview.get_selection().connect(
+            'changed', self.on_plugin_selection_changed
+        )
 
         self.builder.connect_signals(self)
 
@@ -145,6 +179,7 @@ class Preferences(component.Component):
         self.builder.get_object('alignment_tray_type').set_visible(bool(appindicator))
 
         from deluge.ui.gtkui.gtkui import DEFAULT_PREFS
+
         self.COLOR_DEFAULTS = {}
         for key in ('missing', 'waiting', 'downloading', 'completed'):
             self.COLOR_DEFAULTS[key] = DEFAULT_PREFS['pieces_color_%s' % key][:]
@@ -158,18 +193,28 @@ class Preferences(component.Component):
         self.load_languages()
 
     def setup_path_choosers(self):
-        self.download_location_hbox = self.builder.get_object('hbox_download_to_path_chooser')
-        self.download_location_path_chooser = PathChooser('download_location_paths_list')
+        self.download_location_hbox = self.builder.get_object(
+            'hbox_download_to_path_chooser'
+        )
+        self.download_location_path_chooser = PathChooser(
+            'download_location_paths_list'
+        )
         self.download_location_hbox.add(self.download_location_path_chooser)
         self.download_location_hbox.show_all()
 
-        self.move_completed_hbox = self.builder.get_object('hbox_move_completed_to_path_chooser')
+        self.move_completed_hbox = self.builder.get_object(
+            'hbox_move_completed_to_path_chooser'
+        )
         self.move_completed_path_chooser = PathChooser('move_completed_paths_list')
         self.move_completed_hbox.add(self.move_completed_path_chooser)
         self.move_completed_hbox.show_all()
 
-        self.copy_torrents_to_hbox = self.builder.get_object('hbox_copy_torrent_files_path_chooser')
-        self.copy_torrent_files_path_chooser = PathChooser('copy_torrent_files_to_paths_list')
+        self.copy_torrents_to_hbox = self.builder.get_object(
+            'hbox_copy_torrent_files_path_chooser'
+        )
+        self.copy_torrent_files_path_chooser = PathChooser(
+            'copy_torrent_files_to_paths_list'
+        )
         self.copy_torrents_to_hbox.add(self.copy_torrent_files_path_chooser)
         self.copy_torrents_to_hbox.show_all()
 
@@ -273,7 +318,9 @@ class Preferences(component.Component):
 
             def on_get_config(config):
                 self.core_config = config
-                client.core.get_available_plugins().addCallback(on_get_available_plugins)
+                client.core.get_available_plugins().addCallback(
+                    on_get_available_plugins
+                )
 
             def on_get_available_plugins(plugins):
                 self.all_plugins = plugins
@@ -285,7 +332,9 @@ class Preferences(component.Component):
 
             def on_get_listen_port(port):
                 self.active_port = port
-                client.core.get_session_status(DISK_CACHE_KEYS).addCallback(on_get_session_status)
+                client.core.get_session_status(DISK_CACHE_KEYS).addCallback(
+                    on_get_session_status
+                )
 
             def on_get_session_status(status):
                 self.cache_status = status
@@ -312,14 +361,26 @@ class Preferences(component.Component):
             'chk_copy_torrent_file': ('active', 'copy_torrent_file'),
             'chk_del_copy_torrent_file': ('active', 'del_copy_torrent_file'),
             'chk_pre_allocation': ('active', 'pre_allocate_storage'),
-            'chk_prioritize_first_last_pieces': ('active', 'prioritize_first_last_pieces'),
+            'chk_prioritize_first_last_pieces': (
+                'active',
+                'prioritize_first_last_pieces',
+            ),
             'chk_sequential_download': ('active', 'sequential_download'),
             'chk_add_paused': ('active', 'add_paused'),
             'active_port_label': ('text', lambda: str(self.active_port)),
-            'spin_incoming_port': ('value', lambda: self.core_config['listen_ports'][0]),
+            'spin_incoming_port': (
+                'value',
+                lambda: self.core_config['listen_ports'][0],
+            ),
             'chk_random_incoming_port': ('active', 'random_port'),
-            'spin_outgoing_port_min': ('value', lambda: self.core_config['outgoing_ports'][0]),
-            'spin_outgoing_port_max': ('value', lambda: self.core_config['outgoing_ports'][1]),
+            'spin_outgoing_port_min': (
+                'value',
+                lambda: self.core_config['outgoing_ports'][0],
+            ),
+            'spin_outgoing_port_max': (
+                'value',
+                lambda: self.core_config['outgoing_ports'][1],
+            ),
             'chk_random_outgoing_ports': ('active', 'random_outgoing_ports'),
             'entry_interface': ('text', 'listen_interface'),
             'entry_outgoing_interface': ('text', 'outgoing_interface'),
@@ -341,12 +402,23 @@ class Preferences(component.Component):
             'spin_max_upload_slots_global': ('value', 'max_upload_slots_global'),
             'spin_max_half_open_connections': ('value', 'max_connections_per_second'),
             'spin_max_connections_per_second': ('value', 'max_connections_per_second'),
-            'chk_ignore_limits_on_local_network': ('active', 'ignore_limits_on_local_network'),
+            'chk_ignore_limits_on_local_network': (
+                'active',
+                'ignore_limits_on_local_network',
+            ),
             'chk_rate_limit_ip_overhead': ('active', 'rate_limit_ip_overhead'),
-
-            'spin_max_connections_per_torrent': ('value', 'max_connections_per_torrent'),
-            'spin_max_upload_slots_per_torrent': ('value', 'max_upload_slots_per_torrent'),
-            'spin_max_download_per_torrent': ('value', 'max_download_speed_per_torrent'),
+            'spin_max_connections_per_torrent': (
+                'value',
+                'max_connections_per_torrent',
+            ),
+            'spin_max_upload_slots_per_torrent': (
+                'value',
+                'max_upload_slots_per_torrent',
+            ),
+            'spin_max_download_per_torrent': (
+                'value',
+                'max_download_speed_per_torrent',
+            ),
             'spin_max_upload_per_torrent': ('value', 'max_upload_speed_per_torrent'),
             'spin_daemon_port': ('value', 'daemon_port'),
             'chk_allow_remote_connections': ('active', 'allow_remote'),
@@ -370,11 +442,26 @@ class Preferences(component.Component):
             'entry_proxy_pass': ('text', lambda: self.core_config['proxy']['password']),
             'entry_proxy_host': ('text', lambda: self.core_config['proxy']['hostname']),
             'spin_proxy_port': ('value', lambda: self.core_config['proxy']['port']),
-            'chk_proxy_host_resolve': ('active', lambda: self.core_config['proxy']['proxy_hostnames']),
-            'chk_proxy_peer_conn': ('active', lambda: self.core_config['proxy']['proxy_peer_connections']),
-            'chk_proxy_tracker_conn': ('active', lambda: self.core_config['proxy']['proxy_tracker_connections']),
-            'chk_force_proxy': ('active', lambda: self.core_config['proxy']['force_proxy']),
-            'chk_anonymous_mode': ('active', lambda: self.core_config['proxy']['anonymous_mode']),
+            'chk_proxy_host_resolve': (
+                'active',
+                lambda: self.core_config['proxy']['proxy_hostnames'],
+            ),
+            'chk_proxy_peer_conn': (
+                'active',
+                lambda: self.core_config['proxy']['proxy_peer_connections'],
+            ),
+            'chk_proxy_tracker_conn': (
+                'active',
+                lambda: self.core_config['proxy']['proxy_tracker_connections'],
+            ),
+            'chk_force_proxy': (
+                'active',
+                lambda: self.core_config['proxy']['force_proxy'],
+            ),
+            'chk_anonymous_mode': (
+                'active',
+                lambda: self.core_config['proxy']['anonymous_mode'],
+            ),
             'accounts_add': (None, None),
             'accounts_listview': (None, None),
             'button_cache_refresh': (None, None),
@@ -385,9 +472,18 @@ class Preferences(component.Component):
             'plugin_listview': (None, None),
         }
 
-        core_widgets[self.download_location_path_chooser] = ('path_chooser', 'download_location')
-        core_widgets[self.move_completed_path_chooser] = ('path_chooser', 'move_completed_path')
-        core_widgets[self.copy_torrent_files_path_chooser] = ('path_chooser', 'torrentfiles_location')
+        core_widgets[self.download_location_path_chooser] = (
+            'path_chooser',
+            'download_location',
+        )
+        core_widgets[self.move_completed_path_chooser] = (
+            'path_chooser',
+            'move_completed_path',
+        )
+        core_widgets[self.copy_torrent_files_path_chooser] = (
+            'path_chooser',
+            'torrentfiles_location',
+        )
 
         # Update the widgets accordingly
         for key in core_widgets:
@@ -407,7 +503,13 @@ class Preferences(component.Component):
                     if callable(value):
                         value = value()
             elif modifier:
-                value = {'active': False, 'not_active': False, 'value': 0, 'text': '', 'path_chooser': ''}[modifier]
+                value = {
+                    'active': False,
+                    'not_active': False,
+                    'value': 0,
+                    'text': '',
+                    'path_chooser': '',
+                }[modifier]
 
             if modifier == 'active':
                 widget.set_active(value)
@@ -432,29 +534,53 @@ class Preferences(component.Component):
                 self.on_toggle(widget)
 
         # Downloads tab #
-        self.builder.get_object('chk_show_dialog').set_active(self.gtkui_config['interactive_add'])
-        self.builder.get_object('chk_focus_dialog').set_active(self.gtkui_config['focus_add_dialog'])
+        self.builder.get_object('chk_show_dialog').set_active(
+            self.gtkui_config['interactive_add']
+        )
+        self.builder.get_object('chk_focus_dialog').set_active(
+            self.gtkui_config['focus_add_dialog']
+        )
 
         # Interface tab #
-        self.builder.get_object('chk_use_tray').set_active(self.gtkui_config['enable_system_tray'])
-        self.builder.get_object('chk_min_on_close').set_active(self.gtkui_config['close_to_tray'])
-        self.builder.get_object('chk_start_in_tray').set_active(self.gtkui_config['start_in_tray'])
-        self.builder.get_object('radio_appind').set_active(self.gtkui_config['enable_appindicator'])
-        self.builder.get_object('chk_lock_tray').set_active(self.gtkui_config['lock_tray'])
-        self.builder.get_object('radio_standalone').set_active(self.gtkui_config['standalone'])
-        self.builder.get_object('radio_thinclient').set_active(not self.gtkui_config['standalone'])
-        self.builder.get_object('chk_show_rate_in_title').set_active(self.gtkui_config['show_rate_in_title'])
-        self.builder.get_object('chk_focus_main_window_on_add').set_active(
-            self.gtkui_config['focus_main_window_on_add'],
+        self.builder.get_object('chk_use_tray').set_active(
+            self.gtkui_config['enable_system_tray']
         )
-        self.builder.get_object('piecesbar_toggle').set_active(self.gtkui_config['show_piecesbar'])
+        self.builder.get_object('chk_min_on_close').set_active(
+            self.gtkui_config['close_to_tray']
+        )
+        self.builder.get_object('chk_start_in_tray').set_active(
+            self.gtkui_config['start_in_tray']
+        )
+        self.builder.get_object('radio_appind').set_active(
+            self.gtkui_config['enable_appindicator']
+        )
+        self.builder.get_object('chk_lock_tray').set_active(
+            self.gtkui_config['lock_tray']
+        )
+        self.builder.get_object('radio_standalone').set_active(
+            self.gtkui_config['standalone']
+        )
+        self.builder.get_object('radio_thinclient').set_active(
+            not self.gtkui_config['standalone']
+        )
+        self.builder.get_object('chk_show_rate_in_title').set_active(
+            self.gtkui_config['show_rate_in_title']
+        )
+        self.builder.get_object('chk_focus_main_window_on_add').set_active(
+            self.gtkui_config['focus_main_window_on_add']
+        )
+        self.builder.get_object('piecesbar_toggle').set_active(
+            self.gtkui_config['show_piecesbar']
+        )
         self.__set_color('completed', from_config=True)
         self.__set_color('downloading', from_config=True)
         self.__set_color('waiting', from_config=True)
         self.__set_color('missing', from_config=True)
 
         # Other tab #
-        self.builder.get_object('chk_show_new_releases').set_active(self.gtkui_config['show_new_releases'])
+        self.builder.get_object('chk_show_new_releases').set_active(
+            self.gtkui_config['show_new_releases']
+        )
 
         # Cache tab #
         if client.connected():
@@ -488,107 +614,152 @@ class Preferences(component.Component):
         new_gtkui_config = {}
 
         # Downloads tab #
-        new_gtkui_config['interactive_add'] = self.builder.get_object('chk_show_dialog').get_active()
-        new_gtkui_config['focus_add_dialog'] = self.builder.get_object('chk_focus_dialog').get_active()
+        new_gtkui_config['interactive_add'] = self.builder.get_object(
+            'chk_show_dialog'
+        ).get_active()
+        new_gtkui_config['focus_add_dialog'] = self.builder.get_object(
+            'chk_focus_dialog'
+        ).get_active()
 
         for state in ('missing', 'waiting', 'downloading', 'completed'):
             color = self.builder.get_object('%s_color' % state).get_color()
             new_gtkui_config['pieces_color_%s' % state] = [
-                color.red, color.green, color.blue,
+                color.red,
+                color.green,
+                color.blue,
             ]
 
         new_core_config['copy_torrent_file'] = self.builder.get_object(
-            'chk_copy_torrent_file',
+            'chk_copy_torrent_file'
         ).get_active()
         new_core_config['del_copy_torrent_file'] = self.builder.get_object(
-            'chk_del_copy_torrent_file',
+            'chk_del_copy_torrent_file'
         ).get_active()
-        new_core_config['move_completed'] = self.builder.get_object('chk_move_completed').get_active()
+        new_core_config['move_completed'] = self.builder.get_object(
+            'chk_move_completed'
+        ).get_active()
 
-        new_core_config['download_location'] = self.download_location_path_chooser.get_text()
-        new_core_config['move_completed_path'] = self.move_completed_path_chooser.get_text()
-        new_core_config['torrentfiles_location'] = self.copy_torrent_files_path_chooser.get_text()
+        new_core_config[
+            'download_location'
+        ] = self.download_location_path_chooser.get_text()
+        new_core_config[
+            'move_completed_path'
+        ] = self.move_completed_path_chooser.get_text()
+        new_core_config[
+            'torrentfiles_location'
+        ] = self.copy_torrent_files_path_chooser.get_text()
         new_core_config['prioritize_first_last_pieces'] = self.builder.get_object(
-            'chk_prioritize_first_last_pieces',
+            'chk_prioritize_first_last_pieces'
         ).get_active()
         new_core_config['sequential_download'] = self.builder.get_object(
-            'chk_sequential_download',
+            'chk_sequential_download'
         ).get_active()
-        new_core_config['add_paused'] = self.builder.get_object('chk_add_paused').get_active()
+        new_core_config['add_paused'] = self.builder.get_object(
+            'chk_add_paused'
+        ).get_active()
         new_core_config['pre_allocate_storage'] = self.builder.get_object(
-            'chk_pre_allocation',
+            'chk_pre_allocation'
         ).get_active()
 
         # Network tab #
-        listen_ports = [self.builder.get_object('spin_incoming_port').get_value_as_int()] * 2
+        listen_ports = [
+            self.builder.get_object('spin_incoming_port').get_value_as_int()
+        ] * 2
         new_core_config['listen_ports'] = listen_ports
-        new_core_config['random_port'] = self.builder.get_object('chk_random_incoming_port').get_active()
+        new_core_config['random_port'] = self.builder.get_object(
+            'chk_random_incoming_port'
+        ).get_active()
         outgoing_ports = (
             self.builder.get_object('spin_outgoing_port_min').get_value_as_int(),
             self.builder.get_object('spin_outgoing_port_max').get_value_as_int(),
         )
         new_core_config['outgoing_ports'] = outgoing_ports
         new_core_config['random_outgoing_ports'] = self.builder.get_object(
-            'chk_random_outgoing_ports',
+            'chk_random_outgoing_ports'
         ).get_active()
         incoming_address = self.builder.get_object('entry_interface').get_text().strip()
         if deluge.common.is_ip(incoming_address) or not incoming_address:
             new_core_config['listen_interface'] = incoming_address
-        outgoing_interface = self.builder.get_object(
-            'entry_outgoing_interface').get_text().strip()
+        outgoing_interface = (
+            self.builder.get_object('entry_outgoing_interface').get_text().strip()
+        )
         if not deluge.common.is_ip(outgoing_interface) or not outgoing_interface:
             new_core_config['outgoing_interface'] = outgoing_interface
-        new_core_config['peer_tos'] = self.builder.get_object('entry_peer_tos').get_text()
+        new_core_config['peer_tos'] = self.builder.get_object(
+            'entry_peer_tos'
+        ).get_text()
         new_core_config['dht'] = self.builder.get_object('chk_dht').get_active()
         new_core_config['upnp'] = self.builder.get_object('chk_upnp').get_active()
         new_core_config['natpmp'] = self.builder.get_object('chk_natpmp').get_active()
         new_core_config['utpex'] = self.builder.get_object('chk_utpex').get_active()
         new_core_config['lsd'] = self.builder.get_object('chk_lsd').get_active()
-        new_core_config['enc_in_policy'] = self.builder.get_object('combo_encin').get_active()
-        new_core_config['enc_out_policy'] = self.builder.get_object('combo_encout').get_active()
-        new_core_config['enc_level'] = self.builder.get_object('combo_enclevel').get_active()
+        new_core_config['enc_in_policy'] = self.builder.get_object(
+            'combo_encin'
+        ).get_active()
+        new_core_config['enc_out_policy'] = self.builder.get_object(
+            'combo_encout'
+        ).get_active()
+        new_core_config['enc_level'] = self.builder.get_object(
+            'combo_enclevel'
+        ).get_active()
 
         # Bandwidth tab #
         new_core_config['max_connections_global'] = self.builder.get_object(
-            'spin_max_connections_global',
+            'spin_max_connections_global'
         ).get_value_as_int()
-        new_core_config['max_download_speed'] = self.builder.get_object('spin_max_download').get_value()
-        new_core_config['max_upload_speed'] = self.builder.get_object('spin_max_upload').get_value()
+        new_core_config['max_download_speed'] = self.builder.get_object(
+            'spin_max_download'
+        ).get_value()
+        new_core_config['max_upload_speed'] = self.builder.get_object(
+            'spin_max_upload'
+        ).get_value()
         new_core_config['max_upload_slots_global'] = self.builder.get_object(
-            'spin_max_upload_slots_global',
+            'spin_max_upload_slots_global'
         ).get_value_as_int()
         new_core_config['max_half_open_connections'] = self.builder.get_object(
-            'spin_max_half_open_connections',
+            'spin_max_half_open_connections'
         ).get_value_as_int()
         new_core_config['max_connections_per_second'] = self.builder.get_object(
-            'spin_max_connections_per_second',
+            'spin_max_connections_per_second'
         ).get_value_as_int()
         new_core_config['max_connections_per_torrent'] = self.builder.get_object(
-            'spin_max_connections_per_torrent',
+            'spin_max_connections_per_torrent'
         ).get_value_as_int()
         new_core_config['max_upload_slots_per_torrent'] = self.builder.get_object(
-            'spin_max_upload_slots_per_torrent',
+            'spin_max_upload_slots_per_torrent'
         ).get_value_as_int()
         new_core_config['max_upload_speed_per_torrent'] = self.builder.get_object(
-            'spin_max_upload_per_torrent',
+            'spin_max_upload_per_torrent'
         ).get_value()
         new_core_config['max_download_speed_per_torrent'] = self.builder.get_object(
-            'spin_max_download_per_torrent',
+            'spin_max_download_per_torrent'
         ).get_value()
         new_core_config['ignore_limits_on_local_network'] = self.builder.get_object(
-            'chk_ignore_limits_on_local_network',
+            'chk_ignore_limits_on_local_network'
         ).get_active()
         new_core_config['rate_limit_ip_overhead'] = self.builder.get_object(
-            'chk_rate_limit_ip_overhead',
+            'chk_rate_limit_ip_overhead'
         ).get_active()
 
         # Interface tab #
-        new_gtkui_config['enable_system_tray'] = self.builder.get_object('chk_use_tray').get_active()
-        new_gtkui_config['close_to_tray'] = self.builder.get_object('chk_min_on_close').get_active()
-        new_gtkui_config['start_in_tray'] = self.builder.get_object('chk_start_in_tray').get_active()
-        new_gtkui_config['enable_appindicator'] = self.builder.get_object('radio_appind').get_active()
-        new_gtkui_config['lock_tray'] = self.builder.get_object('chk_lock_tray').get_active()
-        passhex = sha(self.builder.get_object('txt_tray_password').get_text()).hexdigest()
+        new_gtkui_config['enable_system_tray'] = self.builder.get_object(
+            'chk_use_tray'
+        ).get_active()
+        new_gtkui_config['close_to_tray'] = self.builder.get_object(
+            'chk_min_on_close'
+        ).get_active()
+        new_gtkui_config['start_in_tray'] = self.builder.get_object(
+            'chk_start_in_tray'
+        ).get_active()
+        new_gtkui_config['enable_appindicator'] = self.builder.get_object(
+            'radio_appind'
+        ).get_active()
+        new_gtkui_config['lock_tray'] = self.builder.get_object(
+            'chk_lock_tray'
+        ).get_active()
+        passhex = sha(
+            self.builder.get_object('txt_tray_password').get_text()
+        ).hexdigest()
         if passhex != 'c07eb5a8c0dc7bb81c217b67f11c3b7a5e95ffd7':
             new_gtkui_config['tray_password'] = passhex
 
@@ -597,25 +768,33 @@ class Preferences(component.Component):
         new_gtkui_config['standalone'] = new_gtkui_standalone
 
         new_gtkui_config['show_rate_in_title'] = self.builder.get_object(
-            'chk_show_rate_in_title',
+            'chk_show_rate_in_title'
         ).get_active()
         new_gtkui_config['focus_main_window_on_add'] = self.builder.get_object(
-            'chk_focus_main_window_on_add',
+            'chk_focus_main_window_on_add'
         ).get_active()
 
         # Other tab #
         new_gtkui_config['show_new_releases'] = self.builder.get_object(
-            'chk_show_new_releases',
+            'chk_show_new_releases'
         ).get_active()
-        new_core_config['send_info'] = self.builder.get_object('chk_send_info').get_active()
-        new_core_config['geoip_db_location'] = self.builder.get_object('entry_geoip').get_text()
+        new_core_config['send_info'] = self.builder.get_object(
+            'chk_send_info'
+        ).get_active()
+        new_core_config['geoip_db_location'] = self.builder.get_object(
+            'entry_geoip'
+        ).get_text()
 
         # Daemon tab #
-        new_core_config['daemon_port'] = self.builder.get_object('spin_daemon_port').get_value_as_int()
+        new_core_config['daemon_port'] = self.builder.get_object(
+            'spin_daemon_port'
+        ).get_value_as_int()
         new_core_config['allow_remote'] = self.builder.get_object(
-            'chk_allow_remote_connections',
+            'chk_allow_remote_connections'
         ).get_active()
-        new_core_config['new_release_check'] = self.builder.get_object('chk_new_releases').get_active()
+        new_core_config['new_release_check'] = self.builder.get_object(
+            'chk_new_releases'
+        ).get_active()
 
         # Proxy tab #
         new_core_config['proxy'] = {
@@ -624,44 +803,66 @@ class Preferences(component.Component):
             'password': self.builder.get_object('entry_proxy_pass').get_text(),
             'hostname': self.builder.get_object('entry_proxy_host').get_text(),
             'port': self.builder.get_object('spin_proxy_port').get_value_as_int(),
-            'proxy_hostnames': self.builder.get_object('chk_proxy_host_resolve').get_active(),
-            'proxy_peer_connections': self.builder.get_object('chk_proxy_peer_conn').get_active(),
-            'proxy_tracker_connections': self.builder.get_object('chk_proxy_tracker_conn').get_active(),
+            'proxy_hostnames': self.builder.get_object(
+                'chk_proxy_host_resolve'
+            ).get_active(),
+            'proxy_peer_connections': self.builder.get_object(
+                'chk_proxy_peer_conn'
+            ).get_active(),
+            'proxy_tracker_connections': self.builder.get_object(
+                'chk_proxy_tracker_conn'
+            ).get_active(),
             'force_proxy': self.builder.get_object('chk_force_proxy').get_active(),
-            'anonymous_mode': self.builder.get_object('chk_anonymous_mode').get_active(),
+            'anonymous_mode': self.builder.get_object(
+                'chk_anonymous_mode'
+            ).get_active(),
         }
 
         # Queue tab #
-        new_core_config['queue_new_to_top'] = self.builder.get_object('chk_queue_new_top').get_active()
+        new_core_config['queue_new_to_top'] = self.builder.get_object(
+            'chk_queue_new_top'
+        ).get_active()
         new_core_config['max_active_seeding'] = self.builder.get_object(
-            'spin_seeding',
+            'spin_seeding'
         ).get_value_as_int()
         new_core_config['max_active_downloading'] = self.builder.get_object(
-            'spin_downloading',
+            'spin_downloading'
         ).get_value_as_int()
-        new_core_config['max_active_limit'] = self.builder.get_object('spin_active').get_value_as_int()
+        new_core_config['max_active_limit'] = self.builder.get_object(
+            'spin_active'
+        ).get_value_as_int()
         new_core_config['dont_count_slow_torrents'] = self.builder.get_object(
-            'chk_dont_count_slow_torrents',
+            'chk_dont_count_slow_torrents'
         ).get_active()
         new_core_config['auto_manage_prefer_seeds'] = self.builder.get_object(
-            'chk_auto_manage_prefer_seeds',
+            'chk_auto_manage_prefer_seeds'
         ).get_active()
-        new_core_config['stop_seed_at_ratio'] = self.builder.get_object('chk_share_ratio').get_active()
+        new_core_config['stop_seed_at_ratio'] = self.builder.get_object(
+            'chk_share_ratio'
+        ).get_active()
         new_core_config['remove_seed_at_ratio'] = self.builder.get_object(
-            'radio_remove_ratio',
+            'radio_remove_ratio'
         ).get_active()
-        new_core_config['stop_seed_ratio'] = self.builder.get_object('spin_share_ratio').get_value()
+        new_core_config['stop_seed_ratio'] = self.builder.get_object(
+            'spin_share_ratio'
+        ).get_value()
         new_core_config['share_ratio_limit'] = self.builder.get_object(
-            'spin_share_ratio_limit',
+            'spin_share_ratio_limit'
         ).get_value()
         new_core_config['seed_time_ratio_limit'] = self.builder.get_object(
-            'spin_seed_time_ratio_limit',
+            'spin_seed_time_ratio_limit'
         ).get_value()
-        new_core_config['seed_time_limit'] = self.builder.get_object('spin_seed_time_limit').get_value()
+        new_core_config['seed_time_limit'] = self.builder.get_object(
+            'spin_seed_time_limit'
+        ).get_value()
 
         # Cache tab #
-        new_core_config['cache_size'] = self.builder.get_object('spin_cache_size').get_value_as_int()
-        new_core_config['cache_expiry'] = self.builder.get_object('spin_cache_expiry').get_value_as_int()
+        new_core_config['cache_size'] = self.builder.get_object(
+            'spin_cache_size'
+        ).get_value_as_int()
+        new_core_config['cache_expiry'] = self.builder.get_object(
+            'spin_cache_expiry'
+        ).get_value_as_int()
 
         # Run plugin hook to apply preferences
         component.get('PluginManager').run_on_apply_prefs()
@@ -673,8 +874,7 @@ class Preferences(component.Component):
             active = self.language_combo.get_active()
             if active == -1:
                 dialog = InformationDialog(
-                    _('Attention'),
-                    _('You must choose a language'),
+                    _('Attention'), _('You must choose a language')
                 )
                 dialog.run()
                 return
@@ -718,20 +918,26 @@ class Preferences(component.Component):
             self.show()
 
         if was_standalone != new_gtkui_standalone:
+
             def on_response(response):
                 if response == gtk.RESPONSE_YES:
-                    shutdown_daemon = (not client.is_standalone() and
-                                       client.connected() and
-                                       client.is_localhost())
-                    component.get('MainWindow').quit(shutdown=shutdown_daemon, restart=True)
+                    shutdown_daemon = (
+                        not client.is_standalone()
+                        and client.connected()
+                        and client.is_localhost()
+                    )
+                    component.get('MainWindow').quit(
+                        shutdown=shutdown_daemon, restart=True
+                    )
                 else:
                     self.gtkui_config['standalone'] = not new_gtkui_standalone
                     self.builder.get_object('radio_standalone').set_active(
-                        self.gtkui_config['standalone'],
+                        self.gtkui_config['standalone']
                     )
                     self.builder.get_object('radio_thinclient').set_active(
-                        not self.gtkui_config['standalone'],
+                        not self.gtkui_config['standalone']
                     )
+
             mode = 'Thinclient' if was_standalone else 'Standalone'
             dialog = YesNoDialog(
                 _('Switching Deluge Client Mode...'),
@@ -747,16 +953,20 @@ class Preferences(component.Component):
     def __update_cache_status(self):
         # Updates the cache status labels with the info in the dict
         cache_labels = (
-            'label_cache_read_ops', 'label_cache_write_ops',
-            'label_cache_num_blocks_read', 'label_cache_num_blocks_written',
-            'label_cache_read_hit_ratio', 'label_cache_write_hit_ratio',
-            'label_cache_num_blocks_cache_hits', 'label_cache_disk_blocks_in_use',
+            'label_cache_read_ops',
+            'label_cache_write_ops',
+            'label_cache_num_blocks_read',
+            'label_cache_num_blocks_written',
+            'label_cache_read_hit_ratio',
+            'label_cache_write_hit_ratio',
+            'label_cache_num_blocks_cache_hits',
+            'label_cache_disk_blocks_in_use',
             'label_cache_read_cache_blocks',
         )
 
         for widget_name in cache_labels:
             widget = self.builder.get_object(widget_name)
-            key = widget_name[len('label_cache_'):]
+            key = widget_name[len('label_cache_') :]
             if not widget_name.endswith('ratio'):
                 key = 'disk.' + key
             value = self.cache_status.get(key, 0)
@@ -772,7 +982,9 @@ class Preferences(component.Component):
             self.cache_status = status
             self.__update_cache_status()
 
-        client.core.get_session_status(DISK_CACHE_KEYS).addCallback(on_get_session_status)
+        client.core.get_session_status(DISK_CACHE_KEYS).addCallback(
+            on_get_session_status
+        )
 
     def on_pref_dialog_delete_event(self, widget, event):
         self.hide()
@@ -816,10 +1028,7 @@ class Preferences(component.Component):
                 'alignment_tray_type': True,
                 'chk_lock_tray': True,
             },
-            'chk_lock_tray': {
-                'txt_tray_password': True,
-                'password_label': True,
-            },
+            'chk_lock_tray': {'txt_tray_password': True, 'password_label': True},
             'radio_open_folder_custom': {
                 'combo_file_manager': False,
                 'txt_open_folder_location': True,
@@ -887,12 +1096,17 @@ class Preferences(component.Component):
                 self.builder.get_object('port_img').set_from_stock(gtk.STOCK_YES, 4)
                 self.builder.get_object('port_img').show()
             else:
-                self.builder.get_object('port_img').set_from_stock(gtk.STOCK_DIALOG_WARNING, 4)
+                self.builder.get_object('port_img').set_from_stock(
+                    gtk.STOCK_DIALOG_WARNING, 4
+                )
                 self.builder.get_object('port_img').show()
+
         client.core.test_listen_port().addCallback(on_get_test)
         # XXX: Consider using gtk.Spinner() instead of the loading gif
         #      It requires gtk.ver > 2.12
-        self.builder.get_object('port_img').set_from_file(deluge.common.get_pixmap('loading.gif'))
+        self.builder.get_object('port_img').set_from_file(
+            deluge.common.get_pixmap('loading.gif')
+        )
         self.builder.get_object('port_img').show()
         client.force_call()
 
@@ -923,9 +1137,15 @@ class Preferences(component.Component):
         plugin_info = component.get('PluginManager').get_plugin_info(name)
         self.builder.get_object('label_plugin_author').set_text(plugin_info['Author'])
         self.builder.get_object('label_plugin_version').set_text(plugin_info['Version'])
-        self.builder.get_object('label_plugin_email').set_text(plugin_info['Author-email'])
-        self.builder.get_object('label_plugin_homepage').set_text(plugin_info['Home-page'])
-        self.builder.get_object('label_plugin_details').set_text(plugin_info['Description'])
+        self.builder.get_object('label_plugin_email').set_text(
+            plugin_info['Author-email']
+        )
+        self.builder.get_object('label_plugin_homepage').set_text(
+            plugin_info['Home-page']
+        )
+        self.builder.get_object('label_plugin_details').set_text(
+            plugin_info['Description']
+        )
 
     def on_button_plugin_install_clicked(self, widget):
         log.debug('on_button_plugin_install_clicked')
@@ -933,7 +1153,12 @@ class Preferences(component.Component):
             _('Select the Plugin'),
             self.pref_dialog,
             gtk.FILE_CHOOSER_ACTION_OPEN,
-            buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK),
+            buttons=(
+                gtk.STOCK_CANCEL,
+                gtk.RESPONSE_CANCEL,
+                gtk.STOCK_OPEN,
+                gtk.RESPONSE_OK,
+            ),
         )
 
         chooser.set_transient_for(self.pref_dialog)
@@ -956,11 +1181,9 @@ class Preferences(component.Component):
 
         from base64 import b64encode
         import shutil
+
         filename = os.path.split(filepath)[1]
-        shutil.copyfile(
-            filepath,
-            os.path.join(get_config_dir(), 'plugins', filename),
-        )
+        shutil.copyfile(filepath, os.path.join(get_config_dir(), 'plugins', filename))
 
         component.get('PluginManager').scan_for_plugins()
 
@@ -998,22 +1221,41 @@ class Preferences(component.Component):
     def on_combo_proxy_type_changed(self, widget):
         proxy_type = self.builder.get_object('combo_proxy_type').get_active()
         proxy_entries = [
-            'label_proxy_host', 'entry_proxy_host', 'label_proxy_port', 'spin_proxy_port',
-            'label_proxy_pass', 'entry_proxy_pass', 'label_proxy_user', 'entry_proxy_user',
-            'chk_proxy_host_resolve', 'chk_proxy_peer_conn', 'chk_proxy_tracker_conn',
+            'label_proxy_host',
+            'entry_proxy_host',
+            'label_proxy_port',
+            'spin_proxy_port',
+            'label_proxy_pass',
+            'entry_proxy_pass',
+            'label_proxy_user',
+            'entry_proxy_user',
+            'chk_proxy_host_resolve',
+            'chk_proxy_peer_conn',
+            'chk_proxy_tracker_conn',
         ]
 
         # 0: None, 1: Socks4, 2: Socks5, 3: Socks5 Auth, 4: HTTP, 5: HTTP Auth, 6: I2P
         show_entries = []
         if proxy_type > 0:
-            show_entries.extend([
-                'label_proxy_host', 'entry_proxy_host', 'label_proxy_port', 'spin_proxy_port',
-                'chk_proxy_peer_conn', 'chk_proxy_tracker_conn',
-            ])
+            show_entries.extend(
+                [
+                    'label_proxy_host',
+                    'entry_proxy_host',
+                    'label_proxy_port',
+                    'spin_proxy_port',
+                    'chk_proxy_peer_conn',
+                    'chk_proxy_tracker_conn',
+                ]
+            )
             if proxy_type in (3, 5):
-                show_entries.extend([
-                    'label_proxy_pass', 'entry_proxy_pass', 'label_proxy_user', 'entry_proxy_user',
-                ])
+                show_entries.extend(
+                    [
+                        'label_proxy_pass',
+                        'entry_proxy_pass',
+                        'label_proxy_user',
+                        'entry_proxy_user',
+                    ]
+                )
             if proxy_type in (2, 3, 4, 5):
                 show_entries.extend(['chk_proxy_host_resolve'])
 
@@ -1053,8 +1295,10 @@ class Preferences(component.Component):
                 ErrorDialog(
                     _('Server Side Error'),
                     _('An error occurred on the server'),
-                    parent=self.pref_dialog, details=failure.getErrorMessage(),
+                    parent=self.pref_dialog,
+                    details=failure.getErrorMessage(),
                 ).run()
+
         client.core.get_known_accounts().addCallback(on_ok).addErrback(on_fail)
 
     def on_get_known_accounts(self, known_accounts):
@@ -1072,9 +1316,15 @@ class Preferences(component.Component):
 
         for account in known_accounts:
             accounts_iter = self.accounts_liststore.append()
-            self.accounts_liststore.set_value(accounts_iter, ACCOUNTS_USERNAME, account['username'])
-            self.accounts_liststore.set_value(accounts_iter, ACCOUNTS_LEVEL, account['authlevel'])
-            self.accounts_liststore.set_value(accounts_iter, ACCOUNTS_PASSWORD, account['password'])
+            self.accounts_liststore.set_value(
+                accounts_iter, ACCOUNTS_USERNAME, account['username']
+            )
+            self.accounts_liststore.set_value(
+                accounts_iter, ACCOUNTS_LEVEL, account['authlevel']
+            )
+            self.accounts_liststore.set_value(
+                accounts_iter, ACCOUNTS_PASSWORD, account['password']
+            )
 
     def on_accounts_selection_changed(self, treeselection):
         log.debug('on_accounts_selection_changed')
@@ -1090,7 +1340,9 @@ class Preferences(component.Component):
             self.builder.get_object('accounts_delete').set_sensitive(False)
 
     def on_accounts_add_clicked(self, widget):
-        dialog = AccountDialog(levels_mapping=client.auth_levels_mapping, parent=self.pref_dialog)
+        dialog = AccountDialog(
+            levels_mapping=client.auth_levels_mapping, parent=self.pref_dialog
+        )
 
         def dialog_finished(response_id):
             username = dialog.get_username()
@@ -1099,28 +1351,36 @@ class Preferences(component.Component):
 
             def add_ok(rv):
                 accounts_iter = self.accounts_liststore.append()
-                self.accounts_liststore.set_value(accounts_iter, ACCOUNTS_USERNAME, username)
-                self.accounts_liststore.set_value(accounts_iter, ACCOUNTS_LEVEL, authlevel)
-                self.accounts_liststore.set_value(accounts_iter, ACCOUNTS_PASSWORD, password)
+                self.accounts_liststore.set_value(
+                    accounts_iter, ACCOUNTS_USERNAME, username
+                )
+                self.accounts_liststore.set_value(
+                    accounts_iter, ACCOUNTS_LEVEL, authlevel
+                )
+                self.accounts_liststore.set_value(
+                    accounts_iter, ACCOUNTS_PASSWORD, password
+                )
 
             def add_fail(failure):
                 if failure.type == AuthManagerError:
                     ErrorDialog(
                         _('Error Adding Account'),
                         _('Authentication failed'),
-                        parent=self.pref_dialog, details=failure.getErrorMessage(),
+                        parent=self.pref_dialog,
+                        details=failure.getErrorMessage(),
                     ).run()
                 else:
                     ErrorDialog(
                         _('Error Adding Account'),
                         _('An error occurred while adding account'),
-                        parent=self.pref_dialog, details=failure.getErrorMessage(),
+                        parent=self.pref_dialog,
+                        details=failure.getErrorMessage(),
                     ).run()
 
             if response_id == gtk.RESPONSE_OK:
-                client.core.create_account(
-                    username, password, authlevel,
-                ).addCallback(add_ok).addErrback(add_fail)
+                client.core.create_account(username, password, authlevel).addCallback(
+                    add_ok
+                ).addErrback(add_fail)
 
         dialog.run().addCallback(dialog_finished)
 
@@ -1138,7 +1398,6 @@ class Preferences(component.Component):
         )
 
         def dialog_finished(response_id):
-
             def update_ok(rc):
                 model.set_value(itr, ACCOUNTS_PASSWORD, dialog.get_username())
                 model.set_value(itr, ACCOUNTS_LEVEL, dialog.get_authlevel())
@@ -1147,14 +1406,13 @@ class Preferences(component.Component):
                 ErrorDialog(
                     _('Error Updating Account'),
                     _('An error occurred while updating account'),
-                    parent=self.pref_dialog, details=failure.getErrorMessage(),
+                    parent=self.pref_dialog,
+                    details=failure.getErrorMessage(),
                 ).run()
 
             if response_id == gtk.RESPONSE_OK:
                 client.core.update_account(
-                    dialog.get_username(),
-                    dialog.get_password(),
-                    dialog.get_authlevel(),
+                    dialog.get_username(), dialog.get_password(), dialog.get_authlevel()
                 ).addCallback(update_ok).addErrback(update_fail)
 
         dialog.run().addCallback(dialog_finished)
@@ -1166,8 +1424,10 @@ class Preferences(component.Component):
 
         username = model[itr][0]
         header = _('Remove Account')
-        text = _('Are you sure you want to remove the account with the '
-                 'username "%(username)s"?' % {'username': username})
+        text = _(
+            'Are you sure you want to remove the account with the '
+            'username "%(username)s"?' % {'username': username}
+        )
         dialog = YesNoDialog(header, text, parent=self.pref_dialog)
 
         def dialog_finished(response_id):
@@ -1179,18 +1439,22 @@ class Preferences(component.Component):
                     ErrorDialog(
                         _('Error Removing Account'),
                         _('Auhentication failed'),
-                        parent=self.pref_dialog, details=failure.getErrorMessage(),
+                        parent=self.pref_dialog,
+                        details=failure.getErrorMessage(),
                     ).run()
                 else:
                     ErrorDialog(
                         _('Error Removing Account'),
                         _('An error occurred while removing account'),
-                        parent=self.pref_dialog, details=failure.getErrorMessage(),
+                        parent=self.pref_dialog,
+                        details=failure.getErrorMessage(),
                     ).run()
+
             if response_id == gtk.RESPONSE_YES:
-                client.core.remove_account(
-                    username,
-                ).addCallback(remove_ok).addErrback(remove_fail)
+                client.core.remove_account(username).addCallback(remove_ok).addErrback(
+                    remove_fail
+                )
+
         dialog.run().addCallback(dialog_finished)
 
     def on_piecesbar_toggle_toggled(self, widget):
@@ -1228,21 +1492,35 @@ class Preferences(component.Component):
     def __set_color(self, state, from_config=False):
         if from_config:
             color = Color(*self.gtkui_config['pieces_color_%s' % state])
-            log.debug('Setting %r color state from config to %s', state, (color.red, color.green, color.blue))
+            log.debug(
+                'Setting %r color state from config to %s',
+                state,
+                (color.red, color.green, color.blue),
+            )
             self.builder.get_object('%s_color' % state).set_color(color)
         else:
             color = self.builder.get_object('%s_color' % state).get_color()
-            log.debug('Setting %r color state to %s', state, (color.red, color.green, color.blue))
-            self.gtkui_config['pieces_color_%s' % state] = [color.red, color.green, color.blue]
+            log.debug(
+                'Setting %r color state to %s',
+                state,
+                (color.red, color.green, color.blue),
+            )
+            self.gtkui_config['pieces_color_%s' % state] = [
+                color.red,
+                color.green,
+                color.blue,
+            ]
             self.gtkui_config.save()
             self.gtkui_config.apply_set_functions('pieces_colors')
 
         self.builder.get_object('revert_color_%s' % state).set_sensitive(
-            [color.red, color.green, color.blue] != self.COLOR_DEFAULTS[state],
+            [color.red, color.green, color.blue] != self.COLOR_DEFAULTS[state]
         )
 
     def __revert_color(self, state, from_config=False):
         log.debug('Reverting %r color state', state)
-        self.builder.get_object('%s_color' % state).set_color(Color(*self.COLOR_DEFAULTS[state]))
+        self.builder.get_object('%s_color' % state).set_color(
+            Color(*self.COLOR_DEFAULTS[state])
+        )
         self.builder.get_object('revert_color_%s' % state).set_sensitive(False)
         self.gtkui_config.apply_set_functions('pieces_colors')

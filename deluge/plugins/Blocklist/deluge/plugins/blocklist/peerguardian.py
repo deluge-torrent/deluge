@@ -24,7 +24,6 @@ class PGException(Exception):
 # Incrementally reads PeerGuardian blocklists v1 and v2.
 # See http://wiki.phoenixlabs.org/wiki/P2B_Format
 class PGReader(object):
-
     def __init__(self, filename):
         log.debug('PGReader loading: %s', filename)
 

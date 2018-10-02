@@ -16,7 +16,6 @@ from .basetest import BaseTestCase
 
 
 class ComponentTester(component.Component):
-
     def __init__(self, name, depend=None):
         component.Component.__init__(self, name, depend=depend)
         self.start_count = 0
@@ -30,20 +29,21 @@ class ComponentTester(component.Component):
 
 
 class ComponentTesterDelayStart(ComponentTester):
-
     def start(self):
         def do_sleep():
             import time
+
             time.sleep(1)
+
         d = threads.deferToThread(do_sleep)
 
         def on_done(result):
             self.start_count += 1
+
         return d.addCallback(on_done)
 
 
 class ComponentTesterUpdate(component.Component):
-
     def __init__(self, name):
         component.Component.__init__(self, name)
         self.counter = 0
@@ -58,7 +58,6 @@ class ComponentTesterUpdate(component.Component):
 
 
 class ComponentTesterShutdown(component.Component):
-
     def __init__(self, name):
         component.Component.__init__(self, name)
         self.shutdowned = False
@@ -72,7 +71,6 @@ class ComponentTesterShutdown(component.Component):
 
 
 class ComponentTestClass(BaseTestCase):
-
     def tear_down(self):
         return component.shutdown()
 
@@ -98,7 +96,9 @@ class ComponentTestClass(BaseTestCase):
             self.assertEqual(c2._component_state, 'Started')
             self.assertEqual(c1.start_count, 1)
             self.assertEqual(c2.start_count, 1)
-            return component.stop(['test_start_depends_c1']).addCallback(on_stop, c1, c2)
+            return component.stop(['test_start_depends_c1']).addCallback(
+                on_stop, c1, c2
+            )
 
         c1 = ComponentTester('test_start_depends_c1')
         c2 = ComponentTester('test_start_depends_c2', depend=['test_start_depends_c1'])
@@ -110,7 +110,9 @@ class ComponentTestClass(BaseTestCase):
     def start_with_depends(self):
         c1 = ComponentTesterDelayStart('test_start_all_c1')
         c2 = ComponentTester('test_start_all_c2', depend=['test_start_all_c4'])
-        c3 = ComponentTesterDelayStart('test_start_all_c3', depend=['test_start_all_c5', 'test_start_all_c1'])
+        c3 = ComponentTesterDelayStart(
+            'test_start_all_c3', depend=['test_start_all_c5', 'test_start_all_c1']
+        )
         c4 = ComponentTester('test_start_all_c4', depend=['test_start_all_c3'])
         c5 = ComponentTester('test_start_all_c5')
 
@@ -214,8 +216,12 @@ class ComponentTestClass(BaseTestCase):
         try:
             result = self.failureResultOf(test_comp._component_start())
         except AttributeError:
-            raise SkipTest('This test requires trial failureResultOf() in Twisted version >= 13')
-        self.assertEqual(result.check(component.ComponentException), component.ComponentException)
+            raise SkipTest(
+                'This test requires trial failureResultOf() in Twisted version >= 13'
+            )
+        self.assertEqual(
+            result.check(component.ComponentException), component.ComponentException
+        )
 
     @defer.inlineCallbacks
     def test_start_paused_error(self):
@@ -231,14 +237,17 @@ class ComponentTestClass(BaseTestCase):
         result = yield component.start()
         self.assertEqual(
             [(result[0][0], result[0][1].value)],
-            [(
-                defer.FAILURE,
-                component.ComponentException(
-                    'Trying to start component "%s" but it is '
-                    'not in a stopped state. Current state: %s' %
-                    ('test_pause_c1', 'Paused'), '',
-                ),
-            )],
+            [
+                (
+                    defer.FAILURE,
+                    component.ComponentException(
+                        'Trying to start component "%s" but it is '
+                        'not in a stopped state. Current state: %s'
+                        % ('test_pause_c1', 'Paused'),
+                        '',
+                    ),
+                )
+            ],
         )
 
     def test_shutdown(self):

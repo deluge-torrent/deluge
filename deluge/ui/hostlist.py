@@ -89,9 +89,15 @@ def migrate_config_2_to_3(config):
 
 class HostList(object):
     """This class contains methods for adding, removing and looking up hosts in hostlist.conf."""
+
     def __init__(self):
         migrate_hostlist('hostlist.conf.1.2', 'hostlist.conf')
-        self.config = Config('hostlist.conf', default_hostlist(), config_dir=get_config_dir(), file_version=3)
+        self.config = Config(
+            'hostlist.conf',
+            default_hostlist(),
+            config_dir=get_config_dir(),
+            file_version=3,
+        )
         self.config.run_converter((1, 2), 3, migrate_config_2_to_3)
         self.config.save()
 
@@ -109,7 +115,11 @@ class HostList(object):
 
         """
         for host_entry in self.config['hosts']:
-            if (hostname, port, username) == (host_entry[1], host_entry[2], host_entry[3]):
+            if (hostname, port, username) == (
+                host_entry[1],
+                host_entry[2],
+                host_entry[3],
+            ):
                 if skip_host_id is not None and skip_host_id == host_entry[0]:
                     continue
                 raise ValueError('Host details already in hostlist')
@@ -126,8 +136,10 @@ class HostList(object):
         Returns:
             str: The new host id.
         """
-        if (not password and not username or username == 'localclient') and hostname in LOCALHOST:
-                username, password = get_localhost_auth()
+        if (
+            not password and not username or username == 'localclient'
+        ) and hostname in LOCALHOST:
+            username, password = get_localhost_auth()
 
         validate_host_info(hostname, port)
         self.check_info_exists(hostname, port, username)
@@ -175,6 +187,7 @@ class HostList(object):
 
         def on_connect(result, c, host_id):
             """Successfully connected to a daemon"""
+
             def on_info(info, c):
                 c.disconnect()
                 return host_id, 'Online', info
@@ -202,7 +215,11 @@ class HostList(object):
             log.error('Error resolving host %s to ip: %s', host, ex.args[1])
             return status_offline
 
-        host_conn_info = (ip, port, 'localclient' if not user and host in LOCALHOST else user)
+        host_conn_info = (
+            ip,
+            port,
+            'localclient' if not user and host in LOCALHOST else user,
+        )
         if client.connected() and host_conn_info == client.connection_info():
             # Currently connected to host_id daemon.
             def on_info(info, host_id):
@@ -232,7 +249,9 @@ class HostList(object):
         validate_host_info(hostname, port)
         self.check_info_exists(hostname, port, username, skip_host_id=host_id)
 
-        if (not password and not username or username == 'localclient') and hostname in LOCALHOST:
+        if (
+            not password and not username or username == 'localclient'
+        ) and hostname in LOCALHOST:
             username, password = get_localhost_auth()
 
         for idx, host_entry in enumerate(self.config['hosts']):

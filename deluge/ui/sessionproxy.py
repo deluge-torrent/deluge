@@ -28,6 +28,7 @@ class SessionProxy(component.Component):
     and will try to satisfy client requests from the cache.
 
     """
+
     def __init__(self):
         log.debug('SessionProxy init..')
         component.Component.__init__(self, 'SessionProxy', interval=5)
@@ -43,7 +44,9 @@ class SessionProxy(component.Component):
         self.cache_times = {}
 
     def start(self):
-        client.register_event_handler('TorrentStateChangedEvent', self.on_torrent_state_changed)
+        client.register_event_handler(
+            'TorrentStateChangedEvent', self.on_torrent_state_changed
+        )
         client.register_event_handler('TorrentRemovedEvent', self.on_torrent_removed)
         client.register_event_handler('TorrentAddedEvent', self.on_torrent_added)
 
@@ -54,10 +57,13 @@ class SessionProxy(component.Component):
                 self.torrents.setdefault(torrent_id, [time(), {}])
                 self.cache_times.setdefault(torrent_id, {})
             return torrent_ids
+
         return client.core.get_session_state().addCallback(on_get_session_state)
 
     def stop(self):
-        client.deregister_event_handler('TorrentStateChangedEvent', self.on_torrent_state_changed)
+        client.deregister_event_handler(
+            'TorrentStateChangedEvent', self.on_torrent_state_changed
+        )
         client.deregister_event_handler('TorrentRemovedEvent', self.on_torrent_removed)
         client.deregister_event_handler('TorrentAddedEvent', self.on_torrent_added)
         self.torrents = {}
@@ -77,7 +83,9 @@ class SessionProxy(component.Component):
         """
         sd = {}
         keys = set(keys)
-        keys_len = -1  # The number of keys for the current cache (not the len of keys_diff_cached)
+        keys_len = (
+            -1
+        )  # The number of keys for the current cache (not the len of keys_diff_cached)
         keys_diff_cached = []
 
         for torrent_id in torrent_ids:
@@ -128,12 +136,13 @@ class SessionProxy(component.Component):
                 keys = list(self.torrents[torrent_id][1])
 
             for key in keys:
-                if time() - self.cache_times[torrent_id].get(key, 0.0) > self.cache_time:
+                if (
+                    time() - self.cache_times[torrent_id].get(key, 0.0)
+                    > self.cache_time
+                ):
                     keys_to_get.append(key)
             if not keys_to_get:
-                return succeed(
-                    self.create_status_dict([torrent_id], keys)[torrent_id],
-                )
+                return succeed(self.create_status_dict([torrent_id], keys)[torrent_id])
             else:
                 d = client.core.get_torrent_status(torrent_id, keys_to_get, True)
 
@@ -144,6 +153,7 @@ class SessionProxy(component.Component):
                     for key in keys_to_get:
                         self.cache_times[torrent_id][key] = t
                     return self.create_status_dict([torrent_id], keys)[torrent_id]
+
                 return d.addCallback(on_status, torrent_id)
         else:
             d = client.core.get_torrent_status(torrent_id, keys, True)
@@ -157,6 +167,7 @@ class SessionProxy(component.Component):
                         self.cache_times[torrent_id][key] = t
 
                 return result
+
             return d.addCallback(on_status)
 
     def get_torrents_status(self, filter_dict, keys):
@@ -206,11 +217,15 @@ class SessionProxy(component.Component):
                 else:
                     # We need to check if a key is expired
                     for key in keys:
-                        if t - self.cache_times[torrent_id].get(key, 0.0) > self.cache_time:
+                        if (
+                            t - self.cache_times[torrent_id].get(key, 0.0)
+                            > self.cache_time
+                        ):
                             to_fetch.append(torrent_id)
                             break
 
             return to_fetch
+
         # -----------------------------------------------------------------------
 
         if not filter_dict:
@@ -254,6 +269,7 @@ class SessionProxy(component.Component):
             t = time()
             for key in status:
                 self.cache_times[torrent_id][key] = t
+
         client.core.get_torrent_status(torrent_id, []).addCallback(on_status)
 
     def on_torrent_removed(self, torrent_id):

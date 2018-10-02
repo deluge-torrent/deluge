@@ -42,7 +42,6 @@ log = logging.getLogger(__name__)
 
 
 class IPCProtocolServer(Protocol):
-
     def __init__(self):
         pass
 
@@ -55,7 +54,6 @@ class IPCProtocolServer(Protocol):
 
 
 class IPCProtocolClient(Protocol):
-
     def __init__(self):
         pass
 
@@ -93,12 +91,14 @@ class IPCInterface(component.Component):
             import win32event
             import win32api
             import winerror
+
             self.mutex = win32event.CreateMutex(None, False, 'deluge')
             if win32api.GetLastError() != winerror.ERROR_ALREADY_EXISTS:
                 # Create listen socket
                 self.factory = Factory()
                 self.factory.protocol = IPCProtocolServer
                 import random
+
                 port = random.randrange(20000, 65535)
                 self.listener = reactor.listenTCP(port, self.factory)
                 # Store the port number in the socket file
@@ -124,6 +124,7 @@ class IPCInterface(component.Component):
             lockfile = socket + '.lock'
             log.debug('Checking if lockfile exists: %s', lockfile)
             if os.path.lexists(lockfile):
+
                 def delete_lockfile():
                     log.debug('Delete stale lockfile.')
                     try:
@@ -138,14 +139,18 @@ class IPCInterface(component.Component):
                     delete_lockfile()
                 else:
                     if restart_tempfile:
-                        log.warning('Found running PID but it is not a Deluge process, removing lockfile...')
+                        log.warning(
+                            'Found running PID but it is not a Deluge process, removing lockfile...'
+                        )
                         delete_lockfile()
             try:
                 self.factory = Factory()
                 self.factory.protocol = IPCProtocolServer
                 self.listener = reactor.listenUNIX(socket, self.factory, wantPID=True)
             except twisted.internet.error.CannotListenError as ex:
-                log.info('Deluge is already running! Sending arguments to running instance...')
+                log.info(
+                    'Deluge is already running! Sending arguments to running instance...'
+                )
                 self.factory = IPCClientFactory()
                 self.factory.args = args
                 reactor.connectUNIX(socket, self.factory, checkPID=True)
@@ -153,6 +158,7 @@ class IPCInterface(component.Component):
                 if self.factory.stop:
                     log.info('Success sending arguments to running Deluge.')
                     from gtk.gdk import notify_startup_complete
+
                     notify_startup_complete()
                     sys.exit(0)
                 else:
@@ -170,6 +176,7 @@ class IPCInterface(component.Component):
     def shutdown(self):
         if windows_check():
             import win32api
+
             win32api.CloseHandle(self.mutex)
         if self.listener:
             return self.listener.stopListening()

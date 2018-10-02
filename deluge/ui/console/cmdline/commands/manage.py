@@ -44,14 +44,28 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            'torrent', metavar='<torrent>',
+            'torrent',
+            metavar='<torrent>',
             help=_('an expression matched against torrent ids and torrent names'),
         )
         set_group = parser.add_argument_group('setting a value')
-        set_group.add_argument('-s', '--set', action='store', metavar='<key>', help=_('set value for this key'))
-        set_group.add_argument('values', metavar='<value>', nargs='+', help=_('Value to set'))
+        set_group.add_argument(
+            '-s',
+            '--set',
+            action='store',
+            metavar='<key>',
+            help=_('set value for this key'),
+        )
+        set_group.add_argument(
+            'values', metavar='<value>', nargs='+', help=_('Value to set')
+        )
         get_group = parser.add_argument_group('getting values')
-        get_group.add_argument('keys', metavar='<keys>', nargs='*', help=_('one or more keys separated by space'))
+        get_group.add_argument(
+            'keys',
+            metavar='<keys>',
+            nargs='*',
+            help=_('one or more keys separated by space'),
+        )
 
     def handle(self, options):
         self.console = component.get('ConsoleUI')
@@ -61,7 +75,6 @@ class Command(BaseCommand):
             return self._get_option(options)
 
     def _get_option(self, options):
-
         def on_torrents_status(status):
             for torrentid, data in status.items():
                 self.console.write('')
@@ -94,7 +107,7 @@ class Command(BaseCommand):
     def _set_option(self, options):
         deferred = defer.Deferred()
         key = options.set
-        val = ' ' .join(options.values)
+        val = ' '.join(options.values)
         torrent_ids = self.console.match_torrent(options.torrent)
 
         if key not in torrent_options:
@@ -107,8 +120,12 @@ class Command(BaseCommand):
             self.console.write('{!success!}Torrent option successfully updated.')
             deferred.callback(True)
 
-        self.console.write('Setting %s to %s for torrents %s..' % (key, val, torrent_ids))
-        client.core.set_torrent_options(torrent_ids, {key: val}).addCallback(on_set_config)
+        self.console.write(
+            'Setting %s to %s for torrents %s..' % (key, val, torrent_ids)
+        )
+        client.core.set_torrent_options(torrent_ids, {key: val}).addCallback(
+            on_set_config
+        )
         return deferred
 
     def complete(self, line):

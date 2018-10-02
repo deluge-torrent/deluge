@@ -12,11 +12,22 @@ from __future__ import unicode_literals
 import logging
 import os
 
-from gtk import (Builder, RadioMenuItem, status_icon_new_from_icon_name, status_icon_new_from_pixbuf,
-                 status_icon_position_menu)
+from gtk import (
+    Builder,
+    RadioMenuItem,
+    status_icon_new_from_icon_name,
+    status_icon_new_from_pixbuf,
+    status_icon_position_menu,
+)
 
 import deluge.component as component
-from deluge.common import fspeed, get_pixmap, osx_check, resource_filename, windows_check
+from deluge.common import (
+    fspeed,
+    get_pixmap,
+    osx_check,
+    resource_filename,
+    windows_check,
+)
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
 from deluge.ui.gtkui import dialogs
@@ -48,10 +59,14 @@ class SystemTray(component.Component):
             'separatormenuitem3',
             'separatormenuitem4',
         ]
-        self.config.register_set_function('enable_system_tray', self.on_enable_system_tray_set)
+        self.config.register_set_function(
+            'enable_system_tray', self.on_enable_system_tray_set
+        )
         # bit of a hack to prevent function from doing something on startup
         self.__enabled_set_once = False
-        self.config.register_set_function('enable_appindicator', self.on_enable_appindicator_set)
+        self.config.register_set_function(
+            'enable_appindicator', self.on_enable_appindicator_set
+        )
 
         self.max_download_speed = -1.0
         self.download_rate = 0.0
@@ -66,10 +81,9 @@ class SystemTray(component.Component):
     def enable(self):
         """Enables the system tray icon."""
         self.builder = Builder()
-        self.builder.add_from_file(resource_filename(
-            'deluge.ui.gtkui',
-            os.path.join('glade', 'tray_menu.ui'),
-        ))
+        self.builder.add_from_file(
+            resource_filename('deluge.ui.gtkui', os.path.join('glade', 'tray_menu.ui'))
+        )
 
         self.builder.connect_signals(self)
 
@@ -78,9 +92,7 @@ class SystemTray(component.Component):
         if appindicator and self.config['enable_appindicator']:
             log.debug('Enabling the Application Indicator...')
             self.indicator = appindicator.Indicator(
-                'deluge',
-                'deluge',
-                appindicator.CATEGORY_APPLICATION_STATUS,
+                'deluge', 'deluge', appindicator.CATEGORY_APPLICATION_STATUS
             )
             try:
                 self.indicator.set_property('title', _('Deluge'))
@@ -91,8 +103,12 @@ class SystemTray(component.Component):
             self.indicator.set_menu(self.tray_menu)
 
             # Make sure the status of the Show Window MenuItem is correct
-            self._sig_win_hide = self.mainwindow.window.connect('hide', self._on_window_hide)
-            self._sig_win_show = self.mainwindow.window.connect('show', self._on_window_show)
+            self._sig_win_hide = self.mainwindow.window.connect(
+                'hide', self._on_window_hide
+            )
+            self._sig_win_show = self.mainwindow.window.connect(
+                'show', self._on_window_show
+            )
             if self.mainwindow.visible():
                 self.builder.get_object('menuitem_show_deluge').set_active(True)
             else:
@@ -111,10 +127,16 @@ class SystemTray(component.Component):
             self.tray.connect('activate', self.on_tray_clicked)
             self.tray.connect('popup-menu', self.on_tray_popup)
 
-        self.builder.get_object('download-limit-image').set_from_file(get_pixmap('downloading16.png'))
-        self.builder.get_object('upload-limit-image').set_from_file(get_pixmap('seeding16.png'))
+        self.builder.get_object('download-limit-image').set_from_file(
+            get_pixmap('downloading16.png')
+        )
+        self.builder.get_object('upload-limit-image').set_from_file(
+            get_pixmap('seeding16.png')
+        )
 
-        client.register_event_handler('ConfigValueChangedEvent', self.config_value_changed)
+        client.register_event_handler(
+            'ConfigValueChangedEvent', self.config_value_changed
+        )
         if client.connected():
             # We're connected so we need to get some values from the core
             self.__start()
@@ -146,7 +168,10 @@ class SystemTray(component.Component):
             def update_config_values(configs):
                 self._on_max_download_speed(configs['max_download_speed'])
                 self._on_max_upload_speed(configs['max_upload_speed'])
-            client.core.get_config_values(['max_download_speed', 'max_upload_speed']).addCallback(update_config_values)
+
+            client.core.get_config_values(
+                ['max_download_speed', 'max_upload_speed']
+            ).addCallback(update_config_values)
 
     def start(self):
         self.__start()
@@ -170,10 +195,9 @@ class SystemTray(component.Component):
                 self.tray.set_visible(False)
 
     def send_status_request(self):
-        client.core.get_session_status([
-            'payload_upload_rate',
-            'payload_download_rate',
-        ]).addCallback(self._on_get_session_status)
+        client.core.get_session_status(
+            ['payload_upload_rate', 'payload_download_rate']
+        ).addCallback(self._on_get_session_status)
 
     def config_value_changed(self, key, value):
         """This is called when we received a config_value_changed signal from
@@ -221,8 +245,13 @@ class SystemTray(component.Component):
             max_upload_speed = '%s %s' % (max_upload_speed, _('K/s'))
 
         msg = '%s\n%s: %s (%s)\n%s: %s (%s)' % (
-            _('Deluge'), _('Down'), self.download_rate,
-            max_download_speed, _('Up'), self.upload_rate, max_upload_speed,
+            _('Deluge'),
+            _('Down'),
+            self.download_rate,
+            max_download_speed,
+            _('Up'),
+            self.upload_rate,
+            max_upload_speed,
         )
 
         # Set the tooltip
@@ -233,24 +262,28 @@ class SystemTray(component.Component):
     def build_tray_bwsetsubmenu(self):
         # Create the Download speed list sub-menu
         submenu_bwdownset = build_menu_radio_list(
-            self.config['tray_download_speed_list'], self.on_tray_setbwdown,
+            self.config['tray_download_speed_list'],
+            self.on_tray_setbwdown,
             self.max_download_speed,
-            _('K/s'), show_notset=True, show_other=True,
+            _('K/s'),
+            show_notset=True,
+            show_other=True,
         )
 
         # Create the Upload speed list sub-menu
         submenu_bwupset = build_menu_radio_list(
-            self.config['tray_upload_speed_list'], self.on_tray_setbwup,
+            self.config['tray_upload_speed_list'],
+            self.on_tray_setbwup,
             self.max_upload_speed,
-            _('K/s'), show_notset=True, show_other=True,
+            _('K/s'),
+            show_notset=True,
+            show_other=True,
         )
         # Add the sub-menus to the tray menu
         self.builder.get_object('menuitem_download_limit').set_submenu(
-            submenu_bwdownset,
+            submenu_bwdownset
         )
-        self.builder.get_object('menuitem_upload_limit').set_submenu(
-            submenu_bwupset,
-        )
+        self.builder.get_object('menuitem_upload_limit').set_submenu(submenu_bwupset)
 
         # Show the sub-menus for all to see
         submenu_bwdownset.show_all()
@@ -324,7 +357,9 @@ class SystemTray(component.Component):
         if windows_check() or osx_check():
             popup_function = None
             button = 0
-        self.tray_menu.popup(None, None, popup_function, button, activate_time, status_icon)
+        self.tray_menu.popup(
+            None, None, popup_function, button, activate_time, status_icon
+        )
 
     def on_menuitem_show_deluge_activate(self, menuitem):
         log.debug('on_menuitem_show_deluge_activate')
@@ -359,8 +394,12 @@ class SystemTray(component.Component):
             if not widget.get_active():
                 return
         self.setbwlimit(
-            widget, _('Download Speed Limit'), _('Set the maximum download speed'),
-            'max_download_speed', 'tray_download_speed_list', self.max_download_speed,
+            widget,
+            _('Download Speed Limit'),
+            _('Set the maximum download speed'),
+            'max_download_speed',
+            'tray_download_speed_list',
+            self.max_download_speed,
             'downloading.svg',
         )
 
@@ -370,8 +409,12 @@ class SystemTray(component.Component):
             if not widget.get_active():
                 return
         self.setbwlimit(
-            widget, _('Upload Speed Limit'), _('Set the maximum upload speed'),
-            'max_upload_speed', 'tray_upload_speed_list', self.max_upload_speed,
+            widget,
+            _('Upload Speed Limit'),
+            _('Set the maximum upload speed'),
+            'max_upload_speed',
+            'tray_upload_speed_list',
+            self.max_upload_speed,
             'seeding.svg',
         )
 
@@ -387,6 +430,7 @@ class SystemTray(component.Component):
 
     def setbwlimit(self, widget, header, text, core_key, ui_key, default, image):
         """Sets the bandwidth limit based on the user selection."""
+
         def set_value(value):
             log.debug('setbwlimit: %s', value)
             if value is None:

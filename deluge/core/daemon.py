@@ -66,7 +66,12 @@ class Daemon(object):
     """The Deluge Daemon class"""
 
     def __init__(
-        self, listen_interface=None, outgoing_interface=None, interface=None, port=None, standalone=False,
+        self,
+        listen_interface=None,
+        outgoing_interface=None,
+        interface=None,
+        port=None,
+        standalone=False,
         read_only_config_keys=None,
     ):
         """
@@ -84,19 +89,23 @@ class Daemon(object):
         self.pid_file = get_config_dir('deluged.pid')
         log.info('Deluge daemon %s', get_version())
         if is_daemon_running(self.pid_file):
-            raise DaemonRunningError('Deluge daemon already running with this config directory!')
+            raise DaemonRunningError(
+                'Deluge daemon already running with this config directory!'
+            )
 
         # Twisted catches signals to terminate, so just have it call the shutdown method.
         reactor.addSystemEventTrigger('before', 'shutdown', self._shutdown)
 
         # Catch some Windows specific signals
         if windows_check():
+
             def win_handler(ctrl_type):
                 """Handle the Windows shutdown or close events."""
                 log.debug('windows handler ctrl_type: %s', ctrl_type)
                 if ctrl_type == CTRL_CLOSE_EVENT or ctrl_type == CTRL_SHUTDOWN_EVENT:
                     self._shutdown()
                     return 1
+
             SetConsoleCtrlHandler(win_handler)
 
         # Start the core as a thread and join it until it's done
@@ -123,7 +132,10 @@ class Daemon(object):
 
         log.debug(
             'Listening to UI on: %s:%s and bittorrent on: %s Making connections out on: %s',
-            interface, port, listen_interface, outgoing_interface,
+            interface,
+            port,
+            listen_interface,
+            outgoing_interface,
         )
 
     def start(self):
@@ -179,4 +191,6 @@ class Daemon(object):
         if rpc not in self.get_method_list():
             return False
 
-        return self.rpcserver.get_session_auth_level() >= self.rpcserver.get_rpc_auth_level(rpc)
+        return self.rpcserver.get_session_auth_level() >= self.rpcserver.get_rpc_auth_level(
+            rpc
+        )

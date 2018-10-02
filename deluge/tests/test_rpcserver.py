@@ -31,7 +31,6 @@ class DelugeRPCProtocolTester(DelugeRPCProtocol):
 
 
 class RPCServerTestCase(BaseTestCase):
-
     def set_up(self):
         self.rpcserver = RPCServer(listen=False)
         self.rpcserver.factory.protocol = DelugeRPCProtocolTester
@@ -50,11 +49,13 @@ class RPCServerTestCase(BaseTestCase):
     def tear_down(self):
         def on_shutdown(result):
             del self.rpcserver
+
         return component.shutdown().addCallback(on_shutdown)
 
     def test_emit_event_for_session_id(self):
         torrent_id = '12'
         from deluge.event import TorrentFolderRenamedEvent
+
         data = [torrent_id, 'new name', 'old name']
         e = TorrentFolderRenamedEvent(*data)
         self.rpcserver.emit_event_for_session_id(self.session_id, e)
@@ -72,7 +73,9 @@ class RPCServerTestCase(BaseTestCase):
     def test_valid_client_login(self):
         self.authmanager = AuthManager()
         auth = get_localhost_auth()
-        self.protocol.dispatch(self.request_id, 'daemon.login', auth, {'client_version': 'Test'})
+        self.protocol.dispatch(
+            self.request_id, 'daemon.login', auth, {'client_version': 'Test'}
+        )
         msg = self.protocol.messages.pop()
         self.assertEqual(msg[0], rpcserver.RPC_RESPONSE, str(msg))
         self.assertEqual(msg[1], self.request_id, str(msg))
@@ -80,10 +83,12 @@ class RPCServerTestCase(BaseTestCase):
 
     def test_client_login_error(self):
         # This test causes error log prints while running the test...
-        self.protocol.transport = None   # This should cause AttributeError
+        self.protocol.transport = None  # This should cause AttributeError
         self.authmanager = AuthManager()
         auth = get_localhost_auth()
-        self.protocol.dispatch(self.request_id, 'daemon.login', auth, {'client_version': 'Test'})
+        self.protocol.dispatch(
+            self.request_id, 'daemon.login', auth, {'client_version': 'Test'}
+        )
         msg = self.protocol.messages.pop()
         self.assertEqual(msg[0], rpcserver.RPC_ERROR)
         self.assertEqual(msg[1], self.request_id)

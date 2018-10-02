@@ -35,22 +35,24 @@ common.disable_new_release_check()
 
 
 class CookieResource(Resource):
-
     def render(self, request):
         if request.getCookie(b'password') != b'deluge':
             request.setResponseCode(FORBIDDEN)
             return
 
         request.setHeader(b'Content-Type', b'application/x-bittorrent')
-        with open(common.get_test_data_file('ubuntu-9.04-desktop-i386.iso.torrent'), 'rb') as _file:
+        with open(
+            common.get_test_data_file('ubuntu-9.04-desktop-i386.iso.torrent'), 'rb'
+        ) as _file:
             data = _file.read()
         return data
 
 
 class PartialDownload(Resource):
-
     def render(self, request):
-        with open(common.get_test_data_file('ubuntu-9.04-desktop-i386.iso.torrent'), 'rb') as _file:
+        with open(
+            common.get_test_data_file('ubuntu-9.04-desktop-i386.iso.torrent'), 'rb'
+        ) as _file:
             data = _file.read()
         request.setHeader(b'Content-Type', len(data))
         request.setHeader(b'Content-Type', b'application/x-bittorrent')
@@ -60,7 +62,6 @@ class PartialDownload(Resource):
 
 
 class RedirectResource(Resource):
-
     def render(self, request):
         request.redirect(b'/ubuntu-9.04-desktop-i386.iso.torrent')
         return b''
@@ -82,7 +83,6 @@ class TopLevelResource(Resource):
 
 
 class CoreTestCase(BaseTestCase):
-
     def set_up(self):
         common.set_tmp_config_dir()
         self.rpcserver = RPCServer(listen=False)
@@ -109,7 +109,6 @@ class CoreTestCase(BaseTestCase):
         return result
 
     def tear_down(self):
-
         def on_shutdown(result):
             del self.rpcserver
             del self.core
@@ -120,11 +119,7 @@ class CoreTestCase(BaseTestCase):
     def add_torrent(self, filename, paused=False):
         if not paused:
             # Patch libtorrent flags starting torrents paused
-            self.patch(
-                deluge.core.torrentmanager,
-                'LT_DEFAULT_ADD_TORRENT_FLAGS',
-                592,
-            )
+            self.patch(deluge.core.torrentmanager, 'LT_DEFAULT_ADD_TORRENT_FLAGS', 592)
         options = {'add_paused': paused, 'auto_managed': False}
         filepath = common.get_test_data_file(filename)
         with open(filepath, 'rb') as _file:
@@ -169,6 +164,7 @@ class CoreTestCase(BaseTestCase):
 
         # Get the info hash from the test.torrent
         from deluge.bencode import bdecode, bencode
+
         with open(filename, 'rb') as _file:
             info_hash = sha(bencode(bdecode(_file.read())[b'info'])).hexdigest()
         self.assertEqual(torrent_id, info_hash)
@@ -176,11 +172,16 @@ class CoreTestCase(BaseTestCase):
     def test_add_torrent_file_invalid_filedump(self):
         options = {}
         filename = common.get_test_data_file('test.torrent')
-        self.assertRaises(AddTorrentError, self.core.add_torrent_file, filename, False, options)
+        self.assertRaises(
+            AddTorrentError, self.core.add_torrent_file, filename, False, options
+        )
 
     @defer.inlineCallbacks
     def test_add_torrent_url(self):
-        url = 'http://localhost:%d/ubuntu-9.04-desktop-i386.iso.torrent' % self.listen_port
+        url = (
+            'http://localhost:%d/ubuntu-9.04-desktop-i386.iso.torrent'
+            % self.listen_port
+        )
         options = {}
         info_hash = '60d5d82328b4547511fdeac9bf4d0112daa0ce00'
 
@@ -340,7 +341,12 @@ class CoreTestCase(BaseTestCase):
         self.assertEqual(len(self.core.get_session_state()), 0)
 
     def test_remove_torrent_invalid(self):
-        self.assertRaises(InvalidTorrentError, self.core.remove_torrent, 'torrentidthatdoesntexist', True)
+        self.assertRaises(
+            InvalidTorrentError,
+            self.core.remove_torrent,
+            'torrentidthatdoesntexist',
+            True,
+        )
 
     @defer.inlineCallbacks
     def test_remove_torrents(self):
@@ -353,15 +359,19 @@ class CoreTestCase(BaseTestCase):
         filename2 = common.get_test_data_file('unicode_filenames.torrent')
         with open(filename2, 'rb') as _file:
             filedump = b64encode(_file.read())
-        torrent_id2 = yield self.core.add_torrent_file_async(filename2, filedump, options)
+        torrent_id2 = yield self.core.add_torrent_file_async(
+            filename2, filedump, options
+        )
         d = self.core.remove_torrents([torrent_id, torrent_id2], True)
 
         def test_ret(val):
             self.assertTrue(val == [])
+
         d.addCallback(test_ret)
 
         def test_session_state(val):
             self.assertEqual(len(self.core.get_session_state()), 0)
+
         d.addCallback(test_session_state)
         yield d
 
@@ -371,15 +381,24 @@ class CoreTestCase(BaseTestCase):
         filename = common.get_test_data_file('test.torrent')
         with open(filename, 'rb') as _file:
             filedump = b64encode(_file.read())
-            torrent_id = yield self.core.add_torrent_file_async(filename, filedump, options)
-        val = yield self.core.remove_torrents(['invalidid1', 'invalidid2', torrent_id], False)
+            torrent_id = yield self.core.add_torrent_file_async(
+                filename, filedump, options
+            )
+        val = yield self.core.remove_torrents(
+            ['invalidid1', 'invalidid2', torrent_id], False
+        )
         self.assertEqual(len(val), 2)
-        self.assertEqual(val[0], ('invalidid1', 'torrent_id invalidid1 not in session.'))
-        self.assertEqual(val[1], ('invalidid2', 'torrent_id invalidid2 not in session.'))
+        self.assertEqual(
+            val[0], ('invalidid1', 'torrent_id invalidid1 not in session.')
+        )
+        self.assertEqual(
+            val[1], ('invalidid2', 'torrent_id invalidid2 not in session.')
+        )
 
     def test_get_session_status(self):
         status = self.core.get_session_status(
-            ['net.recv_tracker_bytes', 'net.sent_tracker_bytes'])
+            ['net.recv_tracker_bytes', 'net.sent_tracker_bytes']
+        )
         self.assertIsInstance(status, dict)
         self.assertEqual(status['net.recv_tracker_bytes'], 0)
         self.assertEqual(status['net.sent_tracker_bytes'], 0)
@@ -402,8 +421,7 @@ class CoreTestCase(BaseTestCase):
         self.assertEqual(status['upload_rate'], 0)
 
     def test_get_session_status_ratio(self):
-        status = self.core.get_session_status([
-            'write_hit_ratio', 'read_hit_ratio'])
+        status = self.core.get_session_status(['write_hit_ratio', 'read_hit_ratio'])
         self.assertIsInstance(status, dict)
         self.assertEqual(status['write_hit_ratio'], 0.0)
         self.assertEqual(status['read_hit_ratio'], 0.0)
@@ -438,14 +456,23 @@ class CoreTestCase(BaseTestCase):
         }
 
         for key in pathlist:
-            self.assertEqual(deluge.core.torrent.sanitize_filepath(key, folder=False), pathlist[key])
-            self.assertEqual(deluge.core.torrent.sanitize_filepath(key, folder=True), pathlist[key] + '/')
+            self.assertEqual(
+                deluge.core.torrent.sanitize_filepath(key, folder=False), pathlist[key]
+            )
+            self.assertEqual(
+                deluge.core.torrent.sanitize_filepath(key, folder=True),
+                pathlist[key] + '/',
+            )
 
     def test_get_set_config_values(self):
-        self.assertEqual(self.core.get_config_values(['abc', 'foo']), {'foo': None, 'abc': None})
+        self.assertEqual(
+            self.core.get_config_values(['abc', 'foo']), {'foo': None, 'abc': None}
+        )
         self.assertEqual(self.core.get_config_value('foobar'), None)
         self.core.set_config({'abc': 'def', 'foo': 10, 'foobar': 'barfoo'})
-        self.assertEqual(self.core.get_config_values(['foo', 'abc']), {'foo': 10, 'abc': 'def'})
+        self.assertEqual(
+            self.core.get_config_values(['foo', 'abc']), {'foo': 10, 'abc': 'def'}
+        )
         self.assertEqual(self.core.get_config_value('foobar'), 'barfoo')
 
     def test_read_only_config_keys(self):

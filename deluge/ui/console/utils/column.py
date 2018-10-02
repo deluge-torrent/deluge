@@ -30,33 +30,26 @@ formatters = {
     'tracker': None,
     'download_location': None,
     'owner': None,
-
     'progress_state': format_utils.format_progress,
     'progress': format_utils.format_progress,
-
     'size': format_utils.format_size,
     'downloaded': format_utils.format_size,
     'uploaded': format_utils.format_size,
     'remaining': format_utils.format_size,
-
     'ratio': format_utils.format_float,
     'avail': format_utils.format_float,
     'seeds_peers_ratio': format_utils.format_float,
-
     'download_speed': format_utils.format_speed,
     'upload_speed': format_utils.format_speed,
     'max_download_speed': format_utils.format_speed,
     'max_upload_speed': format_utils.format_speed,
-
     'peers': format_utils.format_seeds_peers,
     'seeds': format_utils.format_seeds_peers,
-
     'time_added': deluge.common.fdate,
     'seeding_time': format_utils.format_time,
     'active_time': format_utils.format_time,
     'time_since_transfer': format_utils.format_date_dash,
     'finished_time': deluge.common.ftime,
-
     'last_seen_complete': format_utils.format_date_never,
     'completed_time': format_utils.format_date_dash,
     'eta': format_utils.format_time,

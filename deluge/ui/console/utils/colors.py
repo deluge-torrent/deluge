@@ -33,9 +33,7 @@ colors = [
 ]
 
 # {(fg, bg): pair_number, ...}
-color_pairs = {
-    ('white', 'black'): 0,  # Special case, can't be changed
-}
+color_pairs = {('white', 'black'): 0}  # Special case, can't be changed
 
 # Some default color schemes
 schemes = {
@@ -101,7 +99,13 @@ def init_colors():
     counter = 1
     for fg in colors:
         for bg in colors:
-            counter = define_pair(counter, fg[6:].lower(), bg[6:].lower(), getattr(curses, fg), getattr(curses, bg))
+            counter = define_pair(
+                counter,
+                fg[6:].lower(),
+                bg[6:].lower(),
+                getattr(curses, fg),
+                getattr(curses, bg),
+            )
 
     counter = define_pair(counter, 'white', 'grey', curses.COLOR_WHITE, 241)
     counter = define_pair(counter, 'black', 'whitegrey', curses.COLOR_BLACK, 249)
@@ -124,7 +128,7 @@ def replace_tabs(line):
 
     """
     for i in range(line.count(tab_char)):
-        tab_length = 8 - (len(line[:line.find(tab_char)]) % 8)
+        tab_length = 8 - (len(line[: line.find(tab_char)]) % 8)
         line = line.replace(tab_char, b' ' * tab_length, 1)
     return line
 
@@ -187,14 +191,21 @@ def parse_color_string(s, encoding='UTF-8'):
     while s.find(color_tag_start) != -1:
         begin = s.find(color_tag_start)
         if begin > 0:
-            ret.append((curses.color_pair(color_pairs[(schemes['input'][0], schemes['input'][1])]), s[:begin]))
+            ret.append(
+                (
+                    curses.color_pair(
+                        color_pairs[(schemes['input'][0], schemes['input'][1])]
+                    ),
+                    s[:begin],
+                )
+            )
 
         end = s.find(color_tag_end)
         if end == -1:
             raise BadColorString('Missing closing "!}"')
 
         # Get a list of attributes in the bracketed section
-        attrs = s[begin + 2:end].split(',')
+        attrs = s[begin + 2 : end].split(',')
 
         if len(attrs) == 1 and not attrs[0].strip(' '):
             raise BadColorString('No description in {! !}')
@@ -230,7 +241,10 @@ def parse_color_string(s, encoding='UTF-8'):
             if attrs[0][0] in ['+', '-']:
                 # Color is not given, so use last color
                 if last_color_attr is None:
-                    raise BadColorString('No color value given when no previous color was used!: %s' % (attrs[0]))
+                    raise BadColorString(
+                        'No color value given when no previous color was used!: %s'
+                        % (attrs[0])
+                    )
                 color_pair = last_color_attr
                 for i, attr in enumerate(attrs):
                     if attr[1:] not in attrlist:
@@ -268,10 +282,10 @@ def parse_color_string(s, encoding='UTF-8'):
         next_begin = s.find(color_tag_start, end)
 
         if next_begin == -1:
-            ret.append((color_pair, replace_tabs(s[end + 2:])))
+            ret.append((color_pair, replace_tabs(s[end + 2 :])))
             break
         else:
-            ret.append((color_pair, replace_tabs(s[end + 2:next_begin])))
+            ret.append((color_pair, replace_tabs(s[end + 2 : next_begin])))
             s = s[next_begin:]
 
     if not ret:
@@ -289,7 +303,6 @@ class ConsoleColorFormatter(object):
         '<torrent-id>': '{!green!}%s{!input!}',
         '<torrent>': '{!green!}%s{!input!}',
         '<command>': '{!green!}%s{!input!}',
-
         '<state>': '{!yellow!}%s{!input!}',
         '\\.\\.\\.': '{!yellow!}%s{!input!}',
         '\\s\\*\\s': '{!blue!}%s{!input!}',
@@ -297,7 +310,6 @@ class ConsoleColorFormatter(object):
         # "(\-[a-zA-Z0-9])": "{!red!}%s{!input!}",
         '--[_\\-a-zA-Z0-9]+': '{!green!}%s{!input!}',
         '(\\[|\\])': '{!info!}%s{!input!}',
-
         '<tab>': '{!white!}%s{!input!}',
         '[_A-Z]{3,}': '{!cyan!}%s{!input!}',
         '<key>': '{!cyan!}%s{!input!}',
@@ -305,12 +317,12 @@ class ConsoleColorFormatter(object):
         'usage:': '{!info!}%s{!input!}',
         '<download-folder>': '{!yellow!}%s{!input!}',
         '<torrent-file>': '{!green!}%s{!input!}',
-
     }
 
     def format_colors(self, string):
         def r(repl):
             return lambda s: repl % s.group()
+
         for key, replacement in self.replace_dict.items():
             string = re.sub(key, r(replacement), string)
         return string

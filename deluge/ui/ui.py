@@ -22,6 +22,7 @@ log = logging.getLogger(__name__)
 try:
     from setproctitle import setproctitle
 except ImportError:
+
     def setproctitle(title):
         return
 
@@ -31,6 +32,7 @@ class UI(object):
     Base class for UI implementations.
 
     """
+
     cmd_description = """Override with command description"""
 
     def __init__(self, name, **kwargs):

@@ -82,20 +82,34 @@ class Win32IcoFile(object):
 
         self.nb_items = header[2]
 
-        dir_fields = ('width', 'height', 'nb_color', 'reserved', 'planes', 'bpp', 'size', 'offset')
+        dir_fields = (
+            'width',
+            'height',
+            'nb_color',
+            'reserved',
+            'planes',
+            'bpp',
+            'size',
+            'offset',
+        )
         for i in range(self.nb_items):
             directory = list(struct.unpack('<4B2H2I', buf.read(16)))
             for j in range(3):
                 if not directory[j]:
                     directory[j] = 256
             icon_header = dict(zip(dir_fields, directory))
-            icon_header['color_depth'] = (icon_header['bpp'] or (icon_header['nb_color'] == 16 and 4))
+            icon_header['color_depth'] = icon_header['bpp'] or (
+                icon_header['nb_color'] == 16 and 4
+            )
             icon_header['dim'] = (icon_header['width'], icon_header['height'])
             self.entry.append(icon_header)
         # end for (read headers)
 
         # order by size and color depth
-        self.entry.sort(lambda x, y: cmp(x['width'], y['width']) or cmp(x['color_depth'], y['color_depth']))
+        self.entry.sort(
+            lambda x, y: cmp(x['width'], y['width'])
+            or cmp(x['color_depth'], y['color_depth'])
+        )
         self.entry.reverse()
 
     def sizes(self):
@@ -167,11 +181,11 @@ class Win32IcoFile(object):
 
                 # convert to an 8bpp grayscale image
                 mask = PIL.Image.frombuffer(
-                    'L',            # 8bpp
-                    im.size,        # (w, h)
-                    alpha_bytes,    # source chars
-                    'raw',          # raw decoder
-                    ('L', 0, -1),    # 8bpp inverted, unpadded, reversed
+                    'L',  # 8bpp
+                    im.size,  # (w, h)
+                    alpha_bytes,  # source chars
+                    'raw',  # raw decoder
+                    ('L', 0, -1),  # 8bpp inverted, unpadded, reversed
                 )
 
                 # apply mask image as alpha channel
@@ -187,17 +201,23 @@ class Win32IcoFile(object):
                     w += 32 - (im.size[0] % 32)
                 # the total mask data is padded row size * height / bits per char
                 total_bytes = (w * im.size[1]) // 8
-                log.debug('tot=%d, off=%d, w=%d, size=%d', len(data), and_mask_offset, w, total_bytes)
+                log.debug(
+                    'tot=%d, off=%d, w=%d, size=%d',
+                    len(data),
+                    and_mask_offset,
+                    w,
+                    total_bytes,
+                )
 
                 self.buf.seek(and_mask_offset)
                 mask_data = self.buf.read(total_bytes)
 
                 # convert raw data to image
                 mask = PIL.Image.frombuffer(
-                    '1',            # 1 bpp
-                    im.size,        # (w, h)
-                    mask_data,       # source chars
-                    'raw',          # raw decoder
+                    '1',  # 1 bpp
+                    im.size,  # (w, h)
+                    mask_data,  # source chars
+                    'raw',  # raw decoder
                     ('1;I', w // 8, -1),  # 1bpp inverted, padded, reversed
                 )
 
@@ -210,14 +230,19 @@ class Win32IcoFile(object):
         # end if (png)/else(bmp)
 
         return im
+
     # end frame
 
     def __repr__(self):
         s = 'Microsoft Icon: %d images (max %dx%d %dbpp)' % (
-            len(self.entry), self.entry[0]['width'], self.entry[0]['height'],
+            len(self.entry),
+            self.entry[0]['width'],
+            self.entry[0]['height'],
             self.entry[0]['bpp'],
         )
         return s
+
+
 # end Win32IcoFile
 
 
@@ -250,6 +275,8 @@ class Win32IconImageFile(PIL.ImageFile.ImageFile):  # pylint: disable=abstract-m
         self.im = im.im
         self.mode = im.mode
         self.size = im.size
+
+
 # end class Win32IconImageFile
 
 
@@ -258,6 +285,8 @@ def _accept(prefix):
     Quick file test helper for Image.open()
     """
     return prefix[:4] == _MAGIC
+
+
 # end _accept
 
 

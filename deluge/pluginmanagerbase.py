@@ -56,7 +56,9 @@ class PluginManagerBase(object):
         self.config = deluge.configmanager.ConfigManager(config_file)
 
         # Create the plugins folder if it doesn't exist
-        if not os.path.exists(os.path.join(deluge.configmanager.get_config_dir(), 'plugins')):
+        if not os.path.exists(
+            os.path.join(deluge.configmanager.get_config_dir(), 'plugins')
+        ):
             os.mkdir(os.path.join(deluge.configmanager.get_config_dir(), 'plugins'))
 
         # This is the entry we want to load..
@@ -149,7 +151,9 @@ class PluginManagerBase(object):
                 log.error(ex)
                 return defer.succeed(False)
             except Exception as ex:
-                log.error('Unable to instantiate plugin %r from %r!', name, egg.location)
+                log.error(
+                    'Unable to instantiate plugin %r from %r!', name, egg.location
+                )
                 log.exception(ex)
                 continue
             try:
@@ -161,35 +165,47 @@ class PluginManagerBase(object):
 
             if not instance.__module__.startswith('deluge.plugins.'):
                 import warnings
+
                 warnings.warn_explicit(
                     DEPRECATION_WARNING % name,
                     DeprecationWarning,
-                    instance.__module__, 0,
+                    instance.__module__,
+                    0,
                 )
             if self._component_state == 'Started':
+
                 def on_enabled(result, instance):
                     return component.start([instance.plugin._component_name])
+
                 return_d.addCallback(on_enabled, instance)
 
             def on_started(result, instance):
                 plugin_name_space = plugin_name.replace('-', ' ')
                 self.plugins[plugin_name_space] = instance
                 if plugin_name_space not in self.config['enabled_plugins']:
-                    log.debug('Adding %s to enabled_plugins list in config', plugin_name_space)
+                    log.debug(
+                        'Adding %s to enabled_plugins list in config', plugin_name_space
+                    )
                     self.config['enabled_plugins'].append(plugin_name_space)
                 log.info('Plugin %s enabled...', plugin_name_space)
                 return True
 
             def on_started_error(result, instance):
                 log.error(
-                    'Failed to start plugin: %s\n%s', plugin_name,
+                    'Failed to start plugin: %s\n%s',
+                    plugin_name,
                     result.getTraceback(elideFrameworkCode=1, detail='brief'),
                 )
                 self.plugins[plugin_name.replace('-', ' ')] = instance
                 self.disable_plugin(plugin_name)
                 return False
 
-            return_d.addCallbacks(on_started, on_started_error, callbackArgs=[instance], errbackArgs=[instance])
+            return_d.addCallbacks(
+                on_started,
+                on_started_error,
+                callbackArgs=[instance],
+                errbackArgs=[instance],
+            )
             return return_d
 
         return defer.succeed(False)
@@ -219,7 +235,9 @@ class PluginManagerBase(object):
         def on_disabled(result):
             ret = True
             if isinstance(result, Failure):
-                log.debug('Error when disabling plugin %s: %s', name, result.getTraceback())
+                log.debug(
+                    'Error when disabling plugin %s: %s', name, result.getTraceback()
+                )
                 ret = False
             try:
                 component.deregister(self.plugins[name].plugin)
@@ -250,7 +268,9 @@ class PluginManagerBase(object):
         for line in self.pkg_env[name][0].get_metadata('PKG-INFO').splitlines():
             if not line:
                 continue
-            if line[0] in ' \t' and (len(line.split(':', 1)) == 1 or line.split(':', 1)[0] not in info):
+            if line[0] in ' \t' and (
+                len(line.split(':', 1)) == 1 or line.split(':', 1)[0] not in info
+            ):
                 # This is a continuation
                 cont_lines.append(line.strip())
             else:

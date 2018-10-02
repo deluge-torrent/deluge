@@ -17,8 +17,22 @@ import sys
 
 import six.moves.cPickle as pickle
 from gobject import GError
-from gtk import SORT_ASCENDING, Menu, MenuItem, RadioMenuItem, SeparatorMenuItem, clipboard_get, icon_theme_get_default
-from gtk.gdk import COLORSPACE_RGB, SELECTION_PRIMARY, Pixbuf, pixbuf_new_from_file, pixbuf_new_from_file_at_size
+from gtk import (
+    SORT_ASCENDING,
+    Menu,
+    MenuItem,
+    RadioMenuItem,
+    SeparatorMenuItem,
+    clipboard_get,
+    icon_theme_get_default,
+)
+from gtk.gdk import (
+    COLORSPACE_RGB,
+    SELECTION_PRIMARY,
+    Pixbuf,
+    pixbuf_new_from_file,
+    pixbuf_new_from_file_at_size,
+)
 
 from deluge.common import get_pixmap, osx_check, windows_check
 
@@ -73,8 +87,14 @@ def get_logo(size):
 
 
 def build_menu_radio_list(
-    value_list, callback, pref_value=None, suffix=None, show_notset=False,
-    notset_label='∞', notset_lessthan=0, show_other=False,
+    value_list,
+    callback,
+    pref_value=None,
+    suffix=None,
+    show_notset=False,
+    notset_label='∞',
+    notset_lessthan=0,
+    show_other=False,
 ):
     """Build a menu with radio menu items from a list and connect them to the callback.
 
@@ -145,7 +165,9 @@ def reparent_iter(treestore, itr, parent, move_siblings=False):
 
     def move_children(i, dest):
         while i:
-            n_cols = treestore.append(dest, treestore.get(i, *range(treestore.get_n_columns())))
+            n_cols = treestore.append(
+                dest, treestore.get(i, *range(treestore.get_n_columns()))
+            )
             to_remove = i
             if treestore.iter_children(i):
                 move_children(treestore.iter_children(i), n_cols)
@@ -208,13 +230,22 @@ def associate_magnet_links(overwrite=False):
                 magnet_key = winreg.CreateKey(winreg.HKEY_CLASSES_ROOT, 'Magnet')
             except WindowsError:
                 # Could not create for all users, falling back to current user
-                magnet_key = winreg.CreateKey(winreg.HKEY_CURRENT_USER, 'Software\\Classes\\Magnet')
+                magnet_key = winreg.CreateKey(
+                    winreg.HKEY_CURRENT_USER, 'Software\\Classes\\Magnet'
+                )
 
             winreg.SetValue(magnet_key, '', winreg.REG_SZ, 'URL:Magnet Protocol')
             winreg.SetValueEx(magnet_key, 'URL Protocol', 0, winreg.REG_SZ, '')
             winreg.SetValueEx(magnet_key, 'BrowserFlags', 0, winreg.REG_DWORD, 0x8)
-            winreg.SetValue(magnet_key, 'DefaultIcon', winreg.REG_SZ, '{},0'.format(deluge_exe))
-            winreg.SetValue(magnet_key, r'shell\open\command', winreg.REG_SZ, '"{}" "%1"'.format(deluge_exe))
+            winreg.SetValue(
+                magnet_key, 'DefaultIcon', winreg.REG_SZ, '{},0'.format(deluge_exe)
+            )
+            winreg.SetValue(
+                magnet_key,
+                r'shell\open\command',
+                winreg.REG_SZ,
+                '"{}" "%1"'.format(deluge_exe),
+            )
             winreg.CloseKey(magnet_key)
 
     # Don't try associate magnet on OSX see: #2420
@@ -223,7 +254,9 @@ def associate_magnet_links(overwrite=False):
         try:
             import gconf
         except ImportError:
-            log.debug('gconf not available, so will not attempt to register magnet uri handler')
+            log.debug(
+                'gconf not available, so will not attempt to register magnet uri handler'
+            )
             return False
         else:
             key = '/desktop/gnome/url-handlers/magnet/command'
@@ -231,12 +264,18 @@ def associate_magnet_links(overwrite=False):
             if (gconf_client.get(key) and overwrite) or not gconf_client.get(key):
                 # We are either going to overwrite the key, or do it if it hasn't been set yet
                 if gconf_client.set_string(key, 'deluge "%s"'):
-                    gconf_client.set_bool('/desktop/gnome/url-handlers/magnet/needs_terminal', False)
-                    gconf_client.set_bool('/desktop/gnome/url-handlers/magnet/enabled', True)
+                    gconf_client.set_bool(
+                        '/desktop/gnome/url-handlers/magnet/needs_terminal', False
+                    )
+                    gconf_client.set_bool(
+                        '/desktop/gnome/url-handlers/magnet/enabled', True
+                    )
                     log.info('Deluge registered as default magnet uri handler!')
                     return True
                 else:
-                    log.error('Unable to register Deluge as default magnet uri handler.')
+                    log.error(
+                        'Unable to register Deluge as default magnet uri handler.'
+                    )
                     return False
     return False
 
@@ -249,6 +288,7 @@ def save_pickled_state_file(filename, state):
         state (state): The data to be pickled and written to file
     """
     from deluge.configmanager import get_config_dir
+
     filepath = os.path.join(get_config_dir(), 'gtkui_state', filename)
     filepath_bak = filepath + '.bak'
     filepath_tmp = filepath + '.tmp'
@@ -285,6 +325,7 @@ def load_pickled_state_file(filename):
         state: the unpickled state
     """
     from deluge.configmanager import get_config_dir
+
     filepath = os.path.join(get_config_dir(), 'gtkui_state', filename)
     filepath_bak = filepath + '.bak'
     old_data_filepath = os.path.join(get_config_dir(), filename)
@@ -328,6 +369,9 @@ def listview_replace_treestore(listview):
 
 
 def get_clipboard_text():
-    text = clipboard_get(selection=SELECTION_PRIMARY).wait_for_text() or clipboard_get().wait_for_text()
+    text = (
+        clipboard_get(selection=SELECTION_PRIMARY).wait_for_text()
+        or clipboard_get().wait_for_text()
+    )
     if text:
         return text.strip()

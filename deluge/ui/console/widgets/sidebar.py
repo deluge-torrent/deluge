@@ -29,7 +29,9 @@ class Sidebar(BaseInputPane, BaseWindow):
 
     """
 
-    def __init__(self, torrentlist, width, height, title=None, allow_resize=False, **kwargs):
+    def __init__(
+        self, torrentlist, width, height, title=None, allow_resize=False, **kwargs
+    ):
         BaseWindow.__init__(self, title, width, height, posy=1)
         BaseInputPane.__init__(self, self, immediate_action=True, **kwargs)
         self.parent = torrentlist
@@ -49,7 +51,7 @@ class Sidebar(BaseInputPane, BaseWindow):
         elif c == curses.KEY_DOWN:
             self.move_active_down(1)
         elif self.allow_resize and c in [ord('+'), ord('-')]:
-            width = self.visible_content_pane_width + (1 if c == ord('+') else - 1)
+            width = self.visible_content_pane_width + (1 if c == ord('+') else -1)
             self.on_resize(width)
         else:
             return BaseInputPane.handle_read(self, c)
@@ -61,14 +63,18 @@ class Sidebar(BaseInputPane, BaseWindow):
     @overrides(BaseWindow)
     def refresh(self):
         height = self.get_content_height()
-        self.ensure_content_pane_height(height + self.border_off_north + self.border_off_south)
+        self.ensure_content_pane_height(
+            height + self.border_off_north + self.border_off_south
+        )
         BaseInputPane.render_inputs(self, focused=self.has_focus())
         BaseWindow.refresh(self)
 
     def _refresh(self):
         self.screen.erase()
         height = self.get_content_height()
-        self.ensure_content_pane_height(height + self.border_off_north + self.border_off_south)
+        self.ensure_content_pane_height(
+            height + self.border_off_north + self.border_off_south
+        )
         BaseInputPane.render_inputs(self, focused=True)
         BaseWindow.refresh(self)
 

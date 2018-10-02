@@ -24,16 +24,17 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase, component.Compon
         component.Component.__init__(self, 'PluginManager')
         self.config = ConfigManager('gtkui.conf')
         deluge.pluginmanagerbase.PluginManagerBase.__init__(
-            self, 'gtkui.conf', 'deluge.plugin.gtkui',
+            self, 'gtkui.conf', 'deluge.plugin.gtkui'
         )
 
-        self.hooks = {
-            'on_apply_prefs': [],
-            'on_show_prefs': [],
-        }
+        self.hooks = {'on_apply_prefs': [], 'on_show_prefs': []}
 
-        client.register_event_handler('PluginEnabledEvent', self._on_plugin_enabled_event)
-        client.register_event_handler('PluginDisabledEvent', self._on_plugin_disabled_event)
+        client.register_event_handler(
+            'PluginEnabledEvent', self._on_plugin_enabled_event
+        )
+        client.register_event_handler(
+            'PluginDisabledEvent', self._on_plugin_disabled_event
+        )
 
     def register_hook(self, hook, function):
         """Register a hook function with the plugin manager"""

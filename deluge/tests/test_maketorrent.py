@@ -19,10 +19,12 @@ from deluge.common import windows_check
 def check_torrent(filename):
     # Test loading with libtorrent to make sure it's valid
     from deluge._libtorrent import lt
+
     lt.torrent_info(filename)
 
     # Test loading with our internal TorrentInfo class
     from deluge.ui.common import TorrentInfo
+
     TorrentInfo(filename)
 
 

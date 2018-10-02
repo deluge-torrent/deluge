@@ -13,7 +13,13 @@ import logging
 import os.path
 
 from gobject import timeout_add
-from gtk import STOCK_SORT_DESCENDING, Builder, CellRendererText, ListStore, TreeViewColumn
+from gtk import (
+    STOCK_SORT_DESCENDING,
+    Builder,
+    CellRendererText,
+    ListStore,
+    TreeViewColumn,
+)
 
 import deluge.common
 import deluge.component as component
@@ -26,15 +32,19 @@ log = logging.getLogger(__name__)
 
 class QueuedTorrents(component.Component):
     def __init__(self):
-        component.Component.__init__(self, 'QueuedTorrents', depend=['StatusBar', 'AddTorrentDialog'])
+        component.Component.__init__(
+            self, 'QueuedTorrents', depend=['StatusBar', 'AddTorrentDialog']
+        )
         self.queue = []
         self.status_item = None
 
         self.config = ConfigManager('gtkui.conf')
         self.builder = Builder()
-        self.builder.add_from_file(deluge.common.resource_filename(
-            'deluge.ui.gtkui', os.path.join('glade', 'queuedtorrents.ui'),
-        ))
+        self.builder.add_from_file(
+            deluge.common.resource_filename(
+                'deluge.ui.gtkui', os.path.join('glade', 'queuedtorrents.ui')
+            )
+        )
         self.builder.get_object('chk_autoadd').set_active(self.config['autoadd_queued'])
         self.dialog = self.builder.get_object('queued_torrents_dialog')
         self.dialog.set_icon(get_logo(32))
@@ -42,7 +52,9 @@ class QueuedTorrents(component.Component):
         self.builder.connect_signals(self)
 
         self.treeview = self.builder.get_object('treeview')
-        self.treeview.append_column(TreeViewColumn(_('Torrent'), CellRendererText(), text=0))
+        self.treeview.append_column(
+            TreeViewColumn(_('Torrent'), CellRendererText(), text=0)
+        )
 
         self.liststore = ListStore(str, str)
         self.treeview.set_model(self.liststore)

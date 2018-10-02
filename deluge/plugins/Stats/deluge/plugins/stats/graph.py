@@ -136,7 +136,9 @@ class Graph(object):
         seconds_to_step = math.ceil(start / x_step) * x_step - start
 
         for i in range(0, duration // x_step + 1):
-            text = time.strftime('%H:%M', time.localtime(start + seconds_to_step + i * x_step))
+            text = time.strftime(
+                '%H:%M', time.localtime(start + seconds_to_step + i * x_step)
+            )
             # + 0.5 to allign x to nearest pixel
             x = int(ratio * (seconds_to_step + i * x_step) + left) + 0.5
             self.draw_x_text(text, x, bottom)
@@ -171,6 +173,7 @@ class Graph(object):
         def space_required(text):
             te = self.ctx.text_extents(text)
             return math.ceil(te[4] - te[0])
+
         y_tick_width = max((space_required(text) for text in y_tick_text))
 
         top = font_extents[2] / 2
@@ -220,7 +223,9 @@ class Graph(object):
             else:
                 interval = interval * 2
 
-        intervals = [i * interval * scale for i in range(1 + int(math.ceil(x / interval)))]
+        intervals = [
+            i * interval * scale for i in range(1 + int(math.ceil(x / interval)))
+        ]
         return intervals
 
     def draw_left_axis(self, bounds, y_ticks, y_tick_text):
@@ -247,7 +252,9 @@ class Graph(object):
         for stat, info in stats.items():
             if len(info['values']) > 0:
                 self.draw_value_poly(info['values'], info['color'], max_value, bounds)
-                self.draw_value_poly(info['values'], info['fill_color'], max_value, bounds, info['fill'])
+                self.draw_value_poly(
+                    info['values'], info['fill_color'], max_value, bounds, info['fill']
+                )
 
     def draw_legend(self):
         pass
@@ -271,10 +278,7 @@ class Graph(object):
             self.ctx.line_to(x, int(bottom - value * ratio))
             x -= step
 
-        self.ctx.line_to(
-            int(right - (len(values) - 1) * step),
-            bottom,
-        )
+        self.ctx.line_to(int(right - (len(values) - 1) * step), bottom)
         self.ctx.close_path()
 
     def draw_value_poly(self, values, color, max_value, bounds, fill=False):
@@ -305,7 +309,9 @@ class Graph(object):
         ascent = fe[0]
         x_bearing = te[0]
         width = te[4]
-        self.ctx.move_to(int(x - width - x_bearing - 2), int(y + (ascent - descent) / 2))
+        self.ctx.move_to(
+            int(x - width - x_bearing - 2), int(y + (ascent - descent) / 2)
+        )
         self.ctx.set_source_rgba(*self.black)
         self.ctx.show_text(text)
 

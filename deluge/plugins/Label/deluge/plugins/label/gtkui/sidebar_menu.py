@@ -80,7 +80,7 @@ class LabelSidebarMenu(object):
             for item in self.items:
                 item.show()
             # default items
-            sensitive = ((label not in (NO_LABEL, None, '', 'All')) and (cat != 'cat'))
+            sensitive = (label not in (NO_LABEL, None, '', 'All')) and (cat != 'cat')
             for item in self.items:
                 item.set_sensitive(sensitive)
 
@@ -127,13 +127,28 @@ class OptionsDialog(object):
     spin_ids = ['max_download_speed', 'max_upload_speed', 'stop_ratio']
     spin_int_ids = ['max_upload_slots', 'max_connections']
     chk_ids = [
-        'apply_max', 'apply_queue', 'stop_at_ratio', 'apply_queue', 'remove_at_ratio',
-        'apply_move_completed', 'move_completed', 'is_auto_managed', 'auto_add',
+        'apply_max',
+        'apply_queue',
+        'stop_at_ratio',
+        'apply_queue',
+        'remove_at_ratio',
+        'apply_move_completed',
+        'move_completed',
+        'is_auto_managed',
+        'auto_add',
     ]
 
     # list of tuples, because order matters when nesting.
     sensitive_groups = [
-        ('apply_max', ['max_download_speed', 'max_upload_speed', 'max_upload_slots', 'max_connections']),
+        (
+            'apply_max',
+            [
+                'max_download_speed',
+                'max_upload_speed',
+                'max_upload_slots',
+                'max_connections',
+            ],
+        ),
         ('apply_queue', ['is_auto_managed', 'stop_at_ratio']),
         ('stop_at_ratio', ['remove_at_ratio', 'stop_ratio']),  # nested
         ('apply_move_completed', ['move_completed']),
@@ -152,7 +167,9 @@ class OptionsDialog(object):
         self.dialog.set_transient_for(component.get('MainWindow').window)
         self.builder.connect_signals(self)
         # Show the label name in the header label
-        self.builder.get_object('label_header').set_markup('<b>%s:</b> %s' % (_('Label Options'), self.label))
+        self.builder.get_object('label_header').set_markup(
+            '<b>%s:</b> %s' % (_('Label Options'), self.label)
+        )
 
         for chk_id, group in self.sensitive_groups:
             chk = self.builder.get_object(chk_id)
@@ -171,15 +188,21 @@ class OptionsDialog(object):
             self.builder.get_object(chk_id).set_active(bool(options[chk_id]))
 
         if client.is_localhost():
-            self.builder.get_object('move_completed_path').set_filename(options['move_completed_path'])
+            self.builder.get_object('move_completed_path').set_filename(
+                options['move_completed_path']
+            )
             self.builder.get_object('move_completed_path').show()
             self.builder.get_object('move_completed_path_entry').hide()
         else:
-            self.builder.get_object('move_completed_path_entry').set_text(options['move_completed_path'])
+            self.builder.get_object('move_completed_path_entry').set_text(
+                options['move_completed_path']
+            )
             self.builder.get_object('move_completed_path_entry').show()
             self.builder.get_object('move_completed_path').hide()
 
-        self.builder.get_object('auto_add_trackers').get_buffer().set_text('\n'.join(options['auto_add_trackers']))
+        self.builder.get_object('auto_add_trackers').get_buffer().set_text(
+            '\n'.join(options['auto_add_trackers'])
+        )
 
         self.apply_sensitivity()
 
@@ -190,18 +213,32 @@ class OptionsDialog(object):
         for spin_id in self.spin_ids:
             options[spin_id] = self.builder.get_object(spin_id).get_value()
         for spin_int_id in self.spin_int_ids:
-            options[spin_int_id] = self.builder.get_object(spin_int_id).get_value_as_int()
+            options[spin_int_id] = self.builder.get_object(
+                spin_int_id
+            ).get_value_as_int()
         for chk_id in self.chk_ids:
             options[chk_id] = self.builder.get_object(chk_id).get_active()
 
         if client.is_localhost():
-            options['move_completed_path'] = self.builder.get_object('move_completed_path').get_filename()
+            options['move_completed_path'] = self.builder.get_object(
+                'move_completed_path'
+            ).get_filename()
         else:
-            options['move_completed_path'] = self.builder.get_object('move_completed_path_entry').get_text()
+            options['move_completed_path'] = self.builder.get_object(
+                'move_completed_path_entry'
+            ).get_text()
 
-        buff = self.builder.get_object('auto_add_trackers').get_buffer()  # sometimes I hate gtk...
-        tracker_lst = buff.get_text(buff.get_start_iter(), buff.get_end_iter()).strip().split('\n')
-        options['auto_add_trackers'] = [x for x in tracker_lst if x]  # filter out empty lines.
+        buff = self.builder.get_object(
+            'auto_add_trackers'
+        ).get_buffer()  # sometimes I hate gtk...
+        tracker_lst = (
+            buff.get_text(buff.get_start_iter(), buff.get_end_iter())
+            .strip()
+            .split('\n')
+        )
+        options['auto_add_trackers'] = [
+            x for x in tracker_lst if x
+        ]  # filter out empty lines.
 
         log.debug(options)
         client.label.set_options(self.label, options)

@@ -36,7 +36,7 @@ from __future__ import print_function, unicode_literals
 import os
 from subprocess import PIPE, Popen
 
-__all__ = ('get_version')
+__all__ = ('get_version',)
 
 VERSION_FILE = os.path.join(os.path.dirname(__file__), 'RELEASE-VERSION')
 

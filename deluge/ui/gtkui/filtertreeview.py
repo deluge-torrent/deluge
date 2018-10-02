@@ -40,10 +40,7 @@ STATE_PIX = {
     'Moving': 'checking',
 }
 
-TRACKER_PIX = {
-    'All': 'tracker_all',
-    'Error': 'tracker_warning',
-}
+TRACKER_PIX = {'All': 'tracker_all', 'Error': 'tracker_warning'}
 
 FILTER_COLUMN = 5
 
@@ -91,8 +88,10 @@ class FilterTreeView(component.Component):
         self.treeview.set_headers_visible(False)
         self.treeview.set_level_indentation(-21)
         # Force theme to use expander-size so we don't cut out entries due to indentation hack.
-        gtk.rc_parse_string("""style "treeview-style" {GtkTreeView::expander-size = 7}
-                            class "GtkTreeView" style "treeview-style" """)
+        gtk.rc_parse_string(
+            """style "treeview-style" {GtkTreeView::expander-size = 7}
+                            class "GtkTreeView" style "treeview-style" """
+        )
 
         self.treeview.set_model(self.treestore)
         self.treeview.get_selection().connect('changed', self.on_selection_changed)
@@ -107,7 +106,11 @@ class FilterTreeView(component.Component):
 
         # filtertree menu
         builder = gtk.Builder()
-        builder.add_from_file(resource_filename('deluge.ui.gtkui', os.path.join('glade', 'filtertree_menu.ui')))
+        builder.add_from_file(
+            resource_filename(
+                'deluge.ui.gtkui', os.path.join('glade', 'filtertree_menu.ui')
+            )
+        )
         self.menu = builder.get_object('filtertree_menu')
         builder.connect_signals(self)
 
@@ -119,21 +122,22 @@ class FilterTreeView(component.Component):
         self.filters = {}
 
         # initial order of state filter:
-        self.cat_nodes['state'] = self.treestore.append(None, ['cat', 'state', _('States'), 0, None, False])
+        self.cat_nodes['state'] = self.treestore.append(
+            None, ['cat', 'state', _('States'), 0, None, False]
+        )
         for state in ['All', 'Active'] + TORRENT_STATE:
             self.update_row('state', state, 0, _(state))
 
         self.cat_nodes['tracker_host'] = self.treestore.append(
-            None, [
-                'cat', 'tracker_host',
-                _('Trackers'), 0, None, False,
-            ],
+            None, ['cat', 'tracker_host', _('Trackers'), 0, None, False]
         )
         self.update_row('tracker_host', 'All', 0, _('All'))
         self.update_row('tracker_host', 'Error', 0, _('Error'))
         self.update_row('tracker_host', '', 0, _('None'))
 
-        self.cat_nodes['owner'] = self.treestore.append(None, ['cat', 'owner', _('Owner'), 0, None, False])
+        self.cat_nodes['owner'] = self.treestore.append(
+            None, ['cat', 'owner', _('Owner'), 0, None, False]
+        )
         self.update_row('owner', 'localclient', 0, _('Admin'))
         self.update_row('owner', '', 0, _('None'))
 
@@ -157,7 +161,9 @@ class FilterTreeView(component.Component):
                 label = _(cat)
                 if cat == 'label':
                     label = _('Labels')
-                self.cat_nodes[cat] = self.treestore.append(None, ['cat', cat, label, 0, None, False])
+                self.cat_nodes[cat] = self.treestore.append(
+                    None, ['cat', cat, label, 0, None, False]
+                )
 
         # update rows
         visible_filters = []
@@ -168,7 +174,11 @@ class FilterTreeView(component.Component):
 
         # hide root-categories not returned by core-part of the plugin.
         for cat in self.cat_nodes:
-            self.treestore.set_value(self.cat_nodes[cat], FILTER_COLUMN, True if cat in filter_items else False)
+            self.treestore.set_value(
+                self.cat_nodes[cat],
+                FILTER_COLUMN,
+                True if cat in filter_items else False,
+            )
 
         # hide items not returned by core-plugin.
         for f in self.filters:
@@ -201,7 +211,9 @@ class FilterTreeView(component.Component):
             elif not label and value:
                 label = _(value)
 
-            row = self.treestore.append(self.cat_nodes[cat], [cat, value, label, count, pix, True])
+            row = self.treestore.append(
+                self.cat_nodes[cat], [cat, value, label, count, pix, True]
+            )
             self.filters[(cat, value)] = row
 
             if cat == 'tracker_host' and value not in ('All', 'Error') and value:
@@ -284,8 +296,7 @@ class FilterTreeView(component.Component):
             if not self.config['sidebar_show_owners']:
                 hide_cat.append('owner')
             client.core.get_filter_tree(
-                self.config['sidebar_show_zero'],
-                hide_cat,
+                self.config['sidebar_show_zero'], hide_cat
             ).addCallback(self.cb_update_filter_tree)
         except Exception as ex:
             log.debug(ex)
@@ -336,7 +347,7 @@ class FilterTreeView(component.Component):
 
     def set_menu_sensitivity(self):
         # select-all/pause/resume
-        sensitive = (self.cat != 'cat' and self.count != 0)
+        sensitive = self.cat != 'cat' and self.count != 0
         for item in self.default_menu_items:
             item.set_sensitive(sensitive)
 

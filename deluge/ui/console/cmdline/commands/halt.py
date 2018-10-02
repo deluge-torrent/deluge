@@ -28,4 +28,8 @@ class Command(BaseCommand):
         def on_shutdown_fail(reason):
             self.console.write('{!error!}Unable to shutdown daemon: %s' % reason)
 
-        return client.daemon.shutdown().addCallback(on_shutdown).addErrback(on_shutdown_fail)
+        return (
+            client.daemon.shutdown()
+            .addCallback(on_shutdown)
+            .addErrback(on_shutdown_fail)
+        )

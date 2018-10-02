@@ -21,14 +21,16 @@ import deluge.component as component
 from deluge.common import get_path_size, is_url, resource_filename
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
-from deluge.ui.gtkui.edittrackersdialog import last_tier_trackers_from_liststore, trackers_tiers_from_text
+from deluge.ui.gtkui.edittrackersdialog import (
+    last_tier_trackers_from_liststore,
+    trackers_tiers_from_text,
+)
 from deluge.ui.gtkui.torrentview_data_funcs import cell_data_size
 
 log = logging.getLogger(__name__)
 
 
 class CreateTorrentDialog(object):
-
     def __init__(self):
         pass
 
@@ -36,21 +38,32 @@ class CreateTorrentDialog(object):
         self.builder = gtk.Builder()
 
         # The main dialog
-        self.builder.add_from_file(resource_filename(
-            'deluge.ui.gtkui', os.path.join('glade', 'create_torrent_dialog.ui'),
-        ))
+        self.builder.add_from_file(
+            resource_filename(
+                'deluge.ui.gtkui', os.path.join('glade', 'create_torrent_dialog.ui')
+            )
+        )
         # The remote path dialog
-        self.builder.add_from_file(resource_filename(
-            'deluge.ui.gtkui', os.path.join('glade', 'create_torrent_dialog.remote_path.ui'),
-        ))
+        self.builder.add_from_file(
+            resource_filename(
+                'deluge.ui.gtkui',
+                os.path.join('glade', 'create_torrent_dialog.remote_path.ui'),
+            )
+        )
         # The remote save dialog
-        self.builder.add_from_file(resource_filename(
-            'deluge.ui.gtkui', os.path.join('glade', 'create_torrent_dialog.remote_save.ui'),
-        ))
+        self.builder.add_from_file(
+            resource_filename(
+                'deluge.ui.gtkui',
+                os.path.join('glade', 'create_torrent_dialog.remote_save.ui'),
+            )
+        )
         # The progress dialog
-        self.builder.add_from_file(resource_filename(
-            'deluge.ui.gtkui', os.path.join('glade', 'create_torrent_dialog.progress.ui'),
-        ))
+        self.builder.add_from_file(
+            resource_filename(
+                'deluge.ui.gtkui',
+                os.path.join('glade', 'create_torrent_dialog.progress.ui'),
+            )
+        )
 
         self.config = ConfigManager('gtkui.conf')
 
@@ -85,10 +98,10 @@ class CreateTorrentDialog(object):
         self.trackers_liststore = gtk.ListStore(int, str)
 
         self.builder.get_object('tracker_treeview').append_column(
-            gtk.TreeViewColumn(_('Tier'), gtk.CellRendererText(), text=0),
+            gtk.TreeViewColumn(_('Tier'), gtk.CellRendererText(), text=0)
         )
         self.builder.get_object('tracker_treeview').append_column(
-            gtk.TreeViewColumn(_('Tracker'), gtk.CellRendererText(), text=1),
+            gtk.TreeViewColumn(_('Tracker'), gtk.CellRendererText(), text=1)
         )
 
         self.builder.get_object('tracker_treeview').set_model(self.trackers_liststore)
@@ -132,8 +145,10 @@ class CreateTorrentDialog(object):
             self.dialog,
             gtk.FILE_CHOOSER_ACTION_OPEN,
             buttons=(
-                gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
-                gtk.STOCK_OPEN, gtk.RESPONSE_OK,
+                gtk.STOCK_CANCEL,
+                gtk.RESPONSE_CANCEL,
+                gtk.STOCK_OPEN,
+                gtk.RESPONSE_OK,
             ),
         )
 
@@ -165,8 +180,10 @@ class CreateTorrentDialog(object):
             self.dialog,
             gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER,
             buttons=(
-                gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
-                gtk.STOCK_OPEN, gtk.RESPONSE_OK,
+                gtk.STOCK_CANCEL,
+                gtk.RESPONSE_CANCEL,
+                gtk.STOCK_OPEN,
+                gtk.RESPONSE_OK,
             ),
         )
 
@@ -207,6 +224,7 @@ class CreateTorrentDialog(object):
                     self.files_treestore.clear()
                     self.files_treestore.append(None, [result, gtk.STOCK_NETWORK, size])
                     self.adjust_piece_size()
+
             client.core.get_path_size(result).addCallback(_on_get_path_size)
             client.force_call(True)
 
@@ -243,11 +261,14 @@ class CreateTorrentDialog(object):
         else:
             # Setup the filechooserdialog
             chooser = gtk.FileChooserDialog(
-                _('Save .torrent file'), self.dialog,
+                _('Save .torrent file'),
+                self.dialog,
                 gtk.FILE_CHOOSER_ACTION_SAVE,
                 buttons=(
-                    gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
-                    gtk.STOCK_SAVE, gtk.RESPONSE_OK,
+                    gtk.STOCK_CANCEL,
+                    gtk.RESPONSE_CANCEL,
+                    gtk.STOCK_SAVE,
+                    gtk.RESPONSE_OK,
                 ),
             )
 
@@ -306,7 +327,9 @@ class CreateTorrentDialog(object):
                 webseeds.append(line)
         # Get the piece length in bytes
         combo = self.builder.get_object('combo_piece_size')
-        piece_length = self.parse_piece_size_text(combo.get_model()[combo.get_active()][0])
+        piece_length = self.parse_piece_size_text(
+            combo.get_model()[combo.get_active()][0]
+        )
 
         author = self.builder.get_object('entry_author').get_text()
         comment = self.builder.get_object('entry_comments').get_text()
@@ -314,17 +337,23 @@ class CreateTorrentDialog(object):
         add_to_session = self.builder.get_object('chk_add_to_session').get_active()
 
         if is_remote:
+
             def torrent_created():
                 self.builder.get_object('progress_dialog').hide_all()
-                client.deregister_event_handler('CreateTorrentProgressEvent', on_create_torrent_progress_event)
+                client.deregister_event_handler(
+                    'CreateTorrentProgressEvent', on_create_torrent_progress_event
+                )
 
             def on_create_torrent_progress_event(piece_count, num_pieces):
                 self._on_create_torrent_progress(piece_count, num_pieces)
                 if piece_count == num_pieces:
                     from twisted.internet import reactor
+
                     reactor.callLater(0.5, torrent_created)
 
-            client.register_event_handler('CreateTorrentProgressEvent', on_create_torrent_progress_event)
+            client.register_event_handler(
+                'CreateTorrentProgressEvent', on_create_torrent_progress_event
+            )
 
             client.core.create_torrent(
                 path,
@@ -360,16 +389,29 @@ class CreateTorrentDialog(object):
             ).addCallback(hide_progress)
 
         # Setup progress dialog
-        self.builder.get_object('progress_dialog').set_transient_for(component.get('MainWindow').window)
+        self.builder.get_object('progress_dialog').set_transient_for(
+            component.get('MainWindow').window
+        )
         self.builder.get_object('progress_dialog').show_all()
 
         self.dialog.destroy()
 
     def create_torrent(
-        self, path, tracker, piece_length, progress, comment, target,
-        webseeds, private, created_by, trackers, add_to_session,
+        self,
+        path,
+        tracker,
+        piece_length,
+        progress,
+        comment,
+        target,
+        webseeds,
+        private,
+        created_by,
+        trackers,
+        add_to_session,
     ):
         import deluge.metafile
+
         deluge.metafile.make_meta_file(
             path,
             tracker,
@@ -408,7 +450,11 @@ class CreateTorrentDialog(object):
 
     def on_button_up_clicked(self, widget):
         log.debug('on_button_up_clicked')
-        row = self.builder.get_object('tracker_treeview').get_selection().get_selected()[1]
+        row = (
+            self.builder.get_object('tracker_treeview')
+            .get_selection()
+            .get_selected()[1]
+        )
         if row is None:
             return
         if self.trackers_liststore[row][0] == 0:
@@ -418,7 +464,11 @@ class CreateTorrentDialog(object):
 
     def on_button_down_clicked(self, widget):
         log.debug('on_button_down_clicked')
-        row = self.builder.get_object('tracker_treeview').get_selection().get_selected()[1]
+        row = (
+            self.builder.get_object('tracker_treeview')
+            .get_selection()
+            .get_selected()[1]
+        )
         if row is None:
             return
         self.trackers_liststore[row][0] += 1
@@ -426,14 +476,18 @@ class CreateTorrentDialog(object):
     def on_button_add_clicked(self, widget):
         log.debug('on_button_add_clicked')
         builder = gtk.Builder()
-        builder.add_from_file(resource_filename(
-            'deluge.ui.gtkui', os.path.join('glade', 'edit_trackers.add.ui'),
-        ))
+        builder.add_from_file(
+            resource_filename(
+                'deluge.ui.gtkui', os.path.join('glade', 'edit_trackers.add.ui')
+            )
+        )
         dialog = builder.get_object('add_tracker_dialog')
         dialog.set_transient_for(self.dialog)
         textview = builder.get_object('textview_trackers')
         if self.config['createtorrent.trackers']:
-            textview.get_buffer().set_text('\n'.join(self.config['createtorrent.trackers']))
+            textview.get_buffer().set_text(
+                '\n'.join(self.config['createtorrent.trackers'])
+            )
         else:
             textview.get_buffer().set_text('')
         textview.grab_focus()
@@ -447,7 +501,9 @@ class CreateTorrentDialog(object):
             self.config['createtorrent.trackers'] = trackers_text.split('/n')
 
             # Append trackers liststore with unique trackers and tiers starting from last tier number.
-            last_tier, orig_trackers = last_tier_trackers_from_liststore(self.trackers_liststore)
+            last_tier, orig_trackers = last_tier_trackers_from_liststore(
+                self.trackers_liststore
+            )
             for tracker, tier in trackers_tiers_from_text(trackers_text).items():
                 if tracker not in orig_trackers:
                     self.trackers_liststore.append([tier + last_tier, tracker])
@@ -456,7 +512,11 @@ class CreateTorrentDialog(object):
 
     def on_button_remove_clicked(self, widget):
         log.debug('on_button_remove_clicked')
-        row = self.builder.get_object('tracker_treeview').get_selection().get_selected()[1]
+        row = (
+            self.builder.get_object('tracker_treeview')
+            .get_selection()
+            .get_selected()[1]
+        )
         if row is None:
             return
         self.trackers_liststore.remove(row)

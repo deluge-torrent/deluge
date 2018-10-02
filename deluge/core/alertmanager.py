@@ -30,6 +30,7 @@ log = logging.getLogger(__name__)
 
 class AlertManager(component.Component):
     """AlertManager fetches and processes libtorrent alerts"""
+
     def __init__(self):
         log.debug('AlertManager init...')
         component.Component.__init__(self, 'AlertManager', interval=0.3)
@@ -40,13 +41,13 @@ class AlertManager(component.Component):
         self.set_alert_queue_size(self.alert_queue_size)
 
         alert_mask = (
-            lt.alert.category_t.error_notification |
-            lt.alert.category_t.port_mapping_notification |
-            lt.alert.category_t.storage_notification |
-            lt.alert.category_t.tracker_notification |
-            lt.alert.category_t.status_notification |
-            lt.alert.category_t.ip_block_notification |
-            lt.alert.category_t.performance_warning
+            lt.alert.category_t.error_notification
+            | lt.alert.category_t.port_mapping_notification
+            | lt.alert.category_t.storage_notification
+            | lt.alert.category_t.tracker_notification
+            | lt.alert.category_t.status_notification
+            | lt.alert.category_t.ip_block_notification
+            | lt.alert.category_t.performance_warning
         )
 
         self.session.apply_settings({'alert_mask': alert_mask})
@@ -107,7 +108,10 @@ class AlertManager(component.Component):
         if log.isEnabledFor(logging.DEBUG):
             log.debug('Alerts queued: %s', num_alerts)
         if num_alerts > 0.9 * self.alert_queue_size:
-            log.warning('Warning total alerts queued, %s, passes 90%% of queue size.', num_alerts)
+            log.warning(
+                'Warning total alerts queued, %s, passes 90%% of queue size.',
+                num_alerts,
+            )
 
         # Loop through all alerts in the queue
         for alert in alerts:
@@ -126,4 +130,6 @@ class AlertManager(component.Component):
         """Sets the maximum size of the libtorrent alert queue"""
         log.info('Alert Queue Size set to %s', queue_size)
         self.alert_queue_size = queue_size
-        component.get('Core').apply_session_setting('alert_queue_size', self.alert_queue_size)
+        component.get('Core').apply_session_setting(
+            'alert_queue_size', self.alert_queue_size
+        )

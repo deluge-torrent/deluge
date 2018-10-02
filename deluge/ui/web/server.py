@@ -37,13 +37,11 @@ CONFIG_DEFAULTS = {
     # Misc Settings
     'enabled_plugins': [],
     'default_daemon': '',
-
     # Auth Settings
     'pwd_salt': 'c26ab3bbd8b137f99cd83c2c1c0963bcc1a35cad',
     'pwd_sha1': '2ce1a410bcdcc53064129b6d950f2e9fee4edc1e',
     'session_timeout': 3600,
     'sessions': {},
-
     # UI Settings
     'sidebar_show_zero': False,
     'sidebar_multiple_filters': True,
@@ -52,7 +50,6 @@ CONFIG_DEFAULTS = {
     'theme': 'gray',
     'first_login': True,
     'language': '',
-
     # Server Settings
     'base': '/',
     'interface': '0.0.0.0',
@@ -63,8 +60,12 @@ CONFIG_DEFAULTS = {
 }
 
 UI_CONFIG_KEYS = (
-    'theme', 'sidebar_show_zero', 'sidebar_multiple_filters',
-    'show_session_speed', 'base', 'first_login',
+    'theme',
+    'sidebar_show_zero',
+    'sidebar_multiple_filters',
+    'show_session_speed',
+    'base',
+    'first_login',
 )
 
 
@@ -89,6 +90,7 @@ class MockGetText(resource.Resource):
     It will be used to define the `_` (underscore) function for translations,
     and will return the string to translate, as is.
     """
+
     def render(self, request):
         request.setHeader(b'content-type', b'text/javascript; encoding=utf-8')
         data = b'function _(string) { return string; }'
@@ -114,10 +116,7 @@ class Upload(resource.Resource):
         print(request.args)
         if b'file' not in request.args:
             request.setResponseCode(http.OK)
-            return json.dumps({
-                'success': True,
-                'files': [],
-            })
+            return json.dumps({'success': True, 'files': []})
 
         tempdir = tempfile.mkdtemp(prefix='delugeweb-')
         log.debug('uploading files to %s', tempdir)
@@ -132,12 +131,7 @@ class Upload(resource.Resource):
 
         request.setHeader(b'content-type', b'text/html')
         request.setResponseCode(http.OK)
-        return compress(
-            json.dumps({
-                'success': True,
-                'files': filenames,
-            }), request,
-        )
+        return compress(json.dumps({'success': True, 'files': filenames}), request)
 
 
 class Render(resource.Resource):
@@ -170,7 +164,6 @@ class Render(resource.Resource):
 
 
 class Tracker(resource.Resource):
-
     def __init__(self):
         resource.Resource.__init__(self)
         try:
@@ -185,8 +178,7 @@ class Tracker(resource.Resource):
     def on_got_icon(self, icon, request):
         if icon:
             request.setHeader(
-                b'cache-control',
-                b'public, must-revalidate, max-age=86400',
+                b'cache-control', b'public, must-revalidate, max-age=86400'
             )
             request.setHeader(b'content-type', icon.get_mimetype().encode('utf8'))
             request.setResponseCode(http.OK)
@@ -212,8 +204,7 @@ class Flag(resource.Resource):
         filename = common.resource_filename('deluge', os.path.join(*path))
         if os.path.exists(filename):
             request.setHeader(
-                b'cache-control',
-                b'public, must-revalidate, max-age=86400',
+                b'cache-control', b'public, must-revalidate, max-age=86400'
             )
             request.setHeader(b'content-type', b'image/png')
             with open(filename, 'rb') as _file:
@@ -226,7 +217,6 @@ class Flag(resource.Resource):
 
 
 class LookupResource(resource.Resource, component.Component):
-
     def __init__(self, name, *directories):
         resource.Resource.__init__(self)
         component.Component.__init__(self, name)
@@ -274,13 +264,16 @@ class LookupResource(resource.Resource, component.Component):
 
 
 class ScriptResource(resource.Resource, component.Component):
-
     def __init__(self):
         resource.Resource.__init__(self)
         component.Component.__init__(self, 'Scripts')
         self.__scripts = {}
         for script_type in ['normal', 'debug', 'dev']:
-            self.__scripts[script_type] = {'scripts': {}, 'order': [], 'files_exist': True}
+            self.__scripts[script_type] = {
+                'scripts': {},
+                'order': [],
+                'files_exist': True,
+            }
 
     def has_script_type_files(self, script_type):
         """Returns whether all the script files exist for this script type.
@@ -385,9 +378,15 @@ class ScriptResource(resource.Resource, component.Component):
 
                     # Ensure sub-directory scripts are top of list with root directory scripts bottom.
                     if dirnames:
-                        scripts.extend(['js/' + os.path.basename(root) + '/' + f for f in files])
+                        scripts.extend(
+                            ['js/' + os.path.basename(root) + '/' + f for f in files]
+                        )
                     else:
-                        dirpath = os.path.basename(os.path.dirname(root)) + '/' + os.path.basename(root)
+                        dirpath = (
+                            os.path.basename(os.path.dirname(root))
+                            + '/'
+                            + os.path.basename(root)
+                        )
                         for filename in reversed(files):
                             scripts.insert(script_idx, 'js/' + dirpath + '/' + filename)
 
@@ -417,7 +416,7 @@ class ScriptResource(resource.Resource, component.Component):
                 if isinstance(filepath, tuple):
                     filepath = filepath[0]
 
-                path = filepath + lookup_path[len(pattern):]
+                path = filepath + lookup_path[len(pattern) :]
 
                 if not os.path.isfile(path):
                     continue
@@ -453,7 +452,8 @@ class TopLevel(resource.Resource):
         else:
             log.warning(
                 'Cannot find "gettext.js" translation file!'
-                ' Text will only be available in English.')
+                ' Text will only be available in English.'
+            )
             self.putChild(b'gettext.js', MockGetText())
         self.putChild(b'flag', Flag())
         self.putChild(b'icons', LookupResource('Icons', rpath('icons')))
@@ -462,16 +462,32 @@ class TopLevel(resource.Resource):
         js = ScriptResource()
 
         # configure the dev scripts
-        js.add_script('ext-base-debug.js', rpath('js', 'extjs', 'ext-base-debug.js'), 'dev')
-        js.add_script('ext-all-debug.js', rpath('js', 'extjs', 'ext-all-debug.js'), 'dev')
-        js.add_script_folder('ext-extensions', rpath('js', 'extjs', 'ext-extensions'), 'dev')
+        js.add_script(
+            'ext-base-debug.js', rpath('js', 'extjs', 'ext-base-debug.js'), 'dev'
+        )
+        js.add_script(
+            'ext-all-debug.js', rpath('js', 'extjs', 'ext-all-debug.js'), 'dev'
+        )
+        js.add_script_folder(
+            'ext-extensions', rpath('js', 'extjs', 'ext-extensions'), 'dev'
+        )
         js.add_script_folder('deluge-all', rpath('js', 'deluge-all'), 'dev')
 
         # configure the debug scripts
-        js.add_script('ext-base-debug.js', rpath('js', 'extjs', 'ext-base-debug.js'), 'debug')
-        js.add_script('ext-all-debug.js', rpath('js', 'extjs', 'ext-all-debug.js'), 'debug')
-        js.add_script('ext-extensions-debug.js', rpath('js', 'extjs', 'ext-extensions-debug.js'), 'debug')
-        js.add_script('deluge-all-debug.js', rpath('js', 'deluge-all-debug.js'), 'debug')
+        js.add_script(
+            'ext-base-debug.js', rpath('js', 'extjs', 'ext-base-debug.js'), 'debug'
+        )
+        js.add_script(
+            'ext-all-debug.js', rpath('js', 'extjs', 'ext-all-debug.js'), 'debug'
+        )
+        js.add_script(
+            'ext-extensions-debug.js',
+            rpath('js', 'extjs', 'ext-extensions-debug.js'),
+            'debug',
+        )
+        js.add_script(
+            'deluge-all-debug.js', rpath('js', 'deluge-all-debug.js'), 'debug'
+        )
 
         # configure the normal scripts
         js.add_script('ext-base.js', rpath('js', 'extjs', 'ext-base.js'))
@@ -558,9 +574,14 @@ class TopLevel(resource.Resource):
 
         if not self.js.has_script_type_files(script_type):
             if not dev_ver:
-                log.warning('Failed to enable WebUI "%s" mode, script files are missing!', script_type)
+                log.warning(
+                    'Failed to enable WebUI "%s" mode, script files are missing!',
+                    script_type,
+                )
             # Fallback to checking other types in order and selecting first with files available.
-            for alt_script_type in [x for x in ['normal', 'debug', 'dev'] if x != script_type]:
+            for alt_script_type in [
+                x for x in ['normal', 'debug', 'dev'] if x != script_type
+            ]:
                 if self.js.has_script_type_files(alt_script_type):
                     script_type = alt_script_type
                     if not dev_ver:
@@ -588,7 +609,6 @@ class TopLevel(resource.Resource):
 
 
 class DelugeWeb(component.Component):
-
     def __init__(self, options=None, daemon=True):
         """
         Setup the DelugeWeb server.
@@ -600,7 +620,9 @@ class DelugeWeb(component.Component):
 
         """
         component.Component.__init__(self, 'DelugeWeb', depend=['Web'])
-        self.config = configmanager.ConfigManager('web.conf', defaults=CONFIG_DEFAULTS, file_version=2)
+        self.config = configmanager.ConfigManager(
+            'web.conf', defaults=CONFIG_DEFAULTS, file_version=2
+        )
         self.config.run_converter((0, 1), 2, self._migrate_config_1_to_2)
         self.config.register_set_function('language', self._on_language_changed)
         self.socket = None
@@ -614,7 +636,9 @@ class DelugeWeb(component.Component):
         self.base = self.config['base']
 
         if options:
-            self.interface = options.interface if options.interface is not None else self.interface
+            self.interface = (
+                options.interface if options.interface is not None else self.interface
+            )
             self.port = options.port if options.port else self.port
             self.base = options.base if options.base else self.base
             if options.ssl:
@@ -624,8 +648,7 @@ class DelugeWeb(component.Component):
 
         if self.base != '/':
             # Strip away slashes and serve on the base path as well as root path
-            self.top_level.putChild(
-                self.base.strip('/'), self.top_level)
+            self.top_level.putChild(self.base.strip('/'), self.top_level)
 
         setup_translations(setup_gettext=True, setup_pygtk=False)
 
@@ -657,10 +680,10 @@ class DelugeWeb(component.Component):
 
             def win_handler(ctrl_type):
                 log.debug('ctrl type: %s', ctrl_type)
-                if ctrl_type == CTRL_CLOSE_EVENT or \
-                   ctrl_type == CTRL_SHUTDOWN_EVENT:
+                if ctrl_type == CTRL_CLOSE_EVENT or ctrl_type == CTRL_SHUTDOWN_EVENT:
                     self.shutdown()
                     return 1
+
             SetConsoleCtrlHandler(win_handler)
 
     def start(self):
@@ -699,7 +722,7 @@ class DelugeWeb(component.Component):
             self.port,
             self.site,
             get_context_factory(cert, pkey),
-            interface=self.interface
+            interface=self.interface,
         )
         ip = self.socket.getHost().host
         ip = '[%s]' % ip if is_ipv6(ip) else ip

@@ -25,7 +25,10 @@ class CoreConfig(component.Component):
 
         def on_configvaluechanged_event(key, value):
             self.config[key] = value
-        client.register_event_handler('ConfigValueChangedEvent', on_configvaluechanged_event)
+
+        client.register_event_handler(
+            'ConfigValueChangedEvent', on_configvaluechanged_event
+        )
 
     def start(self):
         def on_get_config(config):

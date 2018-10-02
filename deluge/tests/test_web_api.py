@@ -27,7 +27,6 @@ common.disable_new_release_check()
 
 
 class WebAPITestCase(WebServerTestBase):
-
     def test_connect_invalid_host(self):
         d = self.deluge_web.web_api.connect('id')
         d.addCallback(self.fail)
@@ -73,7 +72,7 @@ class WebAPITestCase(WebServerTestBase):
                 'login': 'skrot',
                 'expires': 1460030877.0,
                 'level': 10,
-            },
+            }
         }
         self.deluge_web.web_api.set_config(config)
         web_config = component.get('DelugeWeb').config.config
@@ -98,7 +97,9 @@ class WebAPITestCase(WebServerTestBase):
         conn = ['abcdef', '10.0.0.1', 0, 'user123', 'pass123']
         self.assertFalse(self.deluge_web.web_api._get_host(conn[0]))
         # Add valid host
-        result, host_id = self.deluge_web.web_api.add_host(conn[1], conn[2], conn[3], conn[4])
+        result, host_id = self.deluge_web.web_api.add_host(
+            conn[1], conn[2], conn[3], conn[4]
+        )
         self.assertEqual(result, True)
         conn[0] = host_id
         self.assertEqual(self.deluge_web.web_api._get_host(conn[0]), conn[0:4])
@@ -130,7 +131,9 @@ class WebAPITestCase(WebServerTestBase):
         self.assertTrue('files_tree' in ret)
 
     def test_get_magnet_info(self):
-        ret = self.deluge_web.web_api.get_magnet_info('magnet:?xt=urn:btih:SU5225URMTUEQLDXQWRB2EQWN6KLTYKN')
+        ret = self.deluge_web.web_api.get_magnet_info(
+            'magnet:?xt=urn:btih:SU5225URMTUEQLDXQWRB2EQWN6KLTYKN'
+        )
         self.assertEqual(ret['name'], '953bad769164e8482c7785a21d12166f94b9e14d')
         self.assertEqual(ret['info_hash'], '953bad769164e8482c7785a21d12166f94b9e14d')
         self.assertTrue('files_tree' in ret)
@@ -139,16 +142,26 @@ class WebAPITestCase(WebServerTestBase):
     def test_get_torrent_files(self):
         yield self.deluge_web.web_api.connect(self.host_id)
         filename = common.get_test_data_file('test.torrent')
-        torrents = [{'path': filename, 'options': {'download_location': '/home/deluge/'}}]
+        torrents = [
+            {'path': filename, 'options': {'download_location': '/home/deluge/'}}
+        ]
         yield self.deluge_web.web_api.add_torrents(torrents)
-        ret = yield self.deluge_web.web_api.get_torrent_files('ab570cdd5a17ea1b61e970bb72047de141bce173')
+        ret = yield self.deluge_web.web_api.get_torrent_files(
+            'ab570cdd5a17ea1b61e970bb72047de141bce173'
+        )
         self.assertEqual(ret['type'], 'dir')
         self.assertEqual(
-            ret['contents'], {
+            ret['contents'],
+            {
                 'azcvsupdater_2.6.2.jar': {
-                    'priority': 4, 'index': 0, 'offset': 0, 'progress': 0.0, 'path':
-                    'azcvsupdater_2.6.2.jar', 'type': 'file', 'size': 307949,
-                },
+                    'priority': 4,
+                    'index': 0,
+                    'offset': 0,
+                    'progress': 0.0,
+                    'path': 'azcvsupdater_2.6.2.jar',
+                    'type': 'file',
+                    'size': 307949,
+                }
             },
         )
 
@@ -156,7 +169,8 @@ class WebAPITestCase(WebServerTestBase):
     def test_download_torrent_from_url(self):
         filename = 'ubuntu-9.04-desktop-i386.iso.torrent'
         self.deluge_web.top_level.putChild(
-            filename.encode(), File(common.get_test_data_file(filename)))
+            filename.encode(), File(common.get_test_data_file(filename))
+        )
         url = 'http://localhost:%d/%s' % (self.webserver_listen_port, filename)
         res = yield self.deluge_web.web_api.download_torrent_from_url(url)
         self.assertTrue(res.endswith(filename))
@@ -174,10 +188,12 @@ class WebAPITestCase(WebServerTestBase):
         d = yield agent.request(
             b'POST',
             b'http://127.0.0.1:%i/json' % self.webserver_listen_port,
-            Headers({
-                b'User-Agent': [b'Twisted Web Client Example'],
-                b'Content-Type': [b'application/json'],
-            }),
+            Headers(
+                {
+                    b'User-Agent': [b'Twisted Web Client Example'],
+                    b'Content-Type': [b'application/json'],
+                }
+            ),
             FileBodyProducer(BytesIO(bad_body)),
         )
         yield d

@@ -17,9 +17,12 @@ def is_hidden(filepath):
     def has_hidden_attribute(filepath):
         import win32api
         import win32con
+
         try:
             attribute = win32api.GetFileAttributes(filepath)
-            return attribute & (win32con.FILE_ATTRIBUTE_HIDDEN | win32con.FILE_ATTRIBUTE_SYSTEM)
+            return attribute & (
+                win32con.FILE_ATTRIBUTE_HIDDEN | win32con.FILE_ATTRIBUTE_SYSTEM
+            )
         except (AttributeError, AssertionError):
             return False
 

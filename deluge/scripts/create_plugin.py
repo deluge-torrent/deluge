@@ -17,19 +17,35 @@ from datetime import datetime
 import deluge.common
 
 parser = ArgumentParser()
-parser.add_argument('-n', '--name', metavar='<plugin name>', required=True, help='Plugin name')
-parser.add_argument('-m', '--module-name', metavar='<module name>', help='Module name')
-parser.add_argument('-p', '--basepath', metavar='<path>', required=True, help='Base path')
 parser.add_argument(
-    '-a', '--author-name', metavar='<author name>', required=True,
+    '-n', '--name', metavar='<plugin name>', required=True, help='Plugin name'
+)
+parser.add_argument('-m', '--module-name', metavar='<module name>', help='Module name')
+parser.add_argument(
+    '-p', '--basepath', metavar='<path>', required=True, help='Base path'
+)
+parser.add_argument(
+    '-a',
+    '--author-name',
+    metavar='<author name>',
+    required=True,
     help='Author name,for the GPL header',
 )
 parser.add_argument(
-    '-e', '--author-email', metavar='<author email>', required=True,
+    '-e',
+    '--author-email',
+    metavar='<author email>',
+    required=True,
     help='Author email,for the GPL header',
 )
 parser.add_argument('-u', '--url', metavar='<URL>', help='Homepage URL')
-parser.add_argument('-c', '--config', metavar='<Config dir>', dest='configdir', help='Location of deluge configuration')
+parser.add_argument(
+    '-c',
+    '--config',
+    metavar='<Config dir>',
+    dest='configdir',
+    help='Location of deluge configuration',
+)
 
 options = parser.parse_args()
 

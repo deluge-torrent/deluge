@@ -27,6 +27,7 @@ class LogTestCase(BaseTestCase):
 
     def test_old_log_deprecation_warning(self):
         from deluge.log import LOG
+
         with warnings.catch_warnings(record=True) as w:
             # Cause all warnings to always be triggered.
             warnings.simplefilter('always')

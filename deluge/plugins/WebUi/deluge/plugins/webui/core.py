@@ -30,11 +30,7 @@ except ImportError:
 
 log = logging.getLogger(__name__)
 
-DEFAULT_PREFS = {
-    'enabled': False,
-    'ssl': False,
-    'port': 8112,
-}
+DEFAULT_PREFS = {'enabled': False, 'ssl': False, 'port': 8112}
 
 
 class Core(CorePluginBase):

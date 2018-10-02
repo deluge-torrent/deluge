@@ -50,14 +50,25 @@ class RemoteFileProgress(object):
 
     def __call__(self, piece_count, num_pieces):
         component.get('RPCServer').emit_event_for_session_id(
-            self.session_id, CreateTorrentProgressEvent(piece_count, num_pieces),
+            self.session_id, CreateTorrentProgressEvent(piece_count, num_pieces)
         )
 
 
 def make_meta_file(
-    path, url, piece_length, progress=None, title=None, comment=None,
-    safe=None, content_type=None, target=None, webseeds=None, name=None,
-    private=False, created_by=None, trackers=None,
+    path,
+    url,
+    piece_length,
+    progress=None,
+    title=None,
+    comment=None,
+    safe=None,
+    content_type=None,
+    target=None,
+    webseeds=None,
+    name=None,
+    private=False,
+    created_by=None,
+    trackers=None,
 ):
     data = {'creation date': int(gmtime())}
     if url:
@@ -140,6 +151,7 @@ def makeinfo(path, piece_length, progress, name=None, content_type=None, private
             totalsize += os.path.getsize(f)
         if totalsize >= piece_length:
             import math
+
             num_pieces = math.ceil(totalsize / piece_length)
         else:
             num_pieces = 1
@@ -149,10 +161,9 @@ def makeinfo(path, piece_length, progress, name=None, content_type=None, private
             size = os.path.getsize(f)
             p2 = [n.encode('utf8') for n in p]
             if content_type:
-                fs.append({
-                    'length': size, 'path': p2,
-                    'content_type': content_type,
-                })  # HEREDAVE. bad for batch!
+                fs.append(
+                    {'length': size, 'path': p2, 'content_type': content_type}
+                )  # HEREDAVE. bad for batch!
             else:
                 fs.append({'length': size, 'path': p2})
             with open(f, 'rb') as file_:
@@ -206,14 +217,16 @@ def makeinfo(path, piece_length, progress, name=None, content_type=None, private
         if content_type is not None:
             return {
                 'pieces': b''.join(pieces),
-                'piece length': piece_length, 'length': size,
+                'piece length': piece_length,
+                'length': size,
                 'name': name,
                 'content_type': content_type,
                 'private': private,
             }
         return {
             'pieces': b''.join(pieces),
-            'piece length': piece_length, 'length': size,
+            'piece length': piece_length,
+            'length': size,
             'name': name,
             'private': private,
         }

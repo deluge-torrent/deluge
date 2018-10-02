@@ -68,7 +68,6 @@ DEFAULT_CONSOLE_PREFS = {
 
 
 class ConsoleUI(component.Component, TermResizeHandler):
-
     def __init__(self, options, cmds, log_stream):
         component.Component.__init__(self, 'ConsoleUI')
         TermResizeHandler.__init__(self)
@@ -126,14 +125,17 @@ class ConsoleUI(component.Component, TermResizeHandler):
         else:
             # Interactive
             if deluge.common.windows_check():
-                print("""\nDeluge-console does not run in interactive mode on Windows. \n
+                print(
+                    """\nDeluge-console does not run in interactive mode on Windows. \n
 Please use commands from the command line, e.g.:\n
     deluge-console.exe help
     deluge-console.exe info
     deluge-console.exe "add --help"
     deluge-console.exe "add -p c:\\mytorrents c:\\new.torrent"
-""")
+"""
+                )
             else:
+
                 class ConsoleLog(object):
                     def write(self, data):
                         pass
@@ -153,12 +155,15 @@ Please use commands from the command line, e.g.:\n
                 # We use the curses.wrapper function to prevent the console from getting
                 # messed up if an uncaught exception is experienced.
                 from curses import wrapper
+
                 wrapper(self.run)
 
     def quit(self):
         if client.connected():
+
             def on_disconnect(result):
                 reactor.stop()
+
             return client.disconnect().addCallback(on_disconnect)
         else:
             try:
@@ -169,6 +174,7 @@ Please use commands from the command line, e.g.:\n
     def exec_args(self, options):
         """Execute console commands from command line."""
         from deluge.ui.console.cmdline.command import Commander
+
         commander = Commander(self._commands)
 
         def on_connect(result):
@@ -179,6 +185,7 @@ Please use commands from the command line, e.g.:\n
 
                     def exec_command(result, cmd):
                         return commander.exec_command(cmd)
+
                     d = defer.succeed(None)
                     for command in options.parsed_cmds:
                         if command.command in ('quit', 'exit'):
@@ -191,6 +198,7 @@ Please use commands from the command line, e.g.:\n
                 # any of the commands.
                 self.started_deferred.addCallback(on_started)
                 return self.started_deferred
+
             d = self.start_console()
             d.addCallback(on_components_started)
             return d
@@ -200,7 +208,10 @@ Please use commands from the command line, e.g.:\n
                 rm = reason.getErrorMessage()
             else:
                 rm = reason.value.message
-            print('Could not connect to daemon: %s:%s\n %s' % (options.daemon_addr, options.daemon_port, rm))
+            print(
+                'Could not connect to daemon: %s:%s\n %s'
+                % (options.daemon_addr, options.daemon_port, rm)
+            )
             commander.do_command('quit')
 
         d = None
@@ -209,9 +220,17 @@ Please use commands from the command line, e.g.:\n
         else:
             log.info(
                 'connect: host=%s, port=%s, username=%s, password=%s',
-                options.daemon_addr, options.daemon_port, options.daemon_user, options.daemon_pass,
+                options.daemon_addr,
+                options.daemon_port,
+                options.daemon_user,
+                options.daemon_pass,
             )
-            d = client.connect(options.daemon_addr, options.daemon_port, options.daemon_user, options.daemon_pass)
+            d = client.connect(
+                options.daemon_addr,
+                options.daemon_port,
+                options.daemon_user,
+                options.daemon_pass,
+            )
         d.addCallback(on_connect)
         d.addErrback(on_connect_fail)
         return d
@@ -227,23 +246,34 @@ Please use commands from the command line, e.g.:\n
         # pass it the function that handles commands
         colors.init_colors()
         self.stdscr = stdscr
-        self.config = ConfigManager('console.conf', defaults=DEFAULT_CONSOLE_PREFS, file_version=2)
+        self.config = ConfigManager(
+            'console.conf', defaults=DEFAULT_CONSOLE_PREFS, file_version=2
+        )
         self.config.run_converter((0, 1), 2, self._migrate_config_1_to_2)
 
         self.statusbars = StatusBars()
         from deluge.ui.console.modes.connectionmanager import ConnectionManager
+
         self.register_mode(ConnectionManager(stdscr, self.encoding), set_mode=True)
 
         torrentlist = self.register_mode(TorrentList(self.stdscr, self.encoding))
         self.register_mode(CmdLine(self.stdscr, self.encoding))
         self.register_mode(EventView(torrentlist, self.stdscr, self.encoding))
-        self.register_mode(TorrentDetail(torrentlist, self.stdscr, self.config, self.encoding))
-        self.register_mode(Preferences(torrentlist, self.stdscr, self.config, self.encoding))
-        self.register_mode(AddTorrents(torrentlist, self.stdscr, self.config, self.encoding))
+        self.register_mode(
+            TorrentDetail(torrentlist, self.stdscr, self.config, self.encoding)
+        )
+        self.register_mode(
+            Preferences(torrentlist, self.stdscr, self.config, self.encoding)
+        )
+        self.register_mode(
+            AddTorrents(torrentlist, self.stdscr, self.config, self.encoding)
+        )
 
         self.eventlog = EventLog()
 
-        self.active_mode.topbar = '{!status!}Deluge ' + deluge.common.get_version() + ' Console'
+        self.active_mode.topbar = (
+            '{!status!}Deluge ' + deluge.common.get_version() + ' Console'
+        )
         self.active_mode.bottombar = '{!status!}'
         self.active_mode.refresh()
         # Start the twisted mainloop
@@ -275,6 +305,7 @@ Please use commands from the command line, e.g.:\n
 
             def on_mode_paused(result, mode, *args):
                 from deluge.ui.console.widgets.popup import PopupsHandler
+
                 if isinstance(mode, PopupsHandler):
                     if mode.popup is not None:
                         # If popups are not removed, they are still referenced in the memory
@@ -283,8 +314,10 @@ Please use commands from the command line, e.g.:\n
                         # while the current modes' screen is repainted.
                         log.error(
                             'Mode "%s" still has popups available after being paused.'
-                            ' Ensure all popups are removed on pause!', mode.popup.title,
+                            ' Ensure all popups are removed on pause!',
+                            mode.popup.title,
                         )
+
             d.addCallback(on_mode_paused, self.active_mode)
             reactor.removeReader(self.active_mode)
 
@@ -312,6 +345,7 @@ Please use commands from the command line, e.g.:\n
                 func()
             else:
                 self.messages.append(('Error', error_smg))
+
         component.stop(['TorrentList']).addCallback(on_stop)
 
     def is_active_mode(self, mode):
@@ -319,7 +353,15 @@ Please use commands from the command line, e.g.:\n
 
     def start_components(self):
         def on_started(result):
-            component.pause(['TorrentList', 'EventView', 'AddTorrents', 'TorrentDetail', 'Preferences'])
+            component.pause(
+                [
+                    'TorrentList',
+                    'EventView',
+                    'AddTorrents',
+                    'TorrentDetail',
+                    'Preferences',
+                ]
+            )
 
         if self.interactive:
             d = component.start().addCallback(on_started)
@@ -335,8 +377,10 @@ Please use commands from the command line, e.g.:\n
             self.initialized = True
             d = self.start_components()
         else:
+
             def on_stopped(result):
                 return component.start(['SessionProxy'])
+
             d = component.stop(['SessionProxy']).addCallback(on_stopped)
         return d
 
@@ -350,18 +394,23 @@ Please use commands from the command line, e.g.:\n
                     self.torrents.append((torrent_id, status['name']))
                 self.started_deferred.callback(True)
 
-            client.core.get_torrents_status({'id': result}, ['name']).addCallback(on_torrents_status)
+            client.core.get_torrents_status({'id': result}, ['name']).addCallback(
+                on_torrents_status
+            )
 
         d = client.core.get_session_state().addCallback(on_session_state)
 
         # Register event handlers to keep the torrent list up-to-date
         client.register_event_handler('TorrentAddedEvent', self.on_torrent_added_event)
-        client.register_event_handler('TorrentRemovedEvent', self.on_torrent_removed_event)
+        client.register_event_handler(
+            'TorrentRemovedEvent', self.on_torrent_removed_event
+        )
         return d
 
     def on_torrent_added_event(self, event, from_state=False):
         def on_torrent_status(status):
             self.torrents.append((event, status['name']))
+
         client.core.get_torrent_status(event, ['name']).addCallback(on_torrent_status)
 
     def on_torrent_removed_event(self, event):
@@ -402,7 +451,9 @@ Please use commands from the command line, e.g.:\n
         matches = []
         for tid, name in self.torrents:
             deluge.common.decode_bytes(name, self.encoding)
-            if getattr(tid, match_func, None)(string) or getattr(name, match_func, None)(string):
+            if getattr(tid, match_func, None)(string) or getattr(
+                name, match_func, None
+            )(string):
                 matches.append(tid)
         return matches
 
@@ -413,18 +464,25 @@ Please use commands from the command line, e.g.:\n
         return None
 
     def set_batch_write(self, batch):
-        if self.interactive and isinstance(self.active_mode, deluge.ui.console.modes.cmdline.CmdLine):
+        if self.interactive and isinstance(
+            self.active_mode, deluge.ui.console.modes.cmdline.CmdLine
+        ):
             return self.active_mode.set_batch_write(batch)
 
     def tab_complete_torrent(self, line):
-        if self.interactive and isinstance(self.active_mode, deluge.ui.console.modes.cmdline.CmdLine):
+        if self.interactive and isinstance(
+            self.active_mode, deluge.ui.console.modes.cmdline.CmdLine
+        ):
             return self.active_mode.tab_complete_torrent(line)
 
-    def tab_complete_path(self, line, path_type='file', ext='', sort='name', dirs_first=True):
-        if self.interactive and isinstance(self.active_mode, deluge.ui.console.modes.cmdline.CmdLine):
+    def tab_complete_path(
+        self, line, path_type='file', ext='', sort='name', dirs_first=True
+    ):
+        if self.interactive and isinstance(
+            self.active_mode, deluge.ui.console.modes.cmdline.CmdLine
+        ):
             return self.active_mode.tab_complete_path(
-                line, path_type=path_type, ext=ext,
-                sort=sort, dirs_first=dirs_first,
+                line, path_type=path_type, ext=ext, sort=sort, dirs_first=dirs_first
             )
 
     def on_client_disconnect(self):
@@ -456,6 +514,7 @@ Please use commands from the command line, e.g.:\n
         and into sub categories. Some keys are also renamed to be consistent
         with other UIs.
         """
+
         def move_key(source, dest, source_key, dest_key=None):
             if dest_key is None:
                 dest_key = source_key
@@ -463,28 +522,71 @@ Please use commands from the command line, e.g.:\n
             del source[source_key]
 
         # These are moved to 'torrentview' sub dict
-        for k in ['sort_primary', 'sort_secondary', 'move_selection', 'separate_complete']:
+        for k in [
+            'sort_primary',
+            'sort_secondary',
+            'move_selection',
+            'separate_complete',
+        ]:
             move_key(config, config['torrentview'], k)
 
         # These are moved to 'addtorrents' sub dict
-        for k in ['show_misc_files', 'show_hidden_folders', 'sort_column', 'reverse_sort', 'last_path']:
+        for k in [
+            'show_misc_files',
+            'show_hidden_folders',
+            'sort_column',
+            'reverse_sort',
+            'last_path',
+        ]:
             move_key(config, config['addtorrents'], 'addtorrents_%s' % k, dest_key=k)
 
         # These are moved to 'cmdline' sub dict
-        for k in ['ignore_duplicate_lines', 'torrents_per_tab_press', 'third_tab_lists_all']:
+        for k in [
+            'ignore_duplicate_lines',
+            'torrents_per_tab_press',
+            'third_tab_lists_all',
+        ]:
             move_key(config, config['cmdline'], k)
 
-        move_key(config, config['cmdline'], 'save_legacy_history', dest_key='save_command_history')
+        move_key(
+            config,
+            config['cmdline'],
+            'save_legacy_history',
+            dest_key='save_command_history',
+        )
 
         # Add key for localization
         config['language'] = DEFAULT_CONSOLE_PREFS['language']
 
         # Migrate column settings
         columns = [
-            'queue', 'size', 'state', 'progress', 'seeds', 'peers', 'downspeed', 'upspeed',
-            'eta', 'ratio', 'avail', 'added', 'tracker', 'savepath', 'downloaded', 'uploaded',
-            'remaining', 'owner', 'downloading_time', 'seeding_time', 'completed', 'seeds_peers_ratio',
-            'complete_seen', 'down_limit', 'up_limit', 'shared', 'name',
+            'queue',
+            'size',
+            'state',
+            'progress',
+            'seeds',
+            'peers',
+            'downspeed',
+            'upspeed',
+            'eta',
+            'ratio',
+            'avail',
+            'added',
+            'tracker',
+            'savepath',
+            'downloaded',
+            'uploaded',
+            'remaining',
+            'owner',
+            'downloading_time',
+            'seeding_time',
+            'completed',
+            'seeds_peers_ratio',
+            'complete_seen',
+            'down_limit',
+            'up_limit',
+            'shared',
+            'name',
         ]
         column_name_mapping = {
             'downspeed': 'download_speed',
@@ -499,6 +601,7 @@ Please use commands from the command line, e.g.:\n
         }
 
         from deluge.ui.console.modes.torrentlist.torrentview import default_columns
+
         # These are moved to 'torrentview.columns' sub dict
         for k in columns:
             column_name = column_name_mapping.get(k, k)
@@ -506,9 +609,21 @@ Please use commands from the command line, e.g.:\n
             if k == 'name':
                 config['torrentview']['columns'][column_name]['visible'] = True
             else:
-                move_key(config, config['torrentview']['columns'][column_name], 'show_%s' % k, dest_key='visible')
-            move_key(config, config['torrentview']['columns'][column_name], '%s_width' % k, dest_key='width')
-            config['torrentview']['columns'][column_name]['order'] = default_columns[column_name]['order']
+                move_key(
+                    config,
+                    config['torrentview']['columns'][column_name],
+                    'show_%s' % k,
+                    dest_key='visible',
+                )
+            move_key(
+                config,
+                config['torrentview']['columns'][column_name],
+                '%s_width' % k,
+                dest_key='width',
+            )
+            config['torrentview']['columns'][column_name]['order'] = default_columns[
+                column_name
+            ]['order']
 
         return config
 
@@ -517,6 +632,7 @@ class EventLog(component.Component):
     """
     Prints out certain events as they are received from the core.
     """
+
     def __init__(self):
         component.Component.__init__(self, 'EventLog')
         self.console = component.get('ConsoleUI')
@@ -524,15 +640,33 @@ class EventLog(component.Component):
         self.date_change_format = 'On {!yellow!}%a, %d %b %Y{!input!} %Z:'
 
         client.register_event_handler('TorrentAddedEvent', self.on_torrent_added_event)
-        client.register_event_handler('PreTorrentRemovedEvent', self.on_torrent_removed_event)
-        client.register_event_handler('TorrentStateChangedEvent', self.on_torrent_state_changed_event)
-        client.register_event_handler('TorrentFinishedEvent', self.on_torrent_finished_event)
-        client.register_event_handler('NewVersionAvailableEvent', self.on_new_version_available_event)
-        client.register_event_handler('SessionPausedEvent', self.on_session_paused_event)
-        client.register_event_handler('SessionResumedEvent', self.on_session_resumed_event)
-        client.register_event_handler('ConfigValueChangedEvent', self.on_config_value_changed_event)
-        client.register_event_handler('PluginEnabledEvent', self.on_plugin_enabled_event)
-        client.register_event_handler('PluginDisabledEvent', self.on_plugin_disabled_event)
+        client.register_event_handler(
+            'PreTorrentRemovedEvent', self.on_torrent_removed_event
+        )
+        client.register_event_handler(
+            'TorrentStateChangedEvent', self.on_torrent_state_changed_event
+        )
+        client.register_event_handler(
+            'TorrentFinishedEvent', self.on_torrent_finished_event
+        )
+        client.register_event_handler(
+            'NewVersionAvailableEvent', self.on_new_version_available_event
+        )
+        client.register_event_handler(
+            'SessionPausedEvent', self.on_session_paused_event
+        )
+        client.register_event_handler(
+            'SessionResumedEvent', self.on_session_resumed_event
+        )
+        client.register_event_handler(
+            'ConfigValueChangedEvent', self.on_config_value_changed_event
+        )
+        client.register_event_handler(
+            'PluginEnabledEvent', self.on_plugin_enabled_event
+        )
+        client.register_event_handler(
+            'PluginDisabledEvent', self.on_plugin_disabled_event
+        )
 
         self.previous_time = time.localtime(0)
 
@@ -541,16 +675,22 @@ class EventLog(component.Component):
             return
 
         def on_torrent_status(status):
-            self.write('{!green!}Torrent Added: {!info!}%s ({!cyan!}%s{!info!})' %
-                       (status['name'], torrent_id))
+            self.write(
+                '{!green!}Torrent Added: {!info!}%s ({!cyan!}%s{!info!})'
+                % (status['name'], torrent_id)
+            )
             # Write out what state the added torrent took
             self.on_torrent_state_changed_event(torrent_id, status['state'])
 
-        client.core.get_torrent_status(torrent_id, ['name', 'state']).addCallback(on_torrent_status)
+        client.core.get_torrent_status(torrent_id, ['name', 'state']).addCallback(
+            on_torrent_status
+        )
 
     def on_torrent_removed_event(self, torrent_id):
-        self.write('{!red!}Torrent Removed: {!info!}%s ({!cyan!}%s{!info!})' %
-                   (self.console.get_torrent_name(torrent_id), torrent_id))
+        self.write(
+            '{!red!}Torrent Removed: {!info!}%s ({!cyan!}%s{!info!})'
+            % (self.console.get_torrent_name(torrent_id), torrent_id)
+        )
 
     def on_torrent_state_changed_event(self, torrent_id, state):
         # It's probably a new torrent, ignore it
@@ -566,19 +706,20 @@ class EventLog(component.Component):
         if not t_name:
             return
 
-        self.write('%s: {!info!}%s ({!cyan!}%s{!info!})' %
-                   (state, t_name, torrent_id))
+        self.write('%s: {!info!}%s ({!cyan!}%s{!info!})' % (state, t_name, torrent_id))
 
     def on_torrent_finished_event(self, torrent_id):
         if component.get('TorrentList').config['ring_bell']:
             import curses.beep
+
             curses.beep()
-        self.write('{!info!}Torrent Finished: %s ({!cyan!}%s{!info!})' %
-                   (self.console.get_torrent_name(torrent_id), torrent_id))
+        self.write(
+            '{!info!}Torrent Finished: %s ({!cyan!}%s{!info!})'
+            % (self.console.get_torrent_name(torrent_id), torrent_id)
+        )
 
     def on_new_version_available_event(self, version):
-        self.write('{!input!}New Deluge version available: {!info!}%s' %
-                   (version))
+        self.write('{!input!}New Deluge version available: {!info!}%s' % (version))
 
     def on_session_paused_event(self):
         self.write('{!input!}Session Paused')

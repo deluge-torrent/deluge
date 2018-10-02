@@ -28,7 +28,11 @@ from deluge.common import decode_bytes
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
 from deluge.decorators import deprecated
-from deluge.event import TorrentFolderRenamedEvent, TorrentStateChangedEvent, TorrentTrackerStatusEvent
+from deluge.event import (
+    TorrentFolderRenamedEvent,
+    TorrentStateChangedEvent,
+    TorrentTrackerStatusEvent,
+)
 
 try:
     from urllib.parse import urlparse
@@ -65,6 +69,7 @@ def sanitize_filepath(filepath, folder=False):
     Args:
         folder (bool): A trailing slash is appended to the returned filepath.
     """
+
     def clean_filename(filename):
         """Strips whitespace and discards dotted filenames"""
         filename = filename.strip()
@@ -110,12 +115,14 @@ def convert_lt_files(files):
         except AttributeError:
             file_path = _file.path
 
-        filelist.append({
-            'index': index,
-            'path': file_path.replace('\\', '/'),
-            'size': _file.size,
-            'offset': _file.offset,
-        })
+        filelist.append(
+            {
+                'index': index,
+                'path': file_path.replace('\\', '/'),
+                'size': _file.size,
+                'offset': _file.offset,
+            }
+        )
 
     return filelist
 
@@ -152,6 +159,7 @@ class TorrentOptions(dict):
         stop_ratio (float): The seeding ratio to stop (or remove) the torrent at.
         super_seeding (bool): Enable super seeding/initial seeding.
     """
+
     def __init__(self):
         super(TorrentOptions, self).__init__()
         config = ConfigManager('core.conf').config
@@ -227,6 +235,7 @@ class Torrent(object):
             we can re-pause it after its done if necessary
         forced_error (TorrentError): Keep track if we have forced this torrent to be in Error state.
     """
+
     def __init__(self, handle, options, state=None, filename=None, magnet=None):
         self.torrent_id = str(handle.info_hash())
         if log.isEnabledFor(logging.DEBUG):
@@ -295,7 +304,9 @@ class Torrent(object):
 
         # Skip set_prioritize_first_last if set_file_priorities is in options as it also calls the method.
         if 'file_priorities' in options and 'prioritize_first_last_pieces' in options:
-            self.options['prioritize_first_last_pieces'] = options.pop('prioritize_first_last_pieces')
+            self.options['prioritize_first_last_pieces'] = options.pop(
+                'prioritize_first_last_pieces'
+            )
 
         for key, value in options.items():
             if key in self.options:
@@ -407,8 +418,12 @@ class Torrent(object):
 
             # Set the pieces in first and last ranges to priority 7
             # if they are not marked as do not download
-            priorities[first_start:first_end] = [p and 7 for p in priorities[first_start:first_end]]
-            priorities[last_start:last_end] = [p and 7 for p in priorities[last_start:last_end]]
+            priorities[first_start:first_end] = [
+                p and 7 for p in priorities[first_start:first_end]
+            ]
+            priorities[last_start:last_end] = [
+                p and 7 for p in priorities[last_start:last_end]
+            ]
 
         # Setting the priorites for all the pieces of this torrent
         self.handle.prioritize_pieces(priorities)
@@ -494,10 +509,15 @@ class Torrent(object):
         """
 
         if log.isEnabledFor(logging.DEBUG):
-            log.debug('Setting %s file priorities to: %s', self.torrent_id, file_priorities)
+            log.debug(
+                'Setting %s file priorities to: %s', self.torrent_id, file_priorities
+            )
 
-        if (self.handle.has_metadata() and file_priorities and
-                len(file_priorities) == len(self.get_files())):
+        if (
+            self.handle.has_metadata()
+            and file_priorities
+            and len(file_priorities) == len(self.get_files())
+        ):
             self.handle.prioritize_files(file_priorities)
         else:
             log.debug('Unable to set new file priorities.')
@@ -516,7 +536,9 @@ class Torrent(object):
 
         # Set the first/last priorities if needed.
         if self.options['prioritize_first_last_pieces']:
-            self.set_prioritize_first_last_pieces(self.options['prioritize_first_last_pieces'])
+            self.set_prioritize_first_last_pieces(
+                self.options['prioritize_first_last_pieces']
+            )
 
     @deprecated
     def set_save_path(self, download_location):
@@ -592,11 +614,16 @@ class Torrent(object):
 
         if self.tracker_status != status:
             self.tracker_status = status
-            component.get('EventManager').emit(TorrentTrackerStatusEvent(self.torrent_id, self.tracker_status))
+            component.get('EventManager').emit(
+                TorrentTrackerStatusEvent(self.torrent_id, self.tracker_status)
+            )
 
     def merge_trackers(self, torrent_info):
         """Merges new trackers in torrent_info into torrent"""
-        log.info('Adding any new trackers to torrent (%s) already in session...', self.torrent_id)
+        log.info(
+            'Adding any new trackers to torrent (%s) already in session...',
+            self.torrent_id,
+        )
         if not torrent_info:
             return
         # Don't merge trackers if either torrent has private flag set.
@@ -634,15 +661,23 @@ class Torrent(object):
             self.state = LT_TORRENT_STATE_MAP.get(str(status.state), str(status.state))
 
         if self.state != old_state:
-            component.get('EventManager').emit(TorrentStateChangedEvent(self.torrent_id, self.state))
+            component.get('EventManager').emit(
+                TorrentStateChangedEvent(self.torrent_id, self.state)
+            )
 
         if log.isEnabledFor(logging.DEBUG):
             log.debug(
                 'State from lt was: %s | Session is paused: %s\nTorrent state set from "%s" to "%s" (%s)',
-                'error' if status_error else status.state, session_paused, old_state, self.state, self.torrent_id,
+                'error' if status_error else status.state,
+                session_paused,
+                old_state,
+                self.state,
+                self.torrent_id,
             )
             if self.forced_error:
-                log.debug('Torrent Error state message: %s', self.forced_error.error_message)
+                log.debug(
+                    'Torrent Error state message: %s', self.forced_error.error_message
+                )
 
     def set_status_message(self, message=None):
         """Sets the torrent status message.
@@ -783,24 +818,30 @@ class Torrent(object):
             client = decode_bytes(peer.client)
 
             try:
-                country = component.get('Core').geoip_instance.country_code_by_addr(peer.ip[0])
+                country = component.get('Core').geoip_instance.country_code_by_addr(
+                    peer.ip[0]
+                )
             except AttributeError:
                 country = ''
             else:
                 try:
-                    country = ''.join([char if char.isalpha() else ' ' for char in country])
+                    country = ''.join(
+                        [char if char.isalpha() else ' ' for char in country]
+                    )
                 except TypeError:
                     country = ''
 
-            ret.append({
-                'client': client,
-                'country': country,
-                'down_speed': peer.payload_down_speed,
-                'ip': '%s:%s' % (peer.ip[0], peer.ip[1]),
-                'progress': peer.progress,
-                'seed': peer.flags & peer.seed,
-                'up_speed': peer.payload_up_speed,
-            })
+            ret.append(
+                {
+                    'client': client,
+                    'country': country,
+                    'down_speed': peer.payload_down_speed,
+                    'ip': '%s:%s' % (peer.ip[0], peer.ip[1]),
+                    'progress': peer.progress,
+                    'seed': peer.flags & peer.seed,
+                    'up_speed': peer.payload_up_speed,
+                }
+            )
 
         return ret
 
@@ -832,8 +873,10 @@ class Torrent(object):
         if not self.has_metadata:
             return []
         return [
-            progress / _file.size if _file.size else 0.0 for progress, _file in
-            zip(self.handle.file_progress(), self.torrent_info.files())
+            progress / _file.size if _file.size else 0.0
+            for progress, _file in zip(
+                self.handle.file_progress(), self.torrent_info.files()
+            )
         ]
 
     def get_tracker_host(self):
@@ -854,7 +897,7 @@ class Torrent(object):
         if tracker:
             url = urlparse(tracker.replace('udp://', 'http://'))
             if hasattr(url, 'hostname'):
-                host = (url.hostname or 'DHT')
+                host = url.hostname or 'DHT'
                 # Check if hostname is an IP address and just return it if that's the case
                 try:
                     socket.inet_aton(host)
@@ -995,7 +1038,9 @@ class Torrent(object):
             'seeding_time': lambda: self.status.seeding_time,
             'finished_time': lambda: self.status.finished_time,
             'all_time_download': lambda: self.status.all_time_download,
-            'storage_mode': lambda: self.status.storage_mode.name.split('_')[2],  # sparse or allocate
+            'storage_mode': lambda: self.status.storage_mode.name.split('_')[
+                2
+            ],  # sparse or allocate
             'distributed_copies': lambda: max(0.0, self.status.distributed_copies),
             'download_payload_rate': lambda: self.status.download_payload_rate,
             'file_priorities': self.get_file_priorities,
@@ -1008,8 +1053,12 @@ class Torrent(object):
             'max_upload_slots': lambda: self.options['max_upload_slots'],
             'max_upload_speed': lambda: self.options['max_upload_speed'],
             'message': lambda: self.statusmsg,
-            'move_on_completed_path': lambda: self.options['move_completed_path'],  # Deprecated: move_completed_path
-            'move_on_completed': lambda: self.options['move_completed'],  # Deprecated: Use move_completed
+            'move_on_completed_path': lambda: self.options[
+                'move_completed_path'
+            ],  # Deprecated: move_completed_path
+            'move_on_completed': lambda: self.options[
+                'move_completed'
+            ],  # Deprecated: Use move_completed
             'move_completed_path': lambda: self.options['move_completed_path'],
             'move_completed': lambda: self.options['move_completed'],
             'next_announce': lambda: self.status.next_announce.seconds,
@@ -1017,16 +1066,24 @@ class Torrent(object):
             'num_seeds': lambda: self.status.num_seeds,
             'owner': lambda: self.options['owner'],
             'paused': lambda: self.status.paused,
-            'prioritize_first_last': lambda: self.options['prioritize_first_last_pieces'],
+            'prioritize_first_last': lambda: self.options[
+                'prioritize_first_last_pieces'
+            ],
             # Deprecated: Use prioritize_first_last_pieces
-            'prioritize_first_last_pieces': lambda: self.options['prioritize_first_last_pieces'],
+            'prioritize_first_last_pieces': lambda: self.options[
+                'prioritize_first_last_pieces'
+            ],
             'sequential_download': lambda: self.options['sequential_download'],
             'progress': self.get_progress,
             'shared': lambda: self.options['shared'],
             'remove_at_ratio': lambda: self.options['remove_at_ratio'],
-            'save_path': lambda: self.options['download_location'],  # Deprecated: Use download_location
+            'save_path': lambda: self.options[
+                'download_location'
+            ],  # Deprecated: Use download_location
             'download_location': lambda: self.options['download_location'],
-            'seeds_peers_ratio': lambda: -1.0 if self.status.num_incomplete == 0 else (  # Use -1.0 to signify infinity
+            'seeds_peers_ratio': lambda: -1.0
+            if self.status.num_incomplete == 0
+            else (  # Use -1.0 to signify infinity
                 self.status.num_complete / self.status.num_incomplete
             ),
             'seed_rank': lambda: self.status.seed_rank,
@@ -1041,19 +1098,32 @@ class Torrent(object):
             'total_seeds': lambda: self.status.num_complete,
             'total_uploaded': lambda: self.status.all_time_upload,
             'total_wanted': lambda: self.status.total_wanted,
-            'total_remaining': lambda: self.status.total_wanted - self.status.total_wanted_done,
+            'total_remaining': lambda: self.status.total_wanted
+            - self.status.total_wanted_done,
             'tracker': lambda: self.status.current_tracker,
             'tracker_host': self.get_tracker_host,
             'trackers': lambda: self.trackers,
             'tracker_status': lambda: self.tracker_status,
             'upload_payload_rate': lambda: self.status.upload_payload_rate,
-            'comment': lambda: decode_bytes(self.torrent_info.comment()) if self.has_metadata else '',
-            'creator': lambda: decode_bytes(self.torrent_info.creator()) if self.has_metadata else '',
-            'num_files': lambda: self.torrent_info.num_files() if self.has_metadata else 0,
-            'num_pieces': lambda: self.torrent_info.num_pieces() if self.has_metadata else 0,
-            'piece_length': lambda: self.torrent_info.piece_length() if self.has_metadata else 0,
+            'comment': lambda: decode_bytes(self.torrent_info.comment())
+            if self.has_metadata
+            else '',
+            'creator': lambda: decode_bytes(self.torrent_info.creator())
+            if self.has_metadata
+            else '',
+            'num_files': lambda: self.torrent_info.num_files()
+            if self.has_metadata
+            else 0,
+            'num_pieces': lambda: self.torrent_info.num_pieces()
+            if self.has_metadata
+            else 0,
+            'piece_length': lambda: self.torrent_info.piece_length()
+            if self.has_metadata
+            else 0,
             'private': lambda: self.torrent_info.priv() if self.has_metadata else False,
-            'total_size': lambda: self.torrent_info.total_size() if self.has_metadata else 0,
+            'total_size': lambda: self.torrent_info.total_size()
+            if self.has_metadata
+            else 0,
             'eta': self.get_eta,
             'file_progress': self.get_file_progress,
             'files': self.get_files,
@@ -1090,7 +1160,9 @@ class Torrent(object):
             # show it as 'Paused'.  We need to emit a torrent_paused signal because
             # the torrent_paused alert from libtorrent will not be generated.
             self.update_state()
-            component.get('EventManager').emit(TorrentStateChangedEvent(self.torrent_id, 'Paused'))
+            component.get('EventManager').emit(
+                TorrentStateChangedEvent(self.torrent_id, 'Paused')
+            )
         else:
             try:
                 self.handle.pause()
@@ -1102,9 +1174,14 @@ class Torrent(object):
         if self.status.paused and self.status.auto_managed:
             log.debug('Resume not possible for auto-managed torrent!')
         elif self.forced_error and self.forced_error.was_paused:
-            log.debug('Resume skipped for forced_error torrent as it was originally paused.')
-        elif (self.status.is_finished and self.options['stop_at_ratio'] and
-              self.get_ratio() >= self.options['stop_ratio']):
+            log.debug(
+                'Resume skipped for forced_error torrent as it was originally paused.'
+            )
+        elif (
+            self.status.is_finished
+            and self.options['stop_at_ratio']
+            and self.get_ratio() >= self.options['stop_ratio']
+        ):
             log.debug('Resume skipped for torrent as it has reached "stop_seed_ratio".')
         else:
             # Check if torrent was originally being auto-managed.
@@ -1157,7 +1234,9 @@ class Torrent(object):
                 log.error(
                     'Could not move storage for torrent %s since %s does '
                     'not exist and could not create the directory: %s',
-                    self.torrent_id, dest, ex,
+                    self.torrent_id,
+                    dest,
+                    ex,
                 )
                 return False
 
@@ -1191,9 +1270,9 @@ class Torrent(object):
         flags = lt.save_resume_flags_t.flush_disk_cache if flush_disk_cache else 0
         # Don't generate fastresume data if torrent is in a Deluge Error state.
         if self.forced_error:
-            component.get('TorrentManager').waiting_on_resume_data[self.torrent_id].errback(
-                UserWarning('Skipped creating resume_data while in Error state'),
-            )
+            component.get('TorrentManager').waiting_on_resume_data[
+                self.torrent_id
+            ].errback(UserWarning('Skipped creating resume_data while in Error state'))
         else:
             self.handle.save_resume_data(flags)
 
@@ -1232,9 +1311,13 @@ class Torrent(object):
 
     def delete_torrentfile(self, delete_copies=False):
         """Deletes the .torrent file in the state directory in config"""
-        torrent_files = [os.path.join(get_config_dir(), 'state', self.torrent_id + '.torrent')]
+        torrent_files = [
+            os.path.join(get_config_dir(), 'state', self.torrent_id + '.torrent')
+        ]
         if delete_copies:
-            torrent_files.append(os.path.join(self.config['torrentfiles_location'], self.filename))
+            torrent_files.append(
+                os.path.join(self.config['torrentfiles_location'], self.filename)
+            )
 
         for torrent_file in torrent_files:
             log.debug('Deleting torrent file: %s', torrent_file)
@@ -1325,7 +1408,7 @@ class Torrent(object):
             if _file['path'].startswith(folder):
                 # Keep track of filerenames we're waiting on
                 wait_on_folder[_file['index']] = Deferred().addBoth(
-                    on_file_rename_complete, wait_on_folder, _file['index'],
+                    on_file_rename_complete, wait_on_folder, _file['index']
                 )
                 new_path = _file['path'].replace(folder, new_folder, 1)
                 try:
@@ -1335,10 +1418,14 @@ class Torrent(object):
 
         def on_folder_rename_complete(dummy_result, torrent, folder, new_folder):
             """Folder rename complete"""
-            component.get('EventManager').emit(TorrentFolderRenamedEvent(torrent.torrent_id, folder, new_folder))
+            component.get('EventManager').emit(
+                TorrentFolderRenamedEvent(torrent.torrent_id, folder, new_folder)
+            )
             # Empty folders are removed after libtorrent folder renames
             self.remove_empty_folders(folder)
-            torrent.waiting_on_folder_rename = [_dir for _dir in torrent.waiting_on_folder_rename if _dir]
+            torrent.waiting_on_folder_rename = [
+                _dir for _dir in torrent.waiting_on_folder_rename if _dir
+            ]
             component.get('TorrentManager').save_resume_data((self.torrent_id,))
 
         d = DeferredList(list(wait_on_folder.values()))
@@ -1355,7 +1442,9 @@ class Torrent(object):
         """
         # Removes leading slashes that can cause join to ignore download_location
         download_location = self.options['download_location']
-        folder_full_path = os.path.normpath(os.path.join(download_location, folder.lstrip('\\/')))
+        folder_full_path = os.path.normpath(
+            os.path.join(download_location, folder.lstrip('\\/'))
+        )
 
         try:
             if not os.listdir(folder_full_path):
@@ -1366,7 +1455,9 @@ class Torrent(object):
                     for name in dirs:
                         try:
                             os.removedirs(os.path.join(root, name))
-                            log.debug('Removed Empty Folder %s', os.path.join(root, name))
+                            log.debug(
+                                'Removed Empty Folder %s', os.path.join(root, name)
+                            )
                         except OSError as ex:
                             log.debug(ex)
 
@@ -1389,16 +1480,24 @@ class Torrent(object):
             pieces = None
         else:
             pieces = []
-            for piece, avail_piece in zip(self.status.pieces, self.handle.piece_availability()):
+            for piece, avail_piece in zip(
+                self.status.pieces, self.handle.piece_availability()
+            ):
                 if piece:
                     pieces.append(3)  # Completed.
                 elif avail_piece:
-                    pieces.append(1)  # Available, just not downloaded nor being downloaded.
+                    pieces.append(
+                        1
+                    )  # Available, just not downloaded nor being downloaded.
                 else:
-                    pieces.append(0)  # Missing, no known peer with piece, or not asked for yet.
+                    pieces.append(
+                        0
+                    )  # Missing, no known peer with piece, or not asked for yet.
 
             for peer_info in self.handle.get_peer_info():
                 if peer_info.downloading_piece_index >= 0:
-                    pieces[peer_info.downloading_piece_index] = 2  # Being downloaded from peer.
+                    pieces[
+                        peer_info.downloading_piece_index
+                    ] = 2  # Being downloaded from peer.
 
         return pieces

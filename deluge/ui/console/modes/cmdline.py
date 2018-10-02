@@ -22,7 +22,11 @@ from deluge.ui.console.cmdline.command import Commander
 from deluge.ui.console.modes.basemode import BaseMode, move_cursor
 from deluge.ui.console.utils import colors
 from deluge.ui.console.utils import curses_util as util
-from deluge.ui.console.utils.format_utils import delete_alt_backspace, remove_formatting, strwidth
+from deluge.ui.console.utils.format_utils import (
+    delete_alt_backspace,
+    remove_formatting,
+    strwidth,
+)
 
 try:
     import curses
@@ -95,7 +99,6 @@ def commonprefix(m):
 
 
 class CmdLine(BaseMode, Commander):
-
     def __init__(self, stdscr, encoding=None):
         # Get a handle to the main console
         self.console = component.get('ConsoleUI')
@@ -246,8 +249,13 @@ class CmdLine(BaseMode, Commander):
             if self.tab_completer:
                 # We only call the tab completer function if we're at the end of
                 # the input string on the cursor is on a space
-                if self.input_cursor == len(self.input) or self.input[self.input_cursor] == ' ':
-                    self.input, self.input_cursor = self.tab_completer(self.input, self.input_cursor, self.tab_count)
+                if (
+                    self.input_cursor == len(self.input)
+                    or self.input[self.input_cursor] == ' '
+                ):
+                    self.input, self.input_cursor = self.tab_completer(
+                        self.input, self.input_cursor, self.tab_count
+                    )
 
         # We use the UP and DOWN keys to cycle through input history
         elif c == curses.KEY_UP:
@@ -301,14 +309,25 @@ class CmdLine(BaseMode, Commander):
         # Delete a character in the input string based on cursor position
         elif c in [curses.KEY_BACKSPACE, util.KEY_BACKSPACE2]:
             if self.input and self.input_cursor > 0:
-                self.input = self.input[:self.input_cursor - 1] + self.input[self.input_cursor:]
+                self.input = (
+                    self.input[: self.input_cursor - 1]
+                    + self.input[self.input_cursor :]
+                )
                 self.input_cursor -= 1
         # Delete a word when alt+backspace is pressed
-        elif c == [util.KEY_ESC, util.KEY_BACKSPACE2] or c == [util.KEY_ESC, curses.KEY_BACKSPACE]:
-            self.input, self.input_cursor = delete_alt_backspace(self.input, self.input_cursor)
+        elif c == [util.KEY_ESC, util.KEY_BACKSPACE2] or c == [
+            util.KEY_ESC,
+            curses.KEY_BACKSPACE,
+        ]:
+            self.input, self.input_cursor = delete_alt_backspace(
+                self.input, self.input_cursor
+            )
         elif c == curses.KEY_DC:
             if self.input and self.input_cursor < len(self.input):
-                self.input = self.input[:self.input_cursor] + self.input[self.input_cursor + 1:]
+                self.input = (
+                    self.input[: self.input_cursor]
+                    + self.input[self.input_cursor + 1 :]
+                )
 
         # A key to add to the input string
         else:
@@ -328,7 +347,11 @@ class CmdLine(BaseMode, Commander):
                         self.input += uchar
                     else:
                         # Insert into string
-                        self.input = self.input[:self.input_cursor] + uchar + self.input[self.input_cursor:]
+                        self.input = (
+                            self.input[: self.input_cursor]
+                            + uchar
+                            + self.input[self.input_cursor :]
+                        )
 
                     # Move the cursor forward
                     self.input_cursor += 1
@@ -363,7 +386,7 @@ class CmdLine(BaseMode, Commander):
         if len(self.lines) > available_lines:
             # Get the lines to display based on the offset
             offset = len(self.lines) - self.display_lines_offset
-            lines = self.lines[-(available_lines - offset):offset]
+            lines = self.lines[-(available_lines - offset) : offset]
         elif len(self.lines) == available_lines:
             lines = self.lines
         else:
@@ -411,7 +434,10 @@ class CmdLine(BaseMode, Commander):
         if self.console_config['cmdline']['save_command_history']:
             # Determine which file is the active one
             # If both are under maximum, it's first, otherwise it's the one not full
-            if self._hf_lines[0] < MAX_HISTFILE_SIZE and self._hf_lines[1] < MAX_HISTFILE_SIZE:
+            if (
+                self._hf_lines[0] < MAX_HISTFILE_SIZE
+                and self._hf_lines[1] < MAX_HISTFILE_SIZE
+            ):
                 active_file = 0
             elif self._hf_lines[0] == MAX_HISTFILE_SIZE:
                 active_file = 1
@@ -429,7 +455,9 @@ class CmdLine(BaseMode, Commander):
             # therefore swapping the currently active file
             if self._hf_lines[active_file] == MAX_HISTFILE_SIZE:
                 self._hf_lines[1 - active_file] = 0
-                with open(self.history_file[1 - active_file], 'w', encoding='utf8') as _file:
+                with open(
+                    self.history_file[1 - active_file], 'w', encoding='utf8'
+                ) as _file:
                     _file.truncate(0)
 
         def get_line_chunks(line):
@@ -454,7 +482,7 @@ class CmdLine(BaseMode, Commander):
                 next_color = line.find('{!', end_color)
                 if next_color == -1:
                     next_color = len(line)
-                chunks.append((line[:end_color + 2], line[end_color + 2:next_color]))
+                chunks.append((line[: end_color + 2], line[end_color + 2 : next_color]))
                 line = line[next_color:]
             return chunks
 
@@ -612,7 +640,9 @@ class CmdLine(BaseMode, Commander):
                 except IndexError:
                     l_arg = ''
 
-                new_line = ' '.join([p, complete_line(l_arg, possible_matches)]).lstrip()
+                new_line = ' '.join(
+                    [p, complete_line(l_arg, possible_matches)]
+                ).lstrip()
 
                 if len(remove_formatting(new_line)) > len(line):
                     line = new_line
@@ -634,7 +664,10 @@ class CmdLine(BaseMode, Commander):
                         for i in range(listed, listed + max_list):
                             match = possible_matches[i]
                             self.write(match.replace(r'\ ', ' '))
-                        self.write('{!error!}And %i more. Press <tab> to list them' % (left - max_list))
+                        self.write(
+                            '{!error!}And %i more. Press <tab> to list them'
+                            % (left - max_list)
+                        )
                     else:
                         self.tab_count = 0
                         for match in possible_matches[listed:]:
@@ -644,22 +677,28 @@ class CmdLine(BaseMode, Commander):
                         for i in range(listed, listed + max_list):
                             match = possible_matches[i]
                             self.write(match.replace(r'\ ', ' '))
-                        self.write('{!error!}And %i more (%i/%i). Press <tab> to view more' % (
-                            left - max_list, hits - 1, pages,
-                        ))
+                        self.write(
+                            '{!error!}And %i more (%i/%i). Press <tab> to view more'
+                            % (left - max_list, hits - 1, pages)
+                        )
                     else:
                         self.tab_count = 0
                         for match in possible_matches[listed:]:
                             self.write(match.replace(r'\ ', ' '))
                         if hits > 2:
-                            self.write('{!green!}Finished listing %i torrents (%i/%i)' % (match_count, hits - 1, pages))
+                            self.write(
+                                '{!green!}Finished listing %i torrents (%i/%i)'
+                                % (match_count, hits - 1, pages)
+                            )
 
             # We only want to print eventual colors or other control characters, not return them
             line = remove_formatting(line)
             cursor = len(line)
             return (line, cursor)
 
-    def tab_complete_path(self, line, path_type='file', ext='', sort='name', dirs_first=1):
+    def tab_complete_path(
+        self, line, path_type='file', ext='', sort='name', dirs_first=1
+    ):
         self.console = component.get('ConsoleUI')
 
         line = line.replace('\\ ', ' ')
@@ -787,17 +826,23 @@ class CmdLine(BaseMode, Commander):
                 if not empty and torrent_id.startswith(line):
                     # Highlight the matching part
                     text = '{!info!}%s{!input!}%s - "%s"' % (
-                        torrent_id[:line_len], torrent_id[line_len:], torrent_name,
+                        torrent_id[:line_len],
+                        torrent_id[line_len:],
+                        torrent_name,
                     )
                     possible_matches.append(text)
                 if torrent_name.startswith(line):
                     text = '{!info!}%s{!input!}%s ({!cyan!}%s{!input!})' % (
-                        escaped_name[:line_len], escaped_name[line_len:], torrent_id,
+                        escaped_name[:line_len],
+                        escaped_name[line_len:],
+                        torrent_id,
                     )
                     possible_matches.append(text)
                 elif torrent_name.lower().startswith(line.lower()):
                     text = '{!info!}%s{!input!}%s ({!cyan!}%s{!input!})' % (
-                        escaped_name[:line_len], escaped_name[line_len:], torrent_id,
+                        escaped_name[:line_len],
+                        escaped_name[line_len:],
+                        torrent_id,
                     )
                     possible_matches2.append(text)
 

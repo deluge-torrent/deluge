@@ -80,10 +80,23 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         set_group = parser.add_argument_group('setting a value')
-        set_group.add_argument('-s', '--set', action='store', metavar='<key>', help=_('set value for this key'))
-        set_group.add_argument('values', metavar='<value>', nargs='+', help=_('Value to set'))
+        set_group.add_argument(
+            '-s',
+            '--set',
+            action='store',
+            metavar='<key>',
+            help=_('set value for this key'),
+        )
+        set_group.add_argument(
+            'values', metavar='<value>', nargs='+', help=_('Value to set')
+        )
         get_group = parser.add_argument_group('getting values')
-        get_group.add_argument('keys', metavar='<keys>', nargs='*', help=_('one or more keys separated by space'))
+        get_group.add_argument(
+            'keys',
+            metavar='<keys>',
+            nargs='*',
+            help=_('one or more keys separated by space'),
+        )
 
     def handle(self, options):
         self.console = component.get('ConsoleUI')
@@ -109,6 +122,7 @@ class Command(BaseCommand):
                 # We need to format dicts for printing
                 if isinstance(value, dict):
                     import pprint
+
                     value = pprint.pformat(value, 2, 80)
                     new_value = []
                     for line in value.splitlines():
@@ -139,7 +153,9 @@ class Command(BaseCommand):
             try:
                 val = type(config[key])(val)
             except TypeError:
-                self.config.write('{!error!}Configuration value provided has incorrect type.')
+                self.config.write(
+                    '{!error!}Configuration value provided has incorrect type.'
+                )
                 return
 
         def on_set_config(result):

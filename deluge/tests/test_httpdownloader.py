@@ -33,26 +33,20 @@ def fname(name):
 
 
 class RedirectResource(Resource):
-
     def render(self, request):
         url = self.get_url().encode('utf8')
         return redirectTo(url, request)
 
 
 class RenameResource(Resource):
-
     def render(self, request):
         filename = request.args.get(b'filename', [b'renamed_file'])[0]
         request.setHeader(b'Content-Type', b'text/plain')
-        request.setHeader(
-            b'Content-Disposition', b'attachment; filename=' +
-            filename,
-        )
+        request.setHeader(b'Content-Disposition', b'attachment; filename=' + filename)
         return b'This file should be called ' + filename
 
 
 class AttachmentResource(Resource):
-
     def render(self, request):
         request.setHeader(b'Content-Type', b'text/plain')
         request.setHeader(b'Content-Disposition', b'attachment')
@@ -60,7 +54,6 @@ class AttachmentResource(Resource):
 
 
 class CookieResource(Resource):
-
     def render(self, request):
         request.setHeader(b'Content-Type', b'text/plain')
         if request.getCookie(b'password') is None:
@@ -73,7 +66,6 @@ class CookieResource(Resource):
 
 
 class GzipResource(Resource):
-
     def render(self, request):
         message = request.args.get(b'msg', [b'EFFICIENCY!'])[0]
         request.setHeader(b'Content-Type', b'text/plain')
@@ -81,7 +73,6 @@ class GzipResource(Resource):
 
 
 class PartialDownloadResource(Resource):
-
     def __init__(self, *args, **kwargs):
         Resource.__init__(self)
         self.render_count = 0
@@ -126,7 +117,6 @@ class TopLevelResource(Resource):
 
 
 class DownloadFileTestCase(unittest.TestCase):
-
     def get_url(self, path=''):
         return 'http://localhost:%d/%s' % (self.listen_port, path)
 
@@ -245,6 +235,7 @@ class DownloadFileTestCase(unittest.TestCase):
 
         def cb(result):
             print(result)
+
         d.addCallback(self.assertNotContains, b'fail', file_mode='rb')
         return d
 
@@ -255,6 +246,7 @@ class DownloadFileTestCase(unittest.TestCase):
 
         def on_redirect(failure):
             self.assertTrue(type(failure), PageRedirect)
+
         d.addErrback(on_redirect)
         return d
 

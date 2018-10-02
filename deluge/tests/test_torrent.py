@@ -30,11 +30,11 @@ from .basetest import BaseTestCase
 
 
 class TorrentTestCase(BaseTestCase):
-
     def setup_config(self):
         config_dir = common.set_tmp_config_dir()
         core_config = deluge.config.Config(
-            'core.conf', defaults=deluge.core.preferencesmanager.DEFAULT_PREFS,
+            'core.conf',
+            defaults=deluge.core.preferencesmanager.DEFAULT_PREFS,
             config_dir=config_dir,
         )
         core_config.save()
@@ -82,12 +82,38 @@ class TorrentTestCase(BaseTestCase):
 
     def test_set_prioritize_first_last_pieces(self):
         piece_indexes = [
-            0, 1, 50, 51, 52, 110, 111, 112, 113, 200, 201, 202, 212,
-            213, 214, 215, 216, 217, 457, 458, 459, 460, 461, 462,
+            0,
+            1,
+            50,
+            51,
+            52,
+            110,
+            111,
+            112,
+            113,
+            200,
+            201,
+            202,
+            212,
+            213,
+            214,
+            215,
+            216,
+            217,
+            457,
+            458,
+            459,
+            460,
+            461,
+            462,
         ]
-        self.run_test_set_prioritize_first_last_pieces('dir_with_6_files.torrent', piece_indexes)
+        self.run_test_set_prioritize_first_last_pieces(
+            'dir_with_6_files.torrent', piece_indexes
+        )
 
-    def run_test_set_prioritize_first_last_pieces(self, torrent_file, prioritized_piece_indexes):
+    def run_test_set_prioritize_first_last_pieces(
+        self, torrent_file, prioritized_piece_indexes
+    ):
         atp = self.get_torrent_atp(torrent_file)
         handle = self.session.add_torrent(atp)
 
@@ -167,21 +193,47 @@ class TorrentTestCase(BaseTestCase):
         if windows_check():
             raise unittest.SkipTest('unexpected end of file in bencoded string')
         resume_data = {
-            'active_time': 13399, 'num_incomplete': 16777215, 'announce_to_lsd': 1, 'seed_mode': 0,
-            'pieces': '\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01', 'paused': 0,
-            'seeding_time': 13399, 'last_scrape': 13399,
-            'info-hash': '-\xc5\xd0\xe7\x1af\xfeid\x9ad\r9\xcb\x00\xa2YpIs', 'max_uploads': 16777215,
-            'max_connections': 16777215, 'num_downloaders': 16777215, 'total_downloaded': 0,
-            'file-format': 'libtorrent resume file', 'peers6': '', 'added_time': 1411826665,
-            'banned_peers6': '', 'file_priority': [1], 'last_seen_complete': 0, 'total_uploaded': 0,
+            'active_time': 13399,
+            'num_incomplete': 16777215,
+            'announce_to_lsd': 1,
+            'seed_mode': 0,
+            'pieces': '\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01',
+            'paused': 0,
+            'seeding_time': 13399,
+            'last_scrape': 13399,
+            'info-hash': '-\xc5\xd0\xe7\x1af\xfeid\x9ad\r9\xcb\x00\xa2YpIs',
+            'max_uploads': 16777215,
+            'max_connections': 16777215,
+            'num_downloaders': 16777215,
+            'total_downloaded': 0,
+            'file-format': 'libtorrent resume file',
+            'peers6': '',
+            'added_time': 1411826665,
+            'banned_peers6': '',
+            'file_priority': [1],
+            'last_seen_complete': 0,
+            'total_uploaded': 0,
             'piece_priority': '\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01',
-            'file-version': 1, 'announce_to_dht': 1, 'auto_managed': 1, 'upload_rate_limit': 0,
-            'completed_time': 1411826665, 'allocation': 'sparse', 'blocks per piece': 2,
-            'download_rate_limit': 0, 'libtorrent-version': '0.16.17.0', 'banned_peers': '',
-            'num_seeds': 16777215, 'sequential_download': 0, 'announce_to_trackers': 1,
-            'peers': '\n\x00\x02\x0f=\xc6SC\x17]\xd8}\x7f\x00\x00\x01=\xc6', 'finished_time': 13399,
-            'last_upload': 13399, 'trackers': [[]], 'super_seeding': 0,
-            'file sizes': [[512000, 1411826586]], 'last_download': 13399,
+            'file-version': 1,
+            'announce_to_dht': 1,
+            'auto_managed': 1,
+            'upload_rate_limit': 0,
+            'completed_time': 1411826665,
+            'allocation': 'sparse',
+            'blocks per piece': 2,
+            'download_rate_limit': 0,
+            'libtorrent-version': '0.16.17.0',
+            'banned_peers': '',
+            'num_seeds': 16777215,
+            'sequential_download': 0,
+            'announce_to_trackers': 1,
+            'peers': '\n\x00\x02\x0f=\xc6SC\x17]\xd8}\x7f\x00\x00\x01=\xc6',
+            'finished_time': 13399,
+            'last_upload': 13399,
+            'trackers': [[]],
+            'super_seeding': 0,
+            'file sizes': [[512000, 1411826586]],
+            'last_download': 13399,
         }
         torrent_state = TorrentState(
             torrent_id='2dc5d0e71a66fe69649a640d39cb00a259704973',
@@ -197,13 +249,15 @@ class TorrentTestCase(BaseTestCase):
             filedump = _file.read()
         resume_data = utf8_encode_structure(resume_data)
         torrent_id = self.core.torrentmanager.add(
-            state=torrent_state, filedump=filedump, resume_data=lt.bencode(resume_data),
+            state=torrent_state, filedump=filedump, resume_data=lt.bencode(resume_data)
         )
         torrent = self.core.torrentmanager.torrents[torrent_id]
 
         def assert_resume_data():
             self.assert_state(torrent, 'Error')
-            tm_resume_data = lt.bdecode(self.core.torrentmanager.resume_data[torrent.torrent_id])
+            tm_resume_data = lt.bdecode(
+                self.core.torrentmanager.resume_data[torrent.torrent_id]
+            )
             self.assertEqual(tm_resume_data, resume_data)
 
         return deferLater(reactor, 0.5, assert_resume_data)
@@ -224,10 +278,7 @@ class TorrentTestCase(BaseTestCase):
         # Test finished and uploading but no stop_at_ratio set.
         self.assertEqual(self.torrent.get_eta(), 0)
 
-        self.torrent.options = {
-            'stop_at_ratio': True,
-            'stop_ratio': 1.5,
-        }
+        self.torrent.options = {'stop_at_ratio': True, 'stop_ratio': 1.5}
         result = self.torrent.get_eta()
         self.assertEqual(result, 2)
         self.assertIsInstance(result, int)

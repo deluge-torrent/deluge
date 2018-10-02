@@ -35,11 +35,7 @@ DEFAULT_PREFS = {
     'button_state': [[0] * 7 for dummy in range(24)],
 }
 
-STATES = {
-    0: 'Green',
-    1: 'Yellow',
-    2: 'Red',
-}
+STATES = {0: 'Green', 1: 'Yellow', 2: 'Red'}
 
 CONTROLLED_SETTINGS = [
     'max_download_speed',
@@ -54,6 +50,7 @@ class SchedulerEvent(DelugeEvent):
     """
     Emitted when a schedule state changes.
     """
+
     def __init__(self, colour):
         """
         :param colour: str, the current scheduler state
@@ -71,7 +68,9 @@ class Core(CorePluginBase):
         DEFAULT_PREFS['low_active_down'] = core_config['max_active_downloading']
         DEFAULT_PREFS['low_active_up'] = core_config['max_active_seeding']
 
-        self.config = deluge.configmanager.ConfigManager('scheduler.conf', DEFAULT_PREFS)
+        self.config = deluge.configmanager.ConfigManager(
+            'scheduler.conf', DEFAULT_PREFS
+        )
 
         self.state = self.get_state()
 
@@ -84,12 +83,16 @@ class Core(CorePluginBase):
         self.timer = reactor.callLater(secs_to_next_hour, self.do_schedule)
 
         # Register for config changes so state isn't overridden
-        component.get('EventManager').register_event_handler('ConfigValueChangedEvent', self.on_config_value_changed)
+        component.get('EventManager').register_event_handler(
+            'ConfigValueChangedEvent', self.on_config_value_changed
+        )
 
     def disable(self):
         if self.timer.active():
             self.timer.cancel()
-        component.get('EventManager').deregister_event_handler('ConfigValueChangedEvent', self.on_config_value_changed)
+        component.get('EventManager').deregister_event_handler(
+            'ConfigValueChangedEvent', self.on_config_value_changed
+        )
         self.__apply_set_functions()
 
     def update(self):
@@ -105,7 +108,9 @@ class Core(CorePluginBase):
         """
         core_config = deluge.configmanager.ConfigManager('core.conf')
         for setting in CONTROLLED_SETTINGS:
-            component.get('PreferencesManager').do_config_set_func(setting, core_config[setting])
+            component.get('PreferencesManager').do_config_set_func(
+                setting, core_config[setting]
+            )
         # Resume the session if necessary
         component.get('Core').resume_session()
 

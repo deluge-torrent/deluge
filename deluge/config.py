@@ -121,16 +121,14 @@ class Config(object):
             setup to convert old config files. (default: 1)
 
     """
+
     def __init__(self, filename, defaults=None, config_dir=None, file_version=1):
         self.__config = {}
         self.__set_functions = {}
         self.__change_callbacks = []
 
         # These hold the version numbers and they will be set when loaded
-        self.__version = {
-            'format': 1,
-            'file': file_version,
-        }
+        self.__version = {'format': 1, 'file': file_version}
 
         # This will get set with a reactor.callLater whenever a config option
         # is set.
@@ -210,7 +208,9 @@ class Config(object):
         global callLater
         if callLater is None:
             # Must import here and not at the top or it will throw ReactorAlreadyInstalledError
-            from twisted.internet.reactor import callLater  # pylint: disable=redefined-outer-name
+            from twisted.internet.reactor import (
+                callLater,
+            )  # pylint: disable=redefined-outer-name
         # Run the set_function for this key if any
         try:
             for func in self.__set_functions[key]:
@@ -218,9 +218,11 @@ class Config(object):
         except KeyError:
             pass
         try:
+
             def do_change_callbacks(key, value):
                 for func in self.__change_callbacks:
                     func(key, value)
+
             callLater(0, do_change_callbacks, key, value)
         except Exception:
             pass
@@ -306,7 +308,9 @@ class Config(object):
         global callLater
         if callLater is None:
             # Must import here and not at the top or it will throw ReactorAlreadyInstalledError
-            from twisted.internet.reactor import callLater  # pylint: disable=redefined-outer-name
+            from twisted.internet.reactor import (
+                callLater,
+            )  # pylint: disable=redefined-outer-name
 
         # We set the save_timer for 5 seconds if not already set
         if not self._save_timer or not self._save_timer.active():
@@ -432,8 +436,11 @@ class Config(object):
                 log.warning('Unable to load config file: %s', filename)
 
         log.debug(
-            'Config %s version: %s.%s loaded: %s', filename,
-            self.__version['format'], self.__version['file'], self.__config,
+            'Config %s version: %s.%s loaded: %s',
+            filename,
+            self.__version['format'],
+            self.__version['file'],
+            self.__config,
         )
 
     def save(self, filename=None):
@@ -518,7 +525,8 @@ class Config(object):
         if self.__version['file'] not in input_range:
             log.debug(
                 'File version %s is not in input_range %s, ignoring converter function..',
-                self.__version['file'], input_range,
+                self.__version['file'],
+                input_range,
             )
             return
 
@@ -528,7 +536,9 @@ class Config(object):
             log.exception(ex)
             log.error(
                 'There was an exception try to convert config file %s %s to %s',
-                self.__config_file, self.__version['file'], output_version,
+                self.__config_file,
+                self.__version['file'],
+                output_version,
             )
             raise ex
         else:
@@ -542,9 +552,11 @@ class Config(object):
     @prop
     def config():  # pylint: disable=no-method-argument
         """The config dictionary"""
+
         def fget(self):
             return self.__config
 
         def fdel(self):
             return self.save()
+
         return locals()

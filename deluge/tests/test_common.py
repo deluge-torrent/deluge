@@ -12,8 +12,24 @@ import tarfile
 
 from twisted.trial import unittest
 
-from deluge.common import (VersionSplit, archive_files, fdate, fpcnt, fpeer, fsize, fspeed, ftime, get_path_size,
-                           is_infohash, is_ip, is_ipv4, is_ipv6, is_magnet, is_url, windows_check)
+from deluge.common import (
+    VersionSplit,
+    archive_files,
+    fdate,
+    fpcnt,
+    fpeer,
+    fsize,
+    fspeed,
+    ftime,
+    get_path_size,
+    is_infohash,
+    is_ip,
+    is_ipv4,
+    is_ipv6,
+    is_magnet,
+    is_url,
+    windows_check,
+)
 from deluge.ui.translations_util import setup_translations
 
 from .common import get_test_data_file, set_tmp_config_dir
@@ -73,7 +89,9 @@ class CommonTestCase(unittest.TestCase):
         self.assertFalse(is_url('file://test.torrent'))
 
     def test_is_magnet(self):
-        self.assertTrue(is_magnet('magnet:?xt=urn:btih:SU5225URMTUEQLDXQWRB2EQWN6KLTYKN'))
+        self.assertTrue(
+            is_magnet('magnet:?xt=urn:btih:SU5225URMTUEQLDXQWRB2EQWN6KLTYKN')
+        )
         self.assertFalse(is_magnet(None))
 
     def test_is_infohash(self):
@@ -121,23 +139,26 @@ class CommonTestCase(unittest.TestCase):
 
     def test_parse_human_size(self):
         from deluge.common import parse_human_size
+
         sizes = [
             ('1', 1),
             ('10 bytes', 10),
             ('2048 bytes', 2048),
-            ('1MiB', 2**(10 * 2)),
-            ('1 MiB', 2**(10 * 2)),
-            ('1 GiB', 2**(10 * 3)),
-            ('1 GiB', 2**(10 * 3)),
-            ('1M', 10**6),
-            ('1MB', 10**6),
-            ('1 GB', 10**9),
-            ('1 TB', 10**12),
+            ('1MiB', 2 ** (10 * 2)),
+            ('1 MiB', 2 ** (10 * 2)),
+            ('1 GiB', 2 ** (10 * 3)),
+            ('1 GiB', 2 ** (10 * 3)),
+            ('1M', 10 ** 6),
+            ('1MB', 10 ** 6),
+            ('1 GB', 10 ** 9),
+            ('1 TB', 10 ** 12),
         ]
 
         for human_size, byte_size in sizes:
             parsed = parse_human_size(human_size)
-            self.assertEqual(parsed, byte_size, 'Mismatch when converting: %s' % human_size)
+            self.assertEqual(
+                parsed, byte_size, 'Mismatch when converting: %s' % human_size
+            )
 
     def test_archive_files(self):
         arc_filelist = [
@@ -149,4 +170,6 @@ class CommonTestCase(unittest.TestCase):
         with tarfile.open(arc_filepath, 'r') as tar:
             for tar_info in tar:
                 self.assertTrue(tar_info.isfile())
-                self.assertTrue(tar_info.name in [os.path.basename(arcf) for arcf in arc_filelist])
+                self.assertTrue(
+                    tar_info.name in [os.path.basename(arcf) for arcf in arc_filelist]
+                )

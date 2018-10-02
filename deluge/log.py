@@ -29,7 +29,9 @@ LoggingLoggerClass = logging.getLoggerClass()
 if 'dev' in common.get_version():
     DEFAULT_LOGGING_FORMAT = '%%(asctime)s.%%(msecs)03.0f [%%(levelname)-8s][%%(name)-%ds:%%(lineno)-4d] %%(message)s'
 else:
-    DEFAULT_LOGGING_FORMAT = '%%(asctime)s [%%(levelname)-8s][%%(name)-%ds:%%(lineno)-4d] %%(message)s'
+    DEFAULT_LOGGING_FORMAT = (
+        '%%(asctime)s [%%(levelname)-8s][%%(name)-%ds:%%(lineno)-4d] %%(message)s'
+    )
 MAX_LOGGER_NAME_LENGTH = 10
 
 
@@ -43,10 +45,12 @@ class Logging(LoggingLoggerClass):
         if len(logger_name) > MAX_LOGGER_NAME_LENGTH:
             MAX_LOGGER_NAME_LENGTH = len(logger_name)
             for handler in logging.getLogger().handlers:
-                handler.setFormatter(logging.Formatter(
-                    DEFAULT_LOGGING_FORMAT % MAX_LOGGER_NAME_LENGTH,
-                    datefmt='%H:%M:%S',
-                ))
+                handler.setFormatter(
+                    logging.Formatter(
+                        DEFAULT_LOGGING_FORMAT % MAX_LOGGER_NAME_LENGTH,
+                        datefmt='%H:%M:%S',
+                    )
+                )
 
     @defer.inlineCallbacks
     def garbage(self, msg, *args, **kwargs):
@@ -112,8 +116,12 @@ levels = {
 
 
 def setup_logger(
-    level='error', filename=None, filemode='w', logrotate=None,
-    output_stream=sys.stdout, twisted_observer=True,
+    level='error',
+    filename=None,
+    filemode='w',
+    logrotate=None,
+    output_stream=sys.stdout,
+    twisted_observer=True,
 ):
     """
     Sets up the basic logger and if `:param:filename` is set, then it will log
@@ -140,13 +148,14 @@ def setup_logger(
 
     if filename and logrotate:
         handler = logging.handlers.RotatingFileHandler(
-            filename, maxBytes=logrotate,
-            backupCount=5, encoding='utf-8',
+            filename, maxBytes=logrotate, backupCount=5, encoding='utf-8'
         )
     elif filename and filemode == 'w':
         handler_cls = logging.FileHandler
         if not common.windows_check():
-            handler_cls = getattr(logging.handlers, 'WatchedFileHandler', logging.FileHandler)
+            handler_cls = getattr(
+                logging.handlers, 'WatchedFileHandler', logging.FileHandler
+            )
         handler = handler_cls(filename, mode=filemode, encoding='utf-8')
     else:
         handler = logging.StreamHandler(stream=output_stream)
@@ -154,8 +163,7 @@ def setup_logger(
     handler.setLevel(level)
 
     formatter = logging.Formatter(
-        DEFAULT_LOGGING_FORMAT % MAX_LOGGER_NAME_LENGTH,
-        datefmt='%H:%M:%S',
+        DEFAULT_LOGGING_FORMAT % MAX_LOGGER_NAME_LENGTH, datefmt='%H:%M:%S'
     )
 
     handler.setFormatter(formatter)
@@ -190,7 +198,9 @@ class TwistedLoggingObserver(PythonLoggingObserver):
         log = logging.getLogger(__name__)
         if 'log_failure' in event_dict:
             fmt = '%(log_namespace)s \n%(log_failure)s'
-            getattr(LoggingLoggerClass, event_dict['log_level'].name)(log, fmt % (event_dict))
+            getattr(LoggingLoggerClass, event_dict['log_level'].name)(
+                log, fmt % (event_dict)
+            )
         else:
             PythonLoggingObserver.emit(self, event_dict)
 
@@ -214,13 +224,13 @@ def tweak_logging_levels():
     the command line.
     """
     from deluge import configmanager
+
     logging_config_file = os.path.join(configmanager.get_config_dir(), 'logging.conf')
     if not os.path.isfile(logging_config_file):
         return
     log = logging.getLogger(__name__)
     log.warning(
-        'logging.conf found! tweaking logging levels from %s',
-        logging_config_file,
+        'logging.conf found! tweaking logging levels from %s', logging_config_file
     )
     with open(logging_config_file, 'r') as _file:
         for line in _file:
@@ -249,15 +259,18 @@ def set_logger_level(level, logger_name=None):
 
 def get_plugin_logger(logger_name):
     import warnings
+
     stack = inspect.stack()
-    stack.pop(0)                # The logging call from this module
+    stack.pop(0)  # The logging call from this module
     module_stack = stack.pop(0)  # The module that called the log function
     caller_module = inspect.getmodule(module_stack[0])
     # In some weird cases caller_module might be None, try to continue
     caller_module_name = getattr(caller_module, '__name__', '')
     warnings.warn_explicit(
-        DEPRECATION_WARNING, DeprecationWarning,
-        module_stack[1], module_stack[2],
+        DEPRECATION_WARNING,
+        DeprecationWarning,
+        module_stack[1],
+        module_stack[2],
         caller_module_name,
     )
 
@@ -292,16 +305,19 @@ Triggering code:"""
 class _BackwardsCompatibleLOG(object):
     def __getattribute__(self, name):
         import warnings
+
         logger_name = 'deluge'
         stack = inspect.stack()
-        stack.pop(0)                 # The logging call from this module
+        stack.pop(0)  # The logging call from this module
         module_stack = stack.pop(0)  # The module that called the log function
         caller_module = inspect.getmodule(module_stack[0])
         # In some weird cases caller_module might be None, try to continue
         caller_module_name = getattr(caller_module, '__name__', '')
         warnings.warn_explicit(
-            DEPRECATION_WARNING, DeprecationWarning,
-            module_stack[1], module_stack[2],
+            DEPRECATION_WARNING,
+            DeprecationWarning,
+            module_stack[1],
+            module_stack[2],
             caller_module_name,
         )
         if caller_module:
@@ -320,7 +336,7 @@ class _BackwardsCompatibleLOG(object):
         else:
             logging.getLogger(logger_name).warning(
                 "Unable to monkey-patch the calling module's `log` attribute! "
-                'You should really update and rebuild your plugins...',
+                'You should really update and rebuild your plugins...'
             )
         return getattr(logging.getLogger(logger_name), name)
 

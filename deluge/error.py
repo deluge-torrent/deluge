@@ -13,7 +13,6 @@ from __future__ import unicode_literals
 
 
 class DelugeError(Exception):
-
     def __new__(cls, *args, **kwargs):
         inst = super(DelugeError, cls).__new__(cls, *args, **kwargs)
         inst._args = args
@@ -45,7 +44,6 @@ class InvalidPathError(DelugeError):
 
 
 class WrappedException(DelugeError):
-
     def __init__(self, message, exception_type, traceback):
         super(WrappedException, self).__init__(message)
         self.type = exception_type
@@ -60,7 +58,6 @@ class _ClientSideRecreateError(DelugeError):
 
 
 class IncompatibleClient(_ClientSideRecreateError):
-
     def __init__(self, daemon_version):
         self.daemon_version = daemon_version
         msg = (
@@ -71,11 +68,8 @@ class IncompatibleClient(_ClientSideRecreateError):
 
 
 class NotAuthorizedError(_ClientSideRecreateError):
-
     def __init__(self, current_level, required_level):
-        msg = (
-            'Auth level too low: %(current_level)s < %(required_level)s'
-        ) % {
+        msg = ('Auth level too low: %(current_level)s < %(required_level)s') % {
             'current_level': current_level,
             'required_level': required_level,
         }
@@ -85,7 +79,6 @@ class NotAuthorizedError(_ClientSideRecreateError):
 
 
 class _UsernameBasedPasstroughError(_ClientSideRecreateError):
-
     def __init__(self, message, username):
         super(_UsernameBasedPasstroughError, self).__init__(message)
         self.username = username

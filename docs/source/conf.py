@@ -29,7 +29,13 @@ __builtin__.__dict__['_n'] = lambda s, p, n: s if n == 1 else p
 # If your extensions are in another directory, add it here. If the directory
 # is relative to the documentation root, use os.path.abspath to make it
 # absolute, like shown here.
-sys.path.append(os.path.abspath(os.path.join(os.path.join(os.path.dirname(__file__), os.path.pardir), os.path.pardir)))
+sys.path.append(
+    os.path.abspath(
+        os.path.join(
+            os.path.join(os.path.dirname(__file__), os.path.pardir), os.path.pardir
+        )
+    )
+)
 
 
 class Mock(object):
@@ -58,11 +64,25 @@ class Mock(object):
 
 
 MOCK_MODULES = [
-    'deluge.ui.gtkui.gtkui', 'deluge._libtorrent',
-    'libtorrent', 'psyco',
-    'pygtk', 'gtk', 'gobject', 'gtk.gdk', 'pango', 'cairo', 'pangocairo',
-    'curses', 'win32api', 'win32file', 'win32process', 'win32pipe',
-    'pywintypes', 'win32con', 'win32event',
+    'deluge.ui.gtkui.gtkui',
+    'deluge._libtorrent',
+    'libtorrent',
+    'psyco',
+    'pygtk',
+    'gtk',
+    'gobject',
+    'gtk.gdk',
+    'pango',
+    'cairo',
+    'pangocairo',
+    'curses',
+    'win32api',
+    'win32file',
+    'win32process',
+    'win32pipe',
+    'pywintypes',
+    'win32con',
+    'win32event',
 ]
 
 for mod_name in MOCK_MODULES:
@@ -218,8 +238,7 @@ htmlhelp_basename = 'delugedoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, document class [howto/manual]).
 latex_documents = [
-    ('index', 'deluge.tex', 'deluge Documentation',
-     'Deluge Team', 'manual'),
+    ('index', 'deluge.tex', 'deluge Documentation', 'Deluge Team', 'manual')
 ]
 
 # The name of an image file (relative to this directory) to place at the top of

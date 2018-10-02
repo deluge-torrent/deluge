@@ -24,14 +24,24 @@ class Command(BaseCommand):
     """Move torrents' storage location"""
 
     def add_arguments(self, parser):
-        parser.add_argument('torrent_ids', metavar='<torrent-id>', nargs='+', help=_('One or more torrent ids'))
-        parser.add_argument('path', metavar='<path>', help=_('The path to move the torrents to'))
+        parser.add_argument(
+            'torrent_ids',
+            metavar='<torrent-id>',
+            nargs='+',
+            help=_('One or more torrent ids'),
+        )
+        parser.add_argument(
+            'path', metavar='<path>', help=_('The path to move the torrents to')
+        )
 
     def handle(self, options):
         self.console = component.get('ConsoleUI')
 
         if os.path.exists(options.path) and not os.path.isdir(options.path):
-            self.console.write('{!error!}Cannot Move Download Folder: %s exists and is not a directory' % options.path)
+            self.console.write(
+                '{!error!}Cannot Move Download Folder: %s exists and is not a directory'
+                % options.path
+            )
             return
 
         ids = []

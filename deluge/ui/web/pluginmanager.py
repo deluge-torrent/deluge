@@ -43,8 +43,12 @@ class PluginManager(PluginManagerBase, component.Component):
         self.config = ConfigManager('web.conf')
         PluginManagerBase.__init__(self, 'web.conf', 'deluge.plugin.web')
 
-        client.register_event_handler('PluginEnabledEvent', self._on_plugin_enabled_event)
-        client.register_event_handler('PluginDisabledEvent', self._on_plugin_disabled_event)
+        client.register_event_handler(
+            'PluginEnabledEvent', self._on_plugin_enabled_event
+        )
+        client.register_event_handler(
+            'PluginDisabledEvent', self._on_plugin_disabled_event
+        )
 
     def _on_get_enabled_plugins(self, plugins):
         for plugin in plugins:
@@ -61,18 +65,26 @@ class PluginManager(PluginManagerBase, component.Component):
         try:
             plugin = component.get('WebPlugin.' + name)
         except KeyError:
-            log.debug('%s plugin contains no WebUI code, ignoring WebUI disable call.', name)
+            log.debug(
+                '%s plugin contains no WebUI code, ignoring WebUI disable call.', name
+            )
             return
 
         info = gather_info(plugin)
 
         scripts = component.get('Scripts')
         for script in info['scripts']:
-            scripts.remove_script('%s/%s' % (name.lower(), os.path.basename(script).lower()))
+            scripts.remove_script(
+                '%s/%s' % (name.lower(), os.path.basename(script).lower())
+            )
 
         for script in info['debug_scripts']:
-            scripts.remove_script('%s/%s' % (name.lower(), os.path.basename(script).lower()), 'debug')
-            scripts.remove_script('%s/%s' % (name.lower(), os.path.basename(script).lower()), 'dev')
+            scripts.remove_script(
+                '%s/%s' % (name.lower(), os.path.basename(script).lower()), 'debug'
+            )
+            scripts.remove_script(
+                '%s/%s' % (name.lower(), os.path.basename(script).lower()), 'dev'
+            )
 
         super(PluginManager, self).disable_plugin(name)
 
@@ -83,7 +95,9 @@ class PluginManager(PluginManagerBase, component.Component):
         try:
             plugin = component.get('WebPlugin.' + name)
         except KeyError:
-            log.info('%s plugin contains no WebUI code, ignoring WebUI enable call.', name)
+            log.info(
+                '%s plugin contains no WebUI code, ignoring WebUI enable call.', name
+            )
             return
 
         info = gather_info(plugin)
@@ -91,12 +105,18 @@ class PluginManager(PluginManagerBase, component.Component):
         scripts = component.get('Scripts')
         for script in info['scripts']:
             log.debug('adding script %s for %s', name, os.path.basename(script))
-            scripts.add_script('%s/%s' % (name.lower(), os.path.basename(script)), script)
+            scripts.add_script(
+                '%s/%s' % (name.lower(), os.path.basename(script)), script
+            )
 
         for script in info['debug_scripts']:
             log.debug('adding debug script %s for %s', name, os.path.basename(script))
-            scripts.add_script('%s/%s' % (name.lower(), os.path.basename(script)), script, 'debug')
-            scripts.add_script('%s/%s' % (name.lower(), os.path.basename(script)), script, 'dev')
+            scripts.add_script(
+                '%s/%s' % (name.lower(), os.path.basename(script)), script, 'debug'
+            )
+            scripts.add_script(
+                '%s/%s' % (name.lower(), os.path.basename(script)), script, 'dev'
+            )
 
     def start(self):
         """
@@ -111,8 +131,12 @@ class PluginManager(PluginManagerBase, component.Component):
         Stop the plugin manager
         """
         self.disable_plugins()
-        client.deregister_event_handler('PluginEnabledEvent', self._on_plugin_enabled_event)
-        client.deregister_event_handler('PluginDisabledEvent', self._on_plugin_disabled_event)
+        client.deregister_event_handler(
+            'PluginEnabledEvent', self._on_plugin_enabled_event
+        )
+        client.deregister_event_handler(
+            'PluginDisabledEvent', self._on_plugin_disabled_event
+        )
 
     def update(self):
         pass
@@ -126,7 +150,12 @@ class PluginManager(PluginManagerBase, component.Component):
             return
         info = gather_info(plugin)
         info['name'] = name
-        info['scripts'] = ['js/%s/%s' % (name.lower(), os.path.basename(s)) for s in info['scripts']]
-        info['debug_scripts'] = ['js/%s/%s' % (name.lower(), os.path.basename(s)) for s in info['debug_scripts']]
+        info['scripts'] = [
+            'js/%s/%s' % (name.lower(), os.path.basename(s)) for s in info['scripts']
+        ]
+        info['debug_scripts'] = [
+            'js/%s/%s' % (name.lower(), os.path.basename(s))
+            for s in info['debug_scripts']
+        ]
         del info['script_directories']
         return info

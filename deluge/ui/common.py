@@ -45,96 +45,75 @@ STATE_TRANSLATION = {
 }
 
 TORRENT_DATA_FIELD = {
-    'queue':
-        {'name': '#', 'status': ['queue']},
-    'name':
-        {'name': _('Name'), 'status': ['state', 'name']},
-    'progress_state':
-        {'name': _('Progress'), 'status': ['progress', 'state']},
-    'state':
-        {'name': _('State'), 'status': ['state']},
-    'progress':
-        {'name': _('Progress'), 'status': ['progress']},
-    'size':
-        {'name': _('Size'), 'status': ['total_wanted']},
-    'downloaded':
-        {'name': _('Downloaded'), 'status': ['all_time_download']},
-    'uploaded':
-        {'name': _('Uploaded'), 'status': ['total_uploaded']},
-    'remaining':
-        {'name': _('Remaining'), 'status': ['total_remaining']},
-    'ratio':
-        {'name': _('Ratio'), 'status': ['ratio']},
-    'download_speed':
-        {'name': _('Down Speed'), 'status': ['download_payload_rate']},
-    'upload_speed':
-        {'name': _('Up Speed'), 'status': ['upload_payload_rate']},
-    'max_download_speed':
-        {'name': _('Down Limit'), 'status': ['max_download_speed']},
-    'max_upload_speed':
-        {'name': _('Up Limit'), 'status': ['max_upload_speed']},
-    'max_connections':
-        {'name': _('Max Connections'), 'status': ['max_connections']},
-    'max_upload_slots':
-        {'name': _('Max Upload Slots'), 'status': ['max_upload_slots']},
-    'peers':
-        {'name': _('Peers'), 'status': ['num_peers', 'total_peers']},
-    'seeds':
-        {'name': _('Seeds'), 'status': ['num_seeds', 'total_seeds']},
-    'avail':
-        {'name': _('Avail'), 'status': ['distributed_copies']},
-    'seeds_peers_ratio':
-        {'name': _('Seeds:Peers'), 'status': ['seeds_peers_ratio']},
-    'time_added':
-        {'name': _('Added'), 'status': ['time_added']},
-    'tracker':
-        {'name': _('Tracker'), 'status': ['tracker_host']},
-    'download_location':
-        {'name': _('Download Folder'), 'status': ['download_location']},
-    'seeding_time':
-        {'name': _('Seeding Time'), 'status': ['seeding_time']},
-    'active_time':
-        {'name': _('Active Time'), 'status': ['active_time']},
-    'time_since_transfer':
-        {'name': _('Last Activity'), 'status': ['time_since_transfer']},
-    'finished_time':
-        {'name': _('Finished Time'), 'status': ['finished_time']},
-    'last_seen_complete':
-        {'name': _('Complete Seen'), 'status': ['last_seen_complete']},
-    'completed_time':
-        {'name': _('Completed'), 'status': ['completed_time']},
-    'eta':
-        {'name': _('ETA'), 'status': ['eta']},
-    'shared':
-        {'name': _('Shared'), 'status': ['shared']},
-    'prioritize_first_last':
-        {'name': _('Prioritize First/Last'), 'status': ['prioritize_first_last']},
-    'sequential_download':
-        {'name': _('Sequential Download'), 'status': ['sequential_download']},
-    'is_auto_managed':
-        {'name': _('Auto Managed'), 'status': ['is_auto_managed']},
-    'auto_managed':
-        {'name': _('Auto Managed'), 'status': ['auto_managed']},
-    'stop_at_ratio':
-        {'name': _('Stop At Ratio'), 'status': ['stop_at_ratio']},
-    'stop_ratio':
-        {'name': _('Stop Ratio'), 'status': ['stop_ratio']},
-    'remove_at_ratio':
-        {'name': _('Remove At Ratio'), 'status': ['remove_at_ratio']},
-    'move_completed':
-        {'name': _('Move On Completed'), 'status': ['move_completed']},
-    'move_completed_path':
-        {'name': _('Move Completed Path'), 'status': ['move_completed_path']},
-    'move_on_completed':
-        {'name': _('Move On Completed'), 'status': ['move_on_completed']},
-    'move_on_completed_path':
-        {'name': _('Move On Completed Path'), 'status': ['move_on_completed_path']},
-    'owner':
-        {'name': _('Owner'), 'status': ['owner']},
-    'pieces':
-        {'name': _('Pieces'), 'status': ['num_pieces', 'piece_length']},
-    'seed_rank':
-        {'name': _('Seed Rank'), 'status': ['seed_rank']},
+    'queue': {'name': '#', 'status': ['queue']},
+    'name': {'name': _('Name'), 'status': ['state', 'name']},
+    'progress_state': {'name': _('Progress'), 'status': ['progress', 'state']},
+    'state': {'name': _('State'), 'status': ['state']},
+    'progress': {'name': _('Progress'), 'status': ['progress']},
+    'size': {'name': _('Size'), 'status': ['total_wanted']},
+    'downloaded': {'name': _('Downloaded'), 'status': ['all_time_download']},
+    'uploaded': {'name': _('Uploaded'), 'status': ['total_uploaded']},
+    'remaining': {'name': _('Remaining'), 'status': ['total_remaining']},
+    'ratio': {'name': _('Ratio'), 'status': ['ratio']},
+    'download_speed': {'name': _('Down Speed'), 'status': ['download_payload_rate']},
+    'upload_speed': {'name': _('Up Speed'), 'status': ['upload_payload_rate']},
+    'max_download_speed': {'name': _('Down Limit'), 'status': ['max_download_speed']},
+    'max_upload_speed': {'name': _('Up Limit'), 'status': ['max_upload_speed']},
+    'max_connections': {'name': _('Max Connections'), 'status': ['max_connections']},
+    'max_upload_slots': {'name': _('Max Upload Slots'), 'status': ['max_upload_slots']},
+    'peers': {'name': _('Peers'), 'status': ['num_peers', 'total_peers']},
+    'seeds': {'name': _('Seeds'), 'status': ['num_seeds', 'total_seeds']},
+    'avail': {'name': _('Avail'), 'status': ['distributed_copies']},
+    'seeds_peers_ratio': {'name': _('Seeds:Peers'), 'status': ['seeds_peers_ratio']},
+    'time_added': {'name': _('Added'), 'status': ['time_added']},
+    'tracker': {'name': _('Tracker'), 'status': ['tracker_host']},
+    'download_location': {
+        'name': _('Download Folder'),
+        'status': ['download_location'],
+    },
+    'seeding_time': {'name': _('Seeding Time'), 'status': ['seeding_time']},
+    'active_time': {'name': _('Active Time'), 'status': ['active_time']},
+    'time_since_transfer': {
+        'name': _('Last Activity'),
+        'status': ['time_since_transfer'],
+    },
+    'finished_time': {'name': _('Finished Time'), 'status': ['finished_time']},
+    'last_seen_complete': {
+        'name': _('Complete Seen'),
+        'status': ['last_seen_complete'],
+    },
+    'completed_time': {'name': _('Completed'), 'status': ['completed_time']},
+    'eta': {'name': _('ETA'), 'status': ['eta']},
+    'shared': {'name': _('Shared'), 'status': ['shared']},
+    'prioritize_first_last': {
+        'name': _('Prioritize First/Last'),
+        'status': ['prioritize_first_last'],
+    },
+    'sequential_download': {
+        'name': _('Sequential Download'),
+        'status': ['sequential_download'],
+    },
+    'is_auto_managed': {'name': _('Auto Managed'), 'status': ['is_auto_managed']},
+    'auto_managed': {'name': _('Auto Managed'), 'status': ['auto_managed']},
+    'stop_at_ratio': {'name': _('Stop At Ratio'), 'status': ['stop_at_ratio']},
+    'stop_ratio': {'name': _('Stop Ratio'), 'status': ['stop_ratio']},
+    'remove_at_ratio': {'name': _('Remove At Ratio'), 'status': ['remove_at_ratio']},
+    'move_completed': {'name': _('Move On Completed'), 'status': ['move_completed']},
+    'move_completed_path': {
+        'name': _('Move Completed Path'),
+        'status': ['move_completed_path'],
+    },
+    'move_on_completed': {
+        'name': _('Move On Completed'),
+        'status': ['move_on_completed'],
+    },
+    'move_on_completed_path': {
+        'name': _('Move On Completed Path'),
+        'status': ['move_on_completed_path'],
+    },
+    'owner': {'name': _('Owner'), 'status': ['owner']},
+    'pieces': {'name': _('Pieces'), 'status': ['num_pieces', 'piece_length']},
+    'seed_rank': {'name': _('Seed Rank'), 'status': ['seed_rank']},
 }
 
 TRACKER_STATUS_TRANSLATION = [
@@ -176,8 +155,14 @@ del _
 
 # The keys from session statistics for cache status.
 DISK_CACHE_KEYS = [
-    'disk.num_blocks_read', 'disk.num_blocks_written', 'disk.num_read_ops', 'disk.num_write_ops',
-    'disk.num_blocks_cache_hits', 'read_hit_ratio', 'write_hit_ratio', 'disk.disk_blocks_in_use',
+    'disk.num_blocks_read',
+    'disk.num_blocks_written',
+    'disk.num_read_ops',
+    'disk.num_write_ops',
+    'disk.num_blocks_cache_hits',
+    'read_hit_ratio',
+    'write_hit_ratio',
+    'disk.disk_blocks_in_use',
     'disk.read_cache_blocks',
 ]
 
@@ -192,6 +177,7 @@ class TorrentInfo(object):
         metadata (bytes, optional): A bencoded metadata info_dict.
 
     """
+
     def __init__(self, filename='', filetree=1, metainfo=None, metadata=None):
         # Get the torrent metainfo from the torrent file
         if metadata:
@@ -264,6 +250,7 @@ class TorrentInfo(object):
                     dirname = os.path.dirname(dirname)
 
             if filetree == 2:
+
                 def walk(path, item):
                     if item['type'] == 'dir':
                         item.update(dirs[path])
@@ -274,6 +261,7 @@ class TorrentInfo(object):
                 file_tree = FileTree2(list(paths))
                 file_tree.walk(walk)
             else:
+
                 def walk(path, item):
                     if isinstance(item, dict):
                         return item
@@ -291,13 +279,11 @@ class TorrentInfo(object):
                             'index': 0,
                             'length': info_dict[b'length'],
                             'download': True,
-                        },
-                    },
+                        }
+                    }
                 }
             else:
-                self._files_tree = {
-                    self._name: (0, info_dict[b'length'], True),
-                }
+                self._files_tree = {self._name: (0, info_dict[b'length'], True)}
 
         self._files = []
         if b'files' in info_dict:
@@ -306,17 +292,13 @@ class TorrentInfo(object):
                 prefix = self._name
 
             for f in info_dict[b'files']:
-                self._files.append({
-                    'path': f[b'path'],
-                    'size': f[b'length'],
-                    'download': True,
-                })
+                self._files.append(
+                    {'path': f[b'path'], 'size': f[b'length'], 'download': True}
+                )
         else:
-            self._files.append({
-                'path': self._name,
-                'size': info_dict[b'length'],
-                'download': True,
-            })
+            self._files.append(
+                {'path': self._name, 'size': info_dict[b'length'], 'download': True}
+            )
 
     def as_dict(self, *keys):
         """The torrent info as a dictionary, filtered by keys.
@@ -414,10 +396,7 @@ class FileTree2(object):
                 directory, path = path.split('/', 1)
                 child = parent['contents'].get(directory)
                 if child is None:
-                    parent['contents'][directory] = {
-                        'type': 'dir',
-                        'contents': {},
-                    }
+                    parent['contents'][directory] = {'type': 'dir', 'contents': {}}
                 parent = parent['contents'][directory]
             return parent, path
 
@@ -425,15 +404,10 @@ class FileTree2(object):
             if path[-1] == '/':
                 path = path[:-1]
                 parent, path = get_parent(path)
-                parent['contents'][path] = {
-                    'type': 'dir',
-                    'contents': {},
-                }
+                parent['contents'][path] = {'type': 'dir', 'contents': {}}
             else:
                 parent, path = get_parent(path)
-                parent['contents'][path] = {
-                    'type': 'file',
-                }
+                parent['contents'][path] = {'type': 'file'}
 
     def get_tree(self):
         """
@@ -454,18 +428,22 @@ class FileTree2(object):
             and `dict` for a directory.
         :type callback: function
         """
+
         def walk(directory, parent_path):
             for path in list(directory['contents']):
                 full_path = os.path.join(parent_path, path).replace('\\', '/')
                 if directory['contents'][path]['type'] == 'dir':
-                    directory['contents'][path] = callback(
-                        full_path, directory['contents'][path],
-                    ) or directory['contents'][path]
+                    directory['contents'][path] = (
+                        callback(full_path, directory['contents'][path])
+                        or directory['contents'][path]
+                    )
                     walk(directory['contents'][path], full_path)
                 else:
-                    directory['contents'][path] = callback(
-                        full_path, directory['contents'][path],
-                    ) or directory['contents'][path]
+                    directory['contents'][path] = (
+                        callback(full_path, directory['contents'][path])
+                        or directory['contents'][path]
+                    )
+
         walk(self.tree, '')
 
     def __str__(self):
@@ -476,6 +454,7 @@ class FileTree2(object):
             path = os.path.basename(path)
             path = path + '/' if item['type'] == 'dir' else path
             lines.append('  ' * depth + path)
+
         self.walk(write)
         return '\n'.join(lines)
 
@@ -517,10 +496,12 @@ class FileTree(object):
         :returns: the file tree.
         :rtype: dictionary
         """
+
         def to_tuple(path, item):
             if isinstance(item, dict):
                 return item
             return tuple(item)
+
         self.walk(to_tuple)
         return self.tree
 
@@ -534,14 +515,20 @@ class FileTree(object):
             and `dict` for a directory.
         :type callback: function
         """
+
         def walk(directory, parent_path):
             for path in list(directory):
                 full_path = os.path.join(parent_path, path)
                 if isinstance(directory[path], dict):
-                    directory[path] = callback(full_path, directory[path]) or directory[path]
+                    directory[path] = (
+                        callback(full_path, directory[path]) or directory[path]
+                    )
                     walk(directory[path], full_path)
                 else:
-                    directory[path] = callback(full_path, directory[path]) or directory[path]
+                    directory[path] = (
+                        callback(full_path, directory[path]) or directory[path]
+                    )
+
         walk(self.tree, '')
 
     def __str__(self):
@@ -552,5 +539,6 @@ class FileTree(object):
             path = os.path.basename(path)
             path = isinstance(item, dict) and path + '/' or path
             lines.append('  ' * depth + path)
+
         self.walk(write)
         return '\n'.join(lines)

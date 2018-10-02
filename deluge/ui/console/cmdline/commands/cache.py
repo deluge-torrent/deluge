@@ -26,4 +26,6 @@ class Command(BaseCommand):
             for key, value in sorted(status.items()):
                 self.console.write('{!info!}%s: {!input!}%s' % (key, value))
 
-        return client.core.get_session_status(DISK_CACHE_KEYS).addCallback(on_cache_status)
+        return client.core.get_session_status(DISK_CACHE_KEYS).addCallback(
+            on_cache_status
+        )

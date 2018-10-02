@@ -66,7 +66,6 @@ if a file is highlighted
 
 
 class AddTorrents(BaseMode):
-
     def __init__(self, parent_mode, stdscr, console_config, encoding=None):
         self.console_config = console_config
         self.parent_mode = parent_mode
@@ -108,7 +107,7 @@ class AddTorrents(BaseMode):
         pass
 
     def __refresh_listing(self):
-        path = os.path.join(*self.path_stack[:self.path_stack_pos])
+        path = os.path.join(*self.path_stack[: self.path_stack_pos])
 
         listing = os.listdir(path)
 
@@ -177,7 +176,9 @@ class AddTorrents(BaseMode):
         self.raw_rows_dirs.sort(key=lambda r: r[0].lower())
 
         if self.sort_column == 'name':
-            self.raw_rows_files.sort(key=lambda r: r[0].lower(), reverse=self.reverse_sort)
+            self.raw_rows_files.sort(
+                key=lambda r: r[0].lower(), reverse=self.reverse_sort
+            )
         elif self.sort_column == 'date':
             self.raw_rows_files.sort(key=lambda r: r[2], reverse=self.reverse_sort)
         self.raw_rows = self.raw_rows_dirs + self.raw_rows_files
@@ -287,7 +288,7 @@ class AddTorrents(BaseMode):
         off += 1
 
         # Render files and folders
-        for i, row in enumerate(self.formatted_rows[self.view_offset:]):
+        for i, row in enumerate(self.formatted_rows[self.view_offset :]):
             i += self.view_offset
             # It's a folder
             color_string = ''
@@ -347,14 +348,16 @@ class AddTorrents(BaseMode):
         new_dir = self.path_stack_pos >= len(self.path_stack)
         new_dir = new_dir or (dirname != self.path_stack[self.path_stack_pos])
         if new_dir:
-            self.path_stack = self.path_stack[:self.path_stack_pos]
+            self.path_stack = self.path_stack[: self.path_stack_pos]
             self.path_stack.append(dirname)
 
-        path = os.path.join(*self.path_stack[:self.path_stack_pos + 1])
+        path = os.path.join(*self.path_stack[: self.path_stack_pos + 1])
 
         if not os.access(path, os.R_OK):
-            self.path_stack = self.path_stack[:self.path_stack_pos]
-            self.popup = MessagePopup(self, 'Error', '{!error!}Access denied: %s' % path)
+            self.path_stack = self.path_stack[: self.path_stack_pos]
+            self.popup = MessagePopup(
+                self, 'Error', '{!error!}Access denied: %s' % path
+            )
             self.__refresh_listing()
             return
 
@@ -368,7 +371,6 @@ class AddTorrents(BaseMode):
         self.__refresh_listing()
 
     def _show_add_dialog(self):
-
         def _do_add(result, **kwargs):
             ress = {'succ': 0, 'fail': 0, 'total': len(self.marked), 'fmsg': []}
 
@@ -377,20 +379,30 @@ class AddTorrents(BaseMode):
                 ress['fail'] += 1
                 ress['fmsg'].append('{!input!} * %s: {!error!}%s' % (t_file, msg))
                 if (ress['succ'] + ress['fail']) >= ress['total']:
-                    report_add_status(component.get('TorrentList'), ress['succ'], ress['fail'], ress['fmsg'])
+                    report_add_status(
+                        component.get('TorrentList'),
+                        ress['succ'],
+                        ress['fail'],
+                        ress['fmsg'],
+                    )
 
             def success_cb(tid, t_file, ress):
                 if tid:
                     log.debug('added torrent: %s (%s)', t_file, tid)
                     ress['succ'] += 1
                     if (ress['succ'] + ress['fail']) >= ress['total']:
-                        report_add_status(component.get('TorrentList'), ress['succ'], ress['fail'], ress['fmsg'])
+                        report_add_status(
+                            component.get('TorrentList'),
+                            ress['succ'],
+                            ress['fail'],
+                            ress['fmsg'],
+                        )
                 else:
                     fail_cb('Already in session (probably)', t_file, ress)
 
             for m in self.marked:
                 filename = m
-                directory = os.path.join(*self.path_stack[:self.path_stack_pos])
+                directory = os.path.join(*self.path_stack[: self.path_stack_pos])
                 path = os.path.join(directory, filename)
                 with open(path, 'rb') as _file:
                     filedump = b64encode(_file.read())
@@ -403,7 +415,9 @@ class AddTorrents(BaseMode):
                 d.addCallback(success_cb, filename, ress)
                 d.addErrback(fail_cb, filename, ress)
 
-            self.console_config['addtorrents']['last_path'] = os.path.join(*self.path_stack[:self.path_stack_pos])
+            self.console_config['addtorrents']['last_path'] = os.path.join(
+                *self.path_stack[: self.path_stack_pos]
+            )
             self.console_config.save()
 
             self.back_to_overview()
@@ -413,7 +427,9 @@ class AddTorrents(BaseMode):
             ap = 0
         else:
             ap = 1
-        self.popup = InputPopup(self, 'Add Torrents (Esc to cancel)', close_cb=_do_add, height_req=17)
+        self.popup = InputPopup(
+            self, 'Add Torrents (Esc to cancel)', close_cb=_do_add, height_req=17
+        )
 
         msg = 'Adding torrent files:'
         for i, m in enumerate(self.marked):
@@ -426,8 +442,12 @@ class AddTorrents(BaseMode):
         self.popup.add_text(msg)
         self.popup.add_spaces(1)
 
-        self.popup.add_text_input('location', 'Download Folder:', config['download_location'], complete=True)
-        self.popup.add_select_input('add_paused', 'Add Paused:', ['Yes', 'No'], [True, False], ap)
+        self.popup.add_text_input(
+            'location', 'Download Folder:', config['download_location'], complete=True
+        )
+        self.popup.add_select_input(
+            'add_paused', 'Add Paused:', ['Yes', 'No'], [True, False], ap
+        )
 
     def _go_up(self):
         # Go up in directory hierarchy

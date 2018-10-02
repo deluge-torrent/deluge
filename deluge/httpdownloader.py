@@ -31,13 +31,14 @@ log = logging.getLogger(__name__)
 
 class CompressionDecoder(client.GzipDecoder):
     """A compression decoder for gzip, x-gzip and deflate."""
+
     def deliverBody(self, protocol):  # NOQA: N802
-        self.original.deliverBody(
-            CompressionDecoderProtocol(protocol, self.original))
+        self.original.deliverBody(CompressionDecoderProtocol(protocol, self.original))
 
 
 class CompressionDecoderProtocol(client._GzipProtocol):
     """A compression decoder protocol for CompressionDecoder."""
+
     def __init__(self, protocol, response):
         super(CompressionDecoderProtocol, self).__init__(protocol, response)
         self._zlibDecompress = zlib.decompressobj(32 + zlib.MAX_WBITS)
@@ -45,6 +46,7 @@ class CompressionDecoderProtocol(client._GzipProtocol):
 
 class BodyHandler(HTTPClientParser, object):
     """An HTTP parser that saves the response to a file."""
+
     def __init__(self, request, finished, length, agent, encoding=None):
         """BodyHandler init.
 
@@ -66,8 +68,7 @@ class BodyHandler(HTTPClientParser, object):
         self.current_length += len(data)
         self.data += data
         if self.agent.part_callback:
-            self.agent.part_callback(
-                data, self.current_length, self.total_length)
+            self.agent.part_callback(data, self.current_length, self.total_length)
 
     def connectionLost(self, reason):  # NOQA: N802
         if self.encoding:
@@ -82,6 +83,7 @@ class BodyHandler(HTTPClientParser, object):
 @implementer(IAgent)
 class HTTPDownloaderAgent(object):
     """A File Downloader Agent."""
+
     def __init__(
         self,
         agent,
@@ -125,21 +127,19 @@ class HTTPDownloaderAgent(object):
             finished.errback(Failure(error))
         else:
             headers = response.headers
-            body_length = int(
-                headers.getRawHeaders(b'content-length', default=[0])[0])
+            body_length = int(headers.getRawHeaders(b'content-length', default=[0])[0])
 
-            if (
-                headers.hasHeader(b'content-disposition')
-                and not self.force_filename
-            ):
-                content_disp = headers.getRawHeaders(
-                    b'content-disposition')[0].decode('utf-8')
+            if headers.hasHeader(b'content-disposition') and not self.force_filename:
+                content_disp = headers.getRawHeaders(b'content-disposition')[0].decode(
+                    'utf-8'
+                )
                 content_disp_params = cgi.parse_header(content_disp)[1]
                 if 'filename' in content_disp_params:
                     new_file_name = content_disp_params['filename']
                     new_file_name = sanitise_filename(new_file_name)
                     new_file_name = os.path.join(
-                        os.path.split(self.filename)[0], new_file_name)
+                        os.path.split(self.filename)[0], new_file_name
+                    )
 
                     count = 1
                     fileroot = os.path.splitext(new_file_name)[0]
@@ -155,13 +155,8 @@ class HTTPDownloaderAgent(object):
             params = cgi.parse_header(cont_type)[1]
             encoding = params.get('charset', None)
             response.deliverBody(
-                BodyHandler(
-                    response.request,
-                    finished,
-                    body_length,
-                    self,
-                    encoding,
-                ))
+                BodyHandler(response.request, finished, body_length, self, encoding)
+            )
 
         return finished
 
@@ -186,10 +181,7 @@ class HTTPDownloaderAgent(object):
             headers.addRawHeader('User-Agent', user_agent)
 
         d = self.agent.request(
-            method=method,
-            uri=uri,
-            headers=headers,
-            bodyProducer=body_producer,
+            method=method, uri=uri, headers=headers, bodyProducer=body_producer
         )
         d.addCallback(self.request_callback)
         return d
@@ -212,8 +204,7 @@ def sanitise_filename(filename):
     if os.path.basename(filename) != filename:
         # Dodgy server, log it
         log.warning(
-            'Potentially malicious server: trying to write to file: %s',
-            filename,
+            'Potentially malicious server: trying to write to file: %s', filename
         )
         # Only use the basename
         filename = os.path.basename(filename)
@@ -222,15 +213,15 @@ def sanitise_filename(filename):
     if filename.startswith('.') or ';' in filename or '|' in filename:
         # Dodgy server, log it
         log.warning(
-            'Potentially malicious server: trying to write to file: %s',
-            filename,
+            'Potentially malicious server: trying to write to file: %s', filename
         )
 
     return filename
 
 
 def _download_file(
-    url, filename,
+    url,
+    filename,
     callback=None,
     headers=None,
     force_filename=False,
@@ -269,12 +260,7 @@ def _download_file(
         agent = client.RedirectAgent(agent)
 
     agent = HTTPDownloaderAgent(
-        agent,
-        filename,
-        callback,
-        force_filename,
-        allow_compression,
-        handle_redirects,
+        agent, filename, callback, force_filename, allow_compression, handle_redirects
     )
 
     # The Headers init expects dict values to be a list.
@@ -317,6 +303,7 @@ def download_file(
         t.w.e.PageRedirect: If handle_redirects is False.
         t.w.e.Error: For all other HTTP response errors.
     """
+
     def on_download_success(result):
         log.debug('Download success!')
         return result
@@ -324,14 +311,19 @@ def download_file(
     def on_download_fail(failure):
         log.warning(
             'Error occurred downloading file from "%s": %s',
-            url, failure.getErrorMessage(),
+            url,
+            failure.getErrorMessage(),
         )
         result = failure
         return result
 
     d = _download_file(
-        url, filename, callback=callback, headers=headers,
-        force_filename=force_filename, allow_compression=allow_compression,
+        url,
+        filename,
+        callback=callback,
+        headers=headers,
+        force_filename=force_filename,
+        allow_compression=allow_compression,
         handle_redirects=handle_redirects,
     )
     d.addCallbacks(on_download_success, on_download_fail)

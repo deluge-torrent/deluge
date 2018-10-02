@@ -12,17 +12,33 @@ from __future__ import unicode_literals
 import logging
 import os.path
 
-from gtk import (TREE_VIEW_COLUMN_FIXED, Builder, CellRendererPixbuf, CellRendererProgress, CellRendererText, ListStore,
-                 TreeViewColumn)
+from gtk import (
+    TREE_VIEW_COLUMN_FIXED,
+    Builder,
+    CellRendererPixbuf,
+    CellRendererProgress,
+    CellRendererText,
+    ListStore,
+    TreeViewColumn,
+)
 from gtk.gdk import Pixbuf, pixbuf_new_from_file
 
 import deluge.common
 import deluge.component as component
 from deluge.ui.client import client
 from deluge.ui.countries import COUNTRIES
-from deluge.ui.gtkui.common import icon_downloading, icon_seeding, load_pickled_state_file, save_pickled_state_file
+from deluge.ui.gtkui.common import (
+    icon_downloading,
+    icon_seeding,
+    load_pickled_state_file,
+    save_pickled_state_file,
+)
 from deluge.ui.gtkui.torrentdetails import Tab
-from deluge.ui.gtkui.torrentview_data_funcs import cell_data_peer_progress, cell_data_speed_down, cell_data_speed_up
+from deluge.ui.gtkui.torrentview_data_funcs import (
+    cell_data_peer_progress,
+    cell_data_speed_down,
+    cell_data_speed_up,
+)
 
 try:
     from future_builtins import zip
@@ -46,7 +62,9 @@ class PeersTab(Tab):
         self.listview.connect('query-tooltip', self._on_query_tooltip)
 
         # flag, ip, client, downspd, upspd, country code, int_ip, seed/peer icon, progress
-        self.liststore = ListStore(Pixbuf, str, str, int, int, str, float, Pixbuf, float)
+        self.liststore = ListStore(
+            Pixbuf, str, str, int, int, str, float, Pixbuf, float
+        )
         self.cached_flag_pixbufs = {}
 
         self.seed_pixbuf = icon_seeding
@@ -188,8 +206,13 @@ class PeersTab(Tab):
                     # Column is in wrong position
                     if cstate['position'] == 0:
                         self.listview.move_column_after(column, None)
-                    elif self.listview.get_columns()[cstate['position'] - 1].get_title() != cname:
-                        self.listview.move_column_after(column, self.listview.get_columns()[cstate['position'] - 1])
+                    elif (
+                        self.listview.get_columns()[cstate['position'] - 1].get_title()
+                        != cname
+                    ):
+                        self.listview.move_column_after(
+                            column, self.listview.get_columns()[cstate['position'] - 1]
+                        )
 
     def update(self):
         # Get the first selected torrent
@@ -209,7 +232,9 @@ class PeersTab(Tab):
             self.peers = {}
             self.torrent_id = torrent_id
 
-        component.get('SessionProxy').get_torrent_status(torrent_id, ['peers']).addCallback(self._on_get_torrent_status)
+        component.get('SessionProxy').get_torrent_status(
+            torrent_id, ['peers']
+        ).addCallback(self._on_get_torrent_status)
 
     def get_flag_pixbuf(self, country):
         if not country.strip():
@@ -221,8 +246,10 @@ class PeersTab(Tab):
                 self.cached_flag_pixbufs[country] = pixbuf_new_from_file(
                     deluge.common.resource_filename(
                         'deluge',
-                        os.path.join('ui', 'data', 'pixmaps', 'flags', country.lower() + '.png'),
-                    ),
+                        os.path.join(
+                            'ui', 'data', 'pixmaps', 'flags', country.lower() + '.png'
+                        ),
+                    )
                 )
             except Exception as ex:
                 log.debug('Unable to load flag: %s', ex)
@@ -248,7 +275,9 @@ class PeersTab(Tab):
                     self.liststore.set_value(row, 4, peer['up_speed'])
                 if peer['country'] != values[2]:
                     self.liststore.set_value(row, 5, peer['country'])
-                    self.liststore.set_value(row, 0, self.get_flag_pixbuf(peer['country']))
+                    self.liststore.set_value(
+                        row, 0, self.get_flag_pixbuf(peer['country'])
+                    )
                 if peer['seed']:
                     icon = self.seed_pixbuf
                 else:
@@ -267,16 +296,21 @@ class PeersTab(Tab):
                     # This is an IPv4 address
                     ip_int = sum(
                         int(byte) << shift
-                        for byte, shift in zip(peer['ip'].split(':')[0].split('.'), (24, 16, 8, 0))
+                        for byte, shift in zip(
+                            peer['ip'].split(':')[0].split('.'), (24, 16, 8, 0)
+                        )
                     )
                     peer_ip = peer['ip']
                 else:
                     # This is an IPv6 address
                     import socket
                     import binascii
+
                     # Split out the :port
                     ip = ':'.join(peer['ip'].split(':')[:-1])
-                    ip_int = int(binascii.hexlify(socket.inet_pton(socket.AF_INET6, ip)), 16)
+                    ip_int = int(
+                        binascii.hexlify(socket.inet_pton(socket.AF_INET6, ip)), 16
+                    )
                     peer_ip = '[%s]:%s' % (ip, peer['ip'].split(':')[-1])
 
                 if peer['seed']:
@@ -284,17 +318,19 @@ class PeersTab(Tab):
                 else:
                     icon = self.peer_pixbuf
 
-                row = self.liststore.append([
-                    self.get_flag_pixbuf(peer['country']),
-                    peer_ip,
-                    peer['client'],
-                    peer['down_speed'],
-                    peer['up_speed'],
-                    peer['country'],
-                    float(ip_int),
-                    icon,
-                    peer['progress'],
-                ])
+                row = self.liststore.append(
+                    [
+                        self.get_flag_pixbuf(peer['country']),
+                        peer_ip,
+                        peer['client'],
+                        peer['down_speed'],
+                        peer['up_speed'],
+                        peer['country'],
+                        float(ip_int),
+                        icon,
+                        peer['progress'],
+                    ]
+                )
 
                 self.peers[peer['ip']] = row
 
@@ -324,10 +360,7 @@ class PeersTab(Tab):
             if country_code != '  ' and country_code in COUNTRIES:
                 tooltip.set_text(COUNTRIES[country_code])
                 # widget here is self.listview
-                widget.set_tooltip_cell(
-                    tooltip, path, widget.get_column(0),
-                    None,
-                )
+                widget.set_tooltip_cell(tooltip, path, widget.get_column(0), None)
                 return True
             else:
                 return False
@@ -336,9 +369,11 @@ class PeersTab(Tab):
         """This is a callback for manually adding a peer"""
         log.debug('on_menuitem_add_peer')
         builder = Builder()
-        builder.add_from_file(deluge.common.resource_filename(
-            'deluge.ui.gtkui', os.path.join('glade', 'connect_peer_dialog.ui'),
-        ))
+        builder.add_from_file(
+            deluge.common.resource_filename(
+                'deluge.ui.gtkui', os.path.join('glade', 'connect_peer_dialog.ui')
+            )
+        )
         peer_dialog = builder.get_object('connect_peer_dialog')
         txt_ip = builder.get_object('txt_ip')
         response = peer_dialog.run()

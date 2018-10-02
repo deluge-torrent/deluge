@@ -34,10 +34,11 @@ common.disable_new_release_check()
 
 
 class JSONBase(BaseTestCase, DaemonBase):
-
     def connect_client(self, *args, **kwargs):
         return client.connect(
-            'localhost', self.listen_port, username=kwargs.get('user', ''),
+            'localhost',
+            self.listen_port,
+            username=kwargs.get('user', ''),
             password=kwargs.get('password', ''),
         )
 
@@ -52,7 +53,6 @@ class JSONBase(BaseTestCase, DaemonBase):
 
 
 class JSONTestCase(JSONBase):
-
     def set_up(self):
         d = self.common_set_up()
         d.addCallback(self.start_core)
@@ -81,6 +81,7 @@ class JSONTestCase(JSONBase):
 
         def compress(contents, request):
             return contents
+
         self.patch(deluge.ui.web.json_api, 'compress', compress)
 
         def write(response_str):
@@ -88,7 +89,9 @@ class JSONTestCase(JSONBase):
             response = json_lib.loads(response_str)
             self.assertEqual(response['result'], None)
             self.assertEqual(response['id'], None)
-            self.assertEqual(response['error']['message'], 'JSONException: JSON not decodable')
+            self.assertEqual(
+                response['error']['message'], 'JSONException: JSON not decodable'
+            )
             self.assertEqual(response['error']['code'], 5)
 
         request.write = write
@@ -127,7 +130,6 @@ class JSONTestCase(JSONBase):
 
 
 class JSONCustomUserTestCase(JSONBase):
-
     def set_up(self):
         d = self.common_set_up()
         d.addCallback(self.start_core)
@@ -152,7 +154,6 @@ class JSONCustomUserTestCase(JSONBase):
 
 
 class RPCRaiseDelugeErrorJSONTestCase(JSONBase):
-
     def set_up(self):
         d = self.common_set_up()
         custom_script = """
@@ -176,6 +177,7 @@ class RPCRaiseDelugeErrorJSONTestCase(JSONBase):
 
         def get_session_id(s_id):
             return s_id
+
         self.patch(deluge.ui.web.auth, 'get_session_id', get_session_id)
         auth_conf = {'session_timeout': 10, 'sessions': {}}
         auth = Auth(auth_conf)
@@ -195,12 +197,12 @@ class RPCRaiseDelugeErrorJSONTestCase(JSONBase):
 
         def on_error(error):
             self.assertEqual(error.type, DelugeError)
+
         result.addErrback(on_error)
         yield result
 
 
 class JSONRequestFailedTestCase(JSONBase, WebServerMockBase):
-
     def set_up(self):
         d = self.common_set_up()
         custom_script = """
@@ -219,13 +221,17 @@ class JSONRequestFailedTestCase(JSONBase, WebServerMockBase):
     daemon.rpcserver.register_object(test)
 """
         from twisted.internet.defer import Deferred
+
         extra_callback = {
-            'deferred': Deferred(), 'types': ['stderr'],
+            'deferred': Deferred(),
+            'types': ['stderr'],
             'timeout': 10,
-            'triggers': [{
-                'expr': 'in test_raise_error',
-                'value': lambda reader, data, data_all: 'Test',
-            }],
+            'triggers': [
+                {
+                    'expr': 'in test_raise_error',
+                    'value': lambda reader, data, data_all: 'Test',
+                }
+            ],
         }
 
         def on_test_raise(*args):
@@ -234,8 +240,12 @@ class JSONRequestFailedTestCase(JSONBase, WebServerMockBase):
 
         extra_callback['deferred'].addCallback(on_test_raise)
         d.addCallback(
-            self.start_core, custom_script=custom_script, print_stdout=False, print_stderr=False,
-            timeout=5, extra_callbacks=[extra_callback],
+            self.start_core,
+            custom_script=custom_script,
+            print_stdout=False,
+            print_stderr=False,
+            timeout=5,
+            extra_callbacks=[extra_callback],
         )
         d.addCallbacks(self.connect_client, self.terminate_core)
         return d
@@ -278,5 +288,6 @@ class JSONRequestFailedTestCase(JSONBase, WebServerMockBase):
         def on_success(arg):
             self.assertEqual(arg, server.NOT_DONE_YET)
             return True
+
         d.addCallbacks(on_success, self.fail)
         yield d

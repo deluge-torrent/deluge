@@ -78,9 +78,13 @@ if py3:
 
     def int2byte(c):
         return bytes([c])
+
+
 else:
+
     def int2byte(c):
         return chr(c)
+
 
 # Default number of bits for serialized floats, either 32 or 64 (also a parameter for dumps()).
 DEFAULT_FLOAT_BITS = 32
@@ -137,44 +141,44 @@ def decode_int(x, f):
         n = int(x[f:newf])
     except (OverflowError, ValueError):
         n = long(x[f:newf])
-    if x[f:f + 1] == '-':
-        if x[f + 1:f + 2] == '0':
+    if x[f : f + 1] == '-':
+        if x[f + 1 : f + 2] == '0':
             raise ValueError
-    elif x[f:f + 1] == '0' and newf != f + 1:
+    elif x[f : f + 1] == '0' and newf != f + 1:
         raise ValueError
     return (n, newf + 1)
 
 
 def decode_intb(x, f):
     f += 1
-    return (struct.unpack('!b', x[f:f + 1])[0], f + 1)
+    return (struct.unpack('!b', x[f : f + 1])[0], f + 1)
 
 
 def decode_inth(x, f):
     f += 1
-    return (struct.unpack('!h', x[f:f + 2])[0], f + 2)
+    return (struct.unpack('!h', x[f : f + 2])[0], f + 2)
 
 
 def decode_intl(x, f):
     f += 1
 
-    return (struct.unpack('!l', x[f:f + 4])[0], f + 4)
+    return (struct.unpack('!l', x[f : f + 4])[0], f + 4)
 
 
 def decode_intq(x, f):
     f += 1
-    return (struct.unpack('!q', x[f:f + 8])[0], f + 8)
+    return (struct.unpack('!q', x[f : f + 8])[0], f + 8)
 
 
 def decode_float32(x, f):
     f += 1
-    n = struct.unpack('!f', x[f:f + 4])[0]
+    n = struct.unpack('!f', x[f : f + 4])[0]
     return (n, f + 4)
 
 
 def decode_float64(x, f):
     f += 1
-    n = struct.unpack('!d', x[f:f + 8])[0]
+    n = struct.unpack('!d', x[f : f + 8])[0]
     return (n, f + 8)
 
 
@@ -187,7 +191,7 @@ def decode_string(x, f):
     if x[f] == '0' and colon != f + 1:
         raise ValueError
     colon += 1
-    s = x[colon:colon + n]
+    s = x[colon : colon + n]
     if _decode_utf8:
         s = s.decode('utf8')
     return (s, colon + n)
@@ -195,17 +199,17 @@ def decode_string(x, f):
 
 def decode_list(x, f):
     r, f = [], f + 1
-    while x[f:f + 1] != CHR_TERM:
-        v, f = decode_func[x[f:f + 1]](x, f)
+    while x[f : f + 1] != CHR_TERM:
+        v, f = decode_func[x[f : f + 1]](x, f)
         r.append(v)
     return (tuple(r), f + 1)
 
 
 def decode_dict(x, f):
     r, f = {}, f + 1
-    while x[f:f + 1] != CHR_TERM:
-        k, f = decode_func[x[f:f + 1]](x, f)
-        r[k], f = decode_func[x[f:f + 1]](x, f)
+    while x[f : f + 1] != CHR_TERM:
+        k, f = decode_func[x[f : f + 1]](x, f)
+        r[k], f = decode_func[x[f : f + 1]](x, f)
     return (r, f + 1)
 
 
@@ -249,11 +253,13 @@ decode_func[CHR_NONE] = decode_none
 def make_fixed_length_string_decoders():
     def make_decoder(slen):
         def f(x, f):
-            s = x[f + 1:f + 1 + slen]
+            s = x[f + 1 : f + 1 + slen]
             if _decode_utf8:
                 s = s.decode('utf8')
             return (s, f + 1 + slen)
+
         return f
+
     for i in range(STR_FIXED_COUNT):
         decode_func[int2byte(STR_FIXED_START + i)] = make_decoder(i)
 
@@ -266,10 +272,12 @@ def make_fixed_length_list_decoders():
         def f(x, f):
             r, f = [], f + 1
             for _ in range(slen):
-                v, f = decode_func[x[f:f + 1]](x, f)
+                v, f = decode_func[x[f : f + 1]](x, f)
                 r.append(v)
             return (tuple(r), f)
+
         return f
+
     for i in range(LIST_FIXED_COUNT):
         decode_func[int2byte(LIST_FIXED_START + i)] = make_decoder(i)
 
@@ -281,7 +289,9 @@ def make_fixed_length_int_decoders():
     def make_decoder(j):
         def f(x, f):
             return (j, f + 1)
+
         return f
+
     for i in range(INT_POS_FIXED_COUNT):
         decode_func[int2byte(INT_POS_FIXED_START + i)] = make_decoder(i)
     for i in range(INT_NEG_FIXED_COUNT):
@@ -296,10 +306,12 @@ def make_fixed_length_dict_decoders():
         def f(x, f):
             r, f = {}, f + 1
             for _ in range(slen):
-                k, f = decode_func[x[f:f + 1]](x, f)
-                r[k], f = decode_func[x[f:f + 1]](x, f)
+                k, f = decode_func[x[f : f + 1]](x, f)
+                r[k], f = decode_func[x[f : f + 1]](x, f)
             return (r, f)
+
         return f
+
     for i in range(DICT_FIXED_COUNT):
         decode_func[int2byte(DICT_FIXED_START + i)] = make_decoder(i)
 
@@ -436,17 +448,45 @@ def test():
     f3 = struct.unpack('!f', struct.pack('!f', -0.6))[0]
     ld = (
         (
-            {b'a': 15, b'bb': f1, b'ccc': f2, b'': (f3, (), False, True, b'')}, (b'a', 10**20),
-            tuple(range(-100000, 100000)), b'b' * 31, b'b' * 62, b'b' * 64, 2**30, 2**33, 2**62,
-            2**64, 2**30, 2**33, 2**62, 2**64, False, False, True, -1, 2, 0,
+            {b'a': 15, b'bb': f1, b'ccc': f2, b'': (f3, (), False, True, b'')},
+            (b'a', 10 ** 20),
+            tuple(range(-100000, 100000)),
+            b'b' * 31,
+            b'b' * 62,
+            b'b' * 64,
+            2 ** 30,
+            2 ** 33,
+            2 ** 62,
+            2 ** 64,
+            2 ** 30,
+            2 ** 33,
+            2 ** 62,
+            2 ** 64,
+            False,
+            False,
+            True,
+            -1,
+            2,
+            0,
         ),
     )
     assert loads(dumps(ld)) == ld
     d = dict(zip(range(-100000, 100000), range(-100000, 100000)))
-    d.update({b'a': 20, 20: 40, 40: 41, f1: f2, f2: f3, f3: False, False: True, True: False})
+    d.update(
+        {b'a': 20, 20: 40, 40: 41, f1: f2, f2: f3, f3: False, False: True, True: False}
+    )
     ld = (d, {}, {5: 6}, {7: 7, True: 8}, {9: 10, 22: 39, 49: 50, 44: b''})
     assert loads(dumps(ld)) == ld
-    ld = (b'', b'a' * 10, b'a' * 100, b'a' * 1000, b'a' * 10000, b'a' * 100000, b'a' * 1000000, b'a' * 10000000)
+    ld = (
+        b'',
+        b'a' * 10,
+        b'a' * 100,
+        b'a' * 1000,
+        b'a' * 10000,
+        b'a' * 100000,
+        b'a' * 1000000,
+        b'a' * 10000000,
+    )
     assert loads(dumps(ld)) == ld
     ld = tuple(dict(zip(range(n), range(n))) for n in range(100)) + (b'b',)
     assert loads(dumps(ld)) == ld
@@ -468,6 +508,7 @@ def test():
 
 try:
     import psyco
+
     psyco.bind(dumps)
     psyco.bind(loads)
 except ImportError:

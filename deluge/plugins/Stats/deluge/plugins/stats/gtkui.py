@@ -43,9 +43,7 @@ DEFAULT_CONF = {
             'dht_torrents': str(gtk.gdk.Color('green')),
             'num_connections': str(gtk.gdk.Color('darkred')),
         },
-        'seeds_graph': {
-            'num_peers': str(gtk.gdk.Color('blue')),
-        },
+        'seeds_graph': {'num_peers': str(gtk.gdk.Color('blue'))},
     },
 }
 
@@ -126,7 +124,9 @@ class GraphsTab(Tab):
     def graph_expose(self, widget, event):
         context = self.graph_widget.window.cairo_create()
         # set a clip region
-        context.rectangle(event.area.x, event.area.y, event.area.width, event.area.height)
+        context.rectangle(
+            event.area.x, event.area.y, event.area.width, event.area.height
+        )
         context.clip()
         self.graph.draw_to_context(
             context,
@@ -143,6 +143,7 @@ class GraphsTab(Tab):
         def _update_complete(result):
             self.graph_widget.queue_draw()
             return result
+
         d1.addCallback(_update_complete)
         return d1
 
@@ -158,16 +159,17 @@ class GraphsTab(Tab):
         self.graph = Graph()
         colors = self.colors['bandwidth_graph']
         self.graph.add_stat(
-            'download_rate', label='Download Rate',
+            'download_rate',
+            label='Download Rate',
             color=gtk_to_graph_color(colors['download_rate']),
         )
         self.graph.add_stat(
-            'upload_rate', label='Upload Rate',
+            'upload_rate',
+            label='Upload Rate',
             color=gtk_to_graph_color(colors['upload_rate']),
         )
         self.graph.set_left_axis(
-            formatter=fspeed_shortform, min=10240,
-            formatter_scale=size_formatter_scale,
+            formatter=fspeed_shortform, min=10240, formatter_scale=size_formatter_scale
         )
 
     def select_connections_graph(self):
@@ -177,9 +179,13 @@ class GraphsTab(Tab):
         self.graph = g
         colors = self.colors['connections_graph']
         g.add_stat('dht_nodes', color=gtk_to_graph_color(colors['dht_nodes']))
-        g.add_stat('dht_cache_nodes', color=gtk_to_graph_color(colors['dht_cache_nodes']))
+        g.add_stat(
+            'dht_cache_nodes', color=gtk_to_graph_color(colors['dht_cache_nodes'])
+        )
         g.add_stat('dht_torrents', color=gtk_to_graph_color(colors['dht_torrents']))
-        g.add_stat('num_connections', color=gtk_to_graph_color(colors['num_connections']))
+        g.add_stat(
+            'num_connections', color=gtk_to_graph_color(colors['num_connections'])
+        )
         g.set_left_axis(formatter=int_str, min=10)
 
     def select_seeds_graph(self):
@@ -194,9 +200,7 @@ class GraphsTab(Tab):
         self.colors = colors
         # Fake switch page to update the graph colors (HACKY)
         self._on_notebook_switch_page(
-            self.notebook,
-            None,  # This is unused
-            self.notebook.get_current_page(),
+            self.notebook, None, self.notebook.get_current_page()  # This is unused
         )
 
     def _on_intervals_changed(self, intervals):
@@ -233,17 +237,24 @@ class GraphsTab(Tab):
 
 
 class GtkUI(GtkPluginBase):
-
     def enable(self):
         log.debug('Stats plugin enable called')
-        self.config = deluge.configmanager.ConfigManager('stats.gtkui.conf', DEFAULT_CONF)
+        self.config = deluge.configmanager.ConfigManager(
+            'stats.gtkui.conf', DEFAULT_CONF
+        )
 
         self.builder = gtk.Builder()
         self.builder.add_from_file(get_resource('config.ui'))
 
-        component.get('Preferences').add_page('Stats', self.builder.get_object('prefs_box'))
-        component.get('PluginManager').register_hook('on_apply_prefs', self.on_apply_prefs)
-        component.get('PluginManager').register_hook('on_show_prefs', self.on_show_prefs)
+        component.get('Preferences').add_page(
+            'Stats', self.builder.get_object('prefs_box')
+        )
+        component.get('PluginManager').register_hook(
+            'on_apply_prefs', self.on_apply_prefs
+        )
+        component.get('PluginManager').register_hook(
+            'on_show_prefs', self.on_show_prefs
+        )
         self.on_show_prefs()
 
         self.graphs_tab = GraphsTab(self.config['colors'])
@@ -252,8 +263,12 @@ class GtkUI(GtkPluginBase):
 
     def disable(self):
         component.get('Preferences').remove_page('Stats')
-        component.get('PluginManager').deregister_hook('on_apply_prefs', self.on_apply_prefs)
-        component.get('PluginManager').deregister_hook('on_show_prefs', self.on_show_prefs)
+        component.get('PluginManager').deregister_hook(
+            'on_apply_prefs', self.on_apply_prefs
+        )
+        component.get('PluginManager').deregister_hook(
+            'on_show_prefs', self.on_show_prefs
+        )
         self.torrent_details.remove_tab(self.graphs_tab.get_name())
 
     def on_apply_prefs(self):

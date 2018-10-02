@@ -27,18 +27,14 @@ log = logging.getLogger(__name__)
 
 
 def get_resource(filename):
-    return resource_filename('deluge.plugins.notifications', os.path.join('data', filename))
+    return resource_filename(
+        'deluge.plugins.notifications', os.path.join('data', filename)
+    )
 
 
 class CustomNotifications(object):
-
     def __init__(self, plugin_name=None):
-        self.custom_notifications = {
-            'email': {},
-            'popup': {},
-            'blink': {},
-            'sound': {},
-        }
+        self.custom_notifications = {'email': {}, 'popup': {}, 'blink': {}, 'sound': {}}
 
     def enable(self):
         pass
@@ -50,7 +46,13 @@ class CustomNotifications(object):
                 self._deregister_custom_provider(kind, eventtype)
 
     def _handle_custom_providers(self, kind, eventtype, *args, **kwargs):
-        log.debug('Calling CORE custom %s providers for %s: %s %s', kind, eventtype, args, kwargs)
+        log.debug(
+            'Calling CORE custom %s providers for %s: %s %s',
+            kind,
+            eventtype,
+            args,
+            kwargs,
+        )
         if eventtype in self.config['subscriptions'][kind]:
             wrapper, handler = self.custom_notifications[kind][eventtype]
             log.debug('Found handler for kind %s: %s', kind, handler)
@@ -65,17 +67,18 @@ class CustomNotifications(object):
         if not self._handled_eventtype(eventtype, handler):
             return defer.succeed('Event not handled')
         if eventtype not in self.custom_notifications:
+
             def wrapper(*args, **kwargs):
                 return self._handle_custom_providers(kind, eventtype, *args, **kwargs)
+
             self.custom_notifications[kind][eventtype] = (wrapper, handler)
         else:
             wrapper, handler = self.custom_notifications[kind][eventtype]
         try:
-            component.get('EventManager').register_event_handler(
-                eventtype, wrapper,
-            )
+            component.get('EventManager').register_event_handler(eventtype, wrapper)
         except KeyError:
             from deluge.ui.client import client
+
             client.register_event_handler(eventtype, wrapper)
 
     def _deregister_custom_provider(self, kind, eventtype):
@@ -83,10 +86,11 @@ class CustomNotifications(object):
             wrapper, handler = self.custom_notifications[kind][eventtype]
             try:
                 component.get('EventManager').deregister_event_handler(
-                    eventtype, wrapper,
+                    eventtype, wrapper
                 )
             except KeyError:
                 from deluge.ui.client import client
+
                 client.deregister_event_handler(eventtype, wrapper)
             self.custom_notifications[kind].pop(eventtype)
         except KeyError:
@@ -101,7 +105,7 @@ class CustomNotifications(object):
                 return True
             log.error(
                 'You cannot register custom notification providers '
-                'for built-in event types.',
+                'for built-in event types.'
             )
             return False
         return True

@@ -22,7 +22,9 @@ class Gtk(UI):
     cmd_description = """GTK-based graphical user interface"""
 
     def __init__(self, *args, **kwargs):
-        super(Gtk, self).__init__('gtk', *args, description='Starts the Deluge GTK+ interface', **kwargs)
+        super(Gtk, self).__init__(
+            'gtk', *args, description='Starts the Deluge GTK+ interface', **kwargs
+        )
 
         group = self.parser.add_argument_group(_('GTK Options'))
         group.add_argument(
@@ -32,7 +34,7 @@ class Gtk(UI):
             default=None,
             help=_(
                 'Add one or more torrent files, torrent URLs or magnet URIs'
-                ' to a currently running Deluge GTK instance',
+                ' to a currently running Deluge GTK instance'
             ),
         )
 

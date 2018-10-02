@@ -25,6 +25,7 @@ class DelugeEventMetaClass(type):
     """
     This metaclass simply keeps a list of all events classes created.
     """
+
     def __init__(cls, name, bases, dct):  # pylint: disable=bad-mcs-method-argument
         super(DelugeEventMetaClass, cls).__init__(name, bases, dct)
         if name != 'DelugeEvent':
@@ -58,6 +59,7 @@ class TorrentAddedEvent(DelugeEvent):
     """
     Emitted when a new torrent is successfully added to the session.
     """
+
     def __init__(self, torrent_id, from_state):
         """
         :param torrent_id: the torrent_id of the torrent that was added
@@ -72,6 +74,7 @@ class TorrentRemovedEvent(DelugeEvent):
     """
     Emitted when a torrent has been removed from the session.
     """
+
     def __init__(self, torrent_id):
         """
         :param torrent_id: the torrent_id
@@ -84,6 +87,7 @@ class PreTorrentRemovedEvent(DelugeEvent):
     """
     Emitted when a torrent is about to be removed from the session.
     """
+
     def __init__(self, torrent_id):
         """
         :param torrent_id: the torrent_id
@@ -96,6 +100,7 @@ class TorrentStateChangedEvent(DelugeEvent):
     """
     Emitted when a torrent changes state.
     """
+
     def __init__(self, torrent_id, state):
         """
         :param torrent_id: the torrent_id
@@ -110,6 +115,7 @@ class TorrentTrackerStatusEvent(DelugeEvent):
     """
     Emitted when a torrents tracker status changes.
     """
+
     def __init__(self, torrent_id, status):
         """
         Args:
@@ -123,6 +129,7 @@ class TorrentQueueChangedEvent(DelugeEvent):
     """
     Emitted when the queue order has changed.
     """
+
     pass
 
 
@@ -130,6 +137,7 @@ class TorrentFolderRenamedEvent(DelugeEvent):
     """
     Emitted when a folder within a torrent has been renamed.
     """
+
     def __init__(self, torrent_id, old, new):
         """
         :param torrent_id: the torrent_id
@@ -146,6 +154,7 @@ class TorrentFileRenamedEvent(DelugeEvent):
     """
     Emitted when a file within a torrent has been renamed.
     """
+
     def __init__(self, torrent_id, index, name):
         """
         :param torrent_id: the torrent_id
@@ -162,6 +171,7 @@ class TorrentFinishedEvent(DelugeEvent):
     """
     Emitted when a torrent finishes downloading.
     """
+
     def __init__(self, torrent_id):
         """
         :param torrent_id: the torrent_id
@@ -174,6 +184,7 @@ class TorrentResumedEvent(DelugeEvent):
     """
     Emitted when a torrent resumes from a paused state.
     """
+
     def __init__(self, torrent_id):
         """
         :param torrent_id: the torrent_id
@@ -186,6 +197,7 @@ class TorrentFileCompletedEvent(DelugeEvent):
     """
     Emitted when a file completes.
     """
+
     def __init__(self, torrent_id, index):
         """
         :param torrent_id: the torrent_id
@@ -200,6 +212,7 @@ class TorrentStorageMovedEvent(DelugeEvent):
     """
     Emitted when the storage location for a torrent has been moved.
     """
+
     def __init__(self, torrent_id, path):
         """
         :param torrent_id: the torrent_id
@@ -214,6 +227,7 @@ class CreateTorrentProgressEvent(DelugeEvent):
     """
     Emitted when creating a torrent file remotely.
     """
+
     def __init__(self, piece_count, num_pieces):
         self._args = [piece_count, num_pieces]
 
@@ -222,6 +236,7 @@ class NewVersionAvailableEvent(DelugeEvent):
     """
     Emitted when a more recent version of Deluge is available.
     """
+
     def __init__(self, new_release):
         """
         :param new_release: the new version that is available
@@ -235,6 +250,7 @@ class SessionStartedEvent(DelugeEvent):
     Emitted when a session has started.  This typically only happens once when
     the daemon is initially started.
     """
+
     pass
 
 
@@ -242,6 +258,7 @@ class SessionPausedEvent(DelugeEvent):
     """
     Emitted when the session has been paused.
     """
+
     pass
 
 
@@ -249,6 +266,7 @@ class SessionResumedEvent(DelugeEvent):
     """
     Emitted when the session has been resumed.
     """
+
     pass
 
 
@@ -256,6 +274,7 @@ class ConfigValueChangedEvent(DelugeEvent):
     """
     Emitted when a config value changes in the Core.
     """
+
     def __init__(self, key, value):
         """
         :param key: the key that changed
@@ -269,6 +288,7 @@ class PluginEnabledEvent(DelugeEvent):
     """
     Emitted when a plugin is enabled in the Core.
     """
+
     def __init__(self, plugin_name):
         self._args = [plugin_name]
 
@@ -277,6 +297,7 @@ class PluginDisabledEvent(DelugeEvent):
     """
     Emitted when a plugin is disabled in the Core.
     """
+
     def __init__(self, plugin_name):
         self._args = [plugin_name]
 
@@ -285,6 +306,7 @@ class ClientDisconnectedEvent(DelugeEvent):
     """
     Emitted when a client disconnects.
     """
+
     def __init__(self, session_id):
         self._args = [session_id]
 
@@ -293,6 +315,7 @@ class ExternalIPEvent(DelugeEvent):
     """
     Emitted when the external ip address is received from libtorrent.
     """
+
     def __init__(self, external_ip):
         """
         Args:

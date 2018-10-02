@@ -17,8 +17,14 @@ from io import open
 
 import deluge.component as component
 import deluge.configmanager as configmanager
-from deluge.common import (AUTH_LEVEL_ADMIN, AUTH_LEVEL_DEFAULT, AUTH_LEVEL_NONE, AUTH_LEVEL_NORMAL,
-                           AUTH_LEVEL_READONLY, create_localclient_account)
+from deluge.common import (
+    AUTH_LEVEL_ADMIN,
+    AUTH_LEVEL_DEFAULT,
+    AUTH_LEVEL_NONE,
+    AUTH_LEVEL_NORMAL,
+    AUTH_LEVEL_READONLY,
+    create_localclient_account,
+)
 from deluge.error import AuthenticationRequired, AuthManagerError, BadLoginError
 
 log = logging.getLogger(__name__)
@@ -50,8 +56,10 @@ class Account(object):
         }
 
     def __repr__(self):
-        return ('<Account username="%(username)s" authlevel=%(authlevel)s>' %
-                {'username': self.username, 'authlevel': self.authlevel})
+        return '<Account username="%(username)s" authlevel=%(authlevel)s>' % {
+            'username': self.username,
+            'authlevel': self.authlevel,
+        }
 
 
 class AuthManager(component.Component):
@@ -99,7 +107,7 @@ class AuthManager(component.Component):
         """
         if not username:
             raise AuthenticationRequired(
-                'Username and Password are required.', username,
+                'Username and Password are required.', username
             )
 
         if username not in self.__auth:
@@ -131,8 +139,7 @@ class AuthManager(component.Component):
             raise AuthManagerError('Invalid auth level: %s' % authlevel)
         try:
             self.__auth[username] = Account(
-                username, password,
-                AUTH_LEVELS_MAPPING[authlevel],
+                username, password, AUTH_LEVELS_MAPPING[authlevel]
             )
             self.write_auth_file()
             return True
@@ -160,7 +167,7 @@ class AuthManager(component.Component):
             raise AuthManagerError('Username not known', username)
         elif username == component.get('RPCServer').get_session_user():
             raise AuthManagerError(
-                'You cannot delete your own account while logged in!', username,
+                'You cannot delete your own account while logged in!', username
             )
 
         del self.__auth[username]
@@ -184,7 +191,10 @@ class AuthManager(component.Component):
             try:
                 with open(filepath_tmp, 'w', encoding='utf8') as _file:
                     for account in self.__auth.values():
-                        _file.write('%(username)s:%(password)s:%(authlevel_int)s\n' % account.data())
+                        _file.write(
+                            '%(username)s:%(password)s:%(authlevel_int)s\n'
+                            % account.data()
+                        )
                     _file.flush()
                     os.fsync(_file.fileno())
                 shutil.move(filepath_tmp, filepath)
@@ -237,7 +247,9 @@ class AuthManager(component.Component):
                 username, password = lsplit
                 log.warning(
                     'Your auth entry for %s contains no auth level, '
-                    'using AUTH_LEVEL_DEFAULT(%s)..', username, AUTH_LEVEL_DEFAULT,
+                    'using AUTH_LEVEL_DEFAULT(%s)..',
+                    username,
+                    AUTH_LEVEL_DEFAULT,
                 )
                 if username == 'localclient':
                     authlevel = AUTH_LEVEL_ADMIN
@@ -259,7 +271,10 @@ class AuthManager(component.Component):
                 try:
                     authlevel = AUTH_LEVELS_MAPPING[authlevel]
                 except KeyError:
-                    log.error('Your auth file is malformed: %r is not a valid auth level', authlevel)
+                    log.error(
+                        'Your auth file is malformed: %r is not a valid auth level',
+                        authlevel,
+                    )
                 continue
 
             self.__auth[username] = Account(username, password, authlevel)

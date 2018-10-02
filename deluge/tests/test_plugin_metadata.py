@@ -16,7 +16,6 @@ from .basetest import BaseTestCase
 
 
 class PluginManagerBaseTestCase(BaseTestCase):
-
     def set_up(self):
         common.set_tmp_config_dir()
 

@@ -21,7 +21,9 @@ log = logging.getLogger(__name__)
 
 class TrackersTab(Tab):
     def __init__(self):
-        super(TrackersTab, self).__init__('Trackers', 'trackers_tab', 'trackers_tab_label')
+        super(TrackersTab, self).__init__(
+            'Trackers', 'trackers_tab', 'trackers_tab_label'
+        )
 
         self.add_tab_widget('summary_next_announce', ftime, ('next_announce',))
         self.add_tab_widget('summary_tracker', None, ('tracker_host',))
@@ -43,7 +45,9 @@ class TrackersTab(Tab):
             return
 
         session = component.get('SessionProxy')
-        session.get_torrent_status(selected, self.status_keys).addCallback(self._on_get_torrent_status)
+        session.get_torrent_status(selected, self.status_keys).addCallback(
+            self._on_get_torrent_status
+        )
 
     def _on_get_torrent_status(self, status):
         # Check to see if we got valid data from the core
@@ -64,5 +68,6 @@ class TrackersTab(Tab):
         torrent_id = component.get('TorrentView').get_selected_torrent()
         if torrent_id:
             from deluge.ui.gtkui.edittrackersdialog import EditTrackersDialog
+
             dialog = EditTrackersDialog(torrent_id, component.get('MainWindow').window)
             dialog.run()

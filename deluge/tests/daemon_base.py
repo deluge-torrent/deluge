@@ -41,8 +41,15 @@ class DaemonBase(object):
 
     @defer.inlineCallbacks
     def start_core(
-        self, arg, custom_script='', logfile='', print_stdout=True, print_stderr=True, timeout=5,
-        port_range=10, extra_callbacks=None,
+        self,
+        arg,
+        custom_script='',
+        logfile='',
+        print_stdout=True,
+        print_stderr=True,
+        timeout=5,
+        port_range=10,
+        extra_callbacks=None,
     ):
         if logfile == '':
             logfile = 'daemon_%s.log' % self.id()
@@ -59,8 +66,10 @@ class DaemonBase(object):
         for dummy in range(port_range):
             try:
                 d, self.core = common.start_core(
-                    listen_port=self.listen_port, logfile=logfile,
-                    timeout=timeout, timeout_msg='Timeout!',
+                    listen_port=self.listen_port,
+                    logfile=logfile,
+                    timeout=timeout,
+                    timeout_msg='Timeout!',
                     custom_script=custom_script,
                     print_stdout=print_stdout,
                     print_stderr=print_stderr,

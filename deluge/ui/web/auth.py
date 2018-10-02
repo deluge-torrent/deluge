@@ -103,8 +103,10 @@ class Auth(JSONComponent):
         checksum = str(make_checksum(session_id))
 
         request.addCookie(
-            b'_session_id', session_id + checksum,
-            path=request.base + 'json', expires=expires_str,
+            b'_session_id',
+            session_id + checksum,
+            path=request.base + 'json',
+            expires=expires_str,
         )
 
         log.debug('Creating session for %s', login)
@@ -144,6 +146,7 @@ class Auth(JSONComponent):
             # We are using the 1.1 webui auth method
             log.debug('Received a password via the 1.1 auth method')
             from base64 import b64decode
+
             m = hashlib.md5()
             m.update(b64decode(config['old_pwd_salt']))
             m.update(password.encode('utf8'))
@@ -200,8 +203,10 @@ class Auth(JSONComponent):
 
             _session_id = request.getCookie('_session_id')
             request.addCookie(
-                b'_session_id', _session_id,
-                path=request.base + b'json', expires=expires_str,
+                b'_session_id',
+                _session_id,
+                path=request.base + b'json',
+                expires=expires_str,
             )
 
         if method:

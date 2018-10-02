@@ -17,9 +17,19 @@ import deluge.ui.console.utils.colors as colors
 from deluge.common import TORRENT_STATE, fsize, fspeed
 from deluge.ui.client import client
 from deluge.ui.common import FILE_PRIORITY
-from deluge.ui.console.utils.format_utils import (f_progressbar, f_seedrank_dash, format_date_never, format_progress,
-                                                  format_time, ftotal_sized, pad_string, remove_formatting,
-                                                  shorten_hash, strwidth, trim_string)
+from deluge.ui.console.utils.format_utils import (
+    f_progressbar,
+    f_seedrank_dash,
+    format_date_never,
+    format_progress,
+    format_time,
+    ftotal_sized,
+    pad_string,
+    remove_formatting,
+    shorten_hash,
+    strwidth,
+    trim_string,
+)
 
 from . import BaseCommand
 
@@ -83,31 +93,58 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            '-v', '--verbose', action='store_true', default=False, dest='verbose',
+            '-v',
+            '--verbose',
+            action='store_true',
+            default=False,
+            dest='verbose',
             help=_('Show more information per torrent.'),
         )
         parser.add_argument(
-            '-d', '--detailed', action='store_true', default=False, dest='detailed',
+            '-d',
+            '--detailed',
+            action='store_true',
+            default=False,
+            dest='detailed',
             help=_('Show more detailed information including files and peers.'),
         )
         parser.add_argument(
-            '-s', '--state', action='store', dest='state',
+            '-s',
+            '--state',
+            action='store',
+            dest='state',
             help=_('Show torrents with state STATE: %s.' % (', '.join(STATES))),
         )
-        parser.add_argument('--sort', action='store', type=str, default='', dest='sort', help=self.sort_help)
         parser.add_argument(
-            '--sort-reverse', action='store', type=str, default='', dest='sort_rev',
+            '--sort',
+            action='store',
+            type=str,
+            default='',
+            dest='sort',
+            help=self.sort_help,
+        )
+        parser.add_argument(
+            '--sort-reverse',
+            action='store',
+            type=str,
+            default='',
+            dest='sort_rev',
             help=_('Same as --sort but items are in reverse order.'),
         )
         parser.add_argument(
-            'torrent_ids', metavar='<torrent-id>', nargs='*',
+            'torrent_ids',
+            metavar='<torrent-id>',
+            nargs='*',
             help=_('One or more torrent ids. If none is given, list all'),
         )
 
     def add_subparser(self, subparsers):
         parser = subparsers.add_parser(
-            self.name, prog=self.name, help=self.__doc__,
-            description=self.__doc__, epilog=self.epilog,
+            self.name,
+            prog=self.name,
+            help=self.__doc__,
+            description=self.__doc__,
+            epilog=self.epilog,
         )
         self.add_arguments(parser)
 
@@ -134,10 +171,16 @@ class Command(BaseCommand):
                 sort_reverse = False
             if sort_key not in STATUS_KEYS:
                 self.console.write('')
-                self.console.write('{!error!}Unknown sort key: ' + sort_key + ', will sort on name')
+                self.console.write(
+                    '{!error!}Unknown sort key: ' + sort_key + ', will sort on name'
+                )
                 sort_key = 'name'
                 sort_reverse = False
-            for key, value in sorted(list(status.items()), key=lambda x: x[1].get(sort_key), reverse=sort_reverse):
+            for key, value in sorted(
+                list(status.items()),
+                key=lambda x: x[1].get(sort_key),
+                reverse=sort_reverse,
+            ):
                 self.show_info(key, status[key], options.verbose, options.detailed)
 
         def on_torrents_status_fail(reason):
@@ -189,7 +232,9 @@ class Command(BaseCommand):
 
             col_priority = ' {!info!}Priority: '
 
-            file_priority = FILE_PRIORITY[status['file_priorities'][index]].replace('Priority', '')
+            file_priority = FILE_PRIORITY[status['file_priorities'][index]].replace(
+                'Priority', ''
+            )
             if status['file_progress'][index] != 1.0:
                 if file_priority == 'Do Not Download':
                     col_priority += '{!error!}'
@@ -206,7 +251,9 @@ class Command(BaseCommand):
             # Check how much space we've got left after writing all the info
             space_left = cols - tlen(col_all_info)
             # And how much we will potentially have with the longest possible column
-            maxlen_space_left = cols - tlen(' (1000.0 MiB) 100.00% Priority: Do Not Download')
+            maxlen_space_left = cols - tlen(
+                ' (1000.0 MiB) 100.00% Priority: Do Not Download'
+            )
             if maxlen_space_left > tlen(col_filename) + 1:
                 # If there is enough space, pad it all nicely
                 col_all_info = ''
@@ -221,7 +268,9 @@ class Command(BaseCommand):
                 col_all_info += col_priority
                 col_all_info += ' ' * spaces_to_add
                 # And remember to put it to the left!
-                col_filename = pad_string(col_filename, maxlen_space_left - 2, side='right')
+                col_filename = pad_string(
+                    col_filename, maxlen_space_left - 2, side='right'
+                )
             elif space_left > tlen(col_filename) + 1:
                 # If there is enough space, put the info to the right
                 col_filename = pad_string(col_filename, space_left - 2, side='right')
@@ -250,7 +299,10 @@ class Command(BaseCommand):
                     s += peer['ip']
                 else:
                     # IPv6
-                    s += '[%s]:%s' % (':'.join(peer['ip'].split(':')[:-1]), peer['ip'].split(':')[-1])
+                    s += '[%s]:%s' % (
+                        ':'.join(peer['ip'].split(':')[:-1]),
+                        peer['ip'].split(':')[-1],
+                    )
 
                 c = peer['client']
                 s += '\t' + c
@@ -287,29 +339,40 @@ class Command(BaseCommand):
         if verbose or detailed:
             self.console.write('{!info!}Name: {!input!}%s' % (status['name']))
             self.console.write('{!info!}ID: {!input!}%s' % (torrent_id))
-            s = '{!info!}State: %s%s' % (colors.state_color[status['state']], status['state'])
+            s = '{!info!}State: %s%s' % (
+                colors.state_color[status['state']],
+                status['state'],
+            )
             # Only show speed if active
             if status['state'] in ('Seeding', 'Downloading'):
                 if status['state'] != 'Seeding':
                     s += sep
                     s += '{!info!}Down Speed: {!input!}%s' % fspeed(
-                        status['download_payload_rate'], shortform=True,
+                        status['download_payload_rate'], shortform=True
                     )
                 s += sep
                 s += '{!info!}Up Speed: {!input!}%s' % fspeed(
-                    status['upload_payload_rate'], shortform=True,
+                    status['upload_payload_rate'], shortform=True
                 )
             self.console.write(s)
 
             if status['state'] in ('Seeding', 'Downloading', 'Queued'):
-                s = '{!info!}Seeds: {!input!}%s (%s)' % (status['num_seeds'], status['total_seeds'])
+                s = '{!info!}Seeds: {!input!}%s (%s)' % (
+                    status['num_seeds'],
+                    status['total_seeds'],
+                )
                 s += sep
-                s += '{!info!}Peers: {!input!}%s (%s)' % (status['num_peers'], status['total_peers'])
+                s += '{!info!}Peers: {!input!}%s (%s)' % (
+                    status['num_peers'],
+                    status['total_peers'],
+                )
                 s += sep
-                s += '{!info!}Availability: {!input!}%.2f' % status['distributed_copies']
+                s += (
+                    '{!info!}Availability: {!input!}%.2f' % status['distributed_copies']
+                )
                 s += sep
                 s += '{!info!}Seed Rank: {!input!}%s' % f_seedrank_dash(
-                    status['seed_rank'], status['seeding_time'],
+                    status['seed_rank'], status['seeding_time']
                 )
                 self.console.write(s)
 
@@ -320,9 +383,13 @@ class Command(BaseCommand):
             else:
                 s = '{!info!}Size: {!input!}%s/%s' % (total_done, total_size)
             s += sep
-            s += '{!info!}Downloaded: {!input!}%s' % fsize(status['all_time_download'], shortform=True)
+            s += '{!info!}Downloaded: {!input!}%s' % fsize(
+                status['all_time_download'], shortform=True
+            )
             s += sep
-            s += '{!info!}Uploaded: {!input!}%s' % fsize(status['total_uploaded'], shortform=True)
+            s += '{!info!}Uploaded: {!input!}%s' % fsize(
+                status['total_uploaded'], shortform=True
+            )
             s += sep
             s += '{!info!}Share Ratio: {!input!}%.2f' % status['ratio']
             self.console.write(s)
@@ -334,20 +401,26 @@ class Command(BaseCommand):
             s += '{!info!}Active: {!input!}%s' % format_time(status['active_time'])
             self.console.write(s)
 
-            s = '{!info!}Last Transfer: {!input!}%s' % format_time(status['time_since_transfer'])
+            s = '{!info!}Last Transfer: {!input!}%s' % format_time(
+                status['time_since_transfer']
+            )
             s += sep
             s += '{!info!}Complete Seen: {!input!}%s' % format_date_never(
-                status['last_seen_complete'],
+                status['last_seen_complete']
             )
             self.console.write(s)
 
             s = '{!info!}Tracker: {!input!}%s' % status['tracker_host']
             self.console.write(s)
 
-            self.console.write('{!info!}Tracker status: {!input!}%s' % status['tracker_status'])
+            self.console.write(
+                '{!info!}Tracker status: {!input!}%s' % status['tracker_status']
+            )
 
             if not status['is_finished']:
-                pbar = f_progressbar(status['progress'], cols - (13 + len('%.2f%%' % status['progress'])))
+                pbar = f_progressbar(
+                    status['progress'], cols - (13 + len('%.2f%%' % status['progress']))
+                )
                 s = '{!info!}Progress: {!input!}%.2f%% %s' % (status['progress'], pbar)
                 self.console.write(s)
 
@@ -363,7 +436,10 @@ class Command(BaseCommand):
             up_color = colors.state_color['Seeding']
             down_color = colors.state_color['Downloading']
 
-            s = '%s%s' % (colors.state_color[status['state']], '[' + status['state'][0] + ']')
+            s = '%s%s' % (
+                colors.state_color[status['state']],
+                '[' + status['state'][0] + ']',
+            )
 
             s += ' {!info!}' + format_progress(status['progress']).rjust(6, ' ')
             s += ' {!input!}%s' % (status['name'])
@@ -380,7 +456,9 @@ class Command(BaseCommand):
             self.console.write(s)
 
             dl_info = '{!info!}DL: {!input!}'
-            dl_info += '%s' % ftotal_sized(status['all_time_download'], status['total_payload_download'])
+            dl_info += '%s' % ftotal_sized(
+                status['all_time_download'], status['total_payload_download']
+            )
 
             if status['download_payload_rate'] > 0:
                 dl_info += ' @ %s%s' % (
@@ -389,7 +467,9 @@ class Command(BaseCommand):
                 )
 
             ul_info = ' {!info!}UL: {!input!}'
-            ul_info += '%s' % ftotal_sized(status['total_uploaded'], status['total_payload_upload'])
+            ul_info += '%s' % ftotal_sized(
+                status['total_uploaded'], status['total_payload_upload']
+            )
             if status['upload_payload_rate'] > 0:
                 ul_info += ' @ %s%s' % (
                     up_color,

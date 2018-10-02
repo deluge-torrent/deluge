@@ -33,7 +33,9 @@ class LabelConfig(object):
         builder = Builder()
         builder.add_from_file(get_resource('label_pref.ui'))
 
-        self.plugin.add_preferences_page(_('Label'), builder.get_object('label_prefs_box'))
+        self.plugin.add_preferences_page(
+            _('Label'), builder.get_object('label_prefs_box')
+        )
         self.plugin.register_hook('on_show_prefs', self.load_settings)
         self.plugin.register_hook('on_apply_prefs', self.on_apply_prefs)
 

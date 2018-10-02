@@ -34,12 +34,14 @@ log = logging.getLogger(__name__)
 
 try:
     import pygame
+
     SOUND_AVAILABLE = True
 except ImportError:
     SOUND_AVAILABLE = False
 
 try:
     import pynotify
+
     POPUP_AVAILABLE = True
     if deluge.common.windows_check():
         POPUP_AVAILABLE = False
@@ -59,36 +61,35 @@ DEFAULT_PREFS = {
     'sound_path': '',
     'custom_sounds': {},
     # Subscriptions
-    'subscriptions': {
-        'popup': [],
-        'blink': [],
-        'sound': [],
-    },
+    'subscriptions': {'popup': [], 'blink': [], 'sound': []},
 }
 
 RECIPIENT_FIELD, RECIPIENT_EDIT = list(range(2))
 (
-    SUB_EVENT, SUB_EVENT_DOC, SUB_NOT_EMAIL, SUB_NOT_POPUP, SUB_NOT_BLINK,
+    SUB_EVENT,
+    SUB_EVENT_DOC,
+    SUB_NOT_EMAIL,
+    SUB_NOT_POPUP,
+    SUB_NOT_BLINK,
     SUB_NOT_SOUND,
 ) = list(range(6))
 SND_EVENT, SND_EVENT_DOC, SND_NAME, SND_PATH = list(range(4))
 
 
 class GtkUiNotifications(CustomNotifications):
-
     def __init__(self, plugin_name=None):
         CustomNotifications.__init__(self, plugin_name)
 
     def enable(self):
         CustomNotifications.enable(self)
         self.register_custom_blink_notification(
-            'TorrentFinishedEvent', self._on_torrent_finished_event_blink,
+            'TorrentFinishedEvent', self._on_torrent_finished_event_blink
         )
         self.register_custom_sound_notification(
-            'TorrentFinishedEvent', self._on_torrent_finished_event_sound,
+            'TorrentFinishedEvent', self._on_torrent_finished_event_sound
         )
         self.register_custom_popup_notification(
-            'TorrentFinishedEvent', self._on_torrent_finished_event_popup,
+            'TorrentFinishedEvent', self._on_torrent_finished_event_popup
         )
 
     def disable(self):
@@ -150,19 +151,19 @@ class GtkUiNotifications(CustomNotifications):
             return defer.maybeDeferred(self.__blink)
         return defer.succeed(
             'Will not blink. The returned value from the custom '
-            'handler was: %s' % result,
+            'handler was: %s' % result
         )
 
     def handle_custom_sound_notification(self, result, eventtype):
         if isinstance(result, ''.__class__):
             if not result and eventtype in self.config['custom_sounds']:
                 return defer.maybeDeferred(
-                    self.__play_sound, self.config['custom_sounds'][eventtype],
+                    self.__play_sound, self.config['custom_sounds'][eventtype]
                 )
             return defer.maybeDeferred(self.__play_sound, result)
         return defer.succeed(
             'Will not play sound. The returned value from the '
-            'custom handler was: %s' % result,
+            'custom handler was: %s' % result
         )
 
     def __blink(self):
@@ -176,7 +177,9 @@ class GtkUiNotifications(CustomNotifications):
             return defer.fail(_('pynotify is not installed'))
 
         if pynotify.init('Deluge'):
-            icon = gtk.gdk.pixbuf_new_from_file_at_size(deluge.common.get_pixmap('deluge.svg'), 48, 48)
+            icon = gtk.gdk.pixbuf_new_from_file_at_size(
+                deluge.common.get_pixmap('deluge.svg'), 48, 48
+            )
             self.note = pynotify.Notification(title, message)
             self.note.set_icon_from_pixbuf(icon)
             if not self.note.show():
@@ -227,15 +230,17 @@ class GtkUiNotifications(CustomNotifications):
 
     def _on_torrent_finished_event_got_torrent_status(self, torrent_status):
         log.debug(
-            'Handler for TorrentFinishedEvent GTKUI called. '
-            'Got Torrent Status',
+            'Handler for TorrentFinishedEvent GTKUI called. ' 'Got Torrent Status'
         )
         title = _('Finished Torrent')
         torrent_status['num_files'] = torrent_status['file_progress'].count(1.0)
-        message = _(
-            'The torrent "%(name)s" including %(num_files)i file(s) '
-            'has finished downloading.',
-        ) % torrent_status
+        message = (
+            _(
+                'The torrent "%(name)s" including %(num_files)i file(s) '
+                'has finished downloading.'
+            )
+            % torrent_status
+        )
         return title, message
 
 
@@ -246,7 +251,7 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
 
     def enable(self):
         self.config = deluge.configmanager.ConfigManager(
-            'notifications-gtk.conf', DEFAULT_PREFS,
+            'notifications-gtk.conf', DEFAULT_PREFS
         )
         self.builder = gtk.Builder()
         self.builder.add_from_file(get_resource('config.ui'))
@@ -259,65 +264,52 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
         self.build_notifications_model_populate_treeview()
 
         client.notifications.get_handled_events().addCallback(
-            self.popuplate_what_needs_handled_events,
+            self.popuplate_what_needs_handled_events
         )
 
-        self.builder.connect_signals({
-            'on_add_button_clicked': (
-                self.on_add_button_clicked,
-                self.recipients_treeview,
-            ),
-            'on_delete_button_clicked': (
-                self.on_delete_button_clicked,
-                self.recipients_treeview,
-            ),
-            'on_enabled_toggled': self.on_enabled_toggled,
-            'on_sound_enabled_toggled': self.on_sound_enabled_toggled,
-            'on_sounds_edit_button_clicked': self.on_sounds_edit_button_clicked,
-            'on_sounds_revert_button_clicked': self.on_sounds_revert_button_clicked,
-            'on_sound_path_update_preview': self.on_sound_path_update_preview,
-        })
+        self.builder.connect_signals(
+            {
+                'on_add_button_clicked': (
+                    self.on_add_button_clicked,
+                    self.recipients_treeview,
+                ),
+                'on_delete_button_clicked': (
+                    self.on_delete_button_clicked,
+                    self.recipients_treeview,
+                ),
+                'on_enabled_toggled': self.on_enabled_toggled,
+                'on_sound_enabled_toggled': self.on_sound_enabled_toggled,
+                'on_sounds_edit_button_clicked': self.on_sounds_edit_button_clicked,
+                'on_sounds_revert_button_clicked': self.on_sounds_revert_button_clicked,
+                'on_sound_path_update_preview': self.on_sound_path_update_preview,
+            }
+        )
 
         component.get('Preferences').add_page(_('Notifications'), self.prefs)
 
         component.get('PluginManager').register_hook(
-            'on_apply_prefs',
-            self.on_apply_prefs,
+            'on_apply_prefs', self.on_apply_prefs
         )
         component.get('PluginManager').register_hook(
-            'on_show_prefs',
-            self.on_show_prefs,
+            'on_show_prefs', self.on_show_prefs
         )
 
         if not POPUP_AVAILABLE:
-            self.builder.get_object('popup_enabled').set_property(
-                'sensitive',
-                False,
-            )
+            self.builder.get_object('popup_enabled').set_property('sensitive', False)
         if not SOUND_AVAILABLE:
             # for widget_name in ('sound_enabled', 'sound_path', 'sounds_page', 'sounds_page_label'):
             #    self.builder.get_object(widget_name).set_property('sensitive', False)
-            self.builder.get_object('sound_enabled').set_property(
-                'sensitive',
-                False,
-            )
+            self.builder.get_object('sound_enabled').set_property('sensitive', False)
             self.builder.get_object('sound_path').set_property('sensitive', False)
-            self.builder.get_object('sounds_page').set_property(
-                'sensitive',
-                False,
-            )
+            self.builder.get_object('sounds_page').set_property('sensitive', False)
             self.builder.get_object('sounds_page_label').set_property(
-                'sensitive',
-                False,
+                'sensitive', False
             )
 
         self.systray = component.get('SystemTray')
         if not hasattr(self.systray, 'tray'):
             # Tray is not beeing used
-            self.builder.get_object('blink_enabled').set_property(
-                'sensitive',
-                False,
-            )
+            self.builder.get_object('blink_enabled').set_property('sensitive', False)
 
         GtkUiNotifications.enable(self)
 
@@ -325,12 +317,10 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
         GtkUiNotifications.disable(self)
         component.get('Preferences').remove_page(_('Notifications'))
         component.get('PluginManager').deregister_hook(
-            'on_apply_prefs',
-            self.on_apply_prefs,
+            'on_apply_prefs', self.on_apply_prefs
         )
         component.get('PluginManager').deregister_hook(
-            'on_show_prefs',
-            self.on_show_prefs,
+            'on_show_prefs', self.on_show_prefs
         )
 
     def build_recipients_model_populate_treeview(self):
@@ -338,7 +328,7 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
         self.recipients_treeview = self.builder.get_object('smtp_recipients')
         treeview_selection = self.recipients_treeview.get_selection()
         treeview_selection.connect(
-            'changed', self.on_recipients_treeview_selection_changed,
+            'changed', self.on_recipients_treeview_selection_changed
         )
         self.recipients_model = gtk.ListStore(str, bool)
 
@@ -346,9 +336,7 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
         renderer.connect('edited', self.on_cell_edited, self.recipients_model)
         renderer.set_data('recipient', RECIPIENT_FIELD)
         column = gtk.TreeViewColumn(
-            'Recipients', renderer,
-            text=RECIPIENT_FIELD,
-            editable=RECIPIENT_EDIT,
+            'Recipients', renderer, text=RECIPIENT_FIELD, editable=RECIPIENT_EDIT
         )
         column.set_expand(True)
         self.recipients_treeview.append_column(column)
@@ -358,9 +346,7 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
         # Sound customisation treeview/model
         self.sounds_treeview = self.builder.get_object('sounds_treeview')
         sounds_selection = self.sounds_treeview.get_selection()
-        sounds_selection.connect(
-            'changed', self.on_sounds_treeview_selection_changed,
-        )
+        sounds_selection.connect('changed', self.on_sounds_treeview_selection_changed)
 
         self.sounds_treeview.set_tooltip_column(SND_EVENT_DOC)
         self.sounds_model = gtk.ListStore(str, str, str, str)
@@ -395,7 +381,7 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
         self.subscriptions_treeview = self.builder.get_object('subscriptions_treeview')
         subscriptions_selection = self.subscriptions_treeview.get_selection()
         subscriptions_selection.connect(
-            'changed', self.on_subscriptions_treeview_selection_changed,
+            'changed', self.on_subscriptions_treeview_selection_changed
         )
         self.subscriptions_treeview.set_tooltip_column(SUB_EVENT_DOC)
         self.subscriptions_model = gtk.ListStore(str, str, bool, bool, bool, bool)
@@ -441,7 +427,9 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
         self.subscriptions_treeview.append_column(column)
         self.subscriptions_treeview.set_model(self.subscriptions_model)
 
-    def popuplate_what_needs_handled_events(self, handled_events, email_subscriptions=None):
+    def popuplate_what_needs_handled_events(
+        self, handled_events, email_subscriptions=None
+    ):
         if email_subscriptions is None:
             email_subscriptions = []
         self.populate_subscriptions(handled_events, email_subscriptions)
@@ -458,10 +446,14 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
             if snd_path:
                 self.sounds_model.set(
                     self.sounds_model.append(),
-                    SND_EVENT, event_name,
-                    SND_EVENT_DOC, event_doc,
-                    SND_NAME, basename(snd_path),
-                    SND_PATH, snd_path,
+                    SND_EVENT,
+                    event_name,
+                    SND_EVENT_DOC,
+                    event_doc,
+                    SND_NAME,
+                    basename(snd_path),
+                    SND_PATH,
+                    snd_path,
                 )
 
     def populate_subscriptions(self, handled_events, email_subscriptions=None):
@@ -469,16 +461,22 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
             email_subscriptions = []
         subscriptions_dict = self.config['subscriptions']
         self.subscriptions_model.clear()
-#        self.handled_events = handled_events
+        #        self.handled_events = handled_events
         for event_name, event_doc in handled_events:
             self.subscriptions_model.set(
                 self.subscriptions_model.append(),
-                SUB_EVENT, event_name,
-                SUB_EVENT_DOC, event_doc,
-                SUB_NOT_EMAIL, event_name in email_subscriptions,
-                SUB_NOT_POPUP, event_name in subscriptions_dict['popup'],
-                SUB_NOT_BLINK, event_name in subscriptions_dict['blink'],
-                SUB_NOT_SOUND, event_name in subscriptions_dict['sound'],
+                SUB_EVENT,
+                event_name,
+                SUB_EVENT_DOC,
+                event_doc,
+                SUB_NOT_EMAIL,
+                event_name in email_subscriptions,
+                SUB_NOT_POPUP,
+                event_name in subscriptions_dict['popup'],
+                SUB_NOT_BLINK,
+                event_name in subscriptions_dict['blink'],
+                SUB_NOT_SOUND,
+                event_name in subscriptions_dict['sound'],
             )
 
     def on_apply_prefs(self):
@@ -501,8 +499,7 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
         old_sound_file = self.config['sound_path']
         new_sound_file = self.builder.get_object('sound_path').get_filename()
         log.debug(
-            'Old Default sound file: %s New one: %s',
-            old_sound_file, new_sound_file,
+            'Old Default sound file: %s New one: %s', old_sound_file, new_sound_file
         )
         custom_sounds = {}
         for event_name, event_doc, filename, filepath in self.sounds_model:
@@ -511,18 +508,20 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
                 continue
             custom_sounds[event_name] = filepath
 
-        self.config.config.update({
-            'popup_enabled': self.builder.get_object('popup_enabled').get_active(),
-            'blink_enabled': self.builder.get_object('blink_enabled').get_active(),
-            'sound_enabled': self.builder.get_object('sound_enabled').get_active(),
-            'sound_path': new_sound_file,
-            'subscriptions': {
-                'popup': current_popup_subscriptions,
-                'blink': current_blink_subscriptions,
-                'sound': current_sound_subscriptions,
-            },
-            'custom_sounds': custom_sounds,
-        })
+        self.config.config.update(
+            {
+                'popup_enabled': self.builder.get_object('popup_enabled').get_active(),
+                'blink_enabled': self.builder.get_object('blink_enabled').get_active(),
+                'sound_enabled': self.builder.get_object('sound_enabled').get_active(),
+                'sound_path': new_sound_file,
+                'subscriptions': {
+                    'popup': current_popup_subscriptions,
+                    'blink': current_blink_subscriptions,
+                    'sound': current_sound_subscriptions,
+                },
+                'custom_sounds': custom_sounds,
+            }
+        )
         self.config.save()
 
         core_config = {
@@ -534,8 +533,7 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
             'smtp_from': self.builder.get_object('smtp_from').get_text(),
             'smtp_tls': self.builder.get_object('smtp_tls').get_active(),
             'smtp_recipients': [
-                dest[0] for dest in self.recipients_model if
-                dest[0] != 'USER@HOST'
+                dest[0] for dest in self.recipients_model if dest[0] != 'USER@HOST'
             ],
             'subscriptions': {'email': current_email_subscriptions},
         }
@@ -558,20 +556,20 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
         for recipient in core_config['smtp_recipients']:
             self.recipients_model.set(
                 self.recipients_model.append(),
-                RECIPIENT_FIELD, recipient,
-                RECIPIENT_EDIT, False,
+                RECIPIENT_FIELD,
+                recipient,
+                RECIPIENT_EDIT,
+                False,
             )
-        self.builder.get_object('smtp_enabled').set_active(
-            core_config['smtp_enabled'],
-        )
+        self.builder.get_object('smtp_enabled').set_active(core_config['smtp_enabled'])
         self.builder.get_object('sound_enabled').set_active(
-            self.config['sound_enabled'],
+            self.config['sound_enabled']
         )
         self.builder.get_object('popup_enabled').set_active(
-            self.config['popup_enabled'],
+            self.config['popup_enabled']
         )
         self.builder.get_object('blink_enabled').set_active(
-            self.config['blink_enabled'],
+            self.config['blink_enabled']
         )
         if self.config['sound_path']:
             sound_path = self.config['sound_path']
@@ -588,17 +586,11 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
         )
 
     def on_sound_path_update_preview(self, filechooser):
-        client.notifications.get_handled_events().addCallback(
-            self.populate_sounds,
-        )
+        client.notifications.get_handled_events().addCallback(self.populate_sounds)
 
     def on_add_button_clicked(self, widget, treeview):
         model = treeview.get_model()
-        model.set(
-            model.append(),
-            RECIPIENT_FIELD, 'USER@HOST',
-            RECIPIENT_EDIT, True,
-        )
+        model.set(model.append(), RECIPIENT_FIELD, 'USER@HOST', RECIPIENT_EDIT, True)
 
     def on_delete_button_clicked(self, widget, treeview):
         selection = treeview.get_selection()
@@ -613,42 +605,40 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
     def on_recipients_treeview_selection_changed(self, selection):
         model, selected_connection_iter = selection.get_selected()
         if selected_connection_iter:
-            self.builder.get_object('delete_button').set_property(
-                'sensitive',
-                True,
-            )
+            self.builder.get_object('delete_button').set_property('sensitive', True)
         else:
-            self.builder.get_object('delete_button').set_property(
-                'sensitive',
-                False,
-            )
+            self.builder.get_object('delete_button').set_property('sensitive', False)
 
     def on_subscriptions_treeview_selection_changed(self, selection):
         model, selected_connection_iter = selection.get_selected()
         if selected_connection_iter:
-            self.builder.get_object('delete_button').set_property(
-                'sensitive',
-                True,
-            )
+            self.builder.get_object('delete_button').set_property('sensitive', True)
         else:
-            self.builder.get_object('delete_button').set_property(
-                'sensitive',
-                False,
-            )
+            self.builder.get_object('delete_button').set_property('sensitive', False)
 
     def on_sounds_treeview_selection_changed(self, selection):
         model, selected_iter = selection.get_selected()
         if selected_iter:
-            self.builder.get_object('sounds_edit_button').set_property('sensitive', True)
+            self.builder.get_object('sounds_edit_button').set_property(
+                'sensitive', True
+            )
             path = model.get(selected_iter, SND_PATH)[0]
             log.debug('Sound selection changed: %s', path)
             if path != self.config['sound_path']:
-                self.builder.get_object('sounds_revert_button').set_property('sensitive', True)
+                self.builder.get_object('sounds_revert_button').set_property(
+                    'sensitive', True
+                )
             else:
-                self.builder.get_object('sounds_revert_button').set_property('sensitive', False)
+                self.builder.get_object('sounds_revert_button').set_property(
+                    'sensitive', False
+                )
         else:
-            self.builder.get_object('sounds_edit_button').set_property('sensitive', False)
-            self.builder.get_object('sounds_revert_button').set_property('sensitive', False)
+            self.builder.get_object('sounds_edit_button').set_property(
+                'sensitive', False
+            )
+            self.builder.get_object('sounds_revert_button').set_property(
+                'sensitive', False
+            )
 
     def on_sounds_revert_button_clicked(self, widget):
         log.debug('on_sounds_revert_button_clicked')
@@ -658,8 +648,10 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
             log.debug('on_sounds_revert_button_clicked: got iter')
             model.set(
                 selected_iter,
-                SND_PATH, self.config['sound_path'],
-                SND_NAME, basename(self.config['sound_path']),
+                SND_PATH,
+                self.config['sound_path'],
+                SND_NAME,
+                basename(self.config['sound_path']),
             )
 
     def on_sounds_edit_button_clicked(self, widget):
@@ -686,9 +678,12 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
                     log.debug(new_filename)
                     model.set(
                         selected_iter,
-                        SND_PATH, new_filename,
-                        SND_NAME, basename(new_filename),
+                        SND_PATH,
+                        new_filename,
+                        SND_NAME,
+                        basename(new_filename),
                     )
+
             d = defer.maybeDeferred(dialog.run)
             d.addCallback(update_model)
 
@@ -696,57 +691,55 @@ class GtkUI(GtkPluginBase, GtkUiNotifications):
 
     def on_enabled_toggled(self, widget):
         for widget_name in (
-            'smtp_host', 'smtp_port', 'smtp_user', 'smtp_pass',
-            'smtp_pass', 'smtp_tls', 'smtp_from',
+            'smtp_host',
+            'smtp_port',
+            'smtp_user',
+            'smtp_pass',
+            'smtp_pass',
+            'smtp_tls',
+            'smtp_from',
             'smtp_recipients',
         ):
             self.builder.get_object(widget_name).set_property(
-                'sensitive',
-                widget.get_active(),
+                'sensitive', widget.get_active()
             )
 
     def on_sound_enabled_toggled(self, widget):
         if widget.get_active():
             self.builder.get_object('sound_path').set_property('sensitive', True)
-            self.builder.get_object('sounds_page').set_property(
-                'sensitive',
-                True,
-            )
-            self.builder.get_object('sounds_page_label').set_property(
-                'sensitive',
-                True,
-            )
+            self.builder.get_object('sounds_page').set_property('sensitive', True)
+            self.builder.get_object('sounds_page_label').set_property('sensitive', True)
         else:
             self.builder.get_object('sound_path').set_property('sensitive', False)
-            self.builder.get_object('sounds_page').set_property(
-                'sensitive',
-                False,
-            )
+            self.builder.get_object('sounds_page').set_property('sensitive', False)
             self.builder.get_object('sounds_page_label').set_property(
-                'sensitive',
-                False,
+                'sensitive', False
             )
 
-#        for widget_name in ('sounds_path', 'sounds_page', 'sounds_page_label'):
-#            self.builder.get_object(widget_name).set_property('sensitive',
-#                                                            widget.get_active())
+    #        for widget_name in ('sounds_path', 'sounds_page', 'sounds_page_label'):
+    #            self.builder.get_object(widget_name).set_property('sensitive',
+    #                                                            widget.get_active())
 
     def _on_email_col_toggled(self, cell, path):
-        self.subscriptions_model[path][SUB_NOT_EMAIL] = \
-            not self.subscriptions_model[path][SUB_NOT_EMAIL]
+        self.subscriptions_model[path][SUB_NOT_EMAIL] = not self.subscriptions_model[
+            path
+        ][SUB_NOT_EMAIL]
         return
 
     def _on_popup_col_toggled(self, cell, path):
-        self.subscriptions_model[path][SUB_NOT_POPUP] = \
-            not self.subscriptions_model[path][SUB_NOT_POPUP]
+        self.subscriptions_model[path][SUB_NOT_POPUP] = not self.subscriptions_model[
+            path
+        ][SUB_NOT_POPUP]
         return
 
     def _on_blink_col_toggled(self, cell, path):
-        self.subscriptions_model[path][SUB_NOT_BLINK] = \
-            not self.subscriptions_model[path][SUB_NOT_BLINK]
+        self.subscriptions_model[path][SUB_NOT_BLINK] = not self.subscriptions_model[
+            path
+        ][SUB_NOT_BLINK]
         return
 
     def _on_sound_col_toggled(self, cell, path):
-        self.subscriptions_model[path][SUB_NOT_SOUND] = \
-            not self.subscriptions_model[path][SUB_NOT_SOUND]
+        self.subscriptions_model[path][SUB_NOT_SOUND] = not self.subscriptions_model[
+            path
+        ][SUB_NOT_SOUND]
         return

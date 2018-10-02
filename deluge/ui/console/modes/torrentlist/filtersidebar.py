@@ -29,36 +29,54 @@ class FilterSidebar(Sidebar, Component):
     torrents based on state.
 
     """
+
     def __init__(self, torrentlist, config):
         self.config = config
         height = curses.LINES - 2
         width = self.config['torrentview']['sidebar_width']
         Sidebar.__init__(
-            self, torrentlist, width, height, title=' Filter ', border_off_north=1,
+            self,
+            torrentlist,
+            width,
+            height,
+            title=' Filter ',
+            border_off_north=1,
             allow_resize=True,
         )
         Component.__init__(self, 'FilterSidebar')
         self.checked_index = 0
-        kwargs = {'checked_char': '*', 'unchecked_char': '-', 'checkbox_format': ' %s ', 'col': 0}
+        kwargs = {
+            'checked_char': '*',
+            'unchecked_char': '-',
+            'checkbox_format': ' %s ',
+            'col': 0,
+        }
         self.add_checked_input('All', 'All', checked=True, **kwargs)
         self.add_checked_input('Active', 'Active', **kwargs)
-        self.add_checked_input('Downloading', 'Downloading', color='green,black', **kwargs)
+        self.add_checked_input(
+            'Downloading', 'Downloading', color='green,black', **kwargs
+        )
         self.add_checked_input('Seeding', 'Seeding', color='cyan,black', **kwargs)
         self.add_checked_input('Paused', 'Paused', **kwargs)
         self.add_checked_input('Error', 'Error', color='red,black', **kwargs)
         self.add_checked_input('Checking', 'Checking', color='blue,black', **kwargs)
         self.add_checked_input('Queued', 'Queued', **kwargs)
-        self.add_checked_input('Allocating', 'Allocating', color='yellow,black', **kwargs)
+        self.add_checked_input(
+            'Allocating', 'Allocating', color='yellow,black', **kwargs
+        )
         self.add_checked_input('Moving', 'Moving', color='green,black', **kwargs)
 
     @overrides(Component)
     def update(self):
         if not self.hidden() and client.connected():
-            d = client.core.get_filter_tree(True, []).addCallback(self._cb_update_filter_tree)
+            d = client.core.get_filter_tree(True, []).addCallback(
+                self._cb_update_filter_tree
+            )
 
             def on_filter_tree_updated(changed):
                 if changed:
                     self.refresh()
+
             d.addCallback(on_filter_tree_updated)
 
     def _cb_update_filter_tree(self, filter_items):
@@ -78,7 +96,11 @@ class FilterSidebar(Sidebar, Component):
         for state in states:
             field = self.get_input(state[0])
             if field:
-                txt = ('%%-%ds%%%ds' % (filter_state_width, filter_count_width) % (state[0], state[1]))
+                txt = (
+                    '%%-%ds%%%ds'
+                    % (filter_state_width, filter_count_width)
+                    % (state[0], state[1])
+                )
                 if field.set_message(txt):
                     changed = True
         return changed
@@ -86,7 +108,9 @@ class FilterSidebar(Sidebar, Component):
     @overrides(BaseInputPane)
     def immediate_action_cb(self, state_changed=True):
         if state_changed:
-            self.parent.torrentview.set_torrent_filter(self.inputs[self.active_input].name)
+            self.parent.torrentview.set_torrent_filter(
+                self.inputs[self.active_input].name
+            )
 
     @overrides(Sidebar)
     def handle_read(self, c):

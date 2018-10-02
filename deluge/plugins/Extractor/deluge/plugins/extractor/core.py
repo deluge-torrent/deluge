@@ -28,10 +28,7 @@ from deluge.plugins.pluginbase import CorePluginBase
 
 log = logging.getLogger(__name__)
 
-DEFAULT_PREFS = {
-    'extract_path': '',
-    'use_name_folder': True,
-}
+DEFAULT_PREFS = {'extract_path': '', 'use_name_folder': True}
 
 if windows_check():
     win_7z_exes = [
@@ -61,10 +58,7 @@ if windows_check():
     #    ".tar.bz2", ".tbz",
     #    ".tar.lzma", ".tlz",
     #    ".tar.xz", ".txz",
-    exts_7z = [
-        '.rar', '.zip', '.tar',
-        '.7z', '.xz', '.lzma',
-    ]
+    exts_7z = ['.rar', '.zip', '.tar', '.7z', '.xz', '.lzma']
     for win_7z_exe in win_7z_exes:
         if which(win_7z_exe):
             EXTRACT_COMMANDS = dict.fromkeys(exts_7z, [win_7z_exe, switch_7z])
@@ -82,10 +76,14 @@ else:
         '.rar': ['unrar', 'x -o+ -y'],
         '.tar': ['tar', '-xf'],
         '.zip': ['unzip', ''],
-        '.tar.gz': ['tar', '-xzf'], '.tgz': ['tar', '-xzf'],
-        '.tar.bz2': ['tar', '-xjf'], '.tbz': ['tar', '-xjf'],
-        '.tar.lzma': ['tar', '--lzma -xf'], '.tlz': ['tar', '--lzma -xf'],
-        '.tar.xz': ['tar', '--xz -xf'], '.txz': ['tar', '--xz -xf'],
+        '.tar.gz': ['tar', '-xzf'],
+        '.tgz': ['tar', '-xzf'],
+        '.tar.bz2': ['tar', '-xjf'],
+        '.tbz': ['tar', '-xjf'],
+        '.tar.lzma': ['tar', '--lzma -xf'],
+        '.tlz': ['tar', '--lzma -xf'],
+        '.tar.xz': ['tar', '--xz -xf'],
+        '.txz': ['tar', '--xz -xf'],
         '.7z': ['7zr', 'x'],
     }
     # Test command exists and if not, remove.
@@ -102,13 +100,21 @@ if not EXTRACT_COMMANDS:
 
 class Core(CorePluginBase):
     def enable(self):
-        self.config = deluge.configmanager.ConfigManager('extractor.conf', DEFAULT_PREFS)
+        self.config = deluge.configmanager.ConfigManager(
+            'extractor.conf', DEFAULT_PREFS
+        )
         if not self.config['extract_path']:
-            self.config['extract_path'] = deluge.configmanager.ConfigManager('core.conf')['download_location']
-        component.get('EventManager').register_event_handler('TorrentFinishedEvent', self._on_torrent_finished)
+            self.config['extract_path'] = deluge.configmanager.ConfigManager(
+                'core.conf'
+            )['download_location']
+        component.get('EventManager').register_event_handler(
+            'TorrentFinishedEvent', self._on_torrent_finished
+        )
 
     def disable(self):
-        component.get('EventManager').deregister_event_handler('TorrentFinishedEvent', self._on_torrent_finished)
+        component.get('EventManager').deregister_event_handler(
+            'TorrentFinishedEvent', self._on_torrent_finished
+        )
 
     def update(self):
         pass
@@ -136,7 +142,9 @@ class Core(CorePluginBase):
                     continue
 
             cmd = EXTRACT_COMMANDS[file_ext]
-            fpath = os.path.join(tid_status['download_location'], os.path.normpath(f['path']))
+            fpath = os.path.join(
+                tid_status['download_location'], os.path.normpath(f['path'])
+            )
             dest = os.path.normpath(self.config['extract_path'])
             if self.config['use_name_folder']:
                 dest = os.path.join(dest, tid_status['name'])
@@ -153,11 +161,22 @@ class Core(CorePluginBase):
                 if not result[2]:
                     log.info('Extract successful: %s (%s)', fpath, torrent_id)
                 else:
-                    log.error('Extract failed: %s (%s) %s', fpath, torrent_id, result[1])
+                    log.error(
+                        'Extract failed: %s (%s) %s', fpath, torrent_id, result[1]
+                    )
 
             # Run the command and add callback.
-            log.debug('Extracting %s from %s with %s %s to %s', fpath, torrent_id, cmd[0], cmd[1], dest)
-            d = getProcessOutputAndValue(cmd[0], cmd[1].split() + [str(fpath)], os.environ, str(dest))
+            log.debug(
+                'Extracting %s from %s with %s %s to %s',
+                fpath,
+                torrent_id,
+                cmd[0],
+                cmd[1],
+                dest,
+            )
+            d = getProcessOutputAndValue(
+                cmd[0], cmd[1].split() + [str(fpath)], os.environ, str(dest)
+            )
             d.addCallback(on_extract, torrent_id, fpath)
 
     @export

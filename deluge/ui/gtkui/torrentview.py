@@ -83,11 +83,11 @@ def eta_column_sort(model, iter1, iter2, data):
 
 
 def seed_peer_column_sort(model, iter1, iter2, data):
-    v1 = model[iter1][data]         # num seeds/peers
-    v3 = model[iter2][data]         # num seeds/peers
+    v1 = model[iter1][data]  # num seeds/peers
+    v3 = model[iter2][data]  # num seeds/peers
     if v1 == v3:
-        v2 = model[iter1][data + 1]   # total seeds/peers
-        v4 = model[iter2][data + 1]   # total seeds/peers
+        v2 = model[iter1][data + 1]  # total seeds/peers
+        v4 = model[iter2][data + 1]  # total seeds/peers
         return queue_peer_seed_sort_function(v2, v4)
     return queue_peer_seed_sort_function(v1, v3)
 
@@ -234,11 +234,16 @@ class SearchBox(object):
 
 class TorrentView(ListView, component.Component):
     """TorrentView handles the listing of torrents."""
+
     def __init__(self):
-        component.Component.__init__(self, 'TorrentView', interval=2, depend=['SessionProxy'])
+        component.Component.__init__(
+            self, 'TorrentView', interval=2, depend=['SessionProxy']
+        )
         main_builder = component.get('MainWindow').get_builder()
         # Call the ListView constructor
-        ListView.__init__(self, main_builder.get_object('torrent_view'), 'torrentview.state')
+        ListView.__init__(
+            self, main_builder.get_object('torrent_view'), 'torrentview.state'
+        )
         log.debug('TorrentView Init..')
 
         # If we have gotten the state yet
@@ -257,7 +262,9 @@ class TorrentView(ListView, component.Component):
         self.add_text_column('torrent_id', hidden=True, unique=True)
         self.add_bool_column('dirty', hidden=True)
         self.add_func_column(
-            '#', funcs.cell_data_queue, [int],
+            '#',
+            funcs.cell_data_queue,
+            [int],
             status_field=['queue'],
             sort_func=queue_column_sort,
         )
@@ -269,23 +276,31 @@ class TorrentView(ListView, component.Component):
             default_sort=True,
         )
         self.add_func_column(
-            _('Size'), funcs.cell_data_size,
+            _('Size'),
+            funcs.cell_data_size,
             [TYPE_UINT64],
             status_field=['total_wanted'],
         )
         self.add_func_column(
-            _('Downloaded'), funcs.cell_data_size,
+            _('Downloaded'),
+            funcs.cell_data_size,
             [TYPE_UINT64],
-            status_field=['all_time_download'], default=False,
+            status_field=['all_time_download'],
+            default=False,
         )
         self.add_func_column(
-            _('Uploaded'), funcs.cell_data_size,
+            _('Uploaded'),
+            funcs.cell_data_size,
             [TYPE_UINT64],
-            status_field=['total_uploaded'], default=False,
+            status_field=['total_uploaded'],
+            default=False,
         )
         self.add_func_column(
-            _('Remaining'), funcs.cell_data_size, [TYPE_UINT64],
-            status_field=['total_remaining'], default=False,
+            _('Remaining'),
+            funcs.cell_data_size,
+            [TYPE_UINT64],
+            status_field=['total_remaining'],
+            default=False,
         )
         self.add_progress_column(
             _('Progress'),
@@ -295,67 +310,110 @@ class TorrentView(ListView, component.Component):
             sort_func=progress_sort,
         )
         self.add_func_column(
-            _('Seeds'), funcs.cell_data_peer, [int, int],
+            _('Seeds'),
+            funcs.cell_data_peer,
+            [int, int],
             status_field=['num_seeds', 'total_seeds'],
-            sort_func=seed_peer_column_sort, default=False,
+            sort_func=seed_peer_column_sort,
+            default=False,
         )
         self.add_func_column(
-            _('Peers'), funcs.cell_data_peer, [int, int],
+            _('Peers'),
+            funcs.cell_data_peer,
+            [int, int],
             status_field=['num_peers', 'total_peers'],
-            sort_func=seed_peer_column_sort, default=False,
+            sort_func=seed_peer_column_sort,
+            default=False,
         )
         self.add_func_column(
-            _('Seeds:Peers'), funcs.cell_data_ratio_seeds_peers, [float],
-            status_field=['seeds_peers_ratio'], default=False,
+            _('Seeds:Peers'),
+            funcs.cell_data_ratio_seeds_peers,
+            [float],
+            status_field=['seeds_peers_ratio'],
+            default=False,
         )
         self.add_func_column(
-            _('Down Speed'), funcs.cell_data_speed_down, [int],
+            _('Down Speed'),
+            funcs.cell_data_speed_down,
+            [int],
             status_field=['download_payload_rate'],
         )
         self.add_func_column(
-            _('Up Speed'), funcs.cell_data_speed_up, [int],
+            _('Up Speed'),
+            funcs.cell_data_speed_up,
+            [int],
             status_field=['upload_payload_rate'],
         )
         self.add_func_column(
-            _('Down Limit'), funcs.cell_data_speed_limit_down, [float],
-            status_field=['max_download_speed'], default=False,
+            _('Down Limit'),
+            funcs.cell_data_speed_limit_down,
+            [float],
+            status_field=['max_download_speed'],
+            default=False,
         )
         self.add_func_column(
-            _('Up Limit'), funcs.cell_data_speed_limit_up, [float],
-            status_field=['max_upload_speed'], default=False,
+            _('Up Limit'),
+            funcs.cell_data_speed_limit_up,
+            [float],
+            status_field=['max_upload_speed'],
+            default=False,
         )
         self.add_func_column(
-            _('ETA'), funcs.cell_data_time, [int],
-            status_field=['eta'], sort_func=eta_column_sort,
+            _('ETA'),
+            funcs.cell_data_time,
+            [int],
+            status_field=['eta'],
+            sort_func=eta_column_sort,
         )
         self.add_func_column(
-            _('Ratio'), funcs.cell_data_ratio_ratio, [float],
-            status_field=['ratio'], default=False,
+            _('Ratio'),
+            funcs.cell_data_ratio_ratio,
+            [float],
+            status_field=['ratio'],
+            default=False,
         )
         self.add_func_column(
-            _('Avail'), funcs.cell_data_ratio_avail, [float],
-            status_field=['distributed_copies'], default=False,
+            _('Avail'),
+            funcs.cell_data_ratio_avail,
+            [float],
+            status_field=['distributed_copies'],
+            default=False,
         )
         self.add_func_column(
-            _('Added'), funcs.cell_data_date_added, [int],
-            status_field=['time_added'], default=False,
+            _('Added'),
+            funcs.cell_data_date_added,
+            [int],
+            status_field=['time_added'],
+            default=False,
         )
         self.add_func_column(
-            _('Completed'), funcs.cell_data_date_completed, [int],
-            status_field=['completed_time'], default=False,
+            _('Completed'),
+            funcs.cell_data_date_completed,
+            [int],
+            status_field=['completed_time'],
+            default=False,
         )
         self.add_func_column(
-            _('Complete Seen'), funcs.cell_data_date_or_never, [int],
-            status_field=['last_seen_complete'], default=False,
+            _('Complete Seen'),
+            funcs.cell_data_date_or_never,
+            [int],
+            status_field=['last_seen_complete'],
+            default=False,
         )
         self.add_texticon_column(
-            _('Tracker'), function=funcs.cell_data_trackericon,
-            status_field=['tracker_host', 'tracker_host'], default=False,
+            _('Tracker'),
+            function=funcs.cell_data_trackericon,
+            status_field=['tracker_host', 'tracker_host'],
+            default=False,
         )
-        self.add_text_column(_('Download Folder'), status_field=['download_location'], default=False)
+        self.add_text_column(
+            _('Download Folder'), status_field=['download_location'], default=False
+        )
         self.add_text_column(_('Owner'), status_field=['owner'], default=False)
         self.add_bool_column(
-            _('Shared'), status_field=['shared'], default=False,
+            _('Shared'),
+            status_field=['shared'],
+            default=False,
             tooltip=_('Torrent is shared between other Deluge users or not.'),
         )
         self.restore_columns_order_from_state()
@@ -395,15 +453,23 @@ class TorrentView(ListView, component.Component):
                     continue
                 status_fields.extend(listview_column.status_field)
         component.get('SessionProxy').get_torrents_status(
-            {}, status_fields,
+            {}, status_fields
         ).addCallback(self._on_session_state)
 
-        client.register_event_handler('TorrentStateChangedEvent', self.on_torrentstatechanged_event)
+        client.register_event_handler(
+            'TorrentStateChangedEvent', self.on_torrentstatechanged_event
+        )
         client.register_event_handler('TorrentAddedEvent', self.on_torrentadded_event)
-        client.register_event_handler('TorrentRemovedEvent', self.on_torrentremoved_event)
+        client.register_event_handler(
+            'TorrentRemovedEvent', self.on_torrentremoved_event
+        )
         client.register_event_handler('SessionPausedEvent', self.on_sessionpaused_event)
-        client.register_event_handler('SessionResumedEvent', self.on_sessionresumed_event)
-        client.register_event_handler('TorrentQueueChangedEvent', self.on_torrentqueuechanged_event)
+        client.register_event_handler(
+            'SessionResumedEvent', self.on_sessionresumed_event
+        )
+        client.register_event_handler(
+            'TorrentQueueChangedEvent', self.on_torrentqueuechanged_event
+        )
 
     def _on_session_state(self, state):
         self.add_rows(state)
@@ -416,12 +482,22 @@ class TorrentView(ListView, component.Component):
 
     def stop(self):
         """Stops the torrentview"""
-        client.deregister_event_handler('TorrentStateChangedEvent', self.on_torrentstatechanged_event)
+        client.deregister_event_handler(
+            'TorrentStateChangedEvent', self.on_torrentstatechanged_event
+        )
         client.deregister_event_handler('TorrentAddedEvent', self.on_torrentadded_event)
-        client.deregister_event_handler('TorrentRemovedEvent', self.on_torrentremoved_event)
-        client.deregister_event_handler('SessionPausedEvent', self.on_sessionpaused_event)
-        client.deregister_event_handler('SessionResumedEvent', self.on_sessionresumed_event)
-        client.deregister_event_handler('TorrentQueueChangedEvent', self.on_torrentqueuechanged_event)
+        client.deregister_event_handler(
+            'TorrentRemovedEvent', self.on_torrentremoved_event
+        )
+        client.deregister_event_handler(
+            'SessionPausedEvent', self.on_sessionpaused_event
+        )
+        client.deregister_event_handler(
+            'SessionResumedEvent', self.on_sessionresumed_event
+        )
+        client.deregister_event_handler(
+            'TorrentQueueChangedEvent', self.on_torrentqueuechanged_event
+        )
 
         if self.treeview.get_selection():
             self.treeview.get_selection().unselect_all()
@@ -501,9 +577,11 @@ class TorrentView(ListView, component.Component):
 
         # Request the statuses for all these torrent_ids, this is async so we
         # will deal with the return in a signal callback.
-        d = component.get('SessionProxy').get_torrents_status(
-            self.filter, status_keys,
-        ).addCallback(self._on_get_torrents_status)
+        d = (
+            component.get('SessionProxy')
+            .get_torrents_status(self.filter, status_keys)
+            .addCallback(self._on_get_torrents_status)
+        )
         if select_row:
             d.addCallback(self.select_first_row)
 
@@ -527,7 +605,10 @@ class TorrentView(ListView, component.Component):
 
         """
         if self.got_state:
-            if self.search_box.search_pending is not None and self.search_box.search_pending.active():
+            if (
+                self.search_box.search_pending is not None
+                and self.search_box.search_pending.active()
+            ):
                 # An update request is scheduled, let's wait for that one
                 return
             # Send a status request
@@ -616,7 +697,15 @@ class TorrentView(ListView, component.Component):
         for torrent_id in torrent_ids:
             # Insert a new row to the liststore
             row = self.liststore.append()
-            self.liststore.set(row, torrent_id_column, torrent_id, dirty_column, True, filter_column, True)
+            self.liststore.set(
+                row,
+                torrent_id_column,
+                torrent_id,
+                dirty_column,
+                True,
+                filter_column,
+                True,
+            )
 
     def remove_row(self, torrent_id):
         """Removes a row with torrent_id"""
@@ -629,7 +718,10 @@ class TorrentView(ListView, component.Component):
 
     def mark_dirty(self, torrent_id=None):
         for row in self.liststore:
-            if not torrent_id or row[self.columns['torrent_id'].column_indices[0]] == torrent_id:
+            if (
+                not torrent_id
+                or row[self.columns['torrent_id'].column_indices[0]] == torrent_id
+            ):
                 # log.debug('marking %s dirty', torrent_id)
                 row[self.columns['dirty'].column_indices[0]] = True
                 if torrent_id:
@@ -660,11 +752,19 @@ class TorrentView(ListView, component.Component):
                     log.debug('Unable to get iter from path: %s', ex)
                     continue
 
-                child_row = self.treeview.get_model().convert_iter_to_child_iter(None, row)
-                child_row = self.treeview.get_model().get_model().convert_iter_to_child_iter(child_row)
+                child_row = self.treeview.get_model().convert_iter_to_child_iter(
+                    None, row
+                )
+                child_row = (
+                    self.treeview.get_model()
+                    .get_model()
+                    .convert_iter_to_child_iter(child_row)
+                )
                 if self.liststore.iter_is_valid(child_row):
                     try:
-                        value = self.liststore.get_value(child_row, self.columns['torrent_id'].column_indices[0])
+                        value = self.liststore.get_value(
+                            child_row, self.columns['torrent_id'].column_indices[0]
+                        )
                     except Exception as ex:
                         log.debug('Unable to get value from row: %s', ex)
                     else:
@@ -699,8 +799,12 @@ class TorrentView(ListView, component.Component):
             row = self.model_filter.get_iter(path[0])
 
             if self.get_selected_torrents():
-                if (self.model_filter.get_value(row, self.columns['torrent_id'].column_indices[0])
-                        not in self.get_selected_torrents()):
+                if (
+                    self.model_filter.get_value(
+                        row, self.columns['torrent_id'].column_indices[0]
+                    )
+                    not in self.get_selected_torrents()
+                ):
                     self.treeview.get_selection().unselect_all()
                     self.treeview.get_selection().select_iter(row)
             else:
@@ -718,7 +822,9 @@ class TorrentView(ListView, component.Component):
     def on_drag_drop(self, widget, drag_context, x, y, timestamp):
         widget.stop_emission('drag-drop')
 
-    def on_drag_data_received(self, widget, drag_context, x, y, selection_data, info, timestamp):
+    def on_drag_data_received(
+        self, widget, drag_context, x, y, selection_data, info, timestamp
+    ):
         widget.stop_emission('drag_data_received')
 
     def on_columns_changed_event(self, treeview):
@@ -750,7 +856,10 @@ class TorrentView(ListView, component.Component):
             if self.filter.get('state', None) is not None:
                 # We have a filter set, let's see if theres anything to hide
                 # and remove from status
-                if torrent_id in self.status and self.status[torrent_id]['state'] != state:
+                if (
+                    torrent_id in self.status
+                    and self.status[torrent_id]['state'] != state
+                ):
                     row[self.columns['filter'].column_indices[0]] = False
                     del self.status[torrent_id]
 

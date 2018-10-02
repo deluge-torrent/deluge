@@ -24,7 +24,6 @@ log = logging.getLogger(__name__)
 
 
 class Commander(object):
-
     def __init__(self, cmds, interactive=False):
         self._commands = cmds
         self.interactive = interactive
@@ -85,6 +84,7 @@ class Commander(object):
                 self.write(parser.format_help())
             else:
                 parser._print_help(f)
+
         parser.print_help = print_help
 
         # Only these commands can be run when not connected to a daemon
@@ -95,7 +95,9 @@ class Commander(object):
         not_connected_cmds.extend(aliases)
 
         if not client.connected() and cmd not in not_connected_cmds:
-            self.write('{!error!}Not connected to a daemon, please use the connect command first.')
+            self.write(
+                '{!error!}Not connected to a daemon, please use the connect command first.'
+            )
             return
 
         try:
@@ -104,10 +106,12 @@ class Commander(object):
         except TypeError as ex:
             self.write('{!error!}Error parsing options: %s' % ex)
             import traceback
+
             self.write('%s' % traceback.format_exc())
             return
         except OptionParserError as ex:
             import traceback
+
             log.warning('Error parsing command "%s":  %s', args, ex)
             self.write('{!error!} %s' % ex)
             parser.print_help()
@@ -133,6 +137,7 @@ class Commander(object):
             self.write('{!error!} %s' % ex)
             log.exception(ex)
             import traceback
+
             self.write('%s' % traceback.format_exc())
             return defer.succeed(True)
         else:
@@ -174,7 +179,11 @@ class BaseCommand(object):
         return result
 
     def create_parser(self):
-        opts = {'prog': self.name_with_alias, 'description': self.__doc__, 'epilog': self.epilog}
+        opts = {
+            'prog': self.name_with_alias,
+            'description': self.__doc__,
+            'epilog': self.epilog,
+        }
         if self.usage:
             opts['usage'] = self.usage
         parser = OptionParser(**opts)
@@ -184,7 +193,11 @@ class BaseCommand(object):
         return parser
 
     def add_subparser(self, subparsers):
-        opts = {'prog': self.name_with_alias, 'help': self.__doc__, 'description': self.__doc__}
+        opts = {
+            'prog': self.name_with_alias,
+            'help': self.__doc__,
+            'description': self.__doc__,
+        }
         if self.usage:
             opts['usage'] = self.usage
 

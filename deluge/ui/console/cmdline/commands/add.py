@@ -34,9 +34,13 @@ class Command(BaseCommand):
     """Add torrents"""
 
     def add_arguments(self, parser):
-        parser.add_argument('-p', '--path', dest='path', help=_('download folder for torrent'))
         parser.add_argument(
-            'torrents', metavar='<torrent>', nargs='+',
+            '-p', '--path', dest='path', help=_('download folder for torrent')
+        )
+        parser.add_argument(
+            'torrents',
+            metavar='<torrent>',
+            nargs='+',
             help=_('One or more torrent files, URLs or magnet URIs'),
         )
 
@@ -45,7 +49,9 @@ class Command(BaseCommand):
 
         t_options = {}
         if options.path:
-            t_options['download_location'] = os.path.abspath(os.path.expanduser(options.path))
+            t_options['download_location'] = os.path.abspath(
+                os.path.expanduser(options.path)
+            )
 
         def on_success(result):
             if not result:
@@ -62,15 +68,23 @@ class Command(BaseCommand):
             if not torrent.strip():
                 continue
             if deluge.common.is_url(torrent):
-                self.console.write('{!info!}Attempting to add torrent from url: %s' % torrent)
-                deferreds.append(client.core.add_torrent_url(torrent, t_options).addCallback(on_success).addErrback(
-                    on_fail,
-                ))
+                self.console.write(
+                    '{!info!}Attempting to add torrent from url: %s' % torrent
+                )
+                deferreds.append(
+                    client.core.add_torrent_url(torrent, t_options)
+                    .addCallback(on_success)
+                    .addErrback(on_fail)
+                )
             elif deluge.common.is_magnet(torrent):
-                self.console.write('{!info!}Attempting to add torrent from magnet uri: %s' % torrent)
-                deferreds.append(client.core.add_torrent_magnet(torrent, t_options).addCallback(on_success).addErrback(
-                    on_fail,
-                ))
+                self.console.write(
+                    '{!info!}Attempting to add torrent from magnet uri: %s' % torrent
+                )
+                deferreds.append(
+                    client.core.add_torrent_magnet(torrent, t_options)
+                    .addCallback(on_success)
+                    .addErrback(on_fail)
+                )
             else:
                 # Just a file
                 if urlparse(torrent).scheme == 'file':
@@ -87,12 +101,14 @@ class Command(BaseCommand):
                 with open(path, 'rb') as _file:
                     filedump = b64encode(_file.read())
                 deferreds.append(
-                    client.core.add_torrent_file_async(
-                        filename, filedump, t_options,
-                    ).addCallback(on_success).addErrback(on_fail),
+                    client.core.add_torrent_file_async(filename, filedump, t_options)
+                    .addCallback(on_success)
+                    .addErrback(on_fail)
                 )
 
         return defer.DeferredList(deferreds)
 
     def complete(self, line):
-        return component.get('ConsoleUI').tab_complete_path(line, ext='.torrent', sort='date')
+        return component.get('ConsoleUI').tab_complete_path(
+            line, ext='.torrent', sort='date'
+        )

@@ -32,6 +32,7 @@ class RemoveTorrentDialog(object):
     :raises ValueError: if `torrent_id` contains no torrent_ids or is None
 
     """
+
     def __init__(self, torrent_ids, delete_files=False):
         if not isinstance(torrent_ids, list) and not isinstance(torrent_ids, tuple):
             raise TypeError('requires a list of torrent_ids')
@@ -42,9 +43,11 @@ class RemoveTorrentDialog(object):
         self.__torrent_ids = torrent_ids
 
         self.builder = gtk.Builder()
-        self.builder.add_from_file(deluge.common.resource_filename(
-            'deluge.ui.gtkui', os.path.join('glade', 'remove_torrent_dialog.ui'),
-        ))
+        self.builder.add_from_file(
+            deluge.common.resource_filename(
+                'deluge.ui.gtkui', os.path.join('glade', 'remove_torrent_dialog.ui')
+            )
+        )
 
         self.__dialog = self.builder.get_object('remove_torrent_dialog')
         self.__dialog.set_transient_for(component.get('MainWindow').window)
@@ -55,7 +58,11 @@ class RemoveTorrentDialog(object):
         label_torrents = self.builder.get_object('label_torrents')
         num_torrents = len(self.__torrent_ids)
         if num_torrents == 1:
-            label_torrents.set_markup(component.get('TorrentView').get_torrent_status(self.__torrent_ids[0])['name'])
+            label_torrents.set_markup(
+                component.get('TorrentView').get_torrent_status(self.__torrent_ids[0])[
+                    'name'
+                ]
+            )
         else:
             label_title.set_markup(_('Remove the selected torrents?'))
             label_torrents.set_markup(_('Total of %s torrents selected') % num_torrents)

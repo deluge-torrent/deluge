@@ -15,14 +15,23 @@ import os.path
 import gtk
 import six.moves.cPickle as pickle
 from gobject import TYPE_UINT64
-from gtk.gdk import ACTION_DEFAULT, ACTION_MOVE, BUTTON1_MASK, keyval_name  # pylint: disable=ungrouped-imports
+from gtk.gdk import (  # pylint: disable=ungrouped-imports
+    ACTION_DEFAULT,
+    ACTION_MOVE,
+    BUTTON1_MASK,
+    keyval_name,
+)
 
 import deluge.component as component
 from deluge.common import open_file, show_file
 from deluge.ui.client import client
 from deluge.ui.common import FILE_PRIORITY
-from deluge.ui.gtkui.common import (listview_replace_treestore, load_pickled_state_file, reparent_iter,
-                                    save_pickled_state_file)
+from deluge.ui.gtkui.common import (
+    listview_replace_treestore,
+    load_pickled_state_file,
+    reparent_iter,
+    save_pickled_state_file,
+)
 from deluge.ui.gtkui.torrentdetails import Tab
 from deluge.ui.gtkui.torrentview_data_funcs import cell_data_size
 
@@ -170,7 +179,7 @@ class FilesTab(Tab):
         self.listview.connect('button-press-event', self._on_button_press_event)
 
         self.listview.enable_model_drag_source(
-            BUTTON1_MASK, [('text/plain', 0, 0)], ACTION_DEFAULT | ACTION_MOVE,
+            BUTTON1_MASK, [('text/plain', 0, 0)], ACTION_DEFAULT | ACTION_MOVE
         )
         self.listview.enable_model_drag_dest([('text/plain', 0, 0)], ACTION_DEFAULT)
 
@@ -180,9 +189,15 @@ class FilesTab(Tab):
         component.get('MainWindow').connect_signals(self)
 
         # Connect to various events from the daemon
-        client.register_event_handler('TorrentFileRenamedEvent', self._on_torrentfilerenamed_event)
-        client.register_event_handler('TorrentFolderRenamedEvent', self._on_torrentfolderrenamed_event)
-        client.register_event_handler('TorrentRemovedEvent', self._on_torrentremoved_event)
+        client.register_event_handler(
+            'TorrentFileRenamedEvent', self._on_torrentfilerenamed_event
+        )
+        client.register_event_handler(
+            'TorrentFolderRenamedEvent', self._on_torrentfolderrenamed_event
+        )
+        client.register_event_handler(
+            'TorrentRemovedEvent', self._on_torrentremoved_event
+        )
 
         # Attempt to load state
         self.load_state()
@@ -238,8 +253,13 @@ class FilesTab(Tab):
                     # Column is in wrong position
                     if cstate['position'] == 0:
                         self.listview.move_column_after(column, None)
-                    elif self.listview.get_columns()[cstate['position'] - 1].get_title() != cname:
-                        self.listview.move_column_after(column, self.listview.get_columns()[cstate['position'] - 1])
+                    elif (
+                        self.listview.get_columns()[cstate['position'] - 1].get_title()
+                        != cname
+                    ):
+                        self.listview.move_column_after(
+                            column, self.listview.get_columns()[cstate['position'] - 1]
+                        )
 
     def update(self):
         # Get the first selected torrent
@@ -264,13 +284,16 @@ class FilesTab(Tab):
                 # We already have the files list stored, so just update the view
                 self.update_files()
 
-        if self.torrent_id not in self.files_list or not self.files_list[self.torrent_id]:
+        if (
+            self.torrent_id not in self.files_list
+            or not self.files_list[self.torrent_id]
+        ):
             # We need to get the files list
             log.debug('Getting file list from core..')
             status_keys += ['files']
 
         component.get('SessionProxy').get_torrent_status(
-            self.torrent_id, status_keys,
+            self.torrent_id, status_keys
         ).addCallback(self._on_get_torrent_status, self.torrent_id)
 
     def clear(self):
@@ -325,12 +348,14 @@ class FilesTab(Tab):
         if first_slash_index == -1:
             files_storage[file_name] = (file_num, torrent_file)
         else:
-            file_name_chunk = file_name[:first_slash_index + 1]
+            file_name_chunk = file_name[: first_slash_index + 1]
             if file_name_chunk not in files_storage:
                 files_storage[file_name_chunk] = {}
             self.prepare_file(
-                torrent_file, file_name[first_slash_index + 1:],
-                file_num, files_storage[file_name_chunk],
+                torrent_file,
+                file_name[first_slash_index + 1 :],
+                file_num,
+                files_storage[file_name_chunk],
             )
 
     def add_files(self, parent_iter, split_files):
@@ -338,8 +363,7 @@ class FilesTab(Tab):
         for key, value in split_files.items():
             if key.endswith('/'):
                 chunk_iter = self.treestore.append(
-                    parent_iter,
-                    [key, 0, '', 0, 0, -1, gtk.STOCK_DIRECTORY],
+                    parent_iter, [key, 0, '', 0, 0, -1, gtk.STOCK_DIRECTORY]
                 )
                 chunk_size = self.add_files(chunk_iter, value)
                 self.treestore.set(chunk_iter, 1, chunk_size)
@@ -359,6 +383,7 @@ class FilesTab(Tab):
 
     def get_selected_files(self):
         """Returns a list of file indexes that are selected."""
+
         def get_iter_children(itr, selected):
             i = self.treestore.iter_children(itr)
             while i:
@@ -398,9 +423,13 @@ class FilesTab(Tab):
             parent = self.treestore.iter_parent(row)
             while row:
                 if self.treestore.iter_children(row):
-                    completed_bytes += get_completed_bytes(self.treestore.iter_children(row))
+                    completed_bytes += get_completed_bytes(
+                        self.treestore.iter_children(row)
+                    )
                 else:
-                    completed_bytes += self.treestore[row][1] * self.treestore[row][3] / 100
+                    completed_bytes += (
+                        self.treestore[row][1] * self.treestore[row][3] / 100
+                    )
 
                 row = self.treestore.iter_next(row)
 
@@ -496,13 +525,13 @@ class FilesTab(Tab):
     def on_menuitem_open_file_activate(self, menuitem):
         if client.is_localhost:
             component.get('SessionProxy').get_torrent_status(
-                self.torrent_id, ['download_location'],
+                self.torrent_id, ['download_location']
             ).addCallback(self._on_open_file)
 
     def on_menuitem_show_file_activate(self, menuitem):
         if client.is_localhost:
             component.get('SessionProxy').get_torrent_status(
-                self.torrent_id, ['download_location'],
+                self.torrent_id, ['download_location']
             ).addCallback(self._on_show_file)
 
     def _set_file_priorities_on_user_change(self, selected, priority):
@@ -520,26 +549,28 @@ class FilesTab(Tab):
         file_priorities.sort()
         priorities = [p[1] for p in file_priorities]
         log.debug('priorities: %s', priorities)
-        client.core.set_torrent_options([self.torrent_id], {'file_priorities': priorities})
+        client.core.set_torrent_options(
+            [self.torrent_id], {'file_priorities': priorities}
+        )
 
     def on_menuitem_ignore_activate(self, menuitem):
         self._set_file_priorities_on_user_change(
-            self.get_selected_files(), FILE_PRIORITY['Ignore'],
+            self.get_selected_files(), FILE_PRIORITY['Ignore']
         )
 
     def on_menuitem_low_activate(self, menuitem):
         self._set_file_priorities_on_user_change(
-            self.get_selected_files(), FILE_PRIORITY['Low'],
+            self.get_selected_files(), FILE_PRIORITY['Low']
         )
 
     def on_menuitem_normal_activate(self, menuitem):
         self._set_file_priorities_on_user_change(
-            self.get_selected_files(), FILE_PRIORITY['Normal'],
+            self.get_selected_files(), FILE_PRIORITY['Normal']
         )
 
     def on_menuitem_high_activate(self, menuitem):
         self._set_file_priorities_on_user_change(
-            self.get_selected_files(), FILE_PRIORITY['High'],
+            self.get_selected_files(), FILE_PRIORITY['High']
         )
 
     def on_menuitem_expand_all_activate(self, menuitem):
@@ -586,7 +617,9 @@ class FilesTab(Tab):
                 parent_path = self.treestore[itr][0] + parent_path
                 itr = self.treestore.iter_parent(itr)
 
-            client.core.rename_folder(self.torrent_id, parent_path + folder, parent_path + new_text)
+            client.core.rename_folder(
+                self.torrent_id, parent_path + folder, parent_path + new_text
+            )
 
         self._editing_index = None
 
@@ -616,17 +649,28 @@ class FilesTab(Tab):
         if old_name_parent != parent_path:
             if parent_path:
                 for i, p in enumerate(parent_path):
-                    p_itr = self.get_iter_at_path('/'.join(parent_path[:i + 1]) + '/')
+                    p_itr = self.get_iter_at_path('/'.join(parent_path[: i + 1]) + '/')
                     if not p_itr:
                         p_itr = self.get_iter_at_path('/'.join(parent_path[:i]) + '/')
                         p_itr = self.treestore.append(
-                            p_itr, [parent_path[i] + '/', 0, '', 0, 0, -1, gtk.STOCK_DIRECTORY],
+                            p_itr,
+                            [
+                                parent_path[i] + '/',
+                                0,
+                                '',
+                                0,
+                                0,
+                                -1,
+                                gtk.STOCK_DIRECTORY,
+                            ],
                         )
                 p_itr = self.get_iter_at_path('/'.join(parent_path) + '/')
                 old_name_itr = self.get_iter_at_path(old_name)
                 self.treestore.append(
                     p_itr,
-                    self.treestore.get(old_name_itr, *range(self.treestore.get_n_columns())),
+                    self.treestore.get(
+                        old_name_itr, *range(self.treestore.get_n_columns())
+                    ),
                 )
                 self.treestore.remove(old_name_itr)
 
@@ -638,7 +682,7 @@ class FilesTab(Tab):
                 parent_iter = None
                 for f in new_folders:
                     parent_iter = self.treestore.append(
-                        parent_iter, [f + '/', 0, '', 0, 0, -1, gtk.STOCK_DIRECTORY],
+                        parent_iter, [f + '/', 0, '', 0, 0, -1, gtk.STOCK_DIRECTORY]
                     )
                 child = self.get_iter_at_path(old_name)
                 self.treestore.append(
@@ -653,6 +697,7 @@ class FilesTab(Tab):
                 if model[itr][5] == index:
                     model[itr][0] = os.path.split(name)[-1]
                     return True
+
             self.treestore.foreach(set_file_name, None)
 
     def get_iter_at_path(self, filepath):
@@ -676,7 +721,9 @@ class FilesTab(Tab):
                 itr = self.treestore.iter_children(itr)
                 level += 1
                 continue
-            elif (level + 1) == len(filepath) and ipath == (filepath[level] + '/' if is_dir else filepath[level]):
+            elif (level + 1) == len(filepath) and ipath == (
+                filepath[level] + '/' if is_dir else filepath[level]
+            ):
                 # This is the iter we've been searching for
                 path_iter = itr
                 break
@@ -734,18 +781,29 @@ class FilesTab(Tab):
                 return
             if new_folder_iter:
                 # This means that a folder by this name already exists
-                reparent_iter(self.treestore, self.treestore.iter_children(old_folder_iter), new_folder_iter)
+                reparent_iter(
+                    self.treestore,
+                    self.treestore.iter_children(old_folder_iter),
+                    new_folder_iter,
+                )
             else:
                 parent = old_folder_iter_parent
                 if new_split:
                     for ns in new_split[:-1]:
-                        parent = self.treestore.append(parent, [ns + '/', 0, '', 0, 0, -1, gtk.STOCK_DIRECTORY])
+                        parent = self.treestore.append(
+                            parent, [ns + '/', 0, '', 0, 0, -1, gtk.STOCK_DIRECTORY]
+                        )
 
                     self.treestore[old_folder_iter][0] = new_split[-1] + '/'
                     reparent_iter(self.treestore, old_folder_iter, parent)
                 else:
                     child_itr = self.treestore.iter_children(old_folder_iter)
-                    reparent_iter(self.treestore, child_itr, old_folder_iter_parent, move_siblings=True)
+                    reparent_iter(
+                        self.treestore,
+                        child_itr,
+                        old_folder_iter_parent,
+                        move_siblings=True,
+                    )
 
             # We need to check if the old_folder_iter no longer has children
             # and if so, we delete it
@@ -759,7 +817,9 @@ class FilesTab(Tab):
         paths = self.listview.get_selection().get_selected_rows()[1]
         selection.set_text(pickle.dumps(paths, protocol=2))
 
-    def _on_drag_data_received_data(self, treeview, context, x, y, selection, info, etime):
+    def _on_drag_data_received_data(
+        self, treeview, context, x, y, selection, info, etime
+    ):
         try:
             selected = pickle.loads(selection.data)
         except pickle.UnpicklingError:
@@ -789,7 +849,8 @@ class FilesTab(Tab):
                     pp = self.treestore[itr][0] + pp
                     itr = self.treestore.iter_parent(itr)
                 client.core.rename_folder(
-                    self.torrent_id, pp + model[selected[0]][0],
+                    self.torrent_id,
+                    pp + model[selected[0]][0],
                     parent_path + model[selected[0]][0],
                 )
             else:

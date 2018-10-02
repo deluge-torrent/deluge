@@ -31,7 +31,11 @@ version = check_output(['python', 'version.py']).strip()
 # Create release archive
 release_dir = 'dist/release-%s' % version
 print('Creating release archive for ' + version)
-call('python setup.py --quiet egg_info --egg-base /tmp sdist --formats=tar --dist-dir=%s' % release_dir, shell=True)
+call(
+    'python setup.py --quiet egg_info --egg-base /tmp sdist --formats=tar --dist-dir=%s'
+    % release_dir,
+    shell=True,
+)
 
 # Compress release archive with xz
 tar_path = os.path.join(release_dir, 'deluge-%s.tar' % version)
@@ -39,13 +43,18 @@ tarxz_path = tar_path + '.xz'
 print('Compressing tar (%s) with xz' % tar_path)
 if lzma:
     with open(tar_path, 'rb') as tar_file, open(tarxz_path, 'wb') as xz_file:
-        xz_file.write(lzma.compress(bytes(tar_file.read()), preset=9 | lzma.PRESET_EXTREME))
+        xz_file.write(
+            lzma.compress(bytes(tar_file.read()), preset=9 | lzma.PRESET_EXTREME)
+        )
 else:
     call(['xz', '-e9zkf', tar_path])
 
 # Calculate shasum and add to sha256sums.txt
 with open(tarxz_path, 'rb') as _file:
-    sha256sum = '%s %s' % (sha256(_file.read()).hexdigest(), os.path.basename(tarxz_path))
+    sha256sum = '%s %s' % (
+        sha256(_file.read()).hexdigest(),
+        os.path.basename(tarxz_path),
+    )
 with open(os.path.join(release_dir, 'sha256sums.txt'), 'w') as _file:
     _file.write(sha256sum + '\n')
 

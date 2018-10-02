@@ -32,6 +32,7 @@ class DelugeTransferProtocol(Protocol, object):
     the length of the data to be transfered (payload).
 
     """
+
     def __init__(self):
         self._buffer = b''  # TODO: Look into using bytearray instead of byte string.
         self._message_length = 0
@@ -78,9 +79,9 @@ class DelugeTransferProtocol(Protocol, object):
                 self._handle_new_message()
             # We have a complete packet
             if len(self._buffer) >= self._message_length:
-                self._handle_complete_message(self._buffer[:self._message_length])
+                self._handle_complete_message(self._buffer[: self._message_length])
                 # Remove message data from buffer
-                self._buffer = self._buffer[self._message_length:]
+                self._buffer = self._buffer[self._message_length :]
                 self._message_length = 0
             else:
                 break
@@ -96,7 +97,9 @@ class DelugeTransferProtocol(Protocol, object):
             header = self._buffer[:MESSAGE_HEADER_SIZE]
             payload_len = header[1:MESSAGE_HEADER_SIZE]
             if header[0:1] != b'D':
-                raise Exception('Invalid header format. First byte is %d' % ord(header[0:1]))
+                raise Exception(
+                    'Invalid header format. First byte is %d' % ord(header[0:1])
+                )
             # Extract the length stored as a signed integer (using 4 bytes)
             self._message_length = struct.unpack('!i', payload_len)[0]
             if self._message_length < 0:
@@ -105,7 +108,9 @@ class DelugeTransferProtocol(Protocol, object):
             self._buffer = self._buffer[MESSAGE_HEADER_SIZE:]
         except Exception as ex:
             log.warning('Error occurred when parsing message header: %s.', ex)
-            log.warning('This version of Deluge cannot communicate with the sender of this data.')
+            log.warning(
+                'This version of Deluge cannot communicate with the sender of this data.'
+            )
             self._message_length = 0
             self._buffer = b''
 
@@ -117,9 +122,15 @@ class DelugeTransferProtocol(Protocol, object):
 
         """
         try:
-            self.message_received(rencode.loads(zlib.decompress(data), decode_utf8=True))
+            self.message_received(
+                rencode.loads(zlib.decompress(data), decode_utf8=True)
+            )
         except Exception as ex:
-            log.warning('Failed to decompress (%d bytes) and load serialized data with rencode: %s', len(data), ex)
+            log.warning(
+                'Failed to decompress (%d bytes) and load serialized data with rencode: %s',
+                len(data),
+                ex,
+            )
 
     def get_bytes_recv(self):
         """

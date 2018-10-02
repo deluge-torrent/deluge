@@ -14,8 +14,16 @@ from functools import partial
 
 import deluge.common as common
 import deluge.component as component
-from deluge.ui.gtkui.common import (create_blank_pixbuf, get_pixbuf_at_size, icon_alert, icon_checking,
-                                    icon_downloading, icon_inactive, icon_queued, icon_seeding)
+from deluge.ui.gtkui.common import (
+    create_blank_pixbuf,
+    get_pixbuf_at_size,
+    icon_alert,
+    icon_checking,
+    icon_downloading,
+    icon_inactive,
+    icon_queued,
+    icon_seeding,
+)
 
 # Holds the info for which status icon to display based on TORRENT_STATE
 ICON_STATE = {
@@ -155,6 +163,7 @@ def cell_data_speed(cell, model, row, data, cache_key):
     except AttributeError:
         print('AttributeError')
         import traceback
+
         traceback.print_exc()
     if func_last_value[cache_key] == speed:
         return
@@ -162,7 +171,9 @@ def cell_data_speed(cell, model, row, data, cache_key):
 
     if speed > 0:
         speed_str = common.fspeed(speed, shortform=True)
-        cell.set_property('markup', '{0} <small>{1}</small>'.format(*tuple(speed_str.split())))
+        cell.set_property(
+            'markup', '{0} <small>{1}</small>'.format(*tuple(speed_str.split()))
+        )
     else:
         cell.set_property('text', '')
 
@@ -187,7 +198,9 @@ def cell_data_speed_limit(cell, model, row, data, cache_key):
 
     if speed > 0:
         speed_str = common.fspeed(speed * 1024, shortform=True)
-        cell.set_property('markup', '{0} <small>{1}</small>'.format(*tuple(speed_str.split())))
+        cell.set_property(
+            'markup', '{0} <small>{1}</small>'.format(*tuple(speed_str.split()))
+        )
     else:
         cell.set_property('text', '')
 
@@ -237,7 +250,9 @@ def cell_data_ratio(cell, model, row, data, cache_key):
     if func_last_value[cache_key] == ratio:
         return
     func_last_value[cache_key] = ratio
-    cell.set_property('text', '∞' if ratio < 0 else ('%.1f' % ratio).rstrip('0').rstrip('.'))
+    cell.set_property(
+        'text', '∞' if ratio < 0 else ('%.1f' % ratio).rstrip('0').rstrip('.')
+    )
 
 
 def cell_data_ratio_seeds_peers(column, cell, model, row, data):

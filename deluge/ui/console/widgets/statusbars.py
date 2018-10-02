@@ -100,7 +100,9 @@ class StatusBars(component.Component):
             self.bottombar += ' D: {!white,blue!}%s{!status!}' % self.download
 
         if self.config['max_download_speed'] > -1:
-            self.bottombar += ' (%s ' % self.config['max_download_speed'] + _('KiB/s') + ')'
+            self.bottombar += (
+                ' (%s ' % self.config['max_download_speed'] + _('KiB/s') + ')'
+            )
 
         if self.upload != '0.0 KiB':
             self.bottombar += ' U: {!green,blue,bold!}%s{!status!}' % self.upload
@@ -108,7 +110,9 @@ class StatusBars(component.Component):
             self.bottombar += ' U: {!white,blue!}%s{!status!}' % self.upload
 
         if self.config['max_upload_speed'] > -1:
-            self.bottombar += ' (%s ' % self.config['max_upload_speed'] + _('KiB/s') + ')'
+            self.bottombar += (
+                ' (%s ' % self.config['max_upload_speed'] + _('KiB/s') + ')'
+            )
 
         if self.config['dht']:
             self.bottombar += ' ' + _('DHT') + ': {!white,blue!}%s{!status!}' % self.dht

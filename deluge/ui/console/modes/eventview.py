@@ -25,7 +25,6 @@ log = logging.getLogger(__name__)
 
 
 class EventView(BaseMode):
-
     def __init__(self, parent_mode, stdscr, encoding=None):
         BaseMode.__init__(self, stdscr, encoding)
         self.parent_mode = parent_mode

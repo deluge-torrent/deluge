@@ -31,8 +31,10 @@ def raises_errors_as(error):
     function to raise all exceptions as the specified error type.
 
     """
+
     def decorator(func):
         """Returns a function which wraps the given func to raise all exceptions as error."""
+
         @wraps(func)
         def wrapper(self, *args, **kwargs):
             """Wraps the function in a try..except block and calls it with the specified args.
@@ -46,7 +48,9 @@ def raises_errors_as(error):
             except Exception:
                 (value, tb) = exc_info()[1:]
                 six.reraise(error, value, tb)
+
         return wrapper
+
     return decorator
 
 
@@ -117,37 +121,37 @@ class IP(object):
     def quadrants(self):
         return (self.q1, self.q2, self.q3, self.q4)
 
-#    def next_ip(self):
-#        (q1, q2, q3, q4) = self.quadrants()
-#        if q4 >= 255:
-#            if q3 >= 255:
-#                if q2 >= 255:
-#                    if q1 >= 255:
-#                        raise BadIP(_('There is not a next IP address'))
-#                    q1 += 1
-#                else:
-#                    q2 += 1
-#            else:
-#                q3 += 1
-#        else:
-#            q4 += 1
-#        return IP(q1, q2, q3, q4)
-#
-#    def previous_ip(self):
-#        (q1, q2, q3, q4) = self.quadrants()
-#        if q4 <= 1:
-#            if q3 <= 1:
-#                if q2 <= 1:
-#                    if q1 <= 1:
-#                        raise BadIP(_('There is not a previous IP address'))
-#                    q1 -= 1
-#                else:
-#                    q2 -= 1
-#            else:
-#                q3 -= 1
-#        else:
-#            q4 -= 1
-#        return IP(q1, q2, q3, q4)
+    #    def next_ip(self):
+    #        (q1, q2, q3, q4) = self.quadrants()
+    #        if q4 >= 255:
+    #            if q3 >= 255:
+    #                if q2 >= 255:
+    #                    if q1 >= 255:
+    #                        raise BadIP(_('There is not a next IP address'))
+    #                    q1 += 1
+    #                else:
+    #                    q2 += 1
+    #            else:
+    #                q3 += 1
+    #        else:
+    #            q4 += 1
+    #        return IP(q1, q2, q3, q4)
+    #
+    #    def previous_ip(self):
+    #        (q1, q2, q3, q4) = self.quadrants()
+    #        if q4 <= 1:
+    #            if q3 <= 1:
+    #                if q2 <= 1:
+    #                    if q1 <= 1:
+    #                        raise BadIP(_('There is not a previous IP address'))
+    #                    q1 -= 1
+    #                else:
+    #                    q2 -= 1
+    #            else:
+    #                q3 -= 1
+    #        else:
+    #            q4 -= 1
+    #        return IP(q1, q2, q3, q4)
 
     def __lt__(self, other):
         if isinstance(other, ''.__class__):
@@ -166,5 +170,7 @@ class IP(object):
 
     def __repr__(self):
         return '<%s long=%s address="%s">' % (
-            self.__class__.__name__, self.long, self.address,
+            self.__class__.__name__,
+            self.long,
+            self.address,
         )

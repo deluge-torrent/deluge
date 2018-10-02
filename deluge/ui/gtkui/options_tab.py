@@ -30,9 +30,15 @@ class OptionsTab(Tab):
         self.add_tab_widget('spin_max_download', 'value', ['max_download_speed'])
         self.add_tab_widget('spin_max_upload', 'value', ['max_upload_speed'])
         self.add_tab_widget('spin_max_connections', 'value_as_int', ['max_connections'])
-        self.add_tab_widget('spin_max_upload_slots', 'value_as_int', ['max_upload_slots'])
-        self.add_tab_widget('chk_prioritize_first_last', 'active', ['prioritize_first_last_pieces'])
-        self.add_tab_widget('chk_sequential_download', 'active', ['sequential_download'])
+        self.add_tab_widget(
+            'spin_max_upload_slots', 'value_as_int', ['max_upload_slots']
+        )
+        self.add_tab_widget(
+            'chk_prioritize_first_last', 'active', ['prioritize_first_last_pieces']
+        )
+        self.add_tab_widget(
+            'chk_sequential_download', 'active', ['sequential_download']
+        )
         self.add_tab_widget('chk_auto_managed', 'active', ['is_auto_managed'])
         self.add_tab_widget('chk_stop_at_ratio', 'active', ['stop_at_ratio'])
         self.add_tab_widget('chk_remove_at_ratio', 'active', ['remove_at_ratio'])
@@ -44,20 +50,24 @@ class OptionsTab(Tab):
         # Connect key press event for spin widgets.
         for widget_id in self.tab_widgets:
             if widget_id.startswith('spin_'):
-                self.tab_widgets[widget_id].obj.connect('key-press-event', self.on_key_press_event)
+                self.tab_widgets[widget_id].obj.connect(
+                    'key-press-event', self.on_key_press_event
+                )
 
         self.button_apply = self.main_builder.get_object('button_apply')
 
         self.move_completed_path_chooser = PathChooser('move_completed_paths_list')
         self.move_completed_path_chooser.set_sensitive(
-            self.tab_widgets['chk_move_completed'].obj.get_active(),
+            self.tab_widgets['chk_move_completed'].obj.get_active()
         )
         self.move_completed_path_chooser.connect(
-            'text-changed', self.on_path_chooser_text_changed_event,
+            'text-changed', self.on_path_chooser_text_changed_event
         )
         self.status_keys.append('move_completed_path')
 
-        self.move_completed_hbox = self.main_builder.get_object('hbox_move_completed_path_chooser')
+        self.move_completed_hbox = self.main_builder.get_object(
+            'hbox_move_completed_path_chooser'
+        )
         self.move_completed_hbox.add(self.move_completed_path_chooser)
         self.move_completed_hbox.show_all()
 
@@ -85,7 +95,7 @@ class OptionsTab(Tab):
                 self.clear()
 
             component.get('SessionProxy').get_torrents_status(
-                {'id': torrent_ids}, self.status_keys,
+                {'id': torrent_ids}, self.status_keys
             ).addCallback(self.parse_torrents_statuses)
 
             self.prev_torrent_ids = torrent_ids
@@ -137,21 +147,32 @@ class OptionsTab(Tab):
                     set_func = 'set_' + widget.func.replace('_as_int', '')
                     getattr(widget.obj, set_func)(status_value)
                     if set_func == 'set_active':
-                        widget.obj.set_inconsistent(status_key in self.inconsistent_keys)
+                        widget.obj.set_inconsistent(
+                            status_key in self.inconsistent_keys
+                        )
 
-            if new_status['move_completed_path'] != self.prev_status['move_completed_path']:
+            if (
+                new_status['move_completed_path']
+                != self.prev_status['move_completed_path']
+            ):
                 text = new_status['move_completed_path']
-                self.move_completed_path_chooser.set_text(text, cursor_end=False, default_text=True)
+                self.move_completed_path_chooser.set_text(
+                    text, cursor_end=False, default_text=True
+                )
 
             # Update sensitivity of widgets.
-            self.tab_widgets['spin_stop_ratio'].obj.set_sensitive(new_status['stop_at_ratio'])
-            self.tab_widgets['chk_remove_at_ratio'].obj.set_sensitive(new_status['stop_at_ratio'])
+            self.tab_widgets['spin_stop_ratio'].obj.set_sensitive(
+                new_status['stop_at_ratio']
+            )
+            self.tab_widgets['chk_remove_at_ratio'].obj.set_sensitive(
+                new_status['stop_at_ratio']
+            )
 
             # Ensure apply button sensitivity is set False.
             self.button_apply.set_sensitive(False)
             self.prev_status = new_status
 
-# === Widget signal handlers === #
+    # === Widget signal handlers === #
 
     def on_button_apply_clicked(self, button):
         options = {}
@@ -161,7 +182,8 @@ class OptionsTab(Tab):
                 continue  # A label so read-only
             widget_value = getattr(widget.obj, 'get_' + widget.func)()
             if widget_value != self.prev_status[status_key] or (
-                    status_key in self.inconsistent_keys and not widget.obj.get_inconsistent()
+                status_key in self.inconsistent_keys
+                and not widget.obj.get_inconsistent()
             ):
                 options[status_key] = widget_value
 

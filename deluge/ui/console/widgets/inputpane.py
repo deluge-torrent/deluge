@@ -16,9 +16,21 @@ import logging
 from deluge.decorators import overrides
 from deluge.ui.console.modes.basemode import InputKeyHandler, move_cursor
 from deluge.ui.console.utils import curses_util as util
-from deluge.ui.console.widgets.fields import (CheckedInput, CheckedPlusInput, ComboInput, DividerField, FloatSpinInput,
-                                              Header, InfoField, IntSpinInput, NoInputField, SelectInput, TextArea,
-                                              TextField, TextInput)
+from deluge.ui.console.widgets.fields import (
+    CheckedInput,
+    CheckedPlusInput,
+    ComboInput,
+    DividerField,
+    FloatSpinInput,
+    Header,
+    InfoField,
+    IntSpinInput,
+    NoInputField,
+    SelectInput,
+    TextArea,
+    TextField,
+    TextInput,
+)
 
 try:
     import curses
@@ -29,11 +41,18 @@ log = logging.getLogger(__name__)
 
 
 class BaseInputPane(InputKeyHandler):
-
     def __init__(
-        self, mode, allow_rearrange=False, immediate_action=False, set_first_input_active=True,
-        border_off_west=0, border_off_north=0, border_off_east=0, border_off_south=0,
-        active_wrap=False, **kwargs
+        self,
+        mode,
+        allow_rearrange=False,
+        immediate_action=False,
+        set_first_input_active=True,
+        border_off_west=0,
+        border_off_north=0,
+        border_off_east=0,
+        border_off_south=0,
+        active_wrap=False,
+        **kwargs
     ):
         InputKeyHandler.__init__(self)
         self.inputs = []
@@ -54,7 +73,9 @@ class BaseInputPane(InputKeyHandler):
         if not hasattr(self, 'visible_content_pane_height'):
             log.error(
                 'The class "%s" does not have the attribute "%s" required by super class "%s"',
-                self.__class__.__name__, 'visible_content_pane_height', BaseInputPane.__name__,
+                self.__class__.__name__,
+                'visible_content_pane_height',
+                BaseInputPane.__name__,
             )
             raise AttributeError('visible_content_pane_height')
 
@@ -87,9 +108,12 @@ class BaseInputPane(InputKeyHandler):
                 continue
             if e.name == input_element.name:
                 import traceback
+
                 log.warning(
                     'Input element with name "%s" already exists in input pane (%s):\n%s',
-                    input_element.name, e, ''.join(traceback.format_stack(limit=5)),
+                    input_element.name,
+                    e,
+                    ''.join(traceback.format_stack(limit=5)),
                 )
                 return
 
@@ -106,7 +130,9 @@ class BaseInputPane(InputKeyHandler):
         return self._add_input(InfoField(self, name, label, value))
 
     def add_text_field(self, name, message, selectable=True, col='+1', **kwargs):
-        return self._add_input(TextField(self, name, message, selectable=selectable, col=col, **kwargs))
+        return self._add_input(
+            TextField(self, name, message, selectable=selectable, col=col, **kwargs)
+        )
 
     def add_text_area(self, name, message, **kwargs):
         return self._add_input(TextArea(self, name, message, **kwargs))
@@ -123,28 +149,52 @@ class BaseInputPane(InputKeyHandler):
         :param value: initial value of the field
         :param complete: should completion be run when tab is hit and this field is active
         """
-        return self._add_input(TextInput(
-            self, name, message, self.move, self.visible_content_pane_width, value,
-            col=col, **kwargs
-        ))
+        return self._add_input(
+            TextInput(
+                self,
+                name,
+                message,
+                self.move,
+                self.visible_content_pane_width,
+                value,
+                col=col,
+                **kwargs
+            )
+        )
 
     def add_select_input(self, name, message, opts, vals, default_index=0, **kwargs):
-        return self._add_input(SelectInput(self, name, message, opts, vals, default_index, **kwargs))
+        return self._add_input(
+            SelectInput(self, name, message, opts, vals, default_index, **kwargs)
+        )
 
     def add_checked_input(self, name, message, checked=False, col='+1', **kwargs):
-        return self._add_input(CheckedInput(self, name, message, checked=checked, col=col, **kwargs))
+        return self._add_input(
+            CheckedInput(self, name, message, checked=checked, col=col, **kwargs)
+        )
 
-    def add_checkedplus_input(self, name, message, child, checked=False, col='+1', **kwargs):
-        return self._add_input(CheckedPlusInput(self, name, message, child, checked=checked, col=col, **kwargs))
+    def add_checkedplus_input(
+        self, name, message, child, checked=False, col='+1', **kwargs
+    ):
+        return self._add_input(
+            CheckedPlusInput(
+                self, name, message, child, checked=checked, col=col, **kwargs
+            )
+        )
 
     def add_float_spin_input(self, name, message, value=0.0, col='+1', **kwargs):
-        return self._add_input(FloatSpinInput(self, name, message, self.move, value, col=col, **kwargs))
+        return self._add_input(
+            FloatSpinInput(self, name, message, self.move, value, col=col, **kwargs)
+        )
 
     def add_int_spin_input(self, name, message, value=0, col='+1', **kwargs):
-        return self._add_input(IntSpinInput(self, name, message, self.move, value, col=col, **kwargs))
+        return self._add_input(
+            IntSpinInput(self, name, message, self.move, value, col=col, **kwargs)
+        )
 
     def add_combo_input(self, name, message, choices, col='+1', **kwargs):
-        return self._add_input(ComboInput(self, name, message, choices, col=col, **kwargs))
+        return self._add_input(
+            ComboInput(self, name, message, choices, col=col, **kwargs)
+        )
 
     @overrides(InputKeyHandler)
     def handle_read(self, c):
@@ -153,7 +203,9 @@ class BaseInputPane(InputKeyHandler):
         ret = self.inputs[self.active_input].handle_read(c)
         if ret != util.ReadState.IGNORED:
             if self.immediate_action:
-                self.immediate_action_cb(state_changed=False if ret == util.ReadState.READ else True)
+                self.immediate_action_cb(
+                    state_changed=False if ret == util.ReadState.READ else True
+                )
             return ret
 
         ret = util.ReadState.READ
@@ -174,7 +226,9 @@ class BaseInputPane(InputKeyHandler):
             self.lineoff = max(self.lineoff - 1, 0)
         elif c == util.KEY_ALT_AND_ARROW_DOWN:
             tot_height = self.get_content_height()
-            self.lineoff = min(self.lineoff + 1, tot_height - self.visible_content_pane_height)
+            self.lineoff = min(
+                self.lineoff + 1, tot_height - self.visible_content_pane_height
+            )
         elif c == util.KEY_CTRL_AND_ARROW_UP:
             if not self.allow_rearrange:
                 return ret
@@ -200,7 +254,11 @@ class BaseInputPane(InputKeyHandler):
         for i, ipt in enumerate(self.inputs):
             if not ipt.has_input():
                 continue
-            vals[ipt.name] = {'value': ipt.get_value(), 'order': i, 'active': self.active_input == i}
+            vals[ipt.name] = {
+                'value': ipt.get_value(),
+                'order': i,
+                'active': self.active_input == i,
+            }
         return vals
 
     def immediate_action_cb(self, state_changed=True):
@@ -246,9 +304,15 @@ class BaseInputPane(InputKeyHandler):
             cur_sel = next_sel
             next_sel = next_move(next_sel, direction, limit)
             if cur_sel == next_sel:
-                tot_height = self.get_content_height() + self.border_off_north + self.border_off_south
+                tot_height = (
+                    self.get_content_height()
+                    + self.border_off_north
+                    + self.border_off_south
+                )
                 if direction > 0:
-                    self.lineoff = min(self.lineoff + 1, tot_height - self.visible_content_pane_height)
+                    self.lineoff = min(
+                        self.lineoff + 1, tot_height - self.visible_content_pane_height
+                    )
                 else:
                     self.lineoff = max(self.lineoff - 1, 0)
 
@@ -285,9 +349,11 @@ class BaseInputPane(InputKeyHandler):
                 continue
             height = self.visible_content_pane_height
             if end_row > height + self.lineoff:
-                self.lineoff += end_row - (height + self.lineoff)  # Correct result depends on paranthesis
+                self.lineoff += end_row - (
+                    height + self.lineoff
+                )  # Correct result depends on paranthesis
             elif start_row < self.lineoff:
-                self.lineoff -= (self.lineoff - start_row)
+                self.lineoff -= self.lineoff - start_row
             break
 
     def render_inputs(self, focused=False):
@@ -307,15 +373,23 @@ class BaseInputPane(InputKeyHandler):
 
             if ipt.default_col != -1:
                 default_col = int(ipt.default_col)
-                if isinstance(ipt.default_col, ''.__class__) and ipt.default_col[0] in ['+', '-']:
+                if isinstance(ipt.default_col, ''.__class__) and ipt.default_col[0] in [
+                    '+',
+                    '-',
+                ]:
                     col += default_col
                     cursor_offset += default_col
                     field_width -= default_col  # Increase to col must be reflected here
                 else:
                     col = default_col
             crow += ipt.render(
-                self.screen, crow, width=field_width, active=i == self.active_input,
-                focused=focused, col=col, cursor_offset=cursor_offset,
+                self.screen,
+                crow,
+                width=field_width,
+                active=i == self.active_input,
+                focused=focused,
+                col=col,
+                cursor_offset=cursor_offset,
             )
 
         if self._cursor_row >= 0:

@@ -20,6 +20,7 @@ log = logging.getLogger(__name__)
 
 class Command(BaseCommand):
     """Enable interactive mode"""
+
     interactive_only = True
 
     def handle(self, options):

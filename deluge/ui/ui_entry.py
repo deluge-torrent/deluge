@@ -26,9 +26,7 @@ import deluge.configmanager
 from deluge.ui.baseargparser import BaseArgParser
 from deluge.ui.translations_util import setup_translations
 
-DEFAULT_PREFS = {
-    'default_ui': 'gtk',
-}
+DEFAULT_PREFS = {'default_ui': 'gtk'}
 
 AMBIGUOUS_CMD_ARGS = ('-h', '--help', '-v', '-V', '--version')
 
@@ -52,7 +50,10 @@ def start_ui():
         """Function to enable reuse of UI Options group"""
         group = _parser.add_argument_group(_('UI Options'))
         group.add_argument(
-            '-s', '--set-default-ui', dest='default_ui', choices=ui_titles,
+            '-s',
+            '--set-default-ui',
+            dest='default_ui',
+            choices=ui_titles,
             help=_('Set the default UI to be run, when no UI is specified'),
         )
         return _parser
@@ -84,12 +85,15 @@ def start_ui():
 
     # Create subparser for each registered UI. Empty title is used to remove unwanted positional text.
     subparsers = parser.add_subparsers(
-        dest='selected_ui', metavar='{%s} [UI args]' % ','.join(ui_titles), title=None,
+        dest='selected_ui',
+        metavar='{%s} [UI args]' % ','.join(ui_titles),
+        title=None,
         help=_('Alternative UI to launch, with optional ui args \n  (default UI: *)'),
     )
     for ui in ui_titles:
         parser_ui = subparsers.add_parser(
-            ui, common_help=False,
+            ui,
+            common_help=False,
             help=getattr(ui_entrypoints[ui], 'cmd_description', ''),
         )
         parser_ui.add_argument('ui_args', nargs=argparse.REMAINDER)
@@ -110,21 +114,26 @@ def start_ui():
     sys.argv.remove(selected_ui)
 
     try:
-        ui = ui_entrypoints[selected_ui](prog='%s %s' % (os.path.basename(sys.argv[0]), selected_ui), ui_args=ui_args)
+        ui = ui_entrypoints[selected_ui](
+            prog='%s %s' % (os.path.basename(sys.argv[0]), selected_ui), ui_args=ui_args
+        )
     except KeyError as ex:
         log.error(
             'Unable to find chosen UI: "%s". Please choose a different UI '
-            'or use "--set-default-ui" to change default UI.', selected_ui,
+            'or use "--set-default-ui" to change default UI.',
+            selected_ui,
         )
     except ImportError as ex:
         import traceback
+
         error_type, error_value, tb = sys.exc_info()
         stack = traceback.extract_tb(tb)
         last_frame = stack[-1]
         if last_frame[0] == __file__:
             log.error(
                 'Unable to find chosen UI: "%s". Please choose a different UI '
-                'or use "--set-default-ui" to change default UI.', selected_ui,
+                'or use "--set-default-ui" to change default UI.',
+                selected_ui,
             )
         else:
             log.exception(ex)

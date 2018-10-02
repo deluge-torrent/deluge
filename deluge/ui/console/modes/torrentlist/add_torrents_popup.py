@@ -20,16 +20,19 @@ log = logging.getLogger(__name__)
 
 def report_add_status(torrentlist, succ_cnt, fail_cnt, fail_msgs):
     if fail_cnt == 0:
-        torrentlist.report_message('Torrents Added', '{!success!}Successfully added %d torrent(s)' % succ_cnt)
+        torrentlist.report_message(
+            'Torrents Added', '{!success!}Successfully added %d torrent(s)' % succ_cnt
+        )
     else:
-        msg = ('{!error!}Failed to add the following %d torrent(s):\n {!input!}' % fail_cnt) + '\n '.join(fail_msgs)
+        msg = (
+            '{!error!}Failed to add the following %d torrent(s):\n {!input!}' % fail_cnt
+        ) + '\n '.join(fail_msgs)
         if succ_cnt != 0:
             msg += '\n \n{!success!}Successfully added %d torrent(s)' % succ_cnt
         torrentlist.report_message('Torrent Add Report', msg)
 
 
 def show_torrent_add_popup(torrentlist):
-
     def do_add_from_url(data=None, **kwargs):
         torrentlist.pop_popup()
         if not data or kwargs.get('close', False):
@@ -51,30 +54,47 @@ def show_torrent_add_popup(torrentlist):
         if not url:
             return
 
-        t_options = {'download_location': data['path']['value'], 'add_paused': data['add_paused']['value']}
+        t_options = {
+            'download_location': data['path']['value'],
+            'add_paused': data['add_paused']['value'],
+        }
 
         if deluge.common.is_magnet(url):
-            client.core.add_torrent_magnet(url, t_options).addCallback(success_cb, url).addErrback(fail_cb, url)
+            client.core.add_torrent_magnet(url, t_options).addCallback(
+                success_cb, url
+            ).addErrback(fail_cb, url)
         elif deluge.common.is_url(url):
-            client.core.add_torrent_url(url, t_options).addCallback(success_cb, url).addErrback(fail_cb, url)
+            client.core.add_torrent_url(url, t_options).addCallback(
+                success_cb, url
+            ).addErrback(fail_cb, url)
         else:
-            torrentlist.report_message('Error', '{!error!}Invalid URL or magnet link: %s' % url)
+            torrentlist.report_message(
+                'Error', '{!error!}Invalid URL or magnet link: %s' % url
+            )
             return
 
         log.debug(
             'Adding Torrent(s): %s (dl path: %s) (paused: %d)',
-            url, data['path']['value'], data['add_paused']['value'],
+            url,
+            data['path']['value'],
+            data['add_paused']['value'],
         )
 
     def show_add_url_popup():
         add_paused = 1 if 'add_paused' in torrentlist.coreconfig else 0
-        popup = InputPopup(torrentlist, 'Add Torrent (Esc to cancel)', close_cb=do_add_from_url)
+        popup = InputPopup(
+            torrentlist, 'Add Torrent (Esc to cancel)', close_cb=do_add_from_url
+        )
         popup.add_text_input('url', 'Enter torrent URL or Magnet link:')
         popup.add_text_input(
-            'path', 'Enter save path:', torrentlist.coreconfig.get('download_location', ''),
+            'path',
+            'Enter save path:',
+            torrentlist.coreconfig.get('download_location', ''),
             complete=True,
         )
-        popup.add_select_input('add_paused', 'Add Paused:', ['Yes', 'No'], [True, False], add_paused)
+        popup.add_select_input(
+            'add_paused', 'Add Paused:', ['Yes', 'No'], [True, False], add_paused
+        )
         torrentlist.push_popup(popup)
 
     def option_chosen(selected, *args, **kwargs):

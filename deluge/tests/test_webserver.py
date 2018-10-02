@@ -25,7 +25,6 @@ common.disable_new_release_check()
 
 
 class WebServerTestCase(WebServerTestBase, WebServerMockBase):
-
     @defer.inlineCallbacks
     def test_get_torrent_info(self):
 
@@ -38,7 +37,9 @@ class WebServerTestCase(WebServerTestBase, WebServerMockBase):
         # encoded to allow dumping the torrent info to json. Otherwise it will fail with:
         # UnicodeDecodeError: 'utf8' codec can't decode byte 0xe5 in position 0: invalid continuation byte
         filename = get_test_data_file('filehash_field.torrent')
-        input_file = '{"params": ["%s"], "method": "web.get_torrent_info", "id": 22}' % filename
+        input_file = (
+            '{"params": ["%s"], "method": "web.get_torrent_info", "id": 22}' % filename
+        )
         headers = {
             b'User-Agent': ['Twisted Web Client Example'],
             b'Content-Type': ['application/json'],

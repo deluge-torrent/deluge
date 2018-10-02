@@ -14,7 +14,6 @@ from .basetest import BaseTestCase
 
 
 class AlertManagerTestCase(BaseTestCase):
-
     def set_up(self):
         self.core = Core()
         self.core.config.config['lsd'] = False

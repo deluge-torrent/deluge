@@ -76,11 +76,15 @@ class Core(CorePluginBase):
         self.file_progress = 0.0
 
         self.core = component.get('Core')
-        self.config = deluge.configmanager.ConfigManager('blocklist.conf', DEFAULT_PREFS)
+        self.config = deluge.configmanager.ConfigManager(
+            'blocklist.conf', DEFAULT_PREFS
+        )
         if 'whitelisted' not in self.config:
             self.config['whitelisted'] = []
 
-        self.reader = create_reader(self.config['list_type'], self.config['list_compression'])
+        self.reader = create_reader(
+            self.config['list_type'], self.config['list_compression']
+        )
 
         if not isinstance(self.config['last_update'], float):
             self.config.config['last_update'] = 0.0
@@ -91,10 +95,15 @@ class Core(CorePluginBase):
             if self.config['last_update']:
                 last_update = datetime.fromtimestamp(self.config['last_update'])
                 check_period = timedelta(days=self.config['check_after_days'])
-            if not self.config['last_update'] or last_update + check_period < datetime.now():
+            if (
+                not self.config['last_update']
+                or last_update + check_period < datetime.now()
+            ):
                 update_now = True
             else:
-                d = self.import_list(deluge.configmanager.get_config_dir('blocklist.cache'))
+                d = self.import_list(
+                    deluge.configmanager.get_config_dir('blocklist.cache')
+                )
                 d.addCallbacks(self.on_import_complete, self.on_import_error)
                 if self.need_to_resume_session:
                     d.addBoth(self.resume_session)
@@ -104,14 +113,14 @@ class Core(CorePluginBase):
         self.update_timer = LoopingCall(self.check_import)
         if self.config['check_after_days'] > 0:
             self.update_timer.start(
-                self.config['check_after_days'] * 24 * 60 * 60, update_now,
+                self.config['check_after_days'] * 24 * 60 * 60, update_now
             )
 
     def disable(self):
         self.config.save()
         log.debug('Reset IP filter')
         self.core.session.get_ip_filter().add_rule(
-            '0.0.0.0', '255.255.255.255', ALLOW_RANGE,
+            '0.0.0.0', '255.255.255.255', ALLOW_RANGE
         )
         log.debug('Blocklist: Plugin disabled')
 
@@ -189,7 +198,7 @@ class Core(CorePluginBase):
                             try:
                                 ip = IP.parse(ip)
                                 self.blocklist.add_rule(
-                                    ip.address, ip.address, ALLOW_RANGE,
+                                    ip.address, ip.address, ALLOW_RANGE
                                 )
                                 saved.add(ip.address)
                                 log.debug('Added %s to whitelisted', ip)
@@ -217,13 +226,16 @@ class Core(CorePluginBase):
                     if self.config['last_update']:
                         last_update = datetime.fromtimestamp(self.config['last_update'])
                         check_period = timedelta(days=self.config['check_after_days'])
-                    if not self.config['last_update'] or last_update + check_period < datetime.now():
+                    if (
+                        not self.config['last_update']
+                        or last_update + check_period < datetime.now()
+                    ):
                         update_now = True
                     if self.update_timer.running:
                         self.update_timer.stop()
                     if self.config['check_after_days'] > 0:
                         self.update_timer.start(
-                            self.config['check_after_days'] * 24 * 60 * 60, update_now,
+                            self.config['check_after_days'] * 24 * 60 * 60, update_now
                         )
                 continue
             self.config[key] = config[key]
@@ -232,7 +244,7 @@ class Core(CorePluginBase):
             log.debug(
                 'IP addresses were removed from the whitelist. Since we '
                 'do not know if they were blocked before. Re-import '
-                'current blocklist and re-add whitelisted.',
+                'current blocklist and re-add whitelisted.'
             )
             self.has_imported = False
             d = self.import_list(deluge.configmanager.get_config_dir('blocklist.cache'))
@@ -295,6 +307,7 @@ class Core(CorePluginBase):
             Deferred: a Deferred which fires once the blocklist has been downloaded.
 
         """
+
         def on_retrieve_data(data, current_length, total_length):
             if total_length:
                 fp = current_length / total_length
@@ -306,6 +319,7 @@ class Core(CorePluginBase):
             self.file_progress = fp
 
         import socket
+
         socket.setdefaulttimeout(self.config['timeout'])
 
         if not url:
@@ -313,14 +327,18 @@ class Core(CorePluginBase):
 
         headers = {}
         if self.config['last_update'] and not self.force_download:
-            headers['If-Modified-Since'] = formatdate(self.config['last_update'], usegmt=True)
+            headers['If-Modified-Since'] = formatdate(
+                self.config['last_update'], usegmt=True
+            )
 
         log.debug('Attempting to download blocklist %s', url)
         log.debug('Sending headers: %s', headers)
         self.is_downloading = True
         return download_file(
-            url, deluge.configmanager.get_config_dir('blocklist.download'),
-            on_retrieve_data, headers,
+            url,
+            deluge.configmanager.get_config_dir('blocklist.download'),
+            on_retrieve_data,
+            headers,
         )
 
     def on_download_complete(self, blocklist):
@@ -369,7 +387,8 @@ class Core(CorePluginBase):
                 if self.failed_attempts < self.config['try_times']:
                     log.debug(
                         'Try downloading blocklist again... (%s/%s)',
-                        self.failed_attempts, self.config['try_times'],
+                        self.failed_attempts,
+                        self.config['try_times'],
                     )
                     self.failed_attempts += 1
                     d = self.download_list()
@@ -430,7 +449,11 @@ class Core(CorePluginBase):
             log.exception(failure)
 
         log.debug('Importing using reader: %s', self.reader)
-        log.debug('Reader type: %s compression: %s', self.config['list_type'], self.config['list_compression'])
+        log.debug(
+            'Reader type: %s compression: %s',
+            self.config['list_type'],
+            self.config['list_compression'],
+        )
         log.debug('Clearing current ip filtering')
         # self.blocklist.add_rule('0.0.0.0', '255.255.255.255', ALLOW_RANGE)
         d = threads.deferToThread(self.reader(blocklist).read, on_read_ip_range)
@@ -508,13 +531,21 @@ class Core(CorePluginBase):
 
         """
         self.config['list_compression'] = detect_compression(blocklist)
-        self.config['list_type'] = detect_format(blocklist, self.config['list_compression'])
-        log.debug('Auto-detected type: %s compression: %s', self.config['list_type'], self.config['list_compression'])
+        self.config['list_type'] = detect_format(
+            blocklist, self.config['list_compression']
+        )
+        log.debug(
+            'Auto-detected type: %s compression: %s',
+            self.config['list_type'],
+            self.config['list_compression'],
+        )
         if not self.config['list_type']:
             self.config['list_compression'] = ''
             raise UnknownFormatError
         else:
-            self.reader = create_reader(self.config['list_type'], self.config['list_compression'])
+            self.reader = create_reader(
+                self.config['list_type'], self.config['list_compression']
+            )
 
     def pause_session(self):
         self.need_to_resume_session = not self.core.session.is_paused()

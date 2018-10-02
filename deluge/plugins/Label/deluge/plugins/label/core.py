@@ -73,6 +73,7 @@ class Core(CorePluginBase):
     self.labels = {label_id:label_options_dict}
     self.torrent_labels = {torrent_id:label_id}
     """
+
     def enable(self):
         log.info('*** Start Label plugin ***')
         self.plugin = component.get('CorePluginManager')
@@ -90,19 +91,29 @@ class Core(CorePluginBase):
 
         self.clean_initial_config()
 
-        component.get('EventManager').register_event_handler('TorrentAddedEvent', self.post_torrent_add)
-        component.get('EventManager').register_event_handler('TorrentRemovedEvent', self.post_torrent_remove)
+        component.get('EventManager').register_event_handler(
+            'TorrentAddedEvent', self.post_torrent_add
+        )
+        component.get('EventManager').register_event_handler(
+            'TorrentRemovedEvent', self.post_torrent_remove
+        )
 
         # register tree:
-        component.get('FilterManager').register_tree_field('label', self.init_filter_dict)
+        component.get('FilterManager').register_tree_field(
+            'label', self.init_filter_dict
+        )
 
         log.debug('Label plugin enabled..')
 
     def disable(self):
         self.plugin.deregister_status_field('label')
         component.get('FilterManager').deregister_tree_field('label')
-        component.get('EventManager').deregister_event_handler('TorrentAddedEvent', self.post_torrent_add)
-        component.get('EventManager').deregister_event_handler('TorrentRemovedEvent', self.post_torrent_remove)
+        component.get('EventManager').deregister_event_handler(
+            'TorrentAddedEvent', self.post_torrent_add
+        )
+        component.get('EventManager').deregister_event_handler(
+            'TorrentRemovedEvent', self.post_torrent_remove
+        )
 
     def update(self):
         pass
@@ -169,7 +180,9 @@ class Core(CorePluginBase):
         see label_set_options for more options.
         """
         label_id = label_id.lower()
-        check_input(RE_VALID.match(label_id), _('Invalid label, valid characters:[a-z0-9_-]'))
+        check_input(
+            RE_VALID.match(label_id), _('Invalid label, valid characters:[a-z0-9_-]')
+        )
         check_input(label_id, _('Empty Label'))
         check_input(not (label_id in self.labels), _('Label already exists'))
 
@@ -209,7 +222,7 @@ class Core(CorePluginBase):
                 {
                     'move_completed': options['move_completed'],
                     'move_completed_path': options['move_completed_path'],
-                },
+                }
             )
 
     def _unset_torrent_options(self, torrent_id, label_id):
@@ -217,11 +230,21 @@ class Core(CorePluginBase):
         torrent = self.torrents[torrent_id]
 
         if options['apply_max']:
-            torrent.set_max_download_speed(self.core_cfg.config['max_download_speed_per_torrent'])
-            torrent.set_max_upload_speed(self.core_cfg.config['max_upload_speed_per_torrent'])
-            torrent.set_max_connections(self.core_cfg.config['max_connections_per_torrent'])
-            torrent.set_max_upload_slots(self.core_cfg.config['max_upload_slots_per_torrent'])
-            torrent.set_prioritize_first_last_pieces(self.core_cfg.config['prioritize_first_last_pieces'])
+            torrent.set_max_download_speed(
+                self.core_cfg.config['max_download_speed_per_torrent']
+            )
+            torrent.set_max_upload_speed(
+                self.core_cfg.config['max_upload_speed_per_torrent']
+            )
+            torrent.set_max_connections(
+                self.core_cfg.config['max_connections_per_torrent']
+            )
+            torrent.set_max_upload_slots(
+                self.core_cfg.config['max_upload_slots_per_torrent']
+            )
+            torrent.set_prioritize_first_last_pieces(
+                self.core_cfg.config['prioritize_first_last_pieces']
+            )
 
         if options['apply_queue']:
             torrent.set_auto_managed(self.core_cfg.config['auto_managed'])
@@ -234,7 +257,7 @@ class Core(CorePluginBase):
                 {
                     'move_completed': self.core_cfg.config['move_completed'],
                     'move_completed_path': self.core_cfg.config['move_completed_path'],
-                },
+                }
             )
 
     def _has_auto_match(self, torrent, label_options):
@@ -311,8 +334,7 @@ class Core(CorePluginBase):
     def get_config(self):
         """see : label_set_config"""
         return {
-            key: self.config[key]
-            for key in CORE_OPTIONS if key in self.config.config
+            key: self.config[key] for key in CORE_OPTIONS if key in self.config.config
         }
 
     @export

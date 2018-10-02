@@ -49,7 +49,8 @@ class SecurityBaseTestCase(object):
                 '0',
                 test,
                 '127.0.0.1:%d' % self.port,
-            ])
+            ],
+        )
 
         def on_result(results):
 
@@ -162,7 +163,6 @@ class DaemonSecurityTestCase(BaseTestCase, DaemonBase, SecurityBaseTestCase):
 
 @pytest.mark.security
 class WebUISecurityTestBase(WebServerTestBase, SecurityBaseTestCase):
-
     def __init__(self, testname):
         super(WebUISecurityTestBase, self).__init__(testname)
         SecurityBaseTestCase.__init__(self)

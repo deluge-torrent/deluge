@@ -15,7 +15,12 @@ import os.path
 from hashlib import sha1 as sha
 
 import gtk
-from gtk.gdk import ACTION_COPY, WINDOW_STATE_ICONIFIED, WINDOW_STATE_MAXIMIZED, WINDOW_STATE_WITHDRAWN
+from gtk.gdk import (
+    ACTION_COPY,
+    WINDOW_STATE_ICONIFIED,
+    WINDOW_STATE_MAXIMIZED,
+    WINDOW_STATE_WITHDRAWN,
+)
 from twisted.internet import reactor
 from twisted.internet.error import ReactorNotRunning
 
@@ -42,8 +47,8 @@ class _GtkBuilderSignalsHolder(object):
             for name, handler in mapping_or_class.items():
                 if hasattr(self, name):
                     raise RuntimeError(
-                        'A handler for signal %r has already been registered: %s' %
-                        (name, getattr(self, name)),
+                        'A handler for signal %r has already been registered: %s'
+                        % (name, getattr(self, name))
                     )
                 setattr(self, name, handler)
         else:
@@ -51,8 +56,10 @@ class _GtkBuilderSignalsHolder(object):
                 if not name.startswith('on_'):
                     continue
                 if hasattr(self, name):
-                    raise RuntimeError('A handler for signal %r has already been registered: %s' %
-                                       (name, getattr(self, name)))
+                    raise RuntimeError(
+                        'A handler for signal %r has already been registered: %s'
+                        % (name, getattr(self, name))
+                    )
                 setattr(self, name, getattr(mapping_or_class, name))
 
 
@@ -69,22 +76,28 @@ class MainWindow(component.Component):
         # Think about splitting up  mainwindow gtkbuilder file into the necessary parts
         # to avoid GtkBuilder monkey patch. Those parts would then need adding to mainwindow 'by hand'.
         self.gtk_builder_signals_holder = _GtkBuilderSignalsHolder()
-        self.main_builder.prev_connect_signals = copy.deepcopy(self.main_builder.connect_signals)
+        self.main_builder.prev_connect_signals = copy.deepcopy(
+            self.main_builder.connect_signals
+        )
 
         def patched_connect_signals(*a, **k):
             raise RuntimeError(
                 'In order to connect signals to this GtkBuilder instance please use '
-                '"component.get(\'MainWindow\').connect_signals()"',
+                '"component.get(\'MainWindow\').connect_signals()"'
             )
+
         self.main_builder.connect_signals = patched_connect_signals
 
         # Get Gtk Builder files Main Window, New release dialog, and Tabs.
         for filename in (
-            'main_window.ui', 'main_window.new_release.ui', 'main_window.tabs.ui',
-            'main_window.tabs.menu_file.ui', 'main_window.tabs.menu_peer.ui',
+            'main_window.ui',
+            'main_window.new_release.ui',
+            'main_window.tabs.ui',
+            'main_window.tabs.menu_file.ui',
+            'main_window.tabs.menu_peer.ui',
         ):
             self.main_builder.add_from_file(
-                resource_filename('deluge.ui.gtkui', os.path.join('glade', filename)),
+                resource_filename('deluge.ui.gtkui', os.path.join('glade', filename))
             )
 
         self.window = self.main_builder.get_object('main_window')
@@ -102,7 +115,9 @@ class MainWindow(component.Component):
         self.is_minimized = False
         self.restart = False
 
-        self.window.drag_dest_set(gtk.DEST_DEFAULT_ALL, [('text/uri-list', 0, 80)], ACTION_COPY)
+        self.window.drag_dest_set(
+            gtk.DEST_DEFAULT_ALL, [('text/uri-list', 0, 80)], ACTION_COPY
+        )
 
         # Connect events
         self.window.connect('window-state-event', self.on_window_state_event)
@@ -112,9 +127,13 @@ class MainWindow(component.Component):
         self.vpaned.connect('notify::position', self.on_vpaned_position_event)
         self.window.connect('expose-event', self.on_expose_event)
 
-        self.config.register_set_function('show_rate_in_title', self._on_set_show_rate_in_title, apply_now=False)
+        self.config.register_set_function(
+            'show_rate_in_title', self._on_set_show_rate_in_title, apply_now=False
+        )
 
-        client.register_event_handler('NewVersionAvailableEvent', self.on_newversionavailable_event)
+        client.register_event_handler(
+            'NewVersionAvailableEvent', self.on_newversionavailable_event
+        )
 
     def connect_signals(self, mapping_or_class):
         self.gtk_builder_signals_holder.connect_signals(mapping_or_class)
@@ -123,7 +142,7 @@ class MainWindow(component.Component):
         self.main_builder.prev_connect_signals(self.gtk_builder_signals_holder)
         self.vpaned.set_position(self.initial_vpaned_position)
         if not (
-                self.config['start_in_tray'] and self.config['enable_system_tray']
+            self.config['start_in_tray'] and self.config['enable_system_tray']
         ) and not self.window.get_property('visible'):
             log.debug('Showing window')
             self.show()
@@ -140,7 +159,9 @@ class MainWindow(component.Component):
         component.pause(self.child_components)
 
         # Store the x, y positions for when we restore the window
-        self.config['window_x_pos'], self.config['window_y_pos'] = self.window.get_position()
+        self.config['window_x_pos'], self.config[
+            'window_y_pos'
+        ] = self.window.get_position()
         self.window.hide()
 
     def present(self):
@@ -155,8 +176,12 @@ class MainWindow(component.Component):
 
             def on_dialog_response(response_id):
                 if response_id == gtk.RESPONSE_OK:
-                    if self.config['tray_password'] == sha(dialog.get_password()).hexdigest():
+                    if (
+                        self.config['tray_password']
+                        == sha(dialog.get_password()).hexdigest()
+                    ):
                         restore()
+
             dialog.run().addCallback(on_dialog_response)
         else:
             restore()
@@ -202,14 +227,21 @@ class MainWindow(component.Component):
 
             def on_dialog_response(response_id):
                 if response_id == gtk.RESPONSE_OK:
-                    if self.config['tray_password'] == sha(dialog.get_password()).hexdigest():
+                    if (
+                        self.config['tray_password']
+                        == sha(dialog.get_password()).hexdigest()
+                    ):
                         quit_gtkui()
+
             dialog.run().addCallback(on_dialog_response)
         else:
             quit_gtkui()
 
     def load_window_state(self):
-        if self.config['window_x_pos'] == -32000 or self.config['window_x_pos'] == -32000:
+        if (
+            self.config['window_x_pos'] == -32000
+            or self.config['window_x_pos'] == -32000
+        ):
             self.config['window_x_pos'] = self.config['window_y_pos'] = 0
 
         self.window.move(self.config['window_x_pos'], self.config['window_y_pos'])
@@ -219,7 +251,9 @@ class MainWindow(component.Component):
 
     def on_window_configure_event(self, widget, event):
         if not self.config['window_maximized'] and self.visible:
-            self.config['window_x_pos'], self.config['window_y_pos'] = self.window.get_position()
+            self.config['window_x_pos'], self.config[
+                'window_y_pos'
+            ] = self.window.get_position()
             self.config['window_width'] = event.width
             self.config['window_height'] = event.height
 
@@ -253,7 +287,9 @@ class MainWindow(component.Component):
     def on_vpaned_position_event(self, obj, param):
         self.config['window_pane_position'] = self.vpaned.get_position()
 
-    def on_drag_data_received_event(self, widget, drag_context, x, y, selection_data, info, timestamp):
+    def on_drag_data_received_event(
+        self, widget, drag_context, x, y, selection_data, info, timestamp
+    ):
         log.debug('Selection(s) dropped on main window %s', selection_data.get_text())
         if selection_data.get_uris():
             process_args(selection_data.get_uris())
@@ -270,12 +306,19 @@ class MainWindow(component.Component):
     def update(self):
         # Update the window title
         def _on_get_session_status(status):
-            download_rate = fspeed(status['payload_download_rate'], precision=0, shortform=True)
-            upload_rate = fspeed(status['payload_upload_rate'], precision=0, shortform=True)
-            self.window.set_title(_('D: %s U: %s - Deluge' % (download_rate, upload_rate)))
+            download_rate = fspeed(
+                status['payload_download_rate'], precision=0, shortform=True
+            )
+            upload_rate = fspeed(
+                status['payload_upload_rate'], precision=0, shortform=True
+            )
+            self.window.set_title(
+                _('D: %s U: %s - Deluge' % (download_rate, upload_rate))
+            )
+
         if self.config['show_rate_in_title']:
             client.core.get_session_status(
-                ['payload_download_rate', 'payload_upload_rate'],
+                ['payload_download_rate', 'payload_upload_rate']
             ).addCallback(_on_get_session_status)
 
     def _on_set_show_rate_in_title(self, key, value):
@@ -287,6 +330,7 @@ class MainWindow(component.Component):
     def on_newversionavailable_event(self, new_version):
         if self.config['show_new_releases']:
             from deluge.ui.gtkui.new_release_dialog import NewReleaseDialog
+
             reactor.callLater(5.0, NewReleaseDialog().show, new_version)
 
     def is_on_active_workspace(self):

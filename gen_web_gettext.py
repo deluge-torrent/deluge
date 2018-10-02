@@ -46,7 +46,10 @@ def check_missing_markup(js_dir):
 
     # Create a list of the matching strings to search for with the except_chars appended to each one.
     string_re = re.compile(
-        '(' + ')|('.join(['%s[^' + except_chars + "].*'"] * len(attr_list)) % tuple(attr_list) + ')',
+        '('
+        + ')|('.join(['%s[^' + except_chars + "].*'"] * len(attr_list))
+        % tuple(attr_list)
+        + ')'
     )
 
     strings = {}
@@ -58,10 +61,16 @@ def check_missing_markup(js_dir):
                 for match in string_re.finditer(line):
                     for string in match.groups():
                         # Ignore string that contains only digits or specificied strings in skip.
-                        if not string or string.split('\'')[1].isdigit() or any(x in string for x in skip):
+                        if (
+                            not string
+                            or string.split('\'')[1].isdigit()
+                            or any(x in string for x in skip)
+                        ):
                             continue
                         locations = strings.get(string, [])
-                        locations.append((os.path.join(root, filename), str(lineno + 1)))
+                        locations.append(
+                            (os.path.join(root, filename), str(lineno + 1))
+                        )
                         strings[string] = locations
     return strings
 
@@ -70,8 +79,9 @@ GETTEXT_TPL = (
     'GetText={maps:{},'
     'add:function(string,translation){this.maps[string]=translation},'
     'get:function(string){if (this.maps[string]){string=this.maps[string]} return string}};'
-    'function _(string){return GetText.get(string)}')
-GETTEXT_SUBST_TPL = ("GetText.add('{key}','${{escape(_(\"{key}\"))}}')\n")
+    'function _(string){return GetText.get(string)}'
+)
+GETTEXT_SUBST_TPL = "GetText.add('{key}','${{escape(_(\"{key}\"))}}')\n"
 
 
 def create_gettext_js(js_dir):
@@ -94,7 +104,9 @@ def create_gettext_js(js_dir):
         fp.write(GETTEXT_TPL)
         for key in sorted(strings):
             if DEBUG:
-                fp.write('\n//: %s' % '//: '.join(['%s:%s\n' % x for x in strings[key]]))
+                fp.write(
+                    '\n//: %s' % '//: '.join(['%s:%s\n' % x for x in strings[key]])
+                )
             fp.write(GETTEXT_SUBST_TPL.format(key=key))
     return gettext_file
 

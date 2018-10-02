@@ -28,4 +28,6 @@ REQUIRED_VERSION = '1.1.2.0'
 LT_VERSION = lt.__version__
 
 if VersionSplit(LT_VERSION) < VersionSplit(REQUIRED_VERSION):
-    raise ImportError('Deluge %s requires libtorrent >= %s' % (get_version(), REQUIRED_VERSION))
+    raise ImportError(
+        'Deluge %s requires libtorrent >= %s' % (get_version(), REQUIRED_VERSION)
+    )

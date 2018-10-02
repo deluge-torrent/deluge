@@ -21,20 +21,38 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            '-l', '--list', action='store_true', default=False, dest='list',
+            '-l',
+            '--list',
+            action='store_true',
+            default=False,
+            dest='list',
             help=_('Lists available plugins'),
         )
         parser.add_argument(
-            '-s', '--show', action='store_true', default=False, dest='show',
+            '-s',
+            '--show',
+            action='store_true',
+            default=False,
+            dest='show',
             help=_('Shows enabled plugins'),
         )
-        parser.add_argument('-e', '--enable', dest='enable', nargs='+', help=_('Enables a plugin'))
-        parser.add_argument('-d', '--disable', dest='disable', nargs='+', help=_('Disables a plugin'))
         parser.add_argument(
-            '-r', '--reload', action='store_true', default=False, dest='reload',
+            '-e', '--enable', dest='enable', nargs='+', help=_('Enables a plugin')
+        )
+        parser.add_argument(
+            '-d', '--disable', dest='disable', nargs='+', help=_('Disables a plugin')
+        )
+        parser.add_argument(
+            '-r',
+            '--reload',
+            action='store_true',
+            default=False,
+            dest='reload',
             help=_('Reload list of available plugins'),
         )
-        parser.add_argument('-i', '--install', help=_('Install a plugin from an .egg file'))
+        parser.add_argument(
+            '-i', '--install', help=_('Install a plugin from an .egg file')
+        )
 
     def handle(self, options):
         self.console = component.get('ConsoleUI')
@@ -45,6 +63,7 @@ class Command(BaseCommand):
             return
 
         elif options.list:
+
             def on_available_plugins(result):
                 self.console.write('{!info!}Available Plugins:')
                 for p in result:
@@ -53,6 +72,7 @@ class Command(BaseCommand):
             return client.core.get_available_plugins().addCallback(on_available_plugins)
 
         elif options.show:
+
             def on_enabled_plugins(result):
                 self.console.write('{!info!}Enabled Plugins:')
                 for p in result:
@@ -61,6 +81,7 @@ class Command(BaseCommand):
             return client.core.get_enabled_plugins().addCallback(on_enabled_plugins)
 
         elif options.enable:
+
             def on_available_plugins(result):
                 plugins = {}
                 for p in result:
@@ -72,6 +93,7 @@ class Command(BaseCommand):
             return client.core.get_available_plugins().addCallback(on_available_plugins)
 
         elif options.disable:
+
             def on_enabled_plugins(result):
                 plugins = {}
                 for p in result:
@@ -107,9 +129,15 @@ class Command(BaseCommand):
                     client.core.upload_plugin(filename, filedump)
                     client.core.rescan_plugins()
                 except Exception:
-                    self.console.write('{!error!}An error occurred, plugin was not installed')
+                    self.console.write(
+                        '{!error!}An error occurred, plugin was not installed'
+                    )
 
-            self.console.write('{!green!}Plugin was successfully installed: %s' % filename)
+            self.console.write(
+                '{!green!}Plugin was successfully installed: %s' % filename
+            )
 
     def complete(self, line):
-        return component.get('ConsoleUI').tab_complete_path(line, ext='.egg', sort='name', dirs_first=-1)
+        return component.get('ConsoleUI').tab_complete_path(
+            line, ext='.egg', sort='name', dirs_first=-1
+        )

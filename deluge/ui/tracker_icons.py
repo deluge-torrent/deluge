@@ -36,6 +36,7 @@ except ImportError:
     PIL_INSTALLED = False
 else:
     import deluge.ui.Win32IconImagePlugin  # NOQA pylint: disable=unused-import, ungrouped-imports
+
     PIL_INSTALLED = True
 
 log = logging.getLogger(__name__)
@@ -45,6 +46,7 @@ class TrackerIcon(object):
     """
     Represents a tracker's icon
     """
+
     def __init__(self, filename):
         """
         Initialises a new TrackerIcon object
@@ -66,9 +68,11 @@ class TrackerIcon(object):
         :returns: whether or not they're equal
         :rtype: boolean
         """
-        return (os.path.samefile(self.filename, other.filename) or
-                self.get_mimetype() == other.get_mimetype() and
-                self.get_data() == other.get_data())
+        return (
+            os.path.samefile(self.filename, other.filename)
+            or self.get_mimetype() == other.get_mimetype()
+            and self.get_data() == other.get_data()
+        )
 
     def get_mimetype(self):
         """
@@ -122,6 +126,7 @@ class TrackerIcons(Component):
     """
     A TrackerIcon factory class
     """
+
     def __init__(self, icon_dir=None, no_icon=None):
         """
         Initialises a new TrackerIcons object
@@ -209,18 +214,20 @@ class TrackerIcons(Component):
             # Start callback chain
             d = self.download_page(host)
             d.addCallbacks(
-                self.on_download_page_complete, self.on_download_page_fail,
+                self.on_download_page_complete,
+                self.on_download_page_fail,
                 errbackArgs=(host,),
             )
             d.addCallback(self.parse_html_page)
             d.addCallbacks(
-                self.on_parse_complete, self.on_parse_fail,
-                callbackArgs=(host,),
+                self.on_parse_complete, self.on_parse_fail, callbackArgs=(host,)
             )
             d.addCallback(self.download_icon, host)
             d.addCallbacks(
-                self.on_download_icon_complete, self.on_download_icon_fail,
-                callbackArgs=(host,), errbackArgs=(host,),
+                self.on_download_icon_complete,
+                self.on_download_icon_fail,
+                callbackArgs=(host,),
+                errbackArgs=(host,),
             )
             if PIL_INSTALLED:
                 d.addCallback(self.resize_icon)
@@ -279,7 +286,8 @@ class TrackerIcons(Component):
             self.redirects[host] = url_to_host(location)
             d = self.download_page(host, url=location)
             d.addCallbacks(
-                self.on_download_page_complete, self.on_download_page_fail,
+                self.on_download_page_complete,
+                self.on_download_page_fail,
                 errbackArgs=(host,),
             )
 
@@ -354,7 +362,8 @@ class TrackerIcons(Component):
             raise NoIconsError('empty icons list')
         (url, mimetype) = icons.pop(0)
         d = download_file(
-            url, os.path.join(self.dir, host_to_icon_name(host, mimetype)),
+            url,
+            os.path.join(self.dir, host_to_icon_name(host, mimetype)),
             force_filename=True,
         )
         d.addCallback(self.check_icon_is_valid)
@@ -421,25 +430,36 @@ class TrackerIcons(Component):
         if f.check(PageRedirect):
             # Handle redirect errors
             location = urljoin(self.host_to_url(host), error_msg.split(' to ')[1])
-            d = self.download_icon([(location, extension_to_mimetype(location.rpartition('.')[2]))] + icons, host)
+            d = self.download_icon(
+                [(location, extension_to_mimetype(location.rpartition('.')[2]))]
+                + icons,
+                host,
+            )
             if not icons:
                 d.addCallbacks(
-                    self.on_download_icon_complete, self.on_download_icon_fail,
-                    callbackArgs=(host,), errbackArgs=(host,),
+                    self.on_download_icon_complete,
+                    self.on_download_icon_fail,
+                    callbackArgs=(host,),
+                    errbackArgs=(host,),
                 )
         elif f.check(NoResource, ForbiddenResource) and icons:
             d = self.download_icon(icons, host)
         elif f.check(NoIconsError):
             # No icons, try favicon.ico as an act of desperation
             d = self.download_icon(
-                [(
-                    urljoin(self.host_to_url(host), 'favicon.ico'),
-                    extension_to_mimetype('ico'),
-                )], host,
+                [
+                    (
+                        urljoin(self.host_to_url(host), 'favicon.ico'),
+                        extension_to_mimetype('ico'),
+                    )
+                ],
+                host,
             )
             d.addCallbacks(
-                self.on_download_icon_complete, self.on_download_icon_fail,
-                callbackArgs=(host,), errbackArgs=(host,),
+                self.on_download_icon_complete,
+                self.on_download_icon_fail,
+                callbackArgs=(host,),
+                errbackArgs=(host,),
             )
         else:
             # No icons :(
@@ -501,6 +521,7 @@ class TrackerIcons(Component):
             host = self.redirects[host]
         return 'http://%s/' % host
 
+
 # ------- HELPER CLASSES ------
 
 
@@ -508,13 +529,18 @@ class FaviconParser(HTMLParser):
     """
     A HTMLParser which extracts favicons from a HTML page
     """
+
     def __init__(self):
         self.icons = []
         self.left_head = False
         HTMLParser.__init__(self)
 
     def handle_starttag(self, tag, attrs):
-        if tag == 'link' and ('rel', 'icon') in attrs or ('rel', 'shortcut icon') in attrs:
+        if (
+            tag == 'link'
+            and ('rel', 'icon') in attrs
+            or ('rel', 'shortcut icon') in attrs
+        ):
             href = None
             icon_type = None
             for attr, value in attrs:
@@ -547,6 +573,7 @@ class FaviconParser(HTMLParser):
 
 
 # ------ HELPER FUNCTIONS ------
+
 
 def url_to_host(url):
     """
@@ -625,6 +652,7 @@ def extension_to_mimetype(extension):
     :raises KeyError: if given an invalid filename extension
     """
     return MIME_MAP[extension.lower()]
+
 
 #  ------ EXCEPTIONS ------
 

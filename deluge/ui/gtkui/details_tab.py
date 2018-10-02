@@ -33,7 +33,9 @@ class DetailsTab(Tab):
         self.add_tab_widget('summary_hash', str, ('hash',))
         self.add_tab_widget('summary_comments', str, ('comment',))
         self.add_tab_widget('summary_creator', str, ('creator',))
-        self.add_tab_widget('summary_pieces', fpieces_num_size, ('num_pieces', 'piece_length'))
+        self.add_tab_widget(
+            'summary_pieces', fpieces_num_size, ('num_pieces', 'piece_length')
+        )
 
     def update(self):
         # Get the first selected torrent
@@ -48,7 +50,9 @@ class DetailsTab(Tab):
             return
 
         session = component.get('SessionProxy')
-        session.get_torrent_status(selected, self.status_keys).addCallback(self._on_get_torrent_status)
+        session.get_torrent_status(selected, self.status_keys).addCallback(
+            self._on_get_torrent_status
+        )
 
     def _on_get_torrent_status(self, status):
         # Check to see if we got valid data from the core

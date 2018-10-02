@@ -21,7 +21,6 @@ class OptionParserError(Exception):
 
 
 class ConsoleBaseParser(argparse.ArgumentParser):
-
     def format_help(self):
         """Differs from ArgumentParser.format_help by adding the raw epilog
         as formatted in the string. Default bahavior mangles the formatting.
@@ -38,7 +37,6 @@ class ConsoleBaseParser(argparse.ArgumentParser):
 
 
 class ConsoleCommandParser(ConsoleBaseParser):
-
     def _split_args(self, args):
         command_options = []
         for a in args:
@@ -72,6 +70,7 @@ class ConsoleCommandParser(ConsoleBaseParser):
                 argparse.Namespace: The parsed arguments.
         """
         from deluge.ui.ui_entry import AMBIGUOUS_CMD_ARGS
+
         self.base_parser.parse_known_ui_args(args, withhold=AMBIGUOUS_CMD_ARGS)
 
         multi_command = self._split_args(args)
@@ -107,7 +106,6 @@ class ConsoleCommandParser(ConsoleBaseParser):
 
 
 class OptionParser(ConsoleBaseParser):
-
     def __init__(self, **kwargs):
         super(OptionParser, self).__init__(**kwargs)
         self.formatter = ConsoleColorFormatter()

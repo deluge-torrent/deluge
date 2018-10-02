@@ -28,8 +28,13 @@ from deluge._libtorrent import LT_VERSION, lt
 from deluge.common import PY2
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.alertmanager import AlertManager
-from deluge.core.authmanager import (AUTH_LEVEL_ADMIN, AUTH_LEVEL_NONE, AUTH_LEVELS_MAPPING,
-                                     AUTH_LEVELS_MAPPING_REVERSE, AuthManager)
+from deluge.core.authmanager import (
+    AUTH_LEVEL_ADMIN,
+    AUTH_LEVEL_NONE,
+    AUTH_LEVELS_MAPPING,
+    AUTH_LEVELS_MAPPING_REVERSE,
+    AuthManager,
+)
 from deluge.core.eventmanager import EventManager
 from deluge.core.filtermanager import FilterManager
 from deluge.core.pluginmanager import PluginManager
@@ -37,8 +42,18 @@ from deluge.core.preferencesmanager import PreferencesManager
 from deluge.core.rpcserver import export
 from deluge.core.torrentmanager import TorrentManager
 from deluge.decorators import deprecated
-from deluge.error import AddTorrentError, DelugeError, InvalidPathError, InvalidTorrentError
-from deluge.event import NewVersionAvailableEvent, SessionPausedEvent, SessionResumedEvent, TorrentQueueChangedEvent
+from deluge.error import (
+    AddTorrentError,
+    DelugeError,
+    InvalidPathError,
+    InvalidTorrentError,
+)
+from deluge.event import (
+    NewVersionAvailableEvent,
+    SessionPausedEvent,
+    SessionResumedEvent,
+    TorrentQueueChangedEvent,
+)
 from deluge.httpdownloader import download_file
 
 try:
@@ -99,16 +114,15 @@ DELUGE_VER = deluge.common.get_version()
 
 
 class Core(component.Component):
-    def __init__(self, listen_interface=None, outgoing_interface=None, read_only_config_keys=None):
+    def __init__(
+        self, listen_interface=None, outgoing_interface=None, read_only_config_keys=None
+    ):
         component.Component.__init__(self, 'Core')
 
         # Start the libtorrent session.
         user_agent = 'Deluge/{} libtorrent/{}'.format(DELUGE_VER, LT_VERSION)
         peer_id = self._create_peer_id(DELUGE_VER)
-        log.debug(
-            'Starting session (peer_id: %s, user_agent: %s)',
-            peer_id, user_agent,
-        )
+        log.debug('Starting session (peer_id: %s, user_agent: %s)', peer_id, user_agent)
         settings_pack = {
             'peer_fingerprint': peer_id,
             'user_agent': user_agent,
@@ -139,7 +153,9 @@ class Core(component.Component):
 
         # External IP Address from libtorrent
         self.external_ip = None
-        self.eventmanager.register_event_handler('ExternalIPEvent', self._on_external_ip_event)
+        self.eventmanager.register_event_handler(
+            'ExternalIPEvent', self._on_external_ip_event
+        )
 
         # GeoIP instance with db loaded
         self.geoip_instance = None
@@ -161,7 +177,10 @@ class Core(component.Component):
                 self._old_listen_interface = self.config['listen_interface']
                 self.config['listen_interface'] = listen_interface
             else:
-                log.error('Invalid listen interface (must be IP Address): %s', listen_interface)
+                log.error(
+                    'Invalid listen interface (must be IP Address): %s',
+                    listen_interface,
+                )
 
         self._old_outgoing_interface = None
         if outgoing_interface:
@@ -186,10 +205,10 @@ class Core(component.Component):
         self.session_status.update({k: 0.0 for k in hit_ratio_keys})
 
         self.session_status_timer_interval = 0.5
-        self.session_status_timer = task.LoopingCall(
-            self.session.post_session_stats)
+        self.session_status_timer = task.LoopingCall(self.session.post_session_stats)
         self.alertmanager.register_handler(
-            'session_stats_alert', self._on_alert_session_stats)
+            'session_stats_alert', self._on_alert_session_stats
+        )
         self.session_rates_timer_interval = 2
         self.session_rates_timer = task.LoopingCall(self._update_session_rates)
 
@@ -264,7 +283,7 @@ class Core(component.Component):
 
         def substitute_chr(string, idx, char):
             """Fast substitute single char in string."""
-            return string[:idx] + char + string[idx + 1:]
+            return string[:idx] + char + string[idx + 1 :]
 
         if split.dev:
             release_chr = 'D'
@@ -358,16 +377,20 @@ class Core(component.Component):
         for rate_key, prev_bytes in list(self._session_prev_bytes.items()):
             new_bytes = self.session_status[SESSION_RATES_MAPPING[rate_key]]
             self.session_status[rate_key] = (
-                new_bytes - prev_bytes) / self.session_rates_timer_interval
+                new_bytes - prev_bytes
+            ) / self.session_rates_timer_interval
             # Store current value for next update.
             self._session_prev_bytes[rate_key] = new_bytes
 
     def get_new_release(self):
         log.debug('get_new_release')
         try:
-            self.new_release = urlopen(
-                'http://download.deluge-torrent.org/version-2.0',
-            ).read().decode().strip()
+            self.new_release = (
+                urlopen('http://download.deluge-torrent.org/version-2.0')
+                .read()
+                .decode()
+                .strip()
+            )
         except URLError as ex:
             log.debug('Unable to get release info from website: %s', ex)
         else:
@@ -376,8 +399,12 @@ class Core(component.Component):
     def check_new_release(self):
         if self.new_release:
             log.debug('new_release: %s', self.new_release)
-            if deluge.common.VersionSplit(self.new_release) > deluge.common.VersionSplit(deluge.common.get_version()):
-                component.get('EventManager').emit(NewVersionAvailableEvent(self.new_release))
+            if deluge.common.VersionSplit(
+                self.new_release
+            ) > deluge.common.VersionSplit(deluge.common.get_version()):
+                component.get('EventManager').emit(
+                    NewVersionAvailableEvent(self.new_release)
+                )
                 return self.new_release
         return False
 
@@ -403,7 +430,10 @@ class Core(component.Component):
 
         try:
             d = self.torrentmanager.add_async(
-                filedump=filedump, options=options, filename=filename, save_state=save_state,
+                filedump=filedump,
+                options=options,
+                filename=filename,
+                save_state=save_state,
             )
         except RuntimeError as ex:
             log.error('There was an error adding the torrent file %s: %s', filename, ex)
@@ -425,6 +455,7 @@ class Core(component.Component):
             The metadata is base64 encoded.
 
         """
+
         def on_metadata(result, result_d):
             torrent_id, metadata = result
             result_d.callback((torrent_id, b64encode(metadata)))
@@ -456,7 +487,7 @@ class Core(component.Component):
 
         try:
             return self.torrentmanager.add(
-                filedump=filedump, options=options, filename=filename,
+                filedump=filedump, options=options, filename=filename
             )
         except RuntimeError as ex:
             log.error('There was an error adding the torrent file %s: %s', filename, ex)
@@ -473,6 +504,7 @@ class Core(component.Component):
             Deferred
 
         """
+
         @defer.inlineCallbacks
         def add_torrents():
             errors = []
@@ -480,12 +512,13 @@ class Core(component.Component):
             for idx, torrent in enumerate(torrent_files):
                 try:
                     yield self.add_torrent_file_async(
-                        torrent[0], torrent[1], torrent[2], save_state=idx == last_index,
+                        torrent[0], torrent[1], torrent[2], save_state=idx == last_index
                     )
                 except AddTorrentError as ex:
                     log.warning('Error when adding torrent: %s', ex)
                     errors.append(ex)
             defer.returnValue(errors)
+
         return task.deferLater(reactor, 0, add_torrents)
 
     @export
@@ -583,14 +616,19 @@ class Core(component.Component):
             errors = []
             for torrent_id in torrent_ids:
                 try:
-                    self.torrentmanager.remove(torrent_id, remove_data=remove_data, save_state=False)
+                    self.torrentmanager.remove(
+                        torrent_id, remove_data=remove_data, save_state=False
+                    )
                 except InvalidTorrentError as ex:
                     errors.append((torrent_id, str(ex)))
             # Save the session state
             self.torrentmanager.save_state()
             if errors:
-                log.warning('Failed to remove %d of %d torrents.', len(errors), len(torrent_ids))
+                log.warning(
+                    'Failed to remove %d of %d torrents.', len(errors), len(torrent_ids)
+                )
             return errors
+
         return task.deferLater(reactor, 0, do_remove_torrents)
 
     @export
@@ -617,9 +655,7 @@ class Core(component.Component):
                 if key in DEPR_SESSION_STATUS_KEYS:
                     new_key = DEPR_SESSION_STATUS_KEYS[key]
                     log.debug(
-                        'Deprecated session status key %s, please use %s',
-                        key,
-                        new_key,
+                        'Deprecated session status key %s, please use %s', key, new_key
                     )
                     status[key] = self.session_status[new_key]
                 else:
@@ -700,11 +736,22 @@ class Core(component.Component):
         for torrent_id in torrent_ids:
             self.resume_torrent(torrent_id)
 
-    def create_torrent_status(self, torrent_id, torrent_keys, plugin_keys, diff=False, update=False, all_keys=False):
+    def create_torrent_status(
+        self,
+        torrent_id,
+        torrent_keys,
+        plugin_keys,
+        diff=False,
+        update=False,
+        all_keys=False,
+    ):
         try:
-            status = self.torrentmanager[torrent_id].get_status(torrent_keys, diff, update=update, all_keys=all_keys)
+            status = self.torrentmanager[torrent_id].get_status(
+                torrent_keys, diff, update=update, all_keys=all_keys
+            )
         except KeyError:
             import traceback
+
             traceback.print_exc()
             # Torrent was probaly removed meanwhile
             return {}
@@ -716,9 +763,15 @@ class Core(component.Component):
 
     @export
     def get_torrent_status(self, torrent_id, keys, diff=False):
-        torrent_keys, plugin_keys = self.torrentmanager.separate_keys(keys, [torrent_id])
+        torrent_keys, plugin_keys = self.torrentmanager.separate_keys(
+            keys, [torrent_id]
+        )
         return self.create_torrent_status(
-            torrent_id, torrent_keys, plugin_keys, diff=diff, update=True,
+            torrent_id,
+            torrent_keys,
+            plugin_keys,
+            diff=diff,
+            update=True,
             all_keys=not keys,
         )
 
@@ -735,8 +788,11 @@ class Core(component.Component):
             # Ask the plugin manager to fill in the plugin keys
             if len(plugin_keys) > 0:
                 for key in status_dict:
-                    status_dict[key].update(self.pluginmanager.get_status(key, plugin_keys))
+                    status_dict[key].update(
+                        self.pluginmanager.get_status(key, plugin_keys)
+                    )
             return status_dict
+
         d.addCallback(add_plugin_fields)
         return d
 
@@ -798,7 +854,9 @@ class Core(component.Component):
 
         settings = self.session.get_settings()
         proxy_type = settings['proxy_type']
-        proxy_hostname = settings['i2p_hostname'] if proxy_type == 6 else settings['proxy_hostname']
+        proxy_hostname = (
+            settings['i2p_hostname'] if proxy_type == 6 else settings['proxy_hostname']
+        )
         proxy_port = settings['i2p_port'] if proxy_type == 6 else settings['proxy_port']
         proxy_dict = {
             'type': proxy_type,
@@ -939,8 +997,17 @@ class Core(component.Component):
 
     @export
     def create_torrent(
-        self, path, tracker, piece_length, comment, target,
-        webseeds, private, created_by, trackers, add_to_session,
+        self,
+        path,
+        tracker,
+        piece_length,
+        comment,
+        target,
+        webseeds,
+        private,
+        created_by,
+        trackers,
+        add_to_session,
     ):
 
         log.debug('creating torrent..')
@@ -961,10 +1028,20 @@ class Core(component.Component):
         ).start()
 
     def _create_torrent_thread(
-        self, path, tracker, piece_length, comment, target,
-        webseeds, private, created_by, trackers, add_to_session,
+        self,
+        path,
+        tracker,
+        piece_length,
+        comment,
+        target,
+        webseeds,
+        private,
+        created_by,
+        trackers,
+        add_to_session,
     ):
         from deluge import metafile
+
         metafile.make_meta_file(
             path,
             tracker,
@@ -1058,7 +1135,9 @@ class Core(component.Component):
     def queue_top(self, torrent_ids):
         log.debug('Attempting to queue %s to top', torrent_ids)
         # torrent_ids must be sorted in reverse before moving to preserve order
-        for torrent_id in sorted(torrent_ids, key=self.torrentmanager.get_queue_position, reverse=True):
+        for torrent_id in sorted(
+            torrent_ids, key=self.torrentmanager.get_queue_position, reverse=True
+        ):
             try:
                 # If the queue method returns True, then we should emit a signal
                 if self.torrentmanager.queue_top(torrent_id):
@@ -1069,7 +1148,10 @@ class Core(component.Component):
     @export
     def queue_up(self, torrent_ids):
         log.debug('Attempting to queue %s to up', torrent_ids)
-        torrents = ((self.torrentmanager.get_queue_position(torrent_id), torrent_id) for torrent_id in torrent_ids)
+        torrents = (
+            (self.torrentmanager.get_queue_position(torrent_id), torrent_id)
+            for torrent_id in torrent_ids
+        )
         torrent_moved = True
         prev_queue_position = None
         # torrent_ids must be sorted before moving.
@@ -1079,7 +1161,9 @@ class Core(component.Component):
                 try:
                     torrent_moved = self.torrentmanager.queue_up(torrent_id)
                 except KeyError:
-                    log.warning('torrent_id: %s does not exist in the queue', torrent_id)
+                    log.warning(
+                        'torrent_id: %s does not exist in the queue', torrent_id
+                    )
             # If the torrent moved, then we should emit a signal
             if torrent_moved:
                 component.get('EventManager').emit(TorrentQueueChangedEvent())
@@ -1089,7 +1173,10 @@ class Core(component.Component):
     @export
     def queue_down(self, torrent_ids):
         log.debug('Attempting to queue %s to down', torrent_ids)
-        torrents = ((self.torrentmanager.get_queue_position(torrent_id), torrent_id) for torrent_id in torrent_ids)
+        torrents = (
+            (self.torrentmanager.get_queue_position(torrent_id), torrent_id)
+            for torrent_id in torrent_ids
+        )
         torrent_moved = True
         prev_queue_position = None
         # torrent_ids must be sorted before moving.
@@ -1099,7 +1186,9 @@ class Core(component.Component):
                 try:
                     torrent_moved = self.torrentmanager.queue_down(torrent_id)
                 except KeyError:
-                    log.warning('torrent_id: %s does not exist in the queue', torrent_id)
+                    log.warning(
+                        'torrent_id: %s does not exist in the queue', torrent_id
+                    )
             # If the torrent moved, then we should emit a signal
             if torrent_moved:
                 component.get('EventManager').emit(TorrentQueueChangedEvent())
@@ -1110,7 +1199,9 @@ class Core(component.Component):
     def queue_bottom(self, torrent_ids):
         log.debug('Attempting to queue %s to bottom', torrent_ids)
         # torrent_ids must be sorted before moving to preserve order
-        for torrent_id in sorted(torrent_ids, key=self.torrentmanager.get_queue_position):
+        for torrent_id in sorted(
+            torrent_ids, key=self.torrentmanager.get_queue_position
+        ):
             try:
                 # If the queue method returns True, then we should emit a signal
                 if self.torrentmanager.queue_bottom(torrent_id):

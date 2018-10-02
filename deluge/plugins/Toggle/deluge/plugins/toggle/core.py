@@ -22,8 +22,7 @@ from deluge.plugins.pluginbase import CorePluginBase
 
 log = logging.getLogger(__name__)
 
-DEFAULT_PREFS = {
-}
+DEFAULT_PREFS = {}
 
 
 class Core(CorePluginBase):

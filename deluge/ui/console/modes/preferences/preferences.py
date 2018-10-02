@@ -16,9 +16,17 @@ import deluge.component as component
 from deluge.decorators import overrides
 from deluge.ui.client import client
 from deluge.ui.console.modes.basemode import BaseMode
-from deluge.ui.console.modes.preferences.preference_panes import (BandwidthPane, CachePane, DaemonPane, DownloadsPane,
-                                                                  InterfacePane, NetworkPane, OtherPane, ProxyPane,
-                                                                  QueuePane)
+from deluge.ui.console.modes.preferences.preference_panes import (
+    BandwidthPane,
+    CachePane,
+    DaemonPane,
+    DownloadsPane,
+    InterfacePane,
+    NetworkPane,
+    OtherPane,
+    ProxyPane,
+    QueuePane,
+)
 from deluge.ui.console.utils import curses_util as util
 from deluge.ui.console.widgets.fields import SelectInput
 from deluge.ui.console.widgets.popup import MessagePopup, PopupsHandler
@@ -72,17 +80,28 @@ class ZONE(object):
 
 
 class PreferenceSidebar(Sidebar):
-
     def __init__(self, torrentview, width):
         height = curses.LINES - 2
-        Sidebar.__init__(self, torrentview, width, height, title=None, border_off_north=1)
+        Sidebar.__init__(
+            self, torrentview, width, height, title=None, border_off_north=1
+        )
         self.categories = [
-            _('Interface'), _('Downloads'), _('Network'), _('Bandwidth'),
-            _('Other'), _('Daemon'), _('Queue'), _('Proxy'), _('Cache'),
+            _('Interface'),
+            _('Downloads'),
+            _('Network'),
+            _('Bandwidth'),
+            _('Other'),
+            _('Daemon'),
+            _('Queue'),
+            _('Proxy'),
+            _('Cache'),
         ]
         for name in self.categories:
             self.add_text_field(
-                name, name, selectable=True, font_unfocused_active='bold',
+                name,
+                name,
+                selectable=True,
+                font_unfocused_active='bold',
                 color_unfocused_active='white,black',
             )
 
@@ -91,7 +110,6 @@ class PreferenceSidebar(Sidebar):
 
 
 class Preferences(BaseMode, PopupsHandler):
-
     def __init__(self, parent_mode, stdscr, console_config, encoding=None):
         BaseMode.__init__(self, stdscr, encoding=encoding, do_refresh=False)
         PopupsHandler.__init__(self)
@@ -123,7 +141,9 @@ class Preferences(BaseMode, PopupsHandler):
             CachePane(self),
         ]
 
-        self.action_input = SelectInput(self, None, None, [_('Cancel'), _('Apply'), _('OK')], [0, 1, 2], 0)
+        self.action_input = SelectInput(
+            self, None, None, [_('Cancel'), _('Apply'), _('OK')], [0, 1, 2], 0
+        )
 
     def load_config(self):
         if self.config_loaded:
@@ -135,10 +155,12 @@ class Preferences(BaseMode, PopupsHandler):
             for p in self.panes:
                 p.create_pane(core_config, self.console_config)
             self.refresh()
+
         client.core.get_config().addCallback(on_get_config)
 
         def on_get_listen_port(port):
             self.active_port = port
+
         client.core.get_listen_port().addCallback(on_get_listen_port)
 
     @property
@@ -161,15 +183,21 @@ class Preferences(BaseMode, PopupsHandler):
 
     def _draw_preferences(self):
         self.cur_cat = self.sidebar.active_input
-        self.panes[self.cur_cat].render(self, self.stdscr, self.prefs_width, self.active_zone == ZONE.PREFRENCES)
+        self.panes[self.cur_cat].render(
+            self, self.stdscr, self.prefs_width, self.active_zone == ZONE.PREFRENCES
+        )
         self.panes[self.cur_cat].refresh()
 
     def _draw_actions(self):
         selected = self.active_zone == ZONE.ACTIONS
         self.stdscr.hline(self.rows - 3, self.sidebar_width, b'_', self.cols)
         self.action_input.render(
-            self.stdscr, self.rows - 2, width=self.cols,
-            active=selected, focus=True, col=self.cols - 22,
+            self.stdscr,
+            self.rows - 2,
+            width=self.cols,
+            active=selected,
+            focus=True,
+            col=self.cols - 22,
         )
 
     @overrides(BaseMode)
@@ -195,7 +223,10 @@ class Preferences(BaseMode, PopupsHandler):
 
     @overrides(BaseMode)
     def refresh(self):
-        if not component.get('ConsoleUI').is_active_mode(self) or not self.config_loaded:
+        if (
+            not component.get('ConsoleUI').is_active_mode(self)
+            or not self.config_loaded
+        ):
             return
 
         if self.popup is None and self.messages:
@@ -257,14 +288,25 @@ class Preferences(BaseMode, PopupsHandler):
             if isinstance(pane, InterfacePane):
                 pane.add_config_values(new_console_config)
                 for k in ['ring_bell', 'language']:
-                    didupdate = update_conf_value(k, new_console_config, self.console_config, didupdate)
+                    didupdate = update_conf_value(
+                        k, new_console_config, self.console_config, didupdate
+                    )
                 for k in ['separate_complete', 'move_selection']:
-                    didupdate = update_conf_value(k, new_console_config, self.console_config['torrentview'], didupdate)
+                    didupdate = update_conf_value(
+                        k,
+                        new_console_config,
+                        self.console_config['torrentview'],
+                        didupdate,
+                    )
                 for k in [
-                    'ignore_duplicate_lines', 'save_command_history',
-                    'third_tab_lists_all', 'torrents_per_tab_press',
+                    'ignore_duplicate_lines',
+                    'save_command_history',
+                    'third_tab_lists_all',
+                    'torrents_per_tab_press',
                 ]:
-                    didupdate = update_conf_value(k, new_console_config, self.console_config['cmdline'], didupdate)
+                    didupdate = update_conf_value(
+                        k, new_console_config, self.console_config['cmdline'], didupdate
+                    )
 
         if didupdate:
             self.parent_mode.on_config_changed()

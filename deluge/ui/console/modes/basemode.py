@@ -37,7 +37,6 @@ log = logging.getLogger(__name__)
 
 
 class InputKeyHandler(object):
-
     def __init__(self):
         self._input_result = None
 
@@ -64,7 +63,6 @@ class InputKeyHandler(object):
 
 
 class TermResizeHandler(object):
-
     def __init__(self):
         try:
             signal.signal(signal.SIGWINCH, self.on_terminal_size)
@@ -73,10 +71,9 @@ class TermResizeHandler(object):
 
     def on_terminal_size(self, *args):
         # Get the new rows and cols value
-        rows, cols = struct.unpack(
-            'hhhh',
-            ioctl(0, termios.TIOCGWINSZ, b'\000' * 8),
-        )[0:2]
+        rows, cols = struct.unpack('hhhh', ioctl(0, termios.TIOCGWINSZ, b'\000' * 8))[
+            0:2
+        ]
         curses.resizeterm(rows, cols)
         return rows, cols
 
@@ -100,8 +97,9 @@ class CursesStdIO(object):
 
 
 class BaseMode(CursesStdIO, component.Component):
-
-    def __init__(self, stdscr, encoding=None, do_refresh=True, mode_name=None, depend=None):
+    def __init__(
+        self, stdscr, encoding=None, do_refresh=True, mode_name=None, depend=None
+    ):
         """
         A mode that provides a curses screen designed to run as a reader in a twisted reactor.
         This mode doesn't do much, just shows status bars and "Base Mode" on the screen
@@ -160,16 +158,28 @@ class BaseMode(CursesStdIO, component.Component):
         return add_string(row, string, screen, self.encoding, **kwargs)
 
     def draw_statusbars(
-        self, top_row=0, bottom_row=-1, topbar=None, bottombar=None,
-        bottombar_help=True, scr=None,
+        self,
+        top_row=0,
+        bottom_row=-1,
+        topbar=None,
+        bottombar=None,
+        bottombar_help=True,
+        scr=None,
     ):
         self.add_string(top_row, topbar if topbar else self.statusbars.topbar, scr=scr)
         bottombar = bottombar if bottombar else self.statusbars.bottombar
         if bottombar_help:
             if bottombar_help is True:
                 bottombar_help = self.help_hstr
-            bottombar += ' ' * (self.cols - len(remove_formatting(bottombar)) -
-                                len(remove_formatting(bottombar_help))) + bottombar_help
+            bottombar += (
+                ' '
+                * (
+                    self.cols
+                    - len(remove_formatting(bottombar))
+                    - len(remove_formatting(bottombar_help))
+                )
+                + bottombar_help
+            )
         self.add_string(self.rows + bottom_row, bottombar, scr=scr)
 
     # This mode doesn't do anything with popups
@@ -226,7 +236,9 @@ class BaseMode(CursesStdIO, component.Component):
         curses.endwin()
 
 
-def add_string(row, fstring, screen, encoding, col=0, pad=True, pad_char=' ', trim='..', leaveok=0):
+def add_string(
+    row, fstring, screen, encoding, col=0, pad=True, pad_char=' ', trim='..', leaveok=0
+):
     """
     Adds a string to the desired `:param:row`.
 
@@ -282,7 +294,7 @@ def add_string(row, fstring, screen, encoding, col=0, pad=True, pad_char=' ', tr
         if col + len(string) > max_x:
             remaining_chrs = max(0, max_x - col)
             if trim:
-                string = string[0:max(0, remaining_chrs - len(trim))] + trim
+                string = string[0 : max(0, remaining_chrs - len(trim))] + trim
             else:
                 string = string[0:remaining_chrs]
 
@@ -333,7 +345,13 @@ def move_cursor(screen, row, col):
         screen.move(row, col)
     except curses.error as ex:
         import traceback
+
         log.warning(
             'Error on screen.move(%s, %s): (curses.LINES: %s, curses.COLS: %s) Error: %s\nStack: %s',
-            row, col, curses.LINES, curses.COLS, ex, ''.join(traceback.format_stack()),
+            row,
+            col,
+            curses.LINES,
+            curses.COLS,
+            ex,
+            ''.join(traceback.format_stack()),
         )

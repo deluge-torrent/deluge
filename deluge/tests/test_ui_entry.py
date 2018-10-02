@@ -45,6 +45,7 @@ sys_stdout = sys.stdout
 
 class StringFileDescriptor(object):
     """File descriptor that writes to string buffer"""
+
     def __init__(self, fd):
         self.out = StringIO()
         self.fd = fd
@@ -63,7 +64,6 @@ class StringFileDescriptor(object):
 
 
 class UIBaseTestCase(object):
-
     def __init__(self):
         self.var = {}
 
@@ -139,7 +139,13 @@ class DelugeEntryTestCase(BaseTestCase):
     def test_start_with_log_level(self):
         _level = []
 
-        def setup_logger(level='error', filename=None, filemode='w', logrotate=None, output_stream=sys.stdout):
+        def setup_logger(
+            level='error',
+            filename=None,
+            filemode='w',
+            logrotate=None,
+            output_stream=sys.stdout,
+        ):
             _level.append(level)
 
         self.patch(deluge.log, 'setup_logger', setup_logger)
@@ -163,13 +169,13 @@ class GtkUIBaseTestCase(UIBaseTestCase):
         self.patch(sys, 'argv', utf8_encode_structure(self.var['sys_arg_cmd']))
 
         from deluge.ui.gtkui import gtkui
+
         with mock.patch.object(gtkui.GtkUI, 'start', autospec=True):
             self.exec_command()
 
 
 @pytest.mark.gtkui
 class GtkUIDelugeScriptEntryTestCase(BaseTestCase, GtkUIBaseTestCase):
-
     def __init__(self, testname):
         super(GtkUIDelugeScriptEntryTestCase, self).__init__(testname)
         GtkUIBaseTestCase.__init__(self)
@@ -187,11 +193,11 @@ class GtkUIDelugeScriptEntryTestCase(BaseTestCase, GtkUIBaseTestCase):
 
 @pytest.mark.gtkui
 class GtkUIScriptEntryTestCase(BaseTestCase, GtkUIBaseTestCase):
-
     def __init__(self, testname):
         super(GtkUIScriptEntryTestCase, self).__init__(testname)
         GtkUIBaseTestCase.__init__(self)
         from deluge.ui import gtkui
+
         self.var['cmd_name'] = 'deluge-gtk'
         self.var['start_cmd'] = gtkui.start
         self.var['sys_arg_cmd'] = ['./deluge-gtk']
@@ -220,7 +226,13 @@ class WebUIBaseTestCase(UIBaseTestCase):
     def test_start_web_with_log_level(self):
         _level = []
 
-        def setup_logger(level='error', filename=None, filemode='w', logrotate=None, output_stream=sys.stdout):
+        def setup_logger(
+            level='error',
+            filename=None,
+            filemode='w',
+            logrotate=None,
+            output_stream=sys.stdout,
+        ):
             _level.append(level)
 
         self.patch(deluge.log, 'setup_logger', setup_logger)
@@ -284,7 +296,13 @@ class ConsoleUIBaseTestCase(UIBaseTestCase):
     def test_start_console_with_log_level(self):
         _level = []
 
-        def setup_logger(level='error', filename=None, filemode='w', logrotate=None, output_stream=sys.stdout):
+        def setup_logger(
+            level='error',
+            filename=None,
+            filemode='w',
+            logrotate=None,
+            output_stream=sys.stdout,
+        ):
             _level.append(level)
 
         self.patch(deluge.log, 'setup_logger', setup_logger)
@@ -308,11 +326,18 @@ class ConsoleUIBaseTestCase(UIBaseTestCase):
         with mock.patch('deluge.ui.console.main.ConsoleUI'):
             self.assertRaises(SystemExit, self.exec_command)
             std_output = fd.out.getvalue()
-            self.assertTrue(('usage: %s' % self.var['cmd_name']) in std_output)  # Check command name
+            self.assertTrue(
+                ('usage: %s' % self.var['cmd_name']) in std_output
+            )  # Check command name
             self.assertTrue('Common Options:' in std_output)
             self.assertTrue('Console Options:' in std_output)
-            self.assertTrue('Console Commands:\n  The following console commands are available:' in std_output)
-            self.assertTrue('The following console commands are available:' in std_output)
+            self.assertTrue(
+                'Console Commands:\n  The following console commands are available:'
+                in std_output
+            )
+            self.assertTrue(
+                'The following console commands are available:' in std_output
+            )
 
     def test_console_command_info(self):
         self.patch(sys, 'argv', self.var['sys_arg_cmd'] + ['info'])
@@ -334,7 +359,9 @@ class ConsoleUIBaseTestCase(UIBaseTestCase):
             self.assertTrue('Show information about the torrents' in std_output)
 
     def test_console_unrecognized_arguments(self):
-        self.patch(sys, 'argv', ['./deluge', '--ui', 'console'])  # --ui is not longer supported
+        self.patch(
+            sys, 'argv', ['./deluge', '--ui', 'console']
+        )  # --ui is not longer supported
         fd = StringFileDescriptor(sys.stdout)
         self.patch(argparse._sys, 'stderr', fd)
         with mock.patch('deluge.ui.console.main.ConsoleUI'):
@@ -354,8 +381,16 @@ class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
     def test_console_command_status(self):
         username, password = get_localhost_auth()
         self.patch(
-            sys, 'argv', self.var['sys_arg_cmd'] + ['--port'] + ['58900'] + ['--username'] +
-            [username] + ['--password'] + [password] + ['status'],
+            sys,
+            'argv',
+            self.var['sys_arg_cmd']
+            + ['--port']
+            + ['58900']
+            + ['--username']
+            + [username]
+            + ['--password']
+            + [password]
+            + ['status'],
         )
         fd = StringFileDescriptor(sys.stdout)
         self.patch(sys, 'stdout', fd)
@@ -363,10 +398,15 @@ class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
         yield self.exec_command()
 
         std_output = fd.out.getvalue()
-        self.assertTrue(std_output.startswith('Total upload: ') and std_output.endswith(' Moving: 0\n'))
+        self.assertTrue(
+            std_output.startswith('Total upload: ')
+            and std_output.endswith(' Moving: 0\n')
+        )
 
 
-class ConsoleScriptEntryWithDaemonTestCase(BaseTestCase, ConsoleUIWithDaemonBaseTestCase):
+class ConsoleScriptEntryWithDaemonTestCase(
+    BaseTestCase, ConsoleUIWithDaemonBaseTestCase
+):
 
     if windows_check():
         skip = 'cannot test console ui on windows'

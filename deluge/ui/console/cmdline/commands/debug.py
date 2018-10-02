@@ -22,7 +22,9 @@ class Command(BaseCommand):
     """Enable and disable debugging"""
 
     def add_arguments(self, parser):
-        parser.add_argument('state', metavar='<on|off>', choices=['on', 'off'], help=_('The new state'))
+        parser.add_argument(
+            'state', metavar='<on|off>', choices=['on', 'off'], help=_('The new state')
+        )
 
     def handle(self, options):
         if options.state == 'on':

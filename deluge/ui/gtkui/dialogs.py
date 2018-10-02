@@ -23,6 +23,7 @@ class BaseDialog(gtk.Dialog):
     """
     Base dialog class that should be used with all dialogs.
     """
+
     def __init__(self, header, text, icon, buttons, parent=None):
         """
         :param header: str, the header portion of the dialog
@@ -35,7 +36,9 @@ class BaseDialog(gtk.Dialog):
         super(BaseDialog, self).__init__(
             title=header,
             parent=parent if parent else component.get('MainWindow').window,
-            flags=gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT | gtk.DIALOG_NO_SEPARATOR,
+            flags=gtk.DIALOG_MODAL
+            | gtk.DIALOG_DESTROY_WITH_PARENT
+            | gtk.DIALOG_NO_SEPARATOR,
             buttons=buttons,
         )
 
@@ -49,7 +52,9 @@ class BaseDialog(gtk.Dialog):
         self.set_default_size(200, 100)
         hbox = gtk.HBox(spacing=5)
         image = gtk.Image()
-        if not gtk.stock_lookup(icon) and (icon.endswith('.svg') or icon.endswith('.png')):
+        if not gtk.stock_lookup(icon) and (
+            icon.endswith('.svg') or icon.endswith('.png')
+        ):
             # Hack for Windows since it doesn't support svg
             if icon.endswith('.svg') and windows_check():
                 icon = icon.rpartition('.svg')[0] + '16.png'
@@ -94,6 +99,7 @@ class YesNoDialog(BaseDialog):
     When run(), it will return either a gtk.RESPONSE_YES or a gtk.RESPONSE_NO.
 
     """
+
     def __init__(self, header, text, parent=None):
         """
         :param header: see `:class:BaseDialog`
@@ -115,6 +121,7 @@ class InformationDialog(BaseDialog):
 
     When run(), it will return a gtk.RESPONSE_CLOSE.
     """
+
     def __init__(self, header, text, parent=None):
         """
         :param header: see `:class:BaseDialog`
@@ -136,6 +143,7 @@ class ErrorDialog(BaseDialog):
 
     When run(), it will return a gtk.RESPONSE_CLOSE.
     """
+
     def __init__(self, header, text, parent=None, details=None, traceback=False):
         """
         :param header: see `:class:BaseDialog`
@@ -158,6 +166,7 @@ class ErrorDialog(BaseDialog):
         if traceback:
             import traceback
             import sys
+
             tb = sys.exc_info()
             tb = traceback.format_exc(tb[2])
             if details:
@@ -188,13 +197,15 @@ class AuthenticationDialog(BaseDialog):
     When run(), it will return either a gtk.RESPONSE_CANCEL or a
     gtk.RESPONSE_OK.
     """
+
     def __init__(self, err_msg='', username=None, parent=None):
         """
         :param err_msg: the error message we got back from the server
         :type err_msg: string
         """
         super(AuthenticationDialog, self).__init__(
-            _('Authenticate'), err_msg,
+            _('Authenticate'),
+            err_msg,
             gtk.STOCK_DIALOG_AUTHENTICATION,
             (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_CONNECT, gtk.RESPONSE_OK),
             parent,
@@ -241,8 +252,12 @@ class AuthenticationDialog(BaseDialog):
 
 class AccountDialog(BaseDialog):
     def __init__(
-        self, username=None, password=None, authlevel=None,
-        levels_mapping=None, parent=None,
+        self,
+        username=None,
+        password=None,
+        authlevel=None,
+        levels_mapping=None,
+        parent=None,
     ):
         if username:
             super(AccountDialog, self).__init__(
@@ -250,8 +265,10 @@ class AccountDialog(BaseDialog):
                 _('Edit existing account'),
                 gtk.STOCK_DIALOG_INFO,
                 (
-                    gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
-                    gtk.STOCK_APPLY, gtk.RESPONSE_OK,
+                    gtk.STOCK_CANCEL,
+                    gtk.RESPONSE_CANCEL,
+                    gtk.STOCK_APPLY,
+                    gtk.RESPONSE_OK,
                 ),
                 parent,
             )
@@ -260,10 +277,7 @@ class AccountDialog(BaseDialog):
                 _('New Account'),
                 _('Create a new account'),
                 gtk.STOCK_DIALOG_INFO,
-                (
-                    gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
-                    gtk.STOCK_ADD, gtk.RESPONSE_OK,
-                ),
+                (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_ADD, gtk.RESPONSE_OK),
                 parent,
             )
 
@@ -339,7 +353,10 @@ class OtherDialog(BaseDialog):
     Returns:
         int or float:
     """
-    def __init__(self, header, text='', unit_text='', icon=None, default=0, parent=None):
+
+    def __init__(
+        self, header, text='', unit_text='', icon=None, default=0, parent=None
+    ):
         self.value_type = type(default)
         if self.value_type not in (int, float):
             raise TypeError('default value needs to be an int or float')
@@ -359,7 +376,9 @@ class OtherDialog(BaseDialog):
         alignment_spacer = gtk.Alignment()
         hbox.pack_start(alignment_spacer, True, True, 0)
         alignment_spin = gtk.Alignment(1, 0.5, 1, 1)
-        adjustment_spin = gtk.Adjustment(value=-1, lower=-1, upper=2097151, step_incr=1, page_incr=10)
+        adjustment_spin = gtk.Adjustment(
+            value=-1, lower=-1, upper=2097151, step_incr=1, page_incr=10
+        )
         self.spinbutton = gtk.SpinButton(adjustment_spin)
         self.spinbutton.set_value(default)
         self.spinbutton.select_region(0, -1)
@@ -399,13 +418,15 @@ class PasswordDialog(BaseDialog):
 
     When run(), it will return either a gtk.RESPONSE_CANCEL or a gtk.RESPONSE_OK.
     """
+
     def __init__(self, password_msg='', parent=None):
         """
         :param password_msg: the error message we got back from the server
         :type password_msg: string
         """
         super(PasswordDialog, self).__init__(
-            _('Password Protected'), password_msg,
+            _('Password Protected'),
+            password_msg,
             gtk.STOCK_DIALOG_AUTHENTICATION,
             (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_CONNECT, gtk.RESPONSE_OK),
             parent,

@@ -142,7 +142,7 @@ def trim_string(string, w, have_dbls):
             chrs.append('.')
         return '%s ' % (''.join(chrs))
     else:
-        return '%s ' % (string[0:w - 1])
+        return '%s ' % (string[0 : w - 1])
 
 
 def format_column(col, lim):
@@ -161,7 +161,9 @@ def format_column(col, lim):
 
 
 def format_row(row, column_widths):
-    return ''.join([format_column(row[i], column_widths[i]) for i in range(0, len(row))])
+    return ''.join(
+        [format_column(row[i], column_widths[i]) for i in range(0, len(row))]
+    )
 
 
 _strip_re = re.compile(r'\{!.*?!\}')
@@ -183,7 +185,7 @@ def shorten_hash(tid, space_left, min_width=13, placeholder='...'):
     if space_left >= min_width:
         mid = len(tid) // 2
         trim, remain = divmod(len(tid) + len(placeholder) - space_left, 2)
-        return tid[0: mid - trim] + placeholder + tid[mid + trim + remain:]
+        return tid[0 : mid - trim] + placeholder + tid[mid + trim + remain :]
     else:
         # Justity the tid so it is completely on the next line.
         return tid.rjust(len(tid) + space_left)
@@ -218,7 +220,7 @@ def wrap_string(string, width, min_lines=0, strip_colors=True):
         m = _format_code.search(remove_formatting(s))
         if m:
             if m.group(1).startswith('indent:'):
-                indent = m.group(1)[len('indent:'):]
+                indent = m.group(1)[len('indent:') :]
             elif m.group(1).startswith('indent_pos:'):
                 begin = m.start(0)
                 indent = ' ' * begin

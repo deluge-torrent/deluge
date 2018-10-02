@@ -30,6 +30,7 @@ from version import get_version
 try:
     from sphinx.setup_command import BuildDoc
 except ImportError:
+
     class BuildDoc(object):
         pass
 
@@ -54,7 +55,6 @@ _version = get_version(prefix='deluge-', suffix='.dev0')
 
 
 class PyTest(_test):
-
     def initialize_options(self):
         _test.initialize_options(self)
         self.pytest_args = []
@@ -66,6 +66,7 @@ class PyTest(_test):
 
     def run_tests(self):
         import pytest
+
         errcode = pytest.main(self.test_args)
         sys.exit(errcode)
 
@@ -116,6 +117,7 @@ class BuildWebUI(cmd.Command):
 
         try:
             from minify_web_js import minify_js_dir
+
             import_error = ''
         except ImportError as err:
             import_error = err
@@ -127,7 +129,11 @@ class BuildWebUI(cmd.Command):
             except NameError:
                 js_file = source_dir + '.js'
                 if os.path.isfile(js_file):
-                    print('Unable to minify but found existing minified: {}'.format(js_file))
+                    print(
+                        'Unable to minify but found existing minified: {}'.format(
+                            js_file
+                        )
+                    )
                 else:
                     # Unable to minify and no existing minified file found so exiting.
                     print('Import error: %s' % import_error)
@@ -202,15 +208,19 @@ class BuildTranslations(cmd.Command):
                     intltool_merge_opts += ' --desktop-style'
 
                 print('Creating file: %s' % data_file)
-                os.system('C_ALL=C ' + '%s ' * 5 % (
-                    intltool_merge, intltool_merge_opts, po_dir, in_file, data_file))
+                os.system(
+                    'C_ALL=C '
+                    + '%s '
+                    * 5
+                    % (intltool_merge, intltool_merge_opts, po_dir, in_file, data_file)
+                )
 
         print('Compiling po files from %s...' % po_dir)
         for path, names, filenames in os.walk(po_dir):
             for f in filenames:
                 upto_date = False
                 if f.endswith('.po'):
-                    lang = f[:len(f) - 3]
+                    lang = f[: len(f) - 3]
                     src = os.path.join(path, f)
                     dest_path = os.path.join(basedir, lang, 'LC_MESSAGES')
                     dest = os.path.join(dest_path, 'deluge.mo')
@@ -237,7 +247,9 @@ class BuildTranslations(cmd.Command):
 
 class CleanTranslations(cmd.Command):
     description = 'Cleans translations files.'
-    user_options = [('all', 'a', 'Remove all build output, not just temporary by-products')]
+    user_options = [
+        ('all', 'a', 'Remove all build output, not just temporary by-products')
+    ]
     boolean_options = ['all']
 
     def initialize_options(self):
@@ -276,17 +288,32 @@ class BuildPlugins(cmd.Command):
         for path in glob.glob(plugin_path):
             if os.path.exists(os.path.join(path, 'setup.py')):
                 if self.develop and self.install_dir:
-                    os.system('cd ' + path + '&& ' + sys.executable +
-                              ' setup.py develop --install-dir=%s' % self.install_dir)
+                    os.system(
+                        'cd '
+                        + path
+                        + '&& '
+                        + sys.executable
+                        + ' setup.py develop --install-dir=%s' % self.install_dir
+                    )
                 elif self.develop:
-                    os.system('cd ' + path + '&& ' + sys.executable + ' setup.py develop')
+                    os.system(
+                        'cd ' + path + '&& ' + sys.executable + ' setup.py develop'
+                    )
                 else:
-                    os.system('cd ' + path + '&& ' + sys.executable + ' setup.py bdist_egg -d ..')
+                    os.system(
+                        'cd '
+                        + path
+                        + '&& '
+                        + sys.executable
+                        + ' setup.py bdist_egg -d ..'
+                    )
 
 
 class CleanPlugins(cmd.Command):
     description = 'Cleans the plugin folders'
-    user_options = [('all', 'a', 'Remove all build output, not just temporary by-products')]
+    user_options = [
+        ('all', 'a', 'Remove all build output, not just temporary by-products')
+    ]
     boolean_options = ['all']
 
     def initialize_options(self):
@@ -361,6 +388,7 @@ class Build(_build):
         _build.run(self)
         try:
             from deluge._libtorrent import LT_VERSION
+
             print('Info: Found libtorrent ({}) installed.'.format(LT_VERSION))
         except ImportError as ex:
             print('Warning: libtorrent (libtorrent-rasterbar) not found: %s' % ex)
@@ -371,8 +399,12 @@ class InstallData(_install_data):
 
     def finalize_options(self):
         self.install_dir = None
-        self.set_undefined_options('install', ('install_data', 'install_dir'),
-                                   ('root', 'root'), ('force', 'force'))
+        self.set_undefined_options(
+            'install',
+            ('install_data', 'install_dir'),
+            ('root', 'root'),
+            ('force', 'force'),
+        )
 
     def run(self):
         _install_data.run(self)
@@ -382,7 +414,8 @@ class Clean(_clean):
     sub_commands = _clean.sub_commands + [
         ('clean_plugins', None),
         ('clean_trans', None),
-        ('clean_webui', None)]
+        ('clean_webui', None),
+    ]
 
     def run(self):
         # Remove deluge egg-info.
@@ -420,16 +453,30 @@ if not windows_check() and not osx_check():
     for icon_path in glob.glob('deluge/ui/data/icons/hicolor/*x*'):
         size = os.path.basename(icon_path)
         _data_files.append(
-            ('share/icons/hicolor/{}/apps'.format(size), ['{}/apps/deluge.png'.format(icon_path)]))
-    _data_files.extend([
-        ('share/icons/hicolor/scalable/apps', ['deluge/ui/data/icons/hicolor/scalable/apps/deluge.svg']),
-        ('share/pixmaps', ['deluge/ui/data/pixmaps/deluge.png']),
-        ('share/man/man1', [
-            'docs/man/deluge.1',
-            'docs/man/deluged.1',
-            'docs/man/deluge-gtk.1',
-            'docs/man/deluge-web.1',
-            'docs/man/deluge-console.1'])])
+            (
+                'share/icons/hicolor/{}/apps'.format(size),
+                ['{}/apps/deluge.png'.format(icon_path)],
+            )
+        )
+    _data_files.extend(
+        [
+            (
+                'share/icons/hicolor/scalable/apps',
+                ['deluge/ui/data/icons/hicolor/scalable/apps/deluge.svg'],
+            ),
+            ('share/pixmaps', ['deluge/ui/data/pixmaps/deluge.png']),
+            (
+                'share/man/man1',
+                [
+                    'docs/man/deluge.1',
+                    'docs/man/deluged.1',
+                    'docs/man/deluge-gtk.1',
+                    'docs/man/deluge-web.1',
+                    'docs/man/deluge-console.1',
+                ],
+            ),
+        ]
+    )
     if os.path.isfile(desktop_data):
         _data_files.append(('share/applications', [desktop_data]))
     if os.path.isfile(appdata_data):
@@ -438,19 +485,25 @@ if not windows_check() and not osx_check():
 _entry_points['console_scripts'] = [
     'deluge-console = deluge.ui.console:start',
     'deluge-web = deluge.ui.web:start',
-    'deluged = deluge.core.daemon_entry:start_daemon']
+    'deluged = deluge.core.daemon_entry:start_daemon',
+]
 if windows_check():
-    _entry_points['console_scripts'].extend([
-        'deluge-debug = deluge.ui.ui_entry:start_ui',
-        'deluge-web-debug = deluge.ui.web:start',
-        'deluged-debug = deluge.core.daemon_entry:start_daemon'])
+    _entry_points['console_scripts'].extend(
+        [
+            'deluge-debug = deluge.ui.ui_entry:start_ui',
+            'deluge-web-debug = deluge.ui.web:start',
+            'deluged-debug = deluge.core.daemon_entry:start_daemon',
+        ]
+    )
 _entry_points['gui_scripts'] = [
     'deluge = deluge.ui.ui_entry:start_ui',
-    'deluge-gtk = deluge.ui.gtkui:start']
+    'deluge-gtk = deluge.ui.gtkui:start',
+]
 _entry_points['deluge.ui'] = [
     'console = deluge.ui.console:Console',
     'web = deluge.ui.web:Web',
-    'gtk = deluge.ui.gtkui:Gtk']
+    'gtk = deluge.ui.gtkui:Gtk',
+]
 
 
 _package_data['deluge'] = [
@@ -460,7 +513,8 @@ _package_data['deluge'] = [
     'ui/data/pixmaps/*.gif',
     'ui/data/pixmaps/flags/*.png',
     'plugins/*.egg',
-    'i18n/*/LC_MESSAGES/*.mo']
+    'i18n/*/LC_MESSAGES/*.mo',
+]
 _package_data['deluge.ui.web'] = [
     'index.html',
     'css/*.css',
@@ -474,18 +528,14 @@ _package_data['deluge.ui.web'] = [
     'themes/images/*/*.gif',
     'themes/images/*/*.png',
     'themes/images/*/*/*.gif',
-    'themes/images/*/*/*.png']
+    'themes/images/*/*/*.png',
+]
 _package_data['deluge.ui.gtkui'] = ['glade/*.ui']
 
 if 'dev' not in _version:
     _exclude_package_data['deluge.ui.web'] = ['*-debug.js', '*-debug.css']
 
-docs_require = [
-    'Sphinx',
-    'recommonmark',
-    'sphinx-rtd-theme',
-    'sphinxcontrib-spelling',
-]
+docs_require = ['Sphinx', 'recommonmark', 'sphinx-rtd-theme', 'sphinxcontrib-spelling']
 tests_require = [
     'coverage',
     'flake8',
@@ -527,13 +577,16 @@ setup(
         'Environment :: X11 Applications :: GTK',
         'Framework :: Twisted',
         'Intended Audience :: End Users/Desktop',
-        ('License :: OSI Approved :: '
-            'GNU General Public License v3 or later (GPLv3+)'),
+        (
+            'License :: OSI Approved :: '
+            'GNU General Public License v3 or later (GPLv3+)'
+        ),
         'Programming Language :: Python',
         'Operating System :: MacOS :: MacOS X',
         'Operating System :: Microsoft :: Windows',
         'Operating System :: POSIX',
-        'Topic :: Internet'],
+        'Topic :: Internet',
+    ],
     license='GPLv3',
     cmdclass=cmdclass,
     extras_require={

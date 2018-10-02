@@ -26,9 +26,18 @@ from . import ACTION
 log = logging.getLogger(__name__)
 
 torrent_options = [
-    'max_download_speed', 'max_upload_speed', 'max_connections', 'max_upload_slots',
-    'prioritize_first_last', 'sequential_download', 'is_auto_managed', 'stop_at_ratio',
-    'stop_ratio', 'remove_at_ratio', 'move_completed', 'move_completed_path',
+    'max_download_speed',
+    'max_upload_speed',
+    'max_connections',
+    'max_upload_slots',
+    'prioritize_first_last',
+    'sequential_download',
+    'is_auto_managed',
+    'stop_at_ratio',
+    'stop_ratio',
+    'remove_at_ratio',
+    'move_completed',
+    'move_completed_path',
 ]
 
 
@@ -38,7 +47,6 @@ def action_error(error, mode):
 
 
 def action_remove(mode=None, torrent_ids=None, **kwargs):
-
     def do_remove(*args, **kwargs):
         data = args[0] if args else None
         if data is None or kwargs.get('close', False):
@@ -53,7 +61,9 @@ def action_remove(mode=None, torrent_ids=None, **kwargs):
                 error_msgs = ''
                 for t_id, e_msg in errors:
                     error_msgs += 'Error removing torrent %s : %s\n' % (t_id, e_msg)
-                mode.report_message('Error(s) occured when trying to delete torrent(s).', error_msgs)
+                mode.report_message(
+                    'Error(s) occured when trying to delete torrent(s).', error_msgs
+                )
                 mode.refresh()
 
         d = client.core.remove_torrents(torrent_ids, remove_data)
@@ -73,7 +83,9 @@ def action_remove(mode=None, torrent_ids=None, **kwargs):
         if len(torrent_ids) == 1:
             rem_msg = '{!info!}Remove the following torrent?{!input!}'
         else:
-            rem_msg = '{!info!}Remove the following %d torrents?{!input!}' % len(torrent_ids)
+            rem_msg = '{!info!}Remove the following %d torrents?{!input!}' % len(
+                torrent_ids
+            )
 
         show_max = 6
         for i, (name, state) in enumerate(status):
@@ -85,16 +97,23 @@ def action_remove(mode=None, torrent_ids=None, **kwargs):
                 break
 
         popup = InputPopup(
-            mode, '(Esc to cancel, Enter to remove)', close_cb=do_remove,
-            border_off_west=1, border_off_north=1,
+            mode,
+            '(Esc to cancel, Enter to remove)',
+            close_cb=do_remove,
+            border_off_west=1,
+            border_off_north=1,
         )
         popup.add_text(rem_msg)
         popup.add_spaces(1)
         popup.add_select_input(
-            'remove_files', '{!info!}Torrent files:',
-            ['Keep', 'Remove'], [False, True], False,
+            'remove_files',
+            '{!info!}Torrent files:',
+            ['Keep', 'Remove'],
+            [False, True],
+            False,
         )
         mode.push_popup(popup)
+
     defer.DeferredList(callbacks).addCallback(remove_dialog)
 
 
@@ -128,9 +147,13 @@ def action_torrent_info(mode=None, torrent_ids=None, **kwargs):
             if kwargs.get('close', False):
                 mode.pop_popup()
                 return True
+
         option_popup = InputPopup(
-            mode, ' Set Torrent Options ', close_cb=cb,
-            border_off_west=1, border_off_north=1,
+            mode,
+            ' Set Torrent Options ',
+            close_cb=cb,
+            border_off_west=1,
+            border_off_north=1,
             base_popup=kwargs.get('base_popup', None),
         )
         for field in torrent_options:
@@ -140,9 +163,13 @@ def action_torrent_info(mode=None, torrent_ids=None, **kwargs):
                 option_popup.add_text_input(field, caption, value)
             elif isinstance(value, bool):
                 choices = (['Yes', 'No'], [True, False], [True, False].index(value))
-                option_popup.add_select_input(field, caption, choices[0], choices[1], choices[2])
+                option_popup.add_select_input(
+                    field, caption, choices[0], choices[1], choices[2]
+                )
             elif isinstance(value, float):
-                option_popup.add_float_spin_input(field, caption, value=value, min_val=-1)
+                option_popup.add_float_spin_input(
+                    field, caption, value=value, min_val=-1
+                )
             elif isinstance(value, int):
                 option_popup.add_int_spin_input(field, caption, value=value, min_val=-1)
 
@@ -150,7 +177,9 @@ def action_torrent_info(mode=None, torrent_ids=None, **kwargs):
 
     callbacks = []
     for tid in torrents:
-        deferred = component.get('SessionProxy').get_torrent_status(tid, torrent_options)
+        deferred = component.get('SessionProxy').get_torrent_status(
+            tid, torrent_options
+        )
         callbacks.append(deferred.addCallback(on_torrent_status))
 
     callbacks = defer.DeferredList(callbacks)
@@ -181,20 +210,28 @@ def torrent_action(action, *args, **kwargs):
         action_remove(**kwargs)
         return False
     elif action == ACTION.MOVE_STORAGE:
+
         def do_move(res, **kwargs):
             if res is None or kwargs.get('close', False):
                 mode.pop_popup()
                 return True
 
-            if os.path.exists(res['path']['value']) and not os.path.isdir(res['path']['value']):
+            if os.path.exists(res['path']['value']) and not os.path.isdir(
+                res['path']['value']
+            ):
                 mode.report_message(
                     'Cannot Move Download Folder',
                     '{!error!}%s exists and is not a directory' % res['path']['value'],
                 )
             else:
                 log.debug('Moving %s to: %s', torrent_ids, res['path']['value'])
-                client.core.move_storage(torrent_ids, res['path']['value']).addErrback(action_error, mode)
-        popup = InputPopup(mode, 'Move Download Folder', close_cb=do_move, border_off_east=1)
+                client.core.move_storage(torrent_ids, res['path']['value']).addErrback(
+                    action_error, mode
+                )
+
+        popup = InputPopup(
+            mode, 'Move Download Folder', close_cb=do_move, border_off_east=1
+        )
         popup.add_text_input('path', 'Enter path to move to:', complete=True)
         mode.push_popup(popup)
     elif action == ACTION.RECHECK:
@@ -226,10 +263,14 @@ def torrent_actions_popup(mode, torrent_ids, details=False, action=None, close_c
         return
 
     popup = SelectablePopup(
-        mode, 'Torrent Actions', torrent_action,
+        mode,
+        'Torrent Actions',
+        torrent_action,
         cb_args={'mode': mode, 'torrent_ids': torrent_ids},
-        close_cb=close_cb, border_off_north=1,
-        border_off_west=1, border_off_east=1,
+        close_cb=close_cb,
+        border_off_north=1,
+        border_off_west=1,
+        border_off_east=1,
     )
     popup.add_line(ACTION.PAUSE, '_Pause')
     popup.add_line(ACTION.RESUME, '_Resume')

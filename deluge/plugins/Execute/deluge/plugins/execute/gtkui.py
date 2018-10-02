@@ -55,14 +55,20 @@ class ExecutePreferences(object):
         events.set_model(store)
         events.set_active(0)
 
-        self.plugin.add_preferences_page(_('Execute'), self.builder.get_object('execute_box'))
+        self.plugin.add_preferences_page(
+            _('Execute'), self.builder.get_object('execute_box')
+        )
         self.plugin.register_hook('on_show_prefs', self.load_commands)
         self.plugin.register_hook('on_apply_prefs', self.on_apply_prefs)
 
         self.load_commands()
 
-        client.register_event_handler('ExecuteCommandAddedEvent', self.on_command_added_event)
-        client.register_event_handler('ExecuteCommandRemovedEvent', self.on_command_removed_event)
+        client.register_event_handler(
+            'ExecuteCommandAddedEvent', self.on_command_added_event
+        )
+        client.register_event_handler(
+            'ExecuteCommandRemovedEvent', self.on_command_removed_event
+        )
 
     def unload(self):
         self.plugin.remove_preferences_page(_('Execute'))
@@ -145,7 +151,6 @@ class ExecutePreferences(object):
 
 
 class GtkUI(GtkPluginBase):
-
     def enable(self):
         self.plugin = component.get('PluginManager')
         self.preferences = ExecutePreferences(self.plugin)

@@ -19,7 +19,9 @@ from zope.interface import implements
 class _Reporter(object):
     implements(IPlugin, IReporter)
 
-    def __init__(self, name, module, description, longOpt, shortOpt, klass):  # NOQA: N803
+    def __init__(  # NOQA: N803
+        self, name, module, description, longOpt, shortOpt, klass
+    ):
         self.name = name
         self.module = module
         self.description = description
@@ -39,7 +41,6 @@ deluge = _Reporter(
 
 
 class DelugeReporter(TreeReporter):
-
     def __init__(self, *args, **kwargs):
         os.environ['DELUGE_REPORTER'] = 'true'
         TreeReporter.__init__(self, *args, **kwargs)

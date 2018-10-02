@@ -35,9 +35,12 @@ class NoVersionSendingDaemonSSLProxy(DaemonSSLProxy):
 
 
 class NoVersionSendingClient(Client):
-
     def connect(
-        self, host='127.0.0.1', port=58846, username='', password='',
+        self,
+        host='127.0.0.1',
+        port=58846,
+        username='',
+        password='',
         skip_authentication=False,
     ):
         self._daemon_proxy = NoVersionSendingDaemonSSLProxy()
@@ -104,7 +107,9 @@ class ClientTestCase(BaseTestCase, DaemonBase):
 
     def test_connect_localclient(self):
         username, password = get_localhost_auth()
-        d = client.connect('localhost', self.listen_port, username=username, password=password)
+        d = client.connect(
+            'localhost', self.listen_port, username=username, password=password
+        )
 
         def on_connect(result):
             self.assertEqual(client.get_auth_level(), AUTH_LEVEL_ADMIN)
@@ -116,13 +121,12 @@ class ClientTestCase(BaseTestCase, DaemonBase):
 
     def test_connect_bad_password(self):
         username, password = get_localhost_auth()
-        d = client.connect('localhost', self.listen_port, username=username, password=password + '1')
+        d = client.connect(
+            'localhost', self.listen_port, username=username, password=password + '1'
+        )
 
         def on_failure(failure):
-            self.assertEqual(
-                failure.trap(error.BadLoginError),
-                error.BadLoginError,
-            )
+            self.assertEqual(failure.trap(error.BadLoginError), error.BadLoginError)
             self.assertEqual(failure.value.message, 'Password does not match')
             self.addCleanup(client.disconnect)
 
@@ -134,10 +138,7 @@ class ClientTestCase(BaseTestCase, DaemonBase):
         d = client.connect('localhost', self.listen_port, username='invalid-user')
 
         def on_failure(failure):
-            self.assertEqual(
-                failure.trap(error.BadLoginError),
-                error.BadLoginError,
-            )
+            self.assertEqual(failure.trap(error.BadLoginError), error.BadLoginError)
             self.assertEqual(failure.value.message, 'Username does not exist')
             self.addCleanup(client.disconnect)
 
@@ -150,8 +151,7 @@ class ClientTestCase(BaseTestCase, DaemonBase):
 
         def on_failure(failure):
             self.assertEqual(
-                failure.trap(error.AuthenticationRequired),
-                error.AuthenticationRequired,
+                failure.trap(error.AuthenticationRequired), error.AuthenticationRequired
             )
             self.assertEqual(failure.value.username, username)
             self.addCleanup(client.disconnect)
@@ -162,10 +162,14 @@ class ClientTestCase(BaseTestCase, DaemonBase):
     @defer.inlineCallbacks
     def test_connect_with_password(self):
         username, password = get_localhost_auth()
-        yield client.connect('localhost', self.listen_port, username=username, password=password)
+        yield client.connect(
+            'localhost', self.listen_port, username=username, password=password
+        )
         yield client.core.create_account('testuser', 'testpw', 'DEFAULT')
         yield client.disconnect()
-        ret = yield client.connect('localhost', self.listen_port, username='testuser', password='testpw')
+        ret = yield client.connect(
+            'localhost', self.listen_port, username='testuser', password='testpw'
+        )
         self.assertEqual(ret, AUTH_LEVEL_NORMAL)
         yield
 
@@ -175,8 +179,11 @@ class ClientTestCase(BaseTestCase, DaemonBase):
         d = client.core.invalid_method()
 
         def on_failure(failure):
-            self.assertEqual(failure.trap(error.WrappedException), error.WrappedException)
+            self.assertEqual(
+                failure.trap(error.WrappedException), error.WrappedException
+            )
             self.addCleanup(client.disconnect)
+
         d.addCallbacks(self.fail, on_failure)
         yield d
 
@@ -184,13 +191,12 @@ class ClientTestCase(BaseTestCase, DaemonBase):
         username, password = get_localhost_auth()
         no_version_sending_client = NoVersionSendingClient()
         d = no_version_sending_client.connect(
-            'localhost', self.listen_port, username=username, password=password,
+            'localhost', self.listen_port, username=username, password=password
         )
 
         def on_failure(failure):
             self.assertEqual(
-                failure.trap(error.IncompatibleClient),
-                error.IncompatibleClient,
+                failure.trap(error.IncompatibleClient), error.IncompatibleClient
             )
             self.addCleanup(no_version_sending_client.disconnect)
 

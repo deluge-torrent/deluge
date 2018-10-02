@@ -32,8 +32,10 @@ class SchedulerSelectWidget(gtk.DrawingArea):
     def __init__(self, hover):
         super(SchedulerSelectWidget, self).__init__()
         self.set_events(
-            gtk.gdk.BUTTON_PRESS_MASK | gtk.gdk.BUTTON_RELEASE_MASK |
-            gtk.gdk.POINTER_MOTION_MASK | gtk.gdk.LEAVE_NOTIFY_MASK,
+            gtk.gdk.BUTTON_PRESS_MASK
+            | gtk.gdk.BUTTON_RELEASE_MASK
+            | gtk.gdk.POINTER_MOTION_MASK
+            | gtk.gdk.LEAVE_NOTIFY_MASK
         )
 
         self.connect('expose_event', self.expose)
@@ -65,7 +67,9 @@ class SchedulerSelectWidget(gtk.DrawingArea):
     # redraw the whole thing
     def expose(self, widget, event):
         context = self.window.cairo_create()
-        context.rectangle(event.area.x, event.area.y, event.area.width, event.area.height)
+        context.rectangle(
+            event.area.x, event.area.y, event.area.width, event.area.height
+        )
         context.clip()
 
         width = self.window.get_size()[0]
@@ -76,11 +80,14 @@ class SchedulerSelectWidget(gtk.DrawingArea):
                 context.set_source_rgba(
                     self.colors[self.button_state[x][y]][0],
                     self.colors[self.button_state[x][y]][1],
-                    self.colors[self.button_state[x][y]][2], 0.7,
+                    self.colors[self.button_state[x][y]][2],
+                    0.7,
                 )
                 context.rectangle(
-                    width * (6 * x / 145 + 1 / 145), height * (6 * y / 43 + 1 / 43),
-                    5 * width / 145, 5 * height / 43,
+                    width * (6 * x / 145 + 1 / 145),
+                    height * (6 * y / 43 + 1 / 43),
+                    5 * width / 145,
+                    5 * height / 43,
                 )
                 context.fill_preserve()
                 context.set_source_rgba(0.5, 0.5, 0.5, 0.5)
@@ -132,17 +139,25 @@ class SchedulerSelectWidget(gtk.DrawingArea):
             self.hover_point = self.get_point(event)
 
             self.hover_label.set_text(
-                self.hover_days[self.hover_point[1]] +
-                ' ' + str(self.hover_point[0]) +
-                ':00 - ' + str(self.hover_point[0]) + ':59',
+                self.hover_days[self.hover_point[1]]
+                + ' '
+                + str(self.hover_point[0])
+                + ':00 - '
+                + str(self.hover_point[0])
+                + ':59'
             )
 
             if self.mouse_press:
-                points = [[self.hover_point[0], self.start_point[0]], [self.hover_point[1], self.start_point[1]]]
+                points = [
+                    [self.hover_point[0], self.start_point[0]],
+                    [self.hover_point[1], self.start_point[1]],
+                ]
 
                 for x in range(min(points[0]), max(points[0]) + 1):
                     for y in range(min(points[1]), max(points[1]) + 1):
-                        self.button_state[x][y] = self.button_state[self.start_point[0]][self.start_point[1]]
+                        self.button_state[x][y] = self.button_state[
+                            self.start_point[0]
+                        ][self.start_point[1]]
 
                 self.queue_draw()
 
@@ -156,8 +171,12 @@ class GtkUI(GtkPluginBase):
     def enable(self):
         self.create_prefs_page()
 
-        component.get('PluginManager').register_hook('on_apply_prefs', self.on_apply_prefs)
-        component.get('PluginManager').register_hook('on_show_prefs', self.on_show_prefs)
+        component.get('PluginManager').register_hook(
+            'on_apply_prefs', self.on_apply_prefs
+        )
+        component.get('PluginManager').register_hook(
+            'on_show_prefs', self.on_show_prefs
+        )
         self.statusbar = component.get('StatusBar')
         self.status_item = self.statusbar.add_item(
             image=get_resource('green.png'),
@@ -169,20 +188,29 @@ class GtkUI(GtkPluginBase):
         def on_state_deferred(state):
             self.state = state
             self.on_scheduler_event(state)
+
         client.scheduler.get_state().addCallback(on_state_deferred)
         client.register_event_handler('SchedulerEvent', self.on_scheduler_event)
 
     def disable(self):
         component.get('Preferences').remove_page(_('Scheduler'))
         # Reset statusbar dict.
-        self.statusbar.config_value_changed_dict['max_download_speed'] = self.statusbar._on_max_download_speed
-        self.statusbar.config_value_changed_dict['max_upload_speed'] = self.statusbar._on_max_upload_speed
+        self.statusbar.config_value_changed_dict[
+            'max_download_speed'
+        ] = self.statusbar._on_max_download_speed
+        self.statusbar.config_value_changed_dict[
+            'max_upload_speed'
+        ] = self.statusbar._on_max_upload_speed
         # Remove statusbar item.
         self.statusbar.remove_item(self.status_item)
         del self.status_item
 
-        component.get('PluginManager').deregister_hook('on_apply_prefs', self.on_apply_prefs)
-        component.get('PluginManager').deregister_hook('on_show_prefs', self.on_show_prefs)
+        component.get('PluginManager').deregister_hook(
+            'on_apply_prefs', self.on_apply_prefs
+        )
+        component.get('PluginManager').deregister_hook(
+            'on_show_prefs', self.on_show_prefs
+        )
 
     def on_apply_prefs(self):
         log.debug('applying prefs for Scheduler')
@@ -221,8 +249,12 @@ class GtkUI(GtkPluginBase):
                 # Skip error due to Plugin being enabled before statusbar items created on startup.
                 pass
         else:
-            self.statusbar.config_value_changed_dict['max_download_speed'] = self.statusbar._on_max_download_speed
-            self.statusbar.config_value_changed_dict['max_upload_speed'] = self.statusbar._on_max_upload_speed
+            self.statusbar.config_value_changed_dict[
+                'max_download_speed'
+            ] = self.statusbar._on_max_download_speed
+            self.statusbar.config_value_changed_dict[
+                'max_upload_speed'
+            ] = self.statusbar._on_max_upload_speed
 
             def update_config_values(config):
                 try:
@@ -231,7 +263,10 @@ class GtkUI(GtkPluginBase):
                 except AttributeError:
                     # Skip error due to Plugin being enabled before statusbar items created on startup.
                     pass
-            client.core.get_config_values(['max_download_speed', 'max_upload_speed']).addCallback(update_config_values)
+
+            client.core.get_config_values(
+                ['max_download_speed', 'max_upload_speed']
+            ).addCallback(update_config_values)
 
     def on_status_item_clicked(self, widget, event):
         component.get('Preferences').show('Scheduler')

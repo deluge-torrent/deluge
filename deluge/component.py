@@ -27,7 +27,6 @@ class ComponentAlreadyRegistered(Exception):
 
 
 class ComponentException(Exception):
-
     def __init__(self, message, tb):
         super(ComponentException, self).__init__(message)
         self.message = message
@@ -93,6 +92,7 @@ class Component(object):
                     still be considered in a Started state.
 
     """
+
     def __init__(self, name, interval=1, depend=None):
         """Initialize component.
 
@@ -146,12 +146,14 @@ class Component(object):
         elif self._component_state == 'Started':
             d = succeed(True)
         else:
-            d = fail(ComponentException(
-                'Trying to start component "%s" but it is '
-                'not in a stopped state. Current state: %s' %
-                (self._component_name, self._component_state),
-                traceback.format_stack(limit=4),
-            ))
+            d = fail(
+                ComponentException(
+                    'Trying to start component "%s" but it is '
+                    'not in a stopped state. Current state: %s'
+                    % (self._component_name, self._component_state),
+                    traceback.format_stack(limit=4),
+                )
+            )
         return d
 
     def _component_stop(self):
@@ -195,12 +197,14 @@ class Component(object):
         elif self._component_state == 'Paused':
             d = succeed(None)
         else:
-            d = fail(ComponentException(
-                'Trying to pause component "%s" but it is '
-                'not in a started state. Current state: %s' %
-                (self._component_name, self._component_state),
-                traceback.format_stack(limit=4),
-            ))
+            d = fail(
+                ComponentException(
+                    'Trying to pause component "%s" but it is '
+                    'not in a started state. Current state: %s'
+                    % (self._component_name, self._component_state),
+                    traceback.format_stack(limit=4),
+                )
+            )
         return d
 
     def _component_resume(self):
@@ -211,12 +215,14 @@ class Component(object):
             d = maybeDeferred(self._component_start_timer)
             d.addCallback(on_resume)
         else:
-            d = fail(ComponentException(
-                'Trying to resume component "%s" but it is '
-                'not in a paused state. Current state: %s' %
-                (self._component_name, self._component_state),
-                traceback.format_stack(limit=4),
-            ))
+            d = fail(
+                ComponentException(
+                    'Trying to resume component "%s" but it is '
+                    'not in a paused state. Current state: %s'
+                    % (self._component_name, self._component_state),
+                    traceback.format_stack(limit=4),
+                )
+            )
         return d
 
     def _component_shutdown(self):
@@ -250,6 +256,7 @@ class ComponentRegistry(object):
 
     It is used to manage the Components by starting, stopping, pausing and shutting them down.
     """
+
     def __init__(self):
         self.components = {}
         # Stores all of the components that are dependent on a particular component
@@ -270,7 +277,9 @@ class ComponentRegistry(object):
         """
         name = obj._component_name
         if name in self.components:
-            raise ComponentAlreadyRegistered('Component already registered with name %s' % name)
+            raise ComponentAlreadyRegistered(
+                'Component already registered with name %s' % name
+            )
 
         self.components[obj._component_name] = obj
         if obj._component_depend:
@@ -295,6 +304,7 @@ class ComponentRegistry(object):
             def on_stop(result, name):
                 # Component may have been removed, so pop to ensure it doesn't fail
                 self.components.pop(name, None)
+
             return d.addCallback(on_stop, obj._component_name)
         else:
             return succeed(None)
@@ -364,7 +374,9 @@ class ComponentRegistry(object):
             if name in self.components:
                 if name in self.dependents:
                     # If other components depend on this component, stop them first
-                    d = self.stop(self.dependents[name]).addCallback(on_dependents_stopped, name)
+                    d = self.stop(self.dependents[name]).addCallback(
+                        on_dependents_stopped, name
+                    )
                     deferreds.append(d)
                     stopped_in_deferred.update(self.dependents[name])
                 else:
@@ -434,8 +446,11 @@ class ComponentRegistry(object):
             Deferred: Fired once all Components have been successfully shut down.
 
         """
+
         def on_stopped(result):
-            return DeferredList([comp._component_shutdown() for comp in self.components.values()])
+            return DeferredList(
+                [comp._component_shutdown() for comp in self.components.values()]
+            )
 
         return self.stop(list(self.components)).addCallback(on_stopped)
 

@@ -28,6 +28,7 @@ try:
 except ImportError as err:
     libs_available = False
     import traceback
+
     traceback.print_exc()
 
 setup_translations()
@@ -35,7 +36,6 @@ setup_translations()
 
 @pytest.mark.gtkui
 class FilesTabTestCase(BaseTestCase):
-
     def set_up(self):
         if libs_available is False:
             raise unittest.SkipTest('GTKUI dependencies not available')
@@ -70,7 +70,6 @@ class FilesTabTestCase(BaseTestCase):
         print('')
 
     def verify_treestore(self, treestore, tree):
-
         def _verify_treestore(itr, tree_values):
             i = 0
             while itr:
@@ -83,6 +82,7 @@ class FilesTabTestCase(BaseTestCase):
                 itr = treestore.iter_next(itr)
                 i += 1
             return True
+
         return _verify_treestore(treestore.get_iter_root(), tree)
 
     def test_files_tab(self):
@@ -91,9 +91,14 @@ class FilesTabTestCase(BaseTestCase):
             {'index': 1, 'path': 'test_100.txt', 'offset': 13, 'size': 14},
         )
         self.filestab.update_files()
-        self.filestab._on_torrentfilerenamed_event(self.t_id, self.index, '2/test_100.txt')
+        self.filestab._on_torrentfilerenamed_event(
+            self.t_id, self.index, '2/test_100.txt'
+        )
 
-        ret = self.verify_treestore(self.filestab.treestore, [['1/', [['test_10.txt']]], ['2/', [['test_100.txt']]]])
+        ret = self.verify_treestore(
+            self.filestab.treestore,
+            [['1/', [['test_10.txt']]], ['2/', [['test_100.txt']]]],
+        )
         if not ret:
             self.print_treestore('Treestore not expected:', self.filestab.treestore)
         self.assertTrue(ret)
@@ -106,9 +111,14 @@ class FilesTabTestCase(BaseTestCase):
             {'index': 1, 'path': 'test_100.txt', 'offset': 13, 'size': 14},
         )
         self.filestab.update_files()
-        self.filestab._on_torrentfilerenamed_event(self.t_id, self.index, '1/1/test_100.txt')
+        self.filestab._on_torrentfilerenamed_event(
+            self.t_id, self.index, '1/1/test_100.txt'
+        )
 
-        ret = self.verify_treestore(self.filestab.treestore, [['1/', [['1/', [['test_100.txt'], ['test_10.txt']]]]]])
+        ret = self.verify_treestore(
+            self.filestab.treestore,
+            [['1/', [['1/', [['test_100.txt'], ['test_10.txt']]]]]],
+        )
         if not ret:
             self.print_treestore('Treestore not expected:', self.filestab.treestore)
         self.assertTrue(ret)
@@ -121,9 +131,13 @@ class FilesTabTestCase(BaseTestCase):
             {'index': 1, 'path': 'test_100.txt', 'offset': 13, 'size': 14},
         )
         self.filestab.update_files()
-        self.filestab._on_torrentfilerenamed_event(self.t_id, self.index, '1/test_100.txt')
+        self.filestab._on_torrentfilerenamed_event(
+            self.t_id, self.index, '1/test_100.txt'
+        )
 
-        ret = self.verify_treestore(self.filestab.treestore, [['1/', [['test_100.txt'], ['test_10.txt']]]])
+        ret = self.verify_treestore(
+            self.filestab.treestore, [['1/', [['test_100.txt'], ['test_10.txt']]]]
+        )
         if not ret:
             self.print_treestore('Treestore not expected:', self.filestab.treestore)
         self.assertTrue(ret)
@@ -134,15 +148,13 @@ class FilesTabTestCase(BaseTestCase):
             {'index': 1, 'path': '1/test_100.txt', 'offset': 13, 'size': 14},
         )
         self.filestab.update_files()
-        self.filestab._on_torrentfilerenamed_event(self.t_id, self.index, '1/2/test_100.txt')
+        self.filestab._on_torrentfilerenamed_event(
+            self.t_id, self.index, '1/2/test_100.txt'
+        )
 
         ret = self.verify_treestore(
-            self.filestab.treestore, [[
-                '1/', [
-                    ['2/', [['test_100.txt']]],
-                    ['test_10.txt'],
-                ],
-            ]],
+            self.filestab.treestore,
+            [['1/', [['2/', [['test_100.txt']]], ['test_10.txt']]]],
         )
         if not ret:
             self.print_treestore('Treestore not expected:', self.filestab.treestore)
@@ -156,9 +168,13 @@ class FilesTabTestCase(BaseTestCase):
             {'index': 1, 'path': '2/test_100.txt', 'offset': 13, 'size': 14},
         )
         self.filestab.update_files()
-        self.filestab._on_torrentfilerenamed_event(self.t_id, self.index, '1/test_100.txt')
+        self.filestab._on_torrentfilerenamed_event(
+            self.t_id, self.index, '1/test_100.txt'
+        )
 
-        ret = self.verify_treestore(self.filestab.treestore, [['1/', [['test_100.txt'], ['test_10.txt']]]])
+        ret = self.verify_treestore(
+            self.filestab.treestore, [['1/', [['test_100.txt'], ['test_10.txt']]]]
+        )
         if not ret:
             self.print_treestore('Treestore not expected:', self.filestab.treestore)
         self.assertTrue(ret)

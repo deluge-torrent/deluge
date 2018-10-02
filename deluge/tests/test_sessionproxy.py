@@ -19,7 +19,6 @@ from .basetest import BaseTestCase
 
 
 class Core(object):
-
     def __init__(self):
         self.reset()
 
@@ -48,7 +47,10 @@ class Core(object):
             ret = {}
             if torrent_id in self.prev_status:
                 for key in keys:
-                    if self.prev_status[torrent_id][key] != self.torrents[torrent_id][key]:
+                    if (
+                        self.prev_status[torrent_id][key]
+                        != self.torrents[torrent_id][key]
+                    ):
                         ret[key] = self.torrents[torrent_id][key]
             else:
                 ret = self.torrents[torrent_id]
@@ -77,7 +79,10 @@ class Core(object):
                     ret[torrent] = {}
                     if torrent in self.prev_status:
                         for key in self.prev_status[torrent]:
-                            if self.prev_status[torrent][key] != self.torrents[torrent][key]:
+                            if (
+                                self.prev_status[torrent][key]
+                                != self.torrents[torrent][key]
+                            ):
                                 ret[torrent][key] = self.torrents[torrent][key]
                     else:
                         ret[torrent] = dict(self.torrents[torrent])
@@ -101,7 +106,6 @@ client = Client()
 
 
 class SessionProxyTestCase(BaseTestCase):
-
     def set_up(self):
         self.clock = Clock()
         self.patch(deluge.ui.sessionproxy, 'time', self.clock.seconds)
@@ -115,6 +119,7 @@ class SessionProxyTestCase(BaseTestCase):
             # Advance clock to expire the cache times
             self.clock.advance(2)
             return self.sp.get_torrents_status({'id': torrent_ids}, inital_keys)
+
         d.addCallback(do_get_torrents_status)
         return d
 

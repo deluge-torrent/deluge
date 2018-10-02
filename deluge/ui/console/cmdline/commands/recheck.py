@@ -17,10 +17,16 @@ from . import BaseCommand
 
 class Command(BaseCommand):
     """Forces a recheck of the torrent data"""
+
     usage = 'recheck [ * | <torrent-id> [<torrent-id> ...] ]'
 
     def add_arguments(self, parser):
-        parser.add_argument('torrent_ids', metavar='<torrent-id>', nargs='+', help=_('One or more torrent ids'))
+        parser.add_argument(
+            'torrent_ids',
+            metavar='<torrent-id>',
+            nargs='+',
+            help=_('One or more torrent ids'),
+        )
 
     def handle(self, options):
         self.console = component.get('ConsoleUI')

@@ -22,11 +22,7 @@ from gen_web_gettext import create_gettext_js
 from version import get_version
 
 # Paths to exclude
-EXCLUSIONS = [
-    'deluge/scripts',
-    'deluge/i18n',
-    'deluge/tests',
-]
+EXCLUSIONS = ['deluge/scripts', 'deluge/i18n', 'deluge/tests']
 WEBUI_JS_DIR = 'deluge/ui/web/js/deluge-all'
 WEBUI_RENDER_DIR = 'deluge/ui/web/render'
 INFILES_LIST = 'infiles.list'

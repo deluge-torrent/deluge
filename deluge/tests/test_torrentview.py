@@ -27,10 +27,13 @@ except ImportError as err:
     libs_available = False
     TYPE_UINT64 = 'Whatever'
     import traceback
+
     traceback.print_exc()
 else:
     libs_available = True
-    from deluge.ui.gtkui.mainwindow import MainWindow  # pylint: disable=ungrouped-imports
+    from deluge.ui.gtkui.mainwindow import (
+        MainWindow,
+    )  # pylint: disable=ungrouped-imports
     from deluge.ui.gtkui.menubar import MenuBar
     from deluge.ui.gtkui.torrentdetails import TorrentDetails
     from deluge.ui.gtkui.torrentview import TorrentView
@@ -43,27 +46,66 @@ setup_translations()
 class TorrentviewTestCase(BaseTestCase):
 
     default_column_index = [
-        'filter', 'torrent_id', 'dirty', '#',
+        'filter',
+        'torrent_id',
+        'dirty',
+        '#',
         'Name',
-        'Size', 'Downloaded', 'Uploaded', 'Remaining',
+        'Size',
+        'Downloaded',
+        'Uploaded',
+        'Remaining',
         'Progress',
-        'Seeds', 'Peers', 'Seeds:Peers',
-        'Down Speed', 'Up Speed', 'Down Limit', 'Up Limit',
-        'ETA', 'Ratio', 'Avail',
-        'Added', 'Completed', 'Complete Seen',
-        'Tracker', 'Download Folder', 'Owner', 'Shared',
+        'Seeds',
+        'Peers',
+        'Seeds:Peers',
+        'Down Speed',
+        'Up Speed',
+        'Down Limit',
+        'Up Limit',
+        'ETA',
+        'Ratio',
+        'Avail',
+        'Added',
+        'Completed',
+        'Complete Seen',
+        'Tracker',
+        'Download Folder',
+        'Owner',
+        'Shared',
     ]
     default_liststore_columns = [
-        bool, str, bool, int,
-        str, str,  # Name
-        TYPE_UINT64, TYPE_UINT64, TYPE_UINT64, TYPE_UINT64,
-        float, str,  # Progress
-        int, int, int, int, float,  # Seeds, Peers
-        int, int, float, float,
-        int, float, float,  # ETA, Ratio, Avail
-        int, int, int,
-        str, str,  # Tracker
-        str, str,
+        bool,
+        str,
+        bool,
+        int,
+        str,
+        str,  # Name
+        TYPE_UINT64,
+        TYPE_UINT64,
+        TYPE_UINT64,
+        TYPE_UINT64,
+        float,
+        str,  # Progress
+        int,
+        int,
+        int,
+        int,
+        float,  # Seeds, Peers
+        int,
+        int,
+        float,
+        float,
+        int,
+        float,
+        float,  # ETA, Ratio, Avail
+        int,
+        int,
+        int,
+        str,
+        str,  # Tracker
+        str,
+        str,
         bool,
     ]  # shared
 
@@ -84,9 +126,16 @@ class TorrentviewTestCase(BaseTestCase):
 
     def test_torrentview_columns(self):
 
-        self.assertEqual(self.torrentview.column_index, TorrentviewTestCase.default_column_index)
-        self.assertEqual(self.torrentview.liststore_columns, TorrentviewTestCase.default_liststore_columns)
-        self.assertEqual(self.torrentview.columns['Download Folder'].column_indices, [29])
+        self.assertEqual(
+            self.torrentview.column_index, TorrentviewTestCase.default_column_index
+        )
+        self.assertEqual(
+            self.torrentview.liststore_columns,
+            TorrentviewTestCase.default_liststore_columns,
+        )
+        self.assertEqual(
+            self.torrentview.columns['Download Folder'].column_indices, [29]
+        )
 
     def test_add_column(self):
 
@@ -137,10 +186,24 @@ class TorrentviewTestCase(BaseTestCase):
         self.torrentview.add_text_column(test_col, status_field=['label'])
         self.torrentview.remove_column(test_col)
 
-        self.assertEqual(len(self.torrentview.liststore_columns), len(TorrentviewTestCase.default_liststore_columns))
-        self.assertEqual(len(self.torrentview.column_index), len(TorrentviewTestCase.default_column_index))
-        self.assertEqual(self.torrentview.column_index[-1], TorrentviewTestCase.default_column_index[-1])
-        self.assertEqual(self.torrentview.columns[TorrentviewTestCase.default_column_index[-1]].column_indices, [31])
+        self.assertEqual(
+            len(self.torrentview.liststore_columns),
+            len(TorrentviewTestCase.default_liststore_columns),
+        )
+        self.assertEqual(
+            len(self.torrentview.column_index),
+            len(TorrentviewTestCase.default_column_index),
+        )
+        self.assertEqual(
+            self.torrentview.column_index[-1],
+            TorrentviewTestCase.default_column_index[-1],
+        )
+        self.assertEqual(
+            self.torrentview.columns[
+                TorrentviewTestCase.default_column_index[-1]
+            ].column_indices,
+            [31],
+        )
 
     def test_remove_columns(self):
 
@@ -165,16 +228,32 @@ class TorrentviewTestCase(BaseTestCase):
 
         # Remove test_col2
         self.torrentview.remove_column(test_col2)
-        self.assertEqual(len(self.torrentview.liststore_columns), len(TorrentviewTestCase.default_liststore_columns))
-        self.assertEqual(len(self.torrentview.column_index), len(TorrentviewTestCase.default_column_index))
-        self.assertEqual(self.torrentview.column_index[-1], TorrentviewTestCase.default_column_index[-1])
-        self.assertEqual(self.torrentview.columns[TorrentviewTestCase.default_column_index[-1]].column_indices, [31])
+        self.assertEqual(
+            len(self.torrentview.liststore_columns),
+            len(TorrentviewTestCase.default_liststore_columns),
+        )
+        self.assertEqual(
+            len(self.torrentview.column_index),
+            len(TorrentviewTestCase.default_column_index),
+        )
+        self.assertEqual(
+            self.torrentview.column_index[-1],
+            TorrentviewTestCase.default_column_index[-1],
+        )
+        self.assertEqual(
+            self.torrentview.columns[
+                TorrentviewTestCase.default_column_index[-1]
+            ].column_indices,
+            [31],
+        )
 
     def test_add_remove_column_multiple_types(self):
 
         # Add a column with multiple column types
         test_col3 = 'Test column3'
-        self.torrentview.add_progress_column(test_col3, status_field=['progress', 'label3'], col_types=[float, str])
+        self.torrentview.add_progress_column(
+            test_col3, status_field=['progress', 'label3'], col_types=[float, str]
+        )
         self.assertEqual(
             len(self.torrentview.liststore_columns),
             len(TorrentviewTestCase.default_liststore_columns) + 2,
@@ -189,7 +268,21 @@ class TorrentviewTestCase(BaseTestCase):
         # Remove multiple column-types column
         self.torrentview.remove_column(test_col3)
 
-        self.assertEqual(len(self.torrentview.liststore_columns), len(TorrentviewTestCase.default_liststore_columns))
-        self.assertEqual(len(self.torrentview.column_index), len(TorrentviewTestCase.default_column_index))
-        self.assertEqual(self.torrentview.column_index[-1], TorrentviewTestCase.default_column_index[-1])
-        self.assertEqual(self.torrentview.columns[TorrentviewTestCase.default_column_index[-1]].column_indices, [31])
+        self.assertEqual(
+            len(self.torrentview.liststore_columns),
+            len(TorrentviewTestCase.default_liststore_columns),
+        )
+        self.assertEqual(
+            len(self.torrentview.column_index),
+            len(TorrentviewTestCase.default_column_index),
+        )
+        self.assertEqual(
+            self.torrentview.column_index[-1],
+            TorrentviewTestCase.default_column_index[-1],
+        )
+        self.assertEqual(
+            self.torrentview.columns[
+                TorrentviewTestCase.default_column_index[-1]
+            ].column_indices,
+            [31],
+        )

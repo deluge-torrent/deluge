@@ -18,6 +18,7 @@ from deluge.common import get_path_size, utf8_encode_structure
 
 class InvalidPath(Exception):
     """Raised when an invalid path is supplied."""
+
     pass
 
 
@@ -27,6 +28,7 @@ class InvalidPieceSize(Exception):
     Note:
         Piece sizes must be multiples of 16KiB.
     """
+
     pass
 
 
@@ -42,6 +44,7 @@ class TorrentMetadata(object):
         >>> t.save('/tmp/test.torrent')
 
     """
+
     def __init__(self):
         self.__data_path = None
         self.__piece_size = 0
@@ -66,9 +69,7 @@ class TorrentMetadata(object):
         if not self.data_path:
             raise InvalidPath('Need to set a data_path!')
 
-        torrent = {
-            'info': {},
-        }
+        torrent = {'info': {}}
 
         if self.comment:
             torrent['comment'] = self.comment
@@ -121,8 +122,10 @@ class TorrentMetadata(object):
             # Collect a list of file paths and add padding files if necessary
             for (dirpath, dirnames, filenames) in os.walk(self.data_path):
                 for index, filename in enumerate(filenames):
-                    size = get_path_size(os.path.join(self.data_path, dirpath, filename))
-                    p = dirpath[len(self.data_path):]
+                    size = get_path_size(
+                        os.path.join(self.data_path, dirpath, filename)
+                    )
+                    p = dirpath[len(self.data_path) :]
                     p = p.lstrip('/')
                     p = p.split('/')
                     if p[0]:
@@ -156,7 +159,9 @@ class TorrentMetadata(object):
                     buf = b''
                     fs[-1][b'attr'] = b'p'
                 else:
-                    with open(os.path.join(self.data_path.encode('utf8'), *path), 'rb') as _file:
+                    with open(
+                        os.path.join(self.data_path.encode('utf8'), *path), 'rb'
+                    ) as _file:
                         r = _file.read(piece_size - len(buf))
                         while r:
                             buf += r

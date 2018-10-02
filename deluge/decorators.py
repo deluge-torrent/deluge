@@ -23,11 +23,14 @@ def proxy(proxy_func):
     :param proxy_func: the proxy function
     :type proxy_func: function
     """
+
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
             return proxy_func(func, *args, **kwargs)
+
         return wrapper
+
     return decorator
 
 
@@ -57,6 +60,7 @@ def overrides(*args):
         # called with the real function as argument
         def ret_func(func, **kwargs):
             return _overrides(stack, func, explicit_base_classes=args)
+
         return ret_func
 
 
@@ -75,7 +79,10 @@ def _overrides(stack, method, explicit_base_classes=None):
     check_classes = base_classes
 
     if not base_classes:
-        raise ValueError('overrides decorator: unable to determine base class of class "%s"' % class_name)
+        raise ValueError(
+            'overrides decorator: unable to determine base class of class "%s"'
+            % class_name
+        )
 
     def get_class(cls_name):
         if '.' not in cls_name:
@@ -91,7 +98,9 @@ def _overrides(stack, method, explicit_base_classes=None):
 
     if explicit_base_classes:
         # One or more base classes are explicitly given, check only those classes
-        override_classes = re.search(r'\s*@overrides\((.+)\)\s*', stack[1][4][0]).group(1)
+        override_classes = re.search(r'\s*@overrides\((.+)\)\s*', stack[1][4][0]).group(
+            1
+        )
         override_classes = [c.strip() for c in override_classes.split(',')]
         check_classes = override_classes
 
@@ -101,21 +110,36 @@ def _overrides(stack, method, explicit_base_classes=None):
     # Verify that the excplicit override class is one of base classes
     if explicit_base_classes:
         from itertools import product
+
         for bc, cc in product(base_classes, check_classes):
             if issubclass(classes[bc], classes[cc]):
                 break
         else:
-            raise Exception('Excplicit override class "%s" is not a super class of: %s'
-                            % (explicit_base_classes, class_name))
+            raise Exception(
+                'Excplicit override class "%s" is not a super class of: %s'
+                % (explicit_base_classes, class_name)
+            )
         if not all(hasattr(classes[cls], method.__name__) for cls in check_classes):
             for cls in check_classes:
                 if not hasattr(classes[cls], method.__name__):
-                    raise Exception('Function override "%s" not found in superclass: %s\n%s'
-                                    % (method.__name__, cls, 'File: %s:%s' % (stack[1][1], stack[1][2])))
+                    raise Exception(
+                        'Function override "%s" not found in superclass: %s\n%s'
+                        % (
+                            method.__name__,
+                            cls,
+                            'File: %s:%s' % (stack[1][1], stack[1][2]),
+                        )
+                    )
 
     if not any(hasattr(classes[cls], method.__name__) for cls in check_classes):
-        raise Exception('Function override "%s" not found in any superclass: %s\n%s'
-                        % (method.__name__, check_classes, 'File: %s:%s' % (stack[1][1], stack[1][2])))
+        raise Exception(
+            'Function override "%s" not found in any superclass: %s\n%s'
+            % (
+                method.__name__,
+                check_classes,
+                'File: %s:%s' % (stack[1][1], stack[1][2]),
+            )
+        )
     return method
 
 
@@ -131,7 +155,8 @@ def deprecated(func):
         warnings.simplefilter('always', DeprecationWarning)  # Turn off filter
         warnings.warn(
             'Call to deprecated function {}.'.format(func.__name__),
-            category=DeprecationWarning, stacklevel=2,
+            category=DeprecationWarning,
+            stacklevel=2,
         )
         warnings.simplefilter('default', DeprecationWarning)  # Reset filter
         return func(*args, **kwargs)

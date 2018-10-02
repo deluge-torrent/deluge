@@ -83,17 +83,23 @@ class EditTrackersDialog(object):
         self.gtkui_config = ConfigManager('gtkui.conf')
 
         # Main dialog
-        self.builder.add_from_file(resource_filename(
-            'deluge.ui.gtkui', os.path.join('glade', 'edit_trackers.ui'),
-        ))
+        self.builder.add_from_file(
+            resource_filename(
+                'deluge.ui.gtkui', os.path.join('glade', 'edit_trackers.ui')
+            )
+        )
         # add tracker dialog
-        self.builder.add_from_file(resource_filename(
-            'deluge.ui.gtkui', os.path.join('glade', 'edit_trackers.add.ui'),
-        ))
+        self.builder.add_from_file(
+            resource_filename(
+                'deluge.ui.gtkui', os.path.join('glade', 'edit_trackers.add.ui')
+            )
+        )
         # edit tracker dialog
-        self.builder.add_from_file(resource_filename(
-            'deluge.ui.gtkui', os.path.join('glade', 'edit_trackers.edit.ui'),
-        ))
+        self.builder.add_from_file(
+            resource_filename(
+                'deluge.ui.gtkui', os.path.join('glade', 'edit_trackers.edit.ui')
+            )
+        )
 
         self.dialog = self.builder.get_object('edit_trackers_dialog')
         self.treeview = self.builder.get_object('tracker_treeview')
@@ -116,10 +122,10 @@ class EditTrackersDialog(object):
 
         # Create the columns
         self.treeview.append_column(
-            gtk.TreeViewColumn(_('Tier'), gtk.CellRendererText(), text=0),
+            gtk.TreeViewColumn(_('Tier'), gtk.CellRendererText(), text=0)
         )
         self.treeview.append_column(
-            gtk.TreeViewColumn(_('Tracker'), gtk.CellRendererText(), text=1),
+            gtk.TreeViewColumn(_('Tracker'), gtk.CellRendererText(), text=1)
         )
 
         self.treeview.set_model(self.liststore)
@@ -135,9 +141,9 @@ class EditTrackersDialog(object):
 
         # Get the trackers for this torrent
         session = component.get('SessionProxy')
-        session.get_torrent_status(
-            self.torrent_id, ['trackers'],
-        ).addCallback(self._on_get_torrent_status)
+        session.get_torrent_status(self.torrent_id, ['trackers']).addCallback(
+            self._on_get_torrent_status
+        )
         client.force_call()
 
         self.deferred = defer.Deferred()
@@ -169,6 +175,7 @@ class EditTrackersDialog(object):
                 tracker['tier'] = model.get_value(_iter, 0)
                 tracker['url'] = model.get_value(_iter, 1)
                 self.trackers.append(tracker)
+
             self.liststore.foreach(each, None)
             if self.old_trackers != self.trackers:
                 # Set the torrens trackers

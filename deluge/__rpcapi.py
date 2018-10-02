@@ -18,9 +18,7 @@ class RpcApi(object):
 
 
 def scan_for_methods(obj):
-    methods = {
-        '__doc__': 'Methods available in %s' % obj.__name__.lower(),
-    }
+    methods = {'__doc__': 'Methods available in %s' % obj.__name__.lower()}
     for d in dir(obj):
         if not hasattr(getattr(obj, d), '_rpcserver_export'):
             continue

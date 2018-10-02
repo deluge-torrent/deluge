@@ -26,12 +26,20 @@ class Command(BaseCommand):
     usage = _('Usage: connect <host[:port]> [<username>] [<password>]')
 
     def add_arguments(self, parser):
-        parser.add_argument('host', help=_('Daemon host and port'), metavar='<host[:port]>')
-        parser.add_argument('username', help=_('Username'), metavar='<username>', nargs='?', default='')
-        parser.add_argument('password', help=_('Password'), metavar='<password>', nargs='?', default='')
+        parser.add_argument(
+            'host', help=_('Daemon host and port'), metavar='<host[:port]>'
+        )
+        parser.add_argument(
+            'username', help=_('Username'), metavar='<username>', nargs='?', default=''
+        )
+        parser.add_argument(
+            'password', help=_('Password'), metavar='<password>', nargs='?', default=''
+        )
 
     def add_parser(self, subparsers):
-        parser = subparsers.add_parser(self.name, help=self.__doc__, description=self.__doc__, prog='connect')
+        parser = subparsers.add_parser(
+            self.name, help=self.__doc__, description=self.__doc__, prog='connect'
+        )
         self.add_arguments(parser)
 
     def handle(self, options):
@@ -57,7 +65,10 @@ class Command(BaseCommand):
                     msg = result.value.exception_msg
                 except AttributeError:
                     msg = result.value.message
-                self.console.write('{!error!}Failed to connect to %s:%s with reason: %s' % (host, port, msg))
+                self.console.write(
+                    '{!error!}Failed to connect to %s:%s with reason: %s'
+                    % (host, port, msg)
+                )
                 return result
 
             d.addCallbacks(on_connect, on_connect_fail)
@@ -69,6 +80,7 @@ class Command(BaseCommand):
                 if self.console.statusbars:
                     self.console.statusbars.update_statusbars()
                 return do_connect()
+
             return client.disconnect().addCallback(on_disconnect)
         else:
             return do_connect()

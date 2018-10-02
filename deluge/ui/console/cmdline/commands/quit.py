@@ -17,6 +17,7 @@ from . import BaseCommand
 
 class Command(BaseCommand):
     """Exit the client"""
+
     aliases = ['exit']
     interactive_only = True
 

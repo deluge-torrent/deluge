@@ -73,8 +73,9 @@ DEFAULT_PREFS = {
     'max_download_speed': -1.0,
     'max_upload_slots_global': 4,
     'max_half_open_connections': (
-        lambda: deluge.common.windows_check() and
-        (lambda: deluge.common.vista_check() and 4 or 8)() or 50
+        lambda: deluge.common.windows_check()
+        and (lambda: deluge.common.vista_check() and 4 or 8)()
+        or 50
     )(),
     'max_connections_per_second': 20,
     'ignore_limits_on_local_network': True,
@@ -134,7 +135,9 @@ class PreferencesManager(component.Component):
         component.Component.__init__(self, 'PreferencesManager')
         self.config = deluge.configmanager.ConfigManager('core.conf', DEFAULT_PREFS)
         if 'proxies' in self.config:
-            log.warning('Updating config file for proxy, using "peer" values to fill new "proxy" setting')
+            log.warning(
+                'Updating config file for proxy, using "peer" values to fill new "proxy" setting'
+            )
             self.config['proxy'].update(self.config['proxies']['peer'])
             log.warning('New proxy config is: %s', self.config['proxy'])
             del self.config['proxies']
@@ -205,7 +208,9 @@ class PreferencesManager(component.Component):
         if self.config['random_port']:
             if not self.config['listen_random_port']:
                 self.config['listen_random_port'] = random.randrange(49152, 65525)
-            listen_ports = [self.config['listen_random_port']] * 2  # use single port range
+            listen_ports = [
+                self.config['listen_random_port']
+            ] * 2  # use single port range
         else:
             self.config['listen_random_port'] = None
             listen_ports = self.config['listen_ports']
@@ -217,7 +222,9 @@ class PreferencesManager(component.Component):
 
         log.debug(
             'Listen Interface: %s, Ports: %s with use_sys_port: %s',
-            interface, listen_ports, self.config['listen_use_sys_port'],
+            interface,
+            listen_ports,
+            self.config['listen_use_sys_port'],
         )
         interfaces = [
             '%s:%s' % (interface, port)
@@ -227,7 +234,7 @@ class PreferencesManager(component.Component):
             {
                 'listen_system_port_fallback': self.config['listen_use_sys_port'],
                 'listen_interfaces': ''.join(interfaces),
-            },
+            }
         )
 
     def _on_set_outgoing_ports(self, key, value):
@@ -237,14 +244,22 @@ class PreferencesManager(component.Component):
         self.__set_outgoing_ports()
 
     def __set_outgoing_ports(self):
-        port = 0 if self.config['random_outgoing_ports'] else self.config['outgoing_ports'][0]
+        port = (
+            0
+            if self.config['random_outgoing_ports']
+            else self.config['outgoing_ports'][0]
+        )
         if port:
-            num_ports = self.config['outgoing_ports'][1] - self.config['outgoing_ports'][0]
+            num_ports = (
+                self.config['outgoing_ports'][1] - self.config['outgoing_ports'][0]
+            )
             num_ports = num_ports if num_ports > 1 else 5
         else:
             num_ports = 0
         log.debug('Outgoing port set to %s with range: %s', port, num_ports)
-        self.core.apply_session_settings({'outgoing_port': port, 'num_outgoing_ports': num_ports})
+        self.core.apply_session_settings(
+            {'outgoing_port': port, 'num_outgoing_ports': num_ports}
+        )
 
     def _on_set_peer_tos(self, key, value):
         try:
@@ -263,12 +278,11 @@ class PreferencesManager(component.Component):
                 'router.bitcomet.com:6881',
                 'dht.transmissionbt.com:6881',
                 'dht.aelitis.com:6881',
-            ],
+            ]
         )
-        self.core.apply_session_settings({
-            'dht_bootstrap_nodes': ','.join(dht_bootstraps),
-            'enable_dht': value,
-        })
+        self.core.apply_session_settings(
+            {'dht_bootstrap_nodes': ','.join(dht_bootstraps), 'enable_dht': value}
+        )
 
     def _on_set_upnp(self, key, value):
         self.core.apply_session_setting('enable_upnp', value)
@@ -294,14 +308,20 @@ class PreferencesManager(component.Component):
 
     def _on_set_encryption(self, key, value):
         # Convert Deluge enc_level values to libtorrent enc_level values.
-        pe_enc_level = {0: lt.enc_level.plaintext, 1: lt.enc_level.rc4, 2: lt.enc_level.both}
+        pe_enc_level = {
+            0: lt.enc_level.plaintext,
+            1: lt.enc_level.rc4,
+            2: lt.enc_level.both,
+        }
         self.core.apply_session_settings(
             {
                 'out_enc_policy': lt.enc_policy(self.config['enc_out_policy']),
                 'in_enc_policy': lt.enc_policy(self.config['enc_in_policy']),
-                'allowed_enc_level': lt.enc_level(pe_enc_level[self.config['enc_level']]),
+                'allowed_enc_level': lt.enc_level(
+                    pe_enc_level[self.config['enc_level']]
+                ),
                 'prefer_rc4': True,
-            },
+            }
         )
 
     def _on_set_max_connections_global(self, key, value):
@@ -364,20 +384,29 @@ class PreferencesManager(component.Component):
 
             def run(self):
                 import time
+
                 now = time.time()
                 # check if we've done this within the last week or never
                 if (now - self.config['info_sent']) >= (60 * 60 * 24 * 7):
                     try:
-                        url = 'http://deluge-torrent.org/stats_get.php?processor=' + \
-                            platform.machine() + '&python=' + platform.python_version() \
-                            + '&deluge=' + deluge.common.get_version() \
-                            + '&os=' + platform.system() \
-                            + '&plugins=' + quote_plus(':'.join(self.config['enabled_plugins']))
+                        url = (
+                            'http://deluge-torrent.org/stats_get.php?processor='
+                            + platform.machine()
+                            + '&python='
+                            + platform.python_version()
+                            + '&deluge='
+                            + deluge.common.get_version()
+                            + '&os='
+                            + platform.system()
+                            + '&plugins='
+                            + quote_plus(':'.join(self.config['enabled_plugins']))
+                        )
                         urlopen(url)
                     except IOError as ex:
                         log.debug('Network error while trying to send info: %s', ex)
                     else:
                         self.config['info_sent'] = now
+
         if value:
             SendInfoThread(self.config).start()
 
@@ -389,7 +418,7 @@ class PreferencesManager(component.Component):
                 self.new_release_timer.stop()
             # Set a timer to check for a new release every 3 days
             self.new_release_timer = LoopingCall(
-                self._on_set_new_release_check, 'new_release_check', True,
+                self._on_set_new_release_check, 'new_release_check', True
             )
             self.new_release_timer.start(72 * 60 * 60, False)
         else:
@@ -410,20 +439,23 @@ class PreferencesManager(component.Component):
         }
 
         if value['type'] == lt.proxy_type.i2p_proxy:
-            proxy_settings.update({
-                'proxy_type': lt.proxy_type.i2p_proxy,
-                'i2p_hostname': value['hostname'],
-                'i2p_port': value['port'],
-            })
+            proxy_settings.update(
+                {
+                    'proxy_type': lt.proxy_type.i2p_proxy,
+                    'i2p_hostname': value['hostname'],
+                    'i2p_port': value['port'],
+                }
+            )
         elif value['type'] != lt.proxy_type.none:
-            proxy_settings.update({
-                'proxy_type': value['type'],
-                'proxy_hostname': value['hostname'],
-                'proxy_port': value['port'],
-                'proxy_username': value['username'],
-                'proxy_password': value['password'],
-
-            })
+            proxy_settings.update(
+                {
+                    'proxy_type': value['type'],
+                    'proxy_hostname': value['hostname'],
+                    'proxy_port': value['port'],
+                    'proxy_username': value['username'],
+                    'proxy_password': value['password'],
+                }
+            )
 
         self.core.apply_session_settings(proxy_settings)
 
@@ -434,7 +466,9 @@ class PreferencesManager(component.Component):
         # Load the GeoIP DB for country look-ups if available
         if os.path.exists(geoipdb_path):
             try:
-                self.core.geoip_instance = GeoIP.open(geoipdb_path, GeoIP.GEOIP_STANDARD)
+                self.core.geoip_instance = GeoIP.open(
+                    geoipdb_path, GeoIP.GEOIP_STANDARD
+                )
             except AttributeError:
                 log.warning('GeoIP Unavailable')
         else:

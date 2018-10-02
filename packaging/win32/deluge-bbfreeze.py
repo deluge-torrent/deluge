@@ -27,10 +27,21 @@ import deluge.common
 
 
 class VersionInfo(object):
-    def __init__(self, version, internalname=None, originalfilename=None,
-                 comments=None, company=None, description=None,
-                 _copyright=None, trademarks=None, product=None, dll=False,
-                 debug=False, verbose=True):
+    def __init__(
+        self,
+        version,
+        internalname=None,
+        originalfilename=None,
+        comments=None,
+        company=None,
+        description=None,
+        _copyright=None,
+        trademarks=None,
+        product=None,
+        dll=False,
+        debug=False,
+        verbose=True,
+    ):
         parts = version.split('.')
         while len(parts) < 4:
             parts.append('0')
@@ -71,8 +82,19 @@ if not DEBUG:
     sys.stdout = open(os.devnull, 'w')
 
 # Include python modules not picked up automatically by bbfreeze.
-includes = ('libtorrent', 'cairo', 'pangocairo', 'atk', 'pango', 'twisted.internet.utils',
-            'gio', 'gzip', 'email.mime.multipart', 'email.mime.text', '_cffi_backend')
+includes = (
+    'libtorrent',
+    'cairo',
+    'pangocairo',
+    'atk',
+    'pango',
+    'twisted.internet.utils',
+    'gio',
+    'gzip',
+    'email.mime.multipart',
+    'email.mime.text',
+    '_cffi_backend',
+)
 excludes = ('numpy', 'OpenGL', 'psyco', 'win32ui', 'unittest')
 
 
@@ -86,11 +108,17 @@ bbfreeze.recipes.recipe_gtk_and_friends = recipe_gtk_override
 
 # Workaround for "ImportError: The 'packaging' package is required" with setuptools > 18.8.
 # (https://github.com/pypa/setuptools/issues/517)
-bbfreeze.recipes.recipe_pkg_resources = bbfreeze.recipes.include_whole_package('pkg_resources')
+bbfreeze.recipes.recipe_pkg_resources = bbfreeze.recipes.include_whole_package(
+    'pkg_resources'
+)
 
 fzr = bbfreeze.Freezer(build_dir, includes=includes, excludes=excludes)
 fzr.include_py = False
-fzr.setIcon(os.path.join(os.path.dirname(deluge.common.__file__), 'ui', 'data', 'pixmaps', 'deluge.ico'))
+fzr.setIcon(
+    os.path.join(
+        os.path.dirname(deluge.common.__file__), 'ui', 'data', 'pixmaps', 'deluge.ico'
+    )
+)
 
 # TODO: Can/should we grab the script list from setup.py entry_points somehow.
 
@@ -125,10 +153,22 @@ for script in script_list:
     os.remove(script)
 
 # Exclude files which are already included in GTK or Windows. Also exclude unneeded pygame dlls.
-excludeDlls = ('MSIMG32.dll', 'MSVCR90.dll', 'MSVCP90.dll', 'MSVCR120.dll',
-               'POWRPROF.dll', 'DNSAPI.dll', 'USP10.dll', 'MPR.dll',
-               'jpeg.dll', 'libfreetype-6.dll', 'libpng12-0.dll', 'libtiff.dll',
-               'SDL_image.dll', 'SDL_ttf.dll')
+excludeDlls = (
+    'MSIMG32.dll',
+    'MSVCR90.dll',
+    'MSVCP90.dll',
+    'MSVCR120.dll',
+    'POWRPROF.dll',
+    'DNSAPI.dll',
+    'USP10.dll',
+    'MPR.dll',
+    'jpeg.dll',
+    'libfreetype-6.dll',
+    'libpng12-0.dll',
+    'libtiff.dll',
+    'SDL_image.dll',
+    'SDL_ttf.dll',
+)
 for exclude_dll in excludeDlls:
     try:
         os.remove(os.path.join(build_dir, exclude_dll))
@@ -146,13 +186,16 @@ locale_include_list = ['gtk20.mo', 'locale.alias']
 
 def ignored_files(adir, ignore_filenames):
     return [
-        ignore_file for ignore_file in ignore_filenames
-        if not os.path.isdir(os.path.join(adir, ignore_file)) and
-        ignore_file not in locale_include_list
+        ignore_file
+        for ignore_file in ignore_filenames
+        if not os.path.isdir(os.path.join(adir, ignore_file))
+        and ignore_file not in locale_include_list
     ]
 
 
-shutil.copytree(gtk_locale, os.path.join(build_dir, 'share/locale'), ignore=ignored_files)
+shutil.copytree(
+    gtk_locale, os.path.join(build_dir, 'share/locale'), ignore=ignored_files
+)
 
 # Copy gtk theme files.
 theme_include_list = [
@@ -180,11 +223,13 @@ for script in script_list:
     script_exe = os.path.splitext(os.path.basename(script))[0] + '.exe'
     # Don't add to dev build versions.
     if not re.search('[a-zA-Z_-]', build_version):
-        versionInfo = VersionInfo(build_version,
-                                  description='Deluge Bittorrent Client',
-                                  company='Deluge Team',
-                                  product='Deluge',
-                                  _copyright='Deluge Team')
+        versionInfo = VersionInfo(
+            build_version,
+            description='Deluge Bittorrent Client',
+            company='Deluge Team',
+            product='Deluge',
+            _copyright='Deluge Team',
+        )
         stamp(os.path.join(build_dir, script_exe), versionInfo)
 
 # Copy version info to file for nsis script.
@@ -196,7 +241,7 @@ filedir_list = []
 for root, dirnames, filenames in os.walk(build_dir):
     dirnames.sort()
     filenames.sort()
-    filedir_list.append((root[len(build_dir):], filenames))
+    filedir_list.append((root[len(build_dir) :], filenames))
 
 with open('install_files.nsh', 'w') as f:
     f.write('; Files to install\n')

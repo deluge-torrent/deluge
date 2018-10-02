@@ -36,7 +36,12 @@ class EventManager(component.Component):
                 try:
                     handler(*event.args)
                 except Exception as ex:
-                    log.error('Event handler %s failed in %s with exception %s', event.name, handler, ex)
+                    log.error(
+                        'Event handler %s failed in %s with exception %s',
+                        event.name,
+                        handler,
+                        ex,
+                    )
 
     def register_event_handler(self, event, handler):
         """

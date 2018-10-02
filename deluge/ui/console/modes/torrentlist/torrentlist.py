@@ -18,7 +18,9 @@ from deluge.decorators import overrides
 from deluge.ui.client import client
 from deluge.ui.console.modes.basemode import BaseMode, mkwin
 from deluge.ui.console.modes.torrentlist import torrentview, torrentviewcolumns
-from deluge.ui.console.modes.torrentlist.add_torrents_popup import show_torrent_add_popup
+from deluge.ui.console.modes.torrentlist.add_torrents_popup import (
+    show_torrent_add_popup,
+)
 from deluge.ui.console.modes.torrentlist.filtersidebar import FilterSidebar
 from deluge.ui.console.modes.torrentlist.queue_mode import QueueMode
 from deluge.ui.console.modes.torrentlist.search_mode import SearchMode
@@ -102,9 +104,10 @@ where you input something
 
 
 class TorrentList(BaseMode, PopupsHandler):
-
     def __init__(self, stdscr, encoding=None):
-        BaseMode.__init__(self, stdscr, encoding=encoding, do_refresh=False, depend=['SessionProxy'])
+        BaseMode.__init__(
+            self, stdscr, encoding=encoding, do_refresh=False, depend=['SessionProxy']
+        )
         PopupsHandler.__init__(self)
         self.messages = deque()
         self.last_mark = -1
@@ -116,8 +119,11 @@ class TorrentList(BaseMode, PopupsHandler):
         self.config = self.consoleui.config
         self.sidebar = FilterSidebar(self, self.config)
         self.torrentview_panel = mkwin(
-            curses.COLOR_GREEN, curses.LINES - 1,
-            curses.COLS - self.sidebar.width, 0, self.sidebar.width,
+            curses.COLOR_GREEN,
+            curses.LINES - 1,
+            curses.COLS - self.sidebar.width,
+            0,
+            self.sidebar.width,
         )
         self.torrentview = torrentview.TorrentView(self, self.config)
 
@@ -135,7 +141,9 @@ class TorrentList(BaseMode, PopupsHandler):
         if self.config['torrentview']['show_sidebar']:
             self.sidebar.show()
             self.sidebar.resize_window(curses.LINES - 2, self.sidebar.width)
-            self.torrentview_panel.resize(curses.LINES - 1, curses.COLS - self.sidebar.width)
+            self.torrentview_panel.resize(
+                curses.LINES - 1, curses.COLS - self.sidebar.width
+            )
             self.torrentview_panel.mvwin(0, self.sidebar.width)
         else:
             self.sidebar.hide()
@@ -152,7 +160,9 @@ class TorrentList(BaseMode, PopupsHandler):
         self.toggle_sidebar()
 
         if self.config['first_run']:
-            self.push_popup(MessagePopup(self, 'Welcome to Deluge', HELP_STR, width_req=0.65))
+            self.push_popup(
+                MessagePopup(self, 'Welcome to Deluge', HELP_STR, width_req=0.65)
+            )
             self.config['first_run'] = False
             self.config.save()
 
@@ -212,8 +222,10 @@ class TorrentList(BaseMode, PopupsHandler):
         # Update the status bars
         statusbar_args = {'scr': self.stdscr, 'bottombar_help': True}
         if self.torrentview.curr_filter is not None:
-            statusbar_args['topbar'] = ('%s    {!filterstatus!}Current filter: %s'
-                                        % (self.statusbars.topbar, self.torrentview.curr_filter))
+            statusbar_args['topbar'] = '%s    {!filterstatus!}Current filter: %s' % (
+                self.statusbars.topbar,
+                self.torrentview.curr_filter,
+            )
 
         if self.minor_mode:
             self.minor_mode.set_statusbar_args(statusbar_args)
@@ -269,7 +281,9 @@ class TorrentList(BaseMode, PopupsHandler):
                 return
             elif chr(c) == 'q':
                 self.torrentview.update_marked(self.torrentview.cursel)
-                self.set_minor_mode(QueueMode(self, self.torrentview._selected_torrent_ids()))
+                self.set_minor_mode(
+                    QueueMode(self, self.torrentview._selected_torrent_ids())
+                )
                 return
             elif chr(c) == '/':
                 self.set_minor_mode(SearchMode(self))
@@ -322,7 +336,9 @@ class TorrentList(BaseMode, PopupsHandler):
                 self.consoleui.set_mode('EventView')
                 return
             elif chr(c) == 'S':
-                self.config['torrentview']['show_sidebar'] = self.config['torrentview']['show_sidebar'] is False
+                self.config['torrentview']['show_sidebar'] = (
+                    self.config['torrentview']['show_sidebar'] is False
+                )
                 self.config.save()
                 self.toggle_sidebar()
             elif chr(c) == 'l':

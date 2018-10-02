@@ -11,7 +11,7 @@ class ACTION(object):
     REMOVE_DATA = 6
     REMOVE_NODATA = 7
     DETAILS = 'torrent_details'
-    MOVE_STORAGE = ('move_download_folder')
+    MOVE_STORAGE = 'move_download_folder'
     QUEUE = 'queue'
     QUEUE_TOP = 'queue_top'
     QUEUE_UP = 'queue_up'

@@ -41,11 +41,9 @@ setup(
     url=__url__,
     license=__license__,
     long_description=__long_description__ if __long_description__ else __description__,
-
     packages=find_packages(),
     namespace_packages=['deluge', 'deluge.plugins'],
     package_data=__pkg_data__,
-
     entry_points="""
     [deluge.plugin.core]
     %s = deluge.plugins.%s:CorePlugin
@@ -53,5 +51,6 @@ setup(
     %s = deluge.plugins.%s:GtkUIPlugin
     [deluge.plugin.web]
     %s = deluge.plugins.%s:WebUIPlugin
-    """ % ((__plugin_name__, __plugin_name__.lower()) * 3),
+    """
+    % ((__plugin_name__, __plugin_name__.lower()) * 3),
 )

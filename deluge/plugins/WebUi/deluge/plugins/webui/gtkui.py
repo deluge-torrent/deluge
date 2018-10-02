@@ -31,16 +31,26 @@ class GtkUI(GtkPluginBase):
         self.builder = gtk.Builder()
         self.builder.add_from_file(get_resource('config.ui'))
 
-        component.get('Preferences').add_page(_('WebUi'), self.builder.get_object('prefs_box'))
-        component.get('PluginManager').register_hook('on_apply_prefs', self.on_apply_prefs)
-        component.get('PluginManager').register_hook('on_show_prefs', self.on_show_prefs)
+        component.get('Preferences').add_page(
+            _('WebUi'), self.builder.get_object('prefs_box')
+        )
+        component.get('PluginManager').register_hook(
+            'on_apply_prefs', self.on_apply_prefs
+        )
+        component.get('PluginManager').register_hook(
+            'on_show_prefs', self.on_show_prefs
+        )
         client.webui.get_config().addCallback(self.cb_get_config)
         client.webui.got_deluge_web().addCallback(self.cb_chk_deluge_web)
 
     def disable(self):
         component.get('Preferences').remove_page(_('WebUi'))
-        component.get('PluginManager').deregister_hook('on_apply_prefs', self.on_apply_prefs)
-        component.get('PluginManager').deregister_hook('on_show_prefs', self.on_show_prefs)
+        component.get('PluginManager').deregister_hook(
+            'on_apply_prefs', self.on_apply_prefs
+        )
+        component.get('PluginManager').deregister_hook(
+            'on_show_prefs', self.on_show_prefs
+        )
 
     def on_apply_prefs(self):
         if not self.have_web:
@@ -71,14 +81,18 @@ class GtkUI(GtkPluginBase):
         vbox = self.builder.get_object('prefs_box')
 
         hbox = gtk.HBox()
-        icon = gtk.image_new_from_stock(gtk.STOCK_DIALOG_ERROR, gtk.ICON_SIZE_SMALL_TOOLBAR)
+        icon = gtk.image_new_from_stock(
+            gtk.STOCK_DIALOG_ERROR, gtk.ICON_SIZE_SMALL_TOOLBAR
+        )
         icon.set_padding(5, 5)
         hbox.pack_start(icon, False, False)
 
-        label = gtk.Label(_(
-            'The Deluge web interface is not installed, '
-            'please install the\ninterface and try again',
-        ))
+        label = gtk.Label(
+            _(
+                'The Deluge web interface is not installed, '
+                'please install the\ninterface and try again'
+            )
+        )
         label.set_alignment(0, 0.5)
         label.set_padding(5, 5)
         hbox.pack_start(label)

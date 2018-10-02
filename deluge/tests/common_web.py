@@ -26,6 +26,7 @@ class WebServerTestBase(BaseTestCase, DaemonBase):
     Base class for tests that need a running webapi
 
     """
+
     def set_up(self):
         self.host_id = None
         deluge.ui.web.server.reactor = ReactorOverride()
@@ -60,16 +61,16 @@ class WebServerMockBase(object):
     Class with utility functions for mocking with tests using the webserver
 
     """
-    def mock_authentication_ignore(self, auth):
 
+    def mock_authentication_ignore(self, auth):
         def check_request(request, method=None, level=None):
             pass
 
         self.patch(auth, 'check_request', check_request)
 
     def mock_compress_body(self):
-
         def compress(contents, request):
             return contents
+
         # Patch compress to avoid having to decompress output with zlib
         self.patch(deluge.ui.web.json_api, 'compress', compress)

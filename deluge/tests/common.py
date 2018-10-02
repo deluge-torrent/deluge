@@ -60,7 +60,6 @@ def todo_test(caller):
 
 
 def add_watchdog(deferred, timeout=0.05, message=None):
-
     def callback(value):
         if not watchdog.called and not watchdog.cancelled:
             watchdog.cancel()
@@ -102,8 +101,9 @@ class ReactorOverride(object):
 
 
 class ProcessOutputHandler(protocol.ProcessProtocol):
-
-    def __init__(self, script, callbacks, logfile=None, print_stdout=True, print_stderr=True):
+    def __init__(
+        self, script, callbacks, logfile=None, print_stdout=True, print_stderr=True
+    ):
         """Executes a script and handle the process' output to stdout and stderr.
 
         Args:
@@ -210,8 +210,14 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
 
 
 def start_core(
-    listen_port=58846, logfile=None, timeout=10, timeout_msg=None,
-    custom_script='', print_stdout=True, print_stderr=True, extra_callbacks=None,
+    listen_port=58846,
+    logfile=None,
+    timeout=10,
+    timeout_msg=None,
+    custom_script='',
+    print_stdout=True,
+    print_stderr=True,
+    extra_callbacks=None,
 ):
     """Start the deluge core as a daemon.
 
@@ -252,7 +258,11 @@ try:
 except Exception:
     import traceback
     sys.stderr.write('Exception raised:\\n %%s' %% traceback.format_exc())
-""" % {'dir': config_directory, 'port': listen_port, 'script': custom_script}
+""" % {
+        'dir': config_directory,
+        'port': listen_port,
+        'script': custom_script,
+    }
 
     callbacks = []
     default_core_cb = {'deferred': Deferred(), 'types': 'stdout'}
@@ -263,15 +273,20 @@ except Exception:
     default_core_cb['triggers'] = [
         {'expr': 'Finished loading ', 'value': lambda reader, data, data_all: reader},
         {
-            'expr': 'Could not listen on localhost:%d' % (listen_port), 'type': 'errback',  # Error from libtorrent
+            'expr': 'Could not listen on localhost:%d' % (listen_port),
+            'type': 'errback',  # Error from libtorrent
             'value': lambda reader, data, data_all: CannotListenError(
-                'localhost', listen_port,
+                'localhost',
+                listen_port,
                 'Could not start deluge test client!\n%s' % data,
             ),
         },
         {
-            'expr': 'Traceback', 'type': 'errback',
-            'value': lambda reader, data, data_all: DelugeError('Traceback found when starting daemon:\n%s' % data),
+            'expr': 'Traceback',
+            'type': 'errback',
+            'value': lambda reader, data, data_all: DelugeError(
+                'Traceback found when starting daemon:\n%s' % data
+            ),
         },
     ]
 
@@ -279,11 +294,15 @@ except Exception:
     if extra_callbacks:
         callbacks.extend(extra_callbacks)
 
-    process_protocol = start_process(daemon_script, callbacks, logfile, print_stdout, print_stderr)
+    process_protocol = start_process(
+        daemon_script, callbacks, logfile, print_stdout, print_stderr
+    )
     return default_core_cb['deferred'], process_protocol
 
 
-def start_process(script, callbacks, logfile=None, print_stdout=True, print_stderr=True):
+def start_process(
+    script, callbacks, logfile=None, print_stdout=True, print_stderr=True
+):
     """
     Starts an external python process which executes the given script.
 
@@ -309,13 +328,19 @@ def start_process(script, callbacks, logfile=None, print_stdout=True, print_stde
 
     """
     cwd = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-    process_protocol = ProcessOutputHandler(script.encode('utf8'), callbacks, logfile, print_stdout, print_stderr)
+    process_protocol = ProcessOutputHandler(
+        script.encode('utf8'), callbacks, logfile, print_stdout, print_stderr
+    )
 
     # Add timeouts to deferreds
     for c in callbacks:
         if 'timeout' in c:
-            w = add_watchdog(c['deferred'], timeout=c['timeout'], message=c.get('timeout_msg', None))
+            w = add_watchdog(
+                c['deferred'], timeout=c['timeout'], message=c.get('timeout_msg', None)
+            )
             process_protocol.watchdogs.append(w)
 
-    reactor.spawnProcess(process_protocol, sys.executable, args=[sys.executable], path=cwd)
+    reactor.spawnProcess(
+        process_protocol, sys.executable, args=[sys.executable], path=cwd
+    )
     return process_protocol
