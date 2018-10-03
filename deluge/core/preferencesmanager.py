@@ -191,8 +191,8 @@ class PreferencesManager(component.Component):
         self.__set_listen_on()
 
     def _on_set_outgoing_interface(self, key, value):
-        """ Set the adapter name for outgoing BitTorrent connections."""
-        if not value or deluge.common.is_ip(value):
+        """ Set the adapter name(unix) or ip for outgoing BitTorrent connections."""
+        if not value:
             value = ''
         value = value.strip()
         self.core.apply_session_settings({'outgoing_interfaces': value})

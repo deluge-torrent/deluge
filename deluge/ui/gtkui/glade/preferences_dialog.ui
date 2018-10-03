@@ -2925,7 +2925,7 @@ used sparingly.</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="tooltip_text" translatable="yes">
-The interface adapter name for outgoing BitTorrent connections. (Leave empty for default.)
+The interface adapter name(unix) or IP for outgoing BitTorrent connections. (Leave empty for default.)
                                         </property>
                                         <property name="max_length">15</property>
                                         <property name="invisible_char">●</property>

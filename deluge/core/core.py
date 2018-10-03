@@ -25,7 +25,7 @@ import deluge.common
 import deluge.component as component
 from deluge import path_chooser_common
 from deluge._libtorrent import LT_VERSION, lt
-from deluge.common import PY2
+from deluge.common import PY2, windows_check
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.alertmanager import AlertManager
 from deluge.core.authmanager import (AUTH_LEVEL_ADMIN, AUTH_LEVEL_NONE, AUTH_LEVELS_MAPPING,
@@ -165,12 +165,12 @@ class Core(component.Component):
 
         self._old_outgoing_interface = None
         if outgoing_interface:
-            if not deluge.common.is_ip(outgoing_interface):
+            if deluge.common.is_ip(outgoing_interface) or not windows_check():
                 self._old_outgoing_interface = self.config['outgoing_interface']
                 self.config['outgoing_interface'] = outgoing_interface
             else:
                 log.error(
-                    'Invalid outgoing interface (must be adapter name): %s',
+                    'Invalid outgoing interface (Must be IP Address or, on Linux, adapter name.): %s',
                     outgoing_interface,
                 )
 
