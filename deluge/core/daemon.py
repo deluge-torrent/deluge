@@ -76,14 +76,18 @@ class Daemon(object):
     ):
         """
         Args:
-            listen_interface (str, optional): The IP address to listen to bittorrent connections on.
-            outgoing_interface (str, optional): The IP address to open outgoing BitTorrent connections on.
-            interface (str, optional): Adapter name the daemon will listen for UI connections on.
-            port (int, optional): The port the daemon will listen for UI connections on.
-            standalone (bool, optional): If True the client is in Standalone mode otherwise, if
-                False, start the daemon as separate process.
-            read_only_config_keys (list of str, optional): A list of config keys that will not be
-                altered by core.set_config() RPC method.
+            listen_interface (str, optional): The IP address to listen to
+                BitTorrent connections on.
+            outgoing_interface (str, optional): The network interface name or
+                IP address to open outgoing BitTorrent connections on.
+            interface (str, optional): The IP address the daemon will
+                listen for UI connections on.
+            port (int, optional): The port the daemon will listen for UI
+                connections on.
+            standalone (bool, optional): If True the client is in Standalone
+                mode otherwise, if False, start the daemon as separate process.
+            read_only_config_keys (list of str, optional): A list of config
+                keys that will not be altered by core.set_config() RPC method.
         """
         self.standalone = standalone
         self.pid_file = get_config_dir('deluged.pid')

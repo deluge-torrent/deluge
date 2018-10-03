@@ -184,14 +184,8 @@ class Core(component.Component):
 
         self._old_outgoing_interface = None
         if outgoing_interface:
-            if not deluge.common.is_ip(outgoing_interface):
-                self._old_outgoing_interface = self.config['outgoing_interface']
-                self.config['outgoing_interface'] = outgoing_interface
-            else:
-                log.error(
-                    'Invalid outgoing interface (must be adapter name): %s',
-                    outgoing_interface,
-                )
+            self._old_outgoing_interface = self.config['outgoing_interface']
+            self.config['outgoing_interface'] = outgoing_interface
 
         # New release check information
         self.__new_release = None

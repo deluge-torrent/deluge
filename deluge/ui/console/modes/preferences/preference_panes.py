@@ -97,8 +97,7 @@ class BasePreferencePane(BaseInputPane, BaseWindow, PopupsHandler):
                         conf_dict['listen_interface'] = listen_interface
                 elif ipt.name == 'outgoing_interface':
                     outgoing_interface = ipt.get_value().strip()
-                    if not is_ip(outgoing_interface) or not outgoing_interface:
-                        conf_dict['outgoing_interface'] = outgoing_interface
+                    conf_dict['outgoing_interface'] = outgoing_interface
                 elif ipt.name.startswith('proxy_'):
                     if ipt.name == 'proxy_type':
                         conf_dict.setdefault('proxy', {})['type'] = ipt.get_value()
@@ -361,7 +360,8 @@ class NetworkPane(BasePreferencePane):
         self.add_text_input(
             'outgoing_interface',
             _(
-                'The interface adapter name for outgoing BitTorrent connections. (Leave empty for default.):'
+                'The network interface name or IP address for outgoing '
+                'BitTorrent connections. (Leave empty for default.):'
             ),
             core_conf['outgoing_interface'],
         )
