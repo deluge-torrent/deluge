@@ -1,0 +1,16 @@
+-r requirements.txt
+-r requirements-docs.txt
+-r requirements-tests.txt
+sphinx-autobuild
+tox
+tox-venv
+detox
+pre-commit
+pre-commit-hooks
+flake8-blind-except
+flake8-builtins
+flake8-commas
+flake8-comprehensions
+flake8-debugger
+flake8-mock
+flake8-mutable

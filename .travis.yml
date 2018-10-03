@@ -1,4 +1,4 @@
-dist: trusty
+dist: xenial
 sudo: required
 
 language: python
@@ -8,23 +8,24 @@ cache: pip
 
 before_install:
   - lsb_release -a
-  - sudo add-apt-repository ppa:deluge-team/develop -y
-  - sudo apt-get update
+  - sudo add-apt-repository ppa:deluge-team/develop -yu
 
 # command to install dependencies
 install:
   - bash -c "echo $APTPACKAGES"
-  - sudo apt-get install $APTPACKAGES
-  - pip install tox
+  - sudo apt install $APTPACKAGES
+  - pip install tox tox-venv
   # the next part is for the security tests only.
-  - wget https://github.com/drwetter/testssl.sh/archive/v2.9.5-5.tar.gz -O testssl.tar.gz
-  - tar -xvzf testssl.tar.gz
-  - mv -t deluge/tests/data testssl.sh-2.9.5-5/testssl.sh testssl.sh-2.9.5-5/etc/
+  - "if [ $TOX_ENV == 'security' ]; then
+    testssl_url=https://github.com/drwetter/testssl.sh/archive/v2.9.5-5.tar.gz;
+    wget -O- $testssl_url | tar xz
+    && mv -t deluge/tests/data testssl.sh-2.9.5-5/testssl.sh testssl.sh-2.9.5-5/etc/;
+    fi"
 
 env:
   global:
     - APTPACKAGES="python-libtorrent"
-    - APTPACKAGES_GTKUI="python-gobject python-glade2"
+    - APTPACKAGES_GTKUI="python-glade2"
     - DISPLAY=:99.0
 
 matrix:
@@ -36,7 +37,7 @@ matrix:
     #- env:  TOX_ENV=flake8-complexity
     - env: TOX_ENV=docs
     #- env: TOX_ENV=todo
-    - env: TOX_ENV=trial              APTPACKAGES="$APTPACKAGES $APTPACKAGES_GTKUI"
+    #- env: TOX_ENV=trial              APTPACKAGES="$APTPACKAGES $APTPACKAGES_GTKUI"
     - env: TOX_ENV=pygtkui            APTPACKAGES="$APTPACKAGES $APTPACKAGES_GTKUI"
     #- env: TOX_ENV=testcoverage       APTPACKAGES="$APTPACKAGES $APTPACKAGES_GTKUI"
     - env: TOX_ENV=plugins

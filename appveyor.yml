@@ -4,9 +4,7 @@ environment:
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
 
   matrix:
-    # See: http://www.appveyor.com/docs/installed-software#python
     - TOXENV: flake8
-    - TOXENV: trial
     - TOXENV: pydef
     - TOXENV: pygtkui
     - TOXENV: plugins
@@ -30,23 +28,12 @@ install:
 
   - "python -m pip install --upgrade pip"
   - if defined TOXENV (
-    pip install
-    tox
-    pywin32
-    certifi
+    pip install tox tox_venv
     )
   - if not defined TOXENV (
     pip install
+    -rrequirements.txt
     slimit
-    twisted[tls]
-    chardet
-    mako
-    pyxdg
-    pillow
-    slimit
-    setproctitle
-    pywin32
-    certifi
     pygame
     bbfreeze
     pefile

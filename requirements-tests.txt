@@ -1,0 +1,10 @@
+pytest
+pytest-twisted
+pytest-cov
+mock
+flake8
+flake8-quotes
+flake8-isort
+pep8-naming
+mccabe
+pylint
