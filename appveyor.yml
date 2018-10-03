@@ -22,46 +22,47 @@ install:
   # purpose but it is problematic because it tends to cancel builds pushed
   # directly to master instead of just PR builds (or the converse).
   # credits: JuliaLang developers.
-  - ps: if ($env:APPVEYOR_PULL_REQUEST_NUMBER -and $env:APPVEYOR_BUILD_NUMBER -ne ((Invoke-RestMethod `
-        https://ci.appveyor.com/api/projects/$env:APPVEYOR_ACCOUNT_NAME/$env:APPVEYOR_PROJECT_SLUG/history?recordsNumber=50).builds | `
-        Where-Object pullRequestId -eq $env:APPVEYOR_PULL_REQUEST_NUMBER)[0].buildNumber) { `
-          throw "There are newer queued builds for this pull request, failing early." }
+  - ps:
+      if ($env:APPVEYOR_PULL_REQUEST_NUMBER -and $env:APPVEYOR_BUILD_NUMBER -ne ((Invoke-RestMethod `
+      https://ci.appveyor.com/api/projects/$env:APPVEYOR_ACCOUNT_NAME/$env:APPVEYOR_PROJECT_SLUG/history?recordsNumber=50).builds | `
+      Where-Object pullRequestId -eq $env:APPVEYOR_PULL_REQUEST_NUMBER)[0].buildNumber) { `
+      throw "There are newer queued builds for this pull request, failing early." }
 
   - "python -m pip install --upgrade pip"
   - if defined TOXENV (
-      pip install
-        tox
-        pywin32
-        certifi
+    pip install
+    tox
+    pywin32
+    certifi
     )
   - if not defined TOXENV (
-      pip install
-        slimit
-        twisted[tls]
-        chardet
-        mako
-        pyxdg
-        pillow
-        slimit
-        setproctitle
-        pywin32
-        certifi
-        pygame
-        bbfreeze
-        pefile
+    pip install
+    slimit
+    twisted[tls]
+    chardet
+    mako
+    pyxdg
+    pillow
+    slimit
+    setproctitle
+    pywin32
+    certifi
+    pygame
+    bbfreeze
+    pefile
     )
 
   - echo "Installing pygtk...."
   - if not exist pygtk-all-in-one-2.24.2.win32-py2.7.msi (
-      echo "Downloading pygtk...."
-      & appveyor-retry appveyor DownloadFile "https://ftp.gnome.org/pub/GNOME/binaries/win32/pygtk/2.24/pygtk-all-in-one-2.24.2.win32-py2.7.msi"
+    echo "Downloading pygtk...."
+    & appveyor-retry appveyor DownloadFile "https://ftp.gnome.org/pub/GNOME/binaries/win32/pygtk/2.24/pygtk-all-in-one-2.24.2.win32-py2.7.msi"
     )
   - cmd: msiexec /i pygtk-all-in-one-2.24.2.win32-py2.7.msi /quiet /qn /norestart TARGETDIR=C:\Python27 INSTALLLEVEL=3
 
   - echo "Installing openssl...."
   - if not exist openssl-1.1.0f-vs2008.7z (
-      echo "Downloading openssl...."
-      & appveyor-retry appveyor DownloadFile "https://www.npcglib.org/~stathis/downloads/openssl-1.1.0f-vs2008.7z"
+    echo "Downloading openssl...."
+    & appveyor-retry appveyor DownloadFile "https://www.npcglib.org/~stathis/downloads/openssl-1.1.0f-vs2008.7z"
     )
   - "7z x -oc:\\ -aoa openssl-1.1.0f-vs2008.7z"
   - "rename c:\\openssl-1.1.0f-vs2008 openssl-1.1"
@@ -70,15 +71,15 @@ install:
 
   - echo "Installing libtorrent...."
   - if not exist libtorrent.pyd (
-      echo "Downloading libtorrent...."
-      & appveyor-retry appveyor DownloadFile "https://github.com/doadin/libtorrent/releases/download/1.1.7.test/libtorrent.pyd"
+    echo "Downloading libtorrent...."
+    & appveyor-retry appveyor DownloadFile "https://github.com/doadin/libtorrent/releases/download/1.1.7.test/libtorrent.pyd"
     )
   - "copy /Y libtorrent.pyd c:\\Python27\\Lib\\site-packages\\libtorrent.pyd"
   - "SET PATH=%TOXENV%;%PYTHON%;%PYTHON%\\Scripts;c:\\openssl-1.1\\bin;C:\\Program Files (x86)\\NSIS;%PATH%"
 
   - "python --version"
-  - "python -c \"import struct; print(struct.calcsize('P') * 8)\""
-  - "python -c \"import libtorrent; print(libtorrent.__version__)\""
+  - 'python -c "import struct; print(struct.calcsize(\"P\") * 8)"'
+  - 'python -c "import libtorrent; print(libtorrent.__version__)"'
   - openssl version -v
 
 cache:

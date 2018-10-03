@@ -20,39 +20,46 @@ Ext.ux.form.SpinnerField = Ext.extend(Ext.form.NumberField, {
     adjustSize: Ext.BoxComponent.prototype.adjustSize,
 
     constructor: function(config) {
-            var spinnerConfig = Ext.copyTo({}, config, 'incrementValue,alternateIncrementValue,accelerate,defaultValue,triggerClass,splitterClass');
+        var spinnerConfig = Ext.copyTo(
+            {},
+            config,
+            'incrementValue,alternateIncrementValue,accelerate,defaultValue,triggerClass,splitterClass'
+        );
 
-            var spl = this.spinner = new Ext.ux.Spinner(spinnerConfig);
+        var spl = (this.spinner = new Ext.ux.Spinner(spinnerConfig));
 
-            var plugins = config.plugins
-                    ? (Ext.isArray(config.plugins)
-                            ? config.plugins.push(spl)
-                            : [config.plugins, spl])
-                    : spl;
+        var plugins = config.plugins
+            ? Ext.isArray(config.plugins)
+                ? config.plugins.push(spl)
+                : [config.plugins, spl]
+            : spl;
 
-            Ext.ux.form.SpinnerField.superclass.constructor.call(this, Ext.apply(config, {plugins: plugins}));
+        Ext.ux.form.SpinnerField.superclass.constructor.call(
+            this,
+            Ext.apply(config, { plugins: plugins })
+        );
     },
 
     // private
-    getResizeEl: function(){
+    getResizeEl: function() {
         return this.wrap;
     },
 
     // private
-    getPositionEl: function(){
+    getPositionEl: function() {
         return this.wrap;
     },
 
     // private
-    alignErrorIcon: function(){
+    alignErrorIcon: function() {
         if (this.wrap) {
             this.errorIcon.alignTo(this.wrap, 'tl-tr', [2, 0]);
         }
     },
 
-    validateBlur: function(){
+    validateBlur: function() {
         return true;
-    }
+    },
 });
 
 Ext.reg('spinnerfield', Ext.ux.form.SpinnerField);

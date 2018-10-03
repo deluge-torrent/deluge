@@ -14,7 +14,6 @@ Ext.namespace('Deluge.preferences');
  * @extends Ext.Window
  */
 Deluge.preferences.InstallPluginWindow = Ext.extend(Ext.Window, {
-
     title: _('Install Plugin'),
     layout: 'fit',
     height: 115,
@@ -28,7 +27,9 @@ Deluge.preferences.InstallPluginWindow = Ext.extend(Ext.Window, {
     plain: true,
 
     initComponent: function() {
-        Deluge.preferences.InstallPluginWindow.superclass.initComponent.call(this);
+        Deluge.preferences.InstallPluginWindow.superclass.initComponent.call(
+            this
+        );
         this.addButton(_('Install'), this.onInstall, this);
 
         this.form = this.add({
@@ -37,16 +38,18 @@ Deluge.preferences.InstallPluginWindow = Ext.extend(Ext.Window, {
             labelWidth: 70,
             autoHeight: true,
             fileUpload: true,
-            items: [{
-                xtype: 'fileuploadfield',
-                width: 240,
-                emptyText: _('Select an egg'),
-                fieldLabel: _('Plugin Egg'),
-                name: 'file',
-                buttonCfg: {
-                    text: _('Browse...')
-                }
-            }]
+            items: [
+                {
+                    xtype: 'fileuploadfield',
+                    width: 240,
+                    emptyText: _('Select an egg'),
+                    fieldLabel: _('Plugin Egg'),
+                    name: 'file',
+                    buttonCfg: {
+                        text: _('Browse...'),
+                    },
+                },
+            ],
         });
     },
 
@@ -55,7 +58,7 @@ Deluge.preferences.InstallPluginWindow = Ext.extend(Ext.Window, {
             url: deluge.config.base + 'upload',
             waitMsg: _('Uploading your plugin...'),
             success: this.onUploadSuccess,
-            scope: this
+            scope: this,
         });
     },
 
@@ -67,14 +70,14 @@ Deluge.preferences.InstallPluginWindow = Ext.extend(Ext.Window, {
         this.hide();
         if (upload.result.success) {
             var filename = this.form.getForm().getFieldValues().file;
-            filename = filename.split('\\').slice(-1)[0]
+            filename = filename.split('\\').slice(-1)[0];
             var path = upload.result.files[0];
-            this.form.getForm().setValues({file: ''});
+            this.form.getForm().setValues({ file: '' });
             deluge.client.web.upload_plugin(filename, path, {
                 success: this.onUploadPlugin,
                 scope: this,
-                filename: filename
+                filename: filename,
             });
         }
-    }
+    },
 });

@@ -9,25 +9,33 @@
  */
 
 // Setup the state manager
-Ext.state.Manager.setProvider(new Ext.state.CookieProvider({
-    /**
-     * By default, cookies will expire after 7 days. Provide
-     * an expiry date 10 years in the future to approximate
-     * a cookie that does not expire.
-     */
-    expires: new Date(new Date().getTime() + (1000 * 60 * 60 * 24 * 365 * 10))
-}));
+Ext.state.Manager.setProvider(
+    new Ext.state.CookieProvider({
+        /**
+         * By default, cookies will expire after 7 days. Provide
+         * an expiry date 10 years in the future to approximate
+         * a cookie that does not expire.
+         */
+        expires: new Date(
+            new Date().getTime() + 1000 * 60 * 60 * 24 * 365 * 10
+        ),
+    })
+);
 
 // Add some additional functions to ext and setup some of the
 // configurable parameters
 Ext.apply(Ext, {
     escapeHTML: function(text) {
-        text = String(text).replace('<', '&lt;').replace('>', '&gt;');
+        text = String(text)
+            .replace('<', '&lt;')
+            .replace('>', '&gt;');
         return text.replace('&', '&amp;');
     },
 
     isObjectEmpty: function(obj) {
-        for(var i in obj) { return false; }
+        for (var i in obj) {
+            return false;
+        }
         return true;
     },
 
@@ -44,10 +52,10 @@ Ext.apply(Ext, {
 
     keys: function(obj) {
         var keys = [];
-        for (var i in obj) if (obj.hasOwnProperty(i))
-        {
-            keys.push(i);
-        }
+        for (var i in obj)
+            if (obj.hasOwnProperty(i)) {
+                keys.push(i);
+            }
         return keys;
     },
 
@@ -63,8 +71,8 @@ Ext.apply(Ext, {
 
     splat: function(obj) {
         var type = Ext.type(obj);
-        return (type) ? ((type != 'array') ? [obj] : obj) : [];
-    }
+        return type ? (type != 'array' ? [obj] : obj) : [];
+    },
 });
 Ext.getKeys = Ext.keys;
 Ext.BLANK_IMAGE_URL = deluge.config.base + 'images/s.gif';
@@ -72,24 +80,23 @@ Ext.USE_NATIVE_JSON = true;
 
 // Create the Deluge namespace
 Ext.apply(Deluge, {
-
     // private
     pluginStore: {},
 
     // private
-    progressTpl:    '<div class="x-progress-wrap x-progress-renderered">' +
-                        '<div class="x-progress-inner">' +
-                            '<div style="width: {2}px" class="x-progress-bar">' +
-                                '<div style="z-index: 99; width: {3}px" class="x-progress-text">' +
-                                    '<div style="width: {1}px;">{0}</div>' +
-                                '</div>' +
-                            '</div>' +
-                            '<div class="x-progress-text x-progress-text-back">' +
-                                '<div style="width: {1}px;">{0}</div>' +
-                            '</div>' +
-                        '</div>' +
-                    '</div>',
-
+    progressTpl:
+        '<div class="x-progress-wrap x-progress-renderered">' +
+        '<div class="x-progress-inner">' +
+        '<div style="width: {2}px" class="x-progress-bar">' +
+        '<div style="z-index: 99; width: {3}px" class="x-progress-text">' +
+        '<div style="width: {1}px;">{0}</div>' +
+        '</div>' +
+        '</div>' +
+        '<div class="x-progress-text x-progress-text-back">' +
+        '<div style="width: {1}px;">{0}</div>' +
+        '</div>' +
+        '</div>' +
+        '</div>',
 
     /**
      * A method to create a progress bar that can be used by renderers
@@ -103,8 +110,15 @@ Ext.apply(Deluge, {
         modifier = Ext.value(modifier, 10);
         var progressWidth = ((width / 100.0) * progress).toFixed(0);
         var barWidth = progressWidth - 1;
-        var textWidth = ((progressWidth - modifier) > 0 ? progressWidth - modifier : 0);
-        return String.format(Deluge.progressTpl, text, width, barWidth, textWidth);
+        var textWidth =
+            progressWidth - modifier > 0 ? progressWidth - modifier : 0;
+        return String.format(
+            Deluge.progressTpl,
+            text,
+            width,
+            barWidth,
+            textWidth
+        );
     },
 
     /**
@@ -120,7 +134,7 @@ Ext.apply(Deluge, {
      * @param {String} name The plugin name to check
      */
     hasPlugin: function(name) {
-        return (Deluge.pluginStore[name]) ? true : false;
+        return Deluge.pluginStore[name] ? true : false;
     },
 
     /**
@@ -130,8 +144,7 @@ Ext.apply(Deluge, {
      */
     registerPlugin: function(name, plugin) {
         Deluge.pluginStore[name] = plugin;
-    }
-
+    },
 });
 
 // Setup a space for plugins to insert themselves
@@ -152,12 +165,12 @@ FILE_PRIORITY = {
     6: 'High',
     7: 'High',
     9: 'Mixed',
-    'Ignore': 0,
-    'Low': 1,
-    'Normal': 4,
-    'High': 7,
-    'Mixed': 9
-}
+    Ignore: 0,
+    Low: 1,
+    Normal: 4,
+    High: 7,
+    Mixed: 9,
+};
 
 FILE_PRIORITY_CSS = {
     0: 'x-no-download',
@@ -168,5 +181,5 @@ FILE_PRIORITY_CSS = {
     5: 'x-high-download',
     6: 'x-high-download',
     7: 'x-high-download',
-    9: 'x-mixed-download'
-}
+    9: 'x-mixed-download',
+};

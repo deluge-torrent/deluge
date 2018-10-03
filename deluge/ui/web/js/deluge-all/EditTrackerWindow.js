@@ -14,7 +14,6 @@ Ext.ns('Deluge');
  * @extends Ext.Window
  */
 Deluge.EditTrackerWindow = Ext.extend(Ext.Window, {
-
     title: _('Edit Tracker'),
     layout: 'fit',
     width: 375,
@@ -40,12 +39,14 @@ Deluge.EditTrackerWindow = Ext.extend(Ext.Window, {
             defaultType: 'textfield',
             baseCls: 'x-plain',
             labelWidth: 55,
-            items: [{
-                fieldLabel: _('Tracker:'),
-                labelSeparator: '',
-                name: 'tracker',
-                anchor: '100%'
-            }]
+            items: [
+                {
+                    fieldLabel: _('Tracker:'),
+                    labelSeparator: '',
+                    name: 'tracker',
+                    anchor: '100%',
+                },
+            ],
         });
     },
 
@@ -53,7 +54,10 @@ Deluge.EditTrackerWindow = Ext.extend(Ext.Window, {
         Deluge.EditTrackerWindow.superclass.show.call(this);
 
         this.record = record;
-        this.form.getForm().findField('tracker').setValue(record.data['url']);
+        this.form
+            .getForm()
+            .findField('tracker')
+            .setValue(record.data['url']);
     },
 
     onCancelClick: function() {
@@ -61,13 +65,19 @@ Deluge.EditTrackerWindow = Ext.extend(Ext.Window, {
     },
 
     onHide: function() {
-        this.form.getForm().findField('tracker').setValue('');
+        this.form
+            .getForm()
+            .findField('tracker')
+            .setValue('');
     },
 
     onSaveClick: function() {
-        var url = this.form.getForm().findField('tracker').getValue();
+        var url = this.form
+            .getForm()
+            .findField('tracker')
+            .getValue();
         this.record.set('url', url);
         this.record.commit();
         this.hide();
-    }
+    },
 });

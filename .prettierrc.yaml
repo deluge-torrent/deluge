@@ -1,0 +1,13 @@
+trailingComma: "es5"
+tabWidth: 4
+singleQuote: true
+overrides:
+  - files:
+      - "*.yaml"
+      - ".*.yaml"
+      - "*.yml"
+      - ".*.yml"
+      - "*.md"
+    options:
+      tabWidth: 2
+      singleQuote: false

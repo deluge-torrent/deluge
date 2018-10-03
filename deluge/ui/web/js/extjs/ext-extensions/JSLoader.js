@@ -6,8 +6,8 @@ Ext.ux.JSLoader = function(options) {
         options: options,
         onLoad: options.onLoad || Ext.emptyFn,
         onError: options.onError || Ext.ux.JSLoader.stdError,
-        scope: options.scope || this
-       };
+        scope: options.scope || this,
+    };
 
     Ext.Ajax.request({
         url: options.url,
@@ -16,9 +16,9 @@ Ext.ux.JSLoader = function(options) {
             var script = Ext.ux.JSLoader.scripts[options.scriptIndex];
             try {
                 eval(response.responseText);
-            } catch(e) {
+            } catch (e) {
                 script.success = false;
-            script.onError(script.options, e);
+                script.onError(script.options, e);
             }
             if (script.success) {
                 script.onLoad.call(script.scope, script.options);
@@ -28,11 +28,13 @@ Ext.ux.JSLoader = function(options) {
             var script = Ext.ux.JSLoader.scripts[options.scriptIndex];
             script.success = false;
             script.onError(script.options, response.status);
-        }
+        },
     });
 };
 Ext.ux.JSLoader.index = 0;
 Ext.ux.JSLoader.scripts = [];
 Ext.ux.JSLoader.stdError = function(options, e) {
-    window.alert('Error loading script:\n\n' + options.url + '\n\nstatus: ' + e);
+    window.alert(
+        'Error loading script:\n\n' + options.url + '\n\nstatus: ' + e
+    );
 };

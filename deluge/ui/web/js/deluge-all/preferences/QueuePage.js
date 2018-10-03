@@ -14,7 +14,6 @@ Ext.namespace('Deluge.preferences');
  * @extends Ext.form.FormPanel
  */
 Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
-
     border: false,
     title: _('Queue'),
     header: false,
@@ -32,15 +31,18 @@ Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
             style: 'padding-top: 5px; margin-bottom: 0px;',
             autoHeight: true,
             labelWidth: 1,
-            defaultType: 'checkbox'
+            defaultType: 'checkbox',
         });
-        om.bind('queue_new_to_top', fieldset.add({
-            fieldLabel: '',
-            labelSeparator: '',
-            height: 22,
-            boxLabel: _('Queue to top'),
-            name: 'queue_new_to_top'
-        }));
+        om.bind(
+            'queue_new_to_top',
+            fieldset.add({
+                fieldLabel: '',
+                labelSeparator: '',
+                height: 22,
+                boxLabel: _('Queue to top'),
+                name: 'queue_new_to_top',
+            })
+        );
 
         fieldset = this.add({
             xtype: 'fieldset',
@@ -49,51 +51,66 @@ Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
             autoHeight: true,
             labelWidth: 150,
             defaultType: 'spinnerfield',
-            style: 'padding-top: 5px; margin-bottom: 0px'
+            style: 'padding-top: 5px; margin-bottom: 0px',
         });
-        om.bind('max_active_limit', fieldset.add({
-            fieldLabel: _('Total:'),
-            labelSeparator: '',
-            name: 'max_active_limit',
-            value: 8,
-            width: 80,
-            decimalPrecision: 0,
-            minValue: -1,
-            maxValue: 99999
-        }));
-        om.bind('max_active_downloading', fieldset.add({
-            fieldLabel: _('Downloading:'),
-            labelSeparator: '',
-            name: 'max_active_downloading',
-            value: 3,
-            width: 80,
-            decimalPrecision: 0,
-            minValue: -1,
-            maxValue: 99999
-        }));
-        om.bind('max_active_seeding', fieldset.add({
-            fieldLabel: _('Seeding:'),
-            labelSeparator: '',
-            name: 'max_active_seeding',
-            value: 5,
-            width: 80,
-            decimalPrecision: 0,
-            minValue: -1,
-            maxValue: 99999
-        }));
-        om.bind('dont_count_slow_torrents', fieldset.add({
-            xtype: 'checkbox',
-            name: 'dont_count_slow_torrents',
-            height: 22,
-            hideLabel: true,
-            boxLabel: _('Ignore slow torrents')
-        }));
-        om.bind('auto_manage_prefer_seeds', fieldset.add({
-            xtype: 'checkbox',
-            name: 'auto_manage_prefer_seeds',
-            hideLabel: true,
-            boxLabel: _('Prefer seeding torrents')
-        }));
+        om.bind(
+            'max_active_limit',
+            fieldset.add({
+                fieldLabel: _('Total:'),
+                labelSeparator: '',
+                name: 'max_active_limit',
+                value: 8,
+                width: 80,
+                decimalPrecision: 0,
+                minValue: -1,
+                maxValue: 99999,
+            })
+        );
+        om.bind(
+            'max_active_downloading',
+            fieldset.add({
+                fieldLabel: _('Downloading:'),
+                labelSeparator: '',
+                name: 'max_active_downloading',
+                value: 3,
+                width: 80,
+                decimalPrecision: 0,
+                minValue: -1,
+                maxValue: 99999,
+            })
+        );
+        om.bind(
+            'max_active_seeding',
+            fieldset.add({
+                fieldLabel: _('Seeding:'),
+                labelSeparator: '',
+                name: 'max_active_seeding',
+                value: 5,
+                width: 80,
+                decimalPrecision: 0,
+                minValue: -1,
+                maxValue: 99999,
+            })
+        );
+        om.bind(
+            'dont_count_slow_torrents',
+            fieldset.add({
+                xtype: 'checkbox',
+                name: 'dont_count_slow_torrents',
+                height: 22,
+                hideLabel: true,
+                boxLabel: _('Ignore slow torrents'),
+            })
+        );
+        om.bind(
+            'auto_manage_prefer_seeds',
+            fieldset.add({
+                xtype: 'checkbox',
+                name: 'auto_manage_prefer_seeds',
+                hideLabel: true,
+                boxLabel: _('Prefer seeding torrents'),
+            })
+        );
 
         fieldset = this.add({
             xtype: 'fieldset',
@@ -102,42 +119,51 @@ Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
             autoHeight: true,
             labelWidth: 150,
             defaultType: 'spinnerfield',
-            style: 'padding-top: 5px; margin-bottom: 0px'
+            style: 'padding-top: 5px; margin-bottom: 0px',
         });
-        om.bind('share_ratio_limit', fieldset.add({
-            fieldLabel: _('Share Ratio:'),
-            labelSeparator: '',
-            name: 'share_ratio_limit',
-            value: 8,
-            width: 80,
-            incrementValue: 0.1,
-            minValue: -1,
-            maxValue: 99999,
-            alternateIncrementValue: 1,
-            decimalPrecision: 2
-        }));
-        om.bind('seed_time_ratio_limit', fieldset.add({
-            fieldLabel: _('Time Ratio:'),
-            labelSeparator: '',
-            name: 'seed_time_ratio_limit',
-            value: 3,
-            width: 80,
-            incrementValue: 0.1,
-            minValue: -1,
-            maxValue: 99999,
-            alternateIncrementValue: 1,
-            decimalPrecision: 2
-        }));
-        om.bind('seed_time_limit', fieldset.add({
-            fieldLabel: _('Time (m):'),
-            labelSeparator: '',
-            name: 'seed_time_limit',
-            value: 5,
-            width: 80,
-            decimalPrecision: 0,
-            minValue: -1,
-            maxValue: 99999
-        }));
+        om.bind(
+            'share_ratio_limit',
+            fieldset.add({
+                fieldLabel: _('Share Ratio:'),
+                labelSeparator: '',
+                name: 'share_ratio_limit',
+                value: 8,
+                width: 80,
+                incrementValue: 0.1,
+                minValue: -1,
+                maxValue: 99999,
+                alternateIncrementValue: 1,
+                decimalPrecision: 2,
+            })
+        );
+        om.bind(
+            'seed_time_ratio_limit',
+            fieldset.add({
+                fieldLabel: _('Time Ratio:'),
+                labelSeparator: '',
+                name: 'seed_time_ratio_limit',
+                value: 3,
+                width: 80,
+                incrementValue: 0.1,
+                minValue: -1,
+                maxValue: 99999,
+                alternateIncrementValue: 1,
+                decimalPrecision: 2,
+            })
+        );
+        om.bind(
+            'seed_time_limit',
+            fieldset.add({
+                fieldLabel: _('Time (m):'),
+                labelSeparator: '',
+                name: 'seed_time_limit',
+                value: 5,
+                width: 80,
+                decimalPrecision: 0,
+                minValue: -1,
+                maxValue: 99999,
+            })
+        );
 
         fieldset = this.add({
             xtype: 'fieldset',
@@ -147,18 +173,18 @@ Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
             title: _('Share Ratio Reached'),
 
             layout: 'table',
-            layoutConfig: {columns: 2},
+            layoutConfig: { columns: 2 },
             labelWidth: 0,
             defaultType: 'checkbox',
 
             defaults: {
                 fieldLabel: '',
-                labelSeparator: ''
-            }
+                labelSeparator: '',
+            },
         });
         this.stopAtRatio = fieldset.add({
             name: 'stop_seed_at_ratio',
-            boxLabel: _('Share Ratio:')
+            boxLabel: _('Share Ratio:'),
         });
         this.stopAtRatio.on('check', this.onStopRatioCheck, this);
         om.bind('stop_seed_at_ratio', this.stopAtRatio);
@@ -174,7 +200,7 @@ Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
             minValue: -1,
             maxValue: 99999,
             alternateIncrementValue: 1,
-            decimalPrecision: 2
+            decimalPrecision: 2,
         });
         om.bind('stop_seed_ratio', this.stopRatio);
 
@@ -183,17 +209,20 @@ Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
             columns: 1,
             colspan: 2,
             disabled: true,
-            style: "margin-left: 10px",
-            items: [{
-                boxLabel: _('Pause torrent'),
-                name: 'at_ratio',
-                inputValue: false,
-                checked: true
-            }, {
-                boxLabel: _('Remove torrent'),
-                name: 'at_ratio',
-                inputValue: true
-            }]
+            style: 'margin-left: 10px',
+            items: [
+                {
+                    boxLabel: _('Pause torrent'),
+                    name: 'at_ratio',
+                    inputValue: false,
+                    checked: true,
+                },
+                {
+                    boxLabel: _('Remove torrent'),
+                    name: 'at_ratio',
+                    inputValue: true,
+                },
+            ],
         });
         om.bind('remove_seed_at_ratio', this.removeAtRatio);
     },
@@ -201,5 +230,5 @@ Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
     onStopRatioCheck: function(e, checked) {
         this.stopRatio.setDisabled(!checked);
         this.removeAtRatio.setDisabled(!checked);
-    }
+    },
 });

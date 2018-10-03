@@ -1,10 +1,11 @@
-html, body {
+html,
+body {
     font: normal 11px arial, tahoma, helvetica, sans-serif;
     margin: 0;
     padding: 0;
     border: 0 none;
     overflow: hidden;
-    height:100%;
+    height: 100%;
 }
 
 input {
@@ -21,7 +22,7 @@ button::-moz-focus-inner {
 }
 
 #tbar-deluge-text.x-item-disabled * {
-    color:black !important;
+    color: black !important;
     font-weight: bold;
 }
 
@@ -29,13 +30,15 @@ button::-moz-focus-inner {
     opacity: 1 !important;
 }
 
-
-.deluge-torrents td, .x-deluge-peers td {
+.deluge-torrents td,
+.x-deluge-peers td {
     height: 16px;
     line-height: 16px;
 }
 
-.deluge-torrents .torrent-name, .x-deluge-peer, .x-deluge-seed {
+.deluge-torrents .torrent-name,
+.x-deluge-peer,
+.x-deluge-seed {
     padding-left: 20px;
     background-repeat: no-repeat;
 }
@@ -45,40 +48,95 @@ button::-moz-focus-inner {
 }
 
 /* Icon classes */
-.x-deluge-all { background-image: url('../icons/all.png'); }
-.x-deluge-active { background-image: url('../icons/active.png'); }
-.x-deluge-downloading, .x-btn .x-deluge-downloading, .x-deluge-peer { background-image: url('../icons/downloading.png'); }
-.x-deluge-seeding, .x-btn .x-deluge-seeding, .deluge-torrents .seeding, .x-deluge-seed { background-image: url('../icons/seeding.png'); }
-.x-deluge-queued, .x-btn .x-deluge-queued, .deluge-torrents .queued { background-image: url('../icons/queued.png'); }
-.x-deluge-paused, .x-btn .x-deluge-paused, .deluge-torrents .paused { background-image: url('../icons/inactive.png'); }
-.x-deluge-error, .deluge-torrents .error { background-image: url('../icons/alert.png'); }
-.x-deluge-checking, .deluge-torrents .checking { background-image: url('../icons/checking.png'); }
-.x-deluge-dht, .x-btn .x-deluge-dht { background-image: url('../icons/dht.png'); }
-.x-deluge-preferences, .x-btn .x-deluge-preferences { background-image: url('../icons/preferences.png') }
-.x-deluge-connections, .x-btn .x-deluge-connections { background-image: url('../icons/connections.png') }
-.x-deluge-connection-manager, .x-btn .x-deluge-connection-manager { background-image: url('../icons/connection_manager.png') }
-.x-deluge-traffic, .x-btn .x-deluge-traffic { background-image: url('../icons/traffic.png') }
-.x-deluge-edit-trackers, .x-btn .x-deluge-edit-trackers {background-image: url('../icons/edit_trackers.png'); }
-.x-deluge-freespace, .x-btn .x-deluge-freespace  {background-image: url('../icons/drive.png'); }
+.x-deluge-all {
+    background-image: url('../icons/all.png');
+}
+.x-deluge-active {
+    background-image: url('../icons/active.png');
+}
+.x-deluge-downloading,
+.x-btn .x-deluge-downloading,
+.x-deluge-peer {
+    background-image: url('../icons/downloading.png');
+}
+.x-deluge-seeding,
+.x-btn .x-deluge-seeding,
+.deluge-torrents .seeding,
+.x-deluge-seed {
+    background-image: url('../icons/seeding.png');
+}
+.x-deluge-queued,
+.x-btn .x-deluge-queued,
+.deluge-torrents .queued {
+    background-image: url('../icons/queued.png');
+}
+.x-deluge-paused,
+.x-btn .x-deluge-paused,
+.deluge-torrents .paused {
+    background-image: url('../icons/inactive.png');
+}
+.x-deluge-error,
+.deluge-torrents .error {
+    background-image: url('../icons/alert.png');
+}
+.x-deluge-checking,
+.deluge-torrents .checking {
+    background-image: url('../icons/checking.png');
+}
+.x-deluge-dht,
+.x-btn .x-deluge-dht {
+    background-image: url('../icons/dht.png');
+}
+.x-deluge-preferences,
+.x-btn .x-deluge-preferences {
+    background-image: url('../icons/preferences.png');
+}
+.x-deluge-connections,
+.x-btn .x-deluge-connections {
+    background-image: url('../icons/connections.png');
+}
+.x-deluge-connection-manager,
+.x-btn .x-deluge-connection-manager {
+    background-image: url('../icons/connection_manager.png');
+}
+.x-deluge-traffic,
+.x-btn .x-deluge-traffic {
+    background-image: url('../icons/traffic.png');
+}
+.x-deluge-edit-trackers,
+.x-btn .x-deluge-edit-trackers {
+    background-image: url('../icons/edit_trackers.png');
+}
+.x-deluge-freespace,
+.x-btn .x-deluge-freespace {
+    background-image: url('../icons/drive.png');
+}
 
-.x-deluge-install-plugin, .x-btn .x-deluge-install-plugin {background-image: url('../icons/install_plugin.png'); }
-.x-deluge-find-more, .x-btn .x-deluge-find-more  {background-image: url('../icons/find_more.png'); }
-
-
+.x-deluge-install-plugin,
+.x-btn .x-deluge-install-plugin {
+    background-image: url('../icons/install_plugin.png');
+}
+.x-deluge-find-more,
+.x-btn .x-deluge-find-more {
+    background-image: url('../icons/find_more.png');
+}
 
 /* Torrent Details */
-#torrentDetails dl, #torrentDetails dl.singleline {
+#torrentDetails dl,
+#torrentDetails dl.singleline {
     float: left;
     min-height: 120px;
 }
 
-#torrentDetails dl dt, dl.singleline dt {
+#torrentDetails dl dt,
+dl.singleline dt {
     float: left;
     font-weight: bold;
     height: 19px;
 }
 
-#torrentDetails dl dd, dl.singleline dd {
+#torrentDetails dl dd,
+dl.singleline dd {
     margin-left: 100px;
     width: 140px;
     height: 19px;
@@ -185,7 +243,8 @@ dl.singleline dd {
 }
 
 /* Add Url Window */
-.x-deluge-add-file, .x-btn .x-deluge-add-file {
+.x-deluge-add-file,
+.x-btn .x-deluge-add-file {
     background: url('../icons/add_file.png') no-repeat 2px;
 }
 
@@ -280,11 +339,11 @@ dl.singleline dd {
 }
 
 .x-treegrid-resizer {
-    border-left:1px solid;
-    border-right:1px solid;
-    position:absolute;
-    left:0;
-    top:0;
+    border-left: 1px solid;
+    border-right: 1px solid;
+    position: absolute;
+    left: 0;
+    top: 0;
 }
 
 .x-treegrid-header-inner {
@@ -297,8 +356,8 @@ dl.singleline dd {
 }
 
 .x-treegrid-resizer {
-    border-left-color:#555;
-    border-right-color:#555;
+    border-left-color: #555;
+    border-right-color: #555;
 }
 
 /* Options Tab Styles */
@@ -348,7 +407,11 @@ dl.singleline dd {
 }
 
 /* Filepriority styles */
-.x-no-download, .x-low-download, .x-normal-download, .x-high-download, .x-mixed-download {
+.x-no-download,
+.x-low-download,
+.x-normal-download,
+.x-high-download,
+.x-mixed-download {
     padding-left: 20px;
     background-repeat: no-repeat;
     line-height: 16px;
@@ -431,7 +494,8 @@ dl.singleline dd {
     background-image: url('../icons/update.png') !important;
 }
 
-.icon-edit-trackers, .icon-edit {
+.icon-edit-trackers,
+.icon-edit {
     background-image: url('../icons/edit_trackers.png') !important;
 }
 

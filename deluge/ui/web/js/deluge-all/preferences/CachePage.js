@@ -14,12 +14,10 @@ Ext.namespace('Deluge.preferences');
  * @extends Ext.form.FormPanel
  */
 Deluge.preferences.Cache = Ext.extend(Ext.form.FormPanel, {
-
     border: false,
     title: _('Cache'),
     header: false,
     layout: 'form',
-
 
     initComponent: function() {
         Deluge.preferences.Cache.superclass.initComponent.call(this);
@@ -36,22 +34,28 @@ Deluge.preferences.Cache = Ext.extend(Ext.form.FormPanel, {
             defaults: {
                 decimalPrecision: 0,
                 minValue: -1,
-                maxValue: 999999
-            }
+                maxValue: 999999,
+            },
         });
-        om.bind('cache_size', fieldset.add({
-            fieldLabel: _('Cache Size (16 KiB Blocks):'),
-            labelSeparator: '',
-            name: 'cache_size',
-            width: 60,
-            value: 512
-        }));
-        om.bind('cache_expiry', fieldset.add({
-            fieldLabel: _('Cache Expiry (seconds):'),
-            labelSeparator: '',
-            name: 'cache_expiry',
-            width: 60,
-            value: 60
-        }));
-    }
+        om.bind(
+            'cache_size',
+            fieldset.add({
+                fieldLabel: _('Cache Size (16 KiB Blocks):'),
+                labelSeparator: '',
+                name: 'cache_size',
+                width: 60,
+                value: 512,
+            })
+        );
+        om.bind(
+            'cache_expiry',
+            fieldset.add({
+                fieldLabel: _('Cache Expiry (seconds):'),
+                labelSeparator: '',
+                name: 'cache_expiry',
+                width: 60,
+                value: 60,
+            })
+        );
+    },
 });

@@ -20,78 +20,102 @@ Ext.namespace('Deluge.data');
  * @constructor
  * @param {Object} data The torrents data
  */
-Deluge.data.Torrent = Ext.data.Record.create([{
+Deluge.data.Torrent = Ext.data.Record.create([
+    {
         name: 'queue',
-        type: 'int'
-    }, {
+        type: 'int',
+    },
+    {
         name: 'name',
         type: 'string',
-        sortType: Deluge.data.SortTypes.asName
-    }, {
+        sortType: Deluge.data.SortTypes.asName,
+    },
+    {
         name: 'total_wanted',
-        type: 'int'
-    }, {
+        type: 'int',
+    },
+    {
         name: 'state',
-        type: 'string'
-    }, {
+        type: 'string',
+    },
+    {
         name: 'progress',
-        type: 'int'
-    }, {
+        type: 'int',
+    },
+    {
         name: 'num_seeds',
-        type: 'int'
-    }, {
+        type: 'int',
+    },
+    {
         name: 'total_seeds',
-        type: 'int'
-    }, {
+        type: 'int',
+    },
+    {
         name: 'num_peers',
-        type: 'int'
-    }, {
+        type: 'int',
+    },
+    {
         name: 'total_peers',
-        type: 'int'
-    }, {
+        type: 'int',
+    },
+    {
         name: 'download_payload_rate',
-        type: 'int'
-    }, {
+        type: 'int',
+    },
+    {
         name: 'upload_payload_rate',
-        type: 'int'
-    }, {
+        type: 'int',
+    },
+    {
         name: 'eta',
-        type: 'int'
-    }, {
+        type: 'int',
+    },
+    {
         name: 'ratio',
-        type: 'float'
-    }, {
+        type: 'float',
+    },
+    {
         name: 'distributed_copies',
-        type: 'float'
-    }, {
+        type: 'float',
+    },
+    {
         name: 'time_added',
-        type: 'int'
-    }, {
+        type: 'int',
+    },
+    {
         name: 'tracker_host',
-        type: 'string'
-    }, {
+        type: 'string',
+    },
+    {
         name: 'save_path',
-        type: 'string'
-    }, {
+        type: 'string',
+    },
+    {
         name: 'total_done',
-        type: 'int'
-    }, {
+        type: 'int',
+    },
+    {
         name: 'total_uploaded',
-        type: 'int'
-    }, {
+        type: 'int',
+    },
+    {
         name: 'total_remaining',
-        type: 'int'
-    }, {
+        type: 'int',
+    },
+    {
         name: 'max_download_speed',
-        type: 'int'
-    }, {
+        type: 'int',
+    },
+    {
         name: 'max_upload_speed',
-        type: 'int'
-    }, {
+        type: 'int',
+    },
+    {
         name: 'seeds_peers_ratio',
-        type: 'float'
-    }, {
+        type: 'float',
+    },
+    {
         name: 'time_since_transfer',
-        type: 'int'
-    }
+        type: 'int',
+    },
 ]);

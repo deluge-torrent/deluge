@@ -14,12 +14,11 @@ Ext.ns('Deluge');
  * @extends Ext.Window
  */
 Deluge.EditConnectionWindow = Ext.extend(Ext.Window, {
-
     title: _('Edit Connection'),
     iconCls: 'x-deluge-add-window-icon',
 
     layout: 'fit',
-    width:  300,
+    width: 300,
     height: 195,
     constrainHeader: true,
     bodyStyle: 'padding: 10px 5px;',
@@ -40,75 +39,96 @@ Deluge.EditConnectionWindow = Ext.extend(Ext.Window, {
             defaultType: 'textfield',
             baseCls: 'x-plain',
             labelWidth: 60,
-            items: [{
-                fieldLabel: _('Host:'),
-                labelSeparator : '',
-                name: 'host',
-                anchor: '75%',
-                value: ''
-            }, {
-                xtype: 'spinnerfield',
-                fieldLabel: _('Port:'),
-                labelSeparator : '',
-                name: 'port',
-                strategy: {
-                    xtype: 'number',
-                    decimalPrecision: 0,
-                    minValue: 0,
-                    maxValue: 65535
+            items: [
+                {
+                    fieldLabel: _('Host:'),
+                    labelSeparator: '',
+                    name: 'host',
+                    anchor: '75%',
+                    value: '',
                 },
-                anchor: '40%',
-                value: 58846
-            }, {
-                fieldLabel: _('Username:'),
-                labelSeparator : '',
-                name: 'username',
-                anchor: '75%',
-                value: ''
-            }, {
-                fieldLabel: _('Password:'),
-                labelSeparator : '',
-                anchor: '75%',
-                name: 'password',
-                inputType: 'password',
-                value: ''
-            }]
+                {
+                    xtype: 'spinnerfield',
+                    fieldLabel: _('Port:'),
+                    labelSeparator: '',
+                    name: 'port',
+                    strategy: {
+                        xtype: 'number',
+                        decimalPrecision: 0,
+                        minValue: 0,
+                        maxValue: 65535,
+                    },
+                    anchor: '40%',
+                    value: 58846,
+                },
+                {
+                    fieldLabel: _('Username:'),
+                    labelSeparator: '',
+                    name: 'username',
+                    anchor: '75%',
+                    value: '',
+                },
+                {
+                    fieldLabel: _('Password:'),
+                    labelSeparator: '',
+                    anchor: '75%',
+                    name: 'password',
+                    inputType: 'password',
+                    value: '',
+                },
+            ],
         });
     },
 
     show: function(connection) {
         Deluge.EditConnectionWindow.superclass.show.call(this);
 
-        this.form.getForm().findField('host').setValue(connection.get('host'));
-        this.form.getForm().findField('port').setValue(connection.get('port'));
-        this.form.getForm().findField('username').setValue(connection.get('user'));
-        this.host_id = connection.id
+        this.form
+            .getForm()
+            .findField('host')
+            .setValue(connection.get('host'));
+        this.form
+            .getForm()
+            .findField('port')
+            .setValue(connection.get('port'));
+        this.form
+            .getForm()
+            .findField('username')
+            .setValue(connection.get('user'));
+        this.host_id = connection.id;
     },
 
     onEditClick: function() {
         var values = this.form.getForm().getValues();
-        deluge.client.web.edit_host(this.host_id, values.host, Number(values.port), values.username, values.password, {
-            success: function(result) {
-                if (!result) {
-                    console.log(result)
-                    Ext.MessageBox.show({
-                        title: _('Error'),
-                        msg: String.format(_('Unable to edit host')),
-                        buttons: Ext.MessageBox.OK,
-                        modal: false,
-                        icon: Ext.MessageBox.ERROR,
-                        iconCls: 'x-deluge-icon-error'
-                    });
-                } else {
-                    this.fireEvent('hostedited');
-                }
-                this.hide();
-            },
-            scope: this
-        });
+        deluge.client.web.edit_host(
+            this.host_id,
+            values.host,
+            Number(values.port),
+            values.username,
+            values.password,
+            {
+                success: function(result) {
+                    if (!result) {
+                        console.log(result);
+                        Ext.MessageBox.show({
+                            title: _('Error'),
+                            msg: String.format(_('Unable to edit host')),
+                            buttons: Ext.MessageBox.OK,
+                            modal: false,
+                            icon: Ext.MessageBox.ERROR,
+                            iconCls: 'x-deluge-icon-error',
+                        });
+                    } else {
+                        this.fireEvent('hostedited');
+                    }
+                    this.hide();
+                },
+                scope: this,
+            }
+        );
     },
 
     onHide: function() {
         this.form.getForm().reset();
-    }
+    },
 });

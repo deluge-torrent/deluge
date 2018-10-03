@@ -16,7 +16,6 @@ Ext.ns('Deluge.ux.preferences');
  * @extends Ext.Panel
  */
 Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
-
     title: _('Blocklist'),
     header: false,
     layout: 'fit',
@@ -34,14 +33,14 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
             defaultType: 'textfield',
             style: 'margin-top: 3px; margin-bottom: 0px; padding-bottom: 0px;',
             autoWidth: true,
-            labelWidth: 40
+            labelWidth: 40,
         });
 
         this.URL = this.URLFset.add({
             fieldLabel: _('URL:'),
             labelSeparator: '',
             name: 'url',
-            width: '80%'
+            width: '80%',
         });
 
         this.SettingsFset = this.add({
@@ -52,7 +51,7 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
             defaultType: 'spinnerfield',
             style: 'margin-top: 3px; margin-bottom: 0px; padding-bottom: 0px;',
             autoWidth: true,
-            labelWidth: 160
+            labelWidth: 160,
         });
 
         this.checkListDays = this.SettingsFset.add({
@@ -61,13 +60,13 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
             name: 'check_list_days',
             value: 4,
             decimalPrecision: 0,
-            width: 80
+            width: 80,
         });
 
         this.chkImportOnStart = this.SettingsFset.add({
             xtype: 'checkbox',
             fieldLabel: _('Import blocklist on startup'),
-            name: 'check_import_startup'
+            name: 'check_import_startup',
         });
 
         this.OptionsFset = this.add({
@@ -79,7 +78,7 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
             style: 'margin-top: 3px; margin-bottom: 0px; padding-bottom: 0px;',
             autoWidth: false,
             width: '80%',
-            labelWidth: 0
+            labelWidth: 0,
         });
 
         this.checkDownload = this.OptionsFset.add({
@@ -88,18 +87,21 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
             xtype: 'container',
             layout: 'hbox',
             margins: '4 0 0 5',
-            items: [{
+            items: [
+                {
                     xtype: 'button',
                     text: ' Check Download and Import ',
-                    scale: 'medium'
-                }, {
+                    scale: 'medium',
+                },
+                {
                     xtype: 'box',
                     autoEl: {
                         tag: 'img',
-                        src: '../icons/ok.png'
+                        src: '../icons/ok.png',
                     },
-                    margins: '4 0 0 3'
-                }]
+                    margins: '4 0 0 3',
+                },
+            ],
         });
 
         this.forceDownload = this.OptionsFset.add({
@@ -108,7 +110,7 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
             text: ' Force Download and Import ',
             margins: '2 0 0 0',
             //icon: '../icons/blocklist_import24.png',
-            scale: 'medium'
+            scale: 'medium',
         });
 
         this.ProgressFset = this.add({
@@ -120,13 +122,13 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
             style: 'margin-top: 1px; margin-bottom: 0px; padding-bottom: 0px;',
             autoWidth: true,
             labelWidth: 0,
-            hidden: true
+            hidden: true,
         });
 
         this.downProgBar = this.ProgressFset.add({
             fieldLabel: _(''),
             name: 'progress_bar',
-            width: '90%'
+            width: '90%',
         });
 
         this.InfoFset = this.add({
@@ -136,31 +138,31 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
             autoHeight: true,
             defaultType: 'label',
             style: 'margin-top: 0px; margin-bottom: 0px; padding-bottom: 0px;',
-            labelWidth: 60
+            labelWidth: 60,
         });
 
         this.lblFileSize = this.InfoFset.add({
             fieldLabel: _('File Size:'),
             labelSeparator: '',
-            name: 'file_size'
+            name: 'file_size',
         });
 
         this.lblDate = this.InfoFset.add({
             fieldLabel: _('Date:'),
             labelSeparator: '',
-            name: 'date'
+            name: 'date',
         });
 
         this.lblType = this.InfoFset.add({
             fieldLabel: _('Type:'),
             labelSeparator: '',
-            name: 'type'
+            name: 'type',
         });
 
         this.lblURL = this.InfoFset.add({
             fieldLabel: _('URL:'),
             labelSeparator: '',
-            name: 'lbl_URL'
+            name: 'lbl_URL',
         });
 
         this.WhitelistFset = this.add({
@@ -172,7 +174,8 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
             style: 'margin-top: 3px; margin-bottom: 0px; padding-bottom: 0px;',
             autoWidth: true,
             labelWidth: 0,
-            items: [{
+            items: [
+                {
                     fieldLabel: _(''),
                     name: 'whitelist',
                     margins: '2 0 5 5',
@@ -181,10 +184,11 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
                     autoExpandColumn: 'ip',
                     viewConfig: {
                         emptyText: _('Add an IP...'),
-                        deferEmptyText: false
+                        deferEmptyText: false,
                     },
                     colModel: new Ext.grid.ColumnModel({
-                        columns: [{
+                        columns: [
+                            {
                                 id: 'ip',
                                 header: _('IP'),
                                 dataIndex: 'ip',
@@ -192,29 +196,30 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
                                 hideable: false,
                                 editable: true,
                                 editor: {
-                                    xtype: 'textfield'
-                                }
-                            }]
+                                    xtype: 'textfield',
+                                },
+                            },
+                        ],
                     }),
                     selModel: new Ext.grid.RowSelectionModel({
                         singleSelect: false,
-                        moveEditorOnEnter: false
+                        moveEditorOnEnter: false,
                     }),
                     store: new Ext.data.ArrayStore({
                         autoDestroy: true,
-                        fields: [{name: 'ip'}]
+                        fields: [{ name: 'ip' }],
                     }),
                     listeners: {
                         afteredit: function(e) {
                             e.record.commit();
-                        }
+                        },
                     },
                     setEmptyText: function(text) {
                         if (this.viewReady) {
                             this.getView().emptyText = text;
                             this.getView().refresh();
                         } else {
-                            Ext.apply(this.viewConfig, {emptyText: text});
+                            Ext.apply(this.viewConfig, { emptyText: text });
                         }
                     },
                     loadData: function(data) {
@@ -222,28 +227,32 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
                         if (this.viewReady) {
                             this.getView().updateHeaders();
                         }
-                    }
-                }]
+                    },
+                },
+            ],
         });
 
         this.ipButtonsContainer = this.WhitelistFset.add({
             xtype: 'container',
             layout: 'hbox',
             margins: '4 0 0 5',
-            items: [{
+            items: [
+                {
                     xtype: 'button',
                     text: ' Add IP ',
-                    margins: '0 5 0 0'
-                },{
+                    margins: '0 5 0 0',
+                },
+                {
                     xtype: 'button',
-                    text: ' Delete IP '
-                }]
+                    text: ' Delete IP ',
+                },
+            ],
         });
 
         this.updateTask = Ext.TaskMgr.start({
             interval: 2000,
             run: this.onUpdate,
-            scope: this
+            scope: this,
         });
 
         this.on('show', this.updateConfig, this);
@@ -290,8 +299,13 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
                     this.forceDownload.setDisabled(true);
 
                     this.ProgressFset.show();
-                    this.downProgBar.updateProgress(status['file_progress'],'Downloading '.concat((status['file_progress'] * 100).toFixed(2)).concat('%'),true);
-
+                    this.downProgBar.updateProgress(
+                        status['file_progress'],
+                        'Downloading '
+                            .concat((status['file_progress'] * 100).toFixed(2))
+                            .concat('%'),
+                        true
+                    );
                 } else if (status['state'] == 'Importing') {
                     this.InfoFset.hide();
                     this.checkDownload.getComponent(0).setDisabled(true);
@@ -299,8 +313,9 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
                     this.forceDownload.setDisabled(true);
 
                     this.ProgressFset.show();
-                    this.downProgBar.updateText('Importing '.concat(status['num_blocked']));
-
+                    this.downProgBar.updateText(
+                        'Importing '.concat(status['num_blocked'])
+                    );
                 } else if (status['state'] == 'Idle') {
                     this.ProgressFset.hide();
                     this.checkDownload.getComponent(0).setDisabled(false);
@@ -315,10 +330,12 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
                     this.lblFileSize.setText(fsize(status['file_size']));
                     this.lblDate.setText(fdate(status['file_date']));
                     this.lblType.setText(status['file_type']);
-                    this.lblURL.setText(status['file_url'].substr(0,40).concat('...'));
+                    this.lblURL.setText(
+                        status['file_url'].substr(0, 40).concat('...')
+                    );
                 }
             },
-            scope: this
+            scope: this,
         });
     },
 
@@ -329,7 +346,7 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
 
     forceDown: function() {
         this.onApply();
-        deluge.client.blocklist.check_import(force = true);
+        deluge.client.blocklist.check_import((force = true));
     },
 
     updateConfig: function() {
@@ -348,7 +365,7 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
 
                 this.WhitelistFset.getComponent(0).loadData(data);
             },
-            scope: this
+            scope: this,
         });
 
         deluge.client.blocklist.get_status({
@@ -356,9 +373,11 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
                 this.lblFileSize.setText(fsize(status['file_size']));
                 this.lblDate.setText(fdate(status['file_date']));
                 this.lblType.setText(status['file_type']);
-                this.lblURL.setText(status['file_url'].substr(0,40).concat('...'));
+                this.lblURL.setText(
+                    status['file_url'].substr(0, 40).concat('...')
+                );
             },
-            scope: this
+            scope: this,
         });
     },
 
@@ -366,7 +385,7 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
         var store = this.WhitelistFset.getComponent(0).getStore();
         var IP = store.recordType;
         var i = new IP({
-            ip: ''
+            ip: '',
         });
         this.WhitelistFset.getComponent(0).stopEditing();
         store.insert(0, i);
@@ -374,12 +393,13 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
     },
 
     deleteIP: function() {
-        var selections = this.WhitelistFset.getComponent(0).getSelectionModel().getSelections();
+        var selections = this.WhitelistFset.getComponent(0)
+            .getSelectionModel()
+            .getSelections();
         var store = this.WhitelistFset.getComponent(0).getStore();
 
         this.WhitelistFset.getComponent(0).stopEditing();
-        for (var i = 0; i < selections.length; i++)
-            store.remove(selections[i]);
+        for (var i = 0; i < selections.length; i++) store.remove(selections[i]);
         store.commitChanges();
     },
 
@@ -389,11 +409,10 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
         deluge.preferences.un('show', this.updateConfig, this);
 
         Deluge.ux.preferences.BlocklistPage.superclass.onDestroy.call(this);
-    }
+    },
 });
 
 Deluge.plugins.BlocklistPlugin = Ext.extend(Deluge.Plugin, {
-
     name: 'Blocklist',
 
     onDisable: function() {
@@ -401,8 +420,10 @@ Deluge.plugins.BlocklistPlugin = Ext.extend(Deluge.Plugin, {
     },
 
     onEnable: function() {
-        this.prefsPage = deluge.preferences.addPage(new Deluge.ux.preferences.BlocklistPage());
-    }
+        this.prefsPage = deluge.preferences.addPage(
+            new Deluge.ux.preferences.BlocklistPage()
+        );
+    },
 });
 
 Deluge.registerPlugin('Blocklist', Deluge.plugins.BlocklistPlugin);

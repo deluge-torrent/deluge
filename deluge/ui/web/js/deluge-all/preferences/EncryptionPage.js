@@ -14,7 +14,6 @@ Ext.namespace('Deluge.preferences');
  * @extends Ext.form.FormPanel
  */
 Deluge.preferences.Encryption = Ext.extend(Ext.form.FormPanel, {
-
     border: false,
     title: _('Encryption'),
     header: false,
@@ -31,61 +30,70 @@ Deluge.preferences.Encryption = Ext.extend(Ext.form.FormPanel, {
             header: false,
             autoHeight: true,
             defaultType: 'combo',
-            width: 300
+            width: 300,
         });
-        optMan.bind('enc_in_policy', fieldset.add({
-            fieldLabel: _('Incoming:'),
-            labelSeparator : '',
-            mode: 'local',
-            width: 150,
-            store: new Ext.data.ArrayStore({
-                fields: ['id', 'text'],
-                data: [
-                    [0, _('Forced')],
-                    [1, _('Enabled')],
-                    [2, _('Disabled')]
-                ]
-            }),
-            editable: false,
-            triggerAction: 'all',
-            valueField: 'id',
-            displayField: 'text'
-        }));
-        optMan.bind('enc_out_policy', fieldset.add({
-            fieldLabel: _('Outgoing:'),
-            labelSeparator : '',
-            mode: 'local',
-            width: 150,
-            store: new Ext.data.SimpleStore({
-                fields: ['id', 'text'],
-                data: [
-                    [0, _('Forced')],
-                    [1, _('Enabled')],
-                    [2, _('Disabled')]
-                ]
-            }),
-            editable: false,
-            triggerAction: 'all',
-            valueField: 'id',
-            displayField: 'text'
-        }));
-        optMan.bind('enc_level', fieldset.add({
-            fieldLabel: _('Level:'),
-            labelSeparator : '',
-            mode: 'local',
-            width: 150,
-            store: new Ext.data.SimpleStore({
-                fields: ['id', 'text'],
-                data: [
-                    [0, _('Handshake')],
-                    [1, _('Full Stream')],
-                    [2, _('Either')]
-                ]
-            }),
-            editable: false,
-            triggerAction: 'all',
-            valueField: 'id',
-            displayField: 'text'
-        }));
-    }
+        optMan.bind(
+            'enc_in_policy',
+            fieldset.add({
+                fieldLabel: _('Incoming:'),
+                labelSeparator: '',
+                mode: 'local',
+                width: 150,
+                store: new Ext.data.ArrayStore({
+                    fields: ['id', 'text'],
+                    data: [
+                        [0, _('Forced')],
+                        [1, _('Enabled')],
+                        [2, _('Disabled')],
+                    ],
+                }),
+                editable: false,
+                triggerAction: 'all',
+                valueField: 'id',
+                displayField: 'text',
+            })
+        );
+        optMan.bind(
+            'enc_out_policy',
+            fieldset.add({
+                fieldLabel: _('Outgoing:'),
+                labelSeparator: '',
+                mode: 'local',
+                width: 150,
+                store: new Ext.data.SimpleStore({
+                    fields: ['id', 'text'],
+                    data: [
+                        [0, _('Forced')],
+                        [1, _('Enabled')],
+                        [2, _('Disabled')],
+                    ],
+                }),
+                editable: false,
+                triggerAction: 'all',
+                valueField: 'id',
+                displayField: 'text',
+            })
+        );
+        optMan.bind(
+            'enc_level',
+            fieldset.add({
+                fieldLabel: _('Level:'),
+                labelSeparator: '',
+                mode: 'local',
+                width: 150,
+                store: new Ext.data.SimpleStore({
+                    fields: ['id', 'text'],
+                    data: [
+                        [0, _('Handshake')],
+                        [1, _('Full Stream')],
+                        [2, _('Either')],
+                    ],
+                }),
+                editable: false,
+                triggerAction: 'all',
+                valueField: 'id',
+                displayField: 'text',
+            })
+        );
+    },
 });

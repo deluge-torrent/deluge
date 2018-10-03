@@ -7,19 +7,18 @@
  * the additional special exception to link portions of this program with the OpenSSL library.
  * See LICENSE for more details.
  */
-Ext.namespace("Ext.ux.form");
+Ext.namespace('Ext.ux.form');
 
 /**
-  * Ext.ux.form.ToggleField class
-  *
-  * @author Damien Churchill
-  * @version v0.1
-  *
-  * @class Ext.ux.form.ToggleField
-  * @extends Ext.form.TriggerField
-  */
+ * Ext.ux.form.ToggleField class
+ *
+ * @author Damien Churchill
+ * @version v0.1
+ *
+ * @class Ext.ux.form.ToggleField
+ * @extends Ext.form.TriggerField
+ */
 Ext.ux.form.ToggleField = Ext.extend(Ext.form.Field, {
-
     cls: 'x-toggle-field',
 
     initComponent: function() {
@@ -29,7 +28,7 @@ Ext.ux.form.ToggleField = Ext.extend(Ext.form.Field, {
         this.toggle.on('check', this.onToggleCheck, this);
 
         this.input = new Ext.form.TextField({
-            disabled: true
+            disabled: true,
         });
     },
 
@@ -39,10 +38,10 @@ Ext.ux.form.ToggleField = Ext.extend(Ext.form.Field, {
                 cls: this.groupCls,
                 layout: 'table',
                 layoutConfig: {
-                    columns: 2
+                    columns: 2,
                 },
                 border: false,
-                renderTo: ct
+                renderTo: ct,
             });
             this.panel.ownerCt = this;
             this.el = this.panel.getEl();
@@ -51,7 +50,10 @@ Ext.ux.form.ToggleField = Ext.extend(Ext.form.Field, {
             this.panel.add(this.input);
             this.panel.doLayout();
 
-            this.toggle.getEl().parent().setStyle('padding-right', '10px');
+            this.toggle
+                .getEl()
+                .parent()
+                .setStyle('padding-right', '10px');
         }
         Ext.ux.form.ToggleField.superclass.onRender.call(this, ct, position);
     },
@@ -68,6 +70,6 @@ Ext.ux.form.ToggleField = Ext.extend(Ext.form.Field, {
 
     onToggleCheck: function(toggle, checked) {
         this.input.setDisabled(!checked);
-    }
+    },
 });
 Ext.reg('togglefield', Ext.ux.form.ToggleField);

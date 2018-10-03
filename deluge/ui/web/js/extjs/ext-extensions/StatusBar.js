@@ -137,7 +137,7 @@ sb.setStatus({
      * @cfg {String} cls
      * The base class applied to the containing element for this component on render (defaults to 'x-statusbar')
      */
-    cls : 'x-statusbar',
+    cls: 'x-statusbar',
     /**
      * @cfg {String} busyIconCls
      * The default <code>{@link #iconCls}</code> applied when calling
@@ -145,7 +145,7 @@ sb.setStatus({
      * It can be overridden at any time by passing the <code>iconCls</code>
      * argument into <code>{@link #showBusy}</code>.
      */
-    busyIconCls : 'x-status-busy',
+    busyIconCls: 'x-status-busy',
     /**
      * @cfg {String} busyText
      * The default <code>{@link #text}</code> applied when calling
@@ -153,7 +153,7 @@ sb.setStatus({
      * It can be overridden at any time by passing the <code>text</code>
      * argument into <code>{@link #showBusy}</code>.
      */
-    busyText : 'Loading...',
+    busyText: 'Loading...',
     /**
      * @cfg {Number} autoClear
      * The number of milliseconds to wait after setting the status via
@@ -165,7 +165,7 @@ sb.setStatus({
      * <code>{@link #setStatus}</code>. Calls to <code>{@link #clearStatus}</code>
      * always clear the status bar immediately and ignore this value.
      */
-    autoClear : 5000,
+    autoClear: 5000,
 
     /**
      * @cfg {String} emptyText
@@ -177,34 +177,34 @@ sb.setStatus({
      * vertically when no text is specified and there are no other items in
      * the toolbar.
      */
-    emptyText : '&nbsp;',
+    emptyText: '&nbsp;',
 
     // private
-    activeThreadId : 0,
+    activeThreadId: 0,
 
     // private
-    initComponent : function(){
-        if(this.statusAlign=='right'){
+    initComponent: function() {
+        if (this.statusAlign == 'right') {
             this.cls += ' x-status-right';
         }
         Ext.ux.StatusBar.superclass.initComponent.call(this);
     },
 
     // private
-    afterRender : function(){
+    afterRender: function() {
         Ext.ux.StatusBar.superclass.afterRender.call(this);
 
         var right = this.statusAlign == 'right';
         this.currIconCls = this.iconCls || this.defaultIconCls;
         this.statusEl = new Ext.Toolbar.TextItem({
             cls: 'x-status-text ' + (this.currIconCls || ''),
-            text: this.text || this.defaultText || ''
+            text: this.text || this.defaultText || '',
         });
 
-        if(right){
+        if (right) {
             this.add('->');
             this.add(this.statusEl);
-        }else{
+        } else {
             this.insert(0, this.statusEl);
             this.insert(1, '->');
         }
@@ -260,33 +260,33 @@ statusBar.setStatus({
 </code></pre>
      * @return {Ext.ux.StatusBar} this
      */
-    setStatus : function(o){
+    setStatus: function(o) {
         o = o || {};
 
-        if(typeof o == 'string'){
-            o = {text:o};
+        if (typeof o == 'string') {
+            o = { text: o };
         }
-        if(o.text !== undefined){
+        if (o.text !== undefined) {
             this.setText(o.text);
         }
-        if(o.iconCls !== undefined){
+        if (o.iconCls !== undefined) {
             this.setIcon(o.iconCls);
         }
 
-        if(o.clear){
+        if (o.clear) {
             var c = o.clear,
                 wait = this.autoClear,
-                defaults = {useDefaults: true, anim: true};
+                defaults = { useDefaults: true, anim: true };
 
-            if(typeof c == 'object'){
+            if (typeof c == 'object') {
                 c = Ext.applyIf(c, defaults);
-                if(c.wait){
+                if (c.wait) {
                     wait = c.wait;
                 }
-            }else if(typeof c == 'number'){
+            } else if (typeof c == 'number') {
                 wait = c;
                 c = defaults;
-            }else if(typeof c == 'boolean'){
+            } else if (typeof c == 'boolean') {
                 c = defaults;
             }
 
@@ -307,10 +307,10 @@ statusBar.setStatus({
      * </ul>
      * @return {Ext.ux.StatusBar} this
      */
-    clearStatus : function(o){
+    clearStatus: function(o) {
         o = o || {};
 
-        if(o.threadId && o.threadId !== this.activeThreadId){
+        if (o.threadId && o.threadId !== this.activeThreadId) {
             // this means the current call was made internally, but a newer
             // thread has set a message since this call was deferred.  Since
             // we don't want to overwrite a newer message just ignore.
@@ -318,29 +318,33 @@ statusBar.setStatus({
         }
 
         var text = o.useDefaults ? this.defaultText : this.emptyText,
-            iconCls = o.useDefaults ? (this.defaultIconCls ? this.defaultIconCls : '') : '';
+            iconCls = o.useDefaults
+                ? this.defaultIconCls
+                    ? this.defaultIconCls
+                    : ''
+                : '';
 
-        if(o.anim){
+        if (o.anim) {
             // animate the statusEl Ext.Element
             this.statusEl.el.fadeOut({
                 remove: false,
                 useDisplay: true,
                 scope: this,
-                callback: function(){
+                callback: function() {
                     this.setStatus({
                         text: text,
-                        iconCls: iconCls
+                        iconCls: iconCls,
                     });
 
                     this.statusEl.el.show();
-                }
+                },
             });
-        }else{
+        } else {
             // hide/show the el to avoid jumpy text or icon
             this.statusEl.hide();
             this.setStatus({
                 text: text,
-                iconCls: iconCls
+                iconCls: iconCls,
             });
             this.statusEl.show();
         }
@@ -352,10 +356,10 @@ statusBar.setStatus({
      * @param {String} text (optional) The text to set (defaults to '')
      * @return {Ext.ux.StatusBar} this
      */
-    setText : function(text){
+    setText: function(text) {
         this.activeThreadId++;
         this.text = text || '';
-        if(this.rendered){
+        if (this.rendered) {
             this.statusEl.setText(this.text);
         }
         return this;
@@ -365,7 +369,7 @@ statusBar.setStatus({
      * Returns the current status text.
      * @return {String} The status text
      */
-    getText : function(){
+    getText: function() {
         return this.text;
     },
 
@@ -375,20 +379,20 @@ statusBar.setStatus({
      * @param {String} iconCls (optional) The icon class to set (defaults to '', and any current icon class is removed)
      * @return {Ext.ux.StatusBar} this
      */
-    setIcon : function(cls){
+    setIcon: function(cls) {
         this.activeThreadId++;
         cls = cls || '';
 
-        if(this.rendered){
-            if(this.currIconCls){
+        if (this.rendered) {
+            if (this.currIconCls) {
                 this.statusEl.removeClass(this.currIconCls);
                 this.currIconCls = null;
             }
-            if(cls.length > 0){
+            if (cls.length > 0) {
                 this.statusEl.addClass(cls);
                 this.currIconCls = cls;
             }
-        }else{
+        } else {
             this.currIconCls = cls;
         }
         return this;
@@ -404,15 +408,15 @@ statusBar.setStatus({
      * {@link #busyIconCls} will be used in conjunction with all of the default options for {@link #setStatus}.
      * @return {Ext.ux.StatusBar} this
      */
-    showBusy : function(o){
-        if(typeof o == 'string'){
-            o = {text:o};
+    showBusy: function(o) {
+        if (typeof o == 'string') {
+            o = { text: o };
         }
         o = Ext.applyIf(o || {}, {
             text: this.busyText,
-            iconCls: this.busyIconCls
+            iconCls: this.busyIconCls,
         });
         return this.setStatus(o);
-    }
+    },
 });
 Ext.reg('statusbar', Ext.ux.StatusBar);

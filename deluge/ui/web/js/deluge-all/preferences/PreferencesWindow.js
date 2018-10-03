@@ -9,14 +9,13 @@
  */
 Ext.namespace('Deluge.preferences');
 
-PreferencesRecord = Ext.data.Record.create([{name:'name', type:'string'}]);
+PreferencesRecord = Ext.data.Record.create([{ name: 'name', type: 'string' }]);
 
 /**
  * @class Deluge.preferences.PreferencesWindow
  * @extends Ext.Window
  */
 Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
-
     /**
      * @property {String} currentPage The currently selected page.
      */
@@ -38,33 +37,38 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
     pages: {},
 
     initComponent: function() {
-        Deluge.preferences.PreferencesWindow.superclass.initComponent.call(this);
+        Deluge.preferences.PreferencesWindow.superclass.initComponent.call(
+            this
+        );
 
         this.list = new Ext.list.ListView({
             store: new Ext.data.Store(),
-            columns: [{
-                id: 'name',
-                renderer: fplain,
-                dataIndex: 'name'
-            }],
+            columns: [
+                {
+                    id: 'name',
+                    renderer: fplain,
+                    dataIndex: 'name',
+                },
+            ],
             singleSelect: true,
             listeners: {
-                'selectionchange': {
-                    fn: this.onPageSelect, scope: this
-                }
+                selectionchange: {
+                    fn: this.onPageSelect,
+                    scope: this,
+                },
             },
             hideHeaders: true,
             autoExpandColumn: 'name',
             deferredRender: false,
             autoScroll: true,
-            collapsible: true
+            collapsible: true,
         });
         this.add({
             region: 'west',
             items: [this.list],
             width: 120,
             margins: '0 5 0 0',
-            cmargins: '0 5 0 0'
+            cmargins: '0 5 0 0',
         });
 
         this.configPanel = this.add({
@@ -73,10 +77,10 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
             region: 'center',
             layout: 'card',
             layoutConfig: {
-                deferredRender: true
+                deferredRender: true,
             },
             autoScroll: true,
-            width: 300
+            width: 300,
         });
 
         this.addButton(_('Close'), this.onClose, this);
@@ -110,11 +114,14 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
         if (!Ext.isObjectEmpty(changed)) {
             // Workaround for only displaying single listen port but still pass array to core.
             if ('listen_ports' in changed) {
-                changed.listen_ports = [changed.listen_ports, changed.listen_ports]
+                changed.listen_ports = [
+                    changed.listen_ports,
+                    changed.listen_ports,
+                ];
             }
             deluge.client.core.set_config(changed, {
                 success: this.onSetConfig,
-                scope: this
+                scope: this,
             });
         }
 
@@ -122,7 +129,6 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
             if (this.pages[page].onApply) this.pages[page].onApply();
         }
     },
-
 
     /**
      * Return the options manager for the preferences window.
@@ -139,7 +145,7 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
     addPage: function(page) {
         var store = this.list.getStore();
         var name = page.title;
-        store.add([new PreferencesRecord({name: name})]);
+        store.add([new PreferencesRecord({ name: name })]);
         page['bodyStyle'] = 'padding: 5px';
         page.preferences = this;
         this.pages[name] = this.configPanel.add(page);
@@ -165,7 +171,9 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
      */
     selectPage: function(page) {
         if (this.pages[page].index < 0) {
-            this.pages[page].index = this.configPanel.items.indexOf(this.pages[page]);
+            this.pages[page].index = this.configPanel.items.indexOf(
+                this.pages[page]
+            );
         }
         this.list.select(this.pages[page].index);
     },
@@ -173,7 +181,9 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
     // private
     doSelectPage: function(page) {
         if (this.pages[page].index < 0) {
-            this.pages[page].index = this.configPanel.items.indexOf(this.pages[page]);
+            this.pages[page].index = this.configPanel.items.indexOf(
+                this.pages[page]
+            );
         }
         this.configPanel.getLayout().setActiveItem(this.pages[page].index);
         this.currentPage = page;
@@ -208,8 +218,8 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
         if (!deluge.client.core) return;
         deluge.client.core.get_config({
             success: this.onGotConfig,
-            scope: this
-        })
+            scope: this,
+        });
     },
 
     // private
@@ -221,16 +231,16 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
     onOk: function() {
         var changed = this.optionsManager.getDirty();
         if (!Ext.isObjectEmpty(changed)) {
-                deluge.client.core.set_config(changed, {
-                        success: this.onSetConfig,
-                        scope: this
-                });
+            deluge.client.core.set_config(changed, {
+                success: this.onSetConfig,
+                scope: this,
+            });
         }
 
         for (var page in this.pages) {
-                if (this.pages[page].onOk) this.pages[page].onOk();
+            if (this.pages[page].onOk) this.pages[page].onOk();
         }
 
         this.hide();
-    }
+    },
 });

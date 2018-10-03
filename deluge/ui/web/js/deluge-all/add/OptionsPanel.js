@@ -10,7 +10,6 @@
 Ext.ns('Deluge.add');
 
 Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
-
     torrents: {},
 
     // layout options
@@ -30,17 +29,24 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
     addTorrent: function(torrent) {
         this.torrents[torrent['info_hash']] = torrent;
         var fileIndexes = {};
-        this.walkFileTree(torrent['files_tree'], function(filename, type, entry, parent) {
-            if (type != 'file') return;
-            fileIndexes[entry.index] = entry.download;
-        }, this);
+        this.walkFileTree(
+            torrent['files_tree'],
+            function(filename, type, entry, parent) {
+                if (type != 'file') return;
+                fileIndexes[entry.index] = entry.download;
+            },
+            this
+        );
 
         var priorities = [];
         Ext.each(Ext.keys(fileIndexes), function(index) {
             priorities[index] = fileIndexes[index];
         });
 
-        var oldId = this.form.optionsManager.changeId(torrent['info_hash'], true);
+        var oldId = this.form.optionsManager.changeId(
+            torrent['info_hash'],
+            true
+        );
         this.form.optionsManager.setDefault('file_priorities', priorities);
         this.form.optionsManager.changeId(oldId, true);
     },
@@ -59,7 +65,7 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
         var options = this.form.optionsManager.get();
         this.form.optionsManager.changeId(oldId, true);
         Ext.each(options['file_priorities'], function(priority, index) {
-            options['file_priorities'][index] = (priority) ? 1 : 0;
+            options['file_priorities'][index] = priority ? 1 : 0;
         });
         return options;
     },
@@ -77,17 +83,22 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
         this.form.setDisabled(false);
 
         if (this.torrents[torrentId]['files_tree']) {
-            this.walkFileTree(this.torrents[torrentId]['files_tree'], function(filename, type, entry, parentNode) {
-                var node = new Ext.tree.TreeNode({
-                    download:  (entry.index) ? priorities[entry.index] : true,
-                    filename:  filename,
-                    fileindex: entry.index,
-                    leaf:      type != 'dir',
-                    size:      entry.length
-                });
-                parentNode.appendChild(node);
-                if (type == 'dir') return node;
-            }, this, root);
+            this.walkFileTree(
+                this.torrents[torrentId]['files_tree'],
+                function(filename, type, entry, parentNode) {
+                    var node = new Ext.tree.TreeNode({
+                        download: entry.index ? priorities[entry.index] : true,
+                        filename: filename,
+                        fileindex: entry.index,
+                        leaf: type != 'dir',
+                        size: entry.length,
+                    });
+                    parentNode.appendChild(node);
+                    if (type == 'dir') return node;
+                },
+                this,
+                root
+            );
             root.firstChild.expand();
             this.files.setDisabled(false);
             this.files.show();
@@ -96,7 +107,6 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
             this.form.show();
             this.files.setDisabled(true);
         }
-
     },
 
     walkFileTree: function(files, callback, scope, parentNode) {
@@ -105,7 +115,12 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
             var type = entry.type;
 
             if (scope) {
-                var ret = callback.apply(scope, [filename, type, entry, parentNode]);
+                var ret = callback.apply(scope, [
+                    filename,
+                    type,
+                    entry,
+                    parentNode,
+                ]);
             } else {
                 var ret = callback(filename, type, entry, parentNode);
             }
@@ -115,12 +130,17 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
     },
 
     onFilesChecked: function(nodes, newValue, oldValue) {
-        Ext.each(nodes, function(node) {
-            if (node.attributes.fileindex < 0) return;
-            var priorities = this.form.optionsManager.get('file_priorities');
-            priorities[node.attributes.fileindex] = newValue;
-            this.form.optionsManager.update('file_priorities', priorities);
-        }, this);
-
-    }
+        Ext.each(
+            nodes,
+            function(node) {
+                if (node.attributes.fileindex < 0) return;
+                var priorities = this.form.optionsManager.get(
+                    'file_priorities'
+                );
+                priorities[node.attributes.fileindex] = newValue;
+                this.form.optionsManager.update('file_priorities', priorities);
+            },
+            this
+        );
+    },
 });

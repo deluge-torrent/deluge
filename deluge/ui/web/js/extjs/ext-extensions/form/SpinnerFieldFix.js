@@ -9,5 +9,5 @@
  */
 
 Ext.override(Ext.ux.form.SpinnerField, {
-    onBlur: Ext.form.Field.prototype.onBlur
+    onBlur: Ext.form.Field.prototype.onBlur,
 });

@@ -16,14 +16,15 @@ Ext.ns('Deluge.ux.preferences');
  * @extends Ext.Panel
  */
 Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
-
     title: _('Notifications'),
     header: false,
     layout: 'fit',
     border: false,
 
     initComponent: function() {
-        Deluge.ux.preferences.NotificationsPage.superclass.initComponent.call(this);
+        Deluge.ux.preferences.NotificationsPage.superclass.initComponent.call(
+            this
+        );
 
         this.emailNotiFset = new Ext.form.FieldSet({
             xtype: 'fieldset',
@@ -33,7 +34,7 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
             defaultType: 'textfield',
             style: 'margin-top: 3px; margin-bottom: 0px; padding-bottom: 0px;',
             width: '85%',
-            labelWidth: 1
+            labelWidth: 1,
         });
 
         this.chkEnableEmail = this.emailNotiFset.add({
@@ -46,8 +47,8 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
                 check: function(object, checked) {
                     this.setSmtpDisabled(!checked);
                 },
-                scope: this
-            }
+                scope: this,
+            },
         });
 
         this.hBoxHost = this.emailNotiFset.add({
@@ -57,14 +58,17 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
             xtype: 'container',
             layout: 'hbox',
             disabled: true,
-            items: [{
+            items: [
+                {
                     xtype: 'label',
                     text: _('Hostname:'),
-                    margins: '6 0 0 6'
-                },{
+                    margins: '6 0 0 6',
+                },
+                {
                     xtype: 'textfield',
-                    margins: '2 0 0 4'
-                }]
+                    margins: '2 0 0 4',
+                },
+            ],
         });
 
         this.hBoxPort = this.emailNotiFset.add({
@@ -74,18 +78,21 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
             xtype: 'container',
             layout: 'hbox',
             disabled: true,
-            items: [{
+            items: [
+                {
                     xtype: 'label',
                     text: _('Port:'),
-                    margins: '6 0 0 6'
-                },{
+                    margins: '6 0 0 6',
+                },
+                {
                     xtype: 'spinnerfield',
                     margins: '2 0 0 34',
                     width: 64,
                     decimalPrecision: 0,
                     minValue: 0,
-                    maxValue: 65535
-                }]
+                    maxValue: 65535,
+                },
+            ],
         });
 
         this.hBoxUser = this.emailNotiFset.add({
@@ -95,14 +102,17 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
             xtype: 'container',
             layout: 'hbox',
             disabled: true,
-            items: [{
+            items: [
+                {
                     xtype: 'label',
                     text: _('Username:'),
-                    margins: '6 0 0 6'
-                },{
+                    margins: '6 0 0 6',
+                },
+                {
                     xtype: 'textfield',
-                    margins: '2 0 0 3'
-                }]
+                    margins: '2 0 0 3',
+                },
+            ],
         });
 
         this.hBoxPassword = this.emailNotiFset.add({
@@ -112,15 +122,18 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
             xtype: 'container',
             layout: 'hbox',
             disabled: true,
-            items: [{
+            items: [
+                {
                     xtype: 'label',
                     text: _('Password:'),
-                    margins: '6 0 0 6'
-                },{
+                    margins: '6 0 0 6',
+                },
+                {
                     xtype: 'textfield',
                     inputType: 'password',
-                    margins: '2 0 0 5'
-                }]
+                    margins: '2 0 0 5',
+                },
+            ],
         });
 
         this.hBoxFrom = this.emailNotiFset.add({
@@ -130,14 +143,17 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
             xtype: 'container',
             layout: 'hbox',
             disabled: true,
-            items: [{
+            items: [
+                {
                     xtype: 'label',
                     text: _('From:'),
-                    margins: '6 0 0 6'
-                },{
+                    margins: '6 0 0 6',
+                },
+                {
                     xtype: 'textfield',
-                    margins: '2 0 0 28'
-                }]
+                    margins: '2 0 0 28',
+                },
+            ],
         });
 
         this.chkTLS = this.emailNotiFset.add({
@@ -146,7 +162,7 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
             name: 'enable_tls_ssl',
             xtype: 'checkbox',
             disabled: true,
-            boxLabel: _('Server requires TLS/SSL')
+            boxLabel: _('Server requires TLS/SSL'),
         });
 
         this.recipientsFset = new Ext.form.FieldSet({
@@ -157,7 +173,8 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
             defaultType: 'editorgrid',
             style: 'margin-top: 3px; margin-bottom: 0px; padding-bottom: 0px;',
             autoWidth: true,
-            items: [{
+            items: [
+                {
                     fieldLabel: '',
                     name: 'recipients',
                     margins: '2 0 5 5',
@@ -167,24 +184,28 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
                     disabled: true,
                     autoExpandColumn: 'recipient',
                     bbar: {
-                        items: [{
+                        items: [
+                            {
                                 text: _('Add'),
                                 iconCls: 'icon-add',
                                 handler: this.onAddClick,
-                                scope: this
-                            },{
+                                scope: this,
+                            },
+                            {
                                 text: _('Remove'),
                                 iconCls: 'icon-remove',
                                 handler: this.onRemoveClick,
-                                scope: this
-                            }]
+                                scope: this,
+                            },
+                        ],
                     },
                     viewConfig: {
                         emptyText: _('Add an recipient...'),
-                        deferEmptyText: false
+                        deferEmptyText: false,
                     },
                     colModel: new Ext.grid.ColumnModel({
-                        columns: [{
+                        columns: [
+                            {
                                 id: 'recipient',
                                 header: _('Recipient'),
                                 dataIndex: 'recipient',
@@ -192,29 +213,30 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
                                 hideable: false,
                                 editable: true,
                                 editor: {
-                                    xtype: 'textfield'
-                                }
-                            }]
+                                    xtype: 'textfield',
+                                },
+                            },
+                        ],
                     }),
                     selModel: new Ext.grid.RowSelectionModel({
                         singleSelect: false,
-                        moveEditorOnEnter: false
+                        moveEditorOnEnter: false,
                     }),
                     store: new Ext.data.ArrayStore({
                         autoDestroy: true,
-                        fields: [{name: 'recipient'}]
+                        fields: [{ name: 'recipient' }],
                     }),
                     listeners: {
                         afteredit: function(e) {
                             e.record.commit();
-                        }
+                        },
                     },
                     setEmptyText: function(text) {
                         if (this.viewReady) {
                             this.getView().emptyText = text;
                             this.getView().refresh();
                         } else {
-                            Ext.apply(this.viewConfig, {emptyText: text});
+                            Ext.apply(this.viewConfig, { emptyText: text });
                         }
                     },
                     loadData: function(data) {
@@ -222,8 +244,9 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
                         if (this.viewReady) {
                             this.getView().updateHeaders();
                         }
-                    }
-                }]
+                    },
+                },
+            ],
         });
 
         this.edGridSubs = new Ext.grid.EditorGridPanel({
@@ -232,43 +255,59 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
             autoExpandColumn: 'event',
             viewConfig: {
                 emptyText: _('Loading events...'),
-                deferEmptyText: false
+                deferEmptyText: false,
             },
             colModel: new Ext.grid.ColumnModel({
                 defaults: {
-                    renderer: function(value, meta, record, rowIndex, colIndex, store) {
+                    renderer: function(
+                        value,
+                        meta,
+                        record,
+                        rowIndex,
+                        colIndex,
+                        store
+                    ) {
                         if (Ext.isNumber(value) && parseInt(value) !== value) {
                             return value.toFixed(6);
                         } else if (Ext.isBoolean(value)) {
-                            return '<div class="x-grid3-check-col' + (value ? '-on' : '') +
-                                '" style="width: 20px;">&#160;</div>';
+                            return (
+                                '<div class="x-grid3-check-col' +
+                                (value ? '-on' : '') +
+                                '" style="width: 20px;">&#160;</div>'
+                            );
                         }
                         return value;
-                    }
+                    },
                 },
-                columns: [{
+                columns: [
+                    {
                         id: 'event',
                         header: 'Event',
                         dataIndex: 'event',
                         sortable: true,
-                        hideable: false
-                    },{
+                        hideable: false,
+                    },
+                    {
                         id: 'email',
                         header: _('Email'),
                         dataIndex: 'email',
                         sortable: true,
                         hideable: false,
                         menuDisabled: true,
-                        width: 40
-                    }]
+                        width: 40,
+                    },
+                ],
             }),
             store: new Ext.data.ArrayStore({
                 autoDestroy: true,
-                fields: [{
-                        name: 'event'
-                    },{
-                        name: 'email'
-                    }]
+                fields: [
+                    {
+                        name: 'event',
+                    },
+                    {
+                        name: 'email',
+                    },
+                ],
             }),
             listeners: {
                 cellclick: function(grid, rowIndex, colIndex, e) {
@@ -292,20 +331,20 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
                 },
                 afteredit: function(e) {
                     e.record.commit();
-                }
+                },
             },
             setEmptyText: function(text) {
                 if (this.viewReady) {
                     this.getView().emptyText = text;
                     this.getView().refresh();
                 } else {
-                    Ext.apply(this.viewConfig, {emptyText: text});
+                    Ext.apply(this.viewConfig, { emptyText: text });
                 }
             },
             setSub: function(eventName) {
                 var store = this.getStore();
-                var index = store.find('event',eventName);
-                store.getAt(index).set('email',true);
+                var index = store.find('event', eventName);
+                store.getAt(index).set('email', true);
                 store.getAt(index).commit();
             },
             loadData: function(data) {
@@ -313,20 +352,23 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
                 if (this.viewReady) {
                     this.getView().updateHeaders();
                 }
-            }
+            },
         });
 
         this.tabPanSettings = this.add({
             xtype: 'tabpanel',
             activeTab: 0,
-            items: [{
+            items: [
+                {
                     title: _('Settings'),
-                    items: [this.emailNotiFset,this.recipientsFset],
-                    autoScroll: true
-                },{
+                    items: [this.emailNotiFset, this.recipientsFset],
+                    autoScroll: true,
+                },
+                {
                     title: _('Subscriptions'),
-                    items: this.edGridSubs
-                }]
+                    items: this.edGridSubs,
+                },
+            ],
         });
 
         this.on('show', this.updateConfig, this);
@@ -343,7 +385,7 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
                 }
                 this.edGridSubs.loadData(data);
             },
-            scope: this
+            scope: this,
         });
         deluge.client.notifications.get_config({
             success: function(config) {
@@ -369,10 +411,12 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
                 keys = Ext.keys(config['subscriptions']['email']);
                 for (var i = 0; i < keys.length; i++) {
                     var key = keys[i];
-                    this.edGridSubs.setSub(config['subscriptions']['email'][key]);
+                    this.edGridSubs.setSub(
+                        config['subscriptions']['email'][key]
+                    );
                 }
             },
-            scope: this
+            scope: this,
         });
     },
 
@@ -425,7 +469,7 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
         var store = this.recipientsFset.getComponent(0).getStore();
         var Recipient = store.recordType;
         var i = new Recipient({
-            recipient: ''
+            recipient: '',
         });
         this.recipientsFset.getComponent(0).stopEditing();
         store.insert(0, i);
@@ -433,12 +477,14 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
     },
 
     onRemoveClick: function() {
-        var selections = this.recipientsFset.getComponent(0).getSelectionModel().getSelections();
+        var selections = this.recipientsFset
+            .getComponent(0)
+            .getSelectionModel()
+            .getSelections();
         var store = this.recipientsFset.getComponent(0).getStore();
 
         this.recipientsFset.getComponent(0).stopEditing();
-        for (var i = 0; i < selections.length; i++)
-            store.remove(selections[i]);
+        for (var i = 0; i < selections.length; i++) store.remove(selections[i]);
         store.commitChanges();
     },
 
@@ -456,8 +502,7 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
         deluge.preferences.un('show', this.updateConfig, this);
 
         Deluge.ux.preferences.NotificationsPage.superclass.onDestroy.call(this);
-    }
-
+    },
 });
 
 Deluge.plugins.NotificationsPlugin = Ext.extend(Deluge.Plugin, {
@@ -468,8 +513,10 @@ Deluge.plugins.NotificationsPlugin = Ext.extend(Deluge.Plugin, {
     },
 
     onEnable: function() {
-        this.prefsPage = deluge.preferences.addPage(new Deluge.ux.preferences.NotificationsPage());
-    }
+        this.prefsPage = deluge.preferences.addPage(
+            new Deluge.ux.preferences.NotificationsPage()
+        );
+    },
 });
 
 Deluge.registerPlugin('Notifications', Deluge.plugins.NotificationsPlugin);

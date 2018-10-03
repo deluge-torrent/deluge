@@ -14,7 +14,6 @@ Ext.namespace('Deluge.preferences');
  * @extends Ext.form.FormPanel
  */
 Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
-
     border: false,
     title: _('Interface'),
     header: false,
@@ -23,7 +22,7 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
     initComponent: function() {
         Deluge.preferences.Interface.superclass.initComponent.call(this);
 
-        var om = this.optionsManager = new Deluge.OptionsManager();
+        var om = (this.optionsManager = new Deluge.OptionsManager());
         this.on('show', this.onPageShow, this);
 
         var fieldset = this.add({
@@ -37,21 +36,30 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
             defaults: {
                 height: 17,
                 fieldLabel: '',
-                labelSeparator: ''
-            }
+                labelSeparator: '',
+            },
         });
-        om.bind('show_session_speed', fieldset.add({
-            name: 'show_session_speed',
-            boxLabel: _('Show session speed in titlebar')
-        }));
-        om.bind('sidebar_show_zero', fieldset.add({
-            name: 'sidebar_show_zero',
-            boxLabel: _('Show filters with zero torrents')
-        }));
-        om.bind('sidebar_multiple_filters', fieldset.add({
-            name: 'sidebar_multiple_filters',
-            boxLabel: _('Allow the use of multiple filters at once')
-        }));
+        om.bind(
+            'show_session_speed',
+            fieldset.add({
+                name: 'show_session_speed',
+                boxLabel: _('Show session speed in titlebar'),
+            })
+        );
+        om.bind(
+            'sidebar_show_zero',
+            fieldset.add({
+                name: 'sidebar_show_zero',
+                boxLabel: _('Show filters with zero torrents'),
+            })
+        );
+        om.bind(
+            'sidebar_multiple_filters',
+            fieldset.add({
+                name: 'sidebar_multiple_filters',
+                boxLabel: _('Allow the use of multiple filters at once'),
+            })
+        );
 
         var languagePanel = this.add({
             xtype: 'fieldset',
@@ -60,22 +68,25 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
             style: 'margin-bottom: 0px; padding-bottom: 5px; padding-top: 5px',
             autoHeight: true,
             labelWidth: 1,
-            defaultType: 'checkbox'
+            defaultType: 'checkbox',
         });
-        this.language = om.bind('language', languagePanel.add({
-            xtype: 'combo',
-            labelSeparator: '',
-            name: 'language',
-            mode: 'local',
-            width: 200,
-            store: new Ext.data.ArrayStore({
-                fields: ['id', 'text']
-            }),
-            editable: false,
-            triggerAction: 'all',
-            valueField: 'id',
-            displayField: 'text'
-        }));
+        this.language = om.bind(
+            'language',
+            languagePanel.add({
+                xtype: 'combo',
+                labelSeparator: '',
+                name: 'language',
+                mode: 'local',
+                width: 200,
+                store: new Ext.data.ArrayStore({
+                    fields: ['id', 'text'],
+                }),
+                editable: false,
+                triggerAction: 'all',
+                valueField: 'id',
+                displayField: 'text',
+            })
+        );
 
         fieldset = this.add({
             xtype: 'fieldset',
@@ -90,21 +101,21 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
                 inputType: 'password',
                 labelStyle: 'padding-left: 5px',
                 height: 20,
-                labelSeparator: ''
-            }
+                labelSeparator: '',
+            },
         });
 
         this.oldPassword = fieldset.add({
             name: 'old_password',
-            fieldLabel: _('Old:')
+            fieldLabel: _('Old:'),
         });
         this.newPassword = fieldset.add({
             name: 'new_password',
-            fieldLabel: _('New:')
+            fieldLabel: _('New:'),
         });
         this.confirmPassword = fieldset.add({
             name: 'confirm_password',
-            fieldLabel: _('Confirm:')
+            fieldLabel: _('Confirm:'),
         });
 
         fieldset = this.add({
@@ -119,46 +130,63 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
                 labelSeparator: '',
                 labelStyle: 'padding-left: 5px',
                 height: 20,
-                width: 80
-            }
+                width: 80,
+            },
         });
-        om.bind('session_timeout', fieldset.add({
-            name: 'session_timeout',
-            fieldLabel: _('Session Timeout:'),
-            decimalPrecision: 0,
-            minValue: -1,
-            maxValue: 99999
-        }));
-        om.bind('port', fieldset.add({
-            name: 'port',
-            fieldLabel: _('Port:'),
-            decimalPrecision: 0,
-            minValue: 1,
-            maxValue: 65535
-        }));
-        this.httpsField = om.bind('https', fieldset.add({
-            xtype: 'checkbox',
-            name: 'https',
-            hideLabel: true,
-            width: 300,
-            style: 'margin-left: 5px',
-            boxLabel: _('Enable SSL (paths relative to Deluge config folder)')
-        }));
+        om.bind(
+            'session_timeout',
+            fieldset.add({
+                name: 'session_timeout',
+                fieldLabel: _('Session Timeout:'),
+                decimalPrecision: 0,
+                minValue: -1,
+                maxValue: 99999,
+            })
+        );
+        om.bind(
+            'port',
+            fieldset.add({
+                name: 'port',
+                fieldLabel: _('Port:'),
+                decimalPrecision: 0,
+                minValue: 1,
+                maxValue: 65535,
+            })
+        );
+        this.httpsField = om.bind(
+            'https',
+            fieldset.add({
+                xtype: 'checkbox',
+                name: 'https',
+                hideLabel: true,
+                width: 300,
+                style: 'margin-left: 5px',
+                boxLabel: _(
+                    'Enable SSL (paths relative to Deluge config folder)'
+                ),
+            })
+        );
         this.httpsField.on('check', this.onSSLCheck, this);
-        this.pkeyField = om.bind('pkey', fieldset.add({
-            xtype: 'textfield',
-            disabled: true,
-            name: 'pkey',
-            width: 180,
-            fieldLabel: _('Private Key:')
-        }));
-        this.certField = om.bind('cert', fieldset.add({
-            xtype: 'textfield',
-            disabled: true,
-            name: 'cert',
-            width: 180,
-            fieldLabel: _('Certificate:')
-        }));
+        this.pkeyField = om.bind(
+            'pkey',
+            fieldset.add({
+                xtype: 'textfield',
+                disabled: true,
+                name: 'pkey',
+                width: 180,
+                fieldLabel: _('Private Key:'),
+            })
+        );
+        this.certField = om.bind(
+            'cert',
+            fieldset.add({
+                xtype: 'textfield',
+                disabled: true,
+                name: 'cert',
+                width: 180,
+                fieldLabel: _('Certificate:'),
+            })
+        );
     },
 
     onApply: function() {
@@ -166,7 +194,7 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
         if (!Ext.isObjectEmpty(changed)) {
             deluge.client.web.set_config(changed, {
                 success: this.onSetConfig,
-                scope: this
+                scope: this,
             });
 
             for (var key in deluge.config) {
@@ -175,16 +203,18 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
             if ('language' in changed) {
                 Ext.Msg.show({
                     title: _('WebUI Language Changed'),
-                    msg: _('Do you want to refresh the page now to use the new language?'),
+                    msg: _(
+                        'Do you want to refresh the page now to use the new language?'
+                    ),
                     buttons: {
                         yes: _('Refresh'),
-                        no: _('Close')
+                        no: _('Close'),
                     },
-                    multiline : false,
+                    multiline: false,
                     fn: function(btnText) {
-                        if(btnText === 'yes') location.reload();
+                        if (btnText === 'yes') location.reload();
                     },
-                    icon: Ext.MessageBox.QUESTION
+                    icon: Ext.MessageBox.QUESTION,
                 });
             }
         }
@@ -202,7 +232,7 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
     },
 
     onGotLanguages: function(info, obj, response, request) {
-        info.unshift(['', _('System Default')])
+        info.unshift(['', _('System Default')]);
         this.language.store.loadData(info);
         this.language.setValue(this.optionsManager.get('language'));
     },
@@ -212,11 +242,11 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
         if (newPassword != this.confirmPassword.getValue()) {
             Ext.MessageBox.show({
                 title: _('Invalid Password'),
-                msg: _('Your passwords don\'t match!'),
+                msg: _("Your passwords don't match!"),
                 buttons: Ext.MessageBox.OK,
                 modal: false,
                 icon: Ext.MessageBox.ERROR,
-                iconCls: 'x-deluge-icon-error'
+                iconCls: 'x-deluge-icon-error',
             });
             return;
         }
@@ -231,7 +261,7 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
                         buttons: Ext.MessageBox.OK,
                         modal: false,
                         icon: Ext.MessageBox.ERROR,
-                        iconCls: 'x-deluge-icon-error'
+                        iconCls: 'x-deluge-icon-error',
                     });
                     this.oldPassword.setValue('');
                 } else {
@@ -241,14 +271,14 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
                         buttons: Ext.MessageBox.OK,
                         modal: false,
                         icon: Ext.MessageBox.INFO,
-                        iconCls: 'x-deluge-icon-info'
+                        iconCls: 'x-deluge-icon-info',
                     });
                     this.oldPassword.setValue('');
                     this.newPassword.setValue('');
                     this.confirmPassword.setValue('');
                 }
             },
-            scope: this
+            scope: this,
         });
     },
 
@@ -259,16 +289,16 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
     onPageShow: function() {
         deluge.client.web.get_config({
             success: this.onGotConfig,
-            scope: this
+            scope: this,
         });
         deluge.client.webutils.get_languages({
             success: this.onGotLanguages,
-            scope: this
+            scope: this,
         });
     },
 
     onSSLCheck: function(e, checked) {
         this.pkeyField.setDisabled(!checked);
         this.certField.setDisabled(!checked);
-    }
+    },
 });

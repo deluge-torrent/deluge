@@ -14,7 +14,6 @@ Ext.ns('Deluge');
  * @extends Ext.Window
  */
 Deluge.EditTrackersWindow = Ext.extend(Ext.Window, {
-
     title: _('Edit Trackers'),
     layout: 'fit',
     width: 350,
@@ -46,29 +45,29 @@ Deluge.EditTrackersWindow = Ext.extend(Ext.Window, {
         this.list = new Ext.list.ListView({
             store: new Ext.data.JsonStore({
                 root: 'trackers',
-                fields: [
-                    'tier',
-                    'url'
-                ]
+                fields: ['tier', 'url'],
             }),
-            columns: [{
-                header: _('Tier'),
-                width: .1,
-                dataIndex: 'tier'
-            }, {
-                header: _('Tracker'),
-                width: .9,
-                dataIndex: 'url'
-            }],
+            columns: [
+                {
+                    header: _('Tier'),
+                    width: 0.1,
+                    dataIndex: 'tier',
+                },
+                {
+                    header: _('Tracker'),
+                    width: 0.9,
+                    dataIndex: 'url',
+                },
+            ],
             columnSort: {
-                sortClasses: ['', '']
+                sortClasses: ['', ''],
             },
             stripeRows: true,
             singleSelect: true,
             listeners: {
-                'dblclick': {fn: this.onListNodeDblClicked, scope: this},
-                'selectionchange': {fn: this.onSelect, scope: this}
-            }
+                dblclick: { fn: this.onListNodeDblClicked, scope: this },
+                selectionchange: { fn: this.onSelect, scope: this },
+            },
         });
 
         this.panel = this.add({
@@ -80,30 +79,35 @@ Deluge.EditTrackersWindow = Ext.extend(Ext.Window, {
                         text: _('Up'),
                         iconCls: 'icon-up',
                         handler: this.onUpClick,
-                        scope: this
-                    }, {
+                        scope: this,
+                    },
+                    {
                         text: _('Down'),
                         iconCls: 'icon-down',
                         handler: this.onDownClick,
-                        scope: this
-                    }, '->', {
+                        scope: this,
+                    },
+                    '->',
+                    {
                         text: _('Add'),
                         iconCls: 'icon-add',
                         handler: this.onAddClick,
-                        scope: this
-                    }, {
+                        scope: this,
+                    },
+                    {
                         text: _('Edit'),
                         iconCls: 'icon-edit-trackers',
                         handler: this.onEditClick,
-                        scope: this
-                    }, {
+                        scope: this,
+                    },
+                    {
                         text: _('Remove'),
                         iconCls: 'icon-remove',
                         handler: this.onRemoveClick,
-                        scope: this
-                    }
-                ]
-            })
+                        scope: this,
+                    },
+                ],
+            }),
         });
     },
 
@@ -113,20 +117,30 @@ Deluge.EditTrackersWindow = Ext.extend(Ext.Window, {
 
     onAddTrackers: function(trackers) {
         var store = this.list.getStore();
-        Ext.each(trackers, function(tracker) {
-            var duplicate = false, heightestTier = -1;
-            store.each(function(record) {
-                if (record.get('tier') > heightestTier) {
-                    heightestTier = record.get('tier');
-                }
-                if (tracker == record.get('tracker')) {
-                    duplicate = true;
-                    return false;
-                }
-            }, this);
-            if (duplicate) return;
-            store.add(new store.recordType({'tier': heightestTier + 1, 'url': tracker}));
-        }, this);
+        Ext.each(
+            trackers,
+            function(tracker) {
+                var duplicate = false,
+                    heightestTier = -1;
+                store.each(function(record) {
+                    if (record.get('tier') > heightestTier) {
+                        heightestTier = record.get('tier');
+                    }
+                    if (tracker == record.get('tracker')) {
+                        duplicate = true;
+                        return false;
+                    }
+                }, this);
+                if (duplicate) return;
+                store.add(
+                    new store.recordType({
+                        tier: heightestTier + 1,
+                        url: tracker,
+                    })
+                );
+            },
+            this
+        );
     },
 
     onCancelClick: function() {
@@ -151,14 +165,14 @@ Deluge.EditTrackersWindow = Ext.extend(Ext.Window, {
         var trackers = [];
         this.list.getStore().each(function(record) {
             trackers.push({
-                'tier': record.get('tier'),
-                'url': record.get('url')
-            })
+                tier: record.get('tier'),
+                url: record.get('url'),
+            });
         }, this);
 
         deluge.client.core.set_torrent_trackers(this.torrentId, trackers, {
             failure: this.onSaveFail,
-            scope: this
+            scope: this,
         });
 
         this.hide();
@@ -176,23 +190,27 @@ Deluge.EditTrackersWindow = Ext.extend(Ext.Window, {
         this.list.getStore().sort('tier', 'ASC');
     },
 
-    onSaveFail: function() {
-
-    },
+    onSaveFail: function() {},
 
     onSelect: function(list) {
         if (list.getSelectionCount()) {
-            this.panel.getBottomToolbar().items.get(4).enable();
+            this.panel
+                .getBottomToolbar()
+                .items.get(4)
+                .enable();
         }
     },
 
     onShow: function() {
-        this.panel.getBottomToolbar().items.get(4).disable();
+        this.panel
+            .getBottomToolbar()
+            .items.get(4)
+            .disable();
         var r = deluge.torrents.getSelected();
         this.torrentId = r.id;
         deluge.client.core.get_torrent_status(r.id, ['trackers'], {
             success: this.onRequestComplete,
-            scope: this
+            scope: this,
         });
     },
 
@@ -217,5 +235,5 @@ Deluge.EditTrackersWindow = Ext.extend(Ext.Window, {
         r.store.commitChanges();
 
         this.list.select(r.store.indexOf(r));
-    }
+    },
 });

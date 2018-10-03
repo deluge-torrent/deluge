@@ -9,20 +9,19 @@
  */
 
 Deluge.LoginWindow = Ext.extend(Ext.Window, {
-
-    firstShow:   true,
-    bodyStyle:   'padding: 10px 5px;',
+    firstShow: true,
+    bodyStyle: 'padding: 10px 5px;',
     buttonAlign: 'center',
-    closable:    false,
+    closable: false,
     closeAction: 'hide',
-    iconCls:     'x-deluge-login-window-icon',
-    layout:      'fit',
-    modal:       true,
-    plain:       true,
-    resizable:   false,
-    title:       _('Login'),
-    width:       300,
-    height:      120,
+    iconCls: 'x-deluge-login-window-icon',
+    layout: 'fit',
+    modal: true,
+    plain: true,
+    resizable: false,
+    title: _('Login'),
+    width: 300,
+    height: 120,
 
     initComponent: function() {
         Deluge.LoginWindow.superclass.initComponent.call(this);
@@ -31,7 +30,7 @@ Deluge.LoginWindow = Ext.extend(Ext.Window, {
         this.addButton({
             text: _('Login'),
             handler: this.onLogin,
-            scope: this
+            scope: this,
         });
 
         this.form = this.add({
@@ -39,20 +38,20 @@ Deluge.LoginWindow = Ext.extend(Ext.Window, {
             baseCls: 'x-plain',
             labelWidth: 120,
             labelAlign: 'right',
-            defaults: {width: 110},
-            defaultType: 'textfield'
+            defaults: { width: 110 },
+            defaultType: 'textfield',
         });
 
         this.passwordField = this.form.add({
             xtype: 'textfield',
             fieldLabel: _('Password:'),
-            labelSeparator : '',
+            labelSeparator: '',
             grow: true,
             growMin: '110',
             growMax: '145',
             id: '_password',
             name: 'password',
-            inputType: 'password'
+            inputType: 'password',
         });
         this.passwordField.on('specialkey', this.onSpecialKey, this);
     },
@@ -63,7 +62,7 @@ Deluge.LoginWindow = Ext.extend(Ext.Window, {
             success: function(result) {
                 this.show(true);
             },
-            scope: this
+            scope: this,
         });
     },
 
@@ -88,7 +87,7 @@ Deluge.LoginWindow = Ext.extend(Ext.Window, {
             failure: function(result) {
                 this.show(true);
             },
-            scope: this
+            scope: this,
         });
     },
 
@@ -114,11 +113,11 @@ Deluge.LoginWindow = Ext.extend(Ext.Window, {
                             passwordField.focus(true, 10);
                         },
                         icon: Ext.MessageBox.WARNING,
-                        iconCls: 'x-deluge-icon-warning'
+                        iconCls: 'x-deluge-icon-warning',
                     });
                 }
             },
-            scope: this
+            scope: this,
         });
     },
 
@@ -131,5 +130,5 @@ Deluge.LoginWindow = Ext.extend(Ext.Window, {
 
     onShow: function() {
         this.passwordField.focus(true, 300);
-    }
+    },
 });

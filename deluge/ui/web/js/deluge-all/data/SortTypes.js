@@ -20,15 +20,17 @@ Ext.namespace('Deluge.data');
  */
 Deluge.data.SortTypes = {
     asIPAddress: function(value) {
-        var d = value.match(/(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\:(\d+)/);
-        return ((((((+d[1])*256)+(+d[2]))*256)+(+d[3]))*256)+(+d[4]);
+        var d = value.match(
+            /(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\:(\d+)/
+        );
+        return ((+d[1] * 256 + +d[2]) * 256 + +d[3]) * 256 + +d[4];
     },
 
     asQueuePosition: function(value) {
-        return (value > -1) ? value : Number.MAX_VALUE;
+        return value > -1 ? value : Number.MAX_VALUE;
     },
 
     asName: function(value) {
-               return String(value).toLowerCase();
-    }
-}
+        return String(value).toLowerCase();
+    },
+};

@@ -14,7 +14,6 @@ Ext.ns('Deluge.preferences');
  * @extends Ext.form.FieldSet
  */
 Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
-
     border: false,
     autoHeight: true,
     labelWidth: 70,
@@ -37,13 +36,13 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
                     [3, _('Socks5 Auth')],
                     [4, _('HTTP')],
                     [5, _('HTTP Auth')],
-                    [6, _('I2P')]
-                ]
+                    [6, _('I2P')],
+                ],
             }),
             editable: false,
             triggerAction: 'all',
             valueField: 'id',
-            displayField: 'text'
+            displayField: 'text',
         });
         this.proxyType.on('change', this.onFieldChange, this);
         this.proxyType.on('select', this.onTypeSelect, this);
@@ -53,7 +52,7 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
             name: 'hostname',
             fieldLabel: _('Host:'),
             labelSeparator: '',
-            width: 220
+            width: 220,
         });
         this.hostname.on('change', this.onFieldChange, this);
 
@@ -65,16 +64,16 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
             width: 80,
             decimalPrecision: 0,
             minValue: 0,
-            maxValue: 65535
+            maxValue: 65535,
         });
         this.port.on('change', this.onFieldChange, this);
 
-       this.username = this.add({
+        this.username = this.add({
             xtype: 'textfield',
             name: 'username',
             fieldLabel: _('Username:'),
             labelSeparator: '',
-            width: 220
+            width: 220,
         });
         this.username.on('change', this.onFieldChange, this);
 
@@ -84,7 +83,7 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
             fieldLabel: _('Password:'),
             labelSeparator: '',
             inputType: 'password',
-            width: 220
+            width: 220,
         });
         this.password.on('change', this.onFieldChange, this);
 
@@ -93,7 +92,7 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
             name: 'proxy_host_resolve',
             fieldLabel: '',
             boxLabel: _('Proxy Hostnames'),
-            width: 220
+            width: 220,
         });
         this.proxy_host_resolve.on('change', this.onFieldChange, this);
 
@@ -102,7 +101,7 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
             name: 'proxy_peer_conn',
             fieldLabel: '',
             boxLabel: _('Proxy Peers'),
-            width: 220
+            width: 220,
         });
         this.proxy_peer_conn.on('change', this.onFieldChange, this);
 
@@ -111,7 +110,7 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
             name: 'proxy_tracker_conn',
             fieldLabel: '',
             boxLabel: _('Proxy Trackers'),
-            width: 220
+            width: 220,
         });
         this.proxy_tracker_conn.on('change', this.onFieldChange, this);
 
@@ -122,7 +121,7 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
             autoHeight: true,
             labelWidth: 1,
             defaultType: 'checkbox',
-            style: 'padding-left: 0px; margin-top: 10px'
+            style: 'padding-left: 0px; margin-top: 10px',
         });
 
         this.force_proxy = fieldset.add({
@@ -130,8 +129,7 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
             labelSeparator: '',
             height: 20,
             name: 'force_proxy',
-            boxLabel: _('Force Use of Proxy')
-
+            boxLabel: _('Force Use of Proxy'),
         });
         this.force_proxy.on('change', this.onFieldChange, this);
 
@@ -140,7 +138,7 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
             labelSeparator: '',
             height: 20,
             name: 'anonymous_mode',
-            boxLabel: _('Hide Client Identity')
+            boxLabel: _('Hide Client Identity'),
         });
         this.anonymous_mode.on('change', this.onFieldChange, this);
 
@@ -153,17 +151,17 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
 
     getValue: function() {
         return {
-            'type': this.proxyType.getValue(),
-            'hostname': this.hostname.getValue(),
-            'port': Number(this.port.getValue()),
-            'username': this.username.getValue(),
-            'password': this.password.getValue(),
-            'proxy_hostnames': this.proxy_host_resolve.getValue(),
-            'proxy_peer_connections': this.proxy_peer_conn.getValue(),
-            'proxy_tracker_connections': this.proxy_tracker_conn.getValue(),
-            'force_proxy': this.force_proxy.getValue(),
-            'anonymous_mode': this.anonymous_mode.getValue()
-        }
+            type: this.proxyType.getValue(),
+            hostname: this.hostname.getValue(),
+            port: Number(this.port.getValue()),
+            username: this.username.getValue(),
+            password: this.password.getValue(),
+            proxy_hostnames: this.proxy_host_resolve.getValue(),
+            proxy_peer_connections: this.proxy_peer_conn.getValue(),
+            proxy_tracker_connections: this.proxy_tracker_conn.getValue(),
+            force_proxy: this.force_proxy.getValue(),
+            anonymous_mode: this.anonymous_mode.getValue(),
+        };
     },
 
     // Set the values of the proxies
@@ -223,5 +221,5 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
             this.username.hide();
             this.password.hide();
         }
-    }
+    },
 });

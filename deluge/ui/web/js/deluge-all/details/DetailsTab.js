@@ -16,7 +16,6 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
     autoScroll: true,
     queuedItems: {},
 
-
     oldData: {},
 
     initComponent: function() {
@@ -35,7 +34,7 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
     onRender: function(ct, position) {
         Deluge.details.DetailsTab.superclass.onRender.call(this, ct, position);
         this.body.setStyle('padding', '10px');
-        this.dl = Ext.DomHelper.append(this.body, {tag: 'dl'}, true);
+        this.dl = Ext.DomHelper.append(this.body, { tag: 'dl' }, true);
 
         for (var id in this.queuedItems) {
             this.doAddItem(id, this.queuedItems[id]);
@@ -52,8 +51,12 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
 
     // private
     doAddItem: function(id, label) {
-        Ext.DomHelper.append(this.dl, {tag: 'dt', cls: id, html: label});
-        this.fields[id] = Ext.DomHelper.append(this.dl, {tag: 'dd', cls: id, html: ''}, true);
+        Ext.DomHelper.append(this.dl, { tag: 'dt', cls: id, html: label });
+        this.fields[id] = Ext.DomHelper.append(
+            this.dl,
+            { tag: 'dd', cls: id, html: '' },
+            true
+        );
     },
 
     clear: function() {
@@ -61,14 +64,14 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
         for (var k in this.fields) {
             this.fields[k].dom.innerHTML = '';
         }
-        this.oldData = {}
+        this.oldData = {};
     },
 
     update: function(torrentId) {
         deluge.client.web.get_torrent_status(torrentId, Deluge.Keys.Details, {
             success: this.onRequestComplete,
             scope: this,
-            torrentId: torrentId
+            torrentId: torrentId,
         });
     },
 
@@ -82,7 +85,7 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
             status: torrent.message,
             tracker: torrent.tracker_host,
             comment: torrent.comment,
-            creator: torrent.creator
+            creator: torrent.creator,
         };
 
         for (var field in this.fields) {
@@ -91,5 +94,5 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
             this.fields[field].dom.innerHTML = Ext.escapeHTML(data[field]);
         }
         this.oldData = data;
-    }
+    },
 });

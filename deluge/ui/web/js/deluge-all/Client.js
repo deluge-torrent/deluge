@@ -16,7 +16,6 @@ Ext.namespace('Ext.ux.util');
  * @namespace Ext.ux.util
  */
 Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
-
     _components: [],
 
     _methods: [],
@@ -33,15 +32,14 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
      * @param {Ext.ux.util.RpcClient} this
      */
     constructor: function(config) {
-
         Ext.ux.util.RpcClient.superclass.constructor.call(this, config);
         this._url = config.url || null;
         this._id = 0;
 
         this.addEvents(
-             // raw events
-             'connected',
-             'error'
+            // raw events
+            'connected',
+            'error'
         );
         this.reloadMethods();
     },
@@ -49,7 +47,7 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
     reloadMethods: function() {
         this._execute('system.listMethods', {
             success: this._setMethods,
-            scope: this
+            scope: this,
         });
     },
 
@@ -61,7 +59,7 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
         var request = Ext.encode({
             method: method,
             params: options.params,
-            id: options.id
+            id: options.id,
         });
         this._id++;
 
@@ -72,7 +70,7 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
             failure: this._onFailure,
             scope: this,
             jsonData: request,
-            options: options
+            options: options,
         });
     },
 
@@ -83,15 +81,20 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
             result: null,
             error: {
                 msg: 'HTTP: ' + response.status + ' ' + response.statusText,
-                code: 255
-            }
-        }
+                code: 255,
+            },
+        };
 
-        this.fireEvent('error', errorObj, response, requestOptions)
+        this.fireEvent('error', errorObj, response, requestOptions);
 
         if (Ext.type(options.failure) != 'function') return;
         if (options.scope) {
-            options.failure.call(options.scope, errorObj, response, requestOptions);
+            options.failure.call(
+                options.scope,
+                errorObj,
+                response,
+                requestOptions
+            );
         } else {
             options.failure(errorObj, response, requestOptions);
         }
@@ -105,16 +108,32 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
 
             if (Ext.type(options.failure) != 'function') return;
             if (options.scope) {
-                options.failure.call(options.scope, responseObj, response, requestOptions);
+                options.failure.call(
+                    options.scope,
+                    responseObj,
+                    response,
+                    requestOptions
+                );
             } else {
                 options.failure(responseObj, response, requestOptions);
             }
         } else {
             if (Ext.type(options.success) != 'function') return;
             if (options.scope) {
-                options.success.call(options.scope, responseObj.result, responseObj, response, requestOptions);
+                options.success.call(
+                    options.scope,
+                    responseObj.result,
+                    responseObj,
+                    response,
+                    requestOptions
+                );
             } else {
-                options.success(responseObj.result, responseObj, response, requestOptions);
+                options.success(
+                    responseObj.result,
+                    responseObj,
+                    response,
+                    requestOptions
+                );
             }
         }
     },
@@ -127,26 +146,28 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
 
         var options = params[params.length - 1];
         if (Ext.type(options) == 'object') {
-            var keys = Ext.keys(options), isOption = false;
+            var keys = Ext.keys(options),
+                isOption = false;
 
             Ext.each(this._optionKeys, function(key) {
                 if (keys.indexOf(key) > -1) isOption = true;
             });
 
             if (isOption) {
-                params.remove(options)
+                params.remove(options);
             } else {
-                options = {}
+                options = {};
             }
         } else {
-            options = {}
+            options = {};
         }
         options.params = params;
         return options;
     },
 
     _setMethods: function(methods) {
-        var components = {}, self = this;
+        var components = {},
+            self = this;
 
         Ext.each(methods, function(method) {
             var parts = method.split('.');
@@ -155,7 +176,7 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
             var fn = function() {
                 var options = self._parseArgs(arguments);
                 return self._execute(method, options);
-            }
+            };
             component[parts[1]] = fn;
             components[parts[0]] = component;
         });
@@ -163,12 +184,16 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
         for (var name in components) {
             self[name] = components[name];
         }
-        Ext.each(this._components, function(component) {
-            if (!component in components) {
-                delete this[component];
-            }
-        }, this);
+        Ext.each(
+            this._components,
+            function(component) {
+                if (!component in components) {
+                    delete this[component];
+                }
+            },
+            this
+        );
         this._components = Ext.keys(components);
         this.fireEvent('connected', this);
-    }
+    },
 });

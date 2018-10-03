@@ -9,54 +9,68 @@
  */
 
 Deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
-
     title: _('Files'),
 
     rootVisible: false,
 
-    columns: [{
-        header: _('Filename'),
-        width: 330,
-        dataIndex: 'filename'
-    }, {
-        header: _('Size'),
-        width: 150,
-        dataIndex: 'size',
-        tpl: new Ext.XTemplate('{size:this.fsize}', {
-            fsize: function(v) { return fsize(v); }
-        })
-    }, {
-        xtype: 'tgrendercolumn',
-        header: _('Progress'),
-        width: 150,
-        dataIndex: 'progress',
-        renderer: function(v) {
-            var progress = v * 100;
-            return Deluge.progressBar(progress, this.col.width, progress.toFixed(2) + '%', 0);
-        }
-    }, {
-        header: _('Priority'),
-        width: 150,
-        dataIndex: 'priority',
-        tpl: new Ext.XTemplate('<tpl if="!isNaN(priority)">' +
-            '<div class="{priority:this.getClass}">' +
-                '{priority:this.getName}' +
-            '</div></tpl>', {
-            getClass: function(v) {
-                return FILE_PRIORITY_CSS[v];
+    columns: [
+        {
+            header: _('Filename'),
+            width: 330,
+            dataIndex: 'filename',
+        },
+        {
+            header: _('Size'),
+            width: 150,
+            dataIndex: 'size',
+            tpl: new Ext.XTemplate('{size:this.fsize}', {
+                fsize: function(v) {
+                    return fsize(v);
+                },
+            }),
+        },
+        {
+            xtype: 'tgrendercolumn',
+            header: _('Progress'),
+            width: 150,
+            dataIndex: 'progress',
+            renderer: function(v) {
+                var progress = v * 100;
+                return Deluge.progressBar(
+                    progress,
+                    this.col.width,
+                    progress.toFixed(2) + '%',
+                    0
+                );
             },
+        },
+        {
+            header: _('Priority'),
+            width: 150,
+            dataIndex: 'priority',
+            tpl: new Ext.XTemplate(
+                '<tpl if="!isNaN(priority)">' +
+                    '<div class="{priority:this.getClass}">' +
+                    '{priority:this.getName}' +
+                    '</div></tpl>',
+                {
+                    getClass: function(v) {
+                        return FILE_PRIORITY_CSS[v];
+                    },
 
-            getName: function(v) {
-                return _(FILE_PRIORITY[v]);
-            }
-        })
-    }],
+                    getName: function(v) {
+                        return _(FILE_PRIORITY[v]);
+                    },
+                }
+            ),
+        },
+    ],
 
     selModel: new Ext.tree.MultiSelectionModel(),
 
     initComponent: function() {
         Deluge.details.FilesTab.superclass.initComponent.call(this);
-        this.setRootNode(new Ext.tree.TreeNode({text: _('Files')}));
+        this.setRootNode(new Ext.tree.TreeNode({ text: _('Files') }));
     },
 
     clear: function() {
@@ -75,25 +89,32 @@ Deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
             for (var file in files.contents) {
                 var item = files.contents[file];
                 if (item.type == 'dir') {
-                    walk(item, parentNode.appendChild(new Ext.tree.TreeNode({
-                        text: file,
-                        filename: file,
-                        size: item.size,
-                        progress: item.progress,
-                        priority: item.priority
-                    })));
+                    walk(
+                        item,
+                        parentNode.appendChild(
+                            new Ext.tree.TreeNode({
+                                text: file,
+                                filename: file,
+                                size: item.size,
+                                progress: item.progress,
+                                priority: item.priority,
+                            })
+                        )
+                    );
                 } else {
-                    parentNode.appendChild(new Ext.tree.TreeNode({
-                        text: file,
-                        filename: file,
-                        fileIndex: item.index,
-                        size: item.size,
-                        progress: item.progress,
-                        priority: item.priority,
-                        leaf: true,
-                        iconCls: 'x-deluge-file',
-                        uiProvider: Ext.ux.tree.TreeGridNodeUI
-                    }));
+                    parentNode.appendChild(
+                        new Ext.tree.TreeNode({
+                            text: file,
+                            filename: file,
+                            fileIndex: item.index,
+                            size: item.size,
+                            progress: item.progress,
+                            priority: item.priority,
+                            leaf: true,
+                            iconCls: 'x-deluge-file',
+                            uiProvider: Ext.ux.tree.TreeGridNodeUI,
+                        })
+                    );
                 }
             }
         }
@@ -111,7 +132,7 @@ Deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
         deluge.client.web.get_torrent_files(torrentId, {
             success: this.onRequestComplete,
             scope: this,
-            torrentId: torrentId
+            torrentId: torrentId,
         });
     },
 
@@ -120,7 +141,7 @@ Deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
             for (var file in files.contents) {
                 var item = files.contents[file];
                 var node = parentNode.findChild('filename', file);
-                node.attributes.size     = item.size;
+                node.attributes.size = item.size;
                 node.attributes.progress = item.progress;
                 node.attributes.priority = item.priority;
                 node.ui.updateColumns();
@@ -137,7 +158,7 @@ Deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
         deluge.menus.filePriorities.on('itemclick', this.onItemClick, this);
         this.on('contextmenu', this.onContextMenu, this);
         this.sorter = new Ext.tree.TreeSorter(this, {
-            folderSort: true
+            folderSort: true,
         });
     },
 
@@ -160,7 +181,8 @@ Deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
                 var indexes = {};
                 function walk(node) {
                     if (Ext.isEmpty(node.attributes.fileIndex)) return;
-                    indexes[node.attributes.fileIndex] = node.attributes.priority;
+                    indexes[node.attributes.fileIndex] =
+                        node.attributes.priority;
                 }
                 this.getRootNode().cascade(walk);
 
@@ -169,11 +191,13 @@ Deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
                     if (!node.isLeaf()) {
                         function setPriorities(node) {
                             if (Ext.isEmpty(node.attributes.fileIndex)) return;
-                            indexes[node.attributes.fileIndex] = baseItem.filePriority;
+                            indexes[node.attributes.fileIndex] =
+                                baseItem.filePriority;
                         }
                         node.cascade(setPriorities);
                     } else if (!Ext.isEmpty(node.attributes.fileIndex)) {
-                        indexes[node.attributes.fileIndex] = baseItem.filePriority;
+                        indexes[node.attributes.fileIndex] =
+                            baseItem.filePriority;
                         return;
                     }
                 });
@@ -183,14 +207,18 @@ Deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
                     priorities[index] = indexes[index];
                 }
 
-                deluge.client.core.set_torrent_options([this.torrentId], {'file_priorities': priorities}, {
-                    success: function() {
-                        Ext.each(nodes, function(node) {
-                            node.setColumnValue(3, baseItem.filePriority);
-                        });
-                    },
-                    scope: this
-                });
+                deluge.client.core.set_torrent_options(
+                    [this.torrentId],
+                    { file_priorities: priorities },
+                    {
+                        success: function() {
+                            Ext.each(nodes, function(node) {
+                                node.setColumnValue(3, baseItem.filePriority);
+                            });
+                        },
+                        scope: this,
+                    }
+                );
                 break;
         }
     },
@@ -201,5 +229,5 @@ Deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
         } else {
             this.updateFileTree(files);
         }
-    }
+    },
 });

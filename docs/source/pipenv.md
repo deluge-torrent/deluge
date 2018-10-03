@@ -4,16 +4,18 @@ For a quick summary read: https://docs.pipenv.org/basics/
 
 ## Prerequisites
 
- * python-libtorrent
- * pip
- * pipenv
+- python-libtorrent
+- pip
+- pipenv
 
 ## Install pipenv and packages
 
 Install Pipenv and upgrade pip:
+
     pip install -U pip pipenv
 
 On Ubuntu:
+
     sudo -H pip install -U pip pipenv
 
 In order to have access to system libtorrent we use `--site-packages` and

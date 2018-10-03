@@ -9,7 +9,6 @@
  */
 
 Deluge.ConnectionManager = Ext.extend(Ext.Window, {
-
     layout: 'fit',
     width: 300,
     height: 220,
@@ -24,7 +23,7 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
 
     initComponent: function() {
         Deluge.ConnectionManager.superclass.initComponent.call(this);
-        this.on('hide',  this.onHide, this);
+        this.on('hide', this.onHide, this);
         this.on('show', this.onShow, this);
 
         deluge.events.on('login', this.onLogin, this);
@@ -36,47 +35,52 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
         this.list = new Ext.list.ListView({
             store: new Ext.data.ArrayStore({
                 fields: [
-                    {name: 'status', mapping: 4},
-                    {name: 'host', mapping: 1},
-                    {name: 'port', mapping: 2},
-                    {name: 'user', mapping: 3},
-                    {name: 'version', mapping: 5}
+                    { name: 'status', mapping: 4 },
+                    { name: 'host', mapping: 1 },
+                    { name: 'port', mapping: 2 },
+                    { name: 'user', mapping: 3 },
+                    { name: 'version', mapping: 5 },
                 ],
-                id: 0
+                id: 0,
             }),
-            columns: [{
-                header: _('Status'),
-                width: .24,
-                sortable: true,
-                tpl: new Ext.XTemplate(
-                    '<tpl if="status == \'Online\'">',
+            columns: [
+                {
+                    header: _('Status'),
+                    width: 0.24,
+                    sortable: true,
+                    tpl: new Ext.XTemplate(
+                        '<tpl if="status == \'Online\'">',
                         _('Online'),
-                    '</tpl>',
-                    '<tpl if="status == \'Offline\'">',
+                        '</tpl>',
+                        '<tpl if="status == \'Offline\'">',
                         _('Offline'),
-                    '</tpl>',
-                    '<tpl if="status == \'Connected\'">',
+                        '</tpl>',
+                        '<tpl if="status == \'Connected\'">',
                         _('Connected'),
-                    '</tpl>'),
-                dataIndex: 'status'
-            }, {
-                id:'host',
-                header: _('Host'),
-                width: .51,
-                sortable: true,
-                tpl: '{user}@{host}:{port}',
-                dataIndex: 'host'
-            }, {
-                header: _('Version'),
-                width: .25,
-                sortable: true,
-                tpl: '<tpl if="version">{version}</tpl>',
-                dataIndex: 'version'
-            }],
+                        '</tpl>'
+                    ),
+                    dataIndex: 'status',
+                },
+                {
+                    id: 'host',
+                    header: _('Host'),
+                    width: 0.51,
+                    sortable: true,
+                    tpl: '{user}@{host}:{port}',
+                    dataIndex: 'host',
+                },
+                {
+                    header: _('Version'),
+                    width: 0.25,
+                    sortable: true,
+                    tpl: '<tpl if="version">{version}</tpl>',
+                    dataIndex: 'version',
+                },
+            ],
             singleSelect: true,
             listeners: {
-                'selectionchange': {fn: this.onSelectionChanged, scope: this}
-            }
+                selectionchange: { fn: this.onSelectionChanged, scope: this },
+            },
         });
 
         this.panel = this.add({
@@ -90,33 +94,37 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
                         text: _('Add'),
                         iconCls: 'icon-add',
                         handler: this.onAddClick,
-                        scope: this
-                    }, {
+                        scope: this,
+                    },
+                    {
                         id: 'cm-edit',
                         cls: 'x-btn-text-icon',
                         text: _('Edit'),
                         iconCls: 'icon-edit',
                         handler: this.onEditClick,
-                        scope: this
-                    }, {
+                        scope: this,
+                    },
+                    {
                         id: 'cm-remove',
                         cls: 'x-btn-text-icon',
                         text: _('Remove'),
                         iconCls: 'icon-remove',
                         handler: this.onRemoveClick,
                         disabled: true,
-                        scope: this
-                    }, '->', {
+                        scope: this,
+                    },
+                    '->',
+                    {
                         id: 'cm-stop',
                         cls: 'x-btn-text-icon',
                         text: _('Stop Daemon'),
                         iconCls: 'icon-error',
                         handler: this.onStopClick,
                         disabled: true,
-                        scope: this
-                    }
-                ]
-            })
+                        scope: this,
+                    },
+                ],
+            }),
         });
         this.update = this.update.createDelegate(this);
     },
@@ -134,7 +142,7 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
                     this.show();
                 }
             },
-            scope: this
+            scope: this,
         });
     },
 
@@ -149,7 +157,7 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
     loadHosts: function() {
         deluge.client.web.get_hosts({
             success: this.onGetHosts,
-            scope: this
+            scope: this,
         });
     },
 
@@ -157,7 +165,7 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
         this.list.getStore().each(function(r) {
             deluge.client.web.get_host_status(r.id, {
                 success: this.onGetHostStatus,
-                scope: this
+                scope: this,
             });
         }, this);
     },
@@ -168,7 +176,8 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
      * @param {Ext.data.Record} record The hosts record to update the UI for
      */
     updateButtons: function(record) {
-        var button = this.buttons[1], status = record.get('status');
+        var button = this.buttons[1],
+            status = record.get('status');
 
         // Update the Connect/Disconnect button
         button.enable();
@@ -180,11 +189,17 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
         }
 
         // Update the Stop/Start Daemon button
-        if (status.toLowerCase() == 'connected' || status.toLowerCase() == 'online') {
+        if (
+            status.toLowerCase() == 'connected' ||
+            status.toLowerCase() == 'online'
+        ) {
             this.stopHostButton.enable();
             this.stopHostButton.setText(_('Stop Daemon'));
         } else {
-            if (record.get('host') == '127.0.0.1' || record.get('host') == 'localhost') {
+            if (
+                record.get('host') == '127.0.0.1' ||
+                record.get('host') == 'localhost'
+            ) {
                 this.stopHostButton.enable();
                 this.stopHostButton.setText(_('Start Daemon'));
             } else {
@@ -236,26 +251,38 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
                     this.update(this);
                     deluge.events.fire('disconnect');
                 },
-                scope: me
+                scope: me,
             });
         };
 
         if (selected.get('status').toLowerCase() == 'connected') {
             disconnect();
-        }  else {
-            if (this.list.getStore().find('status', 'Connected', 0, false, false) > -1) {
+        } else {
+            if (
+                this.list
+                    .getStore()
+                    .find('status', 'Connected', 0, false, false) > -1
+            ) {
                 disconnect();
             }
 
             var id = selected.id;
-            deluge.client.web.connect(id, {
-                success: function(methods) {
-                    deluge.client.reloadMethods();
-                    deluge.client.on('connected', function(e) {
-                        deluge.events.fire('connect');
-                    }, this, {single: true});
+            deluge.client.web.connect(
+                id,
+                {
+                    success: function(methods) {
+                        deluge.client.reloadMethods();
+                        deluge.client.on(
+                            'connected',
+                            function(e) {
+                                deluge.events.fire('connect');
+                            },
+                            this,
+                            { single: true }
+                        );
+                    },
                 }
-            });
+            );
             this.hide();
         }
     },
@@ -263,21 +290,25 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
     // private
     onGetHosts: function(hosts) {
         this.list.getStore().loadData(hosts);
-        Ext.each(hosts, function(host) {
-            deluge.client.web.get_host_status(host[0], {
-                success: this.onGetHostStatus,
-                scope: this
-            });
-        }, this);
+        Ext.each(
+            hosts,
+            function(host) {
+                deluge.client.web.get_host_status(host[0], {
+                    success: this.onGetHostStatus,
+                    scope: this,
+                });
+            },
+            this
+        );
     },
 
     // private
     onGetHostStatus: function(host) {
         var record = this.list.getStore().getById(host[0]);
-        record.set('status', host[1])
-        record.set('version', host[2])
+        record.set('status', host[1]);
+        record.set('version', host[2]);
         record.commit();
-        var selected = this.list.getSelectedRecords()[0]
+        var selected = this.list.getSelectedRecords()[0];
         if (!selected) return;
         if (selected == record) this.updateButtons(record);
     },
@@ -290,16 +321,21 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
     // private
     onLogin: function() {
         if (deluge.config.first_login) {
-            Ext.MessageBox.confirm(_('Change Default Password'),
-                _('We recommend changing the default password.<br><br>Would you like to change it now?'),
+            Ext.MessageBox.confirm(
+                _('Change Default Password'),
+                _(
+                    'We recommend changing the default password.<br><br>Would you like to change it now?'
+                ),
                 function(res) {
                     this.checkConnected();
                     if (res == 'yes') {
                         deluge.preferences.show();
                         deluge.preferences.selectPage('Interface');
                     }
-                    deluge.client.web.set_config({first_login: false});
-                }, this);
+                    deluge.client.web.set_config({ first_login: false });
+                },
+                this
+            );
         } else {
             this.checkConnected();
         }
@@ -327,13 +363,13 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
                         buttons: Ext.MessageBox.OK,
                         modal: false,
                         icon: Ext.MessageBox.ERROR,
-                        iconCls: 'x-deluge-icon-error'
+                        iconCls: 'x-deluge-icon-error',
                     });
                 } else {
                     this.list.getStore().remove(connection);
                 }
             },
-            scope: this
+            scope: this,
         });
     },
 
@@ -386,11 +422,11 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
                             buttons: Ext.MessageBox.OK,
                             modal: false,
                             icon: Ext.MessageBox.ERROR,
-                            iconCls: 'x-deluge-icon-error'
+                            iconCls: 'x-deluge-icon-error',
                         });
                     }
-                }
+                },
             });
         }
-    }
+    },
 });

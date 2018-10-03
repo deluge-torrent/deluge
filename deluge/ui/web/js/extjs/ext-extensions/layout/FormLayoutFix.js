@@ -12,23 +12,28 @@
 // remove spaces for hidden elements and make show(), hide(), enable() and disable() act on
 // the label. don't use hideLabel with this.
 Ext.override(Ext.layout.FormLayout, {
-    renderItem : function(c, position, target){
-        if(c && !c.rendered && (c.isFormField || c.fieldLabel) && c.inputType != 'hidden'){
+    renderItem: function(c, position, target) {
+        if (
+            c &&
+            !c.rendered &&
+            (c.isFormField || c.fieldLabel) &&
+            c.inputType != 'hidden'
+        ) {
             var args = this.getTemplateArgs(c);
-            if(typeof position == 'number'){
+            if (typeof position == 'number') {
                 position = target.dom.childNodes[position] || null;
             }
-            if(position){
+            if (position) {
                 c.formItem = this.fieldTpl.insertBefore(position, args, true);
-            }else{
+            } else {
                 c.formItem = this.fieldTpl.append(target, args, true);
             }
             c.actionMode = 'formItem';
-            c.render('x-form-el-'+c.id);
+            c.render('x-form-el-' + c.id);
             c.container = c.formItem;
             c.actionMode = 'container';
-        }else {
+        } else {
             Ext.layout.FormLayout.superclass.renderItem.apply(this, arguments);
         }
-    }
+    },
 });

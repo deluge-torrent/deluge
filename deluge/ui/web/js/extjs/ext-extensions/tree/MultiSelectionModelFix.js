@@ -13,8 +13,7 @@
  * @author Damien Churchill <damoxc@gmail.com>
  */
 Ext.override(Ext.tree.MultiSelectionModel, {
-    
-    onNodeClick: function (node, e) {
+    onNodeClick: function(node, e) {
         if (e.ctrlKey && this.isSelected(node)) {
             this.unselect(node);
         } else if (e.shiftKey && !this.isSelected(node)) {
@@ -31,7 +30,7 @@ Ext.override(Ext.tree.MultiSelectionModel, {
 
             // Swap the values if required
             if (fi > li) {
-                fi = fi + li, li = fi - li, fi = fi - li;
+                (fi = fi + li), (li = fi - li), (fi = fi - li);
             }
 
             // Select all the nodes
@@ -50,13 +49,13 @@ Ext.override(Ext.tree.MultiSelectionModel, {
     },
 
     select: function(node, e, keepExisting, suppressEvent) {
-        if(keepExisting !== true){
+        if (keepExisting !== true) {
             this.clearSelections(true);
-        }         
-        if(this.isSelected(node)){
+        }
+        if (this.isSelected(node)) {
             this.lastSelNode = node;
             return node;
-        }         
+        }
         this.selNodes.push(node);
         this.selMap[node.id] = node;
         this.lastSelNode = node;
@@ -65,6 +64,5 @@ Ext.override(Ext.tree.MultiSelectionModel, {
             this.fireEvent('selectionchange', this, this.selNodes);
         }
         return node;
-    }
-
+    },
 });

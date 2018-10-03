@@ -1,0 +1,6 @@
+deluge/ui/web/css/ext-*.css
+deluge/ui/web/js/extjs/ext-*.js
+deluge/ui/web/docs/
+deluge/ui/web/themes/images/
+*.py*
+*.html

@@ -10,7 +10,6 @@
 
 Ext.namespace('Deluge.add');
 Deluge.add.UrlWindow = Ext.extend(Deluge.add.Window, {
-
     title: _('Add from Url'),
     modal: true,
     plain: true,
@@ -31,14 +30,14 @@ Deluge.add.UrlWindow = Ext.extend(Deluge.add.Window, {
             xtype: 'form',
             defaultType: 'textfield',
             baseCls: 'x-plain',
-            labelWidth: 55
+            labelWidth: 55,
         });
 
         this.urlField = form.add({
             fieldLabel: _('Url'),
             id: 'url',
             name: 'url',
-            width: '97%'
+            width: '97%',
         });
         this.urlField.on('specialkey', this.onAdd, this);
 
@@ -46,13 +45,17 @@ Deluge.add.UrlWindow = Ext.extend(Deluge.add.Window, {
             fieldLabel: _('Cookies'),
             id: 'cookies',
             name: 'cookies',
-            width: '97%'
+            width: '97%',
         });
         this.cookieField.on('specialkey', this.onAdd, this);
     },
 
     onAddClick: function(field, e) {
-        if ((field.id == 'url' || field.id == 'cookies') && e.getKey() != e.ENTER) return;
+        if (
+            (field.id == 'url' || field.id == 'cookies') &&
+            e.getKey() != e.ENTER
+        )
+            return;
 
         var field = this.urlField;
         var url = field.getValue();
@@ -64,13 +67,13 @@ Deluge.add.UrlWindow = Ext.extend(Deluge.add.Window, {
                 success: this.onGotInfo,
                 scope: this,
                 filename: url,
-                torrentId: torrentId
+                torrentId: torrentId,
             });
         } else {
             deluge.client.web.download_torrent_from_url(url, cookies, {
                 success: this.onDownload,
                 scope: this,
-                torrentId: torrentId
+                torrentId: torrentId,
             });
         }
 
@@ -84,12 +87,12 @@ Deluge.add.UrlWindow = Ext.extend(Deluge.add.Window, {
             success: this.onGotInfo,
             scope: this,
             filename: filename,
-            torrentId: req.options.torrentId
+            torrentId: req.options.torrentId,
         });
     },
 
     onGotInfo: function(info, obj, response, request) {
         info['filename'] = request.options.filename;
         this.fireEvent('add', request.options.torrentId, info);
-    }
+    },
 });

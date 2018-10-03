@@ -16,7 +16,6 @@ Ext.ns('Deluge.ux.preferences');
  * @extends Ext.Panel
  */
 Deluge.ux.preferences.ExtractorPage = Ext.extend(Ext.Panel, {
-
     title: _('Extractor'),
     header: false,
     layout: 'fit',
@@ -29,7 +28,7 @@ Deluge.ux.preferences.ExtractorPage = Ext.extend(Ext.Panel, {
             xtype: 'form',
             layout: 'form',
             border: false,
-            autoHeight: true
+            autoHeight: true,
         });
 
         fieldset = this.form.add({
@@ -39,23 +38,22 @@ Deluge.ux.preferences.ExtractorPage = Ext.extend(Ext.Panel, {
             autoHeight: true,
             labelAlign: 'top',
             labelWidth: 80,
-            defaultType: 'textfield'
+            defaultType: 'textfield',
         });
 
         this.extract_path = fieldset.add({
             fieldLabel: _('Extract to:'),
             labelSeparator: '',
             name: 'extract_path',
-            width: '97%'
+            width: '97%',
         });
-
 
         this.use_name_folder = fieldset.add({
             xtype: 'checkbox',
             name: 'use_name_folder',
             height: 22,
             hideLabel: true,
-            boxLabel: _('Create torrent name sub-folder')
+            boxLabel: _('Create torrent name sub-folder'),
         });
 
         this.on('show', this.updateConfig, this);
@@ -81,14 +79,12 @@ Deluge.ux.preferences.ExtractorPage = Ext.extend(Ext.Panel, {
                 this.extract_path.setValue(config['extract_path']);
                 this.use_name_folder.setValue(config['use_name_folder']);
             },
-            scope: this
+            scope: this,
         });
-    }
+    },
 });
 
-
 Deluge.plugins.ExtractorPlugin = Ext.extend(Deluge.Plugin, {
-
     name: 'Extractor',
 
     onDisable: function() {
@@ -96,7 +92,9 @@ Deluge.plugins.ExtractorPlugin = Ext.extend(Deluge.Plugin, {
     },
 
     onEnable: function() {
-        this.prefsPage = deluge.preferences.addPage(new Deluge.ux.preferences.ExtractorPage());
-    }
+        this.prefsPage = deluge.preferences.addPage(
+            new Deluge.ux.preferences.ExtractorPage()
+        );
+    },
 });
 Deluge.registerPlugin('Extractor', Deluge.plugins.ExtractorPlugin);

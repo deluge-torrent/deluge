@@ -19,7 +19,6 @@ Ext.ns('Deluge.ux.preferences');
  * @extends Ext.Panel
  */
 Deluge.ux.preferences.AutoAddPage = Ext.extend(Ext.Panel, {
-
     title: _('AutoAdd'),
     header: false,
     layout: 'fit',
@@ -33,75 +32,91 @@ Deluge.ux.preferences.AutoAddPage = Ext.extend(Ext.Panel, {
 
         this.list = new Ext.list.ListView({
             store: new Ext.data.JsonStore({
-                fields: [
-                    'id',
-                    'enabled',
-                    'owner',
-                    'path'
-                ]
+                fields: ['id', 'enabled', 'owner', 'path'],
             }),
-            columns: [{
-                id: 'enabled',
-                header: _('Active'),
-                sortable: true,
-                dataIndex: 'enabled',
-                tpl: new Ext.XTemplate('{enabled:this.getCheckbox}', {
-                    getCheckbox: function(checked, selected) {
-                        Deluge.ux.AutoAdd.onClickFunctions[selected.id] = function () {
-                             if (selected.enabled) {
-                                 deluge.client.autoadd.disable_watchdir(selected.id);
-                                 checked = false;
-                             }
-                             else {
-                                 deluge.client.autoadd.enable_watchdir(selected.id);
-                                 checked = true;
-                             }
-                             autoAdd.updateWatchDirs();
-                        };
-                        return '<input id="enabled-' + selected.id + '" type="checkbox"' + (checked ? ' checked' : '') +
-                            ' onclick="Deluge.ux.AutoAdd.onClickFunctions[' + selected.id +']()" />'
-                    }
-                }),
-                width: .15
-            }, {
-                id: 'owner',
-                header: _('Owner'),
-                sortable: true,
-                dataIndex: 'owner',
-                width: .2
-            }, {
-                id: 'path',
-                header: _('Path'),
-                sortable: true,
-                dataIndex: 'path'
-            }],
+            columns: [
+                {
+                    id: 'enabled',
+                    header: _('Active'),
+                    sortable: true,
+                    dataIndex: 'enabled',
+                    tpl: new Ext.XTemplate('{enabled:this.getCheckbox}', {
+                        getCheckbox: function(checked, selected) {
+                            Deluge.ux.AutoAdd.onClickFunctions[
+                                selected.id
+                            ] = function() {
+                                if (selected.enabled) {
+                                    deluge.client.autoadd.disable_watchdir(
+                                        selected.id
+                                    );
+                                    checked = false;
+                                } else {
+                                    deluge.client.autoadd.enable_watchdir(
+                                        selected.id
+                                    );
+                                    checked = true;
+                                }
+                                autoAdd.updateWatchDirs();
+                            };
+                            return (
+                                '<input id="enabled-' +
+                                selected.id +
+                                '" type="checkbox"' +
+                                (checked ? ' checked' : '') +
+                                ' onclick="Deluge.ux.AutoAdd.onClickFunctions[' +
+                                selected.id +
+                                ']()" />'
+                            );
+                        },
+                    }),
+                    width: 0.15,
+                },
+                {
+                    id: 'owner',
+                    header: _('Owner'),
+                    sortable: true,
+                    dataIndex: 'owner',
+                    width: 0.2,
+                },
+                {
+                    id: 'path',
+                    header: _('Path'),
+                    sortable: true,
+                    dataIndex: 'path',
+                },
+            ],
             singleSelect: true,
-            autoExpandColumn: 'path'
+            autoExpandColumn: 'path',
         });
         this.list.on('selectionchange', this.onSelectionChange, this);
 
         this.panel = this.add({
             items: [this.list],
             bbar: {
-                items: [{
+                items: [
+                    {
                         text: _('Add'),
                         iconCls: 'icon-add',
                         handler: this.onAddClick,
-                        scope: this
-                    }, {
+                        scope: this,
+                    },
+                    {
                         text: _('Edit'),
                         iconCls: 'icon-edit',
                         handler: this.onEditClick,
                         scope: this,
-                        disabled: true
-                    }, '->', {
+                        disabled: true,
+                    },
+                    '->',
+                    {
                         text: _('Remove'),
                         iconCls: 'icon-remove',
                         handler: this.onRemoveClick,
                         scope: this,
-                        disabled: true
-                    }]
-            }
+                        disabled: true,
+                    },
+                ],
+            },
         });
 
         this.on('show', this.onPreferencesShow, this);
@@ -117,7 +132,8 @@ Deluge.ux.preferences.AutoAddPage = Ext.extend(Ext.Panel, {
                         var watchdir = {};
                         watchdir['id'] = id;
                         watchdir['enabled'] = watchdirs[id].enabled;
-                        watchdir['owner'] = watchdirs[id].owner || 'localclient';
+                        watchdir['owner'] =
+                            watchdirs[id].owner || 'localclient';
                         watchdir['path'] = watchdirs[id].path;
 
                         watchdirsArray.push(watchdir);
@@ -125,16 +141,20 @@ Deluge.ux.preferences.AutoAddPage = Ext.extend(Ext.Panel, {
                 }
                 this.list.getStore().loadData(watchdirsArray);
             },
-            scope: this
+            scope: this,
         });
     },
 
     onAddClick: function() {
         if (!this.addWin) {
             this.addWin = new Deluge.ux.AutoAdd.AddAutoAddCommandWindow();
-            this.addWin.on('watchdiradd', function() {
-                this.updateWatchDirs();
-            }, this);
+            this.addWin.on(
+                'watchdiradd',
+                function() {
+                    this.updateWatchDirs();
+                },
+                this
+            );
         }
         this.addWin.show();
     },
@@ -142,9 +162,13 @@ Deluge.ux.preferences.AutoAddPage = Ext.extend(Ext.Panel, {
     onEditClick: function() {
         if (!this.editWin) {
             this.editWin = new Deluge.ux.AutoAdd.EditAutoAddCommandWindow();
-            this.editWin.on('watchdiredit', function() {
-                this.updateWatchDirs();
-            }, this);
+            this.editWin.on(
+                'watchdiredit',
+                function() {
+                    this.updateWatchDirs();
+                },
+                this
+            );
         }
         var id = this.list.getSelectedRecords()[0].id;
         this.editWin.show(id, this.watchdirs[id]);
@@ -160,26 +184,38 @@ Deluge.ux.preferences.AutoAddPage = Ext.extend(Ext.Panel, {
             success: function() {
                 this.updateWatchDirs();
             },
-            scope: this
+            scope: this,
         });
     },
 
     onSelectionChange: function(dv, selections) {
         if (selections.length) {
-            this.panel.getBottomToolbar().items.get(1).enable();
-            this.panel.getBottomToolbar().items.get(3).enable();
+            this.panel
+                .getBottomToolbar()
+                .items.get(1)
+                .enable();
+            this.panel
+                .getBottomToolbar()
+                .items.get(3)
+                .enable();
         } else {
-            this.panel.getBottomToolbar().items.get(1).disable();
-            this.panel.getBottomToolbar().items.get(3).disable();
+            this.panel
+                .getBottomToolbar()
+                .items.get(1)
+                .disable();
+            this.panel
+                .getBottomToolbar()
+                .items.get(3)
+                .disable();
         }
-    }
+    },
 });
 
 Deluge.plugins.AutoAddPlugin = Ext.extend(Deluge.Plugin, {
     name: 'AutoAdd',
 
     static: {
-        prefsPage: null
+        prefsPage: null,
     },
 
     onDisable: function() {
@@ -193,9 +229,11 @@ Deluge.plugins.AutoAddPlugin = Ext.extend(Deluge.Plugin, {
          * This will prevent adding unnecessary tabs to the preferences window.
          */
         if (!Deluge.plugins.AutoAddPlugin.prefsPage) {
-            Deluge.plugins.AutoAddPlugin.prefsPage = deluge.preferences.addPage(new Deluge.ux.preferences.AutoAddPage());
+            Deluge.plugins.AutoAddPlugin.prefsPage = deluge.preferences.addPage(
+                new Deluge.ux.preferences.AutoAddPage()
+            );
         }
-    }
+    },
 });
 
 Deluge.registerPlugin('AutoAdd', Deluge.plugins.AutoAddPlugin);

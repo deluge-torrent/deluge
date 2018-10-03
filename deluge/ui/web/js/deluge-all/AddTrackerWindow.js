@@ -12,10 +12,10 @@ Ext.ns('Deluge');
 // Custom VType validator for tracker urls
 var trackerUrlTest = /(((^https?)|(^udp)):\/\/([\-\w]+\.)+\w{2,3}(\/[%\-\w]+(\.\w{2,})?)*(([\w\-\.\?\\\/+@&#;`~=%!]*)(\.\w{2,})?)*\/?)/i;
 Ext.apply(Ext.form.VTypes, {
-     trackerUrl: function(val, field) {
-         return trackerUrlTest.test(val);
-     },
-     trackerUrlText: 'Not a valid tracker url'
+    trackerUrl: function(val, field) {
+        return trackerUrlTest.test(val);
+    },
+    trackerUrlText: 'Not a valid tracker url',
 });
 
 /**
@@ -23,7 +23,6 @@ Ext.apply(Ext.form.VTypes, {
  * @extends Ext.Window
  */
 Deluge.AddTrackerWindow = Ext.extend(Ext.Window, {
-
     title: _('Add Tracker'),
     layout: 'fit',
     width: 375,
@@ -49,32 +48,47 @@ Deluge.AddTrackerWindow = Ext.extend(Ext.Window, {
             defaultType: 'textarea',
             baseCls: 'x-plain',
             labelWidth: 55,
-            items: [{
-                fieldLabel: _('Trackers:'),
-                labelSeparator: '',
-                name: 'trackers',
-                anchor: '100%'
-            }]
-        })
+            items: [
+                {
+                    fieldLabel: _('Trackers:'),
+                    labelSeparator: '',
+                    name: 'trackers',
+                    anchor: '100%',
+                },
+            ],
+        });
     },
 
     onAddClick: function() {
-        var trackers = this.form.getForm().findField('trackers').getValue();
+        var trackers = this.form
+            .getForm()
+            .findField('trackers')
+            .getValue();
         trackers = trackers.split('\n');
 
         var cleaned = [];
-        Ext.each(trackers, function(tracker) {
-            if (Ext.form.VTypes.trackerUrl(tracker)) {
-                cleaned.push(tracker);
-            }
-        }, this);
+        Ext.each(
+            trackers,
+            function(tracker) {
+                if (Ext.form.VTypes.trackerUrl(tracker)) {
+                    cleaned.push(tracker);
+                }
+            },
+            this
+        );
         this.fireEvent('add', cleaned);
         this.hide();
-        this.form.getForm().findField('trackers').setValue('');
+        this.form
+            .getForm()
+            .findField('trackers')
+            .setValue('');
     },
 
     onCancelClick: function() {
-        this.form.getForm().findField('trackers').setValue('');
+        this.form
+            .getForm()
+            .findField('trackers')
+            .setValue('');
         this.hide();
-    }
+    },
 });

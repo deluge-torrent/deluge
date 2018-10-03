@@ -18,7 +18,6 @@ Ext.namespace('Deluge');
  * @param {Object} config Configuration options
  */
 Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
-
     constructor: function(config) {
         config = config || {};
         this.binds = {};
@@ -31,7 +30,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
              * @event add
              * Fires when an option is added
              */
-            'add': true,
+            add: true,
 
             /**
              * @event changed
@@ -40,13 +39,13 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
              * @param {Mixed} value The options new value
              * @param {Mixed} oldValue The options old value
              */
-            'changed': true,
+            changed: true,
 
             /**
              * @event reset
              * Fires when the options are reset
              */
-            'reset': true
+            reset: true,
         });
         this.on('changed', this.onChange, this);
 
@@ -104,7 +103,10 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
                 case 'boolean':
                     if (Ext.type(value) == 'string') {
                         value = value.toLowerCase();
-                        value = (value == 'true' || value == '1' || value == 'on') ? true : false;
+                        value =
+                            value == 'true' || value == '1' || value == 'on'
+                                ? true
+                                : false;
                     } else {
                         value = Boolean(value);
                     }
@@ -122,13 +124,21 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
     get: function() {
         if (arguments.length == 1) {
             var option = arguments[0];
-            return (this.isDirty(option)) ? this.changed[option] : this.options[option];
+            return this.isDirty(option)
+                ? this.changed[option]
+                : this.options[option];
         } else {
             var options = {};
-            Ext.each(arguments, function(option) {
-                if (!this.has(option)) return;
-                options[option] = (this.isDirty(option)) ? this.changed[option] : this.options[option];
-            }, this);
+            Ext.each(
+                arguments,
+                function(option) {
+                    if (!this.has(option)) return;
+                    options[option] = this.isDirty(option)
+                        ? this.changed[option]
+                        : this.options[option];
+                },
+                this
+            );
             return options;
         }
     },
@@ -164,7 +174,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
      * @returns {Boolean} true if the option exists, else false.
      */
     has: function(option) {
-        return (this.options[option]);
+        return this.options[option];
     },
 
     /**
@@ -190,7 +200,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
             }
         } else {
             this.options[option] = value;
-            this.onChange(option, value)
+            this.onChange(option, value);
         }
     },
 
@@ -255,11 +265,15 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
     onChange: function(option, newValue, oldValue) {
         // If we don't have a bind there's nothing to do.
         if (Ext.isEmpty(this.binds[option])) return;
-        Ext.each(this.binds[option], function(bind) {
-            // The field is currently focused so we do not want to change it.
-            if (bind == this.focused) return;
-            // Set the form field to the new value.
-            bind.setValue(newValue);
-        }, this);
-    }
+        Ext.each(
+            this.binds[option],
+            function(bind) {
+                // The field is currently focused so we do not want to change it.
+                if (bind == this.focused) return;
+                // Set the form field to the new value.
+                bind.setValue(newValue);
+            },
+            this
+        );
+    },
 });

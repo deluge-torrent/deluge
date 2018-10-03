@@ -16,7 +16,6 @@ Ext.ns('Deluge.ux.preferences');
  * @extends Ext.Panel
  */
 Deluge.ux.preferences.LabelPage = Ext.extend(Ext.Panel, {
-
     title: _('Label'),
     layout: 'fit',
     border: false,
@@ -29,20 +28,20 @@ Deluge.ux.preferences.LabelPage = Ext.extend(Ext.Panel, {
             title: _('Label Preferences'),
             autoHeight: true,
             labelWidth: 1,
-            defaultType: 'panel'
+            defaultType: 'panel',
         });
         fieldset.add({
             border: false,
             bodyCfg: {
-                html: _('<p>The Label plugin is enabled.</p><br>' +
+                html: _(
+                    '<p>The Label plugin is enabled.</p><br>' +
                         '<p>To add, remove or edit labels right-click on the Label filter ' +
                         'entry in the sidebar.</p><br>' +
-                        '<p>To apply a label right-click on torrent(s).<p>')
-            }
+                        '<p>To apply a label right-click on torrent(s).<p>'
+                ),
+            },
         });
-
     },
-
 });
 
 Ext.ns('Deluge.ux');
@@ -52,7 +51,6 @@ Ext.ns('Deluge.ux');
  * @extends Ext.Window
  */
 Deluge.ux.AddLabelWindow = Ext.extend(Ext.Window, {
-
     title: _('Add Label'),
     width: 300,
     height: 100,
@@ -66,23 +64,25 @@ Deluge.ux.AddLabelWindow = Ext.extend(Ext.Window, {
             xtype: 'form',
             height: 35,
             baseCls: 'x-plain',
-            bodyStyle:'padding:5px 5px 0',
+            bodyStyle: 'padding:5px 5px 0',
             defaultType: 'textfield',
             labelWidth: 50,
-            items: [{
+            items: [
+                {
                     fieldLabel: _('Name'),
                     name: 'name',
                     allowBlank: false,
                     width: 220,
                     listeners: {
-                        'specialkey': {
+                        specialkey: {
                             fn: function(field, e) {
                                 if (e.getKey() == 13) this.onOkClick();
                             },
-                            scope: this
-                        }
-                    }
-                }]
+                            scope: this,
+                        },
+                    },
+                },
+            ],
         });
     },
 
@@ -97,7 +97,7 @@ Deluge.ux.AddLabelWindow = Ext.extend(Ext.Window, {
                 deluge.ui.update();
                 this.fireEvent('labeladded', label);
             },
-            scope: this
+            scope: this,
         });
         this.hide();
     },
@@ -109,9 +109,11 @@ Deluge.ux.AddLabelWindow = Ext.extend(Ext.Window, {
 
     onShow: function(comp) {
         Deluge.ux.AddLabelWindow.superclass.onShow.call(this, comp);
-        this.form.getForm().findField('name').focus(false, 150);
-    }
-
+        this.form
+            .getForm()
+            .findField('name')
+            .focus(false, 150);
+    },
 });
 
 /**
@@ -119,9 +121,8 @@ Deluge.ux.AddLabelWindow = Ext.extend(Ext.Window, {
  * @extends Ext.Window
  */
 Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
-
     title: _('Label Options'),
-    width:  325,
+    width: 325,
     height: 240,
 
     initComponent: function() {
@@ -130,136 +131,178 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
         this.addButton(_('Ok'), this.onOkClick, this);
 
         this.form = this.add({
-            xtype: 'form'
+            xtype: 'form',
         });
 
         this.tabs = this.form.add({
             xtype: 'tabpanel',
             height: 175,
             border: false,
-            items: [{
+            items: [
+                {
                     title: _('Maximum'),
-                    items: [{
+                    items: [
+                        {
                             border: false,
-                            items: [{
+                            items: [
+                                {
                                     xtype: 'fieldset',
                                     border: false,
                                     labelWidth: 1,
-                                    style: 'margin-bottom: 0px; padding-bottom: 0px;',
-                                    items: [{
+                                    style:
+                                        'margin-bottom: 0px; padding-bottom: 0px;',
+                                    items: [
+                                        {
                                             xtype: 'checkbox',
                                             name: 'apply_max',
                                             fieldLabel: '',
-                                            boxLabel: _('Apply per torrent max settings:'),
+                                            boxLabel: _(
+                                                'Apply per torrent max settings:'
+                                            ),
                                             listeners: {
-                                                check: this.onFieldChecked
-                                            }
-                                        }]
-                                }, {
+                                                check: this.onFieldChecked,
+                                            },
+                                        },
+                                    ],
+                                },
+                                {
                                     xtype: 'fieldset',
                                     border: false,
                                     defaultType: 'spinnerfield',
                                     style: 'margin-top: 0px; padding-top: 0px;',
-                                    items: [{
+                                    items: [
+                                        {
                                             fieldLabel: _('Download Speed'),
                                             name: 'max_download_speed',
                                             width: 80,
                                             disabled: true,
                                             value: -1,
-                                            minValue: -1
-                                        }, {
+                                            minValue: -1,
+                                        },
+                                        {
                                             fieldLabel: _('Upload Speed'),
                                             name: 'max_upload_speed',
                                             width: 80,
                                             disabled: true,
                                             value: -1,
-                                            minValue: -1
-                                        }, {
+                                            minValue: -1,
+                                        },
+                                        {
                                             fieldLabel: _('Upload Slots'),
                                             name: 'max_upload_slots',
                                             width: 80,
                                             disabled: true,
                                             value: -1,
-                                            minValue: -1
-                                        }, {
+                                            minValue: -1,
+                                        },
+                                        {
                                             fieldLabel: _('Connections'),
                                             name: 'max_connections',
                                             width: 80,
                                             disabled: true,
                                             value: -1,
-                                            minValue: -1
-                                        }]
-                                }]
-                        }]
-                }, {
+                                            minValue: -1,
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                },
+                {
                     title: _('Queue'),
-                    items: [{
+                    items: [
+                        {
                             border: false,
-                            items: [{
+                            items: [
+                                {
                                     xtype: 'fieldset',
                                     border: false,
                                     labelWidth: 1,
-                                    style: 'margin-bottom: 0px; padding-bottom: 0px;',
-                                    items: [{
+                                    style:
+                                        'margin-bottom: 0px; padding-bottom: 0px;',
+                                    items: [
+                                        {
                                             xtype: 'checkbox',
                                             name: 'apply_queue',
                                             fieldLabel: '',
-                                            boxLabel: _('Apply queue settings:'),
+                                            boxLabel: _(
+                                                'Apply queue settings:'
+                                            ),
                                             listeners: {
-                                                check: this.onFieldChecked
-                                            }
-                                        }]
-                                }, {
+                                                check: this.onFieldChecked,
+                                            },
+                                        },
+                                    ],
+                                },
+                                {
                                     xtype: 'fieldset',
                                     border: false,
                                     labelWidth: 1,
                                     defaultType: 'checkbox',
                                     style: 'margin-top: 0px; padding-top: 0px;',
                                     defaults: {
-                                        style: 'margin-left: 20px'
+                                        style: 'margin-left: 20px',
                                     },
-                                    items: [{
+                                    items: [
+                                        {
                                             boxLabel: _('Auto Managed'),
                                             name: 'is_auto_managed',
-                                            disabled: true
-                                        }, {
+                                            disabled: true,
+                                        },
+                                        {
                                             boxLabel: _('Stop seed at ratio:'),
                                             name: 'stop_at_ratio',
-                                            disabled: true
-                                        }, {
+                                            disabled: true,
+                                        },
+                                        {
                                             xtype: 'spinnerfield',
                                             name: 'stop_ratio',
                                             width: 60,
                                             decimalPrecision: 2,
                                             incrementValue: 0.1,
-                                            style: 'position: relative; left: 100px',
-                                            disabled: true
-                                        }, {
+                                            style:
+                                                'position: relative; left: 100px',
+                                            disabled: true,
+                                        },
+                                        {
                                             boxLabel: _('Remove at ratio'),
                                             name: 'remove_at_ratio',
-                                            disabled: true
-                                        }]
-                                }]
-                        }]
-                }, {
+                                            disabled: true,
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                },
+                {
                     title: _('Folders'),
-                    items: [{
+                    items: [
+                        {
                             border: false,
-                            items: [{
+                            items: [
+                                {
                                     xtype: 'fieldset',
                                     border: false,
                                     labelWidth: 1,
-                                    style: 'margin-bottom: 0px; padding-bottom: 0px;',
-                                    items: [{
+                                    style:
+                                        'margin-bottom: 0px; padding-bottom: 0px;',
+                                    items: [
+                                        {
                                             xtype: 'checkbox',
                                             name: 'apply_move_completed',
                                             fieldLabel: '',
-                                            boxLabel: _('Apply folder settings:'),
+                                            boxLabel: _(
+                                                'Apply folder settings:'
+                                            ),
                                             listeners: {
-                                                check: this.onFieldChecked
-                                            }
-                                        }]
-                                }, {
+                                                check: this.onFieldChecked,
+                                            },
+                                        },
+                                    ],
+                                },
+                                {
                                     xtype: 'fieldset',
                                     border: false,
                                     labelWidth: 1,
@@ -267,64 +310,83 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
                                     labelWidth: 1,
                                     style: 'margin-top: 0px; padding-top: 0px;',
                                     defaults: {
-                                        style: 'margin-left: 20px'
+                                        style: 'margin-left: 20px',
                                     },
-                                    items: [{
+                                    items: [
+                                        {
                                             boxLabel: _('Move completed to:'),
                                             name: 'move_completed',
-                                            disabled: true
-                                        }, {
+                                            disabled: true,
+                                        },
+                                        {
                                             xtype: 'textfield',
                                             name: 'move_completed_path',
                                             width: 250,
-                                            disabled: true
-                                        }]
-                                }]
-                        }]
-                }, {
+                                            disabled: true,
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                },
+                {
                     title: _('Trackers'),
-                    items: [{
+                    items: [
+                        {
                             border: false,
-                            items: [{
+                            items: [
+                                {
                                     xtype: 'fieldset',
                                     border: false,
                                     labelWidth: 1,
-                                    style: 'margin-bottom: 0px; padding-bottom: 0px;',
-                                    items: [{
+                                    style:
+                                        'margin-bottom: 0px; padding-bottom: 0px;',
+                                    items: [
+                                        {
                                             xtype: 'checkbox',
                                             name: 'auto_add',
                                             fieldLabel: '',
-                                            boxLabel: _('Automatically apply label:'),
+                                            boxLabel: _(
+                                                'Automatically apply label:'
+                                            ),
                                             listeners: {
-                                                check: this.onFieldChecked
-                                            }
-                                        }]
-                                }, {
+                                                check: this.onFieldChecked,
+                                            },
+                                        },
+                                    ],
+                                },
+                                {
                                     xtype: 'fieldset',
                                     border: false,
                                     labelWidth: 1,
                                     style: 'margin-top: 0px; padding-top: 0px;',
                                     defaults: {
-                                        style: 'margin-left: 20px'
+                                        style: 'margin-left: 20px',
                                     },
                                     defaultType: 'textarea',
-                                    items: [{
+                                    items: [
+                                        {
                                             boxLabel: _('Move completed to:'),
                                             name: 'auto_add_trackers',
                                             width: 250,
                                             height: 100,
-                                            disabled: true
-                                        }]
-                                }]
-                        }]
-                }]
+                                            disabled: true,
+                                        },
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
         });
     },
 
     getLabelOptions: function() {
         deluge.client.label.get_options(this.label, {
             success: this.gotOptions,
-            scope: this
+            scope: this,
         });
     },
 
@@ -347,7 +409,9 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
     onOkClick: function() {
         var values = this.form.getForm().getFieldValues();
         if (values['auto_add_trackers']) {
-            values['auto_add_trackers'] = values['auto_add_trackers'].split('\n');
+            values['auto_add_trackers'] = values['auto_add_trackers'].split(
+                '\n'
+            );
         }
         deluge.client.label.set_options(this.label, values);
         this.hide();
@@ -358,10 +422,8 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
         fs.items.each(function(field) {
             field.setDisabled(!checked);
         });
-    }
-
+    },
 });
-
 
 Ext.ns('Deluge.plugins');
 
@@ -370,28 +432,31 @@ Ext.ns('Deluge.plugins');
  * @extends Deluge.Plugin
  */
 Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
-
     name: 'Label',
 
     createMenu: function() {
         this.labelMenu = new Ext.menu.Menu({
-            items: [{
+            items: [
+                {
                     text: _('Add Label'),
                     iconCls: 'icon-add',
                     handler: this.onLabelAddClick,
-                    scope: this
-                }, {
+                    scope: this,
+                },
+                {
                     text: _('Remove Label'),
                     disabled: true,
                     iconCls: 'icon-remove',
                     handler: this.onLabelRemoveClick,
-                    scope: this
-                }, {
+                    scope: this,
+                },
+                {
                     text: _('Label Options'),
                     disabled: true,
                     handler: this.onLabelOptionsClick,
-                    scope: this
-                }]
+                    scope: this,
+                },
+            ],
         });
     },
 
@@ -409,7 +474,7 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
             text: _('No Label'),
             label: '',
             handler: this.onTorrentMenuClick,
-            scope: this
+            scope: this,
         });
         for (var state in states) {
             if (!state || state == 'All') continue;
@@ -417,7 +482,7 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
                 text: state,
                 label: state,
                 handler: this.onTorrentMenuClick,
-                scope: this
+                scope: this,
             });
         }
     },
@@ -433,19 +498,22 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
     },
 
     onEnable: function() {
-        this.prefsPage = deluge.preferences.addPage(new Deluge.ux.preferences.LabelPage());
+        this.prefsPage = deluge.preferences.addPage(
+            new Deluge.ux.preferences.LabelPage()
+        );
         this.torrentMenu = new Ext.menu.Menu();
 
         this.tmSep = deluge.menus.torrent.add({
-            xtype: 'menuseparator'
+            xtype: 'menuseparator',
         });
 
         this.tm = deluge.menus.torrent.add({
             text: _('Label'),
-            menu: this.torrentMenu
+            menu: this.torrentMenu,
         });
 
-        var lbltpl = '<div class="x-deluge-filter">' +
+        var lbltpl =
+            '<div class="x-deluge-filter">' +
             '<tpl if="filter">{filter}</tpl>' +
             '<tpl if="!filter">No Label</tpl>' +
             ' ({count})' +
@@ -459,7 +527,11 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
             filter.list.refresh();
         } else {
             deluge.sidebar.on('filtercreate', this.onFilterCreate, this);
-            deluge.sidebar.on('afterfiltercreate', this.onAfterFilterCreate, this);
+            deluge.sidebar.on(
+                'afterfiltercreate',
+                this.onAfterFilterCreate,
+                this
+            );
             Deluge.FilterPanel.templates.label = lbltpl;
         }
         this.registerTorrentStatus('label', _('Label'));
@@ -499,7 +571,7 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
         //console.log(states);
         //console.log(statesArray);
 
-        states = {}
+        states = {};
 
         for (i = 0; i < statesArray.length; ++i) {
             states[statesArray[i]] = 0;
@@ -532,7 +604,8 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
     },
 
     onLabelOptionsClick: function() {
-        if (!this.labelOpts) this.labelOpts = new Deluge.ux.LabelOptionsWindow();
+        if (!this.labelOpts)
+            this.labelOpts = new Deluge.ux.LabelOptionsWindow();
         this.labelOpts.show(this.filter.getState());
     },
 
@@ -547,7 +620,7 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
                     var i = item;
                 }, this);
             },
-            scope: this
+            scope: this,
         });
     },
 
@@ -558,12 +631,12 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
                 deluge.client.label.set_torrent(id, item.label, {
                     success: function() {
                         deluge.ui.update();
-                    }
+                    },
                 });
             } else {
                 deluge.client.label.set_torrent(id, item.label);
             }
         });
-    }
+    },
 });
 Deluge.registerPlugin('Label', Deluge.plugins.LabelPlugin);

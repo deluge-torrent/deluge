@@ -14,39 +14,46 @@ Ext.ns('Deluge.add');
  * @extends Ext.ux.tree.TreeGrid
  */
 Deluge.add.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
-
     layout: 'fit',
-    title:  _('Files'),
+    title: _('Files'),
 
-    autoScroll:  false,
-    animate:     false,
-    border:      false,
-    disabled:    true,
+    autoScroll: false,
+    animate: false,
+    border: false,
+    disabled: true,
     rootVisible: false,
 
-    columns: [{
-        header: _('Filename'),
-        width: 295,
-        dataIndex: 'filename'
-    },{
-        header: _('Size'),
-        width: 60,
-        dataIndex: 'size',
-        tpl: new Ext.XTemplate('{size:this.fsize}', {
-            fsize: function(v) {
-                return fsize(v);
-            }
-        })
-    },{
-        header: _('Download'),
-        width: 65,
-        dataIndex: 'download',
-        tpl: new Ext.XTemplate('{download:this.format}', {
-            format: function(v) {
-                return '<div rel="chkbox" class="x-grid3-check-col'+(v?'-on':'')+'"> </div>';
-            }
-        })
-    }],
+    columns: [
+        {
+            header: _('Filename'),
+            width: 295,
+            dataIndex: 'filename',
+        },
+        {
+            header: _('Size'),
+            width: 60,
+            dataIndex: 'size',
+            tpl: new Ext.XTemplate('{size:this.fsize}', {
+                fsize: function(v) {
+                    return fsize(v);
+                },
+            }),
+        },
+        {
+            header: _('Download'),
+            width: 65,
+            dataIndex: 'download',
+            tpl: new Ext.XTemplate('{download:this.format}', {
+                format: function(v) {
+                    return (
+                        '<div rel="chkbox" class="x-grid3-check-col' +
+                        (v ? '-on' : '') +
+                        '"> </div>'
+                    );
+                },
+            }),
+        },
+    ],
 
     initComponent: function() {
         Deluge.add.FilesTab.superclass.initComponent.call(this);
@@ -88,5 +95,5 @@ Deluge.add.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
         if (el.getAttribute('rel') == 'chkbox') {
             this.setDownload(node, !node.attributes.download);
         }
-    }
+    },
 });

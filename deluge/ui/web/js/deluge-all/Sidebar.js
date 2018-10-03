@@ -18,7 +18,6 @@
  * @version 1.3
  */
 Deluge.Sidebar = Ext.extend(Ext.Panel, {
-
     // private
     panels: {},
 
@@ -26,17 +25,20 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
     selected: null,
 
     constructor: function(config) {
-        config = Ext.apply({
-            id: 'sidebar',
-            region: 'west',
-            cls: 'deluge-sidebar',
-            title: _('Filters'),
-            layout: 'accordion',
-            split: true,
-            width: 200,
-            minSize: 100,
-            collapsible: true
-        }, config);
+        config = Ext.apply(
+            {
+                id: 'sidebar',
+                region: 'west',
+                cls: 'deluge-sidebar',
+                title: _('Filters'),
+                layout: 'accordion',
+                split: true,
+                width: 200,
+                minSize: 100,
+                collapsible: true,
+            },
+            config
+        );
         Deluge.Sidebar.superclass.constructor.call(this, config);
     },
 
@@ -48,7 +50,7 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
 
     createFilter: function(filter, states) {
         var panel = new Deluge.FilterPanel({
-            filter: filter
+            filter: filter,
         });
         panel.on('selectionchange', function(view, nodes) {
             deluge.ui.update();
@@ -77,7 +79,7 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
     },
 
     getFilterStates: function() {
-        var states = {}
+        var states = {};
 
         if (deluge.config.sidebar_multiple_filters) {
             // Grab the filters from each of the filter panels
@@ -99,7 +101,7 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
     },
 
     hasFilter: function(filter) {
-        return (this.panels[filter]) ? true : false;
+        return this.panels[filter] ? true : false;
     },
 
     // private
@@ -126,13 +128,17 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
         }
 
         // Perform a cleanup of fitlers that are not enabled any more.
-        Ext.each(Ext.keys(this.panels), function(filter) {
-            if (Ext.keys(filters).indexOf(filter) == -1) {
-                // We need to remove the panel
-                this.remove(this.panels[filter]);
-                this.doLayout();
-                delete this.panels[filter];
-            }
-        }, this);
-    }
+        Ext.each(
+            Ext.keys(this.panels),
+            function(filter) {
+                if (Ext.keys(filters).indexOf(filter) == -1) {
+                    // We need to remove the panel
+                    this.remove(this.panels[filter]);
+                    this.doLayout();
+                    delete this.panels[filter];
+                }
+            },
+            this
+        );
+    },
 });

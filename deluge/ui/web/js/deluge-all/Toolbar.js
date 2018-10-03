@@ -15,92 +15,108 @@
  */
 Deluge.Toolbar = Ext.extend(Ext.Toolbar, {
     constructor: function(config) {
-        config = Ext.apply({
-            items: [
-                {
-                    id: 'tbar-deluge-text',
-                    disabled: true,
-                    text: _('Deluge'),
-                    iconCls: 'x-deluge-main-panel'
-                }, new Ext.Toolbar.Separator(),
-                {
-                    id: 'create',
-                    disabled: true,
-                    hidden: true,
-                    text: _('Create'),
-                    iconCls: 'icon-create',
-                    handler: this.onTorrentAction
-                },{
-                    id: 'add',
-                    disabled: true,
-                    text: _('Add'),
-                    iconCls: 'icon-add',
-                    handler: this.onTorrentAdd
-                },{
-                    id: 'remove',
-                    disabled: true,
-                    text: _('Remove'),
-                    iconCls: 'icon-remove',
-                    handler: this.onTorrentAction
-                }, new Ext.Toolbar.Separator(),{
-                    id: 'pause',
-                    disabled: true,
-                    text: _('Pause'),
-                    iconCls: 'icon-pause',
-                    handler: this.onTorrentAction
-                },{
-                    id: 'resume',
-                    disabled: true,
-                    text: _('Resume'),
-                    iconCls: 'icon-resume',
-                    handler: this.onTorrentAction
-                }, new Ext.Toolbar.Separator(),{
-                    id: 'up',
-                    cls: 'x-btn-text-icon',
-                    disabled: true,
-                    text: _('Up'),
-                    iconCls: 'icon-up',
-                    handler: this.onTorrentAction
-                },{
-                    id: 'down',
-                    disabled: true,
-                    text: _('Down'),
-                    iconCls: 'icon-down',
-                    handler: this.onTorrentAction
-                }, new Ext.Toolbar.Separator(),{
-                    id: 'preferences',
-                    text: _('Preferences'),
-                    iconCls: 'x-deluge-preferences',
-                    handler: this.onPreferencesClick,
-                    scope: this
-                },{
-                    id: 'connectionman',
-                    text: _('Connection Manager'),
-                    iconCls: 'x-deluge-connection-manager',
-                    handler: this.onConnectionManagerClick,
-                    scope: this
-                },'->',{
-                    id: 'help',
-                    iconCls: 'icon-help',
-                    text: _('Help'),
-                    handler: this.onHelpClick,
-                    scope: this
-                },{
-                    id: 'logout',
-                    iconCls: 'icon-logout',
-                    disabled: true,
-                    text: _('Logout'),
-                    handler: this.onLogout,
-                    scope: this
-                }
-            ]
-        }, config);
+        config = Ext.apply(
+            {
+                items: [
+                    {
+                        id: 'tbar-deluge-text',
+                        disabled: true,
+                        text: _('Deluge'),
+                        iconCls: 'x-deluge-main-panel',
+                    },
+                    new Ext.Toolbar.Separator(),
+                    {
+                        id: 'create',
+                        disabled: true,
+                        hidden: true,
+                        text: _('Create'),
+                        iconCls: 'icon-create',
+                        handler: this.onTorrentAction,
+                    },
+                    {
+                        id: 'add',
+                        disabled: true,
+                        text: _('Add'),
+                        iconCls: 'icon-add',
+                        handler: this.onTorrentAdd,
+                    },
+                    {
+                        id: 'remove',
+                        disabled: true,
+                        text: _('Remove'),
+                        iconCls: 'icon-remove',
+                        handler: this.onTorrentAction,
+                    },
+                    new Ext.Toolbar.Separator(),
+                    {
+                        id: 'pause',
+                        disabled: true,
+                        text: _('Pause'),
+                        iconCls: 'icon-pause',
+                        handler: this.onTorrentAction,
+                    },
+                    {
+                        id: 'resume',
+                        disabled: true,
+                        text: _('Resume'),
+                        iconCls: 'icon-resume',
+                        handler: this.onTorrentAction,
+                    },
+                    new Ext.Toolbar.Separator(),
+                    {
+                        id: 'up',
+                        cls: 'x-btn-text-icon',
+                        disabled: true,
+                        text: _('Up'),
+                        iconCls: 'icon-up',
+                        handler: this.onTorrentAction,
+                    },
+                    {
+                        id: 'down',
+                        disabled: true,
+                        text: _('Down'),
+                        iconCls: 'icon-down',
+                        handler: this.onTorrentAction,
+                    },
+                    new Ext.Toolbar.Separator(),
+                    {
+                        id: 'preferences',
+                        text: _('Preferences'),
+                        iconCls: 'x-deluge-preferences',
+                        handler: this.onPreferencesClick,
+                        scope: this,
+                    },
+                    {
+                        id: 'connectionman',
+                        text: _('Connection Manager'),
+                        iconCls: 'x-deluge-connection-manager',
+                        handler: this.onConnectionManagerClick,
+                        scope: this,
+                    },
+                    '->',
+                    {
+                        id: 'help',
+                        iconCls: 'icon-help',
+                        text: _('Help'),
+                        handler: this.onHelpClick,
+                        scope: this,
+                    },
+                    {
+                        id: 'logout',
+                        iconCls: 'icon-logout',
+                        disabled: true,
+                        text: _('Logout'),
+                        handler: this.onLogout,
+                        scope: this,
+                    },
+                ],
+            },
+            config
+        );
         Deluge.Toolbar.superclass.constructor.call(this, config);
     },
 
-    connectedButtons: [
-        'add', 'remove', 'pause', 'resume', 'up', 'down'
-    ],
+    connectedButtons: ['add', 'remove', 'pause', 'resume', 'up', 'down'],
 
     initComponent: function() {
         Deluge.Toolbar.superclass.initComponent.call(this);
@@ -109,15 +125,23 @@ Deluge.Toolbar = Ext.extend(Ext.Toolbar, {
     },
 
     onConnect: function() {
-        Ext.each(this.connectedButtons, function(buttonId) {
-            this.items.get(buttonId).enable();
-        }, this);
+        Ext.each(
+            this.connectedButtons,
+            function(buttonId) {
+                this.items.get(buttonId).enable();
+            },
+            this
+        );
     },
 
     onDisconnect: function() {
-        Ext.each(this.connectedButtons, function(buttonId) {
-            this.items.get(buttonId).disable();
-        }, this);
+        Ext.each(
+            this.connectedButtons,
+            function(buttonId) {
+                this.items.get(buttonId).disable();
+            },
+            this
+        );
     },
 
     onLogin: function() {
@@ -157,7 +181,7 @@ Deluge.Toolbar = Ext.extend(Ext.Toolbar, {
                 deluge.client.core[item.id + '_torrent'](ids, {
                     success: function() {
                         deluge.ui.update();
-                    }
+                    },
                 });
                 break;
             case 'up':
@@ -165,7 +189,7 @@ Deluge.Toolbar = Ext.extend(Ext.Toolbar, {
                 deluge.client.core['queue_' + item.id](ids, {
                     success: function() {
                         deluge.ui.update();
-                    }
+                    },
                 });
                 break;
         }
@@ -173,5 +197,5 @@ Deluge.Toolbar = Ext.extend(Ext.Toolbar, {
 
     onTorrentAdd: function() {
         deluge.add.show();
-    }
+    },
 });

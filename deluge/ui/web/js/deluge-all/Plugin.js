@@ -14,7 +14,6 @@ Ext.ns('Deluge');
  * @extends Ext.util.Observable
  */
 Deluge.Plugin = Ext.extend(Ext.util.Observable, {
-
     /**
      * The plugins name
      * @property name
@@ -29,13 +28,13 @@ Deluge.Plugin = Ext.extend(Ext.util.Observable, {
              * @event enabled
              * @param {Plugin} plugin the plugin instance
              */
-            'enabled': true,
+            enabled: true,
 
             /**
              * @event disabled
              * @param {Plugin} plugin the plugin instance
              */
-            'disabled': true
+            disabled: true,
         });
         Deluge.Plugin.superclass.constructor.call(this, config);
     },
@@ -61,14 +60,15 @@ Deluge.Plugin = Ext.extend(Ext.util.Observable, {
 
     registerTorrentStatus: function(key, header, options) {
         options = options || {};
-        var cc = options.colCfg || {}, sc = options.storeCfg || {};
-        sc = Ext.apply(sc, {name: key});
+        var cc = options.colCfg || {},
+            sc = options.storeCfg || {};
+        sc = Ext.apply(sc, { name: key });
         deluge.torrents.meta.fields.push(sc);
         deluge.torrents.getStore().reader.onMetaChange(deluge.torrents.meta);
 
         cc = Ext.apply(cc, {
             header: header,
-            dataIndex: key
+            dataIndex: key,
         });
         var cols = deluge.torrents.columns.slice(0);
         cols.push(cc);
@@ -100,7 +100,7 @@ Deluge.Plugin = Ext.extend(Ext.util.Observable, {
         });
         Deluge.Keys.Grid = keys;
         deluge.torrents.getView().refresh(true);
-    }
+    },
 });
 
 Ext.ns('Deluge.plugins');

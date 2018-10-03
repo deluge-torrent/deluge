@@ -13,17 +13,16 @@
  * @extends Ext.Window
  */
 Deluge.RemoveWindow = Ext.extend(Ext.Window, {
-
-    title:  _('Remove Torrent'),
+    title: _('Remove Torrent'),
     layout: 'fit',
-    width:  350,
+    width: 350,
     height: 100,
     constrainHeader: true,
     buttonAlign: 'right',
     closeAction: 'hide',
-    closable:    true,
-    iconCls:     'x-deluge-remove-window-icon',
-    plain:       true,
+    closable: true,
+    iconCls: 'x-deluge-remove-window-icon',
+    plain: true,
 
     bodyStyle: 'padding: 5px; padding-left: 10px;',
     html: 'Are you sure you wish to remove the torrent (s)?',
@@ -39,12 +38,14 @@ Deluge.RemoveWindow = Ext.extend(Ext.Window, {
         deluge.client.core.remove_torrents(this.torrentIds, removeData, {
             success: function(result) {
                 if (result == true) {
-                    console.log('Error(s) occured when trying to delete torrent(s).');
+                    console.log(
+                        'Error(s) occured when trying to delete torrent(s).'
+                    );
                 }
                 this.onRemoved(this.torrentIds);
             },
             scope: this,
-            torrentIds: this.torrentIds
+            torrentIds: this.torrentIds,
         });
     },
 
@@ -70,7 +71,7 @@ Deluge.RemoveWindow = Ext.extend(Ext.Window, {
         deluge.events.fire('torrentsRemoved', torrentIds);
         this.hide();
         deluge.ui.update();
-    }
+    },
 });
 
 deluge.removeWindow = new Deluge.RemoveWindow();

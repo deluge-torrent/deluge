@@ -13,7 +13,6 @@ Ext.namespace('Deluge.details');
  * @class Deluge.details.DetailsPanel
  */
 Deluge.details.DetailsPanel = Ext.extend(Ext.TabPanel, {
-
     id: 'torrentDetails',
     activeTab: 0,
 
@@ -35,7 +34,6 @@ Deluge.details.DetailsPanel = Ext.extend(Ext.TabPanel, {
         });
     },
 
-
     update: function(tab) {
         var torrent = deluge.torrents.getSelected();
         if (!torrent) {
@@ -55,14 +53,22 @@ Deluge.details.DetailsPanel = Ext.extend(Ext.TabPanel, {
 
     // We need to add the events in onRender since Deluge.Torrents has not been created yet.
     onRender: function(ct, position) {
-        Deluge.details.DetailsPanel.superclass.onRender.call(this, ct, position);
+        Deluge.details.DetailsPanel.superclass.onRender.call(
+            this,
+            ct,
+            position
+        );
         deluge.events.on('disconnect', this.clear, this);
         deluge.torrents.on('rowclick', this.onTorrentsClick, this);
         this.on('tabchange', this.onTabChange, this);
 
-        deluge.torrents.getSelectionModel().on('selectionchange', function(selModel) {
-            if (!selModel.hasSelection()) this.clear();
-        }, this);
+        deluge.torrents.getSelectionModel().on(
+            'selectionchange',
+            function(selModel) {
+                if (!selModel.hasSelection()) this.clear();
+            },
+            this
+        );
     },
 
     onTabChange: function(panel, tab) {
@@ -71,5 +77,5 @@ Deluge.details.DetailsPanel = Ext.extend(Ext.TabPanel, {
 
     onTorrentsClick: function(grid, rowIndex, e) {
         this.update();
-    }
+    },
 });

@@ -10,21 +10,23 @@
 
 Ext.namespace('Deluge');
 Deluge.MoveStorage = Ext.extend(Ext.Window, {
-
     constructor: function(config) {
-        config = Ext.apply({
-            title: _('Move Download Folder'),
-            width: 375,
-            height: 110,
-            layout: 'fit',
-            buttonAlign: 'right',
-            closeAction: 'hide',
-            closable: true,
-            iconCls: 'x-deluge-move-storage',
-            plain: true,
-            constrainHeader: true,
-            resizable: false
-        }, config);
+        config = Ext.apply(
+            {
+                title: _('Move Download Folder'),
+                width: 375,
+                height: 110,
+                layout: 'fit',
+                buttonAlign: 'right',
+                closeAction: 'hide',
+                closable: true,
+                iconCls: 'x-deluge-move-storage',
+                plain: true,
+                constrainHeader: true,
+                resizable: false,
+            },
+            config
+        );
         Deluge.MoveStorage.superclass.constructor.call(this, config);
     },
 
@@ -39,13 +41,13 @@ Deluge.MoveStorage = Ext.extend(Ext.Window, {
             border: false,
             defaultType: 'textfield',
             width: 300,
-            bodyStyle: 'padding: 5px'
+            bodyStyle: 'padding: 5px',
         });
 
         this.moveLocation = this.form.add({
             fieldLabel: _('Download Folder'),
             name: 'location',
-            width: 240
+            width: 240,
         });
         //this.form.add({
         //    xtype: 'button',
@@ -78,6 +80,6 @@ Deluge.MoveStorage = Ext.extend(Ext.Window, {
         var dest = this.moveLocation.getValue();
         deluge.client.core.move_storage(this.torrentIds, dest);
         this.hide();
-    }
+    },
 });
 deluge.moveStorage = new Deluge.MoveStorage();

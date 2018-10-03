@@ -23,25 +23,31 @@ Ext.namespace('Deluge.data');
 Deluge.data.Peer = Ext.data.Record.create([
     {
         name: 'country',
-        type: 'string'
-    }, {
+        type: 'string',
+    },
+    {
         name: 'ip',
         type: 'string',
-        sortType: Deluge.data.SortTypes.asIPAddress
-    }, {
+        sortType: Deluge.data.SortTypes.asIPAddress,
+    },
+    {
         name: 'client',
-        type: 'string'
-    }, {
+        type: 'string',
+    },
+    {
         name: 'progress',
-        type: 'float'
-    }, {
+        type: 'float',
+    },
+    {
         name: 'down_speed',
-        type: 'int'
-    }, {
+        type: 'int',
+    },
+    {
         name: 'up_speed',
-        type: 'int'
-    }, {
+        type: 'int',
+    },
+    {
         name: 'seed',
-        type: 'int'
-    }
+        type: 'int',
+    },
 ]);

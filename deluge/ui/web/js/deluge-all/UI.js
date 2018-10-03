@@ -9,11 +9,11 @@
  */
 
 /** Dummy translation arrays so Torrent states are available for gettext.js and Translators.
-*
-* All entries in deluge.common.TORRENT_STATE should be added here.
-*
-* No need to import these, just simply use the `_()` function around a status variable.
-*/
+ *
+ * All entries in deluge.common.TORRENT_STATE should be added here.
+ *
+ * No need to import these, just simply use the `_()` function around a status variable.
+ */
 var TORRENT_STATE_TRANSLATION = [
     _('All'),
     _('Active'),
@@ -24,7 +24,8 @@ var TORRENT_STATE_TRANSLATION = [
     _('Paused'),
     _('Checking'),
     _('Queued'),
-    _('Error')];
+    _('Error'),
+];
 
 /**
  * @static
@@ -33,7 +34,6 @@ var TORRENT_STATE_TRANSLATION = [
  * together and handles the 2 second poll.
  */
 deluge.ui = {
-
     errorCount: 0,
 
     filters: null,
@@ -62,9 +62,7 @@ deluge.ui = {
             minSize: 100,
             collapsible: true,
             layout: 'fit',
-            items: [
-                deluge.details
-            ]
+            items: [deluge.details],
         });
 
         this.MainPanel = new Ext.Panel({
@@ -73,17 +71,13 @@ deluge.ui = {
             layout: 'border',
             border: false,
             tbar: deluge.toolbar,
-            items: [
-                deluge.sidebar,
-                this.detailsPanel,
-                deluge.torrents
-            ],
-            bbar: deluge.statusbar
+            items: [deluge.sidebar, this.detailsPanel, deluge.torrents],
+            bbar: deluge.statusbar,
         });
 
         this.Viewport = new Ext.Viewport({
             layout: 'fit',
-            items: [this.MainPanel]
+            items: [this.MainPanel],
         });
 
         deluge.events.on('connect', this.onConnect, this);
@@ -91,7 +85,7 @@ deluge.ui = {
         deluge.events.on('PluginDisabledEvent', this.onPluginDisabled, this);
         deluge.events.on('PluginEnabledEvent', this.onPluginEnabled, this);
         deluge.client = new Ext.ux.util.RpcClient({
-            url: deluge.config.base + 'json'
+            url: deluge.config.base + 'json',
         });
 
         // enable all the already active plugins
@@ -104,9 +98,14 @@ deluge.ui = {
         // Initialize quicktips so all the tooltip configs start working.
         Ext.QuickTips.init();
 
-        deluge.client.on('connected', function(e) {
-            deluge.login.show();
-        }, this, {single: true});
+        deluge.client.on(
+            'connected',
+            function(e) {
+                deluge.login.show();
+            },
+            this,
+            { single: true }
+        );
 
         this.update = this.update.createDelegate(this);
         this.checkConnection = this.checkConnection.createDelegate(this);
@@ -118,7 +117,7 @@ deluge.ui = {
         deluge.client.web.connected({
             success: this.onConnectionSuccess,
             failure: this.onConnectionError,
-            scope: this
+            scope: this,
         });
     },
 
@@ -130,19 +129,17 @@ deluge.ui = {
         deluge.client.web.update_ui(Deluge.Keys.Grid, filters, {
             success: this.onUpdate,
             failure: this.onUpdateError,
-            scope: this
+            scope: this,
         });
         deluge.details.update();
     },
 
-    onConnectionError: function(error) {
-
-    },
+    onConnectionError: function(error) {},
 
     onConnectionSuccess: function(result) {
         deluge.statusbar.setStatus({
             iconCls: 'x-deluge-statusbar icon-ok',
-            text: _('Connection restored')
+            text: _('Connection restored'),
         });
         clearInterval(this.checking);
         if (!result) {
@@ -156,12 +153,12 @@ deluge.ui = {
                 title: _('Lost Connection'),
                 msg: _('The connection to the webserver has been lost!'),
                 buttons: Ext.MessageBox.OK,
-                icon: Ext.MessageBox.ERROR
+                icon: Ext.MessageBox.ERROR,
             });
             deluge.events.fire('disconnect');
             deluge.statusbar.setStatus({
-                text: _('Lost connection to webserver')}
-            );
+                text: _('Lost connection to webserver'),
+            });
             this.checking = setInterval(this.checkConnection, 2000);
         }
         this.errorCount++;
@@ -179,8 +176,12 @@ deluge.ui = {
         }
 
         if (deluge.config.show_session_speed) {
-            document.title = 'D: ' + fsize_short(data['stats'].download_rate, true) +
-                ' U: ' + fsize_short(data['stats'].upload_rate, true) + ' - ' +
+            document.title =
+                'D: ' +
+                fsize_short(data['stats'].download_rate, true) +
+                ' U: ' +
+                fsize_short(data['stats'].upload_rate, true) +
+                ' - ' +
                 this.originalTitle;
         }
         if (Ext.areObjectsEqual(this.filters, this.oldFilters)) {
@@ -205,7 +206,7 @@ deluge.ui = {
         }
         deluge.client.web.get_plugins({
             success: this.onGotPlugins,
-            scope: this
+            scope: this,
         });
     },
 
@@ -218,13 +219,17 @@ deluge.ui = {
     },
 
     onGotPlugins: function(plugins) {
-        Ext.each(plugins.enabled_plugins, function(plugin) {
-            if (deluge.plugins[plugin]) return;
-            deluge.client.web.get_plugin_resources(plugin, {
-                success: this.onGotPluginResources,
-                scope: this
-            });
-        }, this);
+        Ext.each(
+            plugins.enabled_plugins,
+            function(plugin) {
+                if (deluge.plugins[plugin]) return;
+                deluge.client.web.get_plugin_resources(plugin, {
+                    success: this.onGotPluginResources,
+                    scope: this,
+                });
+            },
+            this
+        );
     },
 
     onPluginEnabled: function(pluginName) {
@@ -233,20 +238,26 @@ deluge.ui = {
         } else {
             deluge.client.web.get_plugin_resources(pluginName, {
                 success: this.onGotPluginResources,
-                scope: this
+                scope: this,
             });
         }
     },
 
     onGotPluginResources: function(resources) {
-        var scripts = (Deluge.debug) ? resources.debug_scripts : resources.scripts;
-        Ext.each(scripts, function(script) {
-            Ext.ux.JSLoader({
-                url: deluge.config.base + script,
-                onLoad: this.onPluginLoaded,
-                pluginName: resources.name
-            });
-        }, this);
+        var scripts = Deluge.debug
+            ? resources.debug_scripts
+            : resources.scripts;
+        Ext.each(
+            scripts,
+            function(script) {
+                Ext.ux.JSLoader({
+                    url: deluge.config.base + script,
+                    onLoad: this.onPluginLoaded,
+                    pluginName: resources.name,
+                });
+            },
+            this
+        );
     },
 
     onPluginDisabled: function(pluginName) {
@@ -273,8 +284,8 @@ deluge.ui = {
             this.running = false;
             deluge.torrents.getStore().removeAll();
         }
-    }
-}
+    },
+};
 
 Ext.onReady(function(e) {
     deluge.ui.initialize();

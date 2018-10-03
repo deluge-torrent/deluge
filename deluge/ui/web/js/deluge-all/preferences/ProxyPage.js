@@ -15,30 +15,35 @@ Ext.namespace('Deluge.preferences');
  */
 Deluge.preferences.Proxy = Ext.extend(Ext.form.FormPanel, {
     constructor: function(config) {
-        config = Ext.apply({
-            border: false,
-            title: _('Proxy'),
-            header: false,
-            layout: 'form',
-            autoScroll: true
-        }, config);
+        config = Ext.apply(
+            {
+                border: false,
+                title: _('Proxy'),
+                header: false,
+                layout: 'form',
+                autoScroll: true,
+            },
+            config
+        );
         Deluge.preferences.Proxy.superclass.constructor.call(this, config);
     },
 
     initComponent: function() {
         Deluge.preferences.Proxy.superclass.initComponent.call(this);
-        this.proxy = this.add(new Deluge.preferences.ProxyField({
-            title: _('Proxy'),
-            name: 'proxy'
-        }));
+        this.proxy = this.add(
+            new Deluge.preferences.ProxyField({
+                title: _('Proxy'),
+                name: 'proxy',
+            })
+        );
         this.proxy.on('change', this.onProxyChange, this);
         deluge.preferences.getOptionsManager().bind('proxy', this.proxy);
     },
 
     getValue: function() {
         return {
-            'proxy': this.proxy.getValue()
-        }
+            proxy: this.proxy.getValue(),
+        };
     },
 
     setValue: function(value) {
@@ -53,5 +58,5 @@ Deluge.preferences.Proxy = Ext.extend(Ext.form.FormPanel, {
         oldValues[field.getName()] = oldValue;
 
         this.fireEvent('change', this, newValues, oldValues);
-    }
+    },
 });

@@ -13,7 +13,6 @@
 Ext.ns('Deluge.ux');
 
 Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
-
     title: _('Schedule'),
     autoHeight: true,
     style: 'margin-bottom: 0px; padding-bottom: 0px;',
@@ -24,21 +23,21 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
             name: 'Normal',
             backgroundColor: 'LightGreen',
             borderColor: 'DarkGreen',
-            value: 0
+            value: 0,
         },
         {
             name: 'Throttled',
             backgroundColor: 'Yellow',
             borderColor: 'Gold',
-            value: 1
+            value: 1,
         },
         {
             name: 'Paused',
             backgroundColor: 'OrangeRed',
             borderColor: 'FireBrick',
-            value: 2
-        }
-        ],
+            value: 2,
+        },
+    ],
     daysOfWeek: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
 
     initComponent: function() {
@@ -71,7 +70,8 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
 
         // create state brushes
         // tack a random number to the end to avoid clashes
-        this.stateBrushName = 'schedule-state-brush-' + Math.round(Math.random() * 10000);
+        this.stateBrushName =
+            'schedule-state-brush-' + Math.round(Math.random() * 10000);
 
         var el1 = createEl(dom, 'div');
 
@@ -124,47 +124,55 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
         // cache access to cells for easier access later
         this.scheduleCells = {};
 
-        Ext.each(this.daysOfWeek, function(day) {
-            var cells = [];
-            var row = createEl(table, 'tr');
-            var label = createEl(row, 'th');
-            label.setAttribute('style', 'font-weight: bold; padding-right: 5px;');
-            label.appendChild(document.createTextNode(day));
-            for (var hour = 0; hour < 24; hour++) {
-                var cell = createEl(row, 'td');
+        Ext.each(
+            this.daysOfWeek,
+            function(day) {
+                var cells = [];
+                var row = createEl(table, 'tr');
+                var label = createEl(row, 'th');
+                label.setAttribute(
+                    'style',
+                    'font-weight: bold; padding-right: 5px;'
+                );
+                label.appendChild(document.createTextNode(day));
+                for (var hour = 0; hour < 24; hour++) {
+                    var cell = createEl(row, 'td');
 
-                // assume the first state is the default state
-                cell.currentValue = cell.oldValue = this.states[0].value;
-                cell.day = day;
-                cell.hour = hour;
+                    // assume the first state is the default state
+                    cell.currentValue = cell.oldValue = this.states[0].value;
+                    cell.day = day;
+                    cell.hour = hour;
 
-                cell.width = '16px';
-                cell.height = '20px';
+                    cell.width = '16px';
+                    cell.height = '20px';
 
-                cell.style.border = '1px solid #999999';
-                // don't repeat borders in between cells
-                if (hour != 23) // not the last cell
-                    cell.style.borderRight = 'none';
+                    cell.style.border = '1px solid #999999';
+                    // don't repeat borders in between cells
+                    if (hour != 23)
+                        // not the last cell
+                        cell.style.borderRight = 'none';
 
-                this.updateCell(cell);
+                    this.updateCell(cell);
 
-                cells.push(cell);
+                    cells.push(cell);
 
-                cell = Ext.get(cell);
-                cell.on('click', this.onCellClick, this);
-                cell.on('mouseover', this.onCellMouseOver, this);
-                cell.on('mouseout', this.onCellMouseOut, this);
-                cell.on('mousedown', this.onCellMouseDown, this);
-                cell.on('mouseup', this.onCellMouseUp, this);
-            }
+                    cell = Ext.get(cell);
+                    cell.on('click', this.onCellClick, this);
+                    cell.on('mouseover', this.onCellMouseOver, this);
+                    cell.on('mouseout', this.onCellMouseOut, this);
+                    cell.on('mousedown', this.onCellMouseDown, this);
+                    cell.on('mouseup', this.onCellMouseUp, this);
+                }
 
-            // insert gap row to provide visual separation
-            row = createEl(table, 'tr');
-            // blank cell to create gap
-            createEl(row, 'td').height = '3px';
+                // insert gap row to provide visual separation
+                row = createEl(table, 'tr');
+                // blank cell to create gap
+                createEl(row, 'td').height = '3px';
 
-            this.scheduleCells[day] = cells;
-        }, this);
+                this.scheduleCells[day] = cells;
+            },
+            this
+        );
     },
 
     updateCell: function(cell) {
@@ -182,10 +190,11 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
 
     getCurrentBrushValue: function() {
         var v = null;
-        var brushes = Ext.get(this.body.dom).findParent('form').elements[this.stateBrushName];
+        var brushes = Ext.get(this.body.dom).findParent('form').elements[
+            this.stateBrushName
+        ];
         Ext.each(brushes, function(b) {
-            if (b.checked)
-                v = b.value;
+            if (b.checked) v = b.value;
         });
 
         return v;
@@ -209,8 +218,7 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
                 this.confirmCells(cell.day, this.dragAnchor.hour, cell.hour);
             else if (cell.hour < this.dragAnchor.hour)
                 this.confirmCells(cell.day, cell.hour, this.dragAnchor.hour);
-            else
-                this.confirmCells(cell.day, cell.hour, cell.hour);
+            else this.confirmCells(cell.day, cell.hour, cell.hour);
 
             this.hideCellLeftTooltip();
             this.hideCellRightTooltip();
@@ -224,10 +232,11 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
         // otherwise if dragging, leave it alone unless we're dragging to the left.
         // if we're not dragging, show it.
         var leftTooltipCell = null;
-        if (!this.dragAnchor)
-            leftTooltipCell = cell;
-        else if ((this.dragAnchor && this.isCellLeftTooltipHidden()) ||
-        (this.dragAnchor && this.dragAnchor.hour > cell.hour))
+        if (!this.dragAnchor) leftTooltipCell = cell;
+        else if (
+            (this.dragAnchor && this.isCellLeftTooltipHidden()) ||
+            (this.dragAnchor && this.dragAnchor.hour > cell.hour)
+        )
             leftTooltipCell = this.dragAnchor;
 
         if (leftTooltipCell) {
@@ -238,23 +247,27 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
             if (hour >= 12) {
                 pm = true;
                 if (hour > 12) hour -= 12;
-            }
-            else if (hour == 0) {
+            } else if (hour == 0) {
                 // change 0 hour to 12am
                 hour = 12;
             }
-            this.showCellLeftTooltip(hour + ' ' + (pm ? 'pm' : 'am'), leftTooltipCell);
+            this.showCellLeftTooltip(
+                hour + ' ' + (pm ? 'pm' : 'am'),
+                leftTooltipCell
+            );
         }
 
         // RIGHT TOOL TIP
         var rightTooltipCell = null;
         if (this.dragAnchor) {
-            if (this.dragAnchor.hour == cell.hour)
-                this.hideCellRightTooltip();
-            else if (this.dragAnchor.hour > cell.hour && this.isCellRightTooltipHidden())
+            if (this.dragAnchor.hour == cell.hour) this.hideCellRightTooltip();
+            else if (
+                this.dragAnchor.hour > cell.hour &&
+                this.isCellRightTooltipHidden()
+            )
                 rightTooltipCell = this.dragAnchor;
-            else // cell.hour > this.dragAnchor.hour
-                rightTooltipCell = cell;
+            // cell.hour > this.dragAnchor.hour
+            else rightTooltipCell = cell;
         }
 
         if (rightTooltipCell) {
@@ -265,12 +278,14 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
             if (hour >= 12) {
                 pm = true;
                 if (hour > 12) hour -= 12;
-            }
-            else if (hour == 0) {
+            } else if (hour == 0) {
                 // change 0 hour to 12am
                 hour = 12;
             }
-            this.showCellRightTooltip(hour + ' ' + (pm ? 'pm' : 'am'), rightTooltipCell);
+            this.showCellRightTooltip(
+                hour + ' ' + (pm ? 'pm' : 'am'),
+                rightTooltipCell
+            );
         }
 
         // preview colour change and
@@ -278,39 +293,38 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
         if (this.dragAnchor) {
             if (cell.day != this.dragAnchor.day) {
                 // dragged into another day. Abort! Abort!
-                Ext.each(this.daysOfWeek, function(day) {
-                    this.revertCells(day, 0, 23);
-                }, this);
+                Ext.each(
+                    this.daysOfWeek,
+                    function(day) {
+                        this.revertCells(day, 0, 23);
+                    },
+                    this
+                );
                 this.dragAnchor = null;
                 this.hideCellLeftTooltip();
                 this.hideCellRightTooltip();
-            }
-            else if (cell.hour > this.dragAnchor.hour) {
+            } else if (cell.hour > this.dragAnchor.hour) {
                 // dragging right
                 this.revertCells(cell.day, cell.hour + 1, 23);
                 this.previewCells(cell.day, this.dragAnchor.hour, cell.hour);
-            }
-            else if (cell.hour < this.dragAnchor.hour) {
+            } else if (cell.hour < this.dragAnchor.hour) {
                 // dragging left
                 this.revertCells(cell.day, 0, cell.hour - 1);
                 this.previewCells(cell.day, cell.hour, this.dragAnchor.hour);
-            }
-            else {
+            } else {
                 // back to anchor cell
                 // don't know if it is from right or left, so revert all except this
                 this.revertCells(cell.day, cell.hour + 1, 23);
                 this.revertCells(cell.day, 0, cell.hour - 1);
             }
-        }
-        else {
+        } else {
             // not dragging, just preview this cell
             this.previewCells(cell.day, cell.hour, cell.hour);
         }
     },
 
     onCellMouseOut: function(event, cell) {
-        if (!this.dragAnchor)
-            this.hideCellLeftTooltip();
+        if (!this.dragAnchor) this.hideCellLeftTooltip();
 
         // revert state. If new state has been set, old and new will be equal.
         // if dragging, this will be handled by the next mouse over
@@ -395,8 +409,7 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
     isCellLeftTooltipHidden: function() {
         if (this.cellLeftTooltip)
             return this.cellLeftTooltip.style.visibility == 'hidden';
-        else
-            return true;
+        else return true;
     },
 
     showCellRightTooltip: function(text, cell) {
@@ -437,8 +450,7 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
     isCellRightTooltipHidden: function() {
         if (this.cellRightTooltip)
             return this.cellRightTooltip.style.visibility == 'hidden';
-        else
-            return true;
+        else return true;
     },
 
     getConfig: function() {
@@ -448,7 +460,9 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
             var hourConfig = [0, 0, 0, 0, 0, 0, 0];
 
             for (var j = 0; j < this.daysOfWeek.length; j++) {
-                hourConfig[j] = parseInt(this.scheduleCells[this.daysOfWeek[j]][i].currentValue);
+                hourConfig[j] = parseInt(
+                    this.scheduleCells[this.daysOfWeek[j]][i].currentValue
+                );
             }
 
             config.push(hourConfig);
@@ -471,13 +485,12 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
                 this.updateCell(cell);
             }
         }
-    }
+    },
 });
 
 Ext.ns('Deluge.ux.preferences');
 
 Deluge.ux.preferences.SchedulerPage = Ext.extend(Ext.Panel, {
-
     border: false,
     title: _('Scheduler'),
     header: false,
@@ -490,7 +503,7 @@ Deluge.ux.preferences.SchedulerPage = Ext.extend(Ext.Panel, {
             xtype: 'form',
             layout: 'form',
             border: false,
-            autoHeight: true
+            autoHeight: true,
         });
 
         this.schedule = this.form.add(new Deluge.ux.ScheduleSelector());
@@ -503,10 +516,10 @@ Deluge.ux.preferences.SchedulerPage = Ext.extend(Ext.Panel, {
             defaultType: 'spinnerfield',
             defaults: {
                 minValue: -1,
-                maxValue: 99999
+                maxValue: 99999,
             },
             style: 'margin-top: 5px; margin-bottom: 0px; padding-bottom: 0px;',
-            labelWidth: 200
+            labelWidth: 200,
         });
 
         this.downloadLimit = this.slowSettings.add({
@@ -514,42 +527,46 @@ Deluge.ux.preferences.SchedulerPage = Ext.extend(Ext.Panel, {
             name: 'download_limit',
             width: 80,
             value: -1,
-            decimalPrecision: 0
+            decimalPrecision: 0,
         });
         this.uploadLimit = this.slowSettings.add({
             fieldLabel: _('Maximum Upload Speed (KiB/s)'),
             name: 'upload_limit',
             width: 80,
             value: -1,
-            decimalPrecision: 0
+            decimalPrecision: 0,
         });
         this.activeTorrents = this.slowSettings.add({
             fieldLabel: _('Active Torrents'),
             name: 'active_torrents',
             width: 80,
             value: -1,
-            decimalPrecision: 0
+            decimalPrecision: 0,
         });
         this.activeDownloading = this.slowSettings.add({
             fieldLabel: _('Active Downloading'),
             name: 'active_downloading',
             width: 80,
             value: -1,
-            decimalPrecision: 0
+            decimalPrecision: 0,
         });
         this.activeSeeding = this.slowSettings.add({
             fieldLabel: _('Active Seeding'),
             name: 'active_seeding',
             width: 80,
             value: -1,
-            decimalPrecision: 0
+            decimalPrecision: 0,
         });
 
         this.on('show', this.updateConfig, this);
     },
 
     onRender: function(ct, position) {
-        Deluge.ux.preferences.SchedulerPage.superclass.onRender.call(this, ct, position);
+        Deluge.ux.preferences.SchedulerPage.superclass.onRender.call(
+            this,
+            ct,
+            position
+        );
         this.form.layout = new Ext.layout.FormLayout();
         this.form.layout.setContainer(this);
         this.form.doLayout();
@@ -583,13 +600,12 @@ Deluge.ux.preferences.SchedulerPage = Ext.extend(Ext.Panel, {
                 this.activeDownloading.setValue(config['low_active_down']);
                 this.activeSeeding.setValue(config['low_active_up']);
             },
-            scope: this
+            scope: this,
         });
-    }
+    },
 });
 
 Deluge.plugins.SchedulerPlugin = Ext.extend(Deluge.Plugin, {
-
     name: 'Scheduler',
 
     onDisable: function() {
@@ -597,7 +613,9 @@ Deluge.plugins.SchedulerPlugin = Ext.extend(Deluge.Plugin, {
     },
 
     onEnable: function() {
-        this.prefsPage = deluge.preferences.addPage(new Deluge.ux.preferences.SchedulerPage());
-    }
+        this.prefsPage = deluge.preferences.addPage(
+            new Deluge.ux.preferences.SchedulerPage()
+        );
+    },
 });
 Deluge.registerPlugin('Scheduler', Deluge.plugins.SchedulerPlugin);

@@ -15,10 +15,11 @@ Ext.ns('Deluge');
  * @extends Ext.menu.Menu
  */
 Deluge.StatusbarMenu = Ext.extend(Ext.menu.Menu, {
-
     initComponent: function() {
         Deluge.StatusbarMenu.superclass.initComponent.call(this);
-        this.otherWin = new Deluge.OtherLimitWindow(this.initialConfig.otherWin || {});
+        this.otherWin = new Deluge.OtherLimitWindow(
+            this.initialConfig.otherWin || {}
+        );
 
         this.items.each(function(item) {
             if (item.getXType() != 'menucheckitem') return;
@@ -33,7 +34,7 @@ Deluge.StatusbarMenu = Ext.extend(Ext.menu.Menu, {
     setValue: function(value) {
         var beenSet = false;
         // set the new value
-        this.value = value = (value == 0) ? -1 : value;
+        this.value = value = value == 0 ? -1 : value;
 
         var other = null;
         // uncheck all items
@@ -61,12 +62,12 @@ Deluge.StatusbarMenu = Ext.extend(Ext.menu.Menu, {
 
     onLimitChanged: function(item, checked) {
         if (!checked || item.value == 'other') return; // We do not care about unchecked or other.
-        var config = {}
-        config[item.group] = item.value
+        var config = {};
+        config[item.group] = item.value;
         deluge.client.core.set_config(config, {
             success: function() {
                 deluge.ui.update();
-            }
+            },
         });
     },
 
@@ -74,5 +75,5 @@ Deluge.StatusbarMenu = Ext.extend(Ext.menu.Menu, {
         this.otherWin.group = item.group;
         this.otherWin.setValue(this.value);
         this.otherWin.show();
-    }
+    },
 });

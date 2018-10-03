@@ -34,9 +34,15 @@ Deluge.Formatters = {
         }
         timestamp = timestamp * 1000;
         var date = new Date(timestamp);
-        return String.format('{0}/{1}/{2} {3}:{4}:{5}',
-            zeroPad(date.getDate(), 2), zeroPad(date.getMonth() + 1, 2), date.getFullYear(),
-            zeroPad(date.getHours(), 2), zeroPad(date.getMinutes(), 2), zeroPad(date.getSeconds(), 2));
+        return String.format(
+            '{0}/{1}/{2} {3}:{4}:{5}',
+            zeroPad(date.getDate(), 2),
+            zeroPad(date.getMonth() + 1, 2),
+            date.getFullYear(),
+            zeroPad(date.getHours(), 2),
+            zeroPad(date.getMinutes(), 2),
+            zeroPad(date.getSeconds(), 2)
+        );
     },
 
     /**
@@ -50,13 +56,19 @@ Deluge.Formatters = {
         if (!bytes && !showZero) return '';
         bytes = bytes / 1024.0;
 
-        if (bytes < 1024) { return bytes.toFixed(1)  + ' KiB'; }
-        else { bytes = bytes / 1024; }
+        if (bytes < 1024) {
+            return bytes.toFixed(1) + ' KiB';
+        } else {
+            bytes = bytes / 1024;
+        }
 
-        if (bytes < 1024) { return bytes.toFixed(1)  + ' MiB'; }
-        else { bytes = bytes / 1024; }
+        if (bytes < 1024) {
+            return bytes.toFixed(1) + ' MiB';
+        } else {
+            bytes = bytes / 1024;
+        }
 
-        return bytes.toFixed(1) + ' GiB'
+        return bytes.toFixed(1) + ' GiB';
     },
 
     /**
@@ -70,13 +82,19 @@ Deluge.Formatters = {
         if (!bytes && !showZero) return '';
         bytes = bytes / 1024.0;
 
-        if (bytes < 1024) { return bytes.toFixed(1)  + ' K'; }
-        else { bytes = bytes / 1024; }
+        if (bytes < 1024) {
+            return bytes.toFixed(1) + ' K';
+        } else {
+            bytes = bytes / 1024;
+        }
 
-        if (bytes < 1024) { return bytes.toFixed(1)  + ' M'; }
-        else { bytes = bytes / 1024; }
+        if (bytes < 1024) {
+            return bytes.toFixed(1) + ' M';
+        } else {
+            bytes = bytes / 1024;
+        }
 
-        return bytes.toFixed(1) + ' G'
+        return bytes.toFixed(1) + ' G';
     },
 
     /**
@@ -87,7 +105,7 @@ Deluge.Formatters = {
      * @return {String} formatted string with KiB, MiB or GiB units.
      */
     speed: function(bytes, showZero) {
-        return (!bytes && !showZero) ? '' : fsize(bytes, showZero) + '/s';
+        return !bytes && !showZero ? '' : fsize(bytes, showZero) + '/s';
     },
 
     /**
@@ -97,34 +115,42 @@ Deluge.Formatters = {
      * @return {String} a formatted time string. will return '' if seconds == 0
      */
     timeRemaining: function(time) {
-        if (time <= 0) { return '&infin;' }
+        if (time <= 0) {
+            return '&infin;';
+        }
         time = time.toFixed(0);
-        if (time < 60) { return time + 's'; }
-        else { time = time / 60; }
+        if (time < 60) {
+            return time + 's';
+        } else {
+            time = time / 60;
+        }
 
         if (time < 60) {
-            var minutes = Math.floor(time)
-            var seconds = Math.round(60 * (time - minutes))
+            var minutes = Math.floor(time);
+            var seconds = Math.round(60 * (time - minutes));
             if (seconds > 0) {
                 return minutes + 'm ' + seconds + 's';
             } else {
-                return minutes + 'm'; }
+                return minutes + 'm';
             }
-        else { time = time / 60; }
+        } else {
+            time = time / 60;
+        }
 
         if (time < 24) {
-            var hours = Math.floor(time)
-            var minutes = Math.round(60 * (time - hours))
+            var hours = Math.floor(time);
+            var minutes = Math.round(60 * (time - hours));
             if (minutes > 0) {
                 return hours + 'h ' + minutes + 'm';
             } else {
                 return hours + 'h';
             }
+        } else {
+            time = time / 24;
         }
-        else { time = time / 24; }
 
-        var days = Math.floor(time)
-        var hours = Math.round(24 * (time - days))
+        var days = Math.floor(time);
+        var hours = Math.round(24 * (time - days));
         if (hours > 0) {
             return days + 'd ' + hours + 'h';
         } else {
@@ -144,8 +170,8 @@ Deluge.Formatters = {
 
     cssClassEscape: function(value) {
         return value.toLowerCase().replace('.', '_');
-    }
-}
+    },
+};
 var fsize = Deluge.Formatters.size;
 var fsize_short = Deluge.Formatters.sizeShort;
 var fspeed = Deluge.Formatters.speed;

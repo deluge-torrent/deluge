@@ -14,7 +14,6 @@ Ext.ns('Deluge');
  * @extends Ext.Window
  */
 Deluge.OtherLimitWindow = Ext.extend(Ext.Window, {
-
     layout: 'fit',
     width: 210,
     height: 100,
@@ -29,19 +28,21 @@ Deluge.OtherLimitWindow = Ext.extend(Ext.Window, {
             bodyStyle: 'padding: 5px',
             layout: 'hbox',
             layoutConfig: {
-                pack: 'start'
+                pack: 'start',
             },
-            items: [{
-                xtype: 'spinnerfield',
-                name: 'limit'
-            }]
+            items: [
+                {
+                    xtype: 'spinnerfield',
+                    name: 'limit',
+                },
+            ],
         });
         if (this.initialConfig.unit) {
             this.form.add({
                 border: false,
                 baseCls: 'x-plain',
                 bodyStyle: 'padding: 5px',
-                html: this.initialConfig.unit
+                html: this.initialConfig.unit,
             });
         } else {
             this.setSize(180, 100);
@@ -53,7 +54,7 @@ Deluge.OtherLimitWindow = Ext.extend(Ext.Window, {
     },
 
     setValue: function(value) {
-        this.form.getForm().setValues({limit: value});
+        this.form.getForm().setValues({ limit: value });
     },
 
     onCancelClick: function() {
@@ -67,12 +68,15 @@ Deluge.OtherLimitWindow = Ext.extend(Ext.Window, {
         deluge.client.core.set_config(config, {
             success: function() {
                 deluge.ui.update();
-            }
+            },
         });
         this.hide();
     },
 
     doFocusField: function() {
-        this.form.getForm().findField('limit').focus(true, 10);
-    }
+        this.form
+            .getForm()
+            .findField('limit')
+            .focus(true, 10);
+    },
 });

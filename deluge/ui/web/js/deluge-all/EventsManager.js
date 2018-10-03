@@ -33,14 +33,20 @@ Deluge.EventsManager = Ext.extend(Ext.util.Observable, {
                 deluge.client.web.register_event_listener(eventName);
             }
         }
-        Deluge.EventsManager.superclass.addListener.call(this, eventName, fn, scope, o);
+        Deluge.EventsManager.superclass.addListener.call(
+            this,
+            eventName,
+            fn,
+            scope,
+            o
+        );
     },
 
     getEvents: function() {
         deluge.client.web.get_events({
             success: this.onGetEventsSuccess,
             failure: this.onGetEventsFailure,
-            scope: this
+            scope: this,
         });
     },
 
@@ -71,11 +77,16 @@ Deluge.EventsManager = Ext.extend(Ext.util.Observable, {
     onGetEventsSuccess: function(events) {
         if (!this.running) return;
         if (events) {
-            Ext.each(events, function(event) {
-                var name = event[0], args = event[1];
-                args.splice(0, 0, name);
-                this.fireEvent.apply(this, args);
-            }, this);
+            Ext.each(
+                events,
+                function(event) {
+                    var name = event[0],
+                        args = event[1];
+                    args.splice(0, 0, name);
+                    this.fireEvent.apply(this, args);
+                },
+                this
+            );
         }
         this.getEvents();
     },
@@ -89,19 +100,19 @@ Deluge.EventsManager = Ext.extend(Ext.util.Observable, {
             return;
         }
         this.getEvents();
-    }
+    },
 });
 
 /**
  * Appends an event handler to this object (shorthand for {@link #addListener})
  * @method
  */
-Deluge.EventsManager.prototype.on = Deluge.EventsManager.prototype.addListener
+Deluge.EventsManager.prototype.on = Deluge.EventsManager.prototype.addListener;
 
 /**
  * Fires the specified event with the passed parameters (minus the
  * event name).
  * @method
  */
-Deluge.EventsManager.prototype.fire = Deluge.EventsManager.prototype.fireEvent
+Deluge.EventsManager.prototype.fire = Deluge.EventsManager.prototype.fireEvent;
 deluge.events = new Deluge.EventsManager();

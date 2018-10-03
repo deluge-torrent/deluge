@@ -11,11 +11,11 @@ Ext.namespace('Deluge.preferences');
 
 // custom Vtype for vtype:'IPAddress'
 Ext.apply(Ext.form.VTypes, {
-    IPAddress:  function(v) {
+    IPAddress: function(v) {
         return /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/.test(v);
     },
     IPAddressText: 'Must be a numeric IP address',
-    IPAddressMask: /[\d\.]/i
+    IPAddressMask: /[\d\.]/i,
 });
 
 /**
@@ -23,10 +23,9 @@ Ext.apply(Ext.form.VTypes, {
  * @extends Ext.form.FormPanel
  */
 Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
-
     border: false,
     layout: 'form',
-    title:  _('Network'),
+    title: _('Network'),
     header: false,
 
     initComponent: function() {
@@ -40,15 +39,18 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
             style: 'margin-bottom: 5px; padding-bottom: 0px;',
             autoHeight: true,
             labelWidth: 1,
-            defaultType: 'textfield'
+            defaultType: 'textfield',
         });
-        optMan.bind('listen_interface', fieldset.add({
-            name: 'listen_interface',
-            fieldLabel: '',
-            labelSeparator: '',
-            width: 200,
-            vtype: 'IPAddress'
-        }));
+        optMan.bind(
+            'listen_interface',
+            fieldset.add({
+                name: 'listen_interface',
+                fieldLabel: '',
+                labelSeparator: '',
+                width: 200,
+                vtype: 'IPAddress',
+            })
+        );
 
         var fieldset = this.add({
             xtype: 'fieldset',
@@ -57,23 +59,26 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
             style: 'margin-bottom: 5px; padding-bottom: 0px;',
             autoHeight: true,
             labelWidth: 1,
-            defaultType: 'checkbox'
+            defaultType: 'checkbox',
         });
-        optMan.bind('random_port', fieldset.add({
-            fieldLabel: '',
-            labelSeparator: '',
-            boxLabel: _('Use Random Port'),
-            name: 'random_port',
-            height: 22,
-            listeners: {
-                'check': {
-                    fn: function(e, checked) {
-                        this.listenPort.setDisabled(checked);
+        optMan.bind(
+            'random_port',
+            fieldset.add({
+                fieldLabel: '',
+                labelSeparator: '',
+                boxLabel: _('Use Random Port'),
+                name: 'random_port',
+                height: 22,
+                listeners: {
+                    check: {
+                        fn: function(e, checked) {
+                            this.listenPort.setDisabled(checked);
+                        },
+                        scope: this,
                     },
-                    scope: this
-                }
-            }
-        }));
+                },
+            })
+        );
 
         this.listenPort = fieldset.add({
             xtype: 'spinnerfield',
@@ -85,8 +90,8 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
                 xtype: 'number',
                 decimalPrecision: 0,
                 minValue: 0,
-                maxValue: 65535
-            }
+                maxValue: 65535,
+            },
         });
         optMan.bind('listen_ports', this.listenPort);
 
@@ -97,14 +102,17 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
             style: 'margin-bottom: 5px; padding-bottom: 0px;',
             autoHeight: true,
             labelWidth: 1,
-            defaultType: 'textfield'
+            defaultType: 'textfield',
         });
-        optMan.bind('outgoing_interface', fieldset.add({
-            name: 'outgoing_interface',
-            fieldLabel: '',
-            labelSeparator: '',
-            width: 40,
-        }));
+        optMan.bind(
+            'outgoing_interface',
+            fieldset.add({
+                name: 'outgoing_interface',
+                fieldLabel: '',
+                labelSeparator: '',
+                width: 40,
+            })
+        );
 
         fieldset = this.add({
             xtype: 'fieldset',
@@ -113,23 +121,26 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
             style: 'margin-bottom: 5px; padding-bottom: 0px;',
             autoHeight: true,
             labelWidth: 1,
-            defaultType: 'checkbox'
+            defaultType: 'checkbox',
         });
-        optMan.bind('random_outgoing_ports', fieldset.add({
-            fieldLabel: '',
-            labelSeparator: '',
-            boxLabel: _('Use Random Ports'),
-            name: 'random_outgoing_ports',
-            height: 22,
-            listeners: {
-                'check': {
-                    fn: function(e, checked) {
-                        this.outgoingPorts.setDisabled(checked);
+        optMan.bind(
+            'random_outgoing_ports',
+            fieldset.add({
+                fieldLabel: '',
+                labelSeparator: '',
+                boxLabel: _('Use Random Ports'),
+                name: 'random_outgoing_ports',
+                height: 22,
+                listeners: {
+                    check: {
+                        fn: function(e, checked) {
+                            this.outgoingPorts.setDisabled(checked);
+                        },
+                        scope: this,
                     },
-                    scope: this
-                }
-            }
-        }));
+                },
+            })
+        );
         this.outgoingPorts = fieldset.add({
             xtype: 'spinnergroup',
             name: 'outgoing_ports',
@@ -137,27 +148,30 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
             labelSeparator: '',
             colCfg: {
                 labelWidth: 40,
-                style: 'margin-right: 10px;'
+                style: 'margin-right: 10px;',
             },
-            items: [{
-                fieldLabel: _('From:'),
-                labelSeparator: '',
-                strategy: {
-                    xtype: 'number',
-                    decimalPrecision: 0,
-                    minValue: 0,
-                    maxValue: 65535
-                }
-            }, {
-                fieldLabel: _('To:'),
-                labelSeparator: '',
-                strategy: {
-                    xtype: 'number',
-                    decimalPrecision: 0,
-                    minValue: 0,
-                    maxValue: 65535
-                }
-            }]
+            items: [
+                {
+                    fieldLabel: _('From:'),
+                    labelSeparator: '',
+                    strategy: {
+                        xtype: 'number',
+                        decimalPrecision: 0,
+                        minValue: 0,
+                        maxValue: 65535,
+                    },
+                },
+                {
+                    fieldLabel: _('To:'),
+                    labelSeparator: '',
+                    strategy: {
+                        xtype: 'number',
+                        decimalPrecision: 0,
+                        minValue: 0,
+                        maxValue: 65535,
+                    },
+                },
+            ],
         });
         optMan.bind('outgoing_ports', this.outgoingPorts);
 
@@ -168,43 +182,58 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
             autoHeight: true,
             layout: 'table',
             layoutConfig: {
-                columns: 3
+                columns: 3,
             },
-            defaultType: 'checkbox'
+            defaultType: 'checkbox',
         });
-        optMan.bind('upnp', fieldset.add({
-            fieldLabel: '',
-            labelSeparator: '',
-            boxLabel: _('UPnP'),
-            name: 'upnp'
-        }));
-        optMan.bind('natpmp', fieldset.add({
-            fieldLabel: '',
-            labelSeparator: '',
-            boxLabel: _('NAT-PMP'),
-            ctCls: 'x-deluge-indent-checkbox',
-            name: 'natpmp'
-        }));
-        optMan.bind('utpex', fieldset.add({
-            fieldLabel: '',
-            labelSeparator: '',
-            boxLabel: _('Peer Exchange'),
-            ctCls: 'x-deluge-indent-checkbox',
-            name: 'utpex'
-        }));
-        optMan.bind('lsd', fieldset.add({
-            fieldLabel: '',
-            labelSeparator: '',
-            boxLabel: _('LSD'),
-            name: 'lsd'
-        }));
-        optMan.bind('dht', fieldset.add({
-            fieldLabel: '',
-            labelSeparator: '',
-            boxLabel: _('DHT'),
-            ctCls: 'x-deluge-indent-checkbox',
-            name: 'dht'
-        }));
+        optMan.bind(
+            'upnp',
+            fieldset.add({
+                fieldLabel: '',
+                labelSeparator: '',
+                boxLabel: _('UPnP'),
+                name: 'upnp',
+            })
+        );
+        optMan.bind(
+            'natpmp',
+            fieldset.add({
+                fieldLabel: '',
+                labelSeparator: '',
+                boxLabel: _('NAT-PMP'),
+                ctCls: 'x-deluge-indent-checkbox',
+                name: 'natpmp',
+            })
+        );
+        optMan.bind(
+            'utpex',
+            fieldset.add({
+                fieldLabel: '',
+                labelSeparator: '',
+                boxLabel: _('Peer Exchange'),
+                ctCls: 'x-deluge-indent-checkbox',
+                name: 'utpex',
+            })
+        );
+        optMan.bind(
+            'lsd',
+            fieldset.add({
+                fieldLabel: '',
+                labelSeparator: '',
+                boxLabel: _('LSD'),
+                name: 'lsd',
+            })
+        );
+        optMan.bind(
+            'dht',
+            fieldset.add({
+                fieldLabel: '',
+                labelSeparator: '',
+                boxLabel: _('DHT'),
+                ctCls: 'x-deluge-indent-checkbox',
+                name: 'dht',
+            })
+        );
 
         fieldset = this.add({
             xtype: 'fieldset',
@@ -213,13 +242,16 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
             style: 'margin-bottom: 5px; padding-bottom: 0px;',
             bodyStyle: 'margin: 0px; padding: 0px',
             autoHeight: true,
-            defaultType: 'textfield'
+            defaultType: 'textfield',
         });
-        optMan.bind('peer_tos', fieldset.add({
-            name: 'peer_tos',
-            fieldLabel: _('Peer TOS Byte:'),
-            labelSeparator: '',
-            width: 40
-        }));
-    }
+        optMan.bind(
+            'peer_tos',
+            fieldset.add({
+                name: 'peer_tos',
+                fieldLabel: _('Peer TOS Byte:'),
+                labelSeparator: '',
+                width: 40,
+            })
+        );
+    },
 });
