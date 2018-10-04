@@ -57,7 +57,10 @@ if module_exists('closure'):
 elif module_exists('slimit'):
     from slimit import minify
 else:
-    raise ImportError('Requires "slimit" package for minifying WebUI files.')
+    print('WARNING: Unable to minify js files. They will be copied as is.')
+
+    def minify(text):
+        return text
 
 
 def source_files_list(source_dir):
