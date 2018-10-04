@@ -535,7 +535,7 @@ _package_data['deluge.ui.gtkui'] = ['glade/*.ui']
 if 'dev' not in _version:
     _exclude_package_data['deluge.ui.web'] = ['*-debug.js', '*-debug.css']
 
-docs_require = ['Sphinx', 'recommonmark', 'sphinx-rtd-theme', 'sphinxcontrib-spelling']
+docs_require = ['sphinx', 'recommonmark', 'sphinx-rtd-theme']
 tests_require = [
     'coverage',
     'flake8',

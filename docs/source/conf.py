@@ -16,6 +16,7 @@ import sys
 from datetime import date
 
 import pkg_resources
+from recommonmark.transform import AutoStructify
 
 try:
     from ...version import get_version
@@ -59,19 +60,28 @@ class Mock(object):
         else:
             return Mock()
 
+    def __add__(self, other):
+        return other
+
     def __or__(self, __):
         return Mock()
 
 
-MOCK_MODULES = [
-    'deluge.ui.gtkui.gtkui',
-    'deluge._libtorrent',
+# Use custom mock as autodoc_mock_imports fails to handle these modules.
+MOCK_MODULES = ['deluge._libtorrent', 'xdg', 'xdg.BaseDirectory']
+
+for mod_name in MOCK_MODULES:
+    sys.modules[mod_name] = Mock()
+
+autodoc_mock_imports = [
+    'twisted',
+    'OpenSSL',
+    'PIL',
     'libtorrent',
     'psyco',
     'pygtk',
     'gtk',
     'gobject',
-    'gtk.gdk',
     'pango',
     'cairo',
     'pangocairo',
@@ -83,10 +93,12 @@ MOCK_MODULES = [
     'pywintypes',
     'win32con',
     'win32event',
+    'pytest',
+    'mock',
+    'mako',
+    'zope',
+    'zope.interface',
 ]
-
-for mod_name in MOCK_MODULES:
-    sys.modules[mod_name] = Mock()
 
 # General configuration
 # ---------------------
@@ -104,7 +116,8 @@ extensions = [
 templates_path = ['_templates']
 
 # The suffix of source filenames.
-source_suffix = '.rst'
+source_parsers = {'.md': 'recommonmark.parser.CommonMarkParser'}
+source_suffix = ['.rst', '.md']
 
 # The master toctree document.
 master_doc = 'index'
@@ -160,11 +173,11 @@ pygments_style = 'sphinx'
 
 # Options for HTML output
 # -----------------------
-
+html_theme = 'sphinx_rtd_theme'
 # The style sheet to use for HTML and HTML Help pages. A file of that name
 # must exist either in Sphinx' static/ path, or in one of the custom paths
 # given in html_static_path.
-html_style = 'default.css'
+# html_style = 'default.css'
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
@@ -257,3 +270,10 @@ latex_documents = [
 
 # If false, no module index is generated.
 # latex_use_modindex = True
+
+
+def setup(app):
+    app.add_config_value(
+        'recommonmark_config', {'auto_toc_tree_section': 'Contents'}, True
+    )
+    app.add_transform(AutoStructify)

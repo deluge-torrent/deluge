@@ -1,6 +1,0 @@
-twisted
-pyopenssl
-pyxdg
-service_identity
-pillow
-mako
