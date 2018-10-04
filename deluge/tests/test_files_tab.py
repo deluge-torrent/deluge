@@ -21,15 +21,11 @@ from .basetest import BaseTestCase
 libs_available = True
 # Allow running other tests without GTKUI dependencies available
 try:
-    from deluge.ui.gtkui.mainwindow import MainWindow
-    from deluge.ui.gtkui.gtkui import DEFAULT_PREFS
     from deluge.ui.gtkui.files_tab import FilesTab
-
+    from deluge.ui.gtkui.gtkui import DEFAULT_PREFS
+    from deluge.ui.gtkui.mainwindow import MainWindow
 except ImportError as err:
     libs_available = False
-    import traceback
-
-    traceback.print_exc()
 
 setup_translations()
 
