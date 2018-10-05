@@ -1,0 +1,38 @@
+repos:
+  - repo: https://github.com/ambv/black
+    rev: 18.9b0
+    hooks:
+      - id: black
+        name: Fmt Black
+        language_version: python3.6
+  - repo: https://github.com/prettier/prettier
+    rev: 1.14.3
+    hooks:
+      - id: prettier
+        name: Fmt Prettier
+        files: "\\.(
+          css\
+          |less\
+          |scss\
+          |html\
+          |ts|tsx\
+          |graphql|gql\
+          |json\
+          |js|jsx\
+          |md|markdown|mdown|mkdn\
+          |yaml|yml\
+          )$"
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v1.4.0
+    hooks:
+      - id: double-quote-string-fixer
+        name: Fix Double-quotes
+      - id: end-of-file-fixer
+        name: Fix End-of-files
+      - id: mixed-line-ending
+        name: Fix Line-endings
+        args: [--fix=auto]
+      - id: flake8
+        name: Chk Flake8
+        additional_dependencies:
+          - flake8-isort==2.5

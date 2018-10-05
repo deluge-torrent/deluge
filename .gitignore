@@ -17,3 +17,4 @@ deluge.pot
 .build_data*
 osx/app
 RELEASE-VERSION
+.venv
