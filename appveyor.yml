@@ -4,7 +4,6 @@ environment:
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
 
   matrix:
-    - TOXENV: flake8
     - TOXENV: pydef
     - TOXENV: pygtkui
     - TOXENV: plugins

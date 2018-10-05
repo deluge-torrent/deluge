@@ -10,6 +10,14 @@ before_install:
   - lsb_release -a
   - sudo add-apt-repository ppa:deluge-team/develop -yu
 
+addons:
+  apt:
+    sources:
+      - deadsnakes
+    packages:
+      # Need Py 3.6 specifically for pre-commit to run black formatter.
+      - python3.6
+
 # command to install dependencies
 install:
   - bash -c "echo $APTPACKAGES"
@@ -33,13 +41,9 @@ matrix:
     - env: TOX_ENV=pydef
     - if: commit_message =~ SECURITY_TEST
       env: TOX_ENV=security
-    - env: TOX_ENV=flake8
-    #- env:  TOX_ENV=flake8-complexity
+    - env: TOX_ENV=lint
     - env: TOX_ENV=docs
-    #- env: TOX_ENV=todo
-    #- env: TOX_ENV=trial              APTPACKAGES="$APTPACKAGES $APTPACKAGES_GTKUI"
     - env: TOX_ENV=pygtkui            APTPACKAGES="$APTPACKAGES $APTPACKAGES_GTKUI"
-    #- env: TOX_ENV=testcoverage       APTPACKAGES="$APTPACKAGES $APTPACKAGES_GTKUI"
     - env: TOX_ENV=plugins
 
 virtualenv:
