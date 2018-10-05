@@ -549,7 +549,6 @@ tests_require = [
     'flake8-mutable',
     'flake8-quotes',
     'pre-commit',
-    'pre-commit-hooks',
     'pytest',
     'detox',
     'tox',

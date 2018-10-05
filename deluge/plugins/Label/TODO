@@ -9,7 +9,3 @@
 *no client-side validation (could be solved by a ui.aclient exception-plugin)
 *expand/arrows in sidebar are disabled to save space, fix the space issue or implement an alternative
 *fix and move tracker_host column+status-field to core.
-
-
-
-

@@ -60,4 +60,3 @@
             module="T/Twisted/Twisted-12.3.0.tar.bz2"/>
     </distutils>
 </moduleset>
-

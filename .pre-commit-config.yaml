@@ -1,3 +1,7 @@
+exclude: >
+  (?x)^(
+      deluge/ui/web/docs/template/.*|
+  )$
 repos:
   - repo: https://github.com/ambv/black
     rev: 18.9b0
@@ -29,6 +33,7 @@ repos:
         name: Fix Double-quotes
       - id: end-of-file-fixer
         name: Fix End-of-files
+        exclude_types: [javascript, css]
       - id: mixed-line-ending
         name: Fix Line-endings
         args: [--fix=auto]

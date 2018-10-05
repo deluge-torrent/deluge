@@ -6,7 +6,6 @@ tox
 tox-venv
 detox
 pre-commit
-pre-commit-hooks
 flake8-blind-except
 flake8-builtins
 flake8-commas

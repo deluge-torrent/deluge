@@ -47,4 +47,3 @@ find $LIBDIR/python/deluge-*.egg -name "*.py" -exec rm -f {} \; # Remove source 
 rm -fr $LIBDIR/pygtk/2.0/*demo*
 
 echo "*** Packaging done:`du -hs $APPDIR | cut -f 1`"
-
