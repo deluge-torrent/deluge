@@ -615,6 +615,7 @@ class WebApi(JSONComponent):
 
     @export
     def get_torrent_status(self, torrent_id, keys):
+        """Get the status for a torrent, filtered by status keys."""
         main_deferred = Deferred()
         d = component.get('SessionProxy').get_torrent_status(torrent_id, keys)
         d.addCallback(self._on_torrent_status, main_deferred)
@@ -694,6 +695,7 @@ class WebApi(JSONComponent):
 
     @export
     def get_magnet_info(self, uri):
+        """Parse a magnet URI for hash and name."""
         return get_magnet_info(uri)
 
     @export
@@ -915,14 +917,17 @@ class WebApi(JSONComponent):
 
     @export
     def get_plugin_info(self, name):
+        """Get the details for a plugin."""
         return component.get('Web.PluginManager').get_plugin_info(name)
 
     @export
     def get_plugin_resources(self, name):
+        """Get the resource data files for a plugin."""
         return component.get('Web.PluginManager').get_plugin_resources(name)
 
     @export
     def upload_plugin(self, filename, path):
+        """Upload a plugin to config."""
         main_deferred = Deferred()
 
         shutil.copyfile(path, os.path.join(get_config_dir(), 'plugins', filename))

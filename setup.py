@@ -77,12 +77,15 @@ class BuildDocs(BuildDoc):
 
     def run(self):
         print('Generating module documentation...')
-        os.system('sphinx-apidoc --force -o docs/source/modules/ deluge deluge/plugins')
+        os.system(
+            'sphinx-apidoc --force --no-toc'
+            ' -o docs/source/modules/ deluge deluge/plugins'
+        )
         BuildDoc.run(self)
 
 
 class CleanDocs(cmd.Command):
-    description = 'Clean the documentation build and rst files'
+    description = 'Clean the documentation build and module rst files'
     user_options = []
 
     def initialize_options(self):
@@ -92,12 +95,15 @@ class CleanDocs(cmd.Command):
         pass
 
     def run(self):
-        for docs_dir in ('docs/build', 'docs/source/modules'):
-            try:
-                print('Deleting {}'.format(docs_dir))
-                rmtree(docs_dir)
-            except OSError:
-                pass
+        docs_build = 'docs/build'
+        print('Deleting {}'.format(docs_build))
+        try:
+            rmtree(docs_build)
+        except OSError:
+            pass
+
+        for module in glob.glob('docs/source/modules/deluge*.rst'):
+            os.remove(module)
 
 
 class BuildWebUI(cmd.Command):

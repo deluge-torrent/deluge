@@ -96,10 +96,3 @@ daemon's state that the clients need to be made aware of.
 **data** (list)
     Additional data to be sent with the event. This is dependent upon the event
     being emitted.
-
-----------
-Remote API
-----------
-
-.. autoclass:: deluge.__rpcapi.RpcApi
-    :members:

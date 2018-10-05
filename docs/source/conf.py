@@ -16,12 +16,27 @@ import sys
 from datetime import date
 
 import pkg_resources
+from recommonmark.states import DummyStateMachine
 from recommonmark.transform import AutoStructify
+from sphinx.ext.autodoc import ClassDocumenter, bool_option
 
 try:
     from ...version import get_version
 except ImportError:
     get_version = None
+
+
+# Monkey patch
+class PatchDummyStateMachine(DummyStateMachine):
+    """Fix recommonmark 0.4 doc reference issues."""
+
+    def run_role(self, name, *args, **kwargs):
+        if name == 'doc':
+            name = 'any'
+        return DummyStateMachine.run_role(self, name, *args, **kwargs)
+
+
+DummyStateMachine = PatchDummyStateMachine
 
 # Must add these for autodoc to import packages successully
 __builtin__.__dict__['_'] = lambda x: x
@@ -271,9 +286,18 @@ latex_documents = [
 # If false, no module index is generated.
 # latex_use_modindex = True
 
+# Register an autodoc class directive to only include exported methods.
+ClassDocumenter.option_spec['exported'] = bool_option
+
+
+def maybe_skip_member(app, what, name, obj, skip, options):
+    if options.exported and not (
+        hasattr(obj, '_rpcserver_export') or hasattr(obj, '_json_export')
+    ):
+        return True
+
 
 def setup(app):
-    app.add_config_value(
-        'recommonmark_config', {'auto_toc_tree_section': 'Contents'}, True
-    )
+    app.connect('autodoc-skip-member', maybe_skip_member)
+    app.add_config_value('recommonmark_config', {}, True)
     app.add_transform(AutoStructify)

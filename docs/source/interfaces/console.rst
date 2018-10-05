@@ -1,2 +1,0 @@
-Deluge Console UI
-=================
