@@ -182,6 +182,7 @@ class GtkUiNotifications(CustomNotifications):
             )
             self.note = pynotify.Notification(title, message)
             self.note.set_icon_from_pixbuf(icon)
+            self.note.set_hint('desktop-entry', 'deluge')
             if not self.note.show():
                 err_msg = _('pynotify failed to show notification')
                 log.warning(err_msg)
