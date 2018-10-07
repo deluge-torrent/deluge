@@ -182,6 +182,11 @@ class Daemon(object):
         """Returns a list of the exported methods."""
         return self.rpcserver.get_method_list()
 
+    @export()
+    def get_version(self):
+        """Returns the daemon version"""
+        return get_version()
+
     @export(1)
     def authorized_call(self, rpc):
         """Determines if session auth_level is authorized to call RPC.
