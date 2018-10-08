@@ -317,7 +317,7 @@ class CoreTestCase(BaseTestCase):
     def test_prefetch_metadata_existing(self):
         """Check another call with same magnet returns existing deferred."""
         magnet = 'magnet:?xt=urn:btih:ab570cdd5a17ea1b61e970bb72047de141bce173'
-        expected = ('ab570cdd5a17ea1b61e970bb72047de141bce173', '')
+        expected = ('ab570cdd5a17ea1b61e970bb72047de141bce173', b'')
 
         def on_result(result):
             self.assertEqual(result, expected)

@@ -399,7 +399,7 @@ class TorrentManager(component.Component):
         else:
             self.session.remove_torrent(torrent_handle, 1)
 
-        metadata = ''
+        metadata = b''
         if isinstance(torrent_info, lt.torrent_info):
             log.debug('metadata received')
             metadata = torrent_info.metadata()
