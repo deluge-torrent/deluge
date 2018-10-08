@@ -5,9 +5,9 @@ Message Formats
 ---------------
 DelugeRPC is a protocol used for daemon/client communication. There are four
 types of messages involved in the protocol: RPC Request, RPC Response,
-RPC Error and Event. All messages are zlib compressed rencoded strings and 
+RPC Error and Event. All messages are zlib compressed rencoded strings and
 their data formats are detailed below.
-    
+
 """""""""""
 RPC Request
 """""""""""
@@ -28,7 +28,7 @@ remote method be called. Multiple requests can be bundled in a list.
     call other objects or plugins methods.
 
 **args** (list)
-    The arguments to call the method with. 
+    The arguments to call the method with.
 
 **kwargs** (dict)
     The keyword arguments to call the method with.
@@ -38,7 +38,7 @@ RPC Response
 """"""""""""
 This message is created and sent in response to a RPC Request from a client. It
 will hold the return value of the requested method call. In the case of an
-error, a RPC Error message will be sent instead. 
+error, a RPC Error message will be sent instead.
 
 **[message_type, request_id, [return_value]]**
 
@@ -49,7 +49,7 @@ error, a RPC Error message will be sent instead.
 **request_id** (int)
     The request_id is the same as the one sent by the client in the initial
     request. It used on the client side to determine what message this is in
-    response to. 
+    response to.
 
 **return_value** (list)
     The return value of the method call.
@@ -58,7 +58,7 @@ error, a RPC Error message will be sent instead.
 RPC Error
 """""""""
 This message is created in response to an error generated while processing a
-RPC Request and will serve as a replacement for a RPC Response message. 
+RPC Request and will serve as a replacement for a RPC Response message.
 
 **[message_type, request_id, exception_type, exception_msg, traceback]**
 
@@ -83,7 +83,7 @@ Event
 """""
 This message is created by the daemon and sent to the clients without being in
 response to a RPC Request. Events are generally sent for changes in the
-daemon's state that the clients need to be made aware of. 
+daemon's state that the clients need to be made aware of.
 
 **[message_type, event_name, data]**
 

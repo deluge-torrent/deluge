@@ -10,7 +10,7 @@ Authors:
     Andrew Resch
     Damien Churchill
 
-For contributors and past developers see: 
+For contributors and past developers see:
     AUTHORS
 
 ==========================

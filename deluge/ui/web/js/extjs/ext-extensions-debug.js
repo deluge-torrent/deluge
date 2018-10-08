@@ -83,7 +83,7 @@ Ext.ux.form.FileUploadField = Ext.extend(Ext.form.TextField,  {
         this.bindListeners();
         this.resizeEl = this.positionEl = this.wrap;
     },
-    
+
     bindListeners: function(){
         this.fileInput.on({
             scope: this,
@@ -102,11 +102,11 @@ Ext.ux.form.FileUploadField = Ext.extend(Ext.form.TextField,  {
             change: function(){
                 var v = this.fileInput.dom.value;
                 this.setValue(v);
-                this.fireEvent('fileselected', this, v);    
+                this.fireEvent('fileselected', this, v);
             }
-        }); 
+        });
     },
-    
+
     createFileInput : function() {
         this.fileInput = this.wrap.createChild({
             id: this.getFileInputId(),
@@ -117,7 +117,7 @@ Ext.ux.form.FileUploadField = Ext.extend(Ext.form.TextField,  {
             size: 1
         });
     },
-    
+
     reset : function(){
         if (this.rendered) {
             this.fileInput.remove();
@@ -149,18 +149,18 @@ Ext.ux.form.FileUploadField = Ext.extend(Ext.form.TextField,  {
         Ext.ux.form.FileUploadField.superclass.onDestroy.call(this);
         Ext.destroy(this.fileInput, this.button, this.wrap);
     },
-    
+
     onDisable: function(){
         Ext.ux.form.FileUploadField.superclass.onDisable.call(this);
         this.doDisable(true);
     },
-    
+
     onEnable: function(){
         Ext.ux.form.FileUploadField.superclass.onEnable.call(this);
         this.doDisable(false);
 
     },
-    
+
     // private
     doDisable: function(disabled){
         this.fileInput.dom.disabled = disabled;
@@ -184,7 +184,7 @@ Ext.reg('fileuploadfield', Ext.ux.form.FileUploadField);
 Ext.form.FileUploadField = Ext.ux.form.FileUploadField;
 /*!
  * Ext.ux.form.RadioGroup.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
@@ -294,7 +294,7 @@ Ext.reg('spinnerfield', Ext.ux.form.SpinnerField);
 Ext.form.SpinnerField = Ext.ux.form.SpinnerField;
 /*!
  * Ext.ux.form.SpinnerField.js
- * 
+ *
  * Copyright (c) Damien Churchill 2010 <damoxc@gmail.com>
  *
  * This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
@@ -506,7 +506,7 @@ Ext.ux.form.SpinnerGroup = Ext.extend(Ext.form.CheckboxGroup, {
 Ext.reg('spinnergroup', Ext.ux.form.SpinnerGroup);
 /*!
  * Ext.ux.form.ToggleField.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
@@ -823,7 +823,7 @@ Ext.ux.grid.BufferView = Ext.extend(Ext.grid.GridView, {
 });
 /*!
  * Ext.ux.layout.FormLayoutFix.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
@@ -857,7 +857,7 @@ Ext.override(Ext.layout.FormLayout, {
 });
 /*!
  * Ext.ux.tree.MultiSelectionModelFix.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
@@ -870,7 +870,7 @@ Ext.override(Ext.layout.FormLayout, {
  * @author Damien Churchill <damoxc@gmail.com>
  */
 Ext.override(Ext.tree.MultiSelectionModel, {
-    
+
     onNodeClick: function (node, e) {
         if (e.ctrlKey && this.isSelected(node)) {
             this.unselect(node);
@@ -909,11 +909,11 @@ Ext.override(Ext.tree.MultiSelectionModel, {
     select: function(node, e, keepExisting, suppressEvent) {
         if(keepExisting !== true){
             this.clearSelections(true);
-        }         
+        }
         if(this.isSelected(node)){
             this.lastSelNode = node;
             return node;
-        }         
+        }
         this.selNodes.push(node);
         this.selMap[node.id] = node;
         this.lastSelNode = node;
@@ -1382,18 +1382,18 @@ Ext.tree.ColumnResizer = Ext.extend(Ext.util.Observable, {
         var hw = 5,
             x = e.getPageX(),
             hd = e.getTarget('.x-treegrid-hd', 3, true);
-        
-        if(hd){                                 
+
+        if(hd){
             var r = hd.getRegion(),
                 ss = hd.dom.style,
                 pn = hd.dom.parentNode;
-            
+
             if(x - r.left <= hw && hd.dom !== pn.firstChild) {
                 var ps = hd.dom.previousSibling;
                 while(ps && Ext.fly(ps).hasClass('x-treegrid-hd-hidden')) {
                     ps = ps.previousSibling;
                 }
-                if(ps) {                    
+                if(ps) {
                     this.activeHd = Ext.get(ps);
                     ss.cursor = Ext.isWebKit ? 'e-resize' : 'col-resize';
                 }
@@ -1404,7 +1404,7 @@ Ext.tree.ColumnResizer = Ext.extend(Ext.util.Observable, {
                 }
                 if(ns) {
                     this.activeHd = Ext.get(ns);
-                    ss.cursor = Ext.isWebKit ? 'w-resize' : 'col-resize';                    
+                    ss.cursor = Ext.isWebKit ? 'w-resize' : 'col-resize';
                 }
             } else{
                 delete this.activeHd;
@@ -1444,13 +1444,13 @@ Ext.tree.ColumnResizer = Ext.extend(Ext.util.Observable, {
         var nw = this.proxy.getWidth(),
             tree = this.tree,
             disabled = this.dragHeadersDisabled;
-        
+
         this.proxy.remove();
         delete this.dragHd;
-        
+
         tree.columns[this.hdIndex].width = nw;
         tree.updateColumnWidths();
-        
+
         setTimeout(function(){
             tree.headersDisabled = disabled;
         }, 100);
@@ -1619,7 +1619,7 @@ Ext.ux.tree.TreeGridRootNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
     expand : Ext.emptyFn
 });/*!
  * Ext.ux.tree.TreeGridNodeUIFix.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
@@ -1631,7 +1631,7 @@ Ext.override(Ext.ux.tree.TreeGridNodeUI, {
 
     updateColumns: function() {
         if (!this.rendered) return;
-        
+
         var a = this.node.attributes,
             t = this.node.getOwnerTree(),
             cols = t.columns,
@@ -1649,7 +1649,7 @@ Ext.override(Ext.ux.tree.TreeGridNodeUI, {
 
 });
 Ext.tree.RenderColumn = Ext.extend(Ext.tree.Column, {
-    
+
     constructor: function(c) {
         c.tpl = c.tpl || new Ext.XTemplate('{' + c.dataIndex + ':this.format}');
         c.tpl.format = c.renderer;

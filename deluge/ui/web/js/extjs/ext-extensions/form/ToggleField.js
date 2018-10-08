@@ -1,6 +1,6 @@
 /*!
  * Ext.ux.form.ToggleField.js
- * 
+ *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>
  *
  * This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with

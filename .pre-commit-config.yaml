@@ -14,7 +14,7 @@ repos:
     hooks:
       - id: prettier
         name: Fmt Prettier
-        files: "\\.(
+        files: "\\.(\
           css\
           |less\
           |scss\
@@ -35,8 +35,10 @@ repos:
         name: Fix End-of-files
         exclude_types: [javascript, css]
       - id: mixed-line-ending
-        name: Fix Line-endings
+        name: Fix Line endings
         args: [--fix=auto]
+      - id: trailing-whitespace
+        name: Fix Trailing whitespace
       - id: flake8
         name: Chk Flake8
         additional_dependencies:
