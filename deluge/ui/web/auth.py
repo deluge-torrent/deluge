@@ -105,7 +105,7 @@ class Auth(JSONComponent):
         request.addCookie(
             b'_session_id',
             session_id + checksum,
-            path=request.base + 'json',
+            path=request.base + b'json',
             expires=expires_str,
         )
 
@@ -123,57 +123,14 @@ class Auth(JSONComponent):
 
     def check_password(self, password):
         config = self.config
-        if 'pwd_md5' in config.config:
-            # We are using the 1.2-dev auth method
-            log.debug('Received a password via the 1.2-dev auth method')
-            m = hashlib.md5()
-            m.update(config['pwd_salt'])
-            m.update(password.encode('utf8'))
-            if m.hexdigest() == config['pwd_md5']:
-                # We want to move the password over to sha1 and remove
-                # the old passwords from the config file.
-                self._change_password(password)
-                del config.config['pwd_md5']
-
-                # Remove the older password if there is now.
-                if 'old_pwd_md5' in config.config:
-                    del config.config['old_pwd_salt']
-                    del config.config['old_pwd_md5']
-
-                return True
-
-        elif 'old_pwd_md5' in config.config:
-            # We are using the 1.1 webui auth method
-            log.debug('Received a password via the 1.1 auth method')
-            from base64 import b64decode
-
-            m = hashlib.md5()
-            m.update(b64decode(config['old_pwd_salt']))
-            m.update(password.encode('utf8'))
-            if m.digest() == b64decode(config['old_pwd_md5']):
-
-                # We want to move the password over to sha1 and remove
-                # the old passwords from the config file.
-                self._change_password(password)
-                del config.config['old_pwd_salt']
-                del config.config['old_pwd_md5']
-
-                return True
-
-        elif 'pwd_sha1' in config.config:
-            # We are using the 1.2 auth method
-            log.debug('Received a password via the 1.2 auth method')
-            s = hashlib.sha1()
-            s.update(config['pwd_salt'])
-            s.update(password.encode('utf8'))
-            if s.hexdigest() == config['pwd_sha1']:
-                return True
-
-        else:
-            # Can't detect which method we should be using so just deny
-            # access.
-            log.debug('Failed to detect the login method')
+        if 'pwd_sha1' not in config.config:
+            log.debug('Failed to find config login details.')
             return False
+
+        s = hashlib.sha1()
+        s.update(config['pwd_salt'].encode('utf8'))
+        s.update(password.encode('utf8'))
+        return s.hexdigest() == config['pwd_sha1']
 
     def check_request(self, request, method=None, level=None):
         """
@@ -189,8 +146,11 @@ class Auth(JSONComponent):
 
         :raises: Exception
         """
-
-        session_id = get_session_id(request.getCookie('_session_id'))
+        cookie_sess_id = request.getCookie(b'_session_id')
+        if cookie_sess_id:
+            session_id = get_session_id(cookie_sess_id.decode())
+        else:
+            session_id = None
 
         if session_id not in self.config['sessions']:
             auth_level = AUTH_LEVEL_NONE
@@ -201,12 +161,12 @@ class Auth(JSONComponent):
             expires, expires_str = make_expires(self.config['session_timeout'])
             session['expires'] = expires
 
-            _session_id = request.getCookie('_session_id')
+            _session_id = request.getCookie(b'_session_id')
             request.addCookie(
                 b'_session_id',
                 _session_id,
                 path=request.base + b'json',
-                expires=expires_str,
+                expires=expires_str.encode('utf8'),
             )
 
         if method:
