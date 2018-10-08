@@ -2,3 +2,4 @@
 .gitmodules export-ignore
 .gitignore export-ignore
 *.py diff=python
+ext-all.js diff=minjs
