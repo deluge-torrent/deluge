@@ -109,7 +109,7 @@ class TorrentmanagerTestCase(BaseTestCase):
         magnet = 'magnet:?xt=urn:btih:ab570cdd5a17ea1b61e970bb72047de141bce173'
         d = self.tm.prefetch_metadata(magnet, 30)
         self.clock.advance(30)
-        expected = ('ab570cdd5a17ea1b61e970bb72047de141bce173', '')
+        expected = ('ab570cdd5a17ea1b61e970bb72047de141bce173', b'')
         return d.addCallback(self.assertEqual, expected)
 
     @pytest.mark.todo

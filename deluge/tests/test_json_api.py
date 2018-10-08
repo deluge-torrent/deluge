@@ -69,7 +69,7 @@ class JSONTestCase(JSONBase):
     def test_render_fail_disconnected(self):
         json = JSON()
         request = MagicMock()
-        request.method = 'POST'
+        request.method = b'POST'
         request._disconnected = True
         # When disconnected, returns empty string
         self.assertEqual(json.render(request), '')
@@ -77,7 +77,7 @@ class JSONTestCase(JSONBase):
     def test_render_fail(self):
         json = JSON()
         request = MagicMock()
-        request.method = 'POST'
+        request.method = b'POST'
 
         def compress(contents, request):
             return contents
@@ -97,7 +97,7 @@ class JSONTestCase(JSONBase):
         request.write = write
         request.write_was_called = False
         request._disconnected = False
-        request.getHeader.return_value = 'application/json'
+        request.getHeader.return_value = b'application/json'
         self.assertEqual(json.render(request), server.NOT_DONE_YET)
         self.assertTrue(request.write_was_called)
 
@@ -105,27 +105,30 @@ class JSONTestCase(JSONBase):
         json = JSON()
         request = MagicMock()
         json_data = {'method': 'no-existing-module.test', 'id': 0, 'params': []}
-        request.json = json_lib.dumps(json_data)
+        request.json = json_lib.dumps(json_data).encode()
         request_id, result, error = json._handle_request(request)
         self.assertEqual(error, {'message': 'Unknown method', 'code': 2})
 
     def test_handle_request_invalid_json_request(self):
         json = JSON()
         request = MagicMock()
-        request.json = json_lib.dumps({'id': 0, 'params': []})
+        json_data = {'id': 0, 'params': []}
+        request.json = json_lib.dumps(json_data).encode()
         self.assertRaises(JSONException, json._handle_request, request)
-        request.json = json_lib.dumps({'method': 'some.method', 'params': []})
+        json_data = {'method': 'some.method', 'params': []}
+        request.json = json_lib.dumps(json_data).encode()
         self.assertRaises(JSONException, json._handle_request, request)
-        request.json = json_lib.dumps({'method': 'some.method', 'id': 0})
+        json_data = {'method': 'some.method', 'id': 0}
+        request.json = json_lib.dumps(json_data).encode()
         self.assertRaises(JSONException, json._handle_request, request)
 
     def test_on_json_request_invalid_content_type(self):
         """Test for exception with content type not application/json"""
         json = JSON()
         request = MagicMock()
-        request.getHeader.return_value = 'text/plain'
+        request.getHeader.return_value = b'text/plain'
         json_data = {'method': 'some.method', 'id': 0, 'params': []}
-        request.json = json_lib.dumps(json_data)
+        request.json = json_lib.dumps(json_data).encode()
         self.assertRaises(JSONException, json._on_json_request, request)
 
 
@@ -146,9 +149,9 @@ class JSONCustomUserTestCase(JSONBase):
         yield json.get_remote_methods()
 
         request = MagicMock()
-        request.getCookie = MagicMock(return_value='bad_value')
+        request.getCookie = MagicMock(return_value=b'bad_value')
         json_data = {'method': 'core.get_libtorrent_version', 'id': 0, 'params': []}
-        request.json = json_lib.dumps(json_data)
+        request.json = json_lib.dumps(json_data).encode()
         request_id, result, error = json._handle_request(request)
         self.assertEqual(error, {'message': 'Not authenticated', 'code': 1})
 
@@ -182,16 +185,17 @@ class RPCRaiseDelugeErrorJSONTestCase(JSONBase):
         auth_conf = {'session_timeout': 10, 'sessions': {}}
         auth = Auth(auth_conf)
         request = Request(MagicMock(), False)
-        request.base = ''
+        request.base = b''
         auth._create_session(request)
         methods = yield json.get_remote_methods()
         # Verify the function has been registered
         self.assertTrue('testclass.test' in methods)
 
         request = MagicMock()
-        request.getCookie = MagicMock(return_value=list(auth.config['sessions'])[0])
+        session_id = list(auth.config['sessions'])[0]
+        request.getCookie = MagicMock(return_value=session_id.encode())
         json_data = {'method': 'testclass.test', 'id': 0, 'params': []}
-        request.json = json_lib.dumps(json_data)
+        request.json = json_lib.dumps(json_data).encode()
         request_id, result, error = json._handle_request(request)
         result.addCallback(self.fail)
 
@@ -280,9 +284,9 @@ class JSONRequestFailedTestCase(JSONBase, WebServerMockBase):
         request.write = write
         request.write_was_called = False
         request._disconnected = False
-        request.getHeader.return_value = 'application/json'
+        request.getHeader.return_value = b'application/json'
         json_data = {'method': 'testclass.test', 'id': 0, 'params': []}
-        request.json = json_lib.dumps(json_data)
+        request.json = json_lib.dumps(json_data).encode()
         d = json._on_json_request(request)
 
         def on_success(arg):
