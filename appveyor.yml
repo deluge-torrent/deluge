@@ -32,7 +32,6 @@ install:
   - if not defined TOXENV (
     pip install
     -rrequirements.txt
-    slimit
     pygame
     bbfreeze
     pefile

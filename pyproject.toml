@@ -2,7 +2,6 @@
 requires = [
     "setuptools",
     "wheel",
-    "slimit",
 ]
 
 [tool.black]
