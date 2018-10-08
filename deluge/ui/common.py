@@ -15,6 +15,7 @@ from __future__ import unicode_literals
 
 import logging
 import os
+from binascii import hexlify
 from hashlib import sha1 as sha
 
 from deluge import bencode
@@ -201,52 +202,57 @@ class TorrentInfo(object):
                 log.warning('Failed to decode %s: %s', filename, ex)
                 return
 
-        info_dict = self._metainfo_dict[b'info']
+        # info_dict with keys decoded.
+        info_dict = {k.decode(): v for k, v in self._metainfo_dict[b'info'].items()}
         self._info_hash = sha(bencode.bencode(info_dict)).hexdigest()
 
         # Get encoding from torrent file if available
-        encoding = self._metainfo_dict.get(b'encoding', None)
-        codepage = self._metainfo_dict.get(b'codepage', None)
+        encoding = info_dict.get('encoding', None)
+        codepage = info_dict.get('codepage', None)
         if not encoding:
             encoding = codepage if codepage else b'UTF-8'
+        if encoding:
+            encoding = encoding.decode()
 
         # Decode 'name' with encoding unless 'name.utf-8' found.
-        if b'name.utf-8' in info_dict:
-            self._name = decode_bytes(info_dict[b'name.utf-8'])
+        if 'name.utf-8' in info_dict:
+            self._name = decode_bytes(info_dict['name.utf-8'])
         else:
-            if encoding:
-                encoding = encoding.decode()
-            self._name = decode_bytes(info_dict[b'name'], encoding)
+            self._name = decode_bytes(info_dict['name'], encoding)
 
         # Get list of files from torrent info
-        if b'files' in info_dict:
+        if 'files' in info_dict:
             paths = {}
             dirs = {}
-            prefix = self._name if len(info_dict[b'files']) > 1 else ''
+            prefix = self._name if len(info_dict['files']) > 1 else ''
 
-            for index, f in enumerate(info_dict[b'files']):
-                if b'path.utf-8' in f:
-                    path = decode_bytes(os.path.join(*f[b'path.utf-8']))
-                    del f[b'path.utf-8']
+            for index, f in enumerate(info_dict['files']):
+                f = {k.decode(): v for k, v in f.items()}
+
+                if 'path.utf-8' in f:
+                    path = decode_bytes(os.path.join(*f['path.utf-8']))
+                    del f['path.utf-8']
                 else:
-                    path = decode_bytes(os.path.join(*f[b'path']), encoding)
+                    path = decode_bytes(os.path.join(*f['path']), encoding)
 
                 if prefix:
                     path = os.path.join(prefix, path)
 
-                f[b'path'] = path
-                f[b'index'] = index
-                if b'sha1' in f and len(f[b'sha1']) == 20:
-                    f[b'sha1'] = f[b'sha1'].encode(b'hex')
-                if b'ed2k' in f and len(f[b'ed2k']) == 16:
-                    f[b'ed2k'] = f['ed2k'].encode(b'hex')
-                if b'filehash' in f and len(f[b'filehash']) == 20:
-                    f[b'filehash'] = f[b'filehash'].encode(b'hex')
+                f['path'] = path
+                f['index'] = index
+
+                if 'sha1' in f and len(f['sha1']) == 20:
+                    f['sha1'] = hexlify(f['sha1']).decode()
+                if 'ed2k' in f and len(f['ed2k']) == 16:
+                    f['ed2k'] = hexlify(f['ed2k']).decode()
+                if 'filehash' in f and len(f['filehash']) == 20:
+                    f['filehash'] = hexlify(f['filehash']).decode()
+
                 paths[path] = f
                 dirname = os.path.dirname(path)
                 while dirname:
                     dirinfo = dirs.setdefault(dirname, {})
-                    dirinfo[b'length'] = dirinfo.get(b'length', 0) + f[b'length']
+                    dirinfo['length'] = dirinfo.get('length', 0) + f['length']
                     dirname = os.path.dirname(dirname)
 
             if filetree == 2:
@@ -265,7 +271,7 @@ class TorrentInfo(object):
                 def walk(path, item):
                     if isinstance(item, dict):
                         return item
-                    return [paths[path][b'index'], paths[path][b'length'], True]
+                    return [paths[path]['index'], paths[path]['length'], True]
 
                 file_tree = FileTree(paths)
                 file_tree.walk(walk)
@@ -277,27 +283,28 @@ class TorrentInfo(object):
                         self._name: {
                             'type': 'file',
                             'index': 0,
-                            'length': info_dict[b'length'],
+                            'length': info_dict['length'],
                             'download': True,
                         }
                     }
                 }
             else:
-                self._files_tree = {self._name: (0, info_dict[b'length'], True)}
+                self._files_tree = {self._name: (0, info_dict['length'], True)}
 
         self._files = []
-        if b'files' in info_dict:
+        if 'files' in info_dict:
             prefix = ''
-            if len(info_dict[b'files']) > 1:
+            if len(info_dict['files']) > 1:
                 prefix = self._name
 
-            for f in info_dict[b'files']:
+            for f in info_dict['files']:
+                path_list = [k.decode(encoding) for k in f[b'path']]
                 self._files.append(
-                    {'path': f[b'path'], 'size': f[b'length'], 'download': True}
+                    {'path': path_list, 'size': f[b'length'], 'download': True}
                 )
         else:
             self._files.append(
-                {'path': self._name, 'size': info_dict[b'length'], 'download': True}
+                {'path': self._name, 'size': info_dict['length'], 'download': True}
             )
 
     def as_dict(self, *keys):
