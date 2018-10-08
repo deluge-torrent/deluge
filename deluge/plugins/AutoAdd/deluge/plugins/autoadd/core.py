@@ -293,7 +293,6 @@ class Core(CorePluginBase):
                         label = component.get('CorePlugin.Label')
                         if not watchdir['label'] in label.get_labels():
                             label.add(watchdir['label'])
-                        log.critical(torrent_id)
                         try:
                             label.set_torrent(torrent_id, watchdir['label'])
                         except Exception as ex:
