@@ -37494,12 +37494,12 @@ var swfobject = function() {
 
 
     function main() {
-        if (plugin) {
-            testPlayerVersion();
-        }
-        else {
+        //~ if (plugin) {
+            //~ testPlayerVersion();
+        //~ }
+        //~ else {
             matchVersions();
-        }
+        //~ }
     }
 
 
