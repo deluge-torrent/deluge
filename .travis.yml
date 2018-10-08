@@ -17,6 +17,8 @@ addons:
     packages:
       # Need Py 3.6 specifically for pre-commit to run black formatter.
       - python3.6
+      # To provide ensurepip module.
+      - python3-venv
 
 # command to install dependencies
 install:
@@ -32,19 +34,27 @@ install:
 
 env:
   global:
-    - APTPACKAGES="python-libtorrent"
+    - APTPACKAGES="python-libtorrent python3-libtorrent"
     - APTPACKAGES_GTKUI="python-glade2"
     - DISPLAY=:99.0
 
 matrix:
   include:
-    - env: TOX_ENV=pydef
+    - name: Unit tests
+      env: TOX_ENV=pydef
     - if: commit_message =~ SECURITY_TEST
       env: TOX_ENV=security
-    - env: TOX_ENV=lint
-    - env: TOX_ENV=docs
-    - env: TOX_ENV=pygtkui            APTPACKAGES="$APTPACKAGES $APTPACKAGES_GTKUI"
-    - env: TOX_ENV=plugins
+    - name: Code linting
+      env: TOX_ENV=lint
+    - name: Docs build
+      env: TOX_ENV=docs
+    - name: PyGTK unit tests only
+      env: TOX_ENV=pygtkui            APTPACKAGES="$APTPACKAGES $APTPACKAGES_GTKUI"
+    - name: Plugins unit tests
+      env: TOX_ENV=plugins
+    - name: Python 3 unit tests
+      python: 3.5
+      env: TOX_ENV=py3
 
 virtualenv:
   system_site_packages: true
@@ -52,7 +62,7 @@ virtualenv:
 # We use xvfb for the GTKUI tests
 before_script:
   - export PYTHONPATH=$PYTHONPATH:$PWD
-  - python -c "import libtorrent as lt; print lt.__version__"
+  - python -c "import libtorrent as lt; print(lt.__version__)"
   - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"
   - echo '2.0.0.dev0' > RELEASE-VERSION
 

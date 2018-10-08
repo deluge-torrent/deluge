@@ -9,4 +9,4 @@ setproctitle
 pywin32; sys.platform == 'win32'
 py2-ipaddress; sys.platform == 'win32'
 certifi; sys.platform == 'win32'
-zope-interface
+zope.interface
