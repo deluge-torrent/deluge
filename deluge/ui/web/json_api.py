@@ -194,10 +194,9 @@ class JSON(resource.Resource, component.Component):
         Handler to take the json data as a string and pass it on to the
         _handle_request method for further processing.
         """
-        if request.getHeader(b'content-type') != b'application/json':
-            message = 'Invalid JSON request content-type: %s' % request.getHeader(
-                'content-type'
-            )
+        content_type = request.getHeader(b'content-type').decode()
+        if content_type != 'application/json':
+            message = 'Invalid JSON request content-type: %s' % content_type
             raise JSONException(message)
 
         log.debug('json-request: %s', request.json)
