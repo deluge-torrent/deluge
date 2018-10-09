@@ -29,6 +29,13 @@ Ext.ux.form.FileUploadField = Ext.extend(Ext.form.TextField, {
      * (defaults to 3).  Note that this only applies if {@link #buttonOnly} = false.
      */
     buttonOffset: 3,
+
+    /**
+     * @cfg {Boolean} multiple True to select more than one file. (defaults to false).
+     * Note that this only applies if the HTML doc is using HTML5.
+     */
+    multiple: false,
+
     /**
      * @cfg {Object} buttonCfg A standard {@link Ext.Button} config object.
      */
@@ -114,9 +121,11 @@ Ext.ux.form.FileUploadField = Ext.extend(Ext.form.TextField, {
                 ]);
             },
             change: function() {
-                var v = this.fileInput.dom.value;
-                this.setValue(v);
-                this.fireEvent('fileselected', this, v);
+                var value = this.fileInput.dom.files;
+                // Fallback to value.
+                if (!value) value = this.fileInput.dom.value;
+                this.setValue(value);
+                this.fireEvent('fileselected', this, value);
             },
         });
     },
@@ -130,6 +139,7 @@ Ext.ux.form.FileUploadField = Ext.extend(Ext.form.TextField, {
             type: 'file',
             size: 1,
         });
+        this.fileInput.dom.multiple = this.multiple;
     },
 
     reset: function() {
