@@ -55,6 +55,6 @@ class WebServerTestCase(WebServerTestBase, WebServerMockBase):
 
         body = yield twisted.web.client.readBody(d)
 
-        json = json_lib.loads(body)
+        json = json_lib.loads(body.decode())
         self.assertEqual(None, json['error'])
         self.assertEqual('torrent_filehash', json['result']['name'])

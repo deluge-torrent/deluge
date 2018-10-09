@@ -86,7 +86,7 @@ class JSONTestCase(JSONBase):
 
         def write(response_str):
             request.write_was_called = True
-            response = json_lib.loads(response_str)
+            response = json_lib.loads(response_str.decode())
             self.assertEqual(response['result'], None)
             self.assertEqual(response['id'], None)
             self.assertEqual(
@@ -271,7 +271,7 @@ class JSONRequestFailedTestCase(JSONBase, WebServerMockBase):
 
         def write(response_str):
             request.write_was_called = True
-            response = json_lib.loads(response_str)
+            response = json_lib.loads(response_str.decode())
             self.assertEqual(response['result'], None, 'BAD RESULT')
             self.assertEqual(response['id'], 0)
             self.assertEqual(
