@@ -111,27 +111,30 @@ class Upload(resource.Resource):
         # Block all other HTTP methods.
         if request.method != b'POST':
             request.setResponseCode(http.NOT_ALLOWED)
-            return ''
+            request.finish()
+            return server.NOT_DONE_YET
 
-        print(request.args)
-        if b'file' not in request.args:
-            request.setResponseCode(http.OK)
-            return json.dumps({'success': True, 'files': []})
-
-        tempdir = tempfile.mkdtemp(prefix='delugeweb-')
-        log.debug('uploading files to %s', tempdir)
-
+        files = request.args.get(b'file', [])
         filenames = []
-        for upload in request.args.get('file'):
-            fd, fn = tempfile.mkstemp('.torrent', dir=tempdir)
-            os.write(fd, upload)
-            os.close(fd)
-            filenames.append(fn)
-        log.debug('uploaded %d file(s)', len(filenames))
+
+        if files:
+            tempdir = tempfile.mkdtemp(prefix='delugeweb-')
+            log.debug('uploading files to %s', tempdir)
+
+            for upload in files:
+                fd, fn = tempfile.mkstemp('.torrent', dir=tempdir)
+                os.write(fd, upload)
+                os.close(fd)
+                filenames.append(fn)
+
+            log.debug('uploaded %d file(s)', len(filenames))
 
         request.setHeader(b'content-type', b'text/html')
         request.setResponseCode(http.OK)
-        return compress(json.dumps({'success': True, 'files': filenames}), request)
+        return compress(
+            json.dumps({'success': bool(filenames), 'files': filenames}).encode('utf8'),
+            request,
+        )
 
 
 class Render(resource.Resource):
@@ -542,7 +545,7 @@ class TopLevel(resource.Resource):
 
     def getChildWithDefault(self, path, request):  # NOQA: N802
         # Calculate the request base
-        header = request.getHeader('x-deluge-base')
+        header = request.getHeader(b'x-deluge-base')
         base = header if header else component.get('DelugeWeb').base
 
         # validate the base parameter
