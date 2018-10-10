@@ -4,10 +4,8 @@ environment:
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
 
   matrix:
-    - TOXENV: pydef
+    - TOXENV: py27
     - TOXENV: pygtkui
-    - TOXENV: plugins
-    - TOXENV: docs
     - PYTHON_VERSION: "2.7.x"
 
 pull_requests:

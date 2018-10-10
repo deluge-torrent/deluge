@@ -3,69 +3,68 @@ sudo: required
 
 language: python
 python:
-  - "2.7"
+  - 2.7
 cache: pip
-
-before_install:
-  - lsb_release -a
-  - sudo add-apt-repository ppa:deluge-team/develop -yu
-
-addons:
-  apt:
-    sources:
-      - deadsnakes
-    packages:
-      # Need Py 3.6 specifically for pre-commit to run black formatter.
-      - python3.6
-      # To provide ensurepip module.
-      - python3-venv
-
-# command to install dependencies
-install:
-  - bash -c "echo $APTPACKAGES"
-  - sudo apt install $APTPACKAGES
-  - pip install tox tox-venv
-  # the next part is for the security tests only.
-  - "if [ $TOX_ENV == 'security' ]; then
-    testssl_url=https://github.com/drwetter/testssl.sh/archive/v2.9.5-5.tar.gz;
-    wget -O- $testssl_url | tar xz
-    && mv -t deluge/tests/data testssl.sh-2.9.5-5/testssl.sh testssl.sh-2.9.5-5/etc/;
-    fi"
+virtualenv:
+  system_site_packages: true
 
 env:
   global:
-    - APTPACKAGES="python-libtorrent python3-libtorrent"
-    - APTPACKAGES_GTKUI="python-glade2"
     - DISPLAY=:99.0
 
 matrix:
   include:
-    - name: Unit tests
-      env: TOX_ENV=pydef
+    - name: Unit tests - Python 2
+      env: TOX_ENV=py27
+    - name: Unit tests - Python 3
+      python: 3.5
+      env: TOX_ENV=py3
     - if: commit_message =~ SECURITY_TEST
       env: TOX_ENV=security
     - name: Code linting
       env: TOX_ENV=lint
     - name: Docs build
       env: TOX_ENV=docs
-    - name: PyGTK unit tests only
-      env: TOX_ENV=pygtkui            APTPACKAGES="$APTPACKAGES $APTPACKAGES_GTKUI"
+    - name: PyGTK unit tests
+      env: TOX_ENV=pygtkui
     - name: Plugins unit tests
       env: TOX_ENV=plugins
-    - name: Python 3 unit tests
-      python: 3.5
-      env: TOX_ENV=py3
 
-virtualenv:
-  system_site_packages: true
+addons:
+  apt:
+    sources:
+      - sourceline: "ppa:deluge-team/develop"
+      - deadsnakes
+    packages:
+      - python-libtorrent
+      - python3-libtorrent
+      # Install py36 specifically for pre-commit to run black formatter.
+      - python3.6
+      # Intall python3-venv to provide ensurepip module for tox.
+      - python3-venv
 
-# We use xvfb for the GTKUI tests
+# Install dependencies
+install:
+  - pip install tox tox-venv
+  - "if [ $TOX_ENV == 'pygtkui' ]; then
+    sudo apt install python-glade2;
+    fi"
+  - "if [ $TOX_ENV == 'security' ]; then
+    testssl_url=https://github.com/drwetter/testssl.sh/archive/v2.9.5-5.tar.gz;
+    wget -O- $testssl_url | tar xz
+    && mv -t deluge/tests/data testssl.sh-2.9.5-5/testssl.sh testssl.sh-2.9.5-5/etc/;
+    fi"
+
 before_script:
   - export PYTHONPATH=$PYTHONPATH:$PWD
   - python -c "import libtorrent as lt; print(lt.__version__)"
-  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"
-  - echo '2.0.0.dev0' > RELEASE-VERSION
+  # Start xvfb for the GTKUI tests
+  - "if [ $TOX_ENV == 'pygtkui' ]; then
+    /sbin/start-stop-daemon --start --quiet --background \
+    --make-pidfile --pidfile /tmp/custom_xvfb_99.pid \
+    --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16;
+    fi"
+  - echo "2.0.0.dev0" > RELEASE-VERSION
 
 script:
-  - bash -c "echo $DISPLAY"
   - tox -e $TOX_ENV
