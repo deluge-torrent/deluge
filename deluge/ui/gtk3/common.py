@@ -120,7 +120,8 @@ def build_menu_radio_list(
         if suffix:
             item_text += ' ' + suffix
         menuitem = RadioMenuItem.new_with_label(group, item_text)
-        group = menuitem
+        if not group:
+            group = menuitem.get_group()
         if pref_value and value == pref_value:
             menuitem.set_active(True)
         if callback:
