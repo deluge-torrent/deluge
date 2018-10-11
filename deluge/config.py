@@ -455,6 +455,7 @@ class Config(object):
         """
         if not filename:
             filename = self.__config_file
+        filename = os.path.realpath(filename)
         # Check to see if the current config differs from the one on disk
         # We will only write a new config file if there is a difference
         try:
