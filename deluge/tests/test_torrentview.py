@@ -22,18 +22,19 @@ from .basetest import BaseTestCase
 
 # Allow running other tests without GTKUI dependencies available
 try:
-    from gi.repository.GObject import TYPE_UINT64
-except ImportError:
-    libs_available = False
-    TYPE_UINT64 = 'Whatever'
-else:
-    libs_available = True
     # pylint: disable=ungrouped-imports
+    from gi.repository.GObject import TYPE_UINT64
+
     from deluge.ui.gtk3.gtkui import DEFAULT_PREFS
     from deluge.ui.gtk3.mainwindow import MainWindow
     from deluge.ui.gtk3.menubar import MenuBar
     from deluge.ui.gtk3.torrentdetails import TorrentDetails
     from deluge.ui.gtk3.torrentview import TorrentView
+except (ImportError, ValueError):
+    libs_available = False
+    TYPE_UINT64 = 'Whatever'
+else:
+    libs_available = True
 
 setup_translations()
 
