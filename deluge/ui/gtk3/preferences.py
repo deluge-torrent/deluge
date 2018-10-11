@@ -14,6 +14,7 @@ import logging
 import os
 from hashlib import sha1 as sha
 
+from gi import require_version
 from gi.repository import Gtk
 from gi.repository.Gdk import Color
 
@@ -36,9 +37,12 @@ except ImportError:
     from urlparse import urlparse  # pylint: disable=ungrouped-imports
 
 try:
-    import appindicator
-except ImportError:
+    require_version('AppIndicator3', '0.1')
+    from gi.repository import AppIndicator3  # noqa: F401
+except (ImportError, ValueError):
     appindicator = False
+else:
+    appindicator = True
 
 log = logging.getLogger(__name__)
 
@@ -168,7 +172,7 @@ class Preferences(component.Component):
         self.builder.connect_signals(self)
 
         # Radio buttons to choose between systray and appindicator
-        self.builder.get_object('alignment_tray_type').set_visible(bool(appindicator))
+        self.builder.get_object('alignment_tray_type').set_visible(appindicator)
 
         from .gtkui import DEFAULT_PREFS
 
@@ -750,7 +754,9 @@ class Preferences(component.Component):
             'chk_lock_tray'
         ).get_active()
         passhex = sha(
-            self.builder.get_object('txt_tray_password').get_text()
+            deluge.common.decode_bytes(
+                self.builder.get_object('txt_tray_password').get_text()
+            ).encode()
         ).hexdigest()
         if passhex != 'c07eb5a8c0dc7bb81c217b67f11c3b7a5e95ffd7':
             new_gtkui_config['tray_password'] = passhex

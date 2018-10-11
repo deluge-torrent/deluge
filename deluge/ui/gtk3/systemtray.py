@@ -12,6 +12,7 @@ from __future__ import unicode_literals
 import logging
 import os
 
+from gi import require_version
 from gi.repository.Gtk import Builder, RadioMenuItem, StatusIcon
 
 import deluge.component as component
@@ -29,9 +30,10 @@ from .common import build_menu_radio_list, get_logo
 from .dialogs import OtherDialog
 
 try:
-    import appindicator
-except ImportError:
-    appindicator = None
+    require_version('AppIndicator3', '0.1')
+    from gi.repository import AppIndicator3
+except (ValueError, ImportError):
+    AppIndicator3 = None
 
 log = logging.getLogger(__name__)
 
@@ -84,16 +86,15 @@ class SystemTray(component.Component):
 
         self.tray_menu = self.builder.get_object('tray_menu')
 
-        if appindicator and self.config['enable_appindicator']:
+        if AppIndicator3 and self.config['enable_appindicator']:
             log.debug('Enabling the Application Indicator...')
-            self.indicator = appindicator.Indicator(
-                'deluge', 'deluge', appindicator.CATEGORY_APPLICATION_STATUS
+            self.indicator = AppIndicator3.Indicator.new(
+                'deluge',
+                'deluge-panel',
+                AppIndicator3.IndicatorCategory.APPLICATION_STATUS,
             )
-            try:
-                self.indicator.set_property('title', _('Deluge'))
-            except TypeError:
-                # Catch 'title' property error for previous appindicator versions
-                pass
+            self.indicator.set_property('title', _('Deluge'))
+
             # Pass the menu to the Application Indicator
             self.indicator.set_menu(self.tray_menu)
 
@@ -110,7 +111,7 @@ class SystemTray(component.Component):
                 self.builder.get_object('menuitem_show_deluge').set_active(False)
 
             # Show the Application Indicator
-            self.indicator.set_status(appindicator.STATUS_ACTIVE)
+            self.indicator.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
 
         else:
             log.debug('Enabling the system tray icon..')
@@ -184,8 +185,8 @@ class SystemTray(component.Component):
 
     def shutdown(self):
         if self.config['enable_system_tray']:
-            if appindicator and self.config['enable_appindicator']:
-                self.indicator.set_status(appindicator.STATUS_PASSIVE)
+            if AppIndicator3 and self.config['enable_appindicator']:
+                self.indicator.set_status(AppIndicator3.IndicatorStatus.PASSIVE)
             else:
                 self.tray.set_visible(False)
 
@@ -219,7 +220,7 @@ class SystemTray(component.Component):
             return
 
         # Tool tip text not available for appindicator
-        if appindicator and self.config['enable_appindicator']:
+        if AppIndicator3 and self.config['enable_appindicator']:
             if self.mainwindow.visible():
                 self.builder.get_object('menuitem_show_deluge').set_active(True)
             else:
@@ -285,19 +286,19 @@ class SystemTray(component.Component):
         submenu_bwupset.show_all()
 
     def disable(self, invert_app_ind_conf=False):
-        """Disables the system tray icon or appindicator."""
+        """Disables the system tray icon or Appindicator."""
         try:
             if invert_app_ind_conf:
                 app_ind_conf = not self.config['enable_appindicator']
             else:
                 app_ind_conf = self.config['enable_appindicator']
-            if appindicator and app_ind_conf:
+            if AppIndicator3 and app_ind_conf:
                 if hasattr(self, '_sig_win_hide'):
                     self.mainwindow.window.disconnect(self._sig_win_hide)
                     self.mainwindow.window.disconnect(self._sig_win_show)
                     log.debug('Disabling the application indicator..')
 
-                self.indicator.set_status(appindicator.STATUS_PASSIVE)
+                self.indicator.set_status(AppIndicator3.IndicatorStatus.PASSIVE)
                 del self.indicator
             else:
                 log.debug('Disabling the system tray icon..')
