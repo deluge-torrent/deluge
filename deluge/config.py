@@ -47,6 +47,7 @@ import os
 import shutil
 from codecs import getwriter
 from io import open
+from tempfile import NamedTemporaryFile
 
 import six.moves.cPickle as pickle
 
@@ -475,8 +476,11 @@ class Config(object):
 
         # Save the new config and make sure it's written to disk
         try:
-            log.debug('Saving new config file %s', filename + '.new')
-            with open(filename + '.new', 'wb') as _file:
+            with NamedTemporaryFile(
+                prefix=os.path.basename(filename) + '.', delete=False
+            ) as _file:
+                filename_tmp = _file.name
+                log.debug('Saving new config file %s', filename_tmp)
                 json.dump(self.__version, getwriter('utf8')(_file), **JSON_FORMAT)
                 json.dump(self.__config, getwriter('utf8')(_file), **JSON_FORMAT)
                 _file.flush()
@@ -484,6 +488,9 @@ class Config(object):
         except IOError as ex:
             log.error('Error writing new config file: %s', ex)
             return False
+
+        # Resolve symlinked config files before backing up and saving.
+        filename = os.path.realpath(filename)
 
         # Make a backup of the old config
         try:
@@ -495,8 +502,8 @@ class Config(object):
         # The new config file has been written successfully, so let's move it over
         # the existing one.
         try:
-            log.debug('Moving new config file %s to %s..', filename + '.new', filename)
-            shutil.move(filename + '.new', filename)
+            log.debug('Moving new config file %s to %s', filename_tmp, filename)
+            shutil.move(filename_tmp, filename)
         except IOError as ex:
             log.error('Error moving new config file: %s', ex)
             return False
