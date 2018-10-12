@@ -109,7 +109,9 @@ def build_menu_radio_list(
         Menu: The menu radio
     """
     menu = Menu()
-    group = None
+    # Create menuitem to prevent unwanted toggled callback when creating menu.
+    menuitem = RadioMenuItem()
+    group = menuitem.get_group()
 
     if pref_value > -1 and pref_value not in value_list:
         value_list.pop()
@@ -120,8 +122,6 @@ def build_menu_radio_list(
         if suffix:
             item_text += ' ' + suffix
         menuitem = RadioMenuItem.new_with_label(group, item_text)
-        if not group:
-            group = menuitem.get_group()
         if pref_value and value == pref_value:
             menuitem.set_active(True)
         if callback:

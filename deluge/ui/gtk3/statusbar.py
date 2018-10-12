@@ -521,7 +521,7 @@ class StatusBar(component.Component):
             set_value(value)
 
     def _on_download_item_clicked(self, widget, event):
-        menu = build_menu_radio_list(
+        self.menu = build_menu_radio_list(
             self.config['tray_download_speed_list'],
             self._on_set_download_speed,
             self.max_download_speed,
@@ -529,15 +529,15 @@ class StatusBar(component.Component):
             show_notset=True,
             show_other=True,
         )
-        menu.show_all()
-        menu.popup(None, None, None, None, event.button, event.time)
+        self.menu.show_all()
+        self.menu.popup(None, None, None, None, event.button, event.time)
 
     def _on_set_download_speed(self, widget):
         log.debug('_on_set_download_speed')
         self.set_limit_value(widget, 'max_download_speed')
 
     def _on_upload_item_clicked(self, widget, event):
-        menu = build_menu_radio_list(
+        self.menu = build_menu_radio_list(
             self.config['tray_upload_speed_list'],
             self._on_set_upload_speed,
             self.max_upload_speed,
@@ -545,36 +545,36 @@ class StatusBar(component.Component):
             show_notset=True,
             show_other=True,
         )
-        menu.show_all()
-        menu.popup(None, None, None, None, event.button, event.time)
+        self.menu.show_all()
+        self.menu.popup(None, None, None, None, event.button, event.time)
 
     def _on_set_upload_speed(self, widget):
         log.debug('_on_set_upload_speed')
         self.set_limit_value(widget, 'max_upload_speed')
 
     def _on_connection_item_clicked(self, widget, event):
-        menu = build_menu_radio_list(
+        self.menu = build_menu_radio_list(
             self.config['connection_limit_list'],
             self._on_set_connection_limit,
             self.max_connections_global,
             show_notset=True,
             show_other=True,
         )
-        menu.show_all()
-        menu.popup(None, None, None, None, event.button, event.time)
+        self.menu.show_all()
+        self.menu.popup(None, None, None, None, event.button, event.time)
 
     def _on_set_connection_limit(self, widget):
         log.debug('_on_set_connection_limit')
         self.set_limit_value(widget, 'max_connections_global')
 
     def _on_health_icon_clicked(self, widget, event):
-        component.get('Preferences').show('Network')
+        component.get('Preferences').show('network')
 
     def _on_notconnected_item_clicked(self, widget, event):
         component.get('ConnectionManager').show()
 
     def _on_traffic_item_clicked(self, widget, event):
-        component.get('Preferences').show('Network')
+        component.get('Preferences').show('network')
 
     def _on_diskspace_item_clicked(self, widget, event):
-        component.get('Preferences').show('Downloads')
+        component.get('Preferences').show('downloads')
