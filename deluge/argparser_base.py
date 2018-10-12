@@ -16,9 +16,29 @@ import platform
 import sys
 import textwrap
 
+from six.moves import builtins
+
 import deluge.log
 from deluge import common
 from deluge.configmanager import get_config_dir, set_config_dir
+
+log = logging.getLogger(__name__)
+log.addHandler(
+    logging.NullHandler()
+)  # Silence: No handlers could be found for logger "deluge.util.lang"
+
+
+def set_dummy_trans(warn_msg=None):
+    def _func(*txt):
+        if warn_msg:
+            log.warning(
+                '"%s" has been marked for translation, but translation is unavailable.',
+                txt[0],
+            )
+        return txt[0]
+
+    builtins.__dict__['_'] = _func
+    builtins.__dict__['ngettext'] = builtins.__dict__['_n'] = _func
 
 
 def find_subcommand(self, args=None, sys_argv=True):

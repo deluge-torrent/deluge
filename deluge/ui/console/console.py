@@ -15,7 +15,7 @@ import os
 import sys
 
 import deluge.common
-from deluge.ui.baseargparser import BaseArgParser, DelugeTextHelpFormatter
+from deluge.argparser_base import BaseArgParser, DelugeTextHelpFormatter
 from deluge.ui.ui import UI
 
 log = logging.getLogger(__name__)

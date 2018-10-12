@@ -15,9 +15,9 @@ from logging import DEBUG, FileHandler, getLogger
 
 from twisted.internet.error import CannotListenError
 
+from deluge.argparser_base import BaseArgParser
 from deluge.common import run_profiled
 from deluge.configmanager import get_config_dir
-from deluge.ui.baseargparser import BaseArgParser
 from deluge.ui.translations_util import set_dummy_trans
 
 

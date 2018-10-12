@@ -23,7 +23,7 @@ import pkg_resources
 
 import deluge.common
 import deluge.configmanager
-from deluge.ui.baseargparser import BaseArgParser
+from deluge.argparser_base import BaseArgParser
 from deluge.ui.translations_util import setup_translations
 
 DEFAULT_PREFS = {'default_ui': 'gtk'}

@@ -14,7 +14,7 @@ import logging
 import deluge.common
 import deluge.configmanager
 import deluge.log
-from deluge.ui.baseargparser import BaseArgParser
+from deluge.argparser_base import BaseArgParser
 from deluge.ui.translations_util import setup_translations
 
 log = logging.getLogger(__name__)
