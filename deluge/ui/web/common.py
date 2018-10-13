@@ -12,11 +12,14 @@ from __future__ import unicode_literals
 import gettext
 import zlib
 
-from deluge import common
+from deluge.common import PY2, get_version
 
 
 def _(text):
-    return gettext.gettext(text)
+    text_local = gettext.gettext(text)
+    if PY2:
+        return text_local.decode('utf-8')
+    return text_local
 
 
 def escape(text):
@@ -51,7 +54,7 @@ try:
         A template that adds some built-ins to the rendering
         """
 
-        builtins = {'_': _, 'escape': escape, 'version': common.get_version()}
+        builtins = {'_': _, 'escape': escape, 'version': get_version()}
 
         def render(self, *args, **data):
             data.update(self.builtins)
