@@ -415,6 +415,9 @@ class AddTorrentDialog(component.Component):
         self.builder.get_object('chk_move_completed').set_active(
             self.core_config['move_completed']
         )
+        self.move_completed_path_chooser.set_sensitive(
+            self.core_config['move_completed']
+        )
 
     def setup_move_completed_path_chooser(self):
         self.move_completed_hbox = self.builder.get_object(
