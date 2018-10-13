@@ -221,6 +221,7 @@ class TorrentInfo(object):
             self._name = decode_bytes(info_dict['name'], encoding)
 
         # Get list of files from torrent info
+        self._files = []
         if 'files' in info_dict:
             paths = {}
             dirs = {}
@@ -238,9 +239,12 @@ class TorrentInfo(object):
                 if prefix:
                     path = os.path.join(prefix, path)
 
+                self._files.append(
+                    {'path': path, 'size': f['length'], 'download': True}
+                )
+
                 f['path'] = path
                 f['index'] = index
-
                 if 'sha1' in f and len(f['sha1']) == 20:
                     f['sha1'] = hexlify(f['sha1']).decode()
                 if 'ed2k' in f and len(f['ed2k']) == 16:
@@ -277,6 +281,9 @@ class TorrentInfo(object):
                 file_tree.walk(walk)
             self._files_tree = file_tree.get_tree()
         else:
+            self._files.append(
+                {'path': self._name, 'size': info_dict['length'], 'download': True}
+            )
             if filetree == 2:
                 self._files_tree = {
                     'contents': {
@@ -290,22 +297,6 @@ class TorrentInfo(object):
                 }
             else:
                 self._files_tree = {self._name: (0, info_dict['length'], True)}
-
-        self._files = []
-        if 'files' in info_dict:
-            prefix = ''
-            if len(info_dict['files']) > 1:
-                prefix = self._name
-
-            for f in info_dict['files']:
-                path_list = [k.decode(encoding) for k in f[b'path']]
-                self._files.append(
-                    {'path': path_list, 'size': f[b'length'], 'download': True}
-                )
-        else:
-            self._files.append(
-                {'path': self._name, 'size': info_dict['length'], 'download': True}
-            )
 
     def as_dict(self, *keys):
         """The torrent info as a dictionary, filtered by keys.

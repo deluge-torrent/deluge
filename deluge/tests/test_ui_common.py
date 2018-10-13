@@ -8,6 +8,7 @@
 #
 from __future__ import unicode_literals
 
+from six import assertCountEqual
 from twisted.trial import unittest
 
 from deluge.common import windows_check
@@ -32,29 +33,45 @@ class UICommonTestCase(unittest.TestCase):
         if windows_check():
             raise unittest.SkipTest('on windows KeyError: unicode_filenames')
         filename = common.get_test_data_file('unicode_filenames.torrent')
-        ti = TorrentInfo(filename)
+        filepath1 = '\u30c6\u30af\u30b9\u30fb\u30c6\u30af\u30b5\u30f3.mkv'
+        filepath2 = (
+            '\u041c\u0438\u0445\u0430\u0438\u043b \u0413\u043e'
+            '\u0440\u0431\u0430\u0447\u0451\u0432.mkv'
+        )
+        filepath3 = "Alisher ibn G'iyosiddin Navoiy.mkv"
+        filepath4 = 'Ascii title.mkv'
+        filepath5 = '\u09b8\u09c1\u0995\u09c1\u09ae\u09be\u09b0 \u09b0\u09be\u09df.mkv'
 
-        files = ti.files_tree['unicode_filenames']
-        self.assertTrue(
-            (
-                b'\xe3\x83\x86\xe3\x82\xaf\xe3\x82\xb9\xe3\x83\xbb\xe3\x83'
-                b'\x86\xe3\x82\xaf\xe3\x82\xb5\xe3\x83\xb3.mkv'
-            ).decode('utf8')
-            in files
-        )
-        self.assertTrue(
-            (
-                b'\xd0\x9c\xd0\xb8\xd1\x85\xd0\xb0\xd0\xb8\xd0\xbb \xd0\x93'
-                b'\xd0\xbe\xd1\x80\xd0\xb1\xd0\xb0\xd1\x87\xd1\x91\xd0\xb2.mkv'
-            ).decode('utf8')
-            in files
-        )
-        self.assertTrue(b"Alisher ibn G'iyosiddin Navoiy.mkv".decode('utf8') in files)
-        self.assertTrue(b'Ascii title.mkv'.decode('utf8') in files)
-        self.assertTrue(
-            (
-                b'\xe0\xa6\xb8\xe0\xa7\x81\xe0\xa6\x95\xe0\xa7\x81\xe0\xa6\xae\xe0\xa6\xbe'
-                b'\xe0\xa6\xb0 \xe0\xa6\xb0\xe0\xa6\xbe\xe0\xa7\x9f.mkv'
-            ).decode('utf8')
-            in files
-        )
+        ti = TorrentInfo(filename)
+        files_tree = ti.files_tree['unicode_filenames']
+        self.assertIn(filepath1, files_tree)
+        self.assertIn(filepath2, files_tree)
+        self.assertIn(filepath3, files_tree)
+        self.assertIn(filepath4, files_tree)
+        self.assertIn(filepath5, files_tree)
+
+        result_files = [
+            {
+                'download': True,
+                'path': 'unicode_filenames/' + filepath3,
+                'size': 126158658,
+            },
+            {
+                'download': True,
+                'path': 'unicode_filenames/' + filepath4,
+                'size': 189321363,
+            },
+            {
+                'download': True,
+                'path': 'unicode_filenames/' + filepath2,
+                'size': 106649699,
+            },
+            {
+                'download': True,
+                'path': 'unicode_filenames/' + filepath5,
+                'size': 21590269,
+            },
+            {'download': True, 'path': 'unicode_filenames/' + filepath1, 'size': 1771},
+        ]
+
+        assertCountEqual(self, ti.files, result_files)
