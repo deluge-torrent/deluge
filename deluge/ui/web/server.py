@@ -564,15 +564,15 @@ class TopLevel(resource.Resource):
 
     def render(self, request):
         uri_true = ('true', 'yes', '1')
-        debug_arg = request.args.get('debug', [''])[-1] in uri_true
-        dev_arg = request.args.get('dev', [''])[-1] in uri_true
+        debug_arg = request.args.get('debug', [b''])[-1].decode().lower() in uri_true
+        dev_arg = request.args.get('dev', [b''])[-1].decode().lower() in uri_true
         dev_ver = 'dev' in common.get_version()
 
         script_type = 'normal'
         if debug_arg:
             script_type = 'debug'
-        # Override debug if dev arg or version.
-        if dev_arg or dev_ver:
+        elif dev_arg or dev_ver:
+            # Also use dev files if development version.
             script_type = 'dev'
 
         if not self.js.has_script_type_files(script_type):
@@ -581,9 +581,10 @@ class TopLevel(resource.Resource):
                     'Failed to enable WebUI "%s" mode, script files are missing!',
                     script_type,
                 )
-            # Fallback to checking other types in order and selecting first with files available.
+            # Fallback to checking other types in order and selecting first with
+            # files available. Ordered to start with dev files lookup.
             for alt_script_type in [
-                x for x in ['normal', 'debug', 'dev'] if x != script_type
+                x for x in ['dev', 'debug', 'normal'] if x != script_type
             ]:
                 if self.js.has_script_type_files(alt_script_type):
                     script_type = alt_script_type
