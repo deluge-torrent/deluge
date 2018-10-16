@@ -16,8 +16,8 @@ recursive-exclude deluge/plugins create_dev_link.sh *.pyc *.egg
 prune deluge/plugins/*/build
 prune deluge/plugins/*/*.egg-info
 
-graft deluge/tests/data
-graft deluge/tests/twisted
+graft deluge/tests/
+recursive-exclude deluge/tests *.pyc
 
 graft deluge/ui/data
 recursive-exclude deluge/ui/data *.desktop *.xml
