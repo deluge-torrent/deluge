@@ -1,4 +1,4 @@
-/*!
+/**
  * execute.js
  *     The client-side javascript code for the Execute plugin.
  *

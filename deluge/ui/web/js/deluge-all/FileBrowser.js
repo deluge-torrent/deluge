@@ -1,4 +1,4 @@
-/*!
+/**
  * Deluge.FileBrowser.js
  *
  * Copyright (c) Damien Churchill 2010 <damoxc@gmail.com>

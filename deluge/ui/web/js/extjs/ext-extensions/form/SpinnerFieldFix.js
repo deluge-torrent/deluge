@@ -1,4 +1,4 @@
-/*!
+/**
  * Ext.ux.form.SpinnerField.js
  *
  * Copyright (c) Damien Churchill 2010 <damoxc@gmail.com>

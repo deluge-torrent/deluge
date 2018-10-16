@@ -1,4 +1,4 @@
-/*!
+/**
  * Ext.ux.form.RadioGroup.js
  *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>

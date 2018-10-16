@@ -1,4 +1,4 @@
-/*!
+/**
  * Script: main_tab.js
  *      The client-side javascript code for the AutoAdd plugin.
  *

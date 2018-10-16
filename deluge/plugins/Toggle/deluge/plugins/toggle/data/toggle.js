@@ -1,4 +1,4 @@
-/*!
+/**
  * Script: toggle.js
  *   The client-side javascript code for the Toggle plugin.
  *

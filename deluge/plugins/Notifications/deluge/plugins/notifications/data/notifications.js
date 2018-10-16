@@ -1,4 +1,4 @@
-/*!
+/**
  * notifications.js
  *
  * Copyright (c) Omar Alvarez 2014 <omar.alvarez@udc.es>

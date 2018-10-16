@@ -12,6 +12,8 @@ _trial_temp
 .tox/
 deluge/i18n/*/
 deluge.pot
+deluge/ui/web/js/*.js
+deluge/ui/web/js/extjs/ext-extensions*.js
 *.desktop
 *.appdata.xml
 .build_data*

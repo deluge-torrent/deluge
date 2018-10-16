@@ -1,4 +1,4 @@
-/*!
+/**
  * label.js
  *
  * Copyright (C) Damien Churchill 2010 <damoxc@gmail.com>

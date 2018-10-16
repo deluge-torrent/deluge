@@ -1,4 +1,4 @@
-/*!
+/**
  * Deluge.Details.Details.js
  *      The details tab displayed in the details panel.
  *

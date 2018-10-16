@@ -1,4 +1,4 @@
-/*!
+/**
  * Script: autoadd.js
  *      The client-side javascript code for the AutoAdd plugin.
  *

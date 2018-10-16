@@ -1,4 +1,4 @@
-/*!
+/**
  * blocklist.js
  *
  * Copyright (C) Omar Alvarez 2014 <omar.alvarez@udc.es>

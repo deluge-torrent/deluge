@@ -1,4 +1,4 @@
-/*!
+/**
  * extractor.js
  *
  * Copyright (C) Calum Lind 2014 <calumlind@gmail.com>

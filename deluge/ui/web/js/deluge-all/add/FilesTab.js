@@ -1,4 +1,4 @@
-/*!
+/**
  * Deluge.add.FilesTab.js
  *
  * Copyright (c) Damien Churchill 2009-2010 <damoxc@gmail.com>

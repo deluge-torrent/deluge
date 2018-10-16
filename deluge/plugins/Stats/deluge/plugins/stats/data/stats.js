@@ -1,4 +1,4 @@
-/*!
+/**
  * Script: stats.js
  *      The javascript client-side code for the Stats plugin.
  *
