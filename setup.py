@@ -571,10 +571,8 @@ setup(
     maintainer='Calum Lind',
     maintainer_email='calumlind+deluge@gmail.com',
     keywords='torrent bittorrent p2p fileshare filesharing',
-    long_description="""Deluge is a BitTorrent client that utilizes a
-        daemon/client model. There are various user interfaces available for
-        Deluge such as the GTK-UI, the Web-UI and a Console-UI. Deluge uses
-        libtorrent in it's backend to handle the BitTorrent protocol.""",
+    long_description=open('README.md').read(),
+    long_description_content_type='text/markdown',
     url='https://deluge-torrent.org',
     classifiers=[
         'Development Status :: 4 - Beta',
