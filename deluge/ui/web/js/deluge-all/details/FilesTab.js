@@ -179,21 +179,21 @@ Deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
                 break;
             default:
                 var indexes = {};
-                function walk(node) {
+                var walk = function(node) {
                     if (Ext.isEmpty(node.attributes.fileIndex)) return;
                     indexes[node.attributes.fileIndex] =
                         node.attributes.priority;
-                }
+                };
                 this.getRootNode().cascade(walk);
 
                 var nodes = this.getSelectionModel().getSelectedNodes();
                 Ext.each(nodes, function(node) {
                     if (!node.isLeaf()) {
-                        function setPriorities(node) {
+                        var setPriorities = function(node) {
                             if (Ext.isEmpty(node.attributes.fileIndex)) return;
                             indexes[node.attributes.fileIndex] =
                                 baseItem.filePriority;
-                        }
+                        };
                         node.cascade(setPriorities);
                     } else if (!Ext.isEmpty(node.attributes.fileIndex)) {
                         indexes[node.attributes.fileIndex] =

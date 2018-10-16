@@ -19,11 +19,12 @@ Ext.namespace('Deluge.data');
  * @singleton
  */
 Deluge.data.SortTypes = {
+    // prettier-ignore
     asIPAddress: function(value) {
         var d = value.match(
             /(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})\:(\d+)/
         );
-        return ((+d[1] * 256 + +d[2]) * 256 + +d[3]) * 256 + +d[4];
+        return ((+d[1] * 256 + (+d[2])) * 256 + (+d[3])) * 256 + (+d[4]);
     },
 
     asQueuePosition: function(value) {
