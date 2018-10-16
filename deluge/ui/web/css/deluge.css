@@ -25,12 +25,12 @@ button::-moz-focus-inner {
     background-image: url('../ui_images/deluge-about.png');
 }
 
-#tbar-deluge-text.x-item-disabled * {
+#tbar-deluge-text * {
     color: black !important;
     font-weight: bold;
 }
 
-#tbar-deluge-text.x-item-disabled {
+#tbar-deluge-text {
     opacity: 1 !important;
 }
 

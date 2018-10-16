@@ -20,9 +20,9 @@ Deluge.Toolbar = Ext.extend(Ext.Toolbar, {
                 items: [
                     {
                         id: 'tbar-deluge-text',
-                        disabled: true,
                         text: _('Deluge'),
                         iconCls: 'x-deluge-main-panel',
+                        handler: this.onAboutClick,
                     },
                     new Ext.Toolbar.Separator(),
                     {
@@ -94,13 +94,6 @@ Deluge.Toolbar = Ext.extend(Ext.Toolbar, {
                         scope: this,
                     },
                     '->',
-                    {
-                        id: 'about',
-                        iconCls: 'icon-about',
-                        text: _('About'),
-                        handler: this.onAboutClick,
-                        scope: this,
-                    },
                     {
                         id: 'help',
                         iconCls: 'icon-help',
