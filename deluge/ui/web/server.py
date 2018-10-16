@@ -563,14 +563,23 @@ class TopLevel(resource.Resource):
         return resource.Resource.getChildWithDefault(self, path, request)
 
     def render(self, request):
-        uri_true = ('true', 'yes', '1')
-        debug_arg = request.args.get('debug', [b''])[-1].decode().lower() in uri_true
+        uri_true = ('true', 'yes', 'on', '1')
+        uri_false = ('false', 'no', 'off', '0')
+
+        debug_arg = None
+        req_dbg_arg = request.args.get('debug', [b''])[-1].decode().lower()
+        if req_dbg_arg in uri_true:
+            debug_arg = True
+        elif req_dbg_arg in uri_false:
+            debug_arg = False
+
         dev_arg = request.args.get('dev', [b''])[-1].decode().lower() in uri_true
         dev_ver = 'dev' in common.get_version()
 
         script_type = 'normal'
-        if debug_arg:
-            script_type = 'debug'
+        if debug_arg is not None:
+            # Use debug arg to force switching to normal script type.
+            script_type = 'debug' if debug_arg else 'normal'
         elif dev_arg or dev_ver:
             # Also use dev files if development version.
             script_type = 'dev'
@@ -606,7 +615,7 @@ class TopLevel(resource.Resource):
         return template.render(
             scripts=scripts,
             stylesheets=self.stylesheets,
-            debug=str(debug_arg).lower(),
+            debug=str(bool(debug_arg)).lower(),
             base=web_config['base'],
             js_config=js_config,
         )
