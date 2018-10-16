@@ -22,45 +22,45 @@ import fnmatch
 import os
 import subprocess
 import sys
+from distutils.spawn import find_executable
+
+closure_cmd = None
+for cmd in ['closure-compiler', 'closure']:
+    if find_executable(cmd):
+        closure_cmd = cmd
+        break
 
 
-def module_exists(module_name):
+def minify_closure(file_in, file_out):
     try:
-        __import__(module_name)
-    except ImportError:
-        return False
-    else:
+        subprocess.check_call(
+            [
+                closure_cmd,
+                '--warning_level',
+                'QUIET',
+                '--language_in=ECMASCRIPT5',
+                '--js',
+                file_in,
+                '--js_output_file',
+                file_out,
+            ]
+        )
         return True
+    except subprocess.CalledProcessError:
+        return False
 
 
-# Imports sorted by resulting file size.
-if module_exists('closure'):
-
-    def minify_closure(file_in, file_out):
-        try:
-            subprocess.check_call(
-                [
-                    'closure',
-                    '-W',
-                    'QUIET',
-                    '--js',
-                    file_in,
-                    '--js_output_file',
-                    file_out,
-                ]
-            )
-            return True
-        except subprocess.CalledProcessError:
-            return False
-
-
-elif module_exists('slimit'):
-    from slimit import minify
-else:
-    print('WARNING: Unable to minify js files. They will be copied as is.')
-
-    def minify(text):
-        return text
+# Closure outputs smallest files but it is a java-based command, so have slimit
+# as a python-only fallback.
+#
+#   deluge-all.js: Closure 127K, Slimit: 143K, JSMin: 162K
+#
+if not closure_cmd:
+    try:
+        from slimit import minify as minify
+    except ImportError:
+        print('Warning: No minifying command found.')
+        minify = None
 
 
 def source_files_list(source_dir):
@@ -95,9 +95,9 @@ def concat_src_files(file_list, fileout_path):
 
 
 def minify_file(file_debug, file_minified):
-    try:
+    if closure_cmd:
         return minify_closure(file_debug, file_minified)
-    except NameError:
+    elif minify:
         with open(file_minified, 'w') as file_out:
             with open(file_debug, 'r') as file_in:
                 file_out.write(minify(file_in.read()))
@@ -118,7 +118,7 @@ def minify_js_dir(source_dir):
     concat_src_files(source_files, file_debug_js)
     print('Minifying %s' % source_dir)
     if not minify_file(file_debug_js, file_minified_js):
-        print('Error minifying %s' % source_dir)
+        print('Warning: Failed minifying files %s, debug only' % source_dir)
 
 
 if __name__ == '__main__':
