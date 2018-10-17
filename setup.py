@@ -543,6 +543,24 @@ _package_data['deluge.ui.web'] = [
 ]
 _package_data['deluge.ui.gtkui'] = ['glade/*.ui']
 
+setup_requires = ['setuptools', 'wheel']
+install_requires = [
+    'twisted[tls]>=16.6',
+    # Add pyasn1 for setuptools workaround:
+    #   https://github.com/pypa/setuptools/issues/1510
+    'pyasn1',
+    'pyopenssl',
+    'pyxdg',
+    'pillow',
+    'mako',
+    'chardet',
+    'six',
+    'setproctitle',
+    "pywin32; sys.platform == 'win32'",
+    "py2-ipaddress; sys.platform == 'win32'",
+    "certifi; sys.platform == 'win32'",
+    'zope.interface',
+]
 docs_require = ['sphinx', 'recommonmark', 'sphinx-rtd-theme']
 tests_require = [
     'coverage',
@@ -594,6 +612,8 @@ setup(
     ],
     license='GPLv3',
     cmdclass=cmdclass,
+    setup_requires=setup_requires,
+    install_requires=install_requires,
     extras_require={
         'docs': docs_require,
         'tests': tests_require,
