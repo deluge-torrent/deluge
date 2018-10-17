@@ -10,44 +10,46 @@
 from __future__ import print_function, unicode_literals
 
 import os.path
+import sys
 from hashlib import sha256
 from subprocess import call, check_output
 
-try:
-    import lzma
-except ImportError:
-    try:
-        from backports import lzma
-    except ImportError:
-        print('backports.lzma not installed, falling back to xz shell command')
-        lzma = None
+PY2 = sys.version_info.major == 2
 
-# Compress WebUI javascript and gettext.js
-call(['python', 'minify_web_js.py'])
-call(['python', 'gen_web_gettext.py'])
+sdist_formats = 'xztar'
+if PY2:
+    sdist_formats = 'tar'
 
-version = check_output(['python', 'version.py']).strip()
+version = check_output(['python', 'version.py']).strip().decode()
 
 # Create release archive
 release_dir = 'dist/release-%s' % version
 print('Creating release archive for ' + version)
+
 call(
-    'python setup.py --quiet egg_info --egg-base /tmp sdist --formats=tar --dist-dir=%s'
-    % release_dir,
+    'python setup.py --quiet egg_info --egg-base /tmp sdist --formats=%s --dist-dir=%s'
+    % (sdist_formats, release_dir),
     shell=True,
 )
 
-# Compress release archive with xz
-tar_path = os.path.join(release_dir, 'deluge-%s.tar' % version)
-tarxz_path = tar_path + '.xz'
-print('Compressing tar (%s) with xz' % tar_path)
-if lzma:
-    with open(tar_path, 'rb') as tar_file, open(tarxz_path, 'wb') as xz_file:
-        xz_file.write(
-            lzma.compress(bytes(tar_file.read()), preset=9 | lzma.PRESET_EXTREME)
-        )
+
+if sdist_formats == 'xztar':
+    tarxz_path = os.path.join(release_dir, 'deluge-%s.tar.xz' % version)
 else:
-    call(['xz', '-e9zkf', tar_path])
+    # Compress release archive with xz
+    tar_path = os.path.join(release_dir, 'deluge-%s.tar' % version)
+    tarxz_path = tar_path + '.xz'
+    print('Compressing tar (%s) with xz' % tar_path)
+    try:
+        from backports import lzma
+    except ImportError:
+        print('backports.lzma not installed, falling back to xz shell command')
+        call(['xz', '-e9zkf', tar_path])
+    else:
+        with open(tar_path, 'rb') as tar_file, open(tarxz_path, 'wb') as xz_file:
+            xz_file.write(
+                lzma.compress(bytes(tar_file.read()), preset=9 | lzma.PRESET_EXTREME)
+            )
 
 # Calculate shasum and add to sha256sums.txt
 with open(tarxz_path, 'rb') as _file:
