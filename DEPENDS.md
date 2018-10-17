@@ -12,7 +12,7 @@ All modules will require the [common](#common) section dependencies.
 ## Build
 
 - [setuptools]
-- [intltool] - Translation file tool
+- [intltool] - Optional: Desktop file translation for \*nix.
 - [closure-compiler] - Minify javascript (alternative is [slimit])
 
 ## Common
@@ -20,37 +20,33 @@ All modules will require the [common](#common) section dependencies.
 - [Twisted] _>= 16.6_ - Use `TLS` extras for `service_identity` and `idna`.
 - [OpenSSL] _>= 1.0.1_
 - [pyOpenSSL]
-- [Chardet]
-- [gettext]
-- [PyXDG]
+- [PyXDG] - Access freedesktop.org standards for \*nix.
+- [xdg-utils] - Provides xdg-open for \*nix.
 - [six]
 - [zope.interface]
-- [xdg-utils]
-
-#### Optional
-
-- [setproctitle] - Support correctly naming Deluge processes.
-- [Pillow] - Image library for `.ico` support.
-- [rencode] _>= 1.0.2_ - Encoding library with Python port bundled.
-- [dbus-python]
+- [chardet] - Optional: Encoding detection.
+- [setproctitle] - Optional: Renaming processes.
+- [Pillow] - Optional: Enable `.ico` support.
+- [rencode] _>= 1.0.2_ - Optional: Encoding library (Python port is bundled).
+- [dbus-python] - Optional: Show item location in filemanager.
 
 #### Windows OS
 
 - [pywin32]
 - [certifi]
-- [py2-ipaddress] - Optional for Python 2 IPv6 lookup
+- [py2-ipaddress] - Optional: Add IPv6 lookup for Python 2.
 
 ## Core (deluged daemon)
 
 - [libtorrent] _>= 1.1.1_
-- [GeoIP] - Optional (_Debian: `python-geoip`_)
+- [GeoIP] - Optional: IP address location lookup. (_Debian: `python-geoip`_)
 
 ## GTK UI
 
 - PyGTK
 - [pycairo]
 - [librsvg] _>= 2_
-- [python-appindicator] - Optional
+- [python-appindicator] - Optional: Ubuntu system tray icon.
 
 #### MacOS
 
@@ -64,10 +60,8 @@ All modules will require the [common](#common) section dependencies.
 
 ### Notifications
 
-Optional dependencies for this plugin.
-
-- [pygame] - Sound
-- [python-notify] - Desktop popup
+- [pygame] - Optional: Play sounds
+- [python-notify] - Optional: Desktop popups.
 
 [python]: https://www.python.org/
 [setuptools]: https://setuptools.readthedocs.io/en/latest/
@@ -87,7 +81,6 @@ Optional dependencies for this plugin.
 [setproctitle]: https://pypi.org/project/setproctitle/
 [gtkosxapplication]: https://github.com/jralls/gtk-mac-integration
 [chardet]: https://chardet.github.io/
-[gettext]: https://www.gnu.org/software/gettext/
 [rencode]: https://github.com/aresch/rencode
 [pyxdg]: https://www.freedesktop.org/wiki/Software/pyxdg/
 [six]: https://pythonhosted.org/six/

@@ -26,11 +26,15 @@ import sys
 import tarfile
 import time
 
-import chardet
 import pkg_resources
 
 from deluge.decorators import deprecated
 from deluge.error import InvalidPathError
+
+try:
+    import chardet
+except ImportError:
+    chardet = None
 
 try:
     from urllib.parse import unquote_plus, urljoin
@@ -983,12 +987,10 @@ def decode_bytes(byte_str, encoding='utf8'):
     elif not isinstance(byte_str, bytes):
         return byte_str
 
-    encodings = [
-        lambda: ('utf8', 'strict'),
-        lambda: ('iso-8859-1', 'strict'),
-        lambda: (chardet.detect(byte_str)['encoding'], 'strict'),
-        lambda: (encoding, 'ignore'),
-    ]
+    encodings = [lambda: ('utf8', 'strict'), lambda: ('iso-8859-1', 'strict')]
+    if chardet:
+        encodings.append(lambda: (chardet.detect(byte_str)['encoding'], 'strict'))
+    encodings.append(lambda: (encoding, 'ignore'))
 
     if encoding.lower() not in ['utf8', 'utf-8']:
         encodings.insert(0, lambda: (encoding, 'strict'))

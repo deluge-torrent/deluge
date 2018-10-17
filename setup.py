@@ -19,6 +19,7 @@ from distutils import cmd
 from distutils.command.build import build as _build
 from distutils.command.clean import clean as _clean
 from distutils.command.install_data import install_data as _install_data
+from distutils.spawn import find_executable
 from shutil import rmtree
 
 from setuptools import find_packages, setup
@@ -206,8 +207,8 @@ class BuildTranslations(cmd.Command):
         else:
             basedir = os.path.join(self.build_lib, 'deluge', 'i18n')
 
-        if not windows_check():
-            intltool_merge = 'intltool-merge'
+        intltool_merge = 'intltool-merge'
+        if not windows_check() and find_executable(intltool_merge):
             intltool_merge_opts = '--utf8 --quiet'
             for data_file in (desktop_data, appdata_data):
                 # creates the translated file from .in file.
