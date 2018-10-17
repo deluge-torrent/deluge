@@ -2,20 +2,29 @@
 <component type="desktop">
   <id>deluge.desktop</id>
   <metadata_license>CC0-1.0</metadata_license>
-  <project_license>GPL-2.0+</project_license>
+  <project_license>GPL-3.0+</project_license>
   <translation type="gettext">deluge</translation>
-  <_name>Deluge BitTorrent Client</_name>
   <_developer_name>Deluge Team</_developer_name>
-  <_summary>Deluge is a lightweight, Free Software, cross-platform BitTorrent client.</_summary>
-  <url type="homepage">http://www.deluge-torrent.org/</url>
-  <url type="bugtracker">http://dev.deluge-torrent.org</url>
+  <_summary>
+    Deluge is a lightweight, Free Software, cross-platform BitTorrent client.
+  </_summary>
+  <url type="homepage">https://www.deluge-torrent.org/</url>
+  <url type="bugtracker">https://dev.deluge-torrent.org</url>
   <description>
-    <_p>Deluge contains the common features to BitTorrent clients such as Protocol Encryption, DHT, Local Peer Discovery (LSD), Peer Exchange (PEX), UPnP, NAT-PMP, Proxy support, Web seeds, global and per-torrent speed limits. As Deluge heavily utilises the libtorrent library it has a comprehensive list of the features provided.</_p>
-    <_p>Deluge has been designed to run as both a normal standalone desktop application and as a client-server. In Thinclient mode a Deluge daemon handles all the BitTorrent activity and is able to run on headless machines with the user-interfaces connecting remotely from any other platform.</_p>
+    <_p>Deluge contains the common features to BitTorrent clients such as
+    Protocol Encryption, DHT, Local Peer Discovery (LSD), Peer Exchange (PEX),
+    UPnP, NAT-PMP, Proxy support, Web seeds, global and per-torrent speed
+    limits. As Deluge heavily utilises the libtorrent library it has a
+    comprehensive list of the features provided.</_p>
+    <_p>Deluge has been designed to run as both a normal standalone desktop
+    application and as a client-server. In Thinclient mode a Deluge daemon
+    handles all the BitTorrent activity and is able to run on headless machines
+    with the user-interfaces connecting remotely from any other platform.</_p>
   </description>
   <screenshots>
     <screenshot type="default">
       <image>https://upload.wikimedia.org/wikipedia/commons/5/50/Deluge-torrent.png</image>
     </screenshot>
   </screenshots>
+  <launchable type="desktop-id">deluge.desktop</launchable>
 </component>
