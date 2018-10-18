@@ -19,7 +19,7 @@ from twisted.internet import reactor
 from twisted.internet.error import ReactorNotRunning
 
 import deluge.component as component
-from deluge.common import fspeed, resource_filename
+from deluge.common import decode_bytes, fspeed, resource_filename
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
 
@@ -179,7 +179,7 @@ class MainWindow(component.Component):
                 if response_id == Gtk.ResponseType.OK:
                     if (
                         self.config['tray_password']
-                        == sha(dialog.get_password()).hexdigest()
+                        == sha(decode_bytes(dialog.get_password()).encode()).hexdigest()
                     ):
                         restore()
 
