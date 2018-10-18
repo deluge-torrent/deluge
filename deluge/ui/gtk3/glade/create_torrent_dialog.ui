@@ -63,7 +63,7 @@
               <object class="GtkImage" id="image1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="stock">gtk-new</property>
+                <property name="icon_name">document-new-symbolic</property>
                 <property name="icon_size">5</property>
               </object>
               <packing>
@@ -168,7 +168,7 @@
                                   <object class="GtkImage" id="image3">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="stock">gtk-new</property>
+                                    <property name="icon_name">document-new-symbolic</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -213,7 +213,7 @@
                                   <object class="GtkImage" id="image4">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="stock">gtk-open</property>
+                                    <property name="icon_name">folder-open-symbolic</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -258,7 +258,7 @@
                                   <object class="GtkImage" id="image5">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="stock">gtk-network</property>
+                                    <property name="icon_name">network-workgroup-symbolic</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -422,7 +422,7 @@
                   <object class="GtkImage" id="image6">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="stock">gtk-info</property>
+                    <property name="icon_name">dialog-information-symbolic</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -490,11 +490,11 @@
                         <property name="layout_style">center</property>
                         <child>
                           <object class="GtkButton" id="button_up">
-                            <property name="label">gtk-go-up</property>
+                            <property name="label" translatable="yes">_Up</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="use_stock">True</property>
+                            <property name="use_underline">True</property>
                             <signal name="clicked" handler="on_button_up_clicked" swapped="no"/>
                           </object>
                           <packing>
@@ -505,11 +505,11 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button_add">
-                            <property name="label">gtk-add</property>
+                            <property name="label" translatable="yes">_Add</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="use_stock">True</property>
+                            <property name="use_underline">True</property>
                             <signal name="clicked" handler="on_button_add_clicked" swapped="no"/>
                           </object>
                           <packing>
@@ -520,11 +520,11 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button_remove">
-                            <property name="label">gtk-remove</property>
+                            <property name="label" translatable="yes">_Remove</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="use_stock">True</property>
+                            <property name="use_underline">True</property>
                             <signal name="clicked" handler="on_button_remove_clicked" swapped="no"/>
                           </object>
                           <packing>
@@ -535,11 +535,11 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button_down">
-                            <property name="label">gtk-go-down</property>
+                            <property name="label" translatable="yes">_Down</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="use_stock">True</property>
+                            <property name="use_underline">True</property>
                             <signal name="clicked" handler="on_button_down_clicked" swapped="no"/>
                           </object>
                           <packing>
@@ -571,7 +571,7 @@
                   <object class="GtkImage" id="image7">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="stock">gtk-edit</property>
+                    <property name="icon_name">text-editor-symbolic</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -632,7 +632,7 @@
                   <object class="GtkImage" id="image8">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="stock">gtk-network</property>
+                    <property name="icon_name">network-workgroup-symbolic</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -760,7 +760,7 @@
                   <object class="GtkImage" id="image9">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="stock">gtk-preferences</property>
+                    <property name="icon_name">preferences-other-symbolic</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -804,11 +804,11 @@
                 <property name="layout_style">end</property>
                 <child>
                   <object class="GtkButton" id="button_cancel">
-                    <property name="label">gtk-cancel</property>
+                    <property name="label" translatable="yes">_Cancel</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="use_stock">True</property>
+                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
                   </object>
                   <packing>
@@ -819,11 +819,11 @@
                 </child>
                 <child>
                   <object class="GtkButton" id="button_save">
-                    <property name="label">gtk-save</property>
+                    <property name="label" translatable="yes">_Save</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="use_stock">True</property>
+                    <property name="use_underline">True</property>
                     <signal name="clicked" handler="on_button_save_clicked" swapped="no"/>
                   </object>
                   <packing>

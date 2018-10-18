@@ -9,6 +9,8 @@
 
 from __future__ import unicode_literals
 
+from gi.repository.Gtk import IconSize
+
 import deluge.common
 import deluge.component as component
 from deluge.configmanager import ConfigManager
@@ -29,7 +31,9 @@ class NewReleaseDialog(object):
                 deluge.common.get_pixmap('deluge16.png')
             )
         else:
-            main_builder.get_object('image_new_release').set_from_icon_name('deluge', 4)
+            main_builder.get_object('image_new_release').set_from_icon_name(
+                'deluge', IconSize.LARGE_TOOLBAR
+            )
         main_builder.get_object('label_available_version').set_text(available_version)
         main_builder.get_object('label_client_version').set_text(
             deluge.common.get_version()

@@ -47,23 +47,21 @@
     <property name="can_focus">False</property>
     <child>
       <object class="GtkImageMenuItem" id="menuitem_open_file">
-        <property name="label">_Open File</property>
+        <property name="label" translatable="yes">_Open File</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
         <property name="image">image6</property>
-        <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_open_file_activate" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkImageMenuItem" id="menuitem_show_file">
-        <property name="label">_Show Folder</property>
+        <property name="label" translatable="yes">_Show Folder</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
         <property name="image">image7</property>
-        <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_show_file_activate" swapped="no"/>
       </object>
     </child>
@@ -80,7 +78,6 @@
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
         <property name="image">image1</property>
-        <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_expand_all_activate" swapped="no"/>
       </object>
     </child>
@@ -97,7 +94,6 @@
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
         <property name="image">image2</property>
-        <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_ignore_activate" swapped="no"/>
       </object>
     </child>
@@ -108,7 +104,6 @@
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
         <property name="image">image5</property>
-        <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_low_activate" swapped="no"/>
       </object>
     </child>
@@ -119,7 +114,6 @@
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
         <property name="image">image3</property>
-        <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_normal_activate" swapped="no"/>
       </object>
     </child>
@@ -130,7 +124,6 @@
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
         <property name="image">image4</property>
-        <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_high_activate" swapped="no"/>
       </object>
     </child>

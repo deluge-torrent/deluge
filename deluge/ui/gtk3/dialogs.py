@@ -30,7 +30,7 @@ class BaseDialog(Gtk.Dialog):
         :param header: str, the header portion of the dialog
         :param text: str, the text body of the dialog
         :param icon: icon name from icon theme or icon filename.
-        :param buttons: tuple, of gtk stock ids and responses
+        :param buttons: tuple, of icon name and responses
         :param parent: gtkWindow, the parent window, if None it will default to the
             MainWindow
         """
@@ -55,9 +55,9 @@ class BaseDialog(Gtk.Dialog):
             # Hack for Windows since it doesn't support svg
             if icon.endswith('.svg') and windows_check():
                 icon = icon.rpartition('.svg')[0] + '16.png'
-            image.set_from_pixbuf(get_pixbuf_at_size(icon, Gtk.IconSize.DIALOG))
+            image.set_from_pixbuf(get_pixbuf_at_size(icon, 24))
         else:
-            image.set_from_icon_name(icon, Gtk.IconSize.DIALOG)
+            image.set_from_icon_name(icon, Gtk.IconSize.LARGE_TOOLBAR)
         image.set_alignment(0.5, 0.0)
         hbox.pack_start(image, False, False, 0)
         vbox = Gtk.VBox(spacing=5)
@@ -106,8 +106,8 @@ class YesNoDialog(BaseDialog):
         super(YesNoDialog, self).__init__(
             header,
             text,
-            Gtk.STOCK_DIALOG_QUESTION,
-            (Gtk.STOCK_NO, Gtk.ResponseType.NO, Gtk.STOCK_YES, Gtk.ResponseType.YES),
+            'dialog-question',
+            (_('_No'), Gtk.ResponseType.NO, _('_Yes'), Gtk.ResponseType.YES),
             parent,
         )
 
@@ -128,8 +128,8 @@ class InformationDialog(BaseDialog):
         super(InformationDialog, self).__init__(
             header,
             text,
-            Gtk.STOCK_DIALOG_INFO,
-            (Gtk.STOCK_CLOSE, Gtk.ResponseType.CLOSE),
+            'dialog-information',
+            (_('_Close'), Gtk.ResponseType.CLOSE),
             parent,
         )
 
@@ -153,11 +153,7 @@ class ErrorDialog(BaseDialog):
         :type traceback: bool
         """
         super(ErrorDialog, self).__init__(
-            header,
-            text,
-            Gtk.STOCK_DIALOG_ERROR,
-            (Gtk.STOCK_CLOSE, Gtk.ResponseType.CLOSE),
-            parent,
+            header, text, 'dialog-error', (_('_Close'), Gtk.ResponseType.CLOSE), parent
         )
 
         if traceback:
@@ -203,13 +199,8 @@ class AuthenticationDialog(BaseDialog):
         super(AuthenticationDialog, self).__init__(
             _('Authenticate'),
             err_msg,
-            Gtk.STOCK_DIALOG_AUTHENTICATION,
-            (
-                Gtk.STOCK_CANCEL,
-                Gtk.ResponseType.CANCEL,
-                Gtk.STOCK_CONNECT,
-                Gtk.ResponseType.OK,
-            ),
+            'dialog-password',
+            (_('_Cancel'), Gtk.ResponseType.CANCEL, _('C_onnect'), Gtk.ResponseType.OK),
             parent,
         )
 
@@ -265,11 +256,11 @@ class AccountDialog(BaseDialog):
             super(AccountDialog, self).__init__(
                 _('Edit Account'),
                 _('Edit existing account'),
-                Gtk.STOCK_DIALOG_INFO,
+                'dialog-information',
                 (
-                    Gtk.STOCK_CANCEL,
+                    _('_Cancel'),
                     Gtk.ResponseType.CANCEL,
-                    Gtk.STOCK_APPLY,
+                    _('_Apply'),
                     Gtk.ResponseType.OK,
                 ),
                 parent,
@@ -278,13 +269,8 @@ class AccountDialog(BaseDialog):
             super(AccountDialog, self).__init__(
                 _('New Account'),
                 _('Create a new account'),
-                Gtk.STOCK_DIALOG_INFO,
-                (
-                    Gtk.STOCK_CANCEL,
-                    Gtk.ResponseType.CANCEL,
-                    Gtk.STOCK_ADD,
-                    Gtk.ResponseType.OK,
-                ),
+                'dialog-information',
+                (_('_Cancel'), Gtk.ResponseType.CANCEL, _('_Add'), Gtk.ResponseType.OK),
                 parent,
             )
 
@@ -369,18 +355,13 @@ class OtherDialog(BaseDialog):
             raise TypeError('default value needs to be an int or float')
 
         if not icon:
-            icon = Gtk.STOCK_DIALOG_INFO
+            icon = 'dialog-information'
 
         super(OtherDialog, self).__init__(
             header,
             text,
             icon,
-            (
-                Gtk.STOCK_CANCEL,
-                Gtk.ResponseType.CANCEL,
-                Gtk.STOCK_APPLY,
-                Gtk.ResponseType.OK,
-            ),
+            (_('_Cancel'), Gtk.ResponseType.CANCEL, _('_Apply'), Gtk.ResponseType.OK),
             parent,
         )
 
@@ -439,16 +420,16 @@ class PasswordDialog(BaseDialog):
         :type password_msg: string
         """
         super(PasswordDialog, self).__init__(
-            _('Password Protected'),
-            password_msg,
-            Gtk.STOCK_DIALOG_AUTHENTICATION,
-            (
-                Gtk.STOCK_CANCEL,
+            header=_('Password Protected'),
+            text=password_msg,
+            icon='dialog-password',
+            buttons=(
+                _('_Cancel'),
                 Gtk.ResponseType.CANCEL,
-                Gtk.STOCK_CONNECT,
+                _('_OK'),
                 Gtk.ResponseType.OK,
             ),
-            parent,
+            parent=parent,
         )
 
         table = Gtk.Table(1, 2, False)

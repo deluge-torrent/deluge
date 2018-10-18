@@ -5,7 +5,7 @@
   <object class="GtkImage" id="image1">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="stock">gtk-add</property>
+    <property name="icon_name">list-add-symbolic</property>
     <property name="icon-size">1</property>
   </object>
   <object class="GtkMenu" id="menu_peer_tab">
@@ -19,7 +19,6 @@
         <property name="tooltip_text" translatable="yes">Add a peer by its IP</property>
         <property name="use_underline">True</property>
         <property name="image">image1</property>
-        <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_add_peer_activate" swapped="no"/>
       </object>
     </child>

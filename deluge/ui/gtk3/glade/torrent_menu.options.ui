@@ -34,7 +34,6 @@
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
         <property name="image">download-limit-image</property>
-        <property name="use_stock">False</property>
       </object>
     </child>
     <child>
@@ -44,7 +43,6 @@
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
         <property name="image">upload-limit-image</property>
-        <property name="use_stock">False</property>
       </object>
     </child>
     <child>
@@ -54,7 +52,6 @@
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
         <property name="image">max-connections-image</property>
-        <property name="use_stock">False</property>
       </object>
     </child>
     <child>
@@ -64,7 +61,6 @@
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
         <property name="image">upload-slots-image</property>
-        <property name="use_stock">False</property>
       </object>
     </child>
     <child>

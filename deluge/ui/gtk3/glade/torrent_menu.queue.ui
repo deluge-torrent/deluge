@@ -27,41 +27,37 @@
     <property name="can_focus">False</property>
     <child>
       <object class="GtkImageMenuItem" id="menuitem_queue_top">
-        <property name="label">Top</property>
+        <property name="label" translatable="yes">Top</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="image">image5</property>
-        <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_queue_top_activate" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkImageMenuItem" id="menuitem_queue_up">
-        <property name="label">Up</property>
+        <property name="label" translatable="yes">Up</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="image">image6</property>
-        <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_queue_up_activate" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkImageMenuItem" id="menuitem_queue_down">
-        <property name="label">Down</property>
+        <property name="label" translatable="yes">Down</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="image">image7</property>
-        <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_queue_down_activate" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkImageMenuItem" id="menuitem_queue_bottom">
-        <property name="label">Bottom</property>
+        <property name="label" translatable="yes">Bottom</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="image">image8</property>
-        <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_queue_bottom_activate" swapped="no"/>
       </object>
     </child>

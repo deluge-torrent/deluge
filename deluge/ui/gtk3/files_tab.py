@@ -372,9 +372,9 @@ class FilesTab(Tab):
             else:
                 mime_type, uncertain = Gio.content_type_guess(key, None)
                 if not uncertain and mime_type:
-                    mime_icon = Gio.content_type_get_icon(mime_type)
+                    mime_icon = Gio.content_type_get_symbolic_icon(mime_type)
                 else:
-                    mime_icon = Gio.content_type_get_icon('text/plain')
+                    mime_icon = Gio.content_type_get_symbolic_icon('text/plain')
                 self.treestore.append(
                     parent_iter, [key, value[1]['size'], '', 0, 0, value[0], mime_icon]
                 )

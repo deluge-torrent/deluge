@@ -261,11 +261,11 @@
             <property name="layout_style">end</property>
             <child>
               <object class="GtkButton" id="button_cancel">
-                <property name="label">gtk-cancel</property>
+                <property name="label" translatable="yes">_Cancel</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
+                <property name="use_underline">True</property>
                 <signal name="clicked" handler="on_button_cancel_clicked" swapped="no"/>
               </object>
               <packing>
@@ -276,11 +276,11 @@
             </child>
             <child>
               <object class="GtkButton" id="button_apply">
-                <property name="label">gtk-apply</property>
+                <property name="label" translatable="yes">_Apply</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
+                <property name="use_underline">True</property>
                 <signal name="clicked" handler="on_button_apply_clicked" swapped="no"/>
               </object>
               <packing>
@@ -291,11 +291,11 @@
             </child>
             <child>
               <object class="GtkButton" id="button_ok">
-                <property name="label">gtk-ok</property>
+                <property name="label" translatable="yes">_OK</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
+                <property name="use_underline">True</property>
                 <signal name="clicked" handler="on_button_ok_clicked" swapped="no"/>
               </object>
               <packing>
@@ -616,13 +616,13 @@ and daemon (does not apply in Standalone mode).</property>
                                                     </child>
                                                     <child>
                                                       <object class="GtkButton" id="revert_color_completed">
-                                                        <property name="label">gtk-revert-to-saved</property>
+                                                        <property name="label" translatable="yes">_Revert</property>
                                                         <property name="visible">True</property>
                                                         <property name="sensitive">False</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">True</property>
                                                         <property name="tooltip_text" translatable="yes">Revert color to default</property>
-                                                        <property name="use_stock">True</property>
+                                                        <property name="use_underline">True</property>
                                                         <property name="image_position">right</property>
                                                         <signal name="clicked" handler="on_revert_color_completed_clicked" swapped="no"/>
                                                       </object>
@@ -633,13 +633,13 @@ and daemon (does not apply in Standalone mode).</property>
                                                     </child>
                                                     <child>
                                                       <object class="GtkButton" id="revert_color_downloading">
-                                                        <property name="label">gtk-revert-to-saved</property>
+                                                        <property name="label" translatable="yes">_Revert</property>
                                                         <property name="visible">True</property>
                                                         <property name="sensitive">False</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">True</property>
                                                         <property name="tooltip_text" translatable="yes">Revert color to default</property>
-                                                        <property name="use_stock">True</property>
+                                                        <property name="use_underline">True</property>
                                                         <property name="image_position">right</property>
                                                         <signal name="clicked" handler="on_revert_color_downloading_clicked" swapped="no"/>
                                                       </object>
@@ -650,13 +650,13 @@ and daemon (does not apply in Standalone mode).</property>
                                                     </child>
                                                     <child>
                                                       <object class="GtkButton" id="revert_color_waiting">
-                                                        <property name="label">gtk-revert-to-saved</property>
+                                                        <property name="label" translatable="yes">_Revert</property>
                                                         <property name="visible">True</property>
                                                         <property name="sensitive">False</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">True</property>
                                                         <property name="tooltip_text" translatable="yes">Revert color to default</property>
-                                                        <property name="use_stock">True</property>
+                                                        <property name="use_underline">True</property>
                                                         <property name="image_position">right</property>
                                                         <signal name="clicked" handler="on_revert_color_waiting_clicked" swapped="no"/>
                                                       </object>
@@ -667,13 +667,13 @@ and daemon (does not apply in Standalone mode).</property>
                                                     </child>
                                                     <child>
                                                       <object class="GtkButton" id="revert_color_missing">
-                                                        <property name="label">gtk-revert-to-saved</property>
+                                                        <property name="label" translatable="yes">_Revert</property>
                                                         <property name="visible">True</property>
                                                         <property name="sensitive">False</property>
                                                         <property name="can_focus">True</property>
                                                         <property name="receives_default">True</property>
                                                         <property name="tooltip_text" translatable="yes">Revert color to default</property>
-                                                        <property name="use_stock">True</property>
+                                                        <property name="use_underline">True</property>
                                                         <property name="image_position">right</property>
                                                         <signal name="clicked" handler="on_revert_color_missing_clicked" swapped="no"/>
                                                       </object>
@@ -2735,7 +2735,7 @@ used sparingly.</property>
                                                 <child>
                                                   <object class="GtkImage" id="port_img">
                                                     <property name="can_focus">False</property>
-                                                    <property name="stock">gtk-dialog-question</property>
+                                                    <property name="icon_name">dialog-question-symbolic</property>
                                                   </object>
                                                 </child>
                                               </object>
@@ -4074,11 +4074,11 @@ the proxy instead of using the local DNS service</property>
                                             <property name="layout_style">start</property>
                                             <child>
                                               <object class="GtkButton" id="button_cache_refresh">
-                                                <property name="label">gtk-refresh</property>
+                                                <property name="label" translatable="yes">_Refresh</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">True</property>
-                                                <property name="use_stock">True</property>
+                                                <property name="use_underline">True</property>
                                                 <signal name="clicked" handler="on_button_cache_refresh_clicked" swapped="no"/>
                                               </object>
                                               <packing>
@@ -4337,7 +4337,7 @@ the proxy instead of using the local DNS service</property>
                                               <object class="GtkImage" id="image_magnet">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="stock">gtk-missing-image</property>
+                                                <property name="icon_name">image-missing</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">True</property>
@@ -4603,11 +4603,11 @@ the proxy instead of using the local DNS service</property>
                                             <property name="layout_style">start</property>
                                             <child>
                                               <object class="GtkButton" id="accounts_add">
-                                                <property name="label">gtk-add</property>
+                                                <property name="label" translatable="yes">_Add</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">True</property>
-                                                <property name="use_stock">True</property>
+                                                <property name="use_underline">True</property>
                                                 <signal name="clicked" handler="on_accounts_add_clicked" swapped="no"/>
                                               </object>
                                               <packing>
@@ -4618,12 +4618,12 @@ the proxy instead of using the local DNS service</property>
                                             </child>
                                             <child>
                                               <object class="GtkButton" id="accounts_edit">
-                                                <property name="label">gtk-edit</property>
+                                                <property name="label" translatable="yes">_Edit</property>
                                                 <property name="visible">True</property>
                                                 <property name="sensitive">False</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">True</property>
-                                                <property name="use_stock">True</property>
+                                                <property name="use_underline">True</property>
                                                 <signal name="clicked" handler="on_accounts_edit_clicked" swapped="no"/>
                                               </object>
                                               <packing>
@@ -4634,12 +4634,12 @@ the proxy instead of using the local DNS service</property>
                                             </child>
                                             <child>
                                               <object class="GtkButton" id="accounts_delete">
-                                                <property name="label">gtk-delete</property>
+                                                <property name="label" translatable="yes">_Delete</property>
                                                 <property name="visible">True</property>
                                                 <property name="sensitive">False</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">True</property>
-                                                <property name="use_stock">True</property>
+                                                <property name="use_underline">True</property>
                                                 <signal name="clicked" handler="on_accounts_delete_clicked" swapped="no"/>
                                               </object>
                                               <packing>

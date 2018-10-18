@@ -28,11 +28,11 @@
             <property name="layout_style">end</property>
             <child>
               <object class="GtkButton" id="button_cancel">
-                <property name="label">gtk-cancel</property>
+                <property name="label" translatable="yes">_Cancel</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
+                <property name="use_underline">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -42,11 +42,11 @@
             </child>
             <child>
               <object class="GtkButton" id="button_ok">
-                <property name="label">gtk-ok</property>
+                <property name="label" translatable="yes">_OK</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
+                <property name="use_underline">True</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -77,7 +77,7 @@
                   <object class="GtkImage" id="image3">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="stock">gtk-edit</property>
+                    <property name="icon_name">text-editor-symbolic</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -144,11 +144,11 @@
                     <property name="layout_style">center</property>
                     <child>
                       <object class="GtkButton" id="button_up">
-                        <property name="label">gtk-go-up</property>
+                        <property name="label" translatable="yes">_Up</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_underline">True</property>
                         <signal name="clicked" handler="on_button_up_clicked" swapped="no"/>
                       </object>
                       <packing>
@@ -159,11 +159,11 @@
                     </child>
                     <child>
                       <object class="GtkButton" id="button_add">
-                        <property name="label">gtk-add</property>
+                        <property name="label" translatable="yes">_Add</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_underline">True</property>
                         <signal name="clicked" handler="on_button_add_clicked" swapped="no"/>
                       </object>
                       <packing>
@@ -174,11 +174,11 @@
                     </child>
                     <child>
                       <object class="GtkButton" id="button_exit">
-                        <property name="label">gtk-edit</property>
+                        <property name="label" translatable="yes">_Edit</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_underline">True</property>
                         <signal name="clicked" handler="on_button_edit_clicked" swapped="no"/>
                       </object>
                       <packing>
@@ -189,11 +189,11 @@
                     </child>
                     <child>
                       <object class="GtkButton" id="button_remove">
-                        <property name="label">gtk-remove</property>
+                        <property name="label" translatable="yes">_Remove</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_underline">True</property>
                         <signal name="clicked" handler="on_button_remove_clicked" swapped="no"/>
                       </object>
                       <packing>
@@ -204,11 +204,11 @@
                     </child>
                     <child>
                       <object class="GtkButton" id="button_down">
-                        <property name="label">gtk-go-down</property>
+                        <property name="label" translatable="yes">_Down</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <property name="use_stock">True</property>
+                        <property name="use_underline">True</property>
                         <signal name="clicked" handler="on_button_down_clicked" swapped="no"/>
                       </object>
                       <packing>

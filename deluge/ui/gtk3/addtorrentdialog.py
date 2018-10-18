@@ -96,7 +96,7 @@ class AddTorrentDialog(component.Component):
         column = Gtk.TreeViewColumn(_('Filename'))
         render = Gtk.CellRendererPixbuf()
         column.pack_start(render, False)
-        column.add_attribute(render, 'stock-id', 5)
+        column.add_attribute(render, 'icon-name', 5)
         render = Gtk.CellRendererText()
         render.set_property('editable', True)
         render.connect('edited', self._on_filename_edited)
@@ -372,7 +372,7 @@ class AddTorrentDialog(component.Component):
         for key, value in split_files.items():
             if key.endswith(os.path.sep):
                 chunk_iter = self.files_treestore.append(
-                    parent_iter, [True, key, 0, -1, False, Gtk.STOCK_DIRECTORY]
+                    parent_iter, [True, key, 0, -1, False, 'folder-symbolic']
                 )
                 chunk_size = self.add_files(chunk_iter, value)
                 self.files_treestore.set(chunk_iter, 2, chunk_size)
@@ -380,7 +380,14 @@ class AddTorrentDialog(component.Component):
             else:
                 self.files_treestore.append(
                     parent_iter,
-                    [value[2], key, value[1]['size'], value[0], False, Gtk.STOCK_FILE],
+                    [
+                        value[2],
+                        key,
+                        value[1]['size'],
+                        value[0],
+                        False,
+                        'text-x-generic-symbolic',
+                    ],
                 )
                 ret += value[1]['size']
         if parent_iter and self.files_treestore.iter_has_child(parent_iter):
@@ -656,9 +663,9 @@ class AddTorrentDialog(component.Component):
             None,
             Gtk.FileChooserAction.OPEN,
             buttons=(
-                Gtk.STOCK_CANCEL,
+                _('_Cancel'),
                 Gtk.ResponseType.CANCEL,
-                Gtk.STOCK_OPEN,
+                _('_Open'),
                 Gtk.ResponseType.OK,
             ),
         )
@@ -977,7 +984,7 @@ class AddTorrentDialog(component.Component):
                 split_text = new_text.split(os.path.sep)
                 for s in split_text[:-1]:
                     parent = self.files_treestore.append(
-                        parent, [True, s, 0, -1, False, Gtk.STOCK_DIRECTORY]
+                        parent, [True, s, 0, -1, False, 'folder-symbolic']
                     )
 
                 self.files_treestore[itr][1] = split_text[-1]
@@ -1036,8 +1043,7 @@ class AddTorrentDialog(component.Component):
                     # We don't iterate over the last item because we'll just use
                     # the existing itr and change the text
                     parent = self.files_treestore.append(
-                        parent,
-                        [True, s + os.path.sep, 0, -1, False, Gtk.STOCK_DIRECTORY],
+                        parent, [True, s + os.path.sep, 0, -1, False, 'folder-symbolic']
                     )
 
                 self.files_treestore[itr][1] = split_text[-1] + os.path.sep

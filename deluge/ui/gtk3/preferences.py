@@ -1091,11 +1091,13 @@ class Preferences(component.Component):
 
         def on_get_test(status):
             if status:
-                self.builder.get_object('port_img').set_from_stock(Gtk.STOCK_YES, 4)
+                self.builder.get_object('port_img').set_from_icon_name(
+                    'emblem-ok-symbolic', Gtk.IconSize.MENU
+                )
                 self.builder.get_object('port_img').show()
             else:
-                self.builder.get_object('port_img').set_from_stock(
-                    Gtk.STOCK_DIALOG_WARNING, 4
+                self.builder.get_object('port_img').set_from_icon_name(
+                    'dialog-warning-symbolic', Gtk.IconSize.MENU
                 )
                 self.builder.get_object('port_img').show()
 
@@ -1152,9 +1154,9 @@ class Preferences(component.Component):
             self.pref_dialog,
             Gtk.FileChooserAction.OPEN,
             buttons=(
-                Gtk.STOCK_CANCEL,
+                _('_Cancel'),
                 Gtk.ResponseType.CANCEL,
-                Gtk.STOCK_OPEN,
+                _('_Open'),
                 Gtk.ResponseType.OK,
             ),
         )

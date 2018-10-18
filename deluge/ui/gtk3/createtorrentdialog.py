@@ -62,7 +62,7 @@ class CreateTorrentDialog(object):
         column = Gtk.TreeViewColumn(_('Filename'))
         render = Gtk.CellRendererPixbuf()
         column.pack_start(render, False)
-        column.add_attribute(render, 'stock-id', 1)
+        column.add_attribute(render, 'icon-name', 1)
         render = Gtk.CellRendererText()
         column.pack_start(render, True)
         column.add_attribute(render, 'text', 0)
@@ -129,9 +129,9 @@ class CreateTorrentDialog(object):
             self.dialog,
             Gtk.FileChooserAction.OPEN,
             buttons=(
-                Gtk.STOCK_CANCEL,
+                _('_Cancel'),
                 Gtk.ResponseType.CANCEL,
-                Gtk.STOCK_OPEN,
+                _('_Open'),
                 Gtk.ResponseType.OK,
             ),
         )
@@ -152,7 +152,9 @@ class CreateTorrentDialog(object):
         path = decode_bytes(result)
 
         self.files_treestore.clear()
-        self.files_treestore.append(None, [result, Gtk.STOCK_FILE, get_path_size(path)])
+        self.files_treestore.append(
+            None, [result, 'text-x-generic-symbolic', get_path_size(path)]
+        )
         self.adjust_piece_size()
         chooser.destroy()
 
@@ -164,9 +166,9 @@ class CreateTorrentDialog(object):
             self.dialog,
             Gtk.FileChooserAction.SELECT_FOLDER,
             buttons=(
-                Gtk.STOCK_CANCEL,
+                _('_Cancel'),
                 Gtk.ResponseType.CANCEL,
-                Gtk.STOCK_OPEN,
+                _('_Open'),
                 Gtk.ResponseType.OK,
             ),
         )
@@ -186,7 +188,9 @@ class CreateTorrentDialog(object):
         path = decode_bytes(result)
 
         self.files_treestore.clear()
-        self.files_treestore.append(None, [result, Gtk.STOCK_OPEN, get_path_size(path)])
+        self.files_treestore.append(
+            None, [result, 'document-open-symbolic', get_path_size(path)]
+        )
         self.adjust_piece_size()
         chooser.destroy()
 
@@ -206,7 +210,9 @@ class CreateTorrentDialog(object):
                 log.debug('size: %s', size)
                 if size > 0:
                     self.files_treestore.clear()
-                    self.files_treestore.append(None, [result, Gtk.STOCK_NETWORK, size])
+                    self.files_treestore.append(
+                        None, [result, 'network-workgroup-symbolic', size]
+                    )
                     self.adjust_piece_size()
 
             client.core.get_path_size(result).addCallback(_on_get_path_size)
@@ -227,7 +233,7 @@ class CreateTorrentDialog(object):
         path = self.files_treestore[0][0].rstrip('\\/')
         torrent_filename = '%s.torrent' % os.path.split(path)[-1]
 
-        is_remote = self.files_treestore[0][1] == Gtk.STOCK_NETWORK
+        is_remote = 'network' in self.files_treestore[0][1]
 
         if is_remote:
             # This is a remote path
@@ -249,9 +255,9 @@ class CreateTorrentDialog(object):
                 self.dialog,
                 Gtk.FileChooserAction.SAVE,
                 buttons=(
-                    Gtk.STOCK_CANCEL,
+                    _('_Cancel'),
                     Gtk.ResponseType.CANCEL,
-                    Gtk.STOCK_SAVE,
+                    _('_Save'),
                     Gtk.ResponseType.OK,
                 ),
             )

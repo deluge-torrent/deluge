@@ -13,13 +13,7 @@ import logging
 import os.path
 
 from gi.repository.GLib import timeout_add
-from gi.repository.Gtk import (
-    STOCK_SORT_DESCENDING,
-    Builder,
-    CellRendererText,
-    ListStore,
-    TreeViewColumn,
-)
+from gi.repository.Gtk import Builder, CellRendererText, ListStore, TreeViewColumn
 
 import deluge.common
 import deluge.component as component
@@ -129,7 +123,7 @@ class QueuedTorrents(component.Component):
         # have already been added.
         if self.status_item is None:
             self.status_item = component.get('StatusBar').add_item(
-                stock=STOCK_SORT_DESCENDING,
+                icon='view-sort-descending',
                 text=label,
                 callback=self.on_statusbar_click,
             )

@@ -459,13 +459,13 @@ class MenuBar(component.Component):
                 _('Incoming Connections'),
                 _('Set the maximum incoming connections'),
                 '',
-                Gtk.STOCK_NETWORK,
+                'network-transmit-receive-symbolic',
             ],
             'menuitem_upload_slots': [
                 _('Peer Upload Slots'),
                 _('Set the maximum upload slots'),
                 '',
-                Gtk.STOCK_SORT_ASCENDING,
+                'view-sort-descending-symbolic',
             ],
             'menuitem_stop_seed_at_ratio': [
                 _('Stop Seed At Ratio'),

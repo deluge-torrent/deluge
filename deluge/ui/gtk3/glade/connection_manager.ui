@@ -46,7 +46,7 @@
             <property name="layout_style">end</property>
             <child>
               <object class="GtkButton" id="button_close">
-                <property name="label">_Close</property>
+                <property name="label" translatable="yes">_Close</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -61,7 +61,7 @@
             </child>
             <child>
               <object class="GtkButton" id="button_connect">
-                <property name="label">C_onnect</property>
+                <property name="label" translatable="yes">C_onnect</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -144,11 +144,11 @@
                         <property name="layout_style">start</property>
                         <child>
                           <object class="GtkButton" id="button_addhost">
-                            <property name="label">gtk-add</property>
+                            <property name="label" translatable="yes">_Add</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="use_stock">True</property>
+                            <property name="use_underline">True</property>
                             <signal name="clicked" handler="on_button_addhost_clicked" swapped="no"/>
                           </object>
                           <packing>
@@ -159,11 +159,11 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button_edithost">
-                            <property name="label">gtk-edit</property>
+                            <property name="label" translatable="yes">_Edit</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="use_stock">True</property>
+                            <property name="use_underline">True</property>
                             <signal name="clicked" handler="on_button_edithost_clicked" swapped="no"/>
                           </object>
                           <packing>
@@ -174,11 +174,11 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button_removehost">
-                            <property name="label">gtk-remove</property>
+                            <property name="label" translatable="yes">_Remove</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="use_stock">True</property>
+                            <property name="use_underline">True</property>
                             <signal name="clicked" handler="on_button_removehost_clicked" swapped="no"/>
                           </object>
                           <packing>
@@ -189,11 +189,11 @@
                         </child>
                         <child>
                           <object class="GtkButton" id="button_refresh">
-                            <property name="label">gtk-refresh</property>
+                            <property name="label" translatable="yes">_Refresh</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <property name="use_stock">True</property>
+                            <property name="use_underline">True</property>
                             <signal name="clicked" handler="on_button_refresh_clicked" swapped="no"/>
                           </object>
                           <packing>
@@ -229,7 +229,7 @@
                                   <object class="GtkImage" id="image_startdaemon">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="stock">gtk-execute</property>
+                                    <property name="icon_name">system-run-symbolic</property>
                                   </object>
                                   <packing>
                                     <property name="expand">False</property>
@@ -242,7 +242,7 @@
                                   <object class="GtkLabel" id="label_startdaemon">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">_Start</property>
+                                    <property name="label" translatable="yes">_Start Daemon</property>
                                     <property name="use_underline">True</property>
                                   </object>
                                   <packing>

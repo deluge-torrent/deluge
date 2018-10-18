@@ -23,11 +23,11 @@
             <property name="layout_style">end</property>
             <child>
               <object class="GtkButton" id="button_add_cancel1">
-                <property name="label">gtk-cancel</property>
+                <property name="label" translatable="yes">_Cancel</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
+                <property name="use_underline">True</property>
                 <signal name="clicked" handler="on_button_edit_cancel_clicked" swapped="no"/>
               </object>
               <packing>
@@ -38,13 +38,13 @@
             </child>
             <child>
               <object class="GtkButton" id="button_add_ok1">
-                <property name="label">gtk-ok</property>
+                <property name="label" translatable="yes">_OK</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
                 <property name="has_default">True</property>
                 <property name="receives_default">True</property>
-                <property name="use_stock">True</property>
+                <property name="use_underline">True</property>
                 <signal name="clicked" handler="on_button_edit_ok_clicked" swapped="no"/>
               </object>
               <packing>
@@ -76,7 +76,7 @@
                   <object class="GtkImage" id="image2">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="stock">gtk-edit</property>
+                    <property name="icon_name">text-editor-symbolic</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>

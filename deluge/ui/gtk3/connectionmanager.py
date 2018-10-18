@@ -212,11 +212,11 @@ class ConnectionManager(component.Component):
         self.builder.get_object('button_edithost').set_sensitive(False)
         self.builder.get_object('button_removehost').set_sensitive(False)
         self.builder.get_object('button_startdaemon').set_sensitive(False)
-        self.builder.get_object('image_startdaemon').set_from_stock(
-            Gtk.STOCK_EXECUTE, Gtk.IconSize.MENU
+        self.builder.get_object('image_startdaemon').set_from_icon_name(
+            'system-run-symbolic', Gtk.IconSize.BUTTON
         )
         self.builder.get_object('label_startdaemon').set_text_with_mnemonic(
-            '_Start Daemon'
+            _('_Start Daemon')
         )
 
         model, row = self.treeview.get_selection().get_selected()
@@ -242,8 +242,8 @@ class ConnectionManager(component.Component):
         # Check to see if the host is online
         if status == 'Connected' or status == 'Online':
             self.builder.get_object('button_connect').set_sensitive(True)
-            self.builder.get_object('image_startdaemon').set_from_stock(
-                Gtk.STOCK_STOP, Gtk.IconSize.MENU
+            self.builder.get_object('image_startdaemon').set_from_icon_name(
+                'process-stop-symbolic', Gtk.IconSize.MENU
             )
             self.builder.get_object('label_startdaemon').set_text_with_mnemonic(
                 _('_Stop Daemon')
