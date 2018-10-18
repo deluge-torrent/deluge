@@ -448,21 +448,13 @@ class ConnectionManager(component.Component):
         model, row = self.treeview.get_selection().get_selected()
         status = model[row][HOSTLIST_COL_STATUS]
         host_id = model[row][HOSTLIST_COL_ID]
-
-        if status == 'connected':
-
-            def on_disconnect(reason):
-                self._update_host_status()
-
-            client.disconnect().addCallback(on_disconnect)
-            return
-
         host_info = [
             self.liststore[row][HOSTLIST_COL_HOST],
             self.liststore[row][HOSTLIST_COL_PORT],
             self.liststore[row][HOSTLIST_COL_USER],
             self.liststore[row][HOSTLIST_COL_PASS],
         ]
+
         new_host_info = self._run_addhost_dialog(edit_host_info=host_info)
         if new_host_info:
             hostname, port, username, password = new_host_info
@@ -482,6 +474,13 @@ class ConnectionManager(component.Component):
                     '',
                 )
                 self._update_host_status()
+
+            if status == 'connected':
+
+                def on_disconnect(reason):
+                    self._update_host_status()
+
+                client.disconnect().addCallback(on_disconnect)
 
     def on_button_removehost_clicked(self, widget):
         log.debug('on_button_removehost_clicked')
