@@ -671,7 +671,7 @@ class Client(object):
         # subprocess.popen does not work with unicode args (with non-ascii characters) on windows
         config = config.encode(sys.getfilesystemencoding())
         try:
-            subprocess.Popen(['deluged', '--port=%s' % port, '--config=%s' % config])
+            subprocess.Popen(['deluged', '--port=%s' % port, b'--config=%s' % config])
         except OSError as ex:
             from errno import ENOENT
 
