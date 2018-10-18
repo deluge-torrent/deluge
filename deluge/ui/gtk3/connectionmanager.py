@@ -41,12 +41,18 @@ HOSTLIST_COL_USER = 3
 HOSTLIST_COL_PASS = 4
 HOSTLIST_COL_STATUS = 5
 HOSTLIST_COL_VERSION = 6
+HOSTLIST_COL_STATUS_I18N = 7
 
-HOSTLIST_PIXBUFS = [
-    # This is populated in ConnectionManager.show
-]
-
-HOSTLIST_STATUS = ['Offline', 'Online', 'Connected']
+HOSTLIST_ICONS = {
+    'offline': 'action-unavailable-symbolic',
+    'online': 'network-server-symbolic',
+    'connected': 'network-transmit-receive-symbolic',
+}
+STATUS_I18N = {
+    'offline': _('Offline'),
+    'online': _('Online'),
+    'connected': _('Connected'),
+}
 
 
 def cell_render_host(column, cell, model, row, data):
@@ -57,13 +63,11 @@ def cell_render_host(column, cell, model, row, data):
     cell.set_property('text', text)
 
 
-def cell_render_status(column, cell, model, row, data):
+def cell_render_status_icon(column, cell, model, row, data):
     status = model[row][data]
-    status = status if status else 'Offline'
-    pixbuf = None
-    if status in HOSTLIST_STATUS:
-        pixbuf = HOSTLIST_PIXBUFS[HOSTLIST_STATUS.index(status)]
-    cell.set_property('pixbuf', pixbuf)
+    status = status if status else 'offline'
+    icon_name = HOSTLIST_ICONS.get(status, None)
+    cell.set_property('icon-name', icon_name)
 
 
 class ConnectionManager(component.Component):
@@ -97,20 +101,14 @@ class ConnectionManager(component.Component):
         self.connection_manager = self.builder.get_object('connection_manager')
         self.connection_manager.set_transient_for(component.get('MainWindow').window)
 
-        # Create status pixbufs
-        if not HOSTLIST_PIXBUFS:
-            for stock_id in (Gtk.STOCK_NO, Gtk.STOCK_YES, Gtk.STOCK_CONNECT):
-                HOSTLIST_PIXBUFS.append(
-                    self.connection_manager.render_icon(stock_id, Gtk.IconSize.MENU)
-                )
-
         # Setup the hostlist liststore and treeview
         self.treeview = self.builder.get_object('treeview_hostlist')
+        self.treeview.set_tooltip_column(HOSTLIST_COL_STATUS_I18N)
         self.liststore = self.builder.get_object('liststore_hostlist')
 
         render = Gtk.CellRendererPixbuf()
         column = Gtk.TreeViewColumn(_('Status'), render)
-        column.set_cell_data_func(render, cell_render_status, HOSTLIST_COL_STATUS)
+        column.set_cell_data_func(render, cell_render_status_icon, HOSTLIST_COL_STATUS)
         self.treeview.append_column(column)
 
         render = Gtk.CellRendererText()
@@ -165,7 +163,7 @@ class ConnectionManager(component.Component):
         """Load saved host entries"""
         for host_entry in self.hostlist.get_hosts_info():
             host_id, host, port, username = host_entry
-            self.liststore.append([host_id, host, port, username, '', '', ''])
+            self.liststore.append([host_id, host, port, username, '', '', '', ''])
 
     def _load_widget_config(self):
         """Set the widgets to show the correct options from the config."""
@@ -187,7 +185,9 @@ class ConnectionManager(component.Component):
 
         def on_host_status(status_info, row):
             if self.running and row:
-                row[HOSTLIST_COL_STATUS] = status_info[1]
+                status = status_info[1].lower()
+                row[HOSTLIST_COL_STATUS] = status
+                row[HOSTLIST_COL_STATUS_I18N] = STATUS_I18N[status]
                 row[HOSTLIST_COL_VERSION] = status_info[2]
                 self._update_widget_buttons()
 
@@ -227,7 +227,8 @@ class ConnectionManager(component.Component):
             return
 
         # Get selected host info.
-        __, host, port, __, __, status, __ = model[row]
+        __, host, port, __, __, status, __, __ = model[row]
+
         try:
             gethostbyname(host)
         except gaierror as ex:
@@ -240,7 +241,7 @@ class ConnectionManager(component.Component):
         log.debug('Host Status: %s, %s', host, status)
 
         # Check to see if the host is online
-        if status == 'Connected' or status == 'Online':
+        if status == 'connected' or status == 'online':
             self.builder.get_object('button_connect').set_sensitive(True)
             self.builder.get_object('image_startdaemon').set_from_icon_name(
                 'process-stop-symbolic', Gtk.IconSize.MENU
@@ -249,7 +250,7 @@ class ConnectionManager(component.Component):
                 _('_Stop Daemon')
             )
             self.builder.get_object('button_startdaemon').set_sensitive(False)
-            if status == 'Connected':
+            if status == 'connected':
                 # Display a disconnect button if we're connected to this host
                 self.builder.get_object('button_connect').set_label(_('_Disconnect'))
                 self.builder.get_object('button_removehost').set_sensitive(False)
@@ -350,9 +351,9 @@ class ConnectionManager(component.Component):
         if not row:
             return
 
-        host_id, host, port, __, __, status, __ = model[row]
+        host_id, host, port, __, __, status, __, __ = model[row]
         # If status is connected then connect button disconnects instead.
-        if status == 'Connected':
+        if status == 'connected':
 
             def on_disconnect(reason):
                 self._update_host_status()
@@ -361,7 +362,7 @@ class ConnectionManager(component.Component):
 
         try_counter = 0
         auto_start = self.builder.get_object('chk_autostart').get_active()
-        if auto_start and host in LOCALHOST and status == 'Offline':
+        if auto_start and host in LOCALHOST and status == 'offline':
             # Start the local daemon and then connect with retries set.
             if self.start_daemon(port, get_config_dir()):
                 try_counter = 6
@@ -426,8 +427,19 @@ class ConnectionManager(component.Component):
             except ValueError as ex:
                 ErrorDialog(_('Error Adding Host'), ex).run()
             else:
+                status = 'offline'
+                version = ''
                 self.liststore.append(
-                    [host_id, hostname, port, username, password, 'Offline', '']
+                    [
+                        host_id,
+                        hostname,
+                        port,
+                        username,
+                        password,
+                        status,
+                        version,
+                        STATUS_I18N[status],
+                    ]
                 )
                 self._update_host_status()
 
@@ -437,7 +449,7 @@ class ConnectionManager(component.Component):
         status = model[row][HOSTLIST_COL_STATUS]
         host_id = model[row][HOSTLIST_COL_ID]
 
-        if status == 'Connected':
+        if status == 'connected':
 
             def on_disconnect(reason):
                 self._update_host_status()
@@ -467,6 +479,7 @@ class ConnectionManager(component.Component):
                     password,
                     '',
                     '',
+                    '',
                 )
                 self._update_host_status()
 
@@ -494,7 +507,7 @@ class ConnectionManager(component.Component):
 
         paths = self.treeview.get_selection().get_selected_rows()[1]
         if len(paths):
-            __, host, port, user, password, status, __ = self.liststore[paths[0]]
+            __, host, port, user, password, status, __, __ = self.liststore[paths[0]]
         else:
             return
 
@@ -505,7 +518,7 @@ class ConnectionManager(component.Component):
             """Daemon start/stop callback"""
             reactor.callLater(0.7, self._update_host_status)
 
-        if status in ('Online', 'Connected'):
+        if status in ('online', 'connected'):
             # Button will stop the daemon if status is online or connected.
             def on_connect(d, c):
                 """Client callback to call daemon shutdown"""

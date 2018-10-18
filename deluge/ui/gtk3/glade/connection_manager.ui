@@ -18,6 +18,8 @@
       <column type="gchararray"/>
       <!-- column-name version -->
       <column type="gchararray"/>
+      <!-- column-name status_i18n -->
+      <column type="gchararray"/>
     </columns>
   </object>
   <object class="GtkDialog" id="connection_manager">
