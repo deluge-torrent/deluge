@@ -561,24 +561,7 @@ install_requires = [
     "certifi; sys.platform == 'win32'",
     'zope.interface',
 ]
-docs_require = ['sphinx', 'recommonmark', 'sphinx-rtd-theme']
-tests_require = [
-    'coverage',
-    'flake8',
-    'flake8-blind-except',
-    'flake8-builtins',
-    'flake8-commas',
-    'flake8-comprehensions',
-    'flake8-debugger',
-    'flake8-isort',
-    'flake8-mock',
-    'flake8-mutable',
-    'flake8-quotes',
-    'pre-commit',
-    'pytest',
-    'detox',
-    'tox',
-]
+tests_require = ['pytest', 'pytest-twisted']
 
 # Main setup
 setup(
@@ -610,15 +593,10 @@ setup(
         'Operating System :: POSIX',
         'Topic :: Internet',
     ],
-    license='GPLv3',
+    license='GPLv3+',
     cmdclass=cmdclass,
     setup_requires=setup_requires,
     install_requires=install_requires,
-    extras_require={
-        'docs': docs_require,
-        'tests': tests_require,
-        'dev': docs_require + tests_require,
-    },
     tests_require=tests_require,
     data_files=_data_files,
     package_data=_package_data,
