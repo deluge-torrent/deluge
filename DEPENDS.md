@@ -26,7 +26,7 @@ All modules will require the [common](#common) section dependencies.
 - [zope.interface]
 - [chardet] - Optional: Encoding detection.
 - [setproctitle] - Optional: Renaming processes.
-- [Pillow] - Optional: Enable `.ico` support.
+- [Pillow] - Optional: Support for resizing tracker icons.
 - [rencode] _>= 1.0.2_ - Optional: Encoding library (Python port is bundled).
 - [dbus-python] - Optional: Show item location in filemanager.
 

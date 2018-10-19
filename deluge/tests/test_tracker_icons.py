@@ -29,6 +29,8 @@ class TrackerIconsTestCase(BaseTestCase):
         skip = 'cannot use os.path.samefile to compair on windows(unix only)'
 
     def set_up(self):
+        # Disable resizing with Pillow for consistency.
+        self.patch(deluge.ui.tracker_icons, 'Image', None)
         self.icons = TrackerIcons()
 
     def tear_down(self):

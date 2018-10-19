@@ -31,13 +31,9 @@ except ImportError:
     from urlparse import urljoin, urlparse  # pylint: disable=ungrouped-imports
 
 try:
-    import PIL.Image as Image
+    from PIL import Image
 except ImportError:
-    PIL_INSTALLED = False
-else:
-    import deluge.ui.Win32IconImagePlugin  # NOQA pylint: disable=unused-import, ungrouped-imports
-
-    PIL_INSTALLED = True
+    Image = None
 
 log = logging.getLogger(__name__)
 
@@ -229,8 +225,7 @@ class TrackerIcons(Component):
                 callbackArgs=(host,),
                 errbackArgs=(host,),
             )
-            if PIL_INSTALLED:
-                d.addCallback(self.resize_icon)
+            d.addCallback(self.resize_icon)
             d.addCallback(self.store_icon, host)
         return d
 
@@ -383,13 +378,14 @@ class TrackerIcons(Component):
         :raises: InvalidIconError
         """
 
-        if PIL_INSTALLED:
+        if Image:
             try:
-                Image.open(icon_name)
+                with Image.open(icon_name):
+                    pass
             except IOError as ex:
                 raise InvalidIconError(ex)
         else:
-            if os.stat(icon_name).st_size == 0:
+            if not os.path.getsize(icon_name):
                 raise InvalidIconError('empty icon')
 
         return icon_name
@@ -478,16 +474,17 @@ class TrackerIcons(Component):
         :returns: the resized icon
         :rtype: TrackerIcon
         """
-        if icon:
+        # Requires Pillow(PIL) to resize.
+        if icon and Image:
             filename = icon.get_filename()
-            img = Image.open(filename)
-            if img.size > (16, 16):
-                new_filename = filename.rpartition('.')[0] + '.png'
-                img = img.resize((16, 16), Image.ANTIALIAS)
-                img.save(new_filename)
-                if new_filename != filename:
-                    os.remove(filename)
-                    icon = TrackerIcon(new_filename)
+            with Image.open(filename) as img:
+                if img.size > (16, 16):
+                    new_filename = filename.rpartition('.')[0] + '.png'
+                    img = img.resize((16, 16), Image.ANTIALIAS)
+                    img.save(new_filename)
+                    if new_filename != filename:
+                        os.remove(filename)
+                        icon = TrackerIcon(new_filename)
         return icon
 
     def store_icon(self, icon, host):
