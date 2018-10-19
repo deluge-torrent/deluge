@@ -39,7 +39,7 @@ class OptionsTab(Tab):
         self.add_tab_widget(
             'chk_sequential_download', 'active', ['sequential_download']
         )
-        self.add_tab_widget('chk_auto_managed', 'active', ['is_auto_managed'])
+        self.add_tab_widget('chk_auto_managed', 'active', ['auto_managed'])
         self.add_tab_widget('chk_stop_at_ratio', 'active', ['stop_at_ratio'])
         self.add_tab_widget('chk_remove_at_ratio', 'active', ['remove_at_ratio'])
         self.add_tab_widget('spin_stop_ratio', 'value', ['stop_ratio'])
