@@ -792,7 +792,7 @@ class TorrentView(ListView, component.Component):
         """This is a callback for showing the right-click context menu."""
         log.debug('on_button_press_event')
         # We only care about right-clicks
-        if event.button == 3:
+        if event.button == 3 and event.window == self.treeview.get_bin_window():
             x, y = event.get_coords()
             path = self.treeview.get_path_at_pos(int(x), int(y))
             if not path:

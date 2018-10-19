@@ -346,7 +346,7 @@ class ListView(object):
 
     def on_treeview_header_right_clicked(self, column, event):
         if event.button == 3:
-            self.menu.popup_at_pointer()
+            self.menu.popup(None, None, None, None, event.button, event.get_time())
 
     def register_checklist_menu(self, menu):
         """Register a checklist menu with the listview.  It will automatically
