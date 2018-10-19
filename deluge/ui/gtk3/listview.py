@@ -15,7 +15,7 @@ from gi.repository import GObject, Gtk
 
 from deluge.common import PY2, decode_bytes
 
-from .common import load_pickled_state_file, save_pickled_state_file
+from .common import cmp, load_pickled_state_file, save_pickled_state_file
 
 log = logging.getLogger(__name__)
 

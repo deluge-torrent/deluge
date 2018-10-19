@@ -23,6 +23,7 @@ import deluge.component as component
 from deluge.ui.client import client
 
 from . import torrentview_data_funcs as funcs
+from .common import cmp
 from .listview import ListView
 from .removetorrentdialog import RemoveTorrentDialog
 

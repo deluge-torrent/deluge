@@ -34,6 +34,17 @@ from deluge.common import PY2, get_pixmap, osx_check, windows_check
 log = logging.getLogger(__name__)
 
 
+def cmp(x, y):
+    """Replacement for built-in function cmp that was removed in Python 3.
+
+    Compare the two objects x and y and return an integer according to
+    the outcome. The return value is negative if x < y, zero if x == y
+    and strictly positive if x > y.
+    """
+
+    return (x > y) - (x < y)
+
+
 def create_blank_pixbuf(size=16):
     pix = Pixbuf.new(Colorspace.RGB, True, 8, size, size)
     pix.fill(0x0)
