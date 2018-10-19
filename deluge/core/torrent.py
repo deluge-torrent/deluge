@@ -933,7 +933,16 @@ class Torrent(object):
 
         """
         if not self.options['name']:
-            handle_name = self.handle.name()
+            # Use the top-level folder as torrent name.
+            if self.has_metadata:
+                handle_name = (
+                    self.torrent_info.file_at(0)
+                    .path.replace('\\', '/', 1)
+                    .split('/', 1)[0]
+                )
+            else:
+                handle_name = self.handle.name()
+
             if handle_name:
                 name = decode_bytes(handle_name)
             else:
