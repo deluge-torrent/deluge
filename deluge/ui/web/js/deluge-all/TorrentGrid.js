@@ -74,6 +74,10 @@
         return date > 0.0 ? fdate(date) : _('Never');
     }
 
+    function timeOrInf(time) {
+        return time < 0 ? '&infin;' : ftime(time);
+    }
+
     /**
      * Deluge.TorrentGrid Class
      *
@@ -154,7 +158,7 @@
                 header: _('ETA'),
                 width: 60,
                 sortable: true,
-                renderer: ftime,
+                renderer: timeOrInf,
                 dataIndex: 'eta',
             },
             {

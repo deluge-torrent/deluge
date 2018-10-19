@@ -31,8 +31,10 @@ def format_speed(speed):
 def format_time(time):
     if time > 0:
         return deluge.common.ftime(time)
-    else:
+    elif time == 0:
         return '-'
+    else:
+        return '∞'
 
 
 def format_date_dash(time):

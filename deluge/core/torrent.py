@@ -747,7 +747,8 @@ class Torrent(object):
             if left > 0:
                 eta = left // status.download_payload_rate
 
-        return eta
+        # Limit to 1 year, avoid excessive values and prevent GTK int overflow.
+        return eta if eta < 31557600 else -1
 
     def get_ratio(self):
         """Get the ratio of upload/download for this torrent.

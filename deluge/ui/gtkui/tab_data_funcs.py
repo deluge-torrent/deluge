@@ -50,7 +50,12 @@ def fdate_or_dash(value):
 
 def ftime_or_dash(value):
     """Display value as time, eg 2h 30m or dash"""
-    return ftime(value) if value > 0 else '-'
+    if value > 0:
+        return ftime(value)
+    elif value == 0:
+        return '-'
+    else:
+        return '∞'
 
 
 def fseed_rank_or_dash(seed_rank, seeding_time):

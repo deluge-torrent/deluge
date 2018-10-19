@@ -102,7 +102,7 @@ Deluge.details.StatusTab = Ext.extend(Ext.Panel, {
             upspeed: status.upload_payload_rate
                 ? fspeed(status.upload_payload_rate)
                 : '0.0 KiB/s',
-            eta: ftime(status.eta),
+            eta: status.eta < 0 ? '&infin;' : ftime(status.eta),
             pieces: status.num_pieces + ' (' + fsize(status.piece_length) + ')',
             seeds: seeds,
             peers: peers,
