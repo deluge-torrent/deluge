@@ -489,6 +489,10 @@ class TorrentManager(component.Component):
         ) ^ lt.add_torrent_params_flags_t.flag_auto_managed
         if options['seed_mode']:
             add_torrent_params['flags'] |= lt.add_torrent_params_flags_t.flag_seed_mode
+        if options['super_seeding']:
+            add_torrent_params[
+                'flags'
+            ] |= lt.add_torrent_params_flags_t.flag_super_seeding
 
         return torrent_id, add_torrent_params
 

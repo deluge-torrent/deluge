@@ -46,6 +46,7 @@ class OptionsTab(Tab):
         self.add_tab_widget('chk_move_completed', 'active', ['move_completed'])
         self.add_tab_widget('chk_shared', 'active', ['shared'])
         self.add_tab_widget('summary_owner', 'text', ['owner'])
+        self.add_tab_widget('chk_super_seeding', 'active', ['super_seeding'])
 
         # Connect key press event for spin widgets.
         for widget_id in self.tab_widgets:

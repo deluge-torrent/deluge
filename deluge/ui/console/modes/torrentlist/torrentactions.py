@@ -19,26 +19,12 @@ from deluge.ui.client import client
 from deluge.ui.common import TORRENT_DATA_FIELD
 from deluge.ui.console.modes.torrentlist.queue_mode import QueueMode
 from deluge.ui.console.utils import colors
+from deluge.ui.console.utils.common import TORRENT_OPTIONS
 from deluge.ui.console.widgets.popup import InputPopup, MessagePopup, SelectablePopup
 
 from . import ACTION
 
 log = logging.getLogger(__name__)
-
-torrent_options = [
-    'max_download_speed',
-    'max_upload_speed',
-    'max_connections',
-    'max_upload_slots',
-    'prioritize_first_last',
-    'sequential_download',
-    'is_auto_managed',
-    'stop_at_ratio',
-    'stop_ratio',
-    'remove_at_ratio',
-    'move_completed',
-    'move_completed_path',
-]
 
 
 def action_error(error, mode):
@@ -156,7 +142,7 @@ def action_torrent_info(mode=None, torrent_ids=None, **kwargs):
             border_off_north=1,
             base_popup=kwargs.get('base_popup', None),
         )
-        for field in torrent_options:
+        for field in TORRENT_OPTIONS:
             caption = '{!info!}' + TORRENT_DATA_FIELD[field]['name']
             value = options[field]
             if isinstance(value, ''.__class__):
@@ -178,7 +164,7 @@ def action_torrent_info(mode=None, torrent_ids=None, **kwargs):
     callbacks = []
     for tid in torrents:
         deferred = component.get('SessionProxy').get_torrent_status(
-            tid, torrent_options
+            tid, list(TORRENT_OPTIONS)
         )
         callbacks.append(deferred.addCallback(on_torrent_status))
 

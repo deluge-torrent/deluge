@@ -127,6 +127,7 @@ Deluge.Keys = {
         'prioritize_first_last',
         'move_completed',
         'move_completed_path',
+        'super_seeding',
     ],
 };
 

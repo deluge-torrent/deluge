@@ -116,6 +116,7 @@ class TorrentDetail(BaseMode, PopupsHandler):
             'last_seen_complete',
             'completed_time',
             'time_since_transfer',
+            'super_seeding',
         ]
         self.file_list = None
         self.current_file = None
@@ -587,6 +588,8 @@ class TorrentDetail(BaseMode, PopupsHandler):
         row = add_field('download_location', row)
         # Seed Rank
         row = add_field('seed_rank', row)
+        # Super Seeding
+        row = add_field('super_seeding', row)
         # Last seen complete
         row = add_field('last_seen_complete', row)
         # Last activity

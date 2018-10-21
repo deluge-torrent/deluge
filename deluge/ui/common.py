@@ -115,6 +115,7 @@ TORRENT_DATA_FIELD = {
     'owner': {'name': _('Owner'), 'status': ['owner']},
     'pieces': {'name': _('Pieces'), 'status': ['num_pieces', 'piece_length']},
     'seed_rank': {'name': _('Seed Rank'), 'status': ['seed_rank']},
+    'super_seeding': {'name': _('Super Seeding'), 'status': ['super_seeding']},
 }
 
 TRACKER_STATUS_TRANSLATION = [

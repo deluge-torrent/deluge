@@ -90,6 +90,15 @@
       </object>
     </child>
     <child>
+      <object class="GtkMenuItem" id="menuitem_super_seeding">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="use_action_appearance">False</property>
+        <property name="label" translatable="yes">_Super Seeding</property>
+        <property name="use_underline">True</property>
+      </object>
+    </child>
+    <child>
       <object class="GtkMenuItem" id="menuitem_change_owner">
         <property name="use_action_appearance">False</property>
         <property name="visible">True</property>

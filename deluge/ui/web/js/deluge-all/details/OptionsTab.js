@@ -48,6 +48,7 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
                 move_completed_path: '',
                 private: false,
                 prioritize_first_last: false,
+                super_seeding: false,
             },
         });
 
@@ -285,6 +286,13 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
             labelSeparator: '',
             boxLabel: _('Prioritize First/Last'),
             id: 'prioritize_first_last',
+        });
+
+        this.fields.super_seeding = this.fieldsets.general.add({
+            fieldLabel: '',
+            labelSeparator: '',
+            boxLabel: _('Super Seeding'),
+            id: 'super_seeding',
         });
 
         // Bind the fields so the options manager can manage them.

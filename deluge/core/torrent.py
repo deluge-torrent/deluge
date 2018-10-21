@@ -454,11 +454,8 @@ class Torrent(object):
         Args:
             super_seeding (bool): Enable super seeding.
         """
-        if self.status.is_seeding:
-            self.options['super_seeding'] = super_seeding
-            self.handle.super_seeding(super_seeding)
-        else:
-            self.options['super_seeding'] = False
+        self.options['super_seeding'] = super_seeding
+        self.handle.super_seeding(super_seeding)
 
     def set_stop_ratio(self, stop_ratio):
         """The seeding ratio to stop (or remove) the torrent at.

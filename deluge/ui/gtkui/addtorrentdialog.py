@@ -145,6 +145,7 @@ class AddTorrentDialog(component.Component):
             'move_completed',
             'move_completed_path',
             'move_completed_paths_list',
+            'super_seeding',
         ]
         # self.core_keys += self.move_completed_path_chooser.get_config_keys()
         self.builder.get_object('notebook1').connect(
@@ -471,6 +472,9 @@ class AddTorrentDialog(component.Component):
         self.builder.get_object('chk_move_completed').set_active(
             options['move_completed']
         )
+        self.builder.get_object('chk_super_seeding').set_active(
+            options['super_seeding']
+        )
 
     def save_torrent_options(self, row=None):
         # Keeps the torrent options dictionary up-to-date with what the user has
@@ -519,6 +523,9 @@ class AddTorrentDialog(component.Component):
             'chk_move_completed'
         ).get_active()
         options['seed_mode'] = self.builder.get_object('chk_seed_mode').get_active()
+        options['super_seeding'] = self.builder.get_object(
+            'chk_super_seeding'
+        ).get_active()
 
         self.options[torrent_id] = options
 
@@ -578,6 +585,9 @@ class AddTorrentDialog(component.Component):
             self.core_config['move_completed']
         )
         self.builder.get_object('chk_seed_mode').set_active(False)
+        self.builder.get_object('chk_super_seeding').set_active(
+            self.core_config['super_seeding']
+        )
 
     def get_file_priorities(self, torrent_id):
         # A list of priorities

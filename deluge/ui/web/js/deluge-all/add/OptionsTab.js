@@ -113,7 +113,7 @@ Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
         );
 
         fieldset = panel.add({
-            title: _('General'),
+            // title: _('General'),
             border: false,
             autoHeight: true,
             defaultType: 'checkbox',
@@ -150,6 +150,15 @@ Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
             fieldset.add({
                 name: 'seed_mode',
                 boxLabel: _('Skip File Hash Check'),
+                fieldLabel: '',
+                labelSeparator: '',
+            })
+        );
+        this.optionsManager.bind(
+            'super_seeding',
+            fieldset.add({
+                name: 'super_seeding',
+                boxLabel: _('Super Seed'),
                 fieldLabel: '',
                 labelSeparator: '',
             })
@@ -197,6 +206,7 @@ Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
                     prioritize_first_last_pieces:
                         config.prioritize_first_last_pieces,
                     seed_mode: false,
+                    super_seeding: false,
                 };
                 this.optionsManager.options = options;
                 this.optionsManager.resetAll();
