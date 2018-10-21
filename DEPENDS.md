@@ -43,10 +43,11 @@ All modules will require the [common](#common) section dependencies.
 
 ## GTK UI
 
-- PyGTK
-- [pycairo]
+- [GTK+] >= 3.10
+- [PyGObject]
+- [Pycairo]
 - [librsvg] _>= 2_
-- [python-appindicator] - Optional: Ubuntu system tray icon.
+- [libappindicator3] w/GIR - Optional: Ubuntu system tray icon.
 
 #### MacOS
 
@@ -61,7 +62,7 @@ All modules will require the [common](#common) section dependencies.
 ### Notifications
 
 - [pygame] - Optional: Play sounds
-- [python-notify] - Optional: Desktop popups.
+- [libnotify] w/GIR - Optional: Desktop popups.
 
 [python]: https://www.python.org/
 [setuptools]: https://setuptools.readthedocs.io/en/latest/
@@ -85,11 +86,12 @@ All modules will require the [common](#common) section dependencies.
 [pyxdg]: https://www.freedesktop.org/wiki/Software/pyxdg/
 [six]: https://pythonhosted.org/six/
 [xdg-utils]: https://www.freedesktop.org/wiki/Software/xdg-utils/
+[gtk+]: https://www.gtk.org/
 [pycairo]: https://cairographics.org/pycairo/
 [pygobject]: https://pygobject.readthedocs.io/en/latest/
 [geoip]: https://pypi.org/project/GeoIP/
 [mako]: https://www.makotemplates.org/
 [pygame]: https://www.pygame.org/
-[python-notify]: https://packages.ubuntu.com/xenial/python-notify
+[libnotify]: https://developer.gnome.org/libnotify/
 [python-appindicator]: https://packages.ubuntu.com/xenial/python-appindicator
 [librsvg]: https://wiki.gnome.org/action/show/Projects/LibRsvg
