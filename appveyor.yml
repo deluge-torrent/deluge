@@ -5,7 +5,6 @@ environment:
 
   matrix:
     - TOXENV: py27
-    - TOXENV: pygtkui
     - PYTHON_VERSION: "2.7.x"
 
 pull_requests:
@@ -35,13 +34,6 @@ install:
     pefile
     )
 
-  - echo "Installing pygtk...."
-  - if not exist pygtk-all-in-one-2.24.2.win32-py2.7.msi (
-    echo "Downloading pygtk...."
-    & appveyor-retry appveyor DownloadFile "https://ftp.gnome.org/pub/GNOME/binaries/win32/pygtk/2.24/pygtk-all-in-one-2.24.2.win32-py2.7.msi"
-    )
-  - cmd: msiexec /i pygtk-all-in-one-2.24.2.win32-py2.7.msi /quiet /qn /norestart TARGETDIR=C:\Python27 INSTALLLEVEL=3
-
   - echo "Installing openssl...."
   - if not exist openssl-1.1.0f-vs2008.7z (
     echo "Downloading openssl...."
@@ -66,7 +58,6 @@ install:
   - openssl version -v
 
 cache:
-  - pygtk-all-in-one-2.24.2.win32-py2.7.msi
   - openssl-1.1.0f-vs2008.7z
   - '%LOCALAPPDATA%\pip\cache'
   - libtorrent.pyd
@@ -76,16 +67,17 @@ build: false
 test_script:
   - if defined TOXENV tox
 
-after_test:
-  - if not defined TOXENV python setup.py build && python setup.py install
-  - cd %APPVEYOR_BUILD_FOLDER%\\packaging\\win32
-  - if not defined TOXENV deluge-bbfreeze.py debug
-  - if not defined TOXENV makensis deluge-win32-installer.nsi
-  - if not defined TOXENV 7z a deluge-win32.zip build-win32 "-x!*.exe"
+# Commented out as require GTK3 to create package.
+# after_test:
+# - if not defined TOXENV python setup.py build && python setup.py install
+# - cd %APPVEYOR_BUILD_FOLDER%\\packaging\\win32
+# - if not defined TOXENV deluge-bbfreeze.py debug
+# - if not defined TOXENV makensis deluge-win32-installer.nsi
+# - if not defined TOXENV 7z a deluge-win32.zip build-win32 "-x!*.exe"
 
-artifacts:
-  - path: packaging\win32\deluge-win32.zip
-  - path: packaging\win32\build-win32\*.exe
+# artifacts:
+# - path: packaging\win32\deluge-win32.zip
+# - path: packaging\win32\build-win32\*.exe
 
 #on_success:
 #
