@@ -313,7 +313,9 @@ class MainWindow(component.Component):
                 status['payload_upload_rate'], precision=0, shortform=True
             )
             self.window.set_title(
-                _('D: %s U: %s - Deluge' % (download_rate, upload_rate))
+                _('D: {download_rate} U: {upload_rate} - Deluge').format(
+                    download_rate=download_rate, upload_rate=upload_rate
+                )
             )
 
         if self.config['show_rate_in_title']:

@@ -22,12 +22,14 @@ def fratio(value):
 
 
 def fpcnt(value, state, message):
-    textstr = _(state)
+    state_i18n = _(state)
     if state not in ('Error', 'Seeding') and value < 100:
-        textstr = ('%s %.2f' % (textstr, value)).rstrip('0').rstrip('.') + '%'
+        percent = '{:.2f}'.format(value).rstrip('0').rstrip('.')
+        return _('{state} {percent}%').format(state=state_i18n, percent=percent)
     elif state == 'Error':
-        textstr = _('%s: %s') % (textstr, message)
-    return textstr
+        return _('{state}: {err_msg}').format(state=state_i18n, err_msg=message)
+    else:
+        return state_i18n
 
 
 def fspeed_max(value, max_value=-1):

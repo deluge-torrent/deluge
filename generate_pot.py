@@ -18,7 +18,6 @@ import re
 from datetime import datetime
 from subprocess import call
 
-from gen_web_gettext import create_gettext_js
 from version import get_version
 
 # Paths to exclude
@@ -108,7 +107,4 @@ for filepath in to_translate:
     if filepath.endswith('.h'):
         os.remove(filepath)
 
-# Update web js gettext
-create_gettext_js(WEBUI_JS_DIR)
-
-print('Created %s and updated gettext.js' % POT_FILEPATH)
+print('Created %s' % POT_FILEPATH)
