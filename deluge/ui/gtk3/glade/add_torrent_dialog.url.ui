@@ -17,8 +17,8 @@
     <child internal-child="vbox">
       <object class="GtkBox" id="dialog-vbox5">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
           <object class="GtkButtonBox" id="dialog-action_area5">
@@ -66,8 +66,8 @@
         <child>
           <object class="GtkBox" id="vbox6">
             <property name="visible">True</property>
-            <property name="orientation">vertical</property>
             <property name="can_focus">False</property>
+            <property name="orientation">vertical</property>
             <property name="spacing">5</property>
             <child>
               <object class="GtkBox" id="hbox7">

@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.0"/>
-  <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkWindow" id="window1">
     <property name="can_focus">False</property>
+    <child>
+      <placeholder/>
+    </child>
     <child>
       <object class="GtkVBox" id="prefs_box">
         <property name="visible">True</property>
@@ -45,8 +48,8 @@
                       <object class="GtkLabel" id="label2">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">Download color:</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="top_attach">1</property>
@@ -57,8 +60,8 @@
                       <object class="GtkLabel" id="label1">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">Upload color:</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="top_attach">2</property>
@@ -84,9 +87,9 @@
                       <object class="GtkLabel" id="label8">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">&lt;b&gt;Connections Graph&lt;/b&gt;</property>
                         <property name="use_markup">True</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="right_attach">2</property>
@@ -98,9 +101,9 @@
                       <object class="GtkLabel" id="label9">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">&lt;b&gt;Bandwidth Graph&lt;/b&gt;</property>
                         <property name="use_markup">True</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="right_attach">2</property>
@@ -125,8 +128,8 @@
                       <object class="GtkLabel" id="label10">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">DHT nodes:</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="top_attach">4</property>
@@ -152,8 +155,8 @@
                       <object class="GtkLabel" id="label11">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">Cached DHT nodes:</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="top_attach">5</property>
@@ -164,8 +167,8 @@
                       <object class="GtkLabel" id="label12">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">DHT torrents:</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="top_attach">6</property>
@@ -176,8 +179,8 @@
                       <object class="GtkLabel" id="label13">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">Connections:</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="top_attach">7</property>
@@ -218,9 +221,9 @@
                       <object class="GtkLabel" id="label16">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">&lt;b&gt;Seeds / Peers&lt;/b&gt;</property>
                         <property name="use_markup">True</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="right_attach">2</property>
@@ -247,8 +250,8 @@
                       <object class="GtkLabel" id="label17">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="xalign">0</property>
                         <property name="label" translatable="yes">Peers:</property>
+                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="top_attach">9</property>

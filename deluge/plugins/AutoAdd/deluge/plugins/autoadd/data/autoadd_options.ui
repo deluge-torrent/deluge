@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.0"/>
-  <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkAdjustment" id="adjustment1">
     <property name="lower">-1</property>
     <property name="upper">10000</property>
@@ -39,12 +39,15 @@
     <property name="modal">True</property>
     <property name="type_hint">dialog</property>
     <signal name="close" handler="on_options_dialog_close" swapped="no"/>
+    <child>
+      <placeholder/>
+    </child>
     <child internal-child="vbox">
-      <object class="GtkVBox" id="dialog-vbox1">
+      <object class="GtkBox" id="dialog-vbox1">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <child internal-child="action_area">
-          <object class="GtkHButtonBox" id="dialog-action_area1">
+          <object class="GtkButtonBox" id="dialog-action_area1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
@@ -145,8 +148,6 @@ it will be added to the session.</property>
                                         <property name="invisible_char">●</property>
                                         <property name="primary_icon_activatable">False</property>
                                         <property name="secondary_icon_activatable">False</property>
-                                        <property name="primary_icon_sensitive">True</property>
-                                        <property name="secondary_icon_sensitive">True</property>
                                       </object>
                                       <packing>
                                         <property name="expand">True</property>
@@ -280,8 +281,6 @@ and it will remain in the same directory.</property>
                                             <property name="text" translatable="yes">.added</property>
                                             <property name="primary_icon_activatable">False</property>
                                             <property name="secondary_icon_activatable">False</property>
-                                            <property name="primary_icon_sensitive">True</property>
-                                            <property name="secondary_icon_sensitive">True</property>
                                           </object>
                                           <packing>
                                             <property name="expand">True</property>
@@ -327,8 +326,6 @@ and deleted from the watch folder.</property>
                                                 <property name="invisible_char">•</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
-                                                <property name="primary_icon_sensitive">True</property>
-                                                <property name="secondary_icon_sensitive">True</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">True</property>
@@ -444,8 +441,6 @@ also delete the .torrent file used to add it.</property>
                                         <property name="invisible_char">●</property>
                                         <property name="primary_icon_activatable">False</property>
                                         <property name="secondary_icon_activatable">False</property>
-                                        <property name="primary_icon_sensitive">True</property>
-                                        <property name="secondary_icon_sensitive">True</property>
                                       </object>
                                       <packing>
                                         <property name="expand">True</property>
@@ -534,8 +529,6 @@ also delete the .torrent file used to add it.</property>
                                         <property name="invisible_char">●</property>
                                         <property name="primary_icon_activatable">False</property>
                                         <property name="secondary_icon_activatable">False</property>
-                                        <property name="primary_icon_sensitive">True</property>
-                                        <property name="secondary_icon_sensitive">True</property>
                                       </object>
                                       <packing>
                                         <property name="expand">True</property>
@@ -632,6 +625,11 @@ also delete the .torrent file used to add it.</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="has_entry">True</property>
+                                    <child internal-child="entry">
+                                      <object class="GtkEntry">
+                                        <property name="can_focus">False</property>
+                                      </object>
+                                    </child>
                                   </object>
                                   <packing>
                                     <property name="expand">True</property>
@@ -795,8 +793,6 @@ also delete the .torrent file used to add it.</property>
                                     <property name="can_focus">True</property>
                                     <property name="primary_icon_activatable">False</property>
                                     <property name="secondary_icon_activatable">False</property>
-                                    <property name="primary_icon_sensitive">True</property>
-                                    <property name="secondary_icon_sensitive">True</property>
                                     <property name="adjustment">adjustment1</property>
                                     <property name="climb_rate">1</property>
                                     <property name="digits">1</property>
@@ -813,8 +809,6 @@ also delete the .torrent file used to add it.</property>
                                     <property name="can_focus">True</property>
                                     <property name="primary_icon_activatable">False</property>
                                     <property name="secondary_icon_activatable">False</property>
-                                    <property name="primary_icon_sensitive">True</property>
-                                    <property name="secondary_icon_sensitive">True</property>
                                     <property name="adjustment">adjustment2</property>
                                     <property name="climb_rate">1</property>
                                     <property name="digits">1</property>
@@ -833,8 +827,6 @@ also delete the .torrent file used to add it.</property>
                                     <property name="can_focus">True</property>
                                     <property name="primary_icon_activatable">False</property>
                                     <property name="secondary_icon_activatable">False</property>
-                                    <property name="primary_icon_sensitive">True</property>
-                                    <property name="secondary_icon_sensitive">True</property>
                                     <property name="adjustment">adjustment3</property>
                                     <property name="climb_rate">1</property>
                                   </object>
@@ -852,8 +844,6 @@ also delete the .torrent file used to add it.</property>
                                     <property name="can_focus">True</property>
                                     <property name="primary_icon_activatable">False</property>
                                     <property name="secondary_icon_activatable">False</property>
-                                    <property name="primary_icon_sensitive">True</property>
-                                    <property name="secondary_icon_sensitive">True</property>
                                     <property name="adjustment">adjustment4</property>
                                     <property name="climb_rate">1</property>
                                   </object>
@@ -869,9 +859,9 @@ also delete the .torrent file used to add it.</property>
                                   <object class="GtkLabel" id="label14">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="xalign">0</property>
                                     <property name="xpad">5</property>
                                     <property name="label" translatable="yes">KiB/s</property>
+                                    <property name="xalign">0</property>
                                   </object>
                                   <packing>
                                     <property name="left_attach">2</property>
@@ -884,9 +874,9 @@ also delete the .torrent file used to add it.</property>
                                   <object class="GtkLabel" id="label15">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="xalign">0</property>
                                     <property name="xpad">5</property>
                                     <property name="label" translatable="yes">KiB/s</property>
+                                    <property name="xalign">0</property>
                                   </object>
                                   <packing>
                                     <property name="left_attach">2</property>
@@ -1067,8 +1057,6 @@ also delete the .torrent file used to add it.</property>
                                     <property name="invisible_char">●</property>
                                     <property name="primary_icon_activatable">False</property>
                                     <property name="secondary_icon_activatable">False</property>
-                                    <property name="primary_icon_sensitive">True</property>
-                                    <property name="secondary_icon_sensitive">True</property>
                                     <property name="adjustment">adjustment5</property>
                                     <property name="climb_rate">1</property>
                                     <property name="digits">1</property>

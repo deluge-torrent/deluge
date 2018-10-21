@@ -68,6 +68,7 @@
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
         <property name="image">add-image</property>
+        <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_add_torrent_activate" swapped="no"/>
       </object>
     </child>
@@ -84,6 +85,7 @@
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
         <property name="image">pause-image</property>
+        <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_pause_session_activate" swapped="no"/>
       </object>
     </child>
@@ -94,6 +96,7 @@
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
         <property name="image">resume-image</property>
+        <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_resume_session_activate" swapped="no"/>
       </object>
     </child>
@@ -110,6 +113,7 @@
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
         <property name="image">download-limit-image</property>
+        <property name="use_stock">False</property>
         <property name="always_show_image">True</property>
       </object>
     </child>
@@ -120,6 +124,7 @@
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
         <property name="image">upload-limit-image</property>
+        <property name="use_stock">False</property>
         <property name="always_show_image">True</property>
       </object>
     </child>
@@ -136,6 +141,7 @@
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
         <property name="image">quit-daemon-image</property>
+        <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_quitdaemon_activate" swapped="no"/>
       </object>
     </child>
@@ -152,6 +158,7 @@
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
         <property name="image">quit-image</property>
+        <property name="use_stock">False</property>
         <property name="accel_group">accelgroup1</property>
         <signal name="activate" handler="on_menuitem_quit_activate" swapped="no"/>
       </object>

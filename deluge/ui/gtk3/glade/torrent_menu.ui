@@ -83,6 +83,7 @@
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
         <property name="image">menu-item-image7</property>
+        <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_open_folder_activate" swapped="no"/>
       </object>
     </child>
@@ -99,6 +100,7 @@
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
         <property name="image">menu-item-image14</property>
+        <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_pause_activate" swapped="no"/>
       </object>
     </child>
@@ -110,6 +112,7 @@
         <property name="tooltip_text" translatable="yes">Resume selected torrents.</property>
         <property name="use_underline">True</property>
         <property name="image">menu-item-image13</property>
+        <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_resume_activate" swapped="no"/>
       </object>
     </child>
@@ -126,6 +129,7 @@
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
         <property name="image">image1</property>
+        <property name="use_stock">False</property>
       </object>
     </child>
     <child>
@@ -141,6 +145,7 @@
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
         <property name="image">menu-item-image19</property>
+        <property name="use_stock">False</property>
       </object>
     </child>
     <child>
@@ -156,6 +161,7 @@
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
         <property name="image">menu-item-image5</property>
+        <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_updatetracker_activate" swapped="no"/>
       </object>
     </child>
@@ -166,6 +172,7 @@
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
         <property name="image">menu-item-image12</property>
+        <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_edittrackers_activate" swapped="no"/>
       </object>
     </child>
@@ -182,6 +189,7 @@
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
         <property name="image">menu-item-image9</property>
+        <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_remove_activate" swapped="no"/>
       </object>
     </child>
@@ -198,6 +206,7 @@
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
         <property name="image">menu-item-image6</property>
+        <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_recheck_activate" swapped="no"/>
       </object>
     </child>
@@ -208,6 +217,7 @@
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
         <property name="image">menu-item-image8</property>
+        <property name="use_stock">False</property>
         <signal name="activate" handler="on_menuitem_move_activate" swapped="no"/>
       </object>
     </child>
