@@ -538,21 +538,21 @@ class CmdLine(BaseMode, Commander):
         """
         col = 0
         try:
-            parsed = colors.parse_color_string(string, self.encoding)
+            parsed = colors.parse_color_string(string)
         except colors.BadColorString as ex:
             log.error('Cannot add bad color string %s: %s', string, ex)
             return
 
-        for index, (color, s) in enumerate(parsed):
+        for index, (color, p_str) in enumerate(parsed):
             if index + 1 == len(parsed):
                 # This is the last string so lets append some " " to it
-                s += ' ' * (self.cols - (col + strwidth(s)) - 1)
+                p_str += ' ' * (self.cols - (col + strwidth(p_str)) - 1)
             try:
-                self.stdscr.addstr(row, col, s.encode(self.encoding), color)
+                self.stdscr.addstr(row, col, p_str.encode(self.encoding), color)
             except curses.error:
                 pass
 
-            col += strwidth(s)
+            col += strwidth(p_str)
 
     def set_batch_write(self, batch):
         """

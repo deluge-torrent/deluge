@@ -273,7 +273,7 @@ def add_string(
 
     """
     try:
-        parsed = colors.parse_color_string(fstring, encoding)
+        parsed = colors.parse_color_string(fstring)
     except colors.BadColorString as ex:
         log.error('Cannot add bad color string %s: %s', fstring, ex)
         return

@@ -175,37 +175,35 @@ def get_line_width(line):
     return format_utils.strwidth(line)
 
 
-def parse_color_string(s, encoding='UTF-8'):
-    """
-    Parses a string and returns a list of 2-tuples (color, string).
+def parse_color_string(string):
+    """Parses a string and returns a list of 2-tuples (color, string).
 
-    :param s:, string to parse
-    :param encoding: the encoding to use on output
-
+    Args:
+        string (str): The string to parse.
     """
-    check_tag_count(s)
+    check_tag_count(string)
 
     ret = []
     last_color_attr = None
     # Keep track of where the strings
-    while s.find(color_tag_start) != -1:
-        begin = s.find(color_tag_start)
+    while string.find(color_tag_start) != -1:
+        begin = string.find(color_tag_start)
         if begin > 0:
             ret.append(
                 (
                     curses.color_pair(
                         color_pairs[(schemes['input'][0], schemes['input'][1])]
                     ),
-                    s[:begin],
+                    string[:begin],
                 )
             )
 
-        end = s.find(color_tag_end)
+        end = string.find(color_tag_end)
         if end == -1:
             raise BadColorString('Missing closing "!}"')
 
         # Get a list of attributes in the bracketed section
-        attrs = s[begin + 2 : end].split(',')
+        attrs = string[begin + 2 : end].split(',')
 
         if len(attrs) == 1 and not attrs[0].strip(' '):
             raise BadColorString('No description in {! !}')
@@ -279,18 +277,18 @@ def parse_color_string(s, encoding='UTF-8'):
             last_color_attr = color_pair
         # We need to find the text now, so lets try to find another {! and if
         # there isn't one, then it's the rest of the string
-        next_begin = s.find(color_tag_start, end)
+        next_begin = string.find(color_tag_start, end)
 
         if next_begin == -1:
-            ret.append((color_pair, replace_tabs(s[end + 2 :])))
+            ret.append((color_pair, replace_tabs(string[end + 2 :])))
             break
         else:
-            ret.append((color_pair, replace_tabs(s[end + 2 : next_begin])))
-            s = s[next_begin:]
+            ret.append((color_pair, replace_tabs(string[end + 2 : next_begin])))
+            string = string[next_begin:]
 
     if not ret:
         # There was no color scheme so we add it with a 0 for white on black
-        ret = [(0, s)]
+        ret = [(0, string)]
     return ret
 
 
