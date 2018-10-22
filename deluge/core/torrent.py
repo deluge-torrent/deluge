@@ -1382,7 +1382,7 @@ class Torrent(object):
             # lt needs utf8 byte-string. Otherwise if wstrings enabled, unicode string.
             try:
                 self.handle.rename_file(index, filename.encode('utf8'))
-            except TypeError:
+            except (UnicodeDecodeError, TypeError):
                 self.handle.rename_file(index, filename)
 
     def rename_folder(self, folder, new_folder):
@@ -1418,7 +1418,7 @@ class Torrent(object):
                 new_path = _file['path'].replace(folder, new_folder, 1)
                 try:
                     self.handle.rename_file(_file['index'], new_path.encode('utf8'))
-                except TypeError:
+                except (UnicodeDecodeError, TypeError):
                     self.handle.rename_file(_file['index'], new_path)
 
         def on_folder_rename_complete(dummy_result, torrent, folder, new_folder):

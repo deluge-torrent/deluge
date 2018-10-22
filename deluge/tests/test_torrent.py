@@ -13,7 +13,7 @@ from base64 import b64encode
 
 import mock
 from twisted.internet import reactor
-from twisted.internet.task import deferLater
+from twisted.internet.task import defer, deferLater
 from twisted.trial import unittest
 
 import deluge.component as component
@@ -24,7 +24,7 @@ from deluge.common import utf8_encode_structure, windows_check
 from deluge.core.core import Core
 from deluge.core.rpcserver import RPCServer
 from deluge.core.torrent import Torrent
-from deluge.core.torrentmanager import TorrentState
+from deluge.core.torrentmanager import TorrentManager, TorrentState
 
 from .basetest import BaseTestCase
 
@@ -44,7 +44,7 @@ class TorrentTestCase(BaseTestCase):
         self.rpcserver = RPCServer(listen=False)
         self.core = Core()
         self.core.config.config['lsd'] = False
-        self.session = lt.session()
+        self.session = self.core.session
         self.torrent = None
         return component.start()
 
@@ -304,3 +304,17 @@ class TorrentTestCase(BaseTestCase):
         handle = self.session.add_torrent(atp)
         self.torrent = Torrent(handle, {})
         self.assertEqual(self.torrent.get_name(), 'সুকুমার রায়.mkv')
+
+    def test_rename_unicode(self):
+        """Test renaming file/folders with unicode filenames."""
+        atp = self.get_torrent_atp('unicode_filenames.torrent')
+        handle = self.session.add_torrent(atp)
+        self.torrent = Torrent(handle, {})
+        # Ignore TorrentManager method call
+        TorrentManager.save_resume_data = mock.MagicMock
+
+        result = self.torrent.rename_folder('unicode_filenames', 'Горбачёв')
+        self.assertIsInstance(result, defer.DeferredList)
+
+        result = self.torrent.rename_files([[0, 'new_рбачёв']])
+        self.assertIsNone(result)
