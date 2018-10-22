@@ -548,7 +548,7 @@ class CmdLine(BaseMode, Commander):
                 # This is the last string so lets append some " " to it
                 s += ' ' * (self.cols - (col + strwidth(s)) - 1)
             try:
-                self.stdscr.addstr(row, col, s, color)
+                self.stdscr.addstr(row, col, s.encode(self.encoding), color)
             except curses.error:
                 pass
 

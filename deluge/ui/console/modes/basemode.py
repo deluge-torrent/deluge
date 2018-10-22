@@ -299,7 +299,7 @@ def add_string(
                 string = string[0:remaining_chrs]
 
         try:
-            screen.addstr(row, col, string, color)
+            screen.addstr(row, col, string.encode(encoding), color)
         except curses.error as ex:
             # Ignore exception for writing offscreen.
             pass
