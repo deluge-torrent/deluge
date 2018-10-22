@@ -64,9 +64,9 @@ class Component:
                    paused by instructing the :class:`ComponentRegistry` to pause
                    this Component.
 
-        **pause()** - This method is called when the component is being paused.
+       **pause()** - This method is called when the component is being paused.
 
-        **resume()** - This method is called when the component resumes from a Paused
+       **resume()** - This method is called when the component resumes from a Paused
                     state.
 
         **shutdown()** - This method is called when the client is exiting.  If the
@@ -85,7 +85,7 @@ class Component:
 
         **Stopped** - The Component has either been stopped or has yet to be started.
 
-        **Stopping** - The Component has had it's stop method called, but it hasn't
+        **Stopping** - The Component has had its stop method called, but it hasn't
                     fully stopped yet.
 
         **Paused** - The Component has had its update timer stopped, but will

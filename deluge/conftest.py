@@ -42,11 +42,13 @@ def mock_callback():
     The returned Mock instance will have a `deferred` attribute which will complete when the callback has been called.
     """
 
-    def reset():
+    def reset(timeout=0.5, *args, **kwargs):
         if mock.called:
-            original_reset_mock()
-        deferred = Deferred()
-        deferred.addTimeout(0.5, reactor)
+            original_reset_mock(*args, **kwargs)
+        if mock.deferred:
+            mock.deferred.cancel()
+        deferred = Deferred(canceller=lambda x: deferred.callback(None))
+        deferred.addTimeout(timeout, reactor)
         mock.side_effect = lambda *args, **kw: deferred.callback((args, kw))
         mock.deferred = deferred
 
