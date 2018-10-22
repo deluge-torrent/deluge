@@ -297,3 +297,10 @@ class TorrentTestCase(BaseTestCase):
         result = self.torrent.get_eta()
         self.assertEqual(result, 100)
         self.assertIsInstance(result, int)
+
+    def test_get_name_unicode(self):
+        """Test retrieving a unicode torrent name from libtorrent."""
+        atp = self.get_torrent_atp('unicode_file.torrent')
+        handle = self.session.add_torrent(atp)
+        self.torrent = Torrent(handle, {})
+        self.assertEqual(self.torrent.get_name(), 'সুকুমার রায়.mkv')
