@@ -20,6 +20,7 @@ from gi.repository.Gtk import EntryIconPosition
 from twisted.internet import reactor
 
 import deluge.component as component
+from deluge.common import decode_bytes
 from deluge.ui.client import client
 
 from . import torrentview_data_funcs as funcs
@@ -663,7 +664,7 @@ class TorrentView(ListView, component.Component):
                 to_update = []
                 for i, status_field in fields_to_update:
                     row_value = status[torrent_id][status_field]
-                    if row[i] != row_value:
+                    if decode_bytes(row[i]) != row_value:
                         to_update.append(i)
                         to_update.append(row_value)
                 # Update fields in the liststore
