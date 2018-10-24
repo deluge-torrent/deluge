@@ -17,7 +17,8 @@ gi.require_version('PangoCairo', '1.0')  # NOQA: E402
 gi.require_version('cairo', '1.0')  # NOQA: E402
 
 # isort:imports-thirdparty
-from gi.repository import PangoCairo, cairo
+import cairo  # Backward compat cairo <= 1.15
+from gi.repository import PangoCairo
 from gi.repository.Gtk import DrawingArea, ProgressBar, StateFlags
 from gi.repository.Pango import SCALE, Weight
 
