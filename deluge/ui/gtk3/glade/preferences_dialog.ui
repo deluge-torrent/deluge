@@ -368,7 +368,7 @@
                                   <object class="GtkAlignment" id="alignment_app_mode">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="top_padding">2</property>
+                                    <property name="top_padding">3</property>
                                     <property name="left_padding">10</property>
                                     <child>
                                       <object class="GtkBox" id="hbox_app_mode">
@@ -1499,7 +1499,6 @@ used sparingly.</property>
                           <object class="GtkBox" id="vbox7">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="margin_left">10</property>
                             <property name="orientation">vertical</property>
                             <child>
                               <object class="GtkFrame" id="frame11">
@@ -1529,7 +1528,6 @@ used sparingly.</property>
                                               <object class="GtkSpinButton" id="spin_max_connections_per_second">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
-                                                <property name="width_chars">4</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="adjustment">adjustment_spin_max_conn_per_sec</property>
@@ -1544,7 +1542,6 @@ used sparingly.</property>
                                               <object class="GtkSpinButton" id="spin_max_half_open_connections">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
-                                                <property name="width_chars">4</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="adjustment">adjustment_spin_max_half_open_conn</property>
@@ -1610,8 +1607,6 @@ used sparingly.</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="tooltip_text" translatable="yes">The maximum number of connections allowed.  Set -1 for unlimited.</property>
-                                                <property name="max_length">4</property>
-                                                <property name="width_chars">4</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="adjustment">adjustment_spin_max_conn_global</property>
@@ -1643,7 +1638,6 @@ used sparingly.</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="tooltip_text" translatable="yes">The maximum download speed for all torrents.  Set -1 for unlimited.</property>
-                                                <property name="width_chars">6</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="adjustment">adjustment_spin_max_download</property>
@@ -1661,7 +1655,6 @@ used sparingly.</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="tooltip_text" translatable="yes">The maximum upload speed for all torrents.  Set -1 for unlimited.</property>
-                                                <property name="width_chars">6</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="adjustment">adjustment_spin_max_upload</property>
@@ -1679,7 +1672,6 @@ used sparingly.</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="tooltip_text" translatable="yes">The maximum upload slots for all torrents.  Set -1 for unlimited.</property>
-                                                <property name="width_chars">4</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="adjustment">adjustment_spin_max_upload_slots_global</property>
@@ -1743,7 +1735,7 @@ used sparingly.</property>
                                             </child>
                                           </object>
                                           <packing>
-                                            <property name="expand">True</property>
+                                            <property name="expand">False</property>
                                             <property name="fill">True</property>
                                             <property name="position">0</property>
                                           </packing>
@@ -1840,8 +1832,6 @@ used sparingly.</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="tooltip_text" translatable="yes">The maximum upload slots per torrent.  Set -1 for unlimited.</property>
-                                            <property name="max_length">4</property>
-                                            <property name="width_chars">4</property>
                                             <property name="primary_icon_activatable">False</property>
                                             <property name="secondary_icon_activatable">False</property>
                                             <property name="adjustment">adjustment_spin_max_upload_slots_per_torrent</property>
@@ -1859,8 +1849,6 @@ used sparingly.</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="tooltip_text" translatable="yes">The maximum number of connections per torrent.  Set -1 for unlimited.</property>
-                                            <property name="max_length">4</property>
-                                            <property name="width_chars">4</property>
                                             <property name="primary_icon_activatable">False</property>
                                             <property name="secondary_icon_activatable">False</property>
                                             <property name="adjustment">adjustment_spin_max_conn_per_torrent</property>
@@ -1925,7 +1913,6 @@ used sparingly.</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="tooltip_text" translatable="yes">The maximum number download speed per torrent.  Set -1 for unlimited.</property>
-                                            <property name="width_chars">6</property>
                                             <property name="primary_icon_activatable">False</property>
                                             <property name="secondary_icon_activatable">False</property>
                                             <property name="adjustment">adjustment_spin_max_download_per_torrent</property>
@@ -1942,7 +1929,6 @@ used sparingly.</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="tooltip_text" translatable="yes">The maximum upload speed per torrent.  Set -1 for unlimited.</property>
-                                            <property name="width_chars">5</property>
                                             <property name="primary_icon_activatable">False</property>
                                             <property name="secondary_icon_activatable">False</property>
                                             <property name="adjustment">adjustment_spin_max_upload_per_torrent</property>
@@ -2316,19 +2302,17 @@ used sparingly.</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <object class="GtkSpinButton" id="spin_share_ratio_limit">
+                                              <object class="GtkSpinButton" id="spin_seed_time_limit">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="invisible_char">•</property>
-                                                <property name="width_chars">6</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
-                                                <property name="adjustment">adjustment_share_ratio_limit</property>
-                                                <property name="digits">2</property>
+                                                <property name="adjustment">adjustment_spin_seed_time_limit</property>
                                               </object>
                                               <packing>
                                                 <property name="left_attach">1</property>
-                                                <property name="top_attach">0</property>
+                                                <property name="top_attach">2</property>
                                               </packing>
                                             </child>
                                             <child>
@@ -2336,7 +2320,6 @@ used sparingly.</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="invisible_char">•</property>
-                                                <property name="width_chars">6</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="adjustment">adjustment_time_ratio_limit</property>
@@ -2348,18 +2331,18 @@ used sparingly.</property>
                                               </packing>
                                             </child>
                                             <child>
-                                              <object class="GtkSpinButton" id="spin_seed_time_limit">
+                                              <object class="GtkSpinButton" id="spin_share_ratio_limit">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="invisible_char">•</property>
-                                                <property name="width_chars">6</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
-                                                <property name="adjustment">adjustment_spin_seed_time_limit</property>
+                                                <property name="adjustment">adjustment_share_ratio_limit</property>
+                                                <property name="digits">2</property>
                                               </object>
                                               <packing>
                                                 <property name="left_attach">1</property>
-                                                <property name="top_attach">2</property>
+                                                <property name="top_attach">0</property>
                                               </packing>
                                             </child>
                                           </object>
@@ -2834,17 +2817,22 @@ The network interface name or IP address for outgoing BitTorrent connections. (L
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="top_padding">5</property>
-                                    <property name="left_padding">10</property>
+                                    <property name="left_padding">12</property>
                                     <child>
-                                      <object class="GtkBox" id="hbox14">
+                                      <object class="GtkBox" id="box1">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="spacing">5</property>
+                                        <property name="orientation">vertical</property>
                                         <child>
-                                          <object class="GtkLabel" id="label77">
+                                          <object class="GtkCheckButton" id="chk_random_outgoing_ports">
+                                            <property name="label" translatable="yes">Random</property>
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="label" translatable="yes">From:</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">False</property>
+                                            <property name="tooltip_text" translatable="yes">Uses random ports in range 49152 to 65525</property>
+                                            <property name="xalign">0</property>
+                                            <property name="draw_indicator">True</property>
+                                            <signal name="toggled" handler="on_toggle" swapped="no"/>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -2853,71 +2841,78 @@ The network interface name or IP address for outgoing BitTorrent connections. (L
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkSpinButton" id="spin_outgoing_port_min">
-                                            <property name="visible">True</property>
-                                            <property name="sensitive">False</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="max_length">5</property>
-                                            <property name="primary_icon_activatable">False</property>
-                                            <property name="secondary_icon_activatable">False</property>
-                                            <property name="adjustment">adjustment_spin_outgoing_port_min</property>
-                                            <property name="climb_rate">1</property>
-                                            <property name="snap_to_ticks">True</property>
-                                            <property name="numeric">True</property>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">True</property>
-                                            <property name="padding">5</property>
-                                            <property name="position">1</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkLabel" id="label78">
+                                          <object class="GtkBox" id="hbox14">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="label" translatable="yes">To:</property>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">False</property>
-                                            <property name="position">2</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkSpinButton" id="spin_outgoing_port_max">
-                                            <property name="visible">True</property>
-                                            <property name="sensitive">False</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="max_length">5</property>
-                                            <property name="primary_icon_activatable">False</property>
-                                            <property name="secondary_icon_activatable">False</property>
-                                            <property name="adjustment">adjustment_spin_outgoing_port_max</property>
-                                            <property name="climb_rate">1</property>
-                                            <property name="snap_to_ticks">True</property>
-                                            <property name="numeric">True</property>
+                                            <child>
+                                              <object class="GtkLabel" id="label77">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="label" translatable="yes">From:</property>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">0</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkSpinButton" id="spin_outgoing_port_min">
+                                                <property name="visible">True</property>
+                                                <property name="sensitive">False</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="max_length">5</property>
+                                                <property name="primary_icon_activatable">False</property>
+                                                <property name="secondary_icon_activatable">False</property>
+                                                <property name="adjustment">adjustment_spin_outgoing_port_min</property>
+                                                <property name="climb_rate">1</property>
+                                                <property name="snap_to_ticks">True</property>
+                                                <property name="numeric">True</property>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="padding">5</property>
+                                                <property name="position">1</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkLabel" id="label78">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="label" translatable="yes">To:</property>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">False</property>
+                                                <property name="position">2</property>
+                                              </packing>
+                                            </child>
+                                            <child>
+                                              <object class="GtkSpinButton" id="spin_outgoing_port_max">
+                                                <property name="visible">True</property>
+                                                <property name="sensitive">False</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="max_length">5</property>
+                                                <property name="primary_icon_activatable">False</property>
+                                                <property name="secondary_icon_activatable">False</property>
+                                                <property name="adjustment">adjustment_spin_outgoing_port_max</property>
+                                                <property name="climb_rate">1</property>
+                                                <property name="snap_to_ticks">True</property>
+                                                <property name="numeric">True</property>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="padding">5</property>
+                                                <property name="position">3</property>
+                                              </packing>
+                                            </child>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">True</property>
-                                            <property name="padding">5</property>
-                                            <property name="position">3</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkCheckButton" id="chk_random_outgoing_ports">
-                                            <property name="label" translatable="yes">Random</property>
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">False</property>
-                                            <property name="tooltip_text" translatable="yes">Uses random ports in range 49152 to 65525</property>
-                                            <property name="draw_indicator">True</property>
-                                            <signal name="toggled" handler="on_toggle" swapped="no"/>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">False</property>
-                                            <property name="position">4</property>
+                                            <property name="position">1</property>
                                           </packing>
                                         </child>
                                       </object>
@@ -2963,6 +2958,7 @@ The network interface name or IP address for outgoing BitTorrent connections. (L
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <property name="row_spacing">6</property>
+                                            <property name="column_spacing">5</property>
                                             <child>
                                               <object class="GtkComboBox" id="combo_encout">
                                                 <property name="visible">True</property>
@@ -3003,7 +2999,6 @@ The network interface name or IP address for outgoing BitTorrent connections. (L
                                               <object class="GtkLabel" id="label8">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="margin_right">8</property>
                                                 <property name="label" translatable="yes">Outgoing:</property>
                                               </object>
                                               <packing>
@@ -3015,7 +3010,6 @@ The network interface name or IP address for outgoing BitTorrent connections. (L
                                               <object class="GtkLabel" id="label7">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="margin_right">8</property>
                                                 <property name="label" translatable="yes">Incoming:</property>
                                               </object>
                                               <packing>
@@ -3038,11 +3032,11 @@ The network interface name or IP address for outgoing BitTorrent connections. (L
                                               <object class="GtkBox" id="hbox15">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
+                                                <property name="spacing">5</property>
                                                 <child>
                                                   <object class="GtkLabel" id="label9">
                                                     <property name="visible">True</property>
                                                     <property name="can_focus">False</property>
-                                                    <property name="margin_right">8</property>
                                                     <property name="label" translatable="yes">Level:</property>
                                                   </object>
                                                   <packing>
@@ -3111,7 +3105,7 @@ The network interface name or IP address for outgoing BitTorrent connections. (L
                                   <object class="GtkAlignment" id="alignment3">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="top_padding">2</property>
+                                    <property name="top_padding">4</property>
                                     <property name="bottom_padding">2</property>
                                     <property name="left_padding">10</property>
                                     <child>
@@ -3201,6 +3195,7 @@ The network interface name or IP address for outgoing BitTorrent connections. (L
                                           <object class="GtkBox" id="hbox5">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
+                                            <property name="spacing">5</property>
                                             <child>
                                               <object class="GtkLabel" id="label_peer_tos">
                                                 <property name="visible">True</property>
@@ -3215,12 +3210,11 @@ The network interface name or IP address for outgoing BitTorrent connections. (L
                                             </child>
                                             <child>
                                               <object class="GtkEntry" id="entry_peer_tos">
-                                                <property name="height_request">25</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="max_length">4</property>
                                                 <property name="invisible_char">•</property>
-                                                <property name="width_chars">4</property>
+                                                <property name="width_chars">1</property>
                                                 <property name="text">0x00</property>
                                                 <property name="truncate_multiline">True</property>
                                                 <property name="primary_icon_activatable">False</property>
@@ -3683,7 +3677,6 @@ the proxy instead of using the local DNS service</property>
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="invisible_char">●</property>
-                                            <property name="width_chars">6</property>
                                             <property name="primary_icon_activatable">False</property>
                                             <property name="secondary_icon_activatable">False</property>
                                             <property name="adjustment">adjustment_cache_size</property>
@@ -3701,7 +3694,6 @@ the proxy instead of using the local DNS service</property>
                                             <property name="can_focus">True</property>
                                             <property name="max_length">5</property>
                                             <property name="invisible_char">●</property>
-                                            <property name="width_chars">6</property>
                                             <property name="primary_icon_activatable">False</property>
                                             <property name="secondary_icon_activatable">False</property>
                                             <property name="adjustment">adjustment_cache_expiry</property>
@@ -4163,11 +4155,13 @@ the proxy instead of using the local DNS service</property>
                                     <property name="can_focus">False</property>
                                     <property name="top_padding">2</property>
                                     <property name="left_padding">12</property>
+                                    <property name="right_padding">40</property>
                                     <child>
                                       <object class="GtkBox" id="vbox19">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <property name="orientation">vertical</property>
+                                        <property name="spacing">2</property>
                                         <child>
                                           <object class="GtkLabel" id="label44">
                                             <property name="visible">True</property>
@@ -4175,6 +4169,7 @@ the proxy instead of using the local DNS service</property>
                                             <property name="halign">start</property>
                                             <property name="label" translatable="yes">Help us improve Deluge by sending us your Python version, PyGTK version, OS and processor types.  Absolutely no other information is sent.</property>
                                             <property name="wrap">True</property>
+                                            <property name="xalign">0</property>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -4184,20 +4179,13 @@ the proxy instead of using the local DNS service</property>
                                           </packing>
                                         </child>
                                         <child>
-                                          <object class="GtkAlignment" id="alignment38">
+                                          <object class="GtkCheckButton" id="chk_send_info">
+                                            <property name="label" translatable="yes">Yes, please send anonymous statistics</property>
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="left_padding">10</property>
-                                            <child>
-                                              <object class="GtkCheckButton" id="chk_send_info">
-                                                <property name="label" translatable="yes">Yes, please send anonymous statistics</property>
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">False</property>
-                                                <property name="halign">start</property>
-                                                <property name="draw_indicator">True</property>
-                                              </object>
-                                            </child>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">False</property>
+                                            <property name="halign">start</property>
+                                            <property name="draw_indicator">True</property>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
@@ -4240,54 +4228,36 @@ the proxy instead of using the local DNS service</property>
                                     <property name="top_padding">2</property>
                                     <property name="left_padding">12</property>
                                     <child>
-                                      <object class="GtkBox" id="vbox29">
+                                      <object class="GtkBox" id="box20">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="orientation">vertical</property>
+                                        <property name="spacing">5</property>
                                         <child>
-                                          <object class="GtkAlignment" id="alignment50">
+                                          <object class="GtkLabel" id="label109">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <child>
-                                              <object class="GtkBox" id="hbox20">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="spacing">5</property>
-                                                <child>
-                                                  <object class="GtkLabel" id="label109">
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">False</property>
-                                                    <property name="label" translatable="yes">Location:</property>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">False</property>
-                                                    <property name="fill">False</property>
-                                                    <property name="position">0</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkEntry" id="entry_geoip">
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">True</property>
-                                                    <property name="tooltip_text" translatable="yes">If Deluge cannot find the database file at this location it will fallback to using DNS to resolve the peer's country.</property>
-                                                    <property name="invisible_char">●</property>
-                                                    <property name="truncate_multiline">True</property>
-                                                    <property name="primary_icon_activatable">False</property>
-                                                    <property name="secondary_icon_activatable">False</property>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="expand">True</property>
-                                                    <property name="fill">True</property>
-                                                    <property name="position">1</property>
-                                                  </packing>
-                                                </child>
-                                              </object>
-                                            </child>
+                                            <property name="label" translatable="yes">Location:</property>
                                           </object>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
                                             <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkEntry" id="entry_geoip">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="tooltip_text" translatable="yes">If Deluge cannot find the database file at this location it will fallback to using DNS to resolve the peer's country.</property>
+                                            <property name="invisible_char">●</property>
+                                            <property name="truncate_multiline">True</property>
+                                            <property name="primary_icon_activatable">False</property>
+                                            <property name="secondary_icon_activatable">False</property>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">1</property>
                                           </packing>
                                         </child>
                                       </object>
@@ -4313,59 +4283,78 @@ the proxy instead of using the local DNS service</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkAlignment" id="alignment31">
+                              <object class="GtkFrame" id="frame17">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="left_padding">12</property>
+                                <property name="label_xalign">0</property>
+                                <property name="shadow_type">none</property>
                                 <child>
-                                  <object class="GtkButtonBox" id="hbuttonbox4">
+                                  <object class="GtkAlignment" id="alignment25">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="layout_style">start</property>
+                                    <property name="top_padding">2</property>
+                                    <property name="left_padding">12</property>
                                     <child>
-                                      <object class="GtkButton" id="button_associate_magnet">
+                                      <object class="GtkButtonBox" id="hbuttonbox4">
                                         <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="receives_default">True</property>
-                                        <signal name="clicked" handler="on_button_associate_magnet_clicked" swapped="no"/>
+                                        <property name="can_focus">False</property>
+                                        <property name="layout_style">start</property>
                                         <child>
-                                          <object class="GtkBox" id="hbox16">
+                                          <object class="GtkButton" id="button_associate_magnet">
                                             <property name="visible">True</property>
-                                            <property name="can_focus">False</property>
-                                            <property name="spacing">2</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">True</property>
+                                            <signal name="clicked" handler="on_button_associate_magnet_clicked" swapped="no"/>
                                             <child>
-                                              <object class="GtkImage" id="image_magnet">
+                                              <object class="GtkBox" id="hbox16">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
-                                                <property name="icon_name">image-missing</property>
+                                                <property name="spacing">2</property>
+                                                <child>
+                                                  <object class="GtkImage" id="image_magnet">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="icon_name">image-missing</property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">True</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkLabel" id="label60">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">False</property>
+                                                    <property name="label" translatable="yes">Associate with Deluge</property>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="expand">True</property>
+                                                    <property name="fill">True</property>
+                                                    <property name="position">1</property>
+                                                  </packing>
+                                                </child>
                                               </object>
-                                              <packing>
-                                                <property name="expand">True</property>
-                                                <property name="fill">True</property>
-                                                <property name="position">0</property>
-                                              </packing>
-                                            </child>
-                                            <child>
-                                              <object class="GtkLabel" id="label60">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">False</property>
-                                                <property name="label" translatable="yes">Associate Magnet links with Deluge</property>
-                                              </object>
-                                              <packing>
-                                                <property name="expand">True</property>
-                                                <property name="fill">True</property>
-                                                <property name="position">1</property>
-                                              </packing>
                                             </child>
                                           </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">0</property>
+                                          </packing>
                                         </child>
                                       </object>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">False</property>
-                                        <property name="position">0</property>
-                                      </packing>
                                     </child>
+                                  </object>
+                                </child>
+                                <child type="label">
+                                  <object class="GtkLabel" id="label2">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">Magnet Links</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
                                   </object>
                                 </child>
                               </object>
@@ -4575,29 +4564,16 @@ the proxy instead of using the local DNS service</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="left_padding">12</property>
+                                    <property name="right_padding">20</property>
                                     <child>
                                       <object class="GtkBox" id="hbox22">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <child>
-                                          <object class="GtkTreeView" id="accounts_listview">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <child internal-child="selection">
-                                              <object class="GtkTreeSelection" id="treeselection2"/>
-                                            </child>
-                                          </object>
-                                          <packing>
-                                            <property name="expand">True</property>
-                                            <property name="fill">True</property>
-                                            <property name="position">0</property>
-                                          </packing>
-                                        </child>
+                                        <property name="orientation">vertical</property>
                                         <child>
                                           <object class="GtkButtonBox" id="vbuttonbox1">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
-                                            <property name="orientation">vertical</property>
                                             <property name="spacing">5</property>
                                             <property name="homogeneous">True</property>
                                             <property name="layout_style">start</property>
@@ -4653,6 +4629,28 @@ the proxy instead of using the local DNS service</property>
                                             <property name="expand">False</property>
                                             <property name="fill">True</property>
                                             <property name="padding">4</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkScrolledWindow" id="scrolledwindow1">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="shadow_type">in</property>
+                                            <property name="min_content_height">150</property>
+                                            <child>
+                                              <object class="GtkTreeView" id="accounts_listview">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <child internal-child="selection">
+                                                  <object class="GtkTreeSelection" id="treeselection2"/>
+                                                </child>
+                                              </object>
+                                            </child>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
                                             <property name="position">1</property>
                                           </packing>
                                         </child>

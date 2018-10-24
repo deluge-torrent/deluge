@@ -490,6 +490,7 @@
           <object class="GtkLabel" id="status_tab_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="ypad">1</property>
             <property name="label" translatable="yes">_Status</property>
             <property name="use_underline">True</property>
           </object>
@@ -525,6 +526,7 @@
                           <object class="GtkLabel" id="summary_name">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="halign">start</property>
                             <property name="wrap">True</property>
                             <property name="wrap_mode">word-char</property>
                             <property name="selectable">True</property>
@@ -539,6 +541,7 @@
                           <object class="GtkLabel" id="summary_total_size">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="halign">start</property>
                             <property name="selectable">True</property>
                           </object>
                           <packing>
@@ -550,6 +553,7 @@
                           <object class="GtkLabel" id="summary_num_files">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="halign">start</property>
                             <property name="selectable">True</property>
                           </object>
                           <packing>
@@ -561,6 +565,7 @@
                           <object class="GtkLabel" id="summary_completed">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="halign">start</property>
                           </object>
                           <packing>
                             <property name="left_attach">4</property>
@@ -572,6 +577,7 @@
                             <property name="width_request">100</property>
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="halign">start</property>
                           </object>
                           <packing>
                             <property name="left_attach">4</property>
@@ -597,6 +603,7 @@
                           <object class="GtkLabel" id="summary_pieces">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="halign">start</property>
                           </object>
                           <packing>
                             <property name="left_attach">4</property>
@@ -607,6 +614,7 @@
                           <object class="GtkLabel" id="summary_hash">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="halign">start</property>
                             <property name="wrap">True</property>
                             <property name="selectable">True</property>
                             <property name="width_chars">40</property>
@@ -620,6 +628,7 @@
                           <object class="GtkLabel" id="summary_torrent_path">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="halign">start</property>
                             <property name="wrap">True</property>
                             <property name="wrap_mode">char</property>
                             <property name="selectable">True</property>
@@ -634,6 +643,7 @@
                           <object class="GtkLabel" id="summary_comments">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="halign">start</property>
                             <property name="wrap_mode">char</property>
                             <property name="selectable">True</property>
                             <property name="ellipsize">end</property>
@@ -647,6 +657,7 @@
                           <object class="GtkLabel" id="summary_creator">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="halign">start</property>
                             <property name="wrap_mode">char</property>
                             <property name="selectable">True</property>
                             <property name="ellipsize">end</property>
@@ -795,11 +806,12 @@
                           <object class="GtkSeparator" id="vseparator5">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="margin_bottom">2</property>
+                            <property name="orientation">vertical</property>
                           </object>
                           <packing>
                             <property name="left_attach">2</property>
-                            <property name="top_attach">3</property>
+                            <property name="top_attach">2</property>
+                            <property name="height">3</property>
                           </packing>
                         </child>
                         <child>
@@ -859,6 +871,7 @@
           <object class="GtkLabel" id="details_tab_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="ypad">1</property>
             <property name="label" translatable="yes">_Details</property>
             <property name="use_underline">True</property>
           </object>
@@ -889,6 +902,7 @@
           <object class="GtkLabel" id="files_tab_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="ypad">1</property>
             <property name="label" translatable="yes">Fi_les</property>
             <property name="use_underline">True</property>
           </object>
@@ -919,6 +933,7 @@
           <object class="GtkLabel" id="peers_tab_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="ypad">1</property>
             <property name="label" translatable="yes">_Peers</property>
             <property name="use_underline">True</property>
           </object>
@@ -1262,7 +1277,6 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="invisible_char">•</property>
-                                        <property name="width_chars">6</property>
                                         <property name="primary_icon_activatable">False</property>
                                         <property name="secondary_icon_activatable">False</property>
                                         <property name="adjustment">spin_max_connections_adjustment</property>
@@ -1278,7 +1292,6 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="invisible_char">•</property>
-                                        <property name="width_chars">6</property>
                                         <property name="primary_icon_activatable">False</property>
                                         <property name="secondary_icon_activatable">False</property>
                                         <property name="adjustment">spin_max_upload_adjustment</property>
@@ -1295,7 +1308,6 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="invisible_char">•</property>
-                                        <property name="width_chars">6</property>
                                         <property name="primary_icon_activatable">False</property>
                                         <property name="secondary_icon_activatable">False</property>
                                         <property name="adjustment">spin_max_download_adjustment</property>
@@ -1354,7 +1366,6 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="invisible_char">•</property>
-                                        <property name="width_chars">6</property>
                                         <property name="primary_icon_activatable">False</property>
                                         <property name="secondary_icon_activatable">False</property>
                                         <property name="adjustment">spin_max_upload_slots_adjustment</property>
@@ -1442,6 +1453,7 @@
           <object class="GtkLabel" id="options_tab_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="ypad">1</property>
             <property name="label" translatable="yes">_Options</property>
             <property name="use_underline">True</property>
           </object>
@@ -1652,6 +1664,7 @@
           <object class="GtkLabel" id="trackers_tab_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="ypad">1</property>
             <property name="label" translatable="yes">_Trackers</property>
             <property name="use_underline">True</property>
           </object>

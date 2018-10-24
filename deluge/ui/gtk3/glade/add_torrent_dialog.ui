@@ -107,6 +107,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="shadow_type">in</property>
+                        <property name="min_content_height">50</property>
                         <child>
                           <object class="GtkTreeView" id="listview_torrents">
                             <property name="height_request">71</property>
@@ -325,7 +326,7 @@
               </object>
               <packing>
                 <property name="resize">False</property>
-                <property name="shrink">True</property>
+                <property name="shrink">False</property>
               </packing>
             </child>
             <child>
@@ -340,16 +341,17 @@
                     <property name="can_focus">True</property>
                     <property name="show_border">False</property>
                     <child>
-                      <object class="GtkVBox" id="vbox1">
+                      <object class="GtkBox" id="vbox1">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkAlignment" id="alignment9">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="left_padding">5</property>
                             <child>
-                              <object class="GtkHBox" id="prefetch_hbox">
+                              <object class="GtkBox" id="prefetch_hbox">
                                 <property name="can_focus">False</property>
                                 <property name="spacing">5</property>
                                 <child>
