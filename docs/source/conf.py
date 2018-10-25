@@ -96,6 +96,7 @@ autodoc_mock_imports = [
     'libtorrent',
     'psyco',
     'gi',
+    'cairo',
     'curses',
     'win32api',
     'win32file',

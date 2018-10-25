@@ -10,7 +10,7 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
+# isort:skip_file
 from __future__ import print_function
 
 import glob
@@ -18,6 +18,7 @@ import os
 import re
 import shutil
 import sys
+
 
 import bbfreeze
 import gtk

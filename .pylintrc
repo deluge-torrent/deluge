@@ -69,7 +69,7 @@ confidence=
 # Arranged by category and use symbolic names instead of ids.
 disable=
 # Convention
-    missing-docstring, invalid-name,
+    missing-docstring, invalid-name, bad-continuation,
 # Error
     no-member, no-name-in-module,
 # Information
