@@ -24,7 +24,7 @@ try:
     from deluge.ui.gtkui.files_tab import FilesTab
     from deluge.ui.gtkui.gtkui import DEFAULT_PREFS
     from deluge.ui.gtkui.mainwindow import MainWindow
-except ImportError as err:
+except ImportError:
     libs_available = False
 
 setup_translations()
@@ -101,7 +101,7 @@ class FilesTabTestCase(BaseTestCase):
 
     def test_files_tab2(self):
         if windows_check():
-            raise unittest.SkipTest('on windows \ != / for path names')
+            raise unittest.SkipTest('on windows \\ != / for path names')
         self.filestab.files_list[self.t_id] = (
             {'index': 0, 'path': '1/1/test_10.txt', 'offset': 0, 'size': 13},
             {'index': 1, 'path': 'test_100.txt', 'offset': 13, 'size': 14},
@@ -121,7 +121,7 @@ class FilesTabTestCase(BaseTestCase):
 
     def test_files_tab3(self):
         if windows_check():
-            raise unittest.SkipTest('on windows \ != / for path names')
+            raise unittest.SkipTest('on windows \\ != / for path names')
         self.filestab.files_list[self.t_id] = (
             {'index': 0, 'path': '1/test_10.txt', 'offset': 0, 'size': 13},
             {'index': 1, 'path': 'test_100.txt', 'offset': 13, 'size': 14},
@@ -158,7 +158,7 @@ class FilesTabTestCase(BaseTestCase):
 
     def test_files_tab5(self):
         if windows_check():
-            raise unittest.SkipTest('on windows \ != / for path names')
+            raise unittest.SkipTest('on windows \\ != / for path names')
         self.filestab.files_list[self.t_id] = (
             {'index': 0, 'path': '1/test_10.txt', 'offset': 0, 'size': 13},
             {'index': 1, 'path': '2/test_100.txt', 'offset': 13, 'size': 14},

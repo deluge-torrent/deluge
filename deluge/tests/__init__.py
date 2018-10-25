@@ -10,5 +10,5 @@ else:
     try:
         resource.setrlimit(resource.RLIMIT_NOFILE, (65536, 65536))
     except (ValueError, resource.error) as ex:
-        # print('Failed to raise file descriptor limit:', ex)
-        pass
+        error = 'Failed to raise file descriptor limit: %s' % ex
+        # print(error)

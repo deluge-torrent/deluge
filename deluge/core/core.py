@@ -18,6 +18,7 @@ import tempfile
 import threading
 from base64 import b64decode, b64encode
 
+from six import string_types
 from twisted.internet import defer, reactor, task
 from twisted.web.client import Agent, readBody
 
@@ -25,7 +26,6 @@ import deluge.common
 import deluge.component as component
 from deluge import path_chooser_common
 from deluge._libtorrent import LT_VERSION, lt
-from deluge.common import PY2
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.alertmanager import AlertManager
 from deluge.core.authmanager import (
@@ -666,7 +666,7 @@ class Core(component.Component):
     def pause_torrent(self, torrent_id):
         """Pauses a torrent"""
         log.debug('Pausing: %s', torrent_id)
-        if not isinstance(torrent_id, str if not PY2 else basestring):
+        if not isinstance(torrent_id, string_types):
             self.pause_torrents(torrent_id)
         else:
             self.torrentmanager[torrent_id].pause()
@@ -717,7 +717,7 @@ class Core(component.Component):
     def resume_torrent(self, torrent_id):
         """Resumes a torrent"""
         log.debug('Resuming: %s', torrent_id)
-        if not isinstance(torrent_id, str if not PY2 else basestring):
+        if not isinstance(torrent_id, string_types):
             self.resume_torrents(torrent_id)
         else:
             self.torrentmanager[torrent_id].resume()
@@ -900,7 +900,7 @@ class Core(component.Component):
         if 'owner' in options and not self.authmanager.has_account(options['owner']):
             raise DelugeError('Username "%s" is not known.' % options['owner'])
 
-        if isinstance(torrent_ids, str if not PY2 else basestring):
+        if isinstance(torrent_ids, string_types):
             torrent_ids = [torrent_ids]
 
         for torrent_id in torrent_ids:

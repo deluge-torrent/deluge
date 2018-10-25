@@ -758,7 +758,7 @@ def get_magnet_info(uri):
     """
 
     tr0_param = 'tr.'
-    tr0_param_regex = re.compile('^tr.(\d+)=(\S+)')
+    tr0_param_regex = re.compile(r'^tr.(\d+)=(\S+)')
     if not uri.startswith(MAGNET_SCHEME):
         return {}
 

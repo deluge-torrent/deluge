@@ -16,6 +16,8 @@ import logging
 import os
 from base64 import b64encode
 
+from six import unichr as chr
+
 import deluge.common
 from deluge.ui.client import client
 from deluge.ui.common import TorrentInfo
@@ -27,16 +29,16 @@ def _bracket_fixup(path):
     if path.find('[') == -1 and path.find(']') == -1:
         return path
     sentinal = 256
-    while path.find(unichr(sentinal)) != -1:
+    while path.find(chr(sentinal)) != -1:
         sentinal += 1
         if sentinal > 65535:
             log.error(
                 'Cannot fix brackets in path, path contains all possible sentinal characters'
             )
             return path
-    newpath = path.replace(']', unichr(sentinal))
+    newpath = path.replace(']', chr(sentinal))
     newpath = newpath.replace('[', '[[]')
-    newpath = newpath.replace(unichr(sentinal), '[]]')
+    newpath = newpath.replace(chr(sentinal), '[]]')
     return newpath
 
 

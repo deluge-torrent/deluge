@@ -178,7 +178,7 @@ class DownloadFileTestCase(unittest.TestCase):
     def test_download_with_rename(self):
 
         if windows_check():
-            raise unittest.SkipTest('on windows \ != / for path names')
+            raise unittest.SkipTest('on windows \\  != / for path names')
 
         url = self.get_url('rename?filename=renamed')
         d = download_file(url, fname('original'))
@@ -189,7 +189,7 @@ class DownloadFileTestCase(unittest.TestCase):
     def test_download_with_rename_exists(self):
 
         if windows_check():
-            raise unittest.SkipTest('on windows \ != / for path names')
+            raise unittest.SkipTest('on windows \\  != / for path names')
 
         open(fname('renamed'), 'w').close()
         url = self.get_url('rename?filename=renamed')
@@ -201,7 +201,7 @@ class DownloadFileTestCase(unittest.TestCase):
     def test_download_with_rename_sanitised(self):
 
         if windows_check():
-            raise unittest.SkipTest('on windows \ != / for path names')
+            raise unittest.SkipTest('on windows \\  != / for path names')
 
         url = self.get_url('rename?filename=/etc/passwd')
         d = download_file(url, fname('original'))

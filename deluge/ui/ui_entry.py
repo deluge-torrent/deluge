@@ -117,7 +117,7 @@ def start_ui():
         ui = ui_entrypoints[selected_ui](
             prog='%s %s' % (os.path.basename(sys.argv[0]), selected_ui), ui_args=ui_args
         )
-    except KeyError as ex:
+    except KeyError:
         log.error(
             'Unable to find chosen UI: "%s". Please choose a different UI '
             'or use "--set-default-ui" to change default UI.',

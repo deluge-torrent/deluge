@@ -147,9 +147,9 @@ encode_func[bool] = encode_bool
 encode_func[str] = encode_string
 encode_func[bytes] = encode_bytes
 if PY2:
-    encode_func[long] = encode_int
+    encode_func[long] = encode_int  # noqa: F821
     encode_func[str] = encode_bytes
-    encode_func[unicode] = encode_string
+    encode_func[unicode] = encode_string  # noqa: F821
 
 
 def bencode(x):

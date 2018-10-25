@@ -31,7 +31,7 @@ from twisted.internet.task import LoopingCall
 try:
     # Install twisted reactor, before any other modules import reactor.
     reactor = gtk2reactor.install()
-except ReactorAlreadyInstalledError as ex:
+except ReactorAlreadyInstalledError:
     # Running unit tests so trial already installed a rector
     from twisted.internet import reactor
 

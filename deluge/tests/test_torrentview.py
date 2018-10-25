@@ -23,7 +23,7 @@ from .basetest import BaseTestCase
 # Allow running other tests without GTKUI dependencies available
 try:
     from gobject import TYPE_UINT64
-except ImportError as err:
+except ImportError:
     libs_available = False
     TYPE_UINT64 = 'Whatever'
 else:

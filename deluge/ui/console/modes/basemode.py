@@ -300,7 +300,7 @@ def add_string(
 
         try:
             screen.addstr(row, col, string.encode(encoding), color)
-        except curses.error as ex:
+        except curses.error:
             # Ignore exception for writing offscreen.
             pass
 
