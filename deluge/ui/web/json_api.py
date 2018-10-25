@@ -134,7 +134,7 @@ class JSON(resource.Resource, component.Component):
         procedure calls and the request id.
         """
         try:
-            request_data = json.loads(request.json.decode())
+            request_data = json.loads(request.json.decode("UTF-8"))
         except (ValueError, TypeError):
             raise JSONException('JSON not decodable')
 
