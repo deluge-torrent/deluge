@@ -20,7 +20,7 @@ from twisted.internet import defer
 import deluge
 import deluge.component as component
 import deluge.ui.web.server
-from deluge.common import PY2, get_localhost_auth, utf8_encode_structure, windows_check
+from deluge.common import PY2, get_localhost_auth, windows_check
 from deluge.ui import ui_entry
 from deluge.ui.web.server import DelugeWeb
 
@@ -166,7 +166,7 @@ class GtkUIBaseTestCase(UIBaseTestCase):
     """Implement all GtkUI tests here"""
 
     def test_start_gtk3ui(self):
-        self.patch(sys, 'argv', utf8_encode_structure(self.var['sys_arg_cmd']))
+        self.patch(sys, 'argv', self.var['sys_arg_cmd'])
 
         from deluge.ui.gtk3 import gtkui
 
