@@ -106,7 +106,7 @@ class PluginManagerBase(object):
         pkg_resources.working_set.add_entry(user_plugin_dir)
         plugins_dirs.append(user_plugin_dir)
 
-        self.pkg_env = pkg_resources.Environment(plugins_dirs)
+        self.pkg_env = pkg_resources.Environment(plugins_dirs, None)
 
         self.available_plugins = []
         for name in self.pkg_env:
