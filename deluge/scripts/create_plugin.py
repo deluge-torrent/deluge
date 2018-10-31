@@ -388,9 +388,7 @@ GPL = """#
 
 """
 
-NAMESPACE_INIT = """# this is a namespace package
-import pkg_resources
-pkg_resources.declare_namespace(__name__)
+NAMESPACE_INIT = """__import__('pkg_resources').declare_namespace(__name__)
 """
 
 CREATE_DEV_LINK = """#!/bin/bash
