@@ -94,19 +94,18 @@ class PluginManagerBase(object):
 
     def scan_for_plugins(self):
         """Scans for available plugins"""
-        base_plugin_dir = deluge.common.resource_filename('deluge', 'plugins')
-        pkg_resources.working_set.add_entry(base_plugin_dir)
-        user_plugin_dir = os.path.join(deluge.configmanager.get_config_dir(), 'plugins')
+        base_dir = deluge.common.resource_filename('deluge', 'plugins')
+        user_dir = os.path.join(deluge.configmanager.get_config_dir(), 'plugins')
+        base_subdir = [
+            os.path.join(base_dir, f)
+            for f in os.listdir(base_dir)
+            if os.path.isdir(os.path.join(base_dir, f))
+        ]
+        plugin_dirs = [base_dir, user_dir] + base_subdir
 
-        plugins_dirs = [base_plugin_dir]
-        for dirname in os.listdir(base_plugin_dir):
-            plugin_dir = os.path.join(base_plugin_dir, dirname)
-            pkg_resources.working_set.add_entry(plugin_dir)
-            plugins_dirs.append(plugin_dir)
-        pkg_resources.working_set.add_entry(user_plugin_dir)
-        plugins_dirs.append(user_plugin_dir)
-
-        self.pkg_env = pkg_resources.Environment(plugins_dirs, None)
+        for dirname in plugin_dirs:
+            pkg_resources.working_set.add_entry(dirname)
+        self.pkg_env = pkg_resources.Environment(plugin_dirs, None)
 
         self.available_plugins = []
         for name in self.pkg_env:
@@ -139,13 +138,13 @@ class PluginManagerBase(object):
 
         plugin_name = plugin_name.replace(' ', '-')
         egg = self.pkg_env[plugin_name][0]
+        # Activate is required by non-namespace plugins.
         egg.activate()
         return_d = defer.succeed(True)
 
         for name in egg.get_entry_map(self.entry_name):
-            entry_point = egg.get_entry_info(self.entry_name, name)
             try:
-                cls = entry_point.load()
+                cls = egg.load_entry_point(self.entry_name, name)
                 instance = cls(plugin_name.replace('-', '_'))
             except component.ComponentAlreadyRegistered as ex:
                 log.error(ex)
