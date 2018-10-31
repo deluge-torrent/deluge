@@ -25,6 +25,8 @@ import subprocess
 import sys
 import tarfile
 import time
+from contextlib import closing
+from io import BytesIO
 
 import pkg_resources
 
@@ -160,7 +162,7 @@ def get_default_download_dir():
     return download_dir
 
 
-def archive_files(arc_name, filepaths):
+def archive_files(arc_name, filepaths, message=None):
     """Compress a list of filepaths into timestamped tarball in config dir.
 
     The archiving config directory is 'archive'.
@@ -197,9 +199,17 @@ def archive_files(arc_name, filepaths):
             log.warning('More than %s tarballs in config archive', max_num_arcs)
 
     try:
-        with tarfile.open(arc_filepath, 'w:' + arc_comp) as tf:
+        with tarfile.open(arc_filepath, 'w:' + arc_comp) as tar:
             for filepath in filepaths:
-                tf.add(filepath, arcname=os.path.basename(filepath))
+                if not os.path.isfile(filepath):
+                    continue
+                tar.add(filepath, arcname=os.path.basename(filepath))
+            if message:
+                with closing(BytesIO(message.encode('utf8'))) as fobj:
+                    tarinfo = tarfile.TarInfo('archive_message.txt')
+                    tarinfo.size = len(fobj.getvalue())
+                    tarinfo.mtime = time.time()
+                    tar.addfile(tarinfo, fileobj=fobj)
     except OSError:
         log.error('Problem occurred archiving filepaths: %s', filepaths)
         return False

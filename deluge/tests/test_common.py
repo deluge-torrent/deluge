@@ -173,3 +173,30 @@ class CommonTestCase(unittest.TestCase):
                 self.assertTrue(
                     tar_info.name in [os.path.basename(arcf) for arcf in arc_filelist]
                 )
+
+    def test_archive_files_missing(self):
+        """Archive exists even with file not found."""
+        filelist = ['test.torrent', 'deluge.png', 'missing.file']
+        arc_filepath = archive_files(
+            'test-arc', [get_test_data_file(f) for f in filelist]
+        )
+        filelist.remove('missing.file')
+
+        with tarfile.open(arc_filepath, 'r') as tar:
+            self.assertEqual(tar.getnames(), filelist)
+            self.assertTrue(all(tarinfo.isfile() for tarinfo in tar))
+
+    def test_archive_files_message(self):
+        filelist = ['test.torrent', 'deluge.png']
+        arc_filepath = archive_files(
+            'test-arc', [get_test_data_file(f) for f in filelist], message='test'
+        )
+
+        result_files = filelist + ['archive_message.txt']
+        with tarfile.open(arc_filepath, 'r') as tar:
+            self.assertEqual(tar.getnames(), result_files)
+            for tar_info in tar:
+                self.assertTrue(tar_info.isfile())
+                if tar_info.name == 'archive_message.txt':
+                    result = tar.extractfile(tar_info).read().decode()
+                    self.assertEqual(result, 'test')

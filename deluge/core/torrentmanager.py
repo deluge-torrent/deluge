@@ -228,14 +228,7 @@ class TorrentManager(component.Component):
     def start(self):
         # Check for old temp file to verify safe shutdown
         if os.path.isfile(self.temp_file):
-            log.warning(
-                'Potential bad shutdown of Deluge detected, archiving torrent state files...'
-            )
-            arc_filepaths = []
-            for filename in ('torrents.fastresume', 'torrents.state'):
-                filepath = os.path.join(self.state_dir, filename)
-                arc_filepaths.extend([filepath, filepath + '.bak'])
-            archive_files('torrents_state', arc_filepaths)
+            self.archive_state('Bad shutdown detected so archiving state files')
             os.remove(self.temp_file)
 
         with open(self.temp_file, 'a'):
@@ -789,6 +782,7 @@ class TorrentManager(component.Component):
         if state.torrents:
             t_state_tmp = TorrentState()
             if dir(state.torrents[0]) != dir(t_state_tmp):
+                self.archive_state('Migration of TorrentState required.')
                 try:
                     for attr in set(dir(t_state_tmp)) - set(dir(state.torrents[0])):
                         for t_state in state.torrents:
@@ -807,21 +801,25 @@ class TorrentManager(component.Component):
 
         """
         torrents_state = os.path.join(self.state_dir, 'torrents.state')
+        state = None
         for filepath in (torrents_state, torrents_state + '.bak'):
             log.info('Loading torrent state: %s', filepath)
+            if not os.path.isfile(filepath):
+                continue
+
             try:
                 with open(filepath, 'rb') as _file:
                     state = pickle.load(_file)
             except (IOError, EOFError, pickle.UnpicklingError) as ex:
-                log.warning('Unable to load %s: %s', filepath, ex)
-                state = None
+                message = 'Unable to load {}: {}'.format(filepath, ex)
+                log.error(message)
+                if not filepath.endswith('.bak'):
+                    self.archive_state(message)
             else:
                 log.info('Successfully loaded %s', filepath)
                 break
 
-        if state is None:
-            state = TorrentManagerState()
-        return state
+        return state if state else TorrentManagerState()
 
     def load_state(self):
         """Load all the torrents from TorrentManager state into session.
@@ -1156,6 +1154,15 @@ class TorrentManager(component.Component):
                 os.fsync(dirfd)
                 os.close(dirfd)
             return True
+
+    def archive_state(self, message):
+        log.warning(message)
+        arc_filepaths = []
+        for filename in ('torrents.fastresume', 'torrents.state'):
+            filepath = os.path.join(self.state_dir, filename)
+            arc_filepaths.extend([filepath, filepath + '.bak'])
+
+        archive_files('state', arc_filepaths, message=message)
 
     def get_queue_position(self, torrent_id):
         """Get queue position of torrent"""
