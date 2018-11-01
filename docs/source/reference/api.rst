@@ -6,7 +6,9 @@ Deluge RPC API
 .. autoclass:: deluge.core.core.Core
     :members:
     :exported:
+    :noindex:
 
 .. autoclass:: deluge.core.daemon.Daemon
     :members:
     :exported:
+    :noindex:
