@@ -112,11 +112,11 @@ def create_plugin():
     write_file(deluge_namespace, '__init__.py', NAMESPACE_INIT, False)
     write_file(plugins_namespace, '__init__.py', NAMESPACE_INIT, False)
     write_file(src, '__init__.py', INIT)
-    write_file(src, 'gtkui.py', GTKUI)
+    write_file(src, 'gtk3ui.py', GTK3UI)
     write_file(src, 'webui.py', WEBUI)
     write_file(src, 'core.py', CORE)
     write_file(src, 'common.py', COMMON)
-    write_file(data_dir, 'config.glade', GLADE)
+    write_file(data_dir, 'config.ui', GLADE)
     write_file(data_dir, '%s.js' % safe_name, DEFAULT_JS)
 
     # add an input parameter for this?
@@ -127,8 +127,7 @@ def create_plugin():
     os.system(dev_link_path)
 
 
-CORE = """
-from __future__ import unicode_literals
+CORE = """from __future__ import unicode_literals
 
 import logging
 
@@ -145,7 +144,8 @@ DEFAULT_PREFS = {
 
 class Core(CorePluginBase):
     def enable(self):
-        self.config = deluge.configmanager.ConfigManager('%(safe_name)s.conf', DEFAULT_PREFS)
+        self.config = deluge.configmanager.ConfigManager(
+            '%(safe_name)s.conf', DEFAULT_PREFS)
 
     def disable(self):
         pass
@@ -166,34 +166,32 @@ class Core(CorePluginBase):
         return self.config.config
 """
 
-INIT = """
-from deluge.plugins.init import PluginInitBase
+INIT = """from deluge.plugins.init import PluginInitBase
 
 
 class CorePlugin(PluginInitBase):
     def __init__(self, plugin_name):
-        from core import Core as PluginClass
+        from .core import Core as PluginClass
         self._plugin_cls = PluginClass
         super(CorePlugin, self).__init__(plugin_name)
 
 
-class GtkUIPlugin(PluginInitBase):
+class Gtk3UIPlugin(PluginInitBase):
     def __init__(self, plugin_name):
-        from gtkui import GtkUI as PluginClass
+        from .gtk3ui import Gtk3UI as PluginClass
         self._plugin_cls = PluginClass
-        super(GtkUIPlugin, self).__init__(plugin_name)
+        super(Gtk3UIPlugin, self).__init__(plugin_name)
 
 
 class WebUIPlugin(PluginInitBase):
     def __init__(self, plugin_name):
-        from webui import WebUI as PluginClass
+        from .webui import WebUI as PluginClass
         self._plugin_cls = PluginClass
         super(WebUIPlugin, self).__init__(plugin_name)
 """
 
 
-SETUP = """
-from setuptools import find_packages, setup
+SETUP = """from setuptools import find_packages, setup
 
 __plugin_name__ = '%(name)s'
 __author__ = '%(author_name)s'
@@ -222,16 +220,15 @@ setup(
     entry_points=\"\"\"
     [deluge.plugin.core]
     %%s = deluge.plugins.%%s:CorePlugin
-    [deluge.plugin.gtkui]
-    %%s = deluge.plugins.%%s:GtkUIPlugin
+    [deluge.plugin.gtk3ui]
+    %%s = deluge.plugins.%%s:Gtk3UIPlugin
     [deluge.plugin.web]
     %%s = deluge.plugins.%%s:WebUIPlugin
     \"\"\" %% ((__plugin_name__, __plugin_name__.lower()) * 3)
 )
 """
 
-COMMON = """
-from __future__ import unicode_literals
+COMMON = """from __future__ import unicode_literals
 
 import os.path
 
@@ -239,17 +236,18 @@ from pkg_resources import resource_filename
 
 
 def get_resource(filename):
-    return resource_filename('deluge.plugins.%(safe_name)s', os.path.join('data', filename))
+    return resource_filename(
+        'deluge.plugins.%(safe_name)s', os.path.join('data', filename))
 """
 
-GTKUI = """
-from __future__ import unicode_literals
+GTK3UI = """from __future__ import unicode_literals
 
-import gtk
 import logging
 
+from gi.repository import Gtk
+
 import deluge.component as component
-from deluge.plugins.pluginbase import GtkPluginBase
+from deluge.plugins.pluginbase import Gtk3PluginBase
 from deluge.ui.client import client
 
 from .common import get_resource
@@ -257,23 +255,29 @@ from .common import get_resource
 log = logging.getLogger(__name__)
 
 
-class GtkUI(GtkPluginBase):
+class Gtk3UI(Gtk3PluginBase):
     def enable(self):
-        self.glade = gtk.glade.XML(get_resource('config.glade'))
+        self.builder = Gtk.Builder()
+        self.builder.add_from_file(get_resource('config.glade'))
 
-        component.get('Preferences').add_page('%(name)s', self.glade.get_widget('prefs_box'))
-        component.get('PluginManager').register_hook('on_apply_prefs', self.on_apply_prefs)
-        component.get('PluginManager').register_hook('on_show_prefs', self.on_show_prefs)
+        component.get('Preferences').add_page(
+            '%(name)s', self.builder.get_object('prefs_box'))
+        component.get('PluginManager').register_hook(
+            'on_apply_prefs', self.on_apply_prefs)
+        component.get('PluginManager').register_hook(
+            'on_show_prefs', self.on_show_prefs)
 
     def disable(self):
         component.get('Preferences').remove_page('%(name)s')
-        component.get('PluginManager').deregister_hook('on_apply_prefs', self.on_apply_prefs)
-        component.get('PluginManager').deregister_hook('on_show_prefs', self.on_show_prefs)
+        component.get('PluginManager').deregister_hook(
+            'on_apply_prefs', self.on_apply_prefs)
+        component.get('PluginManager').deregister_hook(
+            'on_show_prefs', self.on_show_prefs)
 
     def on_apply_prefs(self):
         log.debug('applying prefs for %(name)s')
         config = {
-            'test': self.glade.get_widget('txt_test').get_text()
+            'test': self.builder.get_object('txt_test').get_text()
         }
         client.%(safe_name)s.set_config(config)
 
@@ -282,45 +286,43 @@ class GtkUI(GtkPluginBase):
 
     def cb_get_config(self, config):
         \"\"\"callback for on show_prefs\"\"\"
-        self.glade.get_widget('txt_test').set_text(config['test'])
+        self.builder.get_object('txt_test').set_text(config['test'])
 """
 
-GLADE = """<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--Generated with glade3 3.4.5 on Fri Aug  8 23:34:44 2008 -->
-<glade-interface>
-  <widget class="GtkWindow" id="window1">
+GLADE = """<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.18.3 -->
+<interface>
+  <requires lib="gtk+" version="3.0"/>
+  <object class="GtkWindow" id="window1">
     <child>
-      <widget class="GtkHBox" id="prefs_box">
+      <object class="GtkBox" id="prefs_box">
         <property name="visible">True</property>
         <child>
-          <widget class="GtkLabel" id="label1">
+          <object class="GtkLabel" id="label1">
             <property name="visible">True</property>
             <property name="label" translatable="yes">Test config value:</property>
-          </widget>
+          </object>
         </child>
         <child>
-          <widget class="GtkEntry" id="txt_test">
+          <object class="GtkEntry" id="txt_test">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
-          </widget>
+          </object>
           <packing>
             <property name="position">1</property>
           </packing>
         </child>
-      </widget>
+      </object>
     </child>
-  </widget>
-</glade-interface>
+  </object>
+</interface>
 """
 
-WEBUI = """
-from __future__ import unicode_literals
+WEBUI = """from __future__ import unicode_literals
 
 import logging
 
 from deluge.plugins.pluginbase import WebPluginBase
-from deluge.ui.client import client
 
 from .common import get_resource
 
@@ -338,17 +340,17 @@ class WebUI(WebPluginBase):
         pass
 """
 
-DEFAULT_JS = """/*
-Script: %(filename)s
-    The client-side javascript code for the %(name)s plugin.
-
-Copyright:
-    (C) %(author_name)s %(current_year)s <%(author_email)s>
-
-    This file is part of %(name)s and is licensed under GNU General Public License 3.0, or later, with
-    the additional special exception to link portions of this program with the OpenSSL library.
-    See LICENSE for more details.
-*/
+DEFAULT_JS = """/**
+ * Script: %(filename)s
+ *     The client-side javascript code for the %(name)s plugin.
+ *
+ * Copyright:
+ *     (C) %(author_name)s %(current_year)s <%(author_email)s>
+ *
+ *     This file is part of %(name)s and is licensed under GNU GPL 3.0, or
+ *     later, with the additional special exception to link portions of this
+ *     program with the OpenSSL library. See LICENSE for more details.
+ */
 
 %(name)sPlugin = Ext.extend(Deluge.Plugin, {
     constructor: function(config) {
@@ -363,29 +365,21 @@ Copyright:
     },
 
     onEnable: function() {
-        this.prefsPage = deluge.preferences.addPage(new Deluge.ux.preferences.%(name)sPage());
+        this.prefsPage = deluge.preferences.addPage(
+            new Deluge.ux.preferences.%(name)sPage());
     }
 });
 new %(name)sPlugin();
 """
 
-GPL = """#
-# -*- coding: utf-8 -*-#
-
+GPL = """# -*- coding: utf-8 -*-
 # Copyright (C) %(current_year)d %(author_name)s <%(author_email)s>
 #
-# Basic plugin template created by:
-# Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
-#               2007-2009 Andrew Resch <andrewresch@gmail.com>
-#               2009 Damien Churchill <damoxc@gmail.com>
-#               2010 Pedro Algarvio <pedro@algarvio.me>
-#               2017 Calum Lind <calumlind+deluge@gmail.com>
+# Basic plugin template created by the Deluge Team.
 #
-# This file is part of %(name)s and is licensed under GNU General Public License 3.0, or later, with
-# the additional special exception to link portions of this program with the OpenSSL library.
-# See LICENSE for more details.
-#
-
+# This file is part of %(name)s and is licensed under GNU GPL 3.0, or later,
+# with the additional special exception to link portions of this program with
+# the OpenSSL library. See LICENSE for more details.
 """
 
 NAMESPACE_INIT = """__import__('pkg_resources').declare_namespace(__name__)
