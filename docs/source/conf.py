@@ -150,7 +150,7 @@ copyright = '2008-%s, Deluge Team' % current_year  # noqa: A001
 if get_version:
     version = get_version(prefix='deluge-', suffix='.dev0')
 else:
-    version = pkg_resources.require('Deluge')[0].version
+    version = pkg_resources.get_distribution('Deluge').version
 # The full version, including alpha/beta/rc tags.
 release = version
 

@@ -87,14 +87,12 @@ PY2 = sys.version_info.major == 2
 
 
 def get_version():
-    """
-    Returns the program version from the egg metadata
+    """The program version from the egg metadata.
 
-    :returns: the version of Deluge
-    :rtype: string
-
+    Returns:
+        str: The version of Deluge.
     """
-    return pkg_resources.require('Deluge')[0].version
+    return pkg_resources.get_distribution('Deluge').version
 
 
 def get_default_config_dir(filename=None):
@@ -289,14 +287,17 @@ def get_pixmap(fname):
 
 
 def resource_filename(module, path):
-    """While developing, if there's a second deluge package, installed globally
-     and another in develop mode somewhere else, while pkg_resources.require('Deluge')
-     returns the proper deluge instance, pkg_resources.resource_filename does
-     not, it returns the first found on the python path, which is not good
-     enough.
-     This is a work-around that.
+    """Get filesystem path for a resource.
+
+    This function contains a work-around for pkg_resources.resource_filename
+    not returning the correct path with multiple packages installed.
+
+    So if there's a second deluge package, installed globally and another in
+    develop mode somewhere else, while pkg_resources.get_distribution('Deluge')
+    returns the proper deluge instance, pkg_resources.resource_filename
+    does not, it returns the first found on the python path, which is wrong.
     """
-    return pkg_resources.require('Deluge>=%s' % get_version())[0].get_resource_filename(
+    return pkg_resources.get_distribution('Deluge').get_resource_filename(
         pkg_resources._manager, os.path.join(*(module.split('.') + [path]))
     )
 
