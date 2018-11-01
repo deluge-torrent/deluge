@@ -12,7 +12,6 @@ from __future__ import division, print_function, unicode_literals
 
 import base64
 import binascii
-import datetime
 import functools
 import glob
 import locale
@@ -26,6 +25,7 @@ import sys
 import tarfile
 import time
 from contextlib import closing
+from datetime import datetime
 from io import BytesIO
 
 import pkg_resources
@@ -162,7 +162,7 @@ def get_default_download_dir():
     return download_dir
 
 
-def archive_files(arc_name, filepaths, message=None):
+def archive_files(arc_name, filepaths, message=None, rotate=10):
     """Compress a list of filepaths into timestamped tarball in config dir.
 
     The archiving config directory is 'archive'.
@@ -182,21 +182,20 @@ def archive_files(arc_name, filepaths, message=None):
     arc_comp = 'xz' if not PY2 else 'bz2'
 
     archive_dir = os.path.join(get_config_dir(), 'archive')
-    timestamp = (
-        datetime.datetime.now().replace(microsecond=0).isoformat().replace(':', '-')
-    )
+    timestamp = datetime.now().replace(microsecond=0).isoformat().replace(':', '-')
     arc_filepath = os.path.join(
         archive_dir, arc_name + '-' + timestamp + '.tar.' + arc_comp
     )
-    max_num_arcs = 20
 
     if not os.path.exists(archive_dir):
         os.makedirs(archive_dir)
     else:
-        old_arcs = glob.glob(os.path.join(archive_dir, arc_name) + '*')
-        if len(old_arcs) > max_num_arcs:
-            # TODO: Remove oldest timestamped archives.
-            log.warning('More than %s tarballs in config archive', max_num_arcs)
+        all_arcs = glob.glob(os.path.join(archive_dir, arc_name) + '*')
+        if len(all_arcs) >= rotate:
+            log.warning(
+                'Too many existing archives for %s. Deleting oldest archive.', arc_name
+            )
+            os.remove(sorted(all_arcs)[0])
 
     try:
         with tarfile.open(arc_filepath, 'w:' + arc_comp) as tar:
