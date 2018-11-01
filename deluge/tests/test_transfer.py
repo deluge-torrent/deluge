@@ -11,10 +11,10 @@ from __future__ import print_function, unicode_literals
 
 import base64
 
+import rencode
 from twisted.trial import unittest
 
 import deluge.log
-import deluge.rencode as rencode
 from deluge.transfer import DelugeTransferProtocol
 
 deluge.log.setup_logger('none')

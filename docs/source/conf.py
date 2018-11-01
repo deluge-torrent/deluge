@@ -91,6 +91,7 @@ for mod_name in MOCK_MODULES:
 
 autodoc_mock_imports = [
     'twisted',
+    'rencode',
     'OpenSSL',
     'PIL',
     'libtorrent',

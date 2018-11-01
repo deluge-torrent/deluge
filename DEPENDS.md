@@ -20,6 +20,7 @@ All modules will require the [common](#common) section dependencies.
 - [Twisted] _>= 16.6_ - Use `TLS` extras for `service_identity` and `idna`.
 - [OpenSSL] _>= 1.0.1_
 - [pyOpenSSL]
+- [rencode] _>= 1.0.2_ - Encoding library.
 - [PyXDG] - Access freedesktop.org standards for \*nix.
 - [xdg-utils] - Provides xdg-open for \*nix.
 - [six]
@@ -27,7 +28,6 @@ All modules will require the [common](#common) section dependencies.
 - [chardet] - Optional: Encoding detection.
 - [setproctitle] - Optional: Renaming processes.
 - [Pillow] - Optional: Support for resizing tracker icons.
-- [rencode] _>= 1.0.2_ - Optional: Encoding library (Python port is bundled).
 - [dbus-python] - Optional: Show item location in filemanager.
 
 #### Windows OS

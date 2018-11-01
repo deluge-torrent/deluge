@@ -1,4 +1,5 @@
 twisted[tls]>=16.6
+rencode
 pyopenssl
 pyxdg
 pillow
