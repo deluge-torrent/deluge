@@ -69,8 +69,10 @@ icon_checking = get_pixbuf('checking16.png')
 
 
 def get_pixbuf_at_size(filename, size):
+    if not os.path.isabs(filename):
+        filename = get_pixmap(filename)
     try:
-        return Pixbuf.new_from_file_at_size(get_pixmap(filename), size, size)
+        return Pixbuf.new_from_file_at_size(filename, size, size)
     except GError as ex:
         # Failed to load the pixbuf (Bad image file), so return a blank pixbuf.
         log.warning(ex)
