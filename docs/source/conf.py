@@ -18,6 +18,7 @@ from datetime import date
 import pkg_resources
 from recommonmark.states import DummyStateMachine
 from recommonmark.transform import AutoStructify
+from sphinx.ext import apidoc
 from sphinx.ext.autodoc import ClassDocumenter, bool_option
 
 try:
@@ -297,7 +298,26 @@ def maybe_skip_member(app, what, name, obj, skip, options):
         return True
 
 
+# Run the sphinx-apidoc to create package/modules rst files for autodoc.
+def run_apidoc(__):
+    cur_dir = os.path.abspath(os.path.dirname(__file__))
+    module_dir = os.path.join(cur_dir, '..', '..', 'deluge')
+    ignore_paths = [
+        os.path.join(module_dir, 'plugins'),
+        os.path.join(module_dir, 'tests'),
+    ]
+    argv = [
+        '--force',
+        '--no-toc',
+        '--output-dir',
+        os.path.join(cur_dir, 'modules'),
+        module_dir,
+    ] + ignore_paths
+    apidoc.main(argv)
+
+
 def setup(app):
+    app.connect('builder-inited', run_apidoc)
     app.connect('autodoc-skip-member', maybe_skip_member)
     app.add_config_value('recommonmark_config', {}, True)
     app.add_transform(AutoStructify)

@@ -72,18 +72,6 @@ class PyTest(_test):
         sys.exit(errcode)
 
 
-class BuildDocs(BuildDoc):
-    description = 'Build the documentation'
-
-    def run(self):
-        print('Generating module documentation...')
-        os.system(
-            'sphinx-apidoc --force --no-toc'
-            ' -o docs/source/modules/ deluge deluge/plugins'
-        )
-        BuildDoc.run(self)
-
-
 class CleanDocs(cmd.Command):
     description = 'Clean the documentation build and module rst files'
     user_options = []
@@ -454,7 +442,7 @@ cmdclass = {
     'build_webui': BuildWebUI,
     'build_trans': BuildTranslations,
     'build_plugins': BuildPlugins,
-    'build_docs': BuildDocs,
+    'build_docs': BuildDoc,
     'install_data': InstallData,
     'clean_plugins': CleanPlugins,
     'clean_trans': CleanTranslations,
