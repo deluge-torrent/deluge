@@ -1424,7 +1424,7 @@ class PathChooserComboBox(Gtk.Box, StoredValuesPopup, GObject.GObject):
         response_id = self.filechooserdialog.run()
 
         if response_id == 0:
-            text = self.filechooserdialog.get_filename()
+            text = self.filechooser_widget.get_filename()
             self.set_text(text, trigger_event=True)
         self.filechooserdialog.hide()
 
