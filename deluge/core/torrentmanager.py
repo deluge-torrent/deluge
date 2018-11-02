@@ -1511,7 +1511,7 @@ class TorrentManager(component.Component):
         except (RuntimeError, KeyError):
             return
 
-        new_name = decode_bytes(alert.new_name)
+        new_name = decode_bytes(alert.new_name())
         log.debug('index: %s name: %s', alert.index, new_name)
 
         # We need to see if this file index is in a waiting_on_folder dict
