@@ -34,10 +34,10 @@ from .torrentview_data_funcs import cell_data_size
 log = logging.getLogger(__name__)
 
 CELL_PRIORITY_ICONS = {
-    'Ignore': 'action-unavailable-symbolic',
-    'Low': 'go-down-symbolic',
-    'Normal': 'go-next-symbolic',
-    'High': 'go-up-symbolic',
+    FILE_PRIORITY['Skip']: 'action-unavailable-symbolic',
+    FILE_PRIORITY['Low']: 'go-down-symbolic',
+    FILE_PRIORITY['Normal']: 'go-next-symbolic',
+    FILE_PRIORITY['High']: 'go-up-symbolic',
 }
 
 G_ICON_DIRECTORY = Gio.content_type_get_icon('inode/directory')
@@ -58,7 +58,7 @@ def cell_priority_icon(column, cell, model, row, data):
         cell.set_property('icon-name', None)
         return
     priority = model.get_value(row, data)
-    cell.set_property('icon-name', CELL_PRIORITY_ICONS[FILE_PRIORITY[priority]])
+    cell.set_property('icon-name', CELL_PRIORITY_ICONS[priority])
 
 
 def cell_filename(column, cell, model, row, data):
@@ -160,7 +160,7 @@ class FilesTab(Tab):
 
         self.file_menu = self.main_builder.get_object('menu_file_tab')
         self.file_menu_priority_items = [
-            self.main_builder.get_object('menuitem_ignore'),
+            self.main_builder.get_object('menuitem_skip'),
             self.main_builder.get_object('menuitem_low'),
             self.main_builder.get_object('menuitem_normal'),
             self.main_builder.get_object('menuitem_high'),
@@ -559,9 +559,9 @@ class FilesTab(Tab):
             [self.torrent_id], {'file_priorities': priorities}
         )
 
-    def on_menuitem_ignore_activate(self, menuitem):
+    def on_menuitem_skip_activate(self, menuitem):
         self._set_file_priorities_on_user_change(
-            self.get_selected_files(), FILE_PRIORITY['Ignore']
+            self.get_selected_files(), FILE_PRIORITY['Skip']
         )
 
     def on_menuitem_low_activate(self, menuitem):

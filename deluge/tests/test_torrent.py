@@ -44,6 +44,7 @@ class TorrentTestCase(BaseTestCase):
         self.rpcserver = RPCServer(listen=False)
         self.core = Core()
         self.core.config.config['lsd'] = False
+        self.core.config.config['new_release_check'] = False
         self.session = self.core.session
         self.torrent = None
         return component.start()
@@ -79,6 +80,25 @@ class TorrentTestCase(BaseTestCase):
         atp['auto_managed'] = True
         atp['duplicate_is_error'] = True
         return atp
+
+    def test_set_file_priorities(self):
+        atp = self.get_torrent_atp('dir_with_6_files.torrent')
+        handle = self.session.add_torrent(atp)
+        torrent = Torrent(handle, {})
+
+        result = torrent.get_file_priorities()
+        self.assertTrue(all(x == 4 for x in result))
+
+        new_priorities = [3, 1, 2, 0, 5, 6, 7]
+        torrent.set_file_priorities(new_priorities)
+        self.assertEqual(torrent.get_file_priorities(), new_priorities)
+
+        # Test with handle.piece_priorities as handle.file_priorities async
+        # updates and will return old value. Also need to remove a priority
+        # value as one file is much smaller than piece size so doesn't show.
+        piece_prio = handle.piece_priorities()
+        result = all(p in piece_prio for p in [3, 2, 0, 5, 6, 7])
+        self.assertTrue(result)
 
     def test_set_prioritize_first_last_pieces(self):
         piece_indexes = [

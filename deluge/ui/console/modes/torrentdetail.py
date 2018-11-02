@@ -385,7 +385,7 @@ class TorrentDetail(BaseMode, PopupsHandler):
 
             priority_fg_color = {
                 -2: 'white',  # Mixed
-                0: 'red',  # Ignore
+                0: 'red',  # Skip
                 1: 'yellow',  # Low
                 2: 'yellow',
                 3: 'yellow',
@@ -678,13 +678,13 @@ class TorrentDetail(BaseMode, PopupsHandler):
                     # not selected, just keep old priority
                     ret_list.append((f[1], f[6]))
 
-    def do_priority(self, name, data, was_empty):
+    def do_priority(self, priority, was_empty):
         plist = []
-        self.build_prio_list(self.file_list, plist, -1, data)
+        self.build_prio_list(self.file_list, plist, -1, priority)
         plist.sort()
         priorities = [p[1] for p in plist]
         client.core.set_torrent_options(
-            [self.torrent_id], {'file_priorities': priorities}
+            [self.torrentid], {'file_priorities': priorities}
         )
 
         if was_empty:
@@ -693,36 +693,34 @@ class TorrentDetail(BaseMode, PopupsHandler):
 
     # show popup for priority selections
     def show_priority_popup(self, was_empty):
-        def popup_func(data, *args, **kwargs):
-            if data is None:
+        def popup_func(name, data, was_empty, **kwargs):
+            if not name:
                 return
-            return self.do_priority(data, kwargs[data], was_empty)
+            return self.do_priority(data[name], was_empty)
 
         if self.marked:
             popup = SelectablePopup(
-                self, 'Set File Priority', popup_func, border_off_north=1
+                self,
+                'Set File Priority',
+                popup_func,
+                border_off_north=1,
+                cb_args={'was_empty': was_empty},
             )
             popup.add_line(
-                'ignore_priority',
-                '_Ignore',
-                cb_arg=FILE_PRIORITY['Ignore'],
+                'skip_priority',
+                '_Skip',
                 foreground='red',
+                cb_arg=FILE_PRIORITY['Low'],
+                was_empty=was_empty,
             )
             popup.add_line(
-                'low_priority',
-                '_Low Priority',
-                cb_arg=FILE_PRIORITY['Low Priority'],
-                foreground='yellow',
+                'low_priority', '_Low', cb_arg=FILE_PRIORITY['Low'], foreground='yellow'
             )
-            popup.add_line(
-                'normal_priority',
-                '_Normal Priority',
-                cb_arg=FILE_PRIORITY['Normal Priority'],
-            )
+            popup.add_line('normal_priority', '_Normal', cb_arg=FILE_PRIORITY['Normal'])
             popup.add_line(
                 'high_priority',
-                '_High Priority',
-                cb_arg=FILE_PRIORITY['High Priority'],
+                '_High',
+                cb_arg=FILE_PRIORITY['High'],
                 foreground='green',
             )
             popup._selected = 1

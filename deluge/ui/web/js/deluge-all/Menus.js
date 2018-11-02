@@ -361,10 +361,10 @@ deluge.menus.filePriorities = new Ext.menu.Menu({
         },
         '-',
         {
-            id: 'ignore',
-            text: _('Ignore'),
+            id: 'skip',
+            text: _('Skip'),
             iconCls: 'icon-do-not-download',
-            filePriority: FILE_PRIORITY['Ignore'],
+            filePriority: FILE_PRIORITY['Skip'],
         },
         {
             id: 'low',

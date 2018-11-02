@@ -135,7 +135,7 @@ class TorrentOptions(dict):
         auto_managed (bool): Set torrent to auto managed mode, i.e. will be started or queued automatically.
         download_location (str): The path for the torrent data to be stored while downloading.
         file_priorities (list of int): The priority for files in torrent, range is [0..7] however
-            only [0, 1, 5, 7] are normally used and correspond to [Do Not Download, Normal, High, Highest]
+            only [0, 1, 4, 7] are normally used and correspond to [Skip, Low, Normal, High]
         mapped_files (dict): A mapping of the renamed filenames in 'index:filename' pairs.
         max_connections (int): Sets maximum number of connections this torrent will open.
             This must be at least 2. The default is unlimited (-1).
@@ -504,38 +504,35 @@ class Torrent(object):
         Args:
             file_priorities (list of int): List of file priorities.
         """
+        if not self.has_metadata:
+            return
 
         if log.isEnabledFor(logging.DEBUG):
             log.debug(
                 'Setting %s file priorities to: %s', self.torrent_id, file_priorities
             )
 
-        if (
-            self.handle.has_metadata()
-            and file_priorities
-            and len(file_priorities) == len(self.get_files())
-        ):
+        if file_priorities and len(file_priorities) == len(self.get_files()):
             self.handle.prioritize_files(file_priorities)
         else:
             log.debug('Unable to set new file priorities.')
             file_priorities = self.handle.file_priorities()
 
-        if not self.options['file_priorities']:
-            self.options['file_priorities'] = file_priorities
-        elif 0 in self.options['file_priorities']:
-            # Previously marked a file 'Do Not Download' so check if changed any 0's to >0.
+        if 0 in self.options['file_priorities']:
+            # Previously marked a file 'skip' so check for any 0's now >0.
             for index, priority in enumerate(self.options['file_priorities']):
                 if priority == 0 and file_priorities[index] > 0:
-                    # Changed 'Do Not Download' to a download priority so update state.
+                    # Changed priority from skip to download so update state.
                     self.is_finished = False
                     self.update_state()
                     break
 
+        # Store the priorities.
+        self.options['file_priorities'] = file_priorities
+
         # Set the first/last priorities if needed.
         if self.options['prioritize_first_last_pieces']:
-            self.set_prioritize_first_last_pieces(
-                self.options['prioritize_first_last_pieces']
-            )
+            self.set_prioritize_first_last_pieces(True)
 
     @deprecated
     def set_save_path(self, download_location):
@@ -1032,6 +1029,10 @@ class Torrent(object):
             status (libtorrent.torrent_status): a libtorrent torrent status
         """
         self.status = status
+        # Ensure that the file_priorities are kept in sync with libtorrent.
+        # We do this here as file_priorities is async and can't call it
+        # immediately after setting priorities.
+        self.options['file_priorities'] = self.handle.file_priorities()
 
     def _create_status_funcs(self):
         """Creates the functions for getting torrent status"""

@@ -151,12 +151,13 @@ Ext.apply(Deluge, {
 deluge.plugins = {};
 
 // Hinting for gettext_gen.py
-// _('Ignore')
+// _('Skip')
 // _('Low')
 // _('Normal')
 // _('High')
+// _('Mixed')
 FILE_PRIORITY = {
-    0: 'Ignore',
+    0: 'Skip',
     1: 'Low',
     2: 'Low',
     3: 'Low',
@@ -165,7 +166,7 @@ FILE_PRIORITY = {
     6: 'High',
     7: 'High',
     9: 'Mixed',
-    Ignore: 0,
+    Skip: 0,
     Low: 1,
     Normal: 4,
     High: 7,

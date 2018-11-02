@@ -91,19 +91,19 @@
       </object>
     </child>
     <child>
-      <object class="GtkImageMenuItem" id="menuitem_ignore">
-        <property name="label" translatable="yes">_Ignore</property>
+      <object class="GtkImageMenuItem" id="menuitem_skip">
+        <property name="label" translatable="yes">_Skip</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
         <property name="image">image2</property>
         <property name="use_stock">False</property>
-        <signal name="activate" handler="on_menuitem_ignore_activate" swapped="no"/>
+        <signal name="activate" handler="on_menuitem_skip_activate" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkImageMenuItem" id="menuitem_low">
-        <property name="label" translatable="yes">_Low Priority</property>
+        <property name="label" translatable="yes">_Low</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
@@ -114,7 +114,7 @@
     </child>
     <child>
       <object class="GtkImageMenuItem" id="menuitem_normal">
-        <property name="label" translatable="yes">_Normal Priority</property>
+        <property name="label" translatable="yes">_Normal</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>
@@ -125,7 +125,7 @@
     </child>
     <child>
       <object class="GtkImageMenuItem" id="menuitem_high">
-        <property name="label" translatable="yes">_High Priority</property>
+        <property name="label" translatable="yes">_High</property>
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="use_underline">True</property>

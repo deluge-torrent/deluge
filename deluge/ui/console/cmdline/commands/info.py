@@ -232,11 +232,10 @@ class Command(BaseCommand):
 
             col_priority = ' {!info!}Priority: '
 
-            file_priority = FILE_PRIORITY[status['file_priorities'][index]].replace(
-                'Priority', ''
-            )
+            file_priority = FILE_PRIORITY[status['file_priorities'][index]]
+
             if status['file_progress'][index] != 1.0:
-                if file_priority == 'Do Not Download':
+                if file_priority == 'Skip':
                     col_priority += '{!error!}'
                 else:
                     col_priority += '{!success!}'
@@ -251,9 +250,7 @@ class Command(BaseCommand):
             # Check how much space we've got left after writing all the info
             space_left = cols - tlen(col_all_info)
             # And how much we will potentially have with the longest possible column
-            maxlen_space_left = cols - tlen(
-                ' (1000.0 MiB) 100.00% Priority: Do Not Download'
-            )
+            maxlen_space_left = cols - tlen(' (1000.0 MiB) 100.00% Priority: Normal')
             if maxlen_space_left > tlen(col_filename) + 1:
                 # If there is enough space, pad it all nicely
                 col_all_info = ''
@@ -264,7 +261,7 @@ class Command(BaseCommand):
                 spaces_to_add = tlen(' 100.00%') - tlen(col_progress)
                 col_all_info += ' ' * spaces_to_add
                 col_all_info += col_progress
-                spaces_to_add = tlen(' Priority: Do Not Download') - tlen(col_priority)
+                spaces_to_add = tlen(' Priority: Normal') - tlen(col_priority)
                 col_all_info += col_priority
                 col_all_info += ' ' * spaces_to_add
                 # And remember to put it to the left!

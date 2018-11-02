@@ -139,7 +139,7 @@ PREFS_CATOG_TRANS = {
 }
 
 FILE_PRIORITY = {
-    0: 'Ignore',
+    0: 'Skip',
     1: 'Low',
     2: 'Low',
     3: 'Low',
@@ -147,7 +147,7 @@ FILE_PRIORITY = {
     5: 'High',
     6: 'High',
     7: 'High',
-    _('Ignore'): 0,
+    _('Skip'): 0,
     _('Low'): 1,
     _('Normal'): 4,
     _('High'): 7,
