@@ -20,7 +20,7 @@ from gi.repository.GdkPixbuf import Pixbuf
 from gi.repository.Pango import EllipsizeMode
 
 import deluge.component as component
-from deluge.common import TORRENT_STATE, resource_filename
+from deluge.common import TORRENT_STATE, decode_bytes, resource_filename
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
 
@@ -224,7 +224,7 @@ class FilterTreeView(component.Component):
 
     def render_cell_data(self, column, cell, model, row, data):
         cat = model.get_value(row, 0)
-        label = model.get_value(row, 2)
+        label = decode_bytes(model.get_value(row, 2))
         count = model.get_value(row, 3)
 
         # Supress Warning: g_object_set_qdata: assertion `G_IS_OBJECT (object)' failed

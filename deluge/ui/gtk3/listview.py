@@ -266,7 +266,8 @@ class ListView(object):
         sort = None
         if self.model_filter:
             sort_id, order = self.model_filter.get_sort_column_id()
-            if self.get_column_name(sort_id) == column.get_title():
+            col_title = decode_bytes(column.get_title())
+            if self.get_column_name(sort_id) == col_title:
                 sort = sort_id
 
         return ListViewColumnState(
@@ -582,7 +583,7 @@ class ListView(object):
         column_in_state = False
         if self.state is not None:
             for column_state in self.state:
-                if header == column_state.name:
+                if header == decode_bytes(column_state.name):
                     # We found a loaded state
                     column_in_state = True
                     if column_state.width > 0:

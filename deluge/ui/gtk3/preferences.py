@@ -109,7 +109,8 @@ class Preferences(component.Component):
 
         # Add and set separator after Plugins.
         def set_separator(model, _iter, data=None):
-            if model.get_value(_iter, 1) == '_separator_':
+            entry = deluge.common.decode_bytes(model.get_value(_iter, 1))
+            if entry == '_separator_':
                 return True
 
         self.treeview.set_row_separator_func(set_separator, None)
@@ -277,7 +278,7 @@ class Preferences(component.Component):
         self.iter_to_remove = None
 
         def on_foreach_row(model, path, _iter, user_data):
-            row_name = model.get_value(_iter, 1)
+            row_name = deluge.common.decode_bytes(model.get_value(_iter, 1))
             if row_name == user_data:
                 # This is the row we need to remove
                 self.page_num_to_remove = model.get_value(_iter, 0)
