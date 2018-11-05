@@ -96,11 +96,11 @@ class ExecutePreferences(object):
         img.set_from_stock(Gtk.STOCK_REMOVE, Gtk.IconSize.BUTTON)
         button.set_image(img)
 
-        hbox.pack_start(label, False, False)
-        hbox.pack_start(entry)
-        hbox.pack_start(button, False, False)
+        hbox.pack_start(label, False, False, 0)
+        hbox.pack_start(entry, False, False, 0)
+        hbox.pack_start(button, True, True, 0)
         hbox.show_all()
-        vbox.pack_start(hbox)
+        vbox.pack_start(hbox, True, True, 0)
 
     def remove_command(self, command_id):
         vbox = self.builder.get_object('commands_vbox')
