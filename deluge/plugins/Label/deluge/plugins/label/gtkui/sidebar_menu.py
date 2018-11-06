@@ -43,9 +43,9 @@ class LabelSidebarMenu(object):
         sep = Gtk.SeparatorMenuItem()
         self.items.append(sep)
         self.menu.prepend(sep)
-        self._add_item('options', _('Label _Options'), Gtk.STOCK_PREFERENCES)
-        self._add_item('remove', _('_Remove Label'), Gtk.STOCK_REMOVE)
-        self._add_item('add', _('_Add Label'), Gtk.STOCK_ADD)
+        self._add_item('options', _('Label _Options'))
+        self._add_item('remove', _('_Remove Label'))
+        self._add_item('add', _('_Add Label'))
 
         self.menu.show_all()
         # dialogs:
@@ -54,13 +54,12 @@ class LabelSidebarMenu(object):
         # hooks:
         self.menu.connect('show', self.on_show, None)
 
-    def _add_item(self, item_id, label, stock):
-        """I hate glade.
+    def _add_item(self, item_id, label):
+        """
         id is automatically-added as self.item_<id>
         """
+        item = Gtk.MenuItem.new_with_mnemonic(label)
         func = getattr(self, 'on_%s' % item_id)
-        item = Gtk.ImageMenuItem(stock)
-        item.get_children()[0].set_label(label)
         item.connect('activate', func)
         self.menu.prepend(item)
         setattr(self, 'item_%s' % item_id, item)
