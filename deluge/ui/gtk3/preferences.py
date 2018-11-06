@@ -246,7 +246,7 @@ class Preferences(component.Component):
         parent = widget.get_parent()
         if parent:
             parent.remove(widget)
-        vbox = Gtk.VBox()
+        vbox = Gtk.Box.new(Gtk.Orientation.VERTICAL, spacing=0)
         label = Gtk.Label()
         label.set_use_markup(True)
         label.set_markup('<b><i><big>' + name + '</big></i></b>')

@@ -8,7 +8,7 @@
       <placeholder/>
     </child>
     <child>
-      <object class="GtkHBox" id="hbox9">
+      <object class="GtkBox" id="hbox9">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <child>
@@ -19,12 +19,13 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
-              <object class="GtkVBox" id="prefs_box">
+              <object class="GtkBox" id="prefs_box">
                 <property name="width_request">340</property>
                 <property name="height_request">390</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="border_width">3</property>
+                <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkFrame" id="frame1">
                     <property name="visible">True</property>
@@ -32,10 +33,11 @@
                     <property name="label_xalign">0</property>
                     <property name="shadow_type">none</property>
                     <child>
-                      <object class="GtkVBox" id="watchdirs_vbox">
+                      <object class="GtkBox" id="watchdirs_vbox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="homogeneous">True</property>
+                        <property name="orientation">vertical</property>
                         <child>
                           <placeholder/>
                         </child>

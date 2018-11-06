@@ -277,9 +277,9 @@ class GtkUI(Gtk3PluginBase):
         hover = Gtk.Label()
         self.scheduler_select = SchedulerSelectWidget(hover)
 
-        vbox = Gtk.VBox(False, 5)
-        hbox = Gtk.HBox(False, 5)
-        vbox_days = Gtk.VBox()
+        vbox = Gtk.Box.new(Gtk.Orientation.VERTICAL, spacing=5)
+        hbox = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, spacing=5)
+        vbox_days = Gtk.Box.new(Gtk.Orientation.VERTICAL, spacing=0)
         for day in DAYS:
             vbox_days.pack_start(Gtk.Label(day, xalign=0), True, False, 0)
         hbox.pack_start(vbox_days, False, False, 15)

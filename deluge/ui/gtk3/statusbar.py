@@ -38,8 +38,7 @@ class StatusBarItem(object):
     ):
         self._widgets = []
         self._ebox = Gtk.EventBox()
-        self._hbox = Gtk.HBox()
-        self._hbox.set_spacing(3)
+        self._hbox = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, spacing=3)
         self._image = Gtk.Image()
         self._label = Gtk.Label()
         if image or icon or stock:
@@ -141,9 +140,8 @@ class StatusBar(component.Component):
             'dht': self._on_dht,
         }
         self.current_warnings = []
-        # Add a HBox to the statusbar after removing the initial label widget
-        self.hbox = Gtk.HBox()
-        self.hbox.set_spacing(10)
+        # Add hbox to the statusbar after removing the initial label widget
+        self.hbox = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, spacing=10)
         align = Gtk.Alignment()
         align.set_padding(2, 0, 3, 0)
         align.add(self.hbox)

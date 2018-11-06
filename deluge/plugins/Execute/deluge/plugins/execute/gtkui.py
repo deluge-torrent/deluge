@@ -83,7 +83,7 @@ class ExecutePreferences(object):
     def add_command(self, command_id, event, command):
         log.debug('Adding command `%s`', command_id)
         vbox = self.builder.get_object('commands_vbox')
-        hbox = Gtk.HBox(False, 5)
+        hbox = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, spacing=5)
         hbox.set_name(command_id + '_' + event)
         label = Gtk.Label(EVENT_MAP[event])
         entry = Gtk.Entry()

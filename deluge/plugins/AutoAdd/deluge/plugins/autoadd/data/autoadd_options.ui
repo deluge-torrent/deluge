@@ -46,6 +46,7 @@
       <object class="GtkBox" id="dialog-vbox1">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
         <child internal-child="action_area">
           <object class="GtkButtonBox" id="dialog-action_area1">
             <property name="visible">True</property>
@@ -108,18 +109,20 @@
           </packing>
         </child>
         <child>
-          <object class="GtkVBox" id="vbox1">
+          <object class="GtkBox" id="vbox1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="orientation">vertical</property>
             <child>
               <object class="GtkNotebook" id="notebook1">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <child>
-                  <object class="GtkVBox" id="vbox2">
+                  <object class="GtkBox" id="vbox2">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="border_width">6</property>
+                    <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkFrame" id="frame2">
                         <property name="visible">True</property>
@@ -132,11 +135,12 @@
                             <property name="can_focus">False</property>
                             <property name="left_padding">12</property>
                             <child>
-                              <object class="GtkVBox" id="vbox6">
+                              <object class="GtkBox" id="vbox6">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="orientation">vertical</property>
                                 <child>
-                                  <object class="GtkHBox" id="hbox3">
+                                  <object class="GtkBox" id="hbox3">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <child>
@@ -230,9 +234,10 @@ it will be added to the session.</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <child>
-                                  <object class="GtkVBox" id="vbox7">
+                                  <object class="GtkBox" id="vbox7">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
+                                    <property name="orientation">vertical</property>
                                     <child>
                                       <object class="GtkRadioButton" id="isnt_append_extension">
                                         <property name="label" translatable="yes">Delete .torrent after adding</property>
@@ -251,7 +256,7 @@ the .torrent will be deleted.</property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkHBox" id="hbox1">
+                                      <object class="GtkBox" id="hbox1">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
                                         <child>
@@ -316,7 +321,7 @@ and deleted from the watch folder.</property>
                                           </object>
                                         </child>
                                         <child>
-                                          <object class="GtkHBox" id="hbox7">
+                                          <object class="GtkBox" id="hbox7">
                                             <property name="visible">True</property>
                                             <property name="can_focus">False</property>
                                             <child>
@@ -410,9 +415,10 @@ also delete the .torrent file used to add it.</property>
                             <property name="can_focus">False</property>
                             <property name="left_padding">12</property>
                             <child>
-                              <object class="GtkVBox" id="vbox3">
+                              <object class="GtkBox" id="vbox3">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="orientation">vertical</property>
                                 <child>
                                   <object class="GtkCheckButton" id="download_location_toggle">
                                     <property name="label" translatable="yes">Set download folder</property>
@@ -431,7 +437,7 @@ also delete the .torrent file used to add it.</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkHBox" id="hbox4">
+                                  <object class="GtkBox" id="hbox4">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <child>
@@ -499,9 +505,10 @@ also delete the .torrent file used to add it.</property>
                             <property name="can_focus">False</property>
                             <property name="left_padding">12</property>
                             <child>
-                              <object class="GtkVBox" id="vbox4">
+                              <object class="GtkBox" id="vbox4">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
+                                <property name="orientation">vertical</property>
                                 <child>
                                   <object class="GtkCheckButton" id="move_completed_toggle">
                                     <property name="label" translatable="yes">Set move completed folder</property>
@@ -519,7 +526,7 @@ also delete the .torrent file used to add it.</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkHBox" id="hbox5">
+                                  <object class="GtkBox" id="hbox5">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <child>
@@ -601,7 +608,7 @@ also delete the .torrent file used to add it.</property>
                             <property name="can_focus">False</property>
                             <property name="left_padding">12</property>
                             <child>
-                              <object class="GtkHBox" id="hbox11">
+                              <object class="GtkBox" id="hbox11">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <child>
@@ -626,7 +633,7 @@ also delete the .torrent file used to add it.</property>
                                     <property name="can_focus">False</property>
                                     <property name="has_entry">True</property>
                                     <child internal-child="entry">
-                                      <object class="GtkEntry">
+                                      <object class="GtkEntry" id="combobox-entry1">
                                         <property name="can_focus">False</property>
                                       </object>
                                     </child>
@@ -669,11 +676,12 @@ also delete the .torrent file used to add it.</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkVBox" id="vbox5">
+                  <object class="GtkBox" id="vbox5">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="border_width">6</property>
                     <property name="spacing">5</property>
+                    <property name="orientation">vertical</property>
                     <child>
                       <object class="GtkFrame" id="OwnerFrame">
                         <property name="visible">True</property>
@@ -1070,7 +1078,7 @@ also delete the .torrent file used to add it.</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkHBox" id="auto_managed_box">
+                                  <object class="GtkBox" id="auto_managed_box">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="homogeneous">True</property>
@@ -1148,7 +1156,7 @@ also delete the .torrent file used to add it.</property>
                                   </object>
                                 </child>
                                 <child>
-                                  <object class="GtkHBox" id="add_paused_box">
+                                  <object class="GtkBox" id="add_paused_box">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="homogeneous">True</property>
@@ -1205,7 +1213,7 @@ also delete the .torrent file used to add it.</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkHBox" id="hbox2">
+                                  <object class="GtkBox" id="hbox2">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
                                     <property name="homogeneous">True</property>

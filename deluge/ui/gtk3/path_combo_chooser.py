@@ -1135,7 +1135,7 @@ class PathChooserComboBox(Gtk.Box, StoredValuesPopup, GObject.GObject):
     ):
         Gtk.Box.__init__(self)
         GObject.GObject.__init__(self)
-        self.list_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        self.list_box = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, spacing=0)
         self._stored_values_popping_down = False
         self.filechooser_visible = True
         self.filechooser_enabled = True
@@ -1694,7 +1694,7 @@ if __name__ == '__main__':
     w.set_title('ComboEntry example')
     w.connect('delete-event', Gtk.main_quit)
 
-    box1 = Gtk.Box(Gtk.Orientation.VERTICAL, 0)
+    box1 = Gtk.Box.new(Gtk.Orientation.VERTICAL, spacing=0)
 
     def get_resource2(filename):
         return '%s/glade/%s' % (os.path.abspath(os.path.dirname(sys.argv[0])), filename)

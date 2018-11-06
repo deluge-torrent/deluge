@@ -49,7 +49,7 @@ class BaseDialog(Gtk.Dialog):
         # Setup all the formatting and such to make our dialog look pretty
         self.set_border_width(5)
         self.set_default_size(200, 100)
-        hbox = Gtk.HBox(spacing=5)
+        hbox = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, spacing=5)
         image = Gtk.Image()
         if icon.endswith('.svg') or icon.endswith('.png'):
             # Hack for Windows since it doesn't support svg
@@ -60,7 +60,7 @@ class BaseDialog(Gtk.Dialog):
             image.set_from_icon_name(icon, Gtk.IconSize.LARGE_TOOLBAR)
         image.set_alignment(0.5, 0.0)
         hbox.pack_start(image, False, False, 0)
-        vbox = Gtk.VBox(spacing=5)
+        vbox = Gtk.Box.new(Gtk.Orientation.VERTICAL, spacing=5)
         tlabel = Gtk.Label(label=text)
         tlabel.set_use_markup(True)
         tlabel.set_line_wrap(True)
@@ -365,7 +365,7 @@ class OtherDialog(BaseDialog):
             parent,
         )
 
-        hbox = Gtk.HBox(spacing=5)
+        hbox = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, spacing=5)
         alignment_spacer = Gtk.Alignment()
         hbox.pack_start(alignment_spacer, True, True, 0)
         alignment_spin = Gtk.Alignment(xalign=1, yalign=0.5, xscale=1, yscale=1)

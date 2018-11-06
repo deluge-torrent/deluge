@@ -80,7 +80,7 @@ class GtkUI(Gtk3PluginBase):
 
         vbox = self.builder.get_object('prefs_box')
 
-        hbox = Gtk.HBox()
+        hbox = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, spacing=0)
         icon = Gtk.Image.new_from_icon_name('dialog-error', Gtk.IconSize.BUTTON)
         icon.set_padding(5, 5)
         hbox.pack_start(icon, False, False, 0)
