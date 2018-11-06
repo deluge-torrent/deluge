@@ -175,6 +175,9 @@ class TorrentDetails(component.Component):
         # Generate the checklist menu
         self.generate_menu()
 
+        self.config = component.get('MainWindow').config
+        self.visible(self.config['show_tabsbar'])
+
     def tab_insert_position(self, weight):
         """Returns the position a tab with a given weight should be inserted in"""
         # Determine insert position based on weight
@@ -348,11 +351,8 @@ class TorrentDetails(component.Component):
         self.menu_tabs.show_all()
 
     def visible(self, visible):
-        if visible:
-            self.notebook.show()
-        else:
-            self.notebook.hide()
-            component.get('MainWindow').vpaned.set_position(-1)
+        self.notebook.show() if visible else self.notebook.hide()
+        self.config['show_tabsbar'] = visible
 
     def set_tab_visible(self, tab_name, visible):
         """Sets the tab to visible"""

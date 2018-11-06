@@ -610,12 +610,12 @@ This will filter torrents for the current selection on the sidebar.</property>
             <property name="can_focus">False</property>
             <property name="top_padding">2</property>
             <child>
-              <object class="GtkPaned" id="vpaned">
+              <object class="GtkPaned" id="tabsbar_pane">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="orientation">vertical</property>
                 <child>
-                  <object class="GtkPaned" id="main_window_hpaned">
+                  <object class="GtkPaned" id="sidebar_pane">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <child>

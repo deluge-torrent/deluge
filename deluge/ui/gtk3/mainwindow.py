@@ -101,8 +101,8 @@ class MainWindow(component.Component):
 
         self.window = self.main_builder.get_object('main_window')
         self.window.set_icon(get_deluge_icon())
-        self.vpaned = self.main_builder.get_object('vpaned')
-        self.initial_vpaned_position = self.config['window_pane_position']
+        self.tabsbar_pane = self.main_builder.get_object('tabsbar_pane')
+        self.sidebar_pane = self.main_builder.get_object('sidebar_pane')
 
         # Keep a list of components to pause and resume when changing window state.
         self.child_components = ['TorrentView', 'StatusBar', 'TorrentDetails']
@@ -125,7 +125,12 @@ class MainWindow(component.Component):
         self.window.connect('configure-event', self.on_window_configure_event)
         self.window.connect('delete-event', self.on_window_delete_event)
         self.window.connect('drag-data-received', self.on_drag_data_received_event)
-        self.vpaned.connect('notify::position', self.on_vpaned_position_event)
+        self.tabsbar_pane.connect(
+            'notify::position', self.on_tabsbar_pane_position_event
+        )
+        self.sidebar_pane.connect(
+            'notify::position', self.on_sidebar_pane_position_event
+        )
         self.window.connect('draw', self.on_expose_event)
 
         self.config.register_set_function(
@@ -141,7 +146,9 @@ class MainWindow(component.Component):
 
     def first_show(self):
         self.main_builder.prev_connect_signals(self.gtk_builder_signals_holder)
-        self.vpaned.set_position(self.initial_vpaned_position)
+        self.sidebar_pane.set_position(self.config['sidebar_position'])
+        self.tabsbar_pane.set_position(self.config['tabsbar_position'])
+
         if not (
             self.config['start_in_tray'] and self.config['enable_system_tray']
         ) and not self.window.get_property('visible'):
@@ -280,8 +287,11 @@ class MainWindow(component.Component):
 
         return True
 
-    def on_vpaned_position_event(self, obj, param):
-        self.config['window_pane_position'] = self.vpaned.get_position()
+    def on_tabsbar_pane_position_event(self, obj, param):
+        self.config['tabsbar_position'] = self.tabsbar_pane.get_position()
+
+    def on_sidebar_pane_position_event(self, obj, param):
+        self.config['sidebar_position'] = self.sidebar_pane.get_position()
 
     def on_drag_data_received_event(
         self, widget, drag_context, x, y, selection_data, info, timestamp

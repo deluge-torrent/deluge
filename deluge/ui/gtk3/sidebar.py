@@ -30,9 +30,7 @@ class SideBar(component.Component):
         component.Component.__init__(self, 'SideBar')
         main_builder = component.get('MainWindow').get_builder()
         self.notebook = main_builder.get_object('sidebar_notebook')
-        self.hpaned = main_builder.get_object('main_window_hpaned')
         self.config = ConfigManager('gtk3ui.conf')
-        # self.hpaned_position = self.hpaned.get_position()
 
         # Tabs holds references to the Tab widgets by their name
         self.tabs = {}
@@ -40,21 +38,8 @@ class SideBar(component.Component):
         # Hide if necessary
         self.visible(self.config['show_sidebar'])
 
-    def shutdown(self):
-        log.debug('hpaned.position: %s', self.hpaned.get_position())
-        self.config['sidebar_position'] = self.hpaned.get_position()
-
     def visible(self, visible):
-        if visible:
-            if self.config['sidebar_position']:
-                self.hpaned.set_position(self.config['sidebar_position'])
-            self.notebook.show()
-        else:
-            self.notebook.hide()
-            # Store the position for restoring upon show()
-            self.config['sidebar_position'] = self.hpaned.get_position()
-            self.hpaned.set_position(-1)
-
+        self.notebook.show() if visible else self.notebook.hide()
         self.config['show_sidebar'] = visible
 
     def add_tab(self, widget, tab_name, label):

@@ -115,11 +115,13 @@ class FilterTreeView(component.Component):
 
         self.default_menu_items = self.menu.get_children()
 
-    def start(self):
         # add Cat nodes:
         self.cat_nodes = {}
         self.filters = {}
 
+    def start(self):
+        self.cat_nodes = {}
+        self.filters = {}
         # initial order of state filter:
         self.cat_nodes['state'] = self.treestore.append(
             None, ['cat', 'state', _('States'), 0, None, False]
