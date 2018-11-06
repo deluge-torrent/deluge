@@ -158,11 +158,7 @@ class MainWindow(component.Component):
     def hide(self):
         component.get('TorrentView').save_state()
         component.pause(self.child_components)
-
-        # Store the x, y positions for when we restore the window
-        self.config['window_x_pos'], self.config[
-            'window_y_pos'
-        ] = self.window.get_position()
+        self.save_position()
         self.window.hide()
 
     def present(self):
@@ -193,7 +189,7 @@ class MainWindow(component.Component):
 
     def visible(self):
         """Returns True if window is visible, False if not."""
-        return self.window.get_property('visible')
+        return self.window.get_visible()
 
     def get_builder(self):
         """Returns a reference to the main window GTK builder object."""
@@ -250,21 +246,20 @@ class MainWindow(component.Component):
         if self.config['window_maximized']:
             self.window.maximize()
 
-    def on_window_configure_event(self, widget, event):
-        if not self.config['window_maximized'] and self.visible:
+    def save_position(self):
+        self.config['window_maximized'] = self.window.props.is_maximized
+        if not self.config['window_maximized'] and self.visible():
             self.config['window_x_pos'], self.config[
                 'window_y_pos'
             ] = self.window.get_position()
-            self.config['window_width'] = event.width
-            self.config['window_height'] = event.height
+            self.config['window_width'], self.config[
+                'window_height'
+            ] = self.window.get_size()
+
+    def on_window_configure_event(self, widget, event):
+        self.save_position()
 
     def on_window_state_event(self, widget, event):
-        if event.changed_mask & WindowState.MAXIMIZED:
-            if event.new_window_state & WindowState.MAXIMIZED:
-                log.debug('pos: %s', self.window.get_position())
-                self.config['window_maximized'] = True
-            elif not event.new_window_state & WindowState.WITHDRAWN:
-                self.config['window_maximized'] = False
         if event.changed_mask & WindowState.ICONIFIED:
             if event.new_window_state & WindowState.ICONIFIED:
                 log.debug('MainWindow is minimized..')
