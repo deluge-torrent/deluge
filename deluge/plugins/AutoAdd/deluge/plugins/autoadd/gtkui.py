@@ -54,7 +54,6 @@ class OptionsDialog(object):
     ]
 
     def __init__(self):
-        log.critical('I')
         self.accounts = Gtk.ListStore(str)
         self.labels = Gtk.ListStore(str)
         self.core_config = {}
@@ -423,8 +422,6 @@ class OptionsDialog(object):
 
 class GtkUI(Gtk3PluginBase):
     def enable(self):
-        log.critical('A')
-
         self.builder = Gtk.Builder()
         self.builder.add_from_file(get_resource('config.ui'))
         self.builder.connect_signals(self)
