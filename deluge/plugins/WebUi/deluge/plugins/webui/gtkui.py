@@ -81,9 +81,7 @@ class GtkUI(Gtk3PluginBase):
         vbox = self.builder.get_object('prefs_box')
 
         hbox = Gtk.HBox()
-        icon = Gtk.image_new_from_stock(
-            Gtk.STOCK_DIALOG_ERROR, Gtk.IconSize.SMALL_TOOLBAR
-        )
+        icon = Gtk.Image.new_from_icon_name('dialog-error', Gtk.IconSize.BUTTON)
         icon.set_padding(5, 5)
         hbox.pack_start(icon, False, False, 0)
 
