@@ -354,7 +354,7 @@ class SystemTray(component.Component):
             popup_function = None
             button = 0
         self.tray_menu.popup(
-            None, None, None, popup_function, status_icon, button, activate_time
+            None, None, popup_function, status_icon, button, activate_time
         )
 
     def on_menuitem_show_deluge_activate(self, menuitem):
