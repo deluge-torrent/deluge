@@ -1052,7 +1052,7 @@ class Preferences(component.Component):
                 else:
                     depwidget = self.builder.get_object(dep)
                 sensitive = [not value, value][dependency[dep]]
-                depwidget.set_sensitive(sensitive and self.is_connected)
+                depwidget.set_sensitive(sensitive)
                 if dep in dependents:
                     update_dependent_widgets(dep, depwidget.get_active() and sensitive)
 
