@@ -116,7 +116,7 @@ class DelugeTransferProtocolTestCase(unittest.TestCase):
     def setUp(self):  # NOQA: N803
         """
         The expected messages corresponds to the test messages (msg1, msg2) after they've been processed
-        by DelugeTransferProtocol.send, which means that they've first been encoded with pickle,
+        by DelugeTransferProtocol.send, which means that they've first been encoded with rencode,
         and then compressed with zlib.
         The expected messages are encoded in base64 to easily including it here in the source.
         So before comparing the results with the expected messages, the expected messages must be decoded,
@@ -141,11 +141,11 @@ class DelugeTransferProtocolTestCase(unittest.TestCase):
         )
 
         self.msg1_expected_compressed_base64 = (
-            b'RAAAADF4nDvKwJjenp1aGZ+ZV+Lgxfv9PYRXXFLU'
-            b'XZyfm6oAZGTmpad3gAST8vNznAEAJhSQ'
+            b'AQAAADF4nDvKwJjenp1aGZ+ZV+Lgxfv9PYRXXFLUX'
+            b'Zyfm6oAZGTmpad3gAST8vNznAEAJhSQ'
         )
         self.msg2_expected_compressed_base64 = (
-            b'RAAAAF14nDvGxJzemZ1aGZ+Wk59Y4uTmpKib3g3il+ZlJuenpH'
+            b'AQAAAF14nDvGxJzemZ1aGZ+Wk59Y4uTmpKib3g3il+ZlJuenpH'
             b'YX5+emKhSXFGXmpadPBkmkZCaXxJdnlmTEl5QW5KRCdIOZhxmB'
             b'hrUDuTmZxSWHWRpNnRyupaUBAHYlJxI='
         )
@@ -331,7 +331,7 @@ class DelugeTransferProtocolTestCase(unittest.TestCase):
         The next part contains the rest of the message.
 
         This is a special case, as DelugeTransferProtocol can't start parsing
-        a message until it has at least 4 bytes (the size of the header) to be able
+        a message until it has at least 5 bytes (the size of the header) to be able
         to read and parse the size of the payload.
 
         """

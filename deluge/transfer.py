@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2012 Bro <bro.development@gmail.com>
+# Copyright (C) 2018 Andrew Resch <andrewresch@gmail.com>
 #
 # This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
 # the additional special exception to link portions of this program with the OpenSSL library.
@@ -18,10 +19,12 @@ from twisted.internet.protocol import Protocol
 
 log = logging.getLogger(__name__)
 
-MESSAGE_HEADER_SIZE = 5
+PROTOCOL_VERSION = 1
+MESSAGE_HEADER_FORMAT = '!BI'
+MESSAGE_HEADER_SIZE = struct.calcsize(MESSAGE_HEADER_FORMAT)
 
 
-class DelugeTransferProtocol(Protocol, object):
+class DelugeTransferProtocol(Protocol):
     """
     Data messages are transfered using very a simple protocol.
     Data messages are transfered with a header containing
@@ -40,20 +43,28 @@ class DelugeTransferProtocol(Protocol, object):
         Transfer the data.
 
         The data will be serialized and compressed before being sent.
-        First a header is sent - containing the length of the compressed payload
-        to come as a signed integer. After the header, the payload is transfered.
+        The format is:
+
+              ubyte    uint4     bytestring
+            |.version.|..size..|.....body.....|
+
+        The version is an unsigned byte that indicates the protocol version.
+        The size is a unsigned 32-bit integer that is equal to the length of the body bytestring.
+        The body is the compressed rencoded byte string of the data object.
 
         :param data: data to be transfered in a data structure serializable by rencode.
 
         """
-        compressed = zlib.compress(rencode.dumps(data))
-        size_data = len(compressed)
-        # Store length as a signed integer (using 4 bytes). "!" denotes network byte order.
-        payload_len = struct.pack('!i', size_data)
-        header = b'D' + payload_len
-        self._bytes_sent += len(header) + len(compressed)
-        self.transport.write(header)
-        self.transport.write(compressed)
+        body = zlib.compress(rencode.dumps(data))
+        body_len = len(body)
+        message = struct.pack(
+            '{}{}s'.format(MESSAGE_HEADER_FORMAT, body_len),
+            PROTOCOL_VERSION,
+            body_len,
+            body,
+        )
+        self._bytes_sent += len(message)
+        self.transport.write(message)
 
     def dataReceived(self, data):  # NOQA: N802
         """
@@ -91,15 +102,14 @@ class DelugeTransferProtocol(Protocol, object):
         try:
             # Read the first bytes of the message (MESSAGE_HEADER_SIZE bytes)
             header = self._buffer[:MESSAGE_HEADER_SIZE]
-            payload_len = header[1:MESSAGE_HEADER_SIZE]
-            if header[0:1] != b'D':
+            # Extract the length stored as an unsigned 32-bit integer
+            version, self._message_length = struct.unpack(MESSAGE_HEADER_FORMAT, header)
+            if version != PROTOCOL_VERSION:
                 raise Exception(
-                    'Invalid header format. First byte is %d' % ord(header[0:1])
+                    'Received invalid protocol version: {}. PROTOCOL_VERSION is {}.'.format(
+                        version, PROTOCOL_VERSION
+                    )
                 )
-            # Extract the length stored as a signed integer (using 4 bytes)
-            self._message_length = struct.unpack('!i', payload_len)[0]
-            if self._message_length < 0:
-                raise Exception('Message length is negative: %d' % self._message_length)
             # Remove the header from the buffer
             self._buffer = self._buffer[MESSAGE_HEADER_SIZE:]
         except Exception as ex:
