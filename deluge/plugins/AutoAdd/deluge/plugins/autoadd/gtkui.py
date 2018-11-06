@@ -116,7 +116,7 @@ class OptionsDialog(object):
         combobox.set_model(self.accounts)
 
         label_widget = self.builder.get_object('label')
-        label_widget.child.set_text(options.get('label', ''))
+        label_widget.get_child().set_text(options.get('label', ''))
         label_widget.set_model(self.labels)
         label_widget.set_entry_text_column(0)
         self.builder.get_object('label_toggle').set_active(
@@ -272,7 +272,7 @@ class OptionsDialog(object):
             self.on_toggle_toggled(self.builder.get_object(maintoggle + '_toggle'))
 
     def on_toggle_toggled(self, tb):
-        toggle = str(tb.name).replace('_toggle', '')
+        toggle = tb.get_name().replace('_toggle', '')
         isactive = tb.get_active()
         if toggle == 'download_location':
             self.builder.get_object('download_location_chooser').set_sensitive(isactive)
@@ -371,7 +371,9 @@ class OptionsDialog(object):
                 'copy_torrent_entry'
             ).get_text()
 
-        options['label'] = self.builder.get_object('label').child.get_text().lower()
+        options['label'] = (
+            self.builder.get_object('label').get_child().get_text().lower()
+        )
         options['append_extension'] = self.builder.get_object(
             'append_extension'
         ).get_text()
