@@ -321,7 +321,7 @@ class FilesTab(Tab):
             path = self.get_file_path(select).split('/')
             filepath = os.path.join(status['download_location'], *path)
             log.debug('Open file: %s', filepath)
-            timestamp = Gtk.get_current_event_time()
+            timestamp = component.get('MainWindow').get_timestamp()
             open_file(filepath, timestamp=timestamp)
 
     def _on_show_file(self, status):
@@ -334,7 +334,7 @@ class FilesTab(Tab):
             path = self.get_file_path(select).split('/')
             filepath = os.path.join(status['download_location'], *path)
             log.debug('Show file: %s', filepath)
-            timestamp = Gtk.get_current_event_time()
+            timestamp = component.get('MainWindow').get_timestamp()
             show_file(filepath, timestamp=timestamp)
 
     # The following 3 methods create the folder/file view in the treeview

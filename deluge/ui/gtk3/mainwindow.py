@@ -13,7 +13,7 @@ import logging
 import os.path
 from hashlib import sha1 as sha
 
-from gi.repository import Gtk
+from gi.repository import GdkX11, Gtk
 from gi.repository.Gdk import DragAction, WindowState
 from twisted.internet import reactor
 from twisted.internet.error import ReactorNotRunning
@@ -173,6 +173,7 @@ class MainWindow(component.Component):
             # Restore the proper x,y coords for the window prior to showing it
             component.resume(self.child_components)
             self.window.present()
+            self.window.get_window().set_user_time(self.get_timestamp())
             self.load_window_state()
 
         if self.config['lock_tray'] and not self.visible():
@@ -189,6 +190,14 @@ class MainWindow(component.Component):
             dialog.run().addCallback(on_dialog_response)
         else:
             restore()
+
+    def get_timestamp(self):
+        """Returns the timestamp for the windowing server."""
+        timestamp = 0
+        gdk_window = self.window.get_window()
+        if isinstance(gdk_window, GdkX11.X11Window):
+            timestamp = GdkX11.x11_get_server_time(gdk_window)
+        return timestamp
 
     def active(self):
         """Returns True if the window is active, False if not."""
@@ -351,8 +360,6 @@ class MainWindow(component.Component):
 
         if Wnck:
             self.screen.force_update()
-            from gi.repository import GdkX11  # NOQA
-
             win = Wnck.Window.get(self.window.get_window().get_xid())
             if win:
                 active_wksp = win.get_screen().get_active_workspace()

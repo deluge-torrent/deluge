@@ -155,14 +155,17 @@ class AddTorrentDialog(component.Component):
         self.update_core_config(True, focus)
 
     def _show(self, focus=False):
-        if component.get('MainWindow').is_on_active_workspace():
-            self.dialog.set_transient_for(component.get('MainWindow').window)
+        main_window = component.get('MainWindow')
+        if main_window.is_on_active_workspace():
+            self.dialog.set_transient_for(main_window.window)
         else:
             self.dialog.set_transient_for(None)
+            self.dialog.set_position(Gtk.WindowPosition.CENTER)
 
         self.dialog.present()
         if focus:
-            self.dialog.window.focus()
+            timestamp = main_window.get_timestamp()
+            self.dialog.get_window().set_user_time(timestamp)
 
     def hide(self):
         self.dialog.hide()

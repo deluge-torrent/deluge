@@ -313,7 +313,7 @@ class MenuBar(component.Component):
         log.debug('on_menuitem_open_folder')
 
         def _on_torrent_status(status):
-            timestamp = Gtk.get_current_event_time()
+            timestamp = component.get('MainWindow').get_timestamp()
             path = os.path.join(
                 status['download_location'], status['files'][0]['path'].split('/')[0]
             )
