@@ -30,6 +30,7 @@
                 <property name="can_focus">False</property>
                 <property name="top_padding">5</property>
                 <property name="left_padding">12</property>
+                <property name="right_padding">10</property>
                 <child>
                   <object class="GtkTable" id="add_table">
                     <property name="visible">True</property>
@@ -85,6 +86,7 @@
                       <object class="GtkComboBox" id="event_combobox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">start</property>
                         <property name="model">liststore1</property>
                         <child>
                           <object class="GtkCellRendererText" id="cellrenderertext1"/>
@@ -103,6 +105,7 @@
                       <object class="GtkHButtonBox" id="hbuttonbox1">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="halign">center</property>
                         <property name="layout_style">end</property>
                         <child>
                           <object class="GtkButton" id="button_add">
@@ -164,6 +167,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+                    <property name="halign">start</property>
                     <property name="orientation">vertical</property>
                     <child>
                       <placeholder/>
