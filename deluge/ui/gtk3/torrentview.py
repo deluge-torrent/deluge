@@ -717,7 +717,7 @@ class TorrentView(ListView, component.Component):
             if row[self.columns['torrent_id'].column_indices[0]] == torrent_id:
                 self.liststore.remove(row.iter)
                 # Force an update of the torrentview
-                self.update()
+                self.update(select_row=True)
                 break
 
     def mark_dirty(self, torrent_id=None):
@@ -835,7 +835,7 @@ class TorrentView(ListView, component.Component):
 
     def on_torrentadded_event(self, torrent_id, from_state):
         self.add_rows([torrent_id])
-        self.update()
+        self.update(select_row=True)
 
     def on_torrentremoved_event(self, torrent_id):
         self.remove_row(torrent_id)
@@ -873,7 +873,7 @@ class TorrentView(ListView, component.Component):
 
     def on_sessionresumed_event(self):
         self.mark_dirty()
-        self.update()
+        self.update(select_row=True)
 
     def on_torrentqueuechanged_event(self):
         self.mark_dirty()
