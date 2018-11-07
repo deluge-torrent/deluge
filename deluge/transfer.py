@@ -24,12 +24,21 @@ MESSAGE_HEADER_FORMAT = '!BI'
 MESSAGE_HEADER_SIZE = struct.calcsize(MESSAGE_HEADER_FORMAT)
 
 
-class DelugeTransferProtocol(Protocol):
+class DelugeTransferProtocol(Protocol, object):
     """
-    Data messages are transfered using very a simple protocol.
-    Data messages are transfered with a header containing
-    the length of the data to be transfered (payload).
+    Deluge RPC wire protocol.
 
+    Data messages are transfered with a header containing a protocol version
+    and the length of the data to be transfered (payload).
+
+    The format is:
+
+            ubyte    uint4     bytestring
+        |.version.|..size..|.....body.....|
+
+    The version is an unsigned byte that indicates the protocol version.
+    The size is a unsigned 32-bit integer that is equal to the length of the body bytestring.
+    The body is the compressed rencoded byte string of the data object.
     """
 
     def __init__(self):
@@ -42,18 +51,7 @@ class DelugeTransferProtocol(Protocol):
         """
         Transfer the data.
 
-        The data will be serialized and compressed before being sent.
-        The format is:
-
-              ubyte    uint4     bytestring
-            |.version.|..size..|.....body.....|
-
-        The version is an unsigned byte that indicates the protocol version.
-        The size is a unsigned 32-bit integer that is equal to the length of the body bytestring.
-        The body is the compressed rencoded byte string of the data object.
-
         :param data: data to be transfered in a data structure serializable by rencode.
-
         """
         body = zlib.compress(rencode.dumps(data))
         body_len = len(body)
