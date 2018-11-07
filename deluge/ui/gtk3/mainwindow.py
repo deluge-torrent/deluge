@@ -242,7 +242,7 @@ class MainWindow(component.Component):
                 if response_id == Gtk.ResponseType.OK:
                     if (
                         self.config['tray_password']
-                        == sha(dialog.get_password()).hexdigest()
+                        == sha(decode_bytes(dialog.get_password()).encode()).hexdigest()
                     ):
                         quit_gtkui()
 
