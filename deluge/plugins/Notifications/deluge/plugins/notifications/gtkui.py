@@ -177,7 +177,7 @@ class GtkUiNotifications(CustomNotifications):
             return defer.fail(_('libnotify is not installed'))
 
         if Notify.init('Deluge'):
-            self.note = Notify.Notification.new(title, message, 'deluge-tray')
+            self.note = Notify.Notification.new(title, message, 'deluge-panel')
             self.note.set_hint('desktop-entry', 'deluge')
             if not self.note.show():
                 err_msg = _('Failed to popup notification')
