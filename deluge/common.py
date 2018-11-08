@@ -26,7 +26,7 @@ import tarfile
 import time
 from contextlib import closing
 from datetime import datetime
-from io import BytesIO
+from io import BytesIO, open
 
 import pkg_resources
 
@@ -147,7 +147,8 @@ def get_default_download_dir():
         from xdg.BaseDirectory import xdg_config_home
 
         try:
-            with open(os.path.join(xdg_config_home, 'user-dirs.dirs'), 'r') as _file:
+            user_dirs_path = os.path.join(xdg_config_home, 'user-dirs.dirs')
+            with open(user_dirs_path, 'r', encoding='utf8') as _file:
                 for line in _file:
                     if not line.startswith('#') and line.startswith('XDG_DOWNLOAD_DIR'):
                         download_dir = os.path.expandvars(
@@ -1141,7 +1142,7 @@ def create_auth_file():
     auth_file = deluge.configmanager.get_config_dir('auth')
     # Check for auth file and create if necessary
     if not os.path.exists(auth_file):
-        with open(auth_file, 'w') as _file:
+        with open(auth_file, 'w', encoding='utf8') as _file:
             _file.flush()
             os.fsync(_file.fileno())
         # Change the permissions on the file so only this user can read/write it
@@ -1157,7 +1158,7 @@ def create_localclient_account(append=False):
     if not os.path.exists(auth_file):
         create_auth_file()
 
-    with open(auth_file, 'a' if append else 'w') as _file:
+    with open(auth_file, 'a' if append else 'w', encoding='utf8') as _file:
         _file.write(
             ':'.join(
                 [
@@ -1186,7 +1187,7 @@ def get_localhost_auth():
 
         create_localclient_account()
 
-    with open(auth_file) as auth:
+    with open(auth_file, encoding='utf8') as auth:
         for line in auth:
             line = line.strip()
             if line.startswith('#') or not line:
