@@ -547,9 +547,9 @@ install_requires = [
     'chardet',
     'six',
     'setproctitle',
-    "pywin32; sys.platform == 'win32'",
-    "py2-ipaddress; sys.platform == 'win32'",
-    "certifi; sys.platform == 'win32'",
+    "pywin32; sys_platform == 'win32'",
+    "py2-ipaddress; sys_platform == 'win32' and python_version == '2'",
+    "certifi; sys_platform == 'win32'",
     'zope.interface',
 ]
 tests_require = ['pytest', 'pytest-twisted']
