@@ -1239,50 +1239,26 @@ def set_env_variable(name, value):
     if windows_check():
         from ctypes import windll
         from ctypes import cdll
-        from ctypes.util import find_msvcrt
 
         # Update the copy maintained by Windows (so SysInternals Process Explorer sees it)
-        try:
-            result = windll.kernel32.SetEnvironmentVariableW(name, value)
-            if result == 0:
-                raise Warning
-        except Exception:
-            log.warning(
-                'Failed to set Env Var \'%s\' (\'kernel32.SetEnvironmentVariableW\')',
-                name,
+        result = windll.kernel32.SetEnvironmentVariableW(name, value)
+        if result == 0:
+            log.info(
+                "Failed to set Env Var '%s' (kernel32.SetEnvironmentVariableW)", name
             )
         else:
             log.debug(
-                'Set Env Var \'%s\' to \'%s\' (\'kernel32.SetEnvironmentVariableW\')',
+                "Set Env Var '%s' to '%s' (kernel32.SetEnvironmentVariableW)",
                 name,
                 value,
             )
 
         # Update the copy maintained by msvcrt (used by gtk+ runtime)
-        try:
-            result = cdll.msvcrt._putenv('%s=%s' % (name, value))
-            if result != 0:
-                raise Warning
-        except Exception:
-            log.warning('Failed to set Env Var \'%s\' (\'msvcrt._putenv\')', name)
+        result = cdll.msvcrt._wputenv('%s=%s' % (name, value))
+        if result != 0:
+            log.info("Failed to set Env Var '%s' (msvcrt._putenv)", name)
         else:
-            log.debug('Set Env Var \'%s\' to \'%s\' (\'msvcrt._putenv\')', name, value)
-
-        # Update the copy maintained by whatever c runtime is used by Python
-        try:
-            msvcrt = find_msvcrt()
-            msvcrtname = str(msvcrt).split('.')[0] if '.' in msvcrt else str(msvcrt)
-            result = cdll.LoadLibrary(msvcrt)._putenv('%s=%s' % (name, value))
-            if result != 0:
-                raise Warning
-        except Exception:
-            log.warning(
-                'Failed to set Env Var \'%s\' (\'%s._putenv\')', name, msvcrtname
-            )
-        else:
-            log.debug(
-                'Set Env Var \'%s\' to \'%s\' (\'%s._putenv\')', name, value, msvcrtname
-            )
+            log.debug("Set Env Var '%s' to '%s' (msvcrt._putenv)", name, value)
 
 
 def unicode_argv():
