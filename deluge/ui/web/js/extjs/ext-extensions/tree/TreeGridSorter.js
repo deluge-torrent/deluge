@@ -80,13 +80,13 @@ Ext.ux.tree.TreeGridSorter = Ext.extend(Ext.tree.TreeSorter, {
                 v1 = sortType
                     ? sortType(prop1)
                     : caseSensitive
-                        ? prop1
-                        : prop1.toUpperCase();
+                    ? prop1
+                    : prop1.toUpperCase();
             v2 = sortType
                 ? sortType(prop2)
                 : caseSensitive
-                    ? prop2
-                    : prop2.toUpperCase();
+                ? prop2
+                : prop2.toUpperCase();
 
             if (v1 < v2) {
                 return desc ? +1 : -1;

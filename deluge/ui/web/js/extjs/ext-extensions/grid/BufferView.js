@@ -126,8 +126,8 @@ Ext.ux.grid.BufferView = Ext.extend(Ext.grid.GridView, {
                         i === 0
                             ? 'x-grid3-cell-first '
                             : i == last
-                                ? 'x-grid3-cell-last '
-                                : '';
+                            ? 'x-grid3-cell-last '
+                            : '';
                     p.attr = p.cellAttr = '';
                     p.value = c.renderer(r.data[c.name], p, r, rowIndex, i, ds);
                     p.style = c.style;
@@ -156,8 +156,8 @@ Ext.ux.grid.BufferView = Ext.extend(Ext.grid.GridView, {
             buf[buf.length] = !visible
                 ? ts.rowHolder.apply(rp)
                 : onlyBody
-                    ? rb.apply(rp)
-                    : rt.apply(rp);
+                ? rb.apply(rp)
+                : rt.apply(rp);
         }
         return buf.join('');
     },

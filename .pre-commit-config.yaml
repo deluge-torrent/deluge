@@ -10,22 +10,10 @@ repos:
         name: Fmt Black
         language_version: python3.6
   - repo: https://github.com/prettier/prettier
-    rev: 1.14.3
+    rev: 1.15.2
     hooks:
       - id: prettier
         name: Fmt Prettier
-        files: "\\.(\
-          css\
-          |less\
-          |scss\
-          |html\
-          |ts|tsx\
-          |graphql|gql\
-          |json\
-          |js|jsx\
-          |md|markdown|mdown|mkdn\
-          |yaml|yml\
-          )$"
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v1.4.0
     hooks:

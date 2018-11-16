@@ -138,8 +138,8 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
                 (this.useArrows
                     ? 'x-tree-arrows'
                     : this.lines
-                        ? 'x-tree-lines'
-                        : 'x-tree-no-lines'),
+                    ? 'x-tree-lines'
+                    : 'x-tree-no-lines'),
         });
 
         this.internalTpl.overwrite(this.outerCt, { columns: this.columns });
