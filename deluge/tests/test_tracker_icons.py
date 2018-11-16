@@ -8,6 +8,7 @@
 from __future__ import unicode_literals
 
 import pytest
+from twisted.trial.unittest import SkipTest
 
 import deluge.component as component
 import deluge.ui.tracker_icons
@@ -63,6 +64,7 @@ class TrackerIconsTestCase(BaseTestCase):
 
     def test_get_seo_ico_with_sni(self):
         # seo using certificates with SNI support only
+        raise SkipTest('Site certificate expired')
         icon = TrackerIcon(common.get_test_data_file('seo.ico'))
         d = self.icons.fetch('www.seo.com')
         d.addCallback(self.assertNotIdentical, None)
