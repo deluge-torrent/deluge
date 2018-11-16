@@ -18,8 +18,17 @@ from xml.sax.saxutils import unescape as xml_unescape
 from gi.repository import Gtk
 from gi.repository.GObject import TYPE_INT64, TYPE_UINT64
 
-import deluge.common
 import deluge.component as component
+from deluge.common import (
+    create_magnet_uri,
+    decode_bytes,
+    fsize,
+    get_magnet_info,
+    is_infohash,
+    is_magnet,
+    is_url,
+    resource_filename,
+)
 from deluge.configmanager import ConfigManager
 from deluge.httpdownloader import download_file
 from deluge.ui.client import client
@@ -40,19 +49,19 @@ class AddTorrentDialog(component.Component):
         self.builder = Gtk.Builder()
         # The base dialog
         self.builder.add_from_file(
-            deluge.common.resource_filename(
+            resource_filename(
                 __package__, os.path.join('glade', 'add_torrent_dialog.ui')
             )
         )
         # The infohash dialog
         self.builder.add_from_file(
-            deluge.common.resource_filename(
+            resource_filename(
                 __package__, os.path.join('glade', 'add_torrent_dialog.infohash.ui')
             )
         )
         # The url dialog
         self.builder.add_from_file(
-            deluge.common.resource_filename(
+            resource_filename(
                 __package__, os.path.join('glade', 'add_torrent_dialog.url.ui')
             )
         )
@@ -281,7 +290,7 @@ class AddTorrentDialog(component.Component):
         already_added = 0
 
         for uri in uris:
-            magnet = deluge.common.get_magnet_info(uri)
+            magnet = get_magnet_info(uri)
             if not magnet:
                 log.error('Invalid magnet: %s', uri)
                 continue
@@ -719,14 +728,14 @@ class AddTorrentDialog(component.Component):
         entry.grab_focus()
 
         text = get_clipboard_text()
-        if text and deluge.common.is_url(text) or deluge.common.is_magnet(text):
+        if text and is_url(text) or is_magnet(text):
             entry.set_text(text)
 
         dialog.show_all()
         response = dialog.run()
 
         if response == Gtk.ResponseType.OK:
-            url = deluge.common.decode_bytes(entry.get_text())
+            url = decode_bytes(entry.get_text())
         else:
             url = None
 
@@ -737,9 +746,9 @@ class AddTorrentDialog(component.Component):
         # add it to the list.
         log.debug('url: %s', url)
         if url:
-            if deluge.common.is_url(url):
+            if is_url(url):
                 self.add_from_url(url)
-            elif deluge.common.is_magnet(url):
+            elif is_magnet(url):
                 self.add_from_magnets([url])
             else:
                 ErrorDialog(
@@ -771,15 +780,11 @@ class AddTorrentDialog(component.Component):
                 pb.set_fraction(percent)
                 pb.set_text(
                     '%.2f%% (%s / %s)'
-                    % (
-                        percent * 100,
-                        deluge.common.fsize(current_length),
-                        deluge.common.fsize(total_length),
-                    )
+                    % (percent * 100, fsize(current_length), fsize(total_length))
                 )
             else:
                 pb.pulse()
-                pb.set_text('%s' % deluge.common.fsize(current_length))
+                pb.set_text('%s' % fsize(current_length))
 
         def on_download_success(result):
             self.add_from_files([result])
@@ -811,13 +816,13 @@ class AddTorrentDialog(component.Component):
         entry.grab_focus()
 
         text = get_clipboard_text()
-        if deluge.common.is_infohash(text):
+        if is_infohash(text):
             entry.set_text(text)
 
         dialog.show_all()
         response = dialog.run()
         infohash = entry.get_text().strip()
-        if response == Gtk.ResponseType.OK and deluge.common.is_infohash(infohash):
+        if response == Gtk.ResponseType.OK and is_infohash(infohash):
             # Create a list of trackers from the textview buffer
             tview_buf = textview.get_buffer()
             trackers_text = tview_buf.get_text(
@@ -829,7 +834,7 @@ class AddTorrentDialog(component.Component):
             # Convert the information to a magnet uri, this is just easier to
             # handle this way.
             log.debug('trackers: %s', trackers)
-            magnet = deluge.common.create_magnet_uri(infohash, infohash, trackers)
+            magnet = create_magnet_uri(infohash, infohash, trackers)
             log.debug('magnet uri: %s', magnet)
             self.add_from_magnets([magnet])
 
@@ -889,7 +894,7 @@ class AddTorrentDialog(component.Component):
                         options,
                     )
                 )
-            elif deluge.common.is_magnet(filename):
+            elif is_magnet(filename):
                 client.core.add_torrent_magnet(filename, options)
 
             row = self.torrent_liststore.iter_next(row)
