@@ -62,10 +62,19 @@ def export(auth_level=AUTH_LEVEL_DEFAULT):
     def wrap(func, *args, **kwargs):
         func._rpcserver_export = True
         func._rpcserver_auth_level = auth_level
-        doc = func.__doc__
-        func.__doc__ = '**RPC Exported Function** (*Auth Level: %s*)\n\n' % auth_level
-        if doc:
-            func.__doc__ += doc
+
+        rpc_text = '**RPC exported method** (*Auth level: %s*)' % auth_level
+
+        # Append the RPC text while ensuring correct docstring formatting.
+        if func.__doc__:
+            if func.__doc__.endswith('    '):
+                indent = func.__doc__.split('\n')[-1]
+                func.__doc__ += '\n{}'.format(indent)
+            else:
+                func.__doc__ += '\n\n'
+            func.__doc__ += rpc_text
+        else:
+            func.__doc__ = rpc_text
 
         return func
 

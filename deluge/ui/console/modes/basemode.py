@@ -109,7 +109,7 @@ class BaseMode(CursesStdIO, component.Component):
         do_read(self) - Handle user input
         refresh(self) - draw the mode to the screen
         add_string(self, row, string) - add a string of text to be displayed.
-                                        see method for detailed info
+        see method for detailed info
 
         The init method of a subclass *must* call BaseMode.__init__
 

@@ -472,7 +472,6 @@ class Core(component.Component):
 
         Returns:
             str: The torrent_id or None.
-
         """
         try:
             filedump = b64decode(filedump)
