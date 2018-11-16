@@ -515,8 +515,12 @@ class AddTorrentDialog(component.Component):
         else:
             options = {}
 
-        options['download_location'] = self.download_location_path_chooser.get_text()
-        options['move_completed_path'] = self.move_completed_path_chooser.get_text()
+        options['download_location'] = decode_bytes(
+            self.download_location_path_chooser.get_text()
+        )
+        options['move_completed_path'] = decode_bytes(
+            self.move_completed_path_chooser.get_text()
+        )
         options['pre_allocate_storage'] = self.builder.get_object(
             'chk_pre_alloc'
         ).get_active()
@@ -709,8 +713,10 @@ class AddTorrentDialog(component.Component):
         response = chooser.run()
 
         if response == Gtk.ResponseType.OK:
-            result = chooser.get_filenames()
-            self.config['default_load_path'] = chooser.get_current_folder()
+            result = [decode_bytes(f) for f in chooser.get_filenames()]
+            self.config['default_load_path'] = decode_bytes(
+                chooser.get_current_folder()
+            )
         else:
             chooser.destroy()
             return
@@ -821,12 +827,12 @@ class AddTorrentDialog(component.Component):
 
         dialog.show_all()
         response = dialog.run()
-        infohash = entry.get_text().strip()
+        infohash = decode_bytes(entry.get_text()).strip()
         if response == Gtk.ResponseType.OK and is_infohash(infohash):
             # Create a list of trackers from the textview buffer
             tview_buf = textview.get_buffer()
-            trackers_text = tview_buf.get_text(
-                *tview_buf.get_bounds(), include_hidden_chars=False
+            trackers_text = decode_bytes(
+                tview_buf.get_text(*tview_buf.get_bounds(), include_hidden_chars=False)
             )
             log.debug('Create torrent tracker lines: %s', trackers_text)
             trackers = list(trackers_tiers_from_text(trackers_text).keys())
@@ -876,7 +882,9 @@ class AddTorrentDialog(component.Component):
         row = self.torrent_liststore.get_iter_first()
         while row is not None:
             torrent_id = self.torrent_liststore.get_value(row, 0)
-            filename = xml_unescape(self.torrent_liststore.get_value(row, 2))
+            filename = xml_unescape(
+                decode_bytes(self.torrent_liststore.get_value(row, 2))
+            )
             try:
                 options = self.options[torrent_id]
             except KeyError:
