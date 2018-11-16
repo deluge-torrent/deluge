@@ -421,6 +421,11 @@ class WebApi(JSONComponent):
         self.start()
         return d_methods
 
+    def _on_client_connect_fail(self, result, host_id):
+        log.error(
+            'Unable to connect to daemon, check host_id "%s" is correct.', host_id
+        )
+
     def _on_client_disconnect(self, *args):
         component.get('Web.PluginManager').stop()
         return self.stop()
@@ -444,7 +449,10 @@ class WebApi(JSONComponent):
         Returns:
             Deferred: List of methods the daemon supports.
         """
-        return self.hostlist.connect_host(host_id).addCallback(self._on_client_connect)
+        d = self.hostlist.connect_host(host_id)
+        d.addCallback(self._on_client_connect)
+        d.addErrback(self._on_client_connect_fail, host_id)
+        return d
 
     @export
     def connected(self):
