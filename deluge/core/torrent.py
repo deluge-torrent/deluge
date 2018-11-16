@@ -1029,10 +1029,6 @@ class Torrent(object):
             status (libtorrent.torrent_status): a libtorrent torrent status
         """
         self.status = status
-        # Ensure that the file_priorities are kept in sync with libtorrent.
-        # We do this here as file_priorities is async and can't call it
-        # immediately after setting priorities.
-        self.options['file_priorities'] = self.handle.file_priorities()
 
     def _create_status_funcs(self):
         """Creates the functions for getting torrent status"""
@@ -1297,8 +1293,7 @@ class Torrent(object):
                 log.error('Unable to save torrent file to: %s', ex)
 
         filepath = os.path.join(get_config_dir(), 'state', self.torrent_id + '.torrent')
-        # Regenerate the file priorities
-        self.set_file_priorities([])
+
         if filedump is None:
             metadata = lt.bdecode(self.torrent_info.metadata())
             torrent_file = {b'info': metadata}
