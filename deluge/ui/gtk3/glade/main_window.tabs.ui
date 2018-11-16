@@ -490,7 +490,6 @@
           <object class="GtkLabel" id="status_tab_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="ypad">1</property>
             <property name="label" translatable="yes">_Status</property>
             <property name="use_underline">True</property>
           </object>
@@ -865,7 +864,6 @@
           <object class="GtkLabel" id="details_tab_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="ypad">1</property>
             <property name="label" translatable="yes">_Details</property>
             <property name="use_underline">True</property>
           </object>
@@ -896,7 +894,6 @@
           <object class="GtkLabel" id="files_tab_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="ypad">1</property>
             <property name="label" translatable="yes">Fi_les</property>
             <property name="use_underline">True</property>
           </object>
@@ -927,7 +924,6 @@
           <object class="GtkLabel" id="peers_tab_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="ypad">1</property>
             <property name="label" translatable="yes">_Peers</property>
             <property name="use_underline">True</property>
           </object>
@@ -1061,10 +1057,10 @@
                                 <child>
                                   <object class="GtkCheckButton" id="chk_super_seeding">
                                     <property name="label" translatable="yes">Super Seeding</property>
-                                    <property name="use_action_appearance">False</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
+                                    <property name="halign">start</property>
                                     <property name="draw_indicator">True</property>
                                     <signal name="toggled" handler="on_chk_toggled" swapped="no"/>
                                   </object>
@@ -1447,7 +1443,6 @@
           <object class="GtkLabel" id="options_tab_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="ypad">1</property>
             <property name="label" translatable="yes">_Options</property>
             <property name="use_underline">True</property>
           </object>
@@ -1658,7 +1653,6 @@
           <object class="GtkLabel" id="trackers_tab_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="ypad">1</property>
             <property name="label" translatable="yes">_Trackers</property>
             <property name="use_underline">True</property>
           </object>
