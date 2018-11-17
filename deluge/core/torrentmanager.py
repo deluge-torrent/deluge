@@ -1072,8 +1072,11 @@ class TorrentManager(component.Component):
                     log.warning('Unable to load %s: %s', _filepath, ex)
                 resume_data = None
             else:
+                # lt.bdecode returns the dict keys as bytes so decode them.
+                resume_data = {k.decode(): v for k, v in resume_data.items()}
                 log.info('Successfully loaded %s: %s', filename, _filepath)
                 break
+
         # If the libtorrent bdecode doesn't happen properly, it will return None
         # so we need to make sure we return a {}
         if resume_data is None:
