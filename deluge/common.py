@@ -53,21 +53,12 @@ if platform.system() in ('Windows', 'Microsoft'):
 
     os.environ['SSL_CERT_FILE'] = where()
 
-DBUS_FILEMAN = None
 # gi makes dbus available on Window but don't import it as unused.
 if platform.system() not in ('Windows', 'Microsoft', 'Darwin'):
     try:
         import dbus
     except ImportError:
-        pass
-    else:
-        try:
-            bus = dbus.SessionBus()
-            DBUS_FILEMAN = bus.get_object(
-                'org.freedesktop.FileManager1', '/org/freedesktop/FileManager1'
-            )
-        except dbus.DBusException:
-            pass
+        dbus = None
 
 log = logging.getLogger(__name__)
 
@@ -352,15 +343,20 @@ def show_file(path, timestamp=None):
     else:
         if timestamp is None:
             timestamp = int(time.time())
-        startup_id = '%s_%u_%s-dbus_TIME%d' % (
+        startup_id = '%s_%u_%s-dbus_TIME%d TIMESTAMP=%d' % (
             os.path.basename(sys.argv[0]),
             os.getpid(),
             os.uname()[1],
             timestamp,
+            timestamp,
         )
-        if DBUS_FILEMAN:
+        if dbus:
+            bus = dbus.SessionBus()
+            filemanager1 = bus.get_object(
+                'org.freedesktop.FileManager1', '/org/freedesktop/FileManager1'
+            )
             paths = [urljoin('file:', pathname2url(path))]
-            DBUS_FILEMAN.ShowItems(
+            filemanager1.ShowItems(
                 paths, startup_id, dbus_interface='org.freedesktop.FileManager1'
             )
         else:
