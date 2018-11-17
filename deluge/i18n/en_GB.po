@@ -2108,7 +2108,7 @@ msgstr "Paused"
 
 #: deluge/ui/gtkui/filtertreeview.py:76
 msgid "Checking"
-msgstr "Current"
+msgstr "Checking"
 
 #: deluge/ui/gtkui/filtertreeview.py:77
 msgid "Queued"
