@@ -377,8 +377,9 @@ class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
         deluge.ui.console.main.reactor = common.ReactorOverride()
         return UIWithDaemonBaseTestCase.set_up(self)
 
-    @defer.inlineCallbacks
-    def test_console_command_status(self):
+    def patch_arg_command(self, command):
+        if type(command) == str:
+            command = [command]
         username, password = get_localhost_auth()
         self.patch(
             sys,
@@ -390,9 +391,51 @@ class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
             + [username]
             + ['--password']
             + [password]
-            + ['status'],
+            + command,
+        )
+
+    @defer.inlineCallbacks
+    def test_console_command_add(self):
+        filename = common.get_test_data_file('test.torrent')
+        self.patch_arg_command(['add ' + filename])
+        fd = StringFileDescriptor(sys.stdout)
+        self.patch(sys, 'stdout', fd)
+
+        yield self.exec_command()
+
+        std_output = fd.out.getvalue()
+        self.assertTrue(
+            std_output
+            == 'Attempting to add torrent: ' + filename + '\nTorrent added!\n'
+        )
+
+    @defer.inlineCallbacks
+    def test_console_command_add_move_completed(self):
+        filename = common.get_test_data_file('test.torrent')
+        self.patch_arg_command(
+            [
+                'add --move-path /tmp ' + filename + ' ; status'
+                ' ; manage'
+                ' ab570cdd5a17ea1b61e970bb72047de141bce173'
+                ' move_completed'
+                ' move_completed_path'
+            ]
         )
         fd = StringFileDescriptor(sys.stdout)
+        self.patch(sys, 'stdout', fd)
+
+        yield self.exec_command()
+
+        std_output = fd.out.getvalue()
+        self.assertTrue(
+            std_output.endswith('move_completed: True\nmove_completed_path: /tmp\n')
+            or std_output.endswith('move_completed_path: /tmp\nmove_completed: True\n')
+        )
+
+    @defer.inlineCallbacks
+    def test_console_command_status(self):
+        fd = StringFileDescriptor(sys.stdout)
+        self.patch_arg_command(['status'])
         self.patch(sys, 'stdout', fd)
 
         yield self.exec_command()

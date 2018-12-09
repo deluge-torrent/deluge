@@ -7,22 +7,25 @@
 
 from __future__ import unicode_literals
 
-from twisted.trial import unittest
+import argparse
 
 from deluge.common import windows_check
+from deluge.ui.console.cmdline.commands.add import Command
 from deluge.ui.console.widgets.fields import TextInput
 
+from .basetest import BaseTestCase
 
-class Parent(object):
+
+class MockParent(object):
     def __init__(self):
         self.border_off_x = 1
         self.pane_width = 20
         self.encoding = 'utf8'
 
 
-class UICommonTestCase(unittest.TestCase):
+class UIConsoleFieldTestCase(BaseTestCase):
     def setUp(self):  # NOQA: N803
-        self.parent = Parent()
+        self.parent = MockParent()
 
     def tearDown(self):  # NOQA: N803
         pass
@@ -44,3 +47,21 @@ class UICommonTestCase(unittest.TestCase):
         self.assertTrue(t)
         if not windows_check():
             self.assertTrue(t.handle_read(33))
+
+
+class UIConsoleCommandsTestCase(BaseTestCase):
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
+    def test_add_move_completed(self):
+        completed_path = 'completed_path'
+        parser = argparse.ArgumentParser()
+        cmd = Command()
+        cmd.add_arguments(parser)
+        args = parser.parse_args(['torrent', '-m', completed_path])
+        self.assertEqual(args.move_completed_path, completed_path)
+        args = parser.parse_args(['torrent', '--move-path', completed_path])
+        self.assertEqual(args.move_completed_path, completed_path)
