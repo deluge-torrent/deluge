@@ -38,6 +38,9 @@ class Command(BaseCommand):
             '-p', '--path', dest='path', help=_('download folder for torrent')
         )
         parser.add_argument(
+            '-c', '--completed', dest='completed', help=_('move completed torrents folder')
+        )
+        parser.add_argument(
             'torrents',
             metavar='<torrent>',
             nargs='+',
@@ -49,9 +52,11 @@ class Command(BaseCommand):
 
         t_options = {}
         if options.path:
-            t_options['download_location'] = os.path.abspath(
-                os.path.expanduser(options.path)
-            )
+            t_options['download_location'] = os.path.abspath(os.path.expanduser(options.path))
+
+        if options.completed:
+            t_options['move_completed'] = True
+            t_options['move_completed_path'] = os.path.abspath(os.path.expanduser(options.completed))
 
         def on_success(result):
             if not result:
