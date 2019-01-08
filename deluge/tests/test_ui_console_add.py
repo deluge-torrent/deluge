@@ -9,11 +9,12 @@ from __future__ import unicode_literals
 
 import argparse
 
-from deluge.tests.test_ui_entry import ConsoleUIBaseTestCase
 from deluge.ui.console.cmdline.commands.add import Command
 
+from .basetest import BaseTestCase
 
-class UICommonTestCase(ConsoleUIBaseTestCase):
+
+class UIConsoleAddTestCase(BaseTestCase):
     def setUp(self):
         pass
 
