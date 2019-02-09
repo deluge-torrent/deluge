@@ -139,8 +139,8 @@ def setup_logger(
     """
     if logging.getLoggerClass() is not Logging:
         logging.setLoggerClass(Logging)
-        logging.addLevelName(5, 'TRACE')
-        logging.addLevelName(1, 'GARBAGE')
+        logging.addLevelName(levels('trace'), 'TRACE')
+        logging.addLevelName(levels('garbage'), 'GARBAGE')
 
     level = levels.get(level, logging.ERROR)
 
@@ -250,8 +250,8 @@ def set_logger_level(level, logger_name=None):
 
     :param level: str, a string representing the desired level
     :param logger_name: str, a string representing desired logger name for which
-                        the level should change. The default is "None" will will
-                        tweak the root logger level.
+                        the level should change. The default is "None" will tweak
+                        the root logger level.
 
     """
     logging.getLogger(logger_name).setLevel(levels.get(level, 'error'))
@@ -299,7 +299,8 @@ If you're the developer, please stop using the above code and instead use:
 The above will result in, regarding the "Label" plugin for example a log message similar to:
    15:33:54 [deluge.plugins.label.core:78  ][INFO    ] *** Start Label plugin ***
 
-Triggering code:"""
+Triggering code:
+"""
 
 
 class _BackwardsCompatibleLOG(object):
