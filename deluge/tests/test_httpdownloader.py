@@ -236,7 +236,7 @@ class DownloadFileTestCase(unittest.TestCase):
         def cb(result):
             print(result)
 
-        d.addCallback(self.assertNotContains, b'fail', file_mode='rb')
+        d.addCallback(self.assertContains, b'fail')
         return d
 
     def test_page_redirect_unhandled(self):

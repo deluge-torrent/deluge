@@ -10,10 +10,12 @@
 from __future__ import unicode_literals
 
 import gettext
+import re
 import zlib
 
 from deluge.common import PY2, get_version
 
+_gzipCheckRegex = re.compile(br'(:?^|[\s,])gzip(:?$|[\s,])')
 
 def _(text):
     text_local = gettext.gettext(text)
@@ -35,12 +37,28 @@ def escape(text):
 
 
 def compress(contents, request):
-    request.setHeader(b'content-encoding', b'gzip')
-    compress_zlib = zlib.compressobj(
-        6, zlib.DEFLATED, zlib.MAX_WBITS + 16, zlib.DEF_MEM_LEVEL, 0
-    )
-    contents = compress_zlib.compress(contents)
-    contents += compress_zlib.flush()
+    """
+    Check the headers if the client accepts gzip encoding, and encodes the
+    request if so.
+    """
+    acceptHeaders = b','.join(
+        request.requestHeaders.getRawHeaders(b'accept-encoding', []))
+    if _gzipCheckRegex.search(acceptHeaders):
+        encoding = request.responseHeaders.getRawHeaders(
+            b'content-encoding')
+        if encoding:
+            encoding = b','.join(encoding + [b'gzip'])
+        else:
+            encoding = b'gzip'
+
+        request.responseHeaders.setRawHeaders(b'content-encoding',
+                                              [encoding])
+
+        compress = zlib.compressobj(6, zlib.DEFLATED, zlib.MAX_WBITS + 16,
+            zlib.DEF_MEM_LEVEL,0)
+        contents = compress.compress(contents)
+        contents += compress.flush()
+
     return contents
 
 
