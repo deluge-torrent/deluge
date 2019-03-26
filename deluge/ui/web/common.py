@@ -41,9 +41,9 @@ def compress(contents, request):
     Check the headers if the client accepts gzip encoding, and encodes the
     request if so.
     """
-    acceptHeaders = b','.join(
+    accept_headers = b','.join(
         request.requestHeaders.getRawHeaders(b'accept-encoding', []))
-    if _gzipCheckRegex.search(acceptHeaders):
+    if _gzipCheckRegex.search(accept_headers):
         encoding = request.responseHeaders.getRawHeaders(
             b'content-encoding')
         if encoding:
@@ -55,7 +55,7 @@ def compress(contents, request):
                                               [encoding])
 
         compress = zlib.compressobj(6, zlib.DEFLATED, zlib.MAX_WBITS + 16,
-            zlib.DEF_MEM_LEVEL,0)
+                                    zlib.DEF_MEM_LEVEL, 0)
         contents = compress.compress(contents)
         contents += compress.flush()
 
