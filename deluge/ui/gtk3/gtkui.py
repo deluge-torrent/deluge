@@ -22,7 +22,7 @@ gi.require_version('Gtk', '3.0')  # NOQA: E402
 gi.require_version('Gdk', '3.0')  # NOQA: E402
 
 # isort:imports-thirdparty
-from gi.repository.Gdk import Display, threads_enter, threads_init, threads_leave
+from gi.repository.Gdk import Display
 from gi.repository.GLib import set_prgname
 from gi.repository.Gtk import Builder, ResponseType
 from twisted.internet import defer, gtk3reactor
@@ -189,10 +189,6 @@ class GtkUI(object):
         self.queuedtorrents = QueuedTorrents()
         self.ipcinterface = IPCInterface(args.torrents)
 
-        # Since PyGObject 3.10.2, calling GObject.threads_init() this is no longer needed.
-        # For details on need for threading, see: https://wiki.gnome.org/Projects/PyGObject/Threading
-        threads_init()
-
         # We make sure that the UI components start once we get a core URI
         client.set_disconnect_callback(self.__on_disconnect)
 
@@ -248,13 +244,9 @@ class GtkUI(object):
 
     def start(self):
         reactor.callWhenRunning(self._on_reactor_start)
-
-        # Initialize gdk threading
-        threads_enter()
         reactor.run()
         # Reactor is not running. Any async callbacks (Deferreds) can no longer
         # be processed from this point on.
-        threads_leave()
 
     def shutdown(self, *args, **kwargs):
         log.debug('GTKUI shutting down...')
