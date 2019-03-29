@@ -26,18 +26,17 @@ try:
 except ImportError:
     get_version = None
 
-
-# Monkey patch
-class PatchDummyStateMachine(DummyStateMachine):
-    """Fix recommonmark 0.4 doc reference issues."""
-
-    def run_role(self, name, *args, **kwargs):
-        if name == 'doc':
-            name = 'any'
-        return DummyStateMachine.run_role(self, name, *args, **kwargs)
+# Monkey patch to fix recommonmark 0.4 doc reference issues.
+orig_run_role = DummyStateMachine.run_role
 
 
-DummyStateMachine = PatchDummyStateMachine
+def run_role(self, name, options=None, content=None):
+    if name == 'doc':
+        name = 'any'
+    return orig_run_role(self, name, options, content)
+
+
+DummyStateMachine.run_role = run_role
 
 # Must add these for autodoc to import packages successully
 __builtin__.__dict__['_'] = lambda x: x
