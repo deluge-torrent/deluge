@@ -154,7 +154,7 @@ for script in script_list:
     os.remove(script)
 
 # Exclude files which are already included in GTK or Windows. Also exclude unneeded pygame dlls.
-excludeDlls = (
+exclude_dlls = (
     'MSIMG32.dll',
     'MSVCR90.dll',
     'MSVCP90.dll',
@@ -170,7 +170,7 @@ excludeDlls = (
     'SDL_image.dll',
     'SDL_ttf.dll',
 )
-for exclude_dll in excludeDlls:
+for exclude_dll in exclude_dlls:
     try:
         os.remove(os.path.join(build_dir, exclude_dll))
     except OSError:
@@ -224,14 +224,14 @@ for script in script_list:
     script_exe = os.path.splitext(os.path.basename(script))[0] + '.exe'
     # Don't add to dev build versions.
     if not re.search('[a-zA-Z_-]', build_version):
-        versionInfo = VersionInfo(
+        version_info = VersionInfo(
             build_version,
             description='Deluge Bittorrent Client',
             company='Deluge Team',
             product='Deluge',
             _copyright='Deluge Team',
         )
-        stamp(os.path.join(build_dir, script_exe), versionInfo)
+        stamp(os.path.join(build_dir, script_exe), version_info)
 
 # Copy version info to file for nsis script.
 with open('VERSION.tmp', 'w') as ver_file:

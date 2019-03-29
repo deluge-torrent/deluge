@@ -12,7 +12,7 @@ from __future__ import division, unicode_literals
 import logging
 import os.path
 
-import six.moves.cPickle as pickle
+import six.moves.cPickle as pickle  # noqa: N813
 from gi.repository import Gio, Gtk
 from gi.repository.Gdk import DragAction, ModifierType, keyval_name
 from gi.repository.GObject import TYPE_UINT64

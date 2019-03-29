@@ -19,8 +19,8 @@ from zope.interface import implements
 class _Reporter(object):
     implements(IPlugin, IReporter)
 
-    def __init__(  # NOQA: N803
-        self, name, module, description, longOpt, shortOpt, klass
+    def __init__(
+        self, name, module, description, longOpt, shortOpt, klass  # noqa: N803
     ):
         self.name = name
         self.module = module

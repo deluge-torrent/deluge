@@ -10,12 +10,22 @@ repos:
         name: Fmt Black
         language_version: python3.6
   - repo: https://github.com/prettier/prettier
-    rev: 1.15.2
+    rev: 1.16.4
     hooks:
       - id: prettier
         name: Fmt Prettier
+        # Workaround to list modified files only.
+        args: [--list-different]
+  - repo: https://gitlab.com/pycqa/flake8
+    rev: 3.7.7
+    hooks:
+      - id: flake8
+        name: Chk Flake8
+        additional_dependencies:
+          - flake8-isort==2.7
+          - pep8-naming==0.8.2
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v1.4.0
+    rev: v2.1.0
     hooks:
       - id: double-quote-string-fixer
         name: Fix Double-quotes
@@ -27,7 +37,3 @@ repos:
         args: [--fix=auto]
       - id: trailing-whitespace
         name: Fix Trailing whitespace
-      - id: flake8
-        name: Chk Flake8
-        additional_dependencies:
-          - flake8-isort==2.5

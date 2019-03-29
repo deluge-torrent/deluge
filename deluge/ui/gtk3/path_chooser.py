@@ -90,7 +90,7 @@ class PathChoosersHandler(component.Component):
             chooser.config_key_funcs[key][1](value)
 
         # Save to core
-        if key is not 'path_chooser_max_popup_rows':
+        if key != 'path_chooser_max_popup_rows':
             client.core.set_config({key: value})
         else:
             # Since the max rows value can be changed fast with a spinbutton, we

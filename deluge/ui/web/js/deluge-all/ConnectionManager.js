@@ -267,22 +267,19 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
             }
 
             var id = selected.id;
-            deluge.client.web.connect(
-                id,
-                {
-                    success: function(methods) {
-                        deluge.client.reloadMethods();
-                        deluge.client.on(
-                            'connected',
-                            function(e) {
-                                deluge.events.fire('connect');
-                            },
-                            this,
-                            { single: true }
-                        );
-                    },
-                }
-            );
+            deluge.client.web.connect(id, {
+                success: function(methods) {
+                    deluge.client.reloadMethods();
+                    deluge.client.on(
+                        'connected',
+                        function(e) {
+                            deluge.events.fire('connect');
+                        },
+                        this,
+                        { single: true }
+                    );
+                },
+            });
             this.hide();
         }
     },

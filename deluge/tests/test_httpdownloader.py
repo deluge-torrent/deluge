@@ -91,9 +91,6 @@ class PartialDownloadResource(Resource):
 
 
 class TopLevelResource(Resource):
-
-    addSlash = True
-
     def __init__(self):
         Resource.__init__(self)
         self.putChild(b'cookie', CookieResource())

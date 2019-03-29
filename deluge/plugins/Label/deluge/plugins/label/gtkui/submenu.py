@@ -31,7 +31,7 @@ del _
 
 class LabelMenu(MenuItem):
     def __init__(self):
-        MenuItem.__init__(self, _('Label'))
+        MenuItem.__init__(self, _('Label'))  # noqa: F821
 
         self.sub_menu = Menu()
         self.set_submenu(self.sub_menu)
@@ -52,7 +52,7 @@ class LabelMenu(MenuItem):
             self.sub_menu.remove(child)
         for label in [NO_LABEL] + list(labels):
             if label == NO_LABEL:
-                item = MenuItem(_(NO_LABEL))
+                item = MenuItem(_(NO_LABEL))  # noqa: F821
             else:
                 item = MenuItem(label.replace('_', '__'))
             item.connect('activate', self.on_select_label, label)

@@ -15,7 +15,7 @@ import os
 import shutil
 import sys
 
-import six.moves.cPickle as pickle
+import six.moves.cPickle as pickle  # noqa: N813
 from gi.repository.Gdk import SELECTION_CLIPBOARD
 from gi.repository.GdkPixbuf import Colorspace, Pixbuf
 from gi.repository.GLib import GError

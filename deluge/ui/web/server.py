@@ -438,7 +438,6 @@ class ScriptResource(resource.Resource, component.Component):
 
 
 class TopLevel(resource.Resource):
-    addSlash = True
 
     __stylesheets = [
         'css/ext-all-notheme.css',

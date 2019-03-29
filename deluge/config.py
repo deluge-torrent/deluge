@@ -49,12 +49,12 @@ from codecs import getwriter
 from io import open
 from tempfile import NamedTemporaryFile
 
-import six.moves.cPickle as pickle
+import six.moves.cPickle as pickle  # noqa: N813
 
 from deluge.common import JSON_FORMAT, get_default_config_dir
 
 log = logging.getLogger(__name__)
-callLater = None  # Necessary for the config tests
+callLater = None  # noqa: N816 Necessary for the config tests
 
 
 def prop(func):

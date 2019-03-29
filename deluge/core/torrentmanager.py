@@ -17,7 +17,7 @@ import os
 import time
 from tempfile import gettempdir
 
-import six.moves.cPickle as pickle
+import six.moves.cPickle as pickle  # noqa: N813
 from twisted.internet import defer, error, reactor, threads
 from twisted.internet.defer import Deferred, DeferredList
 from twisted.internet.task import LoopingCall
@@ -128,7 +128,7 @@ class TorrentManager(component.Component):
 
     """
 
-    callLater = reactor.callLater
+    callLater = reactor.callLater  # noqa: N815
 
     def __init__(self):
         component.Component.__init__(

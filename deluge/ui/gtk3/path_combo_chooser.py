@@ -1237,7 +1237,7 @@ class PathChooserComboBox(Gtk.Box, StoredValuesPopup, GObject.GObject):
         folder_name = ''
         if self.show_folder_name_on_button or not self.path_entry_visible:
             folder_name = path_without_trailing_path_sep(text)
-            if folder_name is not '/' and os.path.basename(folder_name):
+            if folder_name != '/' and os.path.basename(folder_name):
                 folder_name = os.path.basename(folder_name)
         self.folder_name_label.set_text(folder_name)
         # Only trigger event if text has changed
