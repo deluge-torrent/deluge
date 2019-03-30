@@ -16,14 +16,13 @@ from twisted.python.failure import Failure
 from twisted.trial import unittest
 from twisted.web.error import PageRedirect
 from twisted.web.http import NOT_MODIFIED
-from twisted.web.resource import Resource
-from twisted.web.server import Site
+from twisted.web.resource import EncodingResourceWrapper, Resource
+from twisted.web.server import GzipEncoderFactory, Site
 from twisted.web.util import redirectTo
 
 from deluge.common import windows_check
 from deluge.httpdownloader import download_file
 from deluge.log import setup_logger
-from deluge.ui.web.common import compress
 
 temp_dir = tempfile.mkdtemp()
 
@@ -66,10 +65,13 @@ class CookieResource(Resource):
 
 
 class GzipResource(Resource):
+    def getChild(self, path, request):  # NOQA: N802
+        return EncodingResourceWrapper(self, [GzipEncoderFactory()])
+
     def render(self, request):
         message = request.args.get(b'msg', [b'EFFICIENCY!'])[0]
         request.setHeader(b'Content-Type', b'text/plain')
-        return compress(message, request)
+        return message
 
 
 class PartialDownloadResource(Resource):
@@ -227,13 +229,9 @@ class DownloadFileTestCase(unittest.TestCase):
         return d
 
     def test_download_with_gzip_encoding_disabled(self):
-        url = self.get_url('gzip?msg=fail')
+        url = self.get_url('gzip?msg=unzip')
         d = download_file(url, fname('gzip_encoded'), allow_compression=False)
-
-        def cb(result):
-            print(result)
-
-        d.addCallback(self.assertNotContains, b'fail', file_mode='rb')
+        d.addCallback(self.assertContains, 'unzip')
         return d
 
     def test_page_redirect_unhandled(self):

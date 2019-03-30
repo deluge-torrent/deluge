@@ -19,6 +19,7 @@ import tempfile
 from twisted.application import internet, service
 from twisted.internet import defer, reactor
 from twisted.web import http, resource, server, static
+from twisted.web.resource import EncodingResourceWrapper
 
 from deluge import common, component, configmanager
 from deluge.common import is_ipv6
@@ -27,7 +28,7 @@ from deluge.crypto_utils import get_context_factory
 from deluge.ui.tracker_icons import TrackerIcons
 from deluge.ui.translations_util import set_language, setup_translations
 from deluge.ui.web.auth import Auth
-from deluge.ui.web.common import Template, compress
+from deluge.ui.web.common import Template
 from deluge.ui.web.json_api import JSON, WebApi, WebUtils
 from deluge.ui.web.pluginmanager import PluginManager
 
@@ -80,7 +81,7 @@ class GetText(resource.Resource):
     def render(self, request):
         request.setHeader(b'content-type', b'text/javascript; encoding=utf-8')
         template = Template(filename=rpath('js', 'gettext.js'))
-        return compress(template.render(), request)
+        return template.render()
 
 
 class MockGetText(resource.Resource):
@@ -93,8 +94,7 @@ class MockGetText(resource.Resource):
 
     def render(self, request):
         request.setHeader(b'content-type', b'text/javascript; encoding=utf-8')
-        data = b'function _(string) { return string; }'
-        return compress(data, request)
+        return b'function _(string) { return string; }'
 
 
 class Upload(resource.Resource):
@@ -131,9 +131,8 @@ class Upload(resource.Resource):
 
         request.setHeader(b'content-type', b'text/html')
         request.setResponseCode(http.OK)
-        return compress(
-            json.dumps({'success': bool(filenames), 'files': filenames}).encode('utf8'),
-            request,
+        return json.dumps({'success': bool(filenames), 'files': filenames}).encode(
+            'utf8'
         )
 
 
@@ -145,7 +144,7 @@ class Render(resource.Resource):
 
     def getChild(self, path, request):  # NOQA: N802
         request.render_file = path
-        return self
+        return EncodingResourceWrapper(self, [server.GzipEncoderFactory()])
 
     def render(self, request):
         log.debug('Render template file: %s', request.render_file)
@@ -163,7 +162,7 @@ class Render(resource.Resource):
             tpl_file = '404.html'
 
         template = Template(filename=rpath(os.path.join('render', tpl_file)))
-        return compress(template.render(), request)
+        return template.render()
 
 
 class Tracker(resource.Resource):
@@ -242,7 +241,11 @@ class LookupResource(resource.Resource, component.Component):
             request.lookup_path = os.path.join(request.lookup_path, path)
         else:
             request.lookup_path = path
-        return self
+
+        if request.uri.endswith(b'css'):
+            return EncodingResourceWrapper(self, [server.GzipEncoderFactory()])
+        else:
+            return self
 
     def render(self, request):
         log.debug('Requested path: %s', request.lookup_path)
@@ -258,12 +261,12 @@ class LookupResource(resource.Resource, component.Component):
                     request.setHeader(b'content-type', mime_type[0].encode())
                     with open(path, 'rb') as _file:
                         data = _file.read()
-                    return compress(data, request)
+                    return data
 
         request.setResponseCode(http.NOT_FOUND)
         request.setHeader(b'content-type', b'text/html')
         template = Template(filename=rpath(os.path.join('render', '404.html')))
-        return compress(template.render(), request)
+        return template.render()
 
 
 class ScriptResource(resource.Resource, component.Component):
@@ -404,7 +407,7 @@ class ScriptResource(resource.Resource, component.Component):
             request.lookup_path += b'/' + path
         else:
             request.lookup_path = path
-        return self
+        return EncodingResourceWrapper(self, [server.GzipEncoderFactory()])
 
     def render(self, request):
         log.debug('Requested path: %s', request.lookup_path)
@@ -429,12 +432,21 @@ class ScriptResource(resource.Resource, component.Component):
                 request.setHeader(b'content-type', mime_type[0].encode())
                 with open(path, 'rb') as _file:
                     data = _file.read()
-                return compress(data, request)
+                return data
 
         request.setResponseCode(http.NOT_FOUND)
         request.setHeader(b'content-type', b'text/html')
         template = Template(filename=rpath(os.path.join('render', '404.html')))
-        return compress(template.render(), request)
+        return template.render()
+
+
+class Themes(static.File):
+    def getChild(self, path, request):  # NOQA: N802
+        child = static.File.getChild(self, path, request)
+        if request.uri.endswith(b'css'):
+            return EncodingResourceWrapper(child, [server.GzipEncoderFactory()])
+        else:
+            return child
 
 
 class TopLevel(resource.Resource):
@@ -450,7 +462,10 @@ class TopLevel(resource.Resource):
 
         self.putChild(b'css', LookupResource('Css', rpath('css')))
         if os.path.isfile(rpath('js', 'gettext.js')):
-            self.putChild(b'gettext.js', GetText())
+            self.putChild(
+                b'gettext.js',
+                EncodingResourceWrapper(GetText(), [server.GzipEncoderFactory()]),
+            )
         else:
             log.warning(
                 'Cannot find "gettext.js" translation file!'
@@ -505,10 +520,14 @@ class TopLevel(resource.Resource):
 
         self.js = js
         self.putChild(b'js', js)
-        self.putChild(b'json', JSON())
-        self.putChild(b'upload', Upload())
+        self.putChild(
+            b'json', EncodingResourceWrapper(JSON(), [server.GzipEncoderFactory()])
+        )
+        self.putChild(
+            b'upload', EncodingResourceWrapper(Upload(), [server.GzipEncoderFactory()])
+        )
         self.putChild(b'render', Render())
-        self.putChild(b'themes', static.File(rpath('themes')))
+        self.putChild(b'themes', Themes(rpath('themes')))
         self.putChild(b'tracker', Tracker())
 
         theme = component.get('DelugeWeb').config['theme']

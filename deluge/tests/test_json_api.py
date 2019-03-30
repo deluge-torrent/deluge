@@ -79,11 +79,6 @@ class JSONTestCase(JSONBase):
         request = MagicMock()
         request.method = b'POST'
 
-        def compress(contents, request):
-            return contents
-
-        self.patch(deluge.ui.web.json_api, 'compress', compress)
-
         def write(response_str):
             request.write_was_called = True
             response = json_lib.loads(response_str.decode())
@@ -267,7 +262,6 @@ class JSONRequestFailedTestCase(JSONBase, WebServerMockBase):
         # Circumvent authentication
         auth = Auth({})
         self.mock_authentication_ignore(auth)
-        self.mock_compress_body()
 
         def write(response_str):
             request.write_was_called = True

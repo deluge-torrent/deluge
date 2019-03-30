@@ -31,7 +31,6 @@ class WebServerTestCase(WebServerTestBase, WebServerMockBase):
         agent = Agent(reactor)
 
         self.mock_authentication_ignore(self.deluge_web.auth)
-        self.mock_compress_body()
 
         # This torrent file contains an uncommon field 'filehash' which must be hex
         # encoded to allow dumping the torrent info to json. Otherwise it will fail with:

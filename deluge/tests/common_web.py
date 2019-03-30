@@ -67,10 +67,3 @@ class WebServerMockBase(object):
             pass
 
         self.patch(auth, 'check_request', check_request)
-
-    def mock_compress_body(self):
-        def compress(contents, request):
-            return contents
-
-        # Patch compress to avoid having to decompress output with zlib
-        self.patch(deluge.ui.web.json_api, 'compress', compress)

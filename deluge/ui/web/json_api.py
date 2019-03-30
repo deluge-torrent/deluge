@@ -32,7 +32,7 @@ from deluge.ui.coreconfig import CoreConfig
 from deluge.ui.hostlist import HostList
 from deluge.ui.sessionproxy import SessionProxy
 from deluge.ui.translations_util import get_languages
-from deluge.ui.web.common import _, compress
+from deluge.ui.web.common import _
 
 log = logging.getLogger(__name__)
 
@@ -231,7 +231,7 @@ class JSON(resource.Resource, component.Component):
             return ''
         response = json.dumps(response)
         request.setHeader(b'content-type', b'application/json')
-        request.write(compress(response.encode(), request))
+        request.write(response.encode())
         request.finish()
         return server.NOT_DONE_YET
 

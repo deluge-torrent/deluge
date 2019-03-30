@@ -16,8 +16,8 @@ from twisted.internet import defer, reactor, task
 from twisted.internet.error import CannotListenError
 from twisted.python.failure import Failure
 from twisted.web.http import FORBIDDEN
-from twisted.web.resource import Resource
-from twisted.web.server import Site
+from twisted.web.resource import EncodingResourceWrapper, Resource
+from twisted.web.server import GzipEncoderFactory, Site
 from twisted.web.static import File
 
 import deluge.common
@@ -26,7 +26,6 @@ import deluge.core.torrent
 from deluge.core.core import Core
 from deluge.core.rpcserver import RPCServer
 from deluge.error import AddTorrentError, InvalidTorrentError
-from deluge.ui.web.common import compress
 
 from . import common
 from .basetest import BaseTestCase
@@ -49,6 +48,9 @@ class CookieResource(Resource):
 
 
 class PartialDownload(Resource):
+    def getChild(self, path, request):  # NOQA: N802
+        return EncodingResourceWrapper(self, [GzipEncoderFactory()])
+
     def render(self, request):
         with open(
             common.get_test_data_file('ubuntu-9.04-desktop-i386.iso.torrent'), 'rb'
@@ -56,8 +58,6 @@ class PartialDownload(Resource):
             data = _file.read()
         request.setHeader(b'Content-Length', str(len(data)))
         request.setHeader(b'Content-Type', b'application/x-bittorrent')
-        if request.requestHeaders.hasHeader('accept-encoding'):
-            return compress(data, request)
         return data
 
 
