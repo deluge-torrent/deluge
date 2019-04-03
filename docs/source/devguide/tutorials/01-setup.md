@@ -21,8 +21,9 @@ system.
 
 #### Runtime libraries and tools
 
-    sudo apt install python-libtorrent python-geoip python-dbus python-glade2 \
-    librsvg2-common xdg-utils python-appindicator python-notify python-pygame
+    sudo apt install python3-libtorrent python3-geoip python3-dbus  python3-gi \
+    python3-gi-cairo gir1.2-gtk-3.0 gir1.2-appindicator3 python3-pygame libnotify4 \
+    librsvg2-common xdg-utils
 
 ## Setup development environment
 
