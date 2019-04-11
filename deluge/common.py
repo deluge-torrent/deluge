@@ -46,6 +46,9 @@ except ImportError:
     from urlparse import urljoin  # pylint: disable=ungrouped-imports
     from urllib import pathname2url, unquote_plus  # pylint: disable=ungrouped-imports
 
+if platform.system() == 'Linux':
+    import distro
+
 # Windows workaround for HTTPS requests requiring certificate authority bundle.
 # see: https://twistedmatrix.com/trac/ticket/9209
 if platform.system() in ('Windows', 'Microsoft'):
@@ -267,7 +270,7 @@ def get_os_version():
         os_version = list(platform.mac_ver())
         os_version[1] = ''  # versioninfo always empty.
     elif linux_check():
-        os_version = platform.linux_distribution()
+        os_version = distro.linux_distribution(full_distribution_name=False)
     else:
         os_version = (platform.release(),)
 
