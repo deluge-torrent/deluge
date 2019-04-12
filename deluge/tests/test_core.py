@@ -54,7 +54,7 @@ class PartialDownload(Resource):
             common.get_test_data_file('ubuntu-9.04-desktop-i386.iso.torrent'), 'rb'
         ) as _file:
             data = _file.read()
-        request.setHeader(b'Content-Type', len(data))
+        request.setHeader(b'Content-Type', str(len(data)))
         request.setHeader(b'Content-Type', b'application/x-bittorrent')
         if request.requestHeaders.hasHeader('accept-encoding'):
             return compress(data, request)
