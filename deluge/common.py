@@ -46,9 +46,6 @@ except ImportError:
     from urlparse import urljoin  # pylint: disable=ungrouped-imports
     from urllib import pathname2url, unquote_plus  # pylint: disable=ungrouped-imports
 
-if platform.system() == 'Linux':
-    import distro
-
 # Windows workaround for HTTPS requests requiring certificate authority bundle.
 # see: https://twistedmatrix.com/trac/ticket/9209
 if platform.system() in ('Windows', 'Microsoft'):
@@ -56,12 +53,17 @@ if platform.system() in ('Windows', 'Microsoft'):
 
     os.environ['SSL_CERT_FILE'] = where()
 
-# gi makes dbus available on Window but don't import it as unused.
+
 if platform.system() not in ('Windows', 'Microsoft', 'Darwin'):
+    # gi makes dbus available on Window but don't import it as unused.
     try:
         import dbus
     except ImportError:
         dbus = None
+    try:
+        import distro
+    except ImportError:
+        distro = None
 
 log = logging.getLogger(__name__)
 
@@ -269,8 +271,8 @@ def get_os_version():
     elif osx_check():
         os_version = list(platform.mac_ver())
         os_version[1] = ''  # versioninfo always empty.
-    elif linux_check():
-        os_version = distro.linux_distribution(full_distribution_name=False)
+    elif distro:
+        os_version = distro.linux_distribution()
     else:
         os_version = (platform.release(),)
 

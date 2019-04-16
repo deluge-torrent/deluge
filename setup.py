@@ -551,6 +551,7 @@ install_requires = [
     "py2-ipaddress; sys_platform == 'win32' and python_version == '2'",
     "certifi; sys_platform == 'win32'",
     'zope.interface',
+    "distro; platform_system != 'Windows' and platform_system != 'Microsoft' and platform_system != 'Darwin'",
 ]
 tests_require = ['pytest', 'pytest-twisted']
 
