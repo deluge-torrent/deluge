@@ -4,7 +4,6 @@
 sphinx-autobuild
 tox
 tox-venv
-detox
 pre-commit
 flake8-blind-except
 flake8-builtins
