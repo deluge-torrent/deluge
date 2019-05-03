@@ -1,16 +1,18 @@
+default_language:
+  python: python3
 exclude: >
   (?x)^(
       deluge/ui/web/docs/template/.*|
   )$
 repos:
   - repo: https://github.com/ambv/black
-    rev: 18.9b0
+    rev: 19.3b0
     hooks:
       - id: black
         name: Fmt Black
         language_version: python3.6
   - repo: https://github.com/prettier/prettier
-    rev: 1.16.4
+    rev: 1.17.0
     hooks:
       - id: prettier
         name: Fmt Prettier
@@ -25,7 +27,7 @@ repos:
           - flake8-isort==2.7
           - pep8-naming==0.8.2
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v2.1.0
+    rev: v2.2.1
     hooks:
       - id: double-quote-string-fixer
         name: Fix Double-quotes
