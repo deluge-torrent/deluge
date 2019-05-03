@@ -74,6 +74,9 @@ class WebPluginBase(PluginBase):
         component.get('JSON').register_object(self, plugin_name.lower())
         log.debug('WebPlugin initialized..')
 
+    def __del__(self):
+        component.get('JSON').deregister_object(self)
+
     def enable(self):
         pass
 
