@@ -16,6 +16,7 @@ class Parent(object):
     def __init__(self):
         self.border_off_x = 1
         self.pane_width = 20
+        self.encoding = 'utf8'
 
 
 class UICommonTestCase(unittest.TestCase):
@@ -39,4 +40,5 @@ class UICommonTestCase(unittest.TestCase):
             '/text/field/file/path',
             complete=False,
         )
-        self.assertTrue(t)  # Shut flake8 up (unused variable)
+        self.assertTrue(t)
+        self.assertTrue(t.handle_read(33))

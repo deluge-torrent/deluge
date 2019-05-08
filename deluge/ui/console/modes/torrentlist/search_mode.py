@@ -11,6 +11,7 @@ from __future__ import unicode_literals
 
 import logging
 
+from deluge.common import PY2
 from deluge.decorators import overrides
 from deluge.ui.console.modes.basemode import InputKeyHandler, move_cursor
 from deluge.ui.console.modes.torrentlist.torrentactions import torrent_actions_popup
@@ -175,7 +176,7 @@ class SearchMode(InputKeyHandler):
         elif c > 31 and c < 256:
             old_search_string = self.search_string
             stroke = chr(c)
-            uchar = ''
+            uchar = '' if PY2 else stroke
             while not uchar:
                 try:
                     uchar = stroke.decode(self.torrentlist.encoding)

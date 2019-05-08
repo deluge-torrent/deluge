@@ -14,6 +14,7 @@ from __future__ import unicode_literals
 import logging
 import os
 
+from deluge.common import PY2
 from deluge.decorators import overrides
 from deluge.ui.console.modes.basemode import InputKeyHandler
 from deluge.ui.console.utils import colors
@@ -950,7 +951,7 @@ class TextInput(InputField):
         elif c > 31 and c < 256:
             # Emulate getwch
             stroke = chr(c)
-            uchar = ''
+            uchar = '' if PY2 else stroke
             while not uchar:
                 try:
                     uchar = stroke.decode(self.parent.encoding)

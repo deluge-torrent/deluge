@@ -17,6 +17,7 @@ from io import open
 
 import deluge.component as component
 import deluge.configmanager
+from deluge.common import PY2
 from deluge.decorators import overrides
 from deluge.ui.console.cmdline.command import Commander
 from deluge.ui.console.modes.basemode import BaseMode, move_cursor
@@ -334,7 +335,7 @@ class CmdLine(BaseMode, Commander):
             if c > 31 and c < 256:
                 # Emulate getwch
                 stroke = chr(c)
-                uchar = ''
+                uchar = '' if PY2 else stroke
                 while not uchar:
                     try:
                         uchar = stroke.decode(self.encoding)
