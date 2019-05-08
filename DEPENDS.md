@@ -30,6 +30,10 @@ All modules will require the [common](#common) section dependencies.
 - [Pillow] - Optional: Support for resizing tracker icons.
 - [dbus-python] - Optional: Show item location in filemanager.
 
+#### Linux and BSD
+
+- [distro] - Optional: OS platform information.
+
 #### Windows OS
 
 - [pywin32]
@@ -75,6 +79,7 @@ All modules will require the [common](#common) section dependencies.
 [pillow]: https://pypi.org/project/Pillow/
 [libtorrent]: https://libtorrent.org/
 [zope.interface]: https://pypi.org/project/zope.interface/
+[distro]: https://github.com/nir0s/distro
 [pywin32]: https://github.com/mhammond/pywin32
 [certifi]: https://pypi.org/project/certifi/
 [py2-ipaddress]: https://pypi.org/project/py2-ipaddress/
