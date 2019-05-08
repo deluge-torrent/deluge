@@ -9,6 +9,7 @@ from __future__ import unicode_literals
 
 from twisted.trial import unittest
 
+from deluge.common import windows_check
 from deluge.ui.console.widgets.fields import TextInput
 
 
@@ -41,4 +42,5 @@ class UICommonTestCase(unittest.TestCase):
             complete=False,
         )
         self.assertTrue(t)
-        self.assertTrue(t.handle_read(33))
+        if not windows_check():
+            self.assertTrue(t.handle_read(33))
