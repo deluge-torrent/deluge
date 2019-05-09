@@ -20,3 +20,5 @@ deluge/ui/web/js/extjs/ext-extensions*.js
 osx/app
 RELEASE-VERSION
 .venv*
+.idea
+*.iml
