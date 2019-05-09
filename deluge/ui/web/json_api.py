@@ -253,14 +253,15 @@ class JSON(resource.Resource, component.Component):
             return self._on_json_request_failed(ex, request)
 
     def register_object(self, obj, name=None):
-        """
-        Registers an object to export it's rpc methods.  These methods should
-        be exported with the export decorator prior to registering the object.
+        """Registers an object to export it's rpc methods.
 
-        :param obj: the object that we want to export
-        :type obj: object
-        :param name: the name to use, if None, it will be the class name of the object
-        :type name: string
+        These methods should be exported with the export decorator prior
+        to registering the object.
+
+        Args:
+            obj (object): The object that we want to export.
+            name (str): The name to use. If None, uses the object class name.
+
         """
         name = name or obj.__class__.__name__
         name = name.lower()
@@ -271,6 +272,17 @@ class JSON(resource.Resource, component.Component):
             if getattr(getattr(obj, d), '_json_export', False):
                 log.debug('Registering method: %s', name + '.' + d)
                 self._local_methods[name + '.' + d] = getattr(obj, d)
+
+    def deregister_object(self, obj):
+        """Deregisters an objects exported rpc methods.
+
+        Args:
+            obj (object): The object that was previously registered.
+
+        """
+        for key, value in self._local_methods.items():
+            if value.__self__ == obj:
+                del self._local_methods[key]
 
 
 FILES_KEYS = ['files', 'file_progress', 'file_priorities']
