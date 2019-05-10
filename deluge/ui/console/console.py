@@ -15,7 +15,7 @@ import os
 import sys
 
 import deluge.common
-from deluge.ui.baseargparser import BaseArgParser, DelugeTextHelpFormatter
+from deluge.argparserbase import ArgParserBase, DelugeTextHelpFormatter
 from deluge.ui.ui import UI
 
 log = logging.getLogger(__name__)
@@ -143,7 +143,7 @@ class Console(UI):
     def start(self):
         if self.ui_args is None:
             # Started directly by deluge-console script so must find the UI args manually
-            options, remaining = BaseArgParser(common_help=False).parse_known_args()
+            options, remaining = ArgParserBase(common_help=False).parse_known_args()
             self.ui_args = remaining
 
         i = self.console_parser.find_subcommand(args=self.ui_args)

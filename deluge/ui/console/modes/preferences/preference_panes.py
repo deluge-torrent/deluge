@@ -13,6 +13,7 @@ import logging
 
 from deluge.common import is_ip
 from deluge.decorators import overrides
+from deluge.i18n import get_languages
 from deluge.ui.client import client
 from deluge.ui.common import DISK_CACHE_KEYS
 from deluge.ui.console.widgets import BaseInputPane, BaseWindow
@@ -192,7 +193,6 @@ class InterfacePane(BasePreferencePane):
             _('Move selection when moving torrents in the queue'),
             console_config['torrentview']['move_selection'],
         )
-        from deluge.ui.translations_util import get_languages
 
         langs = get_languages()
         langs.insert(0, ('', 'System Default'))

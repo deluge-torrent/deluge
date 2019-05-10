@@ -15,10 +15,10 @@ from logging import DEBUG, FileHandler, getLogger
 
 from twisted.internet.error import CannotListenError
 
+from deluge.argparserbase import ArgParserBase
 from deluge.common import run_profiled
 from deluge.configmanager import get_config_dir
-from deluge.ui.baseargparser import BaseArgParser
-from deluge.ui.translations_util import set_dummy_trans
+from deluge.i18n import setup_mock_translation
 
 
 def add_daemon_options(parser):
@@ -78,10 +78,10 @@ def start_daemon(skip_start=False):
         deluge.core.daemon.Daemon: A new daemon object
 
     """
-    set_dummy_trans(warn_msg=True)
+    setup_mock_translation(warn_msg=True)
 
     # Setup the argument parser
-    parser = BaseArgParser()
+    parser = ArgParserBase()
     add_daemon_options(parser)
 
     options = parser.parse_args()

@@ -9,6 +9,12 @@ from __future__ import unicode_literals
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-us'
 
+
+# Deferred translation
+def _(message):
+    return message
+
+
 # Languages we provide translations for, out of the box.
 LANGUAGES = {
     'af': _('Afrikaans'),
@@ -107,3 +113,5 @@ LANGUAGES = {
     'zh-hant': _('Traditional Chinese'),
     'zh_TW': _('Chinese (Taiwan)'),
 }
+
+del _

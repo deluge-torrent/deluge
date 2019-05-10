@@ -23,8 +23,8 @@ import pkg_resources
 
 import deluge.common
 import deluge.configmanager
-from deluge.ui.baseargparser import BaseArgParser
-from deluge.ui.translations_util import setup_translations
+from deluge.argparserbase import ArgParserBase
+from deluge.i18n import setup_translation
 
 DEFAULT_PREFS = {'default_ui': 'gtk'}
 
@@ -33,7 +33,7 @@ AMBIGUOUS_CMD_ARGS = ('-h', '--help', '-v', '-V', '--version')
 
 def start_ui():
     """Entry point for ui script"""
-    setup_translations()
+    setup_translation()
 
     # Get the registered UI entry points
     ui_entrypoints = {}
@@ -59,7 +59,7 @@ def start_ui():
         return _parser
 
     # Setup parser with Common Options and add UI Options group.
-    parser = add_ui_options_group(BaseArgParser())
+    parser = add_ui_options_group(ArgParserBase())
 
     # Parse and handle common/process group options
     options = parser.parse_known_ui_args(sys.argv, withhold=AMBIGUOUS_CMD_ARGS)
@@ -81,7 +81,7 @@ def start_ui():
     # We have parsed and got the config dir needed to get the default UI
     # Now create a parser for choosing the UI. We reuse the ui option group for
     # parsing to succeed and the text displayed to user, but result is not used.
-    parser = add_ui_options_group(BaseArgParser(common_help=True))
+    parser = add_ui_options_group(ArgParserBase(common_help=True))
 
     # Create subparser for each registered UI. Empty title is used to remove unwanted positional text.
     subparsers = parser.add_subparsers(

@@ -13,7 +13,7 @@ from twisted.trial import unittest
 import deluge.component as component
 from deluge.common import windows_check
 from deluge.configmanager import ConfigManager
-from deluge.ui.translations_util import setup_translations
+from deluge.i18n import setup_translation
 
 from . import common
 from .basetest import BaseTestCase
@@ -27,7 +27,7 @@ try:
 except ImportError:
     libs_available = False
 
-setup_translations()
+setup_translation()
 
 
 @pytest.mark.gtkui

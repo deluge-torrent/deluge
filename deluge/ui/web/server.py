@@ -25,8 +25,8 @@ from deluge import common, component, configmanager
 from deluge.common import is_ipv6
 from deluge.core.rpcserver import check_ssl_keys
 from deluge.crypto_utils import get_context_factory
+from deluge.i18n import set_language, setup_translation
 from deluge.ui.tracker_icons import TrackerIcons
-from deluge.ui.translations_util import set_language, setup_translations
 from deluge.ui.web.auth import Auth
 from deluge.ui.web.common import Template
 from deluge.ui.web.json_api import JSON, WebApi, WebUtils
@@ -687,7 +687,7 @@ class DelugeWeb(component.Component):
             # Strip away slashes and serve on the base path as well as root path
             self.top_level.putChild(self.base.strip('/'), self.top_level)
 
-        setup_translations()
+        setup_translation()
 
         # Remove twisted version number from 'server' http-header for security reasons
         server.version = 'TwistedWeb'

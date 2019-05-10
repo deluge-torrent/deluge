@@ -26,12 +26,12 @@ from deluge import component, httpdownloader
 from deluge.common import AUTH_LEVEL_DEFAULT, get_magnet_info, is_magnet
 from deluge.configmanager import get_config_dir
 from deluge.error import NotAuthorizedError
+from deluge.i18n import get_languages
 from deluge.ui.client import Client, client
 from deluge.ui.common import FileTree2, TorrentInfo
 from deluge.ui.coreconfig import CoreConfig
 from deluge.ui.hostlist import HostList
 from deluge.ui.sessionproxy import SessionProxy
-from deluge.ui.translations_util import get_languages
 from deluge.ui.web.common import _
 
 log = logging.getLogger(__name__)

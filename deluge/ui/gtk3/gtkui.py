@@ -47,11 +47,11 @@ from deluge.common import (
 )
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.error import DaemonRunningError
+from deluge.i18n import I18N_DOMAIN, set_language, setup_translation
 from deluge.ui.client import client
 from deluge.ui.hostlist import LOCALHOST
 from deluge.ui.sessionproxy import SessionProxy
 from deluge.ui.tracker_icons import TrackerIcons
-from deluge.ui.translations_util import I18N_DOMAIN, set_language, setup_translations
 
 # isort:imports-localfolder
 from .addtorrentdialog import AddTorrentDialog
@@ -146,7 +146,7 @@ def windowing(like):
 class GtkUI(object):
     def __init__(self, args):
         # Setup gtkbuilder/glade translation
-        setup_translations()
+        setup_translation()
         Builder().set_translation_domain(I18N_DOMAIN)
 
         # Setup signals

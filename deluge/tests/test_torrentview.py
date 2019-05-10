@@ -15,7 +15,7 @@ from twisted.trial import unittest
 
 import deluge.component as component
 from deluge.configmanager import ConfigManager
-from deluge.ui.translations_util import setup_translations
+from deluge.i18n import setup_translation
 
 from . import common
 from .basetest import BaseTestCase
@@ -36,7 +36,7 @@ except (ImportError, ValueError):
 else:
     libs_available = True
 
-setup_translations()
+setup_translation()
 
 
 @pytest.mark.gtkui

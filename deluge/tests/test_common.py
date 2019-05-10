@@ -30,7 +30,7 @@ from deluge.common import (
     is_url,
     windows_check,
 )
-from deluge.ui.translations_util import setup_translations
+from deluge.i18n import setup_translation
 
 from .common import get_test_data_file, set_tmp_config_dir
 
@@ -38,7 +38,7 @@ from .common import get_test_data_file, set_tmp_config_dir
 class CommonTestCase(unittest.TestCase):
     def setUp(self):  # NOQA
         self.config_dir = set_tmp_config_dir()
-        setup_translations()
+        setup_translation()
 
     def tearDown(self):  # NOQA
         pass

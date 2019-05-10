@@ -20,25 +20,11 @@ from six.moves import builtins
 
 import deluge.common
 
+from .languages import LANGUAGES
+
 log = logging.getLogger(__name__)
-log.addHandler(
-    logging.NullHandler()
-)  # Silence: No handlers could be found for logger "deluge.util.lang"
 
 I18N_DOMAIN = 'deluge'
-
-
-def set_dummy_trans(warn_msg=None):
-    def _func(*txt):
-        if warn_msg:
-            log.warning(
-                '"%s" has been marked for translation, but translation is unavailable.',
-                txt[0],
-            )
-        return txt[0]
-
-    builtins.__dict__['_'] = _func
-    builtins.__dict__['ngettext'] = builtins.__dict__['_n'] = _func
 
 
 def get_translations_path():
@@ -47,8 +33,6 @@ def get_translations_path():
 
 
 def get_languages():
-    from deluge.ui import languages  # Import here so that gettext has been setup first
-
     lang = []
 
     translations_path = get_translations_path()
@@ -61,9 +45,9 @@ def get_languages():
 
     for i, lang_code in enumerate(lang_dirs):
         name = '%s (Language name missing)' % lang_code
-        if lang_code in languages.LANGUAGES:
-            name = languages.LANGUAGES[lang_code]
-        lang.append([lang_code, name])
+        if lang_code in LANGUAGES:
+            name = LANGUAGES[lang_code]
+        lang.append([lang_code, _(name)])
 
     lang = sorted(lang, key=lambda l: l[1])
     return lang
@@ -93,8 +77,21 @@ def set_language(lang):
         log.warning('IOError when loading translations: %s', ex)
 
 
+def setup_mock_translation(warn_msg=None):
+    def _func(*txt):
+        if warn_msg:
+            log.warning(
+                '"%s" has been marked for translation, but translation is unavailable.',
+                txt[0],
+            )
+        return txt[0]
+
+    builtins.__dict__['_'] = _func
+    builtins.__dict__['ngettext'] = builtins.__dict__['_n'] = _func
+
+
 # Initialize gettext
-def setup_translations():
+def setup_translation():
     translations_path = get_translations_path()
     log.info('Setting up translations from %s', translations_path)
 
@@ -131,6 +128,6 @@ def setup_translations():
     except Exception as ex:
         log.error('Unable to initialize gettext/locale!')
         log.exception(ex)
-        set_dummy_trans()
+        setup_mock_translation()
 
     deluge.common.translate_size_units()

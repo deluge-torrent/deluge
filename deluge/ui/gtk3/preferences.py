@@ -22,9 +22,9 @@ import deluge.common
 import deluge.component as component
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.error import AuthManagerError, NotAuthorizedError
+from deluge.i18n import get_languages
 from deluge.ui.client import client
 from deluge.ui.common import DISK_CACHE_KEYS, PREFS_CATOG_TRANS
-from deluge.ui.translations_util import get_languages
 
 from .common import associate_magnet_links, get_clipboard_text, get_deluge_icon
 from .dialogs import AccountDialog, ErrorDialog, InformationDialog, YesNoDialog

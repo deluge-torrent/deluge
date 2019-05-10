@@ -86,7 +86,7 @@ argparse.ArgumentParser.find_subcommand = find_subcommand
 argparse.ArgumentParser.set_default_subparser = set_default_subparser
 
 
-def get_version():
+def _get_version_detail():
     version_str = '%s\n' % (common.get_version())
     try:
         from deluge._libtorrent import LT_VERSION
@@ -151,7 +151,7 @@ class HelpAction(argparse._HelpAction):
         parser.exit()
 
 
-class BaseArgParser(argparse.ArgumentParser):
+class ArgParserBase(argparse.ArgumentParser):
     def __init__(self, *args, **kwargs):
         if 'formatter_class' not in kwargs:
             kwargs['formatter_class'] = lambda prog: DelugeTextHelpFormatter(
@@ -165,7 +165,7 @@ class BaseArgParser(argparse.ArgumentParser):
             self.log_stream = kwargs['log_stream']
             del kwargs['log_stream']
 
-        super(BaseArgParser, self).__init__(*args, **kwargs)
+        super(ArgParserBase, self).__init__(*args, **kwargs)
 
         self.common_setup = False
         self.process_arg_group = False
@@ -178,13 +178,13 @@ class BaseArgParser(argparse.ArgumentParser):
             '-V',
             '--version',
             action='version',
-            version='%(prog)s ' + get_version(),
+            version='%(prog)s ' + _get_version_detail(),
             help=_('Print version information'),
         )
         self.group.add_argument(
             '-v',
             action='version',
-            version='%(prog)s ' + get_version(),
+            version='%(prog)s ' + _get_version_detail(),
             help=argparse.SUPPRESS,
         )  # Deprecated arg
         self.group.add_argument(
@@ -246,7 +246,7 @@ class BaseArgParser(argparse.ArgumentParser):
             argparse.Namespace: The parsed arguments.
 
         """
-        options = super(BaseArgParser, self).parse_args(args=args)
+        options = super(ArgParserBase, self).parse_args(args=args)
         return self._handle_ui_options(options)
 
     def parse_known_ui_args(self, args, withhold=None):
@@ -262,7 +262,7 @@ class BaseArgParser(argparse.ArgumentParser):
         """
         if withhold:
             args = [a for a in args if a not in withhold]
-        options, remaining = super(BaseArgParser, self).parse_known_args(args=args)
+        options, remaining = super(ArgParserBase, self).parse_known_args(args=args)
         options.remaining = remaining
         # Hanlde common and process group options
         return self._handle_ui_options(options)
