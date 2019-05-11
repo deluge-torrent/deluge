@@ -212,7 +212,7 @@ class TorrentDetail(BaseMode, PopupsHandler):
             if self.file_dict[i][6] != prio:
                 need_prio_update = True
                 self.file_dict[i][6] = prio
-        if need_prio_update:
+        if need_prio_update and self.file_list:
             self.__fill_prio(self.file_list)
         del state['file_progress']
         del state['file_priorities']
