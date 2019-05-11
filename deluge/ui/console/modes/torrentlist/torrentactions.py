@@ -39,7 +39,7 @@ def action_remove(mode=None, torrent_ids=None, **kwargs):
             mode.pop_popup()
             return True
 
-        mode.clear_marked()
+        mode.torrentview.clear_marked()
         remove_data = data['remove_files']['value']
 
         def on_removed_finished(errors):
@@ -54,6 +54,7 @@ def action_remove(mode=None, torrent_ids=None, **kwargs):
 
         d = client.core.remove_torrents(torrent_ids, remove_data)
         d.addCallback(on_removed_finished)
+        mode.pop_popup()
 
     def got_status(status):
         return (status['name'], status['state'])
@@ -191,10 +192,9 @@ def torrent_action(action, *args, **kwargs):
     elif action == ACTION.QUEUE:
         queue_mode = QueueMode(mode, torrent_ids)
         queue_mode.popup(**kwargs)
-        return False
     elif action == ACTION.REMOVE:
         action_remove(**kwargs)
-        return False
+        retval = True
     elif action == ACTION.MOVE_STORAGE:
 
         def do_move(res, **kwargs):
