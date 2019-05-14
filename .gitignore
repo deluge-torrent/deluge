@@ -3,10 +3,12 @@ build
 .cache
 dist
 docs/source/modules/deluge*.rst
-*egg-info
+*.egg-info/
+*.dist-info/
 *.egg
 *.log
-*.pyc
+__pycache__/
+*.py[cod]
 *.tar.*
 _trial_temp
 .tox/
