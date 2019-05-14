@@ -15,6 +15,7 @@ import locale
 import logging
 import os
 import sys
+from glob import glob
 
 from six.moves import builtins
 
@@ -36,9 +37,14 @@ def get_languages():
     lang = []
 
     translations_path = get_translations_path()
+    lc_messages_path = os.path.join('LC_MESSAGES', I18N_DOMAIN + '.mo')
     for root, dirs, files in os.walk(translations_path):
         # Get the dirs
-        lang_dirs = dirs
+        lang_dirs = [
+            lang_dir
+            for lang_dir in dirs
+            if glob(os.path.join(translations_path, lang_dir, lc_messages_path))
+        ]
         break
     else:
         return lang
