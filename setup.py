@@ -593,6 +593,5 @@ setup(
     package_data=_package_data,
     exclude_package_data=_exclude_package_data,
     packages=find_packages(exclude=['deluge.plugins.*', 'deluge.tests']),
-    namespace_packages=['deluge', 'deluge.plugins'],
     entry_points=_entry_points,
 )

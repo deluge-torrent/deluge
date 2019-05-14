@@ -17,7 +17,7 @@ __url__ = 'http://deluge-torrent.org'
 __license__ = 'GPLv3'
 __description__ = 'Download and import IP blocklists'
 __long_description__ = __description__
-__pkg_data__ = {'deluge.plugins.' + __plugin_name__.lower(): ['data/*']}
+__pkg_data__ = {'deluge_' + __plugin_name__.lower(): ['data/*']}
 
 setup(
     name=__plugin_name__,
@@ -30,15 +30,14 @@ setup(
     zip_safe=False,
     long_description=__long_description__,
     packages=find_packages(),
-    namespace_packages=['deluge', 'deluge.plugins'],
     package_data=__pkg_data__,
     entry_points="""
     [deluge.plugin.core]
-    %s = deluge.plugins.%s:CorePlugin
+    %s = deluge_%s:CorePlugin
     [deluge.plugin.gtk3ui]
-    %s = deluge.plugins.%s:GtkUIPlugin
+    %s = deluge_%s:GtkUIPlugin
     [deluge.plugin.web]
-    %s = deluge.plugins.%s:WebUIPlugin
+    %s = deluge_%s:WebUIPlugin
     """
     % ((__plugin_name__, __plugin_name__.lower()) * 3),
 )

@@ -21,7 +21,7 @@ Allows labels to be assigned to torrents
 
 Also offers filters on state, tracker and keywords
 """
-__pkg_data__ = {'deluge.plugins.' + __plugin_name__.lower(): ['template/*', 'data/*']}
+__pkg_data__ = {'deluge_' + __plugin_name__.lower(): ['data/*']}
 
 setup(
     name=__plugin_name__,
@@ -33,15 +33,14 @@ setup(
     license=__license__,
     long_description=__long_description__,
     packages=find_packages(),
-    namespace_packages=['deluge', 'deluge.plugins'],
     package_data=__pkg_data__,
     entry_points="""
     [deluge.plugin.core]
-    %s = deluge.plugins.%s:CorePlugin
+    %s = deluge_%s:CorePlugin
     [deluge.plugin.gtk3ui]
-    %s = deluge.plugins.%s:GtkUIPlugin
+    %s = deluge_%s:GtkUIPlugin
     [deluge.plugin.web]
-    %s = deluge.plugins.%s:WebUIPlugin
+    %s = deluge_%s:WebUIPlugin
     """
     % ((__plugin_name__, __plugin_name__.lower()) * 3),
 )

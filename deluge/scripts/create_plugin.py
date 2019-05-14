@@ -70,9 +70,7 @@ def create_plugin():
     if options.module_name:
         safe_name = options.module_name.lower()
     plugin_base = os.path.realpath(os.path.join(options.basepath, name))
-    deluge_namespace = os.path.join(plugin_base, 'deluge')
-    plugins_namespace = os.path.join(deluge_namespace, 'plugins')
-    src = os.path.join(plugins_namespace, safe_name)
+    src = os.path.join(plugin_base, 'deluge_' + safe_name)
     data_dir = os.path.join(src, 'data')
     python_path = sys.executable
 
@@ -102,15 +100,11 @@ def create_plugin():
 
     print('creating folders..')
     os.mkdir(plugin_base)
-    os.mkdir(deluge_namespace)
-    os.mkdir(plugins_namespace)
     os.mkdir(src)
     os.mkdir(data_dir)
 
     print('creating files..')
     write_file(plugin_base, 'setup.py', SETUP)
-    write_file(deluge_namespace, '__init__.py', NAMESPACE_INIT, False)
-    write_file(plugins_namespace, '__init__.py', NAMESPACE_INIT, False)
     write_file(src, '__init__.py', INIT)
     write_file(src, 'gtk3ui.py', GTK3UI)
     write_file(src, 'webui.py', WEBUI)
@@ -201,7 +195,7 @@ __url__ = '%(url)s'
 __license__ = 'GPLv3'
 __description__ = ''
 __long_description__ = \"\"\"\"\"\"
-__pkg_data__ = {'deluge.plugins.'+__plugin_name__.lower(): ['template/*', 'data/*']}
+__pkg_data__ = {'deluge_'+__plugin_name__.lower(): ['data/*']}
 
 setup(
     name=__plugin_name__,
@@ -214,16 +208,15 @@ setup(
     long_description=__long_description__,
 
     packages=find_packages(),
-    namespace_packages=['deluge', 'deluge.plugins'],
     package_data=__pkg_data__,
 
     entry_points=\"\"\"
     [deluge.plugin.core]
-    %%s = deluge.plugins.%%s:CorePlugin
+    %%s = deluge_%%s:CorePlugin
     [deluge.plugin.gtk3ui]
-    %%s = deluge.plugins.%%s:Gtk3UIPlugin
+    %%s = deluge_%%s:Gtk3UIPlugin
     [deluge.plugin.web]
-    %%s = deluge.plugins.%%s:WebUIPlugin
+    %%s = deluge_%%s:WebUIPlugin
     \"\"\" %% ((__plugin_name__, __plugin_name__.lower()) * 3)
 )
 """
@@ -236,8 +229,7 @@ from pkg_resources import resource_filename
 
 
 def get_resource(filename):
-    return resource_filename(
-        'deluge.plugins.%(safe_name)s', os.path.join('data', filename))
+    return resource_filename(__package__, os.path.join('data', filename))
 """
 
 GTK3UI = """from __future__ import unicode_literals
@@ -380,9 +372,6 @@ GPL = """# -*- coding: utf-8 -*-
 # This file is part of %(name)s and is licensed under GNU GPL 3.0, or later,
 # with the additional special exception to link portions of this program with
 # the OpenSSL library. See LICENSE for more details.
-"""
-
-NAMESPACE_INIT = """__import__('pkg_resources').declare_namespace(__name__)
 """
 
 CREATE_DEV_LINK = """#!/bin/bash
