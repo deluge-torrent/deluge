@@ -268,6 +268,10 @@ class AddTorrentDialog(component.Component):
         self.prefetching_magnets.remove(info_hash)
         self._on_torrent_changed(self.listview_torrents.get_selection())
 
+    def _on_uri_metadata_fail(self, result, info_hash):
+        self.prefetching_magnets.remove(info_hash)
+        self._on_torrent_changed(self.listview_torrents.get_selection())
+
     def prefetch_waiting_message(self, torrent_id, files):
         """Show magnet files fetching or failed message above files list."""
         if torrent_id in self.prefetching_magnets:
@@ -306,10 +310,11 @@ class AddTorrentDialog(component.Component):
             if files:
                 continue
 
+            self.prefetching_magnets.append(torrent_id)
+            self.prefetch_waiting_message(torrent_id, None)
             d = client.core.prefetch_magnet_metadata(uri)
             d.addCallback(self._on_uri_metadata, uri)
-            self.prefetching_magnets.append(magnet['info_hash'])
-            self.prefetch_waiting_message(torrent_id, None)
+            d.addErrback(self._on_uri_metadata_fail, torrent_id)
 
         if already_added:
             self.show_already_added_dialog(already_added)
@@ -903,7 +908,7 @@ class AddTorrentDialog(component.Component):
                     )
                 )
             elif is_magnet(filename):
-                client.core.add_torrent_magnet(filename, options)
+                client.core.add_torrent_magnet(filename, options).addErrback(log.debug)
 
             row = self.torrent_liststore.iter_next(row)
 
