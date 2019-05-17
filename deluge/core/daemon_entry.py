@@ -78,7 +78,7 @@ def start_daemon(skip_start=False):
         deluge.core.daemon.Daemon: A new daemon object
 
     """
-    setup_mock_translation(warn_msg=True)
+    setup_mock_translation()
 
     # Setup the argument parser
     parser = ArgParserBase()
