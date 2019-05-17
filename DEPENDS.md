@@ -17,7 +17,7 @@ All modules will require the [common](#common) section dependencies.
 
 ## Common
 
-- [Twisted] _>= 16.6_ - Use `TLS` extras for `service_identity` and `idna`.
+- [Twisted] _>= 17.1_ - Use `TLS` extras for `service_identity` and `idna`.
 - [OpenSSL] _>= 1.0.1_
 - [pyOpenSSL]
 - [rencode] _>= 1.0.2_ - Encoding library.

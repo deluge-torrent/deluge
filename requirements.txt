@@ -1,4 +1,4 @@
-twisted[tls]>=16.6
+twisted[tls]>=17.1
 rencode
 pyopenssl
 pyxdg
