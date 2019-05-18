@@ -302,7 +302,7 @@ class AddTorrentDialog(component.Component):
             torrent_id = magnet['info_hash']
             files = magnet['files_tree']
             if not self._add_torrent_liststore(
-                torrent_id, magnet['name'], xml_escape(uri), files, None
+                torrent_id, magnet['name'], uri, files, None
             ):
                 already_added += 1
                 continue
@@ -924,7 +924,10 @@ class AddTorrentDialog(component.Component):
             else:
                 log.info('Successfully added %d torrents.', len(torrents_to_add))
 
-        client.core.add_torrent_files(torrents_to_add).addCallback(on_torrents_added)
+        if torrents_to_add:
+            client.core.add_torrent_files(torrents_to_add).addCallback(
+                on_torrents_added
+            )
 
     def on_button_apply_clicked(self, widget):
         log.debug('on_button_apply_clicked')
