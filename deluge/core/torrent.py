@@ -1295,9 +1295,9 @@ class Torrent(object):
         filepath = os.path.join(get_config_dir(), 'state', self.torrent_id + '.torrent')
 
         if filedump is None:
-            metadata = lt.bdecode(self.torrent_info.metadata())
-            torrent_file = {b'info': metadata}
-            filedump = lt.bencode(torrent_file)
+            lt_ct = lt.create_torrent(self.torrent_info)
+            filedump = lt.bencode(lt_ct.generate())
+
         write_file(filepath, filedump)
 
         # If the user has requested a copy of the torrent be saved elsewhere we need to do that.
