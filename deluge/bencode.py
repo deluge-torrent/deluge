@@ -84,7 +84,7 @@ decode_func[b'9'] = decode_string
 def bdecode(x):
     try:
         r, __ = decode_func[x[0:1]](x, 0)
-    except (IndexError, KeyError, ValueError):
+    except (LookupError, TypeError, ValueError):
         raise BTFailure('Not a valid bencoded string')
     else:
         return r

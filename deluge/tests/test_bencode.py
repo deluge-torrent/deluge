@@ -21,4 +21,14 @@ class BencodeTestCase(unittest.TestCase):
         bencode.bencode({b'info': metainfo})
 
     def test_bencode_unicode_value(self):
+        self.assertEqual(bencode.bencode(b'abc'), b'3:abc')
         self.assertEqual(bencode.bencode('abc'), b'3:abc')
+
+    def test_bdecode(self):
+        self.assertEqual(bencode.bdecode(b'3:dEf'), b'dEf')
+        with self.assertRaises(bencode.BTFailure):
+            bencode.bdecode('dEf')
+        with self.assertRaises(bencode.BTFailure):
+            bencode.bdecode(b'dEf')
+        with self.assertRaises(bencode.BTFailure):
+            bencode.bdecode({'dEf': 123})
