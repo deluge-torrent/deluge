@@ -98,7 +98,10 @@ class Logging(LoggingLoggerClass):
             ):
                 f = f.f_back
                 continue
-            rv = (filename, f.f_lineno, co.co_name)
+            if common.PY2:
+                rv = (filename, f.f_lineno, co.co_name)
+            else:
+                rv = (filename, f.f_lineno, co.co_name, None)
             break
         return rv
 
