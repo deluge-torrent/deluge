@@ -9,10 +9,10 @@
 
 from __future__ import division, unicode_literals
 
+import json
 import logging
 import os.path
 
-import six.moves.cPickle as pickle  # noqa: N813
 from gi.repository import Gio, Gtk
 from gi.repository.Gdk import DragAction, ModifierType, keyval_name
 from gi.repository.GObject import TYPE_UINT64
@@ -813,14 +813,14 @@ class FilesTab(Tab):
 
     def _on_drag_data_get_data(self, treeview, context, selection, target_id, etime):
         paths = self.listview.get_selection().get_selected_rows()[1]
-        selection.set_text(pickle.dumps(paths, protocol=2))
+        selection.set_text(json.dumps([str(path) for path in paths]), -1)
 
     def _on_drag_data_received_data(
         self, treeview, context, x, y, selection, info, etime
     ):
         try:
-            selected = pickle.loads(selection.get_data())
-        except pickle.UnpicklingError:
+            selected = json.loads(selection.get_data())
+        except TypeError:
             log.debug('Invalid selection data: %s', selection.get_data())
             return
         log.debug('selection.data: %s', selected)
