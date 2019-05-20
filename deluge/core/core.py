@@ -437,22 +437,22 @@ class Core(component.Component):
 
     @export
     def prefetch_magnet_metadata(self, magnet, timeout=30):
-        """Download the metadata for the magnet uri without adding torrent to deluge session.
+        """Download magnet metadata without adding to Deluge session.
+
+        Used by UIs to get magnet files for selection before adding to session.
 
         Args:
             magnet (str): The magnet uri.
-            timeout (int): Time to wait to recieve metadata from peers.
+            timeout (int): Number of seconds to wait before cancelling request.
 
         Returns:
-            Deferred: A tuple of (torrent_id (str), metadata (bytes)) for the magnet.
-
-            The metadata is base64 encoded.
+            Deferred: A tuple of (torrent_id (str), metadata (dict)) for the magnet.
 
         """
 
         def on_metadata(result, result_d):
-            torrent_id, metadata = result
-            result_d.callback((torrent_id, b64encode(metadata)))
+            """Return result of torrent_id and metadata"""
+            result_d.callback(result)
             return result
 
         d = self.torrentmanager.prefetch_metadata(magnet, timeout)

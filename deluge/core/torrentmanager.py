@@ -15,6 +15,7 @@ import logging
 import operator
 import os
 import time
+from collections import namedtuple
 from tempfile import gettempdir
 
 import six.moves.cPickle as pickle  # noqa: N813
@@ -339,21 +340,20 @@ class TorrentManager(component.Component):
             return torrent_info
 
     def prefetch_metadata(self, magnet, timeout):
-        """Download metadata for a magnet uri.
+        """Download the metadata for a magnet uri.
 
         Args:
             magnet (str): A magnet uri to download the metadata for.
-            timeout (int): How long
+            timeout (int): Number of seconds to wait before cancelling.
 
         Returns:
-            Deferred: A tuple of (torrent_id (str), bencoded metadata (bytes))
+            Deferred: A tuple of (torrent_id (str), metadata (dict))
 
         """
 
         torrent_id = get_magnet_info(magnet)['info_hash']
         if torrent_id in self.prefetching_metadata:
-            d = self.prefetching_metadata[torrent_id][0]
-            return d
+            return self.prefetching_metadata[torrent_id].defer
 
         add_torrent_params = {}
         add_torrent_params['save_path'] = gettempdir()
@@ -374,7 +374,8 @@ class TorrentManager(component.Component):
         # Cancel the defer if timeout reached.
         defer_timeout = self.callLater(timeout, d.cancel)
         d.addBoth(self.on_prefetch_metadata, torrent_id, defer_timeout)
-        self.prefetching_metadata[torrent_id] = (d, torrent_handle)
+        Prefetch = namedtuple('Prefetch', 'defer handle')
+        self.prefetching_metadata[torrent_id] = Prefetch(defer=d, handle=torrent_handle)
         return d
 
     def on_prefetch_metadata(self, torrent_info, torrent_id, defer_timeout):
@@ -384,18 +385,18 @@ class TorrentManager(component.Component):
         except error.AlreadyCalled:
             pass
 
-        log.debug('remove magnet from session')
+        log.debug('remove prefetch magnet from session')
         try:
-            torrent_handle = self.prefetching_metadata.pop(torrent_id)[1]
+            torrent_handle = self.prefetching_metadata.pop(torrent_id).handle
         except KeyError:
             pass
         else:
             self.session.remove_torrent(torrent_handle, 1)
 
-        metadata = b''
+        metadata = None
         if isinstance(torrent_info, lt.torrent_info):
-            log.debug('metadata received')
-            metadata = torrent_info.metadata()
+            log.debug('prefetch metadata received')
+            metadata = lt.bdecode(torrent_info.metadata())
 
         return torrent_id, metadata
 
@@ -447,8 +448,7 @@ class TorrentManager(component.Component):
             raise AddTorrentError('Torrent already being added (%s).' % torrent_id)
         elif torrent_id in self.prefetching_metadata:
             # Cancel and remove metadata fetching torrent.
-            d = self.prefetching_metadata[torrent_id][0]
-            d.cancel()
+            self.prefetching_metadata[torrent_id].defer.cancel()
 
         # Check for renamed files and if so, rename them in the torrent_info before adding.
         if options['mapped_files'] and torrent_info:
@@ -1545,7 +1545,7 @@ class TorrentManager(component.Component):
 
         # Try callback to prefetch_metadata method.
         try:
-            d = self.prefetching_metadata[torrent_id][0]
+            d = self.prefetching_metadata[torrent_id].defer
         except KeyError:
             pass
         else:

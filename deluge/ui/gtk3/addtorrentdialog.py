@@ -11,7 +11,7 @@ from __future__ import division, unicode_literals
 
 import logging
 import os
-from base64 import b64decode, b64encode
+from base64 import b64encode
 from xml.sax.saxutils import escape as xml_escape
 from xml.sax.saxutils import unescape as xml_unescape
 
@@ -251,16 +251,15 @@ class AddTorrentDialog(component.Component):
         if already_added:
             self.show_already_added_dialog(already_added)
 
-    def _on_uri_metadata(self, result, uri):
+    def _on_uri_metadata(self, result, uri, trackers):
         """Process prefetched metadata to allow file priority selection."""
-        info_hash, b64_metadata = result
-        log.debug('on_uri_metadata for %s (%s)', uri, info_hash)
+        info_hash, metadata = result
+        log.debug('magnet metadata for %s (%s)', uri, info_hash)
         if info_hash not in self.prefetching_magnets:
             return
 
-        if b64_metadata:
-            metadata = b64decode(b64_metadata)
-            info = TorrentInfo(metadata=metadata)
+        if metadata:
+            info = TorrentInfo.from_metadata(metadata, [[t] for t in trackers])
             self.files[info_hash] = info.files
             self.infos[info_hash] = info.filedata
         else:
@@ -313,7 +312,7 @@ class AddTorrentDialog(component.Component):
             self.prefetching_magnets.append(torrent_id)
             self.prefetch_waiting_message(torrent_id, None)
             d = client.core.prefetch_magnet_metadata(uri)
-            d.addCallback(self._on_uri_metadata, uri)
+            d.addCallback(self._on_uri_metadata, uri, magnet['trackers'])
             d.addErrback(self._on_uri_metadata_fail, torrent_id)
 
         if already_added:

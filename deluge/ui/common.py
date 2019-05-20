@@ -173,38 +173,36 @@ class TorrentInfo(object):
     """Collects information about a torrent file.
 
     Args:
-        filename (str): The path to the .torrent file.
+        filename (str, optional): The path to the .torrent file.
         filetree (int, optional): The version of filetree to create (defaults to 1).
-        metainfo (bytes, optional): A bencoded filedump from a .torrent file.
-        metadata (bytes, optional): A bencoded metadata info_dict.
+        torrent_file (dict, optional): A bdecoded .torrent file contents.
 
     """
 
-    def __init__(self, filename='', filetree=1, metainfo=None, metadata=None):
-        # Get the torrent metainfo from the torrent file
-        if metadata:
-            self._metainfo_dict = {b'info': bencode.bdecode(metadata)}
-
-            self._metainfo = bencode.bencode(self._metainfo_dict)
-        else:
-            self._metainfo = metainfo
-            if filename and not self._metainfo:
-                log.debug('Attempting to open %s.', filename)
-                try:
-                    with open(filename, 'rb') as _file:
-                        self._metainfo = _file.read()
-                except IOError as ex:
-                    log.warning('Unable to open %s: %s', filename, ex)
-                    return
+    def __init__(self, filename='', filetree=1, torrent_file=None):
+        self._filedata = None
+        if torrent_file:
+            self._metainfo = torrent_file
+        elif filename:
+            log.debug('Attempting to open %s.', filename)
+            try:
+                with open(filename, 'rb') as _file:
+                    self._filedata = _file.read()
+            except IOError as ex:
+                log.warning('Unable to open %s: %s', filename, ex)
+                return
 
             try:
-                self._metainfo_dict = bencode.bdecode(self._metainfo)
+                self._metainfo = bencode.bdecode(self._filedata)
             except bencode.BTFailure as ex:
                 log.warning('Failed to decode %s: %s', filename, ex)
                 return
+        else:
+            log.warning('Requires valid arguments.')
+            return
 
-        # info_dict with keys decoded.
-        info_dict = {k.decode(): v for k, v in self._metainfo_dict[b'info'].items()}
+        # info_dict with keys decoded to unicode.
+        info_dict = {k.decode(): v for k, v in self._metainfo[b'info'].items()}
         self._info_hash = sha(bencode.bencode(info_dict)).hexdigest()
 
         # Get encoding from torrent file if available
@@ -299,6 +297,25 @@ class TorrentInfo(object):
             else:
                 self._files_tree = {self._name: (0, info_dict['length'], True)}
 
+    @classmethod
+    def from_metadata(cls, metadata, trackers=None):
+        """Create a TorrentInfo from metadata and trackers
+
+        Args:
+            metadata (dict): A bdecoded info section of torrent file.
+            trackers (list of lists, optional): The trackers to include.
+
+        """
+        if not isinstance(metadata, dict):
+            return
+
+        metainfo = {b'info': metadata}
+        if trackers:
+            metainfo[b'announce'] = trackers[0][0].encode('utf-8')
+            trackers_utf8 = [[t.encode('utf-8') for t in tier] for tier in trackers]
+            metainfo[b'announce-list'] = trackers_utf8
+        return cls(torrent_file=metainfo)
+
     def as_dict(self, *keys):
         """The torrent info as a dictionary, filtered by keys.
 
@@ -358,24 +375,28 @@ class TorrentInfo(object):
         return self._files_tree
 
     @property
-    def metadata(self):
-        """The torrents metainfo dictionary.
+    def metainfo(self):
+        """Returns the torrent metainfo dictionary.
+
+        This is the bdecoded torrent file contents.
 
         Returns:
-            dict: The bdecoded metainfo dictionary.
+            dict: The metainfo dictionary.
 
         """
-        return self._metainfo_dict
+        return self._metainfo
 
     @property
     def filedata(self):
         """The contents of the .torrent file.
 
         Returns:
-            str: The metainfo bencoded dictionary from a torrent file.
+            bytes: The bencoded metainfo.
 
         """
-        return self._metainfo
+        if not self._filedata:
+            self._filedata = bencode.bencode(self._metainfo)
+        return self._filedata
 
 
 class FileTree2(object):
