@@ -567,6 +567,13 @@ setup(
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
     url='https://deluge-torrent.org',
+    project_urls={
+        'GitHub (mirror)': 'https://github.com/deluge-torrent/deluge',
+        'Sourcecode': 'http://git.deluge-torrent.org/deluge',
+        'Issues': 'https://dev.deluge-torrent.org/report/1',
+        'Discussion': 'https://forum.deluge-torrent.org',
+        'Documentation': 'https://deluge.readthedocs.io',
+    },
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Console',
@@ -584,6 +591,7 @@ setup(
         'Operating System :: POSIX',
         'Topic :: Internet',
     ],
+    python_requires='>=3.5',
     license='GPLv3+',
     cmdclass=cmdclass,
     setup_requires=setup_requires,

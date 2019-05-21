@@ -46,10 +46,12 @@ addons:
 # Install dependencies
 install:
   - pip install tox tox-venv
+  # GTKUI tests
   - "if [ $TOX_ENV == 'gtkui' ]; then
     sudo apt install python-gi python-gi-cairo python3-gi python3-gi-cairo \
     gir1.2-gtk-3.0;
     fi"
+  # Security tests
   - "if [ $TOX_ENV == 'security' ]; then
     testssl_url=https://github.com/drwetter/testssl.sh/archive/v2.9.5-5.tar.gz;
     wget -O- $testssl_url | tar xz
@@ -58,6 +60,7 @@ install:
 
 before_script:
   - export PYTHONPATH=$PYTHONPATH:$PWD
+  # Verify libtorrent installed and version
   - python -c "import libtorrent as lt; print(lt.__version__)"
   # Start xvfb for the GTKUI tests
   - "if [ $TOX_ENV == 'gtkui' ]; then
@@ -65,6 +68,7 @@ before_script:
     --make-pidfile --pidfile /tmp/custom_xvfb_99.pid \
     --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16;
     fi"
+  # Create missing version file
   - echo "2.0.0.dev0" > RELEASE-VERSION
 
 script:

@@ -2,49 +2,54 @@
 
 [![build-status]][travis-deluge] [![docs-status]][rtd-deluge]
 
-Deluge is a BitTorrent client that utilizes a
-daemon/client model. There are various user interfaces available for
-Deluge such as the GTK-UI, the Web-UI and a Console-UI. Deluge uses
-libtorrent in it's backend to handle the BitTorrent protocol.
+Deluge is a BitTorrent client that utilizes a daemon/client model.
+It has various user interfaces available such as the GTK-UI, Web-UI and
+a Console-UI. It uses [libtorrent][lt] at it's core to handle the BitTorrent
+protocol.
 
-## Installation
+## Install
 
-Instruction for installing from source code. See [DEPENDS](DEPENDS.md) for
-build and runtime dependencies. Further details on the wiki:
-[Installing/Source].
+From [PyPi](https://pypi.org/project/deluge):
+
+    pip install deluge
+
+From source code:
 
     python setup.py build
     python setup.py install
 
+See [DEPENDS](DEPENDS.md) and [Installing/Source] for dependency details.
+
 ## Usage
 
-There are various user-interfaces and a daemon for Deluge that can be used as
-follows:
+The various user-interfaces and Deluge daemon can be started with the following commands.
 
-- **Gtk**
+Use the `--help` option for further command options.
 
-  `deluge` or `deluge-gtk`
+### Gtk UI
 
-- **Console**
+`deluge` or `deluge-gtk`
 
-  `deluge-console`
+### Console UI
 
-- **Web**
+`deluge-console`
 
-  `deluge-web`
+### Web UI
 
-  Go to http://localhost:8112 and use default password `deluge`.
+`deluge-web`
 
-- **Daemon**
+Open http://localhost:8112 with default password `deluge`.
 
-  `deluged`
+### Daemon
 
-  See [Thinclient guide] for connecting to the daemon from another machine.
+`deluged`
 
-## Contact/Support
+See the [Thinclient guide] to connect to the daemon from another computer.
+
+## Contact
 
 - [Homepage](https://deluge-torrent.org)
-- [Support docs][user guide]
+- [User guide][user guide]
 - [Forum](https://forum.deluge-torrent.org)
 - [IRC Freenode #deluge](irc://irc.freenode.net/deluge)
 
@@ -55,3 +60,4 @@ follows:
 [travis-deluge]: https://travis-ci.org/deluge-torrent/deluge
 [docs-status]: https://readthedocs.org/projects/deluge/badge/?version=develop
 [rtd-deluge]: https://deluge.readthedocs.io/en/develop/?badge=develop "Documentation Status"
+[lt]: https://libtorrent.org
