@@ -31,7 +31,7 @@ class DelugeTransferProtocol(Protocol, object):
     Data messages are transfered with a header containing a protocol version
     and the length of the data to be transfered (payload).
 
-    The format is:
+    The format is::
 
             ubyte    uint4     bytestring
         |.version.|..size..|.....body.....|

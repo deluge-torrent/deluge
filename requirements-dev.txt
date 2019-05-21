@@ -1,5 +1,5 @@
 -r requirements.txt
--r requirements-docs.txt
+-r docs/requirements.txt
 -r requirements-tests.txt
 sphinx-autobuild
 tox

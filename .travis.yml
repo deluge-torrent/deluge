@@ -25,7 +25,6 @@ matrix:
       env: TOX_ENV=lint
     - name: Docs build
       env: TOX_ENV=docs
-      python: 2.7
     - name: GTK unit tests
       env: TOX_ENV=gtkui
     - name: Plugins unit tests

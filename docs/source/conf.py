@@ -10,7 +10,6 @@
 # All configuration values have a default value; values that are commented out
 # serve to show the default value.
 
-import __builtin__
 import os
 import sys
 from datetime import date
@@ -18,33 +17,12 @@ from datetime import date
 import pkg_resources
 from recommonmark.states import DummyStateMachine
 from recommonmark.transform import AutoStructify
+from six.moves import builtins
 from sphinx.ext import apidoc
 from sphinx.ext.autodoc import ClassDocumenter, bool_option
 
-try:
-    from ...version import get_version
-except ImportError:
-    get_version = None
-
-# Monkey patch to fix recommonmark 0.4 doc reference issues.
-orig_run_role = DummyStateMachine.run_role
-
-
-def run_role(self, name, options=None, content=None):
-    if name == 'doc':
-        name = 'any'
-    return orig_run_role(self, name, options, content)
-
-
-DummyStateMachine.run_role = run_role
-
-# Must add these for autodoc to import packages successully
-__builtin__.__dict__['_'] = lambda x: x
-__builtin__.__dict__['_n'] = lambda s, p, n: s if n == 1 else p
-
-# If your extensions are in another directory, add it here. If the directory
-# is relative to the documentation root, use os.path.abspath to make it
-# absolute, like shown here.
+# If your extensions are in another directory, add it here. If the directory is relative
+# to the documentation root, use os.path.abspath to make it absolute, like shown here.
 sys.path.append(
     os.path.abspath(
         os.path.join(
@@ -52,68 +30,18 @@ sys.path.append(
         )
     )
 )
+# Importing version only possible after add project root to sys.path.
+try:
+    from version import get_version
+except ImportError:
+    get_version = None
 
-
-class Mock(object):
-
-    __all__ = []
-
-    def __init__(self, *args, **kwargs):
-        pass
-
-    def __call__(self, *args, **kwargs):
-        return Mock()
-
-    @classmethod
-    def __getattr__(cls, name):
-        if name in ('__file__', '__path__'):
-            return '/dev/null'
-        elif name[0] == name[0].upper():
-            mock_type = type(name, (), {})
-            mock_type.__module__ = __name__
-            return mock_type
-        else:
-            return Mock()
-
-    def __add__(self, other):
-        return other
-
-    def __or__(self, __):
-        return Mock()
-
-
-# Use custom mock as autodoc_mock_imports fails to handle these modules.
-MOCK_MODULES = ['deluge._libtorrent', 'xdg', 'xdg.BaseDirectory']
-
-for mod_name in MOCK_MODULES:
-    sys.modules[mod_name] = Mock()
-
-autodoc_mock_imports = [
-    'twisted',
-    'rencode',
-    'OpenSSL',
-    'PIL',
-    'libtorrent',
-    'psyco',
-    'gi',
-    'cairo',
-    'curses',
-    'win32api',
-    'win32file',
-    'win32process',
-    'win32pipe',
-    'pywintypes',
-    'win32con',
-    'win32event',
-    'pytest',
-    'mock',
-    'mako',
-    'zope',
-    'zope.interface',
-]
 
 # General configuration
 # ---------------------
+
+needs_sphinx = '2.0'
+suppress_warnings = ['app.add_source_parser']
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
@@ -142,17 +70,13 @@ project = 'Deluge'
 current_year = date.today().year
 copyright = '2008-%s, Deluge Team' % current_year  # noqa: A001
 
-# The default replacements for |version| and |release|, also used in various
-# other places throughout the built documents.
-#
-
-# The short X.Y version.
-if get_version:
-    version = get_version(prefix='deluge-', suffix='.dev0')
-else:
-    version = pkg_resources.get_distribution('Deluge').version
 # The full version, including alpha/beta/rc tags.
-release = version
+if get_version:
+    release = get_version(prefix='deluge-', suffix='.dev0')
+else:
+    release = pkg_resources.get_distribution('Deluge').version
+# The short X.Y version.
+version = '.'.join(release.split('.', 2)[:2])
 
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:
@@ -286,6 +210,72 @@ latex_documents = [
 # If false, no module index is generated.
 # latex_use_modindex = True
 
+
+# Autodoc section
+# ---------------
+class Mock(object):
+
+    __all__ = []
+
+    def __init__(self, *args, **kwargs):
+        pass
+
+    def __call__(self, *args, **kwargs):
+        return ''
+
+    @classmethod
+    def __getattr__(cls, name):
+        if name in ('__file__', '__path__', 'xdg_config_home'):
+            return '/dev/null'
+        elif name[0] == name[0].upper():
+            mock_type = type(name, (), {})
+            mock_type.__module__ = __name__
+            return mock_type
+        else:
+            return Mock()
+
+    def __add__(self, other):
+        return other
+
+    def __or__(self, __):
+        return Mock()
+
+
+# Use custom mock as autodoc_mock_imports fails to handle these modules.
+MOCK_MODULES = ['deluge._libtorrent', 'xdg', 'xdg.BaseDirectory']
+
+for mod_name in MOCK_MODULES:
+    sys.modules[mod_name] = Mock()
+
+# Must add these for autodoc to import packages successully
+builtins.__dict__['_'] = lambda x: x
+builtins.__dict__['_n'] = lambda s, p, n: s if n == 1 else p
+
+autodoc_mock_imports = [
+    'twisted',
+    'rencode',
+    'OpenSSL',
+    'PIL',
+    'libtorrent',
+    'psyco',
+    'gi',
+    'cairo',
+    'curses',
+    'win32api',
+    'win32file',
+    'win32process',
+    'win32pipe',
+    'pywintypes',
+    'win32con',
+    'win32event',
+    'pytest',
+    'mock',
+    'mako',
+    'xdg',
+    'zope',
+    'zope.interface',
+]
+
 # Register an autodoc class directive to only include exported methods.
 ClassDocumenter.option_spec['exported'] = bool_option
 
@@ -295,6 +285,19 @@ def maybe_skip_member(app, what, name, obj, skip, options):
         hasattr(obj, '_rpcserver_export') or hasattr(obj, '_json_export')
     ):
         return True
+
+
+# Monkey patch to fix recommonmark 0.4 doc reference issues.
+orig_run_role = DummyStateMachine.run_role
+
+
+def run_role(self, name, options=None, content=None):
+    if name == 'doc':
+        name = 'any'
+    return orig_run_role(self, name, options, content)
+
+
+DummyStateMachine.run_role = run_role
 
 
 # Run the sphinx-apidoc to create package/modules rst files for autodoc.
