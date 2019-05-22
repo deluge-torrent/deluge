@@ -3,6 +3,7 @@ sudo: required
 
 language: python
 python:
+  # Travis Xenial Python to support system_site_packages
   - 3.5
 cache: pip
 virtualenv:
@@ -18,9 +19,6 @@ git:
 
 matrix:
   include:
-    - name: Unit tests - Python 2
-      env: TOX_ENV=py27
-      python: 2.7
     - name: Unit tests - Python 3
       env: TOX_ENV=py3
     - if: commit_message =~ SECURITY_TEST
@@ -40,7 +38,6 @@ addons:
       - sourceline: "ppa:deluge-team/develop"
       - deadsnakes
     packages:
-      - python-libtorrent
       - python3-libtorrent
       # Install py36 specifically for pre-commit to run black formatter.
       - python3.6
@@ -52,8 +49,7 @@ install:
   - pip install tox tox-venv
   # GTKUI tests
   - "if [ $TOX_ENV == 'gtkui' ]; then
-    sudo apt install python-gi python-gi-cairo python3-gi python3-gi-cairo \
-    gir1.2-gtk-3.0;
+    sudo apt install python3-gi python3-gi-cairo gir1.2-gtk-3.0;
     fi"
   # Security tests
   - "if [ $TOX_ENV == 'security' ]; then
