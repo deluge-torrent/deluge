@@ -13,7 +13,7 @@ import logging
 import os.path
 from hashlib import sha1 as sha
 
-from gi.repository import GdkX11, Gtk
+from gi.repository import Gtk
 from gi.repository.Gdk import DragAction, WindowState
 from twisted.internet import reactor
 from twisted.internet.error import ReactorNotRunning
@@ -35,6 +35,10 @@ try:
 except ValueError:
     Wnck = None
 
+try:
+    from gi.repository import GdkX11
+except ImportError:
+    GdkX11 = None
 
 log = logging.getLogger(__name__)
 
@@ -173,7 +177,8 @@ class MainWindow(component.Component):
             # Restore the proper x,y coords for the window prior to showing it
             component.resume(self.child_components)
             self.window.present()
-            self.window.get_window().set_user_time(self.get_timestamp())
+            if GdkX11:
+                self.window.get_window().set_user_time(self.get_timestamp())
             self.load_window_state()
 
         if self.config['lock_tray'] and not self.visible():
@@ -195,7 +200,7 @@ class MainWindow(component.Component):
         """Returns the timestamp for the windowing server."""
         timestamp = 0
         gdk_window = self.window.get_window()
-        if isinstance(gdk_window, GdkX11.X11Window):
+        if GdkX11 and isinstance(gdk_window, GdkX11.X11Window):
             timestamp = GdkX11.x11_get_server_time(gdk_window)
         return timestamp
 

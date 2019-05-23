@@ -174,7 +174,11 @@ class AddTorrentDialog(component.Component):
         self.dialog.present()
         if focus:
             timestamp = main_window.get_timestamp()
-            self.dialog.get_window().set_user_time(timestamp)
+            try:
+                self.dialog.get_window().set_user_time(timestamp)
+            except AttributeError:
+                # Not an X11 windowing system
+                pass
 
     def hide(self):
         self.dialog.hide()

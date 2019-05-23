@@ -154,17 +154,21 @@ class GtkUI(object):
             log.debug('OS signal "die" caught with args: %s', args)
             reactor.stop()
 
+        self.osxapp = None
         if windows_check():
             from win32api import SetConsoleCtrlHandler
 
             SetConsoleCtrlHandler(on_die, True)
             log.debug('Win32 "die" handler registered')
         elif osx_check() and windowing('quartz'):
-            import gtkosx_application
-
-            self.osxapp = gtkosx_application.gtkosx_application_get()
-            self.osxapp.connect('NSApplicationWillTerminate', on_die)
-            log.debug('OSX quartz "die" handler registered')
+            try:
+                import gtkosx_application
+            except ImportError:
+                pass
+            else:
+                self.osxapp = gtkosx_application.gtkosx_application_get()
+                self.osxapp.connect('NSApplicationWillTerminate', on_die)
+                log.debug('OSX quartz "die" handler registered')
 
         # Set process name again to fix gtk issue
         setproctitle(getproctitle())
@@ -207,7 +211,7 @@ class GtkUI(object):
         self.statusbar = StatusBar()
         self.addtorrentdialog = AddTorrentDialog()
 
-        if osx_check() and windowing('quartz'):
+        if self.osxapp:
 
             def nsapp_open_file(osxapp, filename):
                 # Ignore command name which is raised at app launch (python opening main script).
