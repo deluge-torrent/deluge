@@ -10,6 +10,7 @@ include gen_web_gettext.py
 graft docs/man
 
 include deluge/i18n/*.po
+recursive-exclude deluge/i18n *.mo
 
 graft deluge/plugins
 recursive-exclude deluge/plugins create_dev_link.sh *.pyc *.egg
