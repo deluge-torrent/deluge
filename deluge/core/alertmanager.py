@@ -18,8 +18,9 @@ This should typically only be used by the Core. Plugins should utilize the
 from __future__ import unicode_literals
 
 import logging
+import threading
 
-from twisted.internet import reactor
+from twisted.internet import reactor, threads
 
 import deluge.component as component
 from deluge._libtorrent import lt
@@ -33,7 +34,7 @@ class AlertManager(component.Component):
 
     def __init__(self):
         log.debug('AlertManager init...')
-        component.Component.__init__(self, 'AlertManager', interval=0.3)
+        component.Component.__init__(self, 'AlertManager')
         self.session = component.get('Core').session
 
         # Increase the alert queue size so that alerts don't get lost.
@@ -55,16 +56,41 @@ class AlertManager(component.Component):
         # handlers is a dictionary of lists {"alert_type": [handler1,h2,..]}
         self.handlers = {}
         self.delayed_calls = []
+        self._event = threading.Event()
 
     def update(self):
         self.delayed_calls = [dc for dc in self.delayed_calls if dc.active()]
-        self.handle_alerts()
+
+    def start(self):
+        thread = threading.Thread(
+            target=self.wait_for_alert_in_thread, name='alert-poller'
+        )
+        thread.daemon = True
+        thread.start()
+        self._event.set()
 
     def stop(self):
         for delayed_call in self.delayed_calls:
             if delayed_call.active():
                 delayed_call.cancel()
         self.delayed_calls = []
+
+    def pause(self):
+        self._event.clear()
+
+    def resume(self):
+        self._event.set()
+
+    def wait_for_alert_in_thread(self):
+        while self._component_state not in ('Stopping', 'Stopped'):
+            if self.session.wait_for_alert(1000) is None:
+                continue
+            if self._event.wait():
+                threads.blockingCallFromThread(reactor, self.maybe_handle_alerts)
+
+    def maybe_handle_alerts(self):
+        if self._component_state == 'Started':
+            self.handle_alerts()
 
     def register_handler(self, alert_type, handler):
         """
