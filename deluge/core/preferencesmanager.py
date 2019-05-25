@@ -426,7 +426,7 @@ class PreferencesManager(component.Component):
     def _on_set_proxy(self, key, value):
         # Initialise with type none and blank hostnames.
         proxy_settings = {
-            'proxy_type': lt.proxy_type.none,
+            'proxy_type': lt.proxy_type_t.none,
             'i2p_hostname': '',
             'proxy_hostname': '',
             'proxy_hostnames': value['proxy_hostnames'],
@@ -436,15 +436,15 @@ class PreferencesManager(component.Component):
             'anonymous_mode': value['anonymous_mode'],
         }
 
-        if value['type'] == lt.proxy_type.i2p_proxy:
+        if value['type'] == lt.proxy_type_t.i2p_proxy:
             proxy_settings.update(
                 {
-                    'proxy_type': lt.proxy_type.i2p_proxy,
+                    'proxy_type': lt.proxy_type_t.i2p_proxy,
                     'i2p_hostname': value['hostname'],
                     'i2p_port': value['port'],
                 }
             )
-        elif value['type'] != lt.proxy_type.none:
+        elif value['type'] != lt.proxy_type_t.none:
             proxy_settings.update(
                 {
                     'proxy_type': value['type'],
