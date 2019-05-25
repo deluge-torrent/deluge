@@ -23,6 +23,7 @@ from twisted.web.static import File
 import deluge.common
 import deluge.component as component
 import deluge.core.torrent
+from deluge._libtorrent import lt
 from deluge.core.core import Core
 from deluge.core.rpcserver import RPCServer
 from deluge.error import AddTorrentError, InvalidTorrentError
@@ -116,7 +117,13 @@ class CoreTestCase(BaseTestCase):
     def add_torrent(self, filename, paused=False):
         if not paused:
             # Patch libtorrent flags starting torrents paused
-            self.patch(deluge.core.torrentmanager, 'LT_DEFAULT_ADD_TORRENT_FLAGS', 592)
+            self.patch(
+                deluge.core.torrentmanager,
+                'LT_DEFAULT_ADD_TORRENT_FLAGS',
+                lt.add_torrent_params_flags_t.flag_auto_managed
+                | lt.add_torrent_params_flags_t.flag_update_subscribe
+                | lt.add_torrent_params_flags_t.flag_apply_ip_filter,
+            )
         options = {'add_paused': paused, 'auto_managed': False}
         filepath = common.get_test_data_file(filename)
         with open(filepath, 'rb') as _file:
