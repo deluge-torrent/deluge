@@ -24,8 +24,8 @@ try:
 except ImportError:
     import libtorrent as lt
 
-REQUIRED_VERSION = '1.1.2.0'
-LT_VERSION = lt.__version__
+REQUIRED_VERSION = '1.2.0.0'
+LT_VERSION = lt.version
 
 if VersionSplit(LT_VERSION) < VersionSplit(REQUIRED_VERSION):
     raise ImportError(
