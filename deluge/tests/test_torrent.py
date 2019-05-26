@@ -73,12 +73,14 @@ class TorrentTestCase(BaseTestCase):
         filename = common.get_test_data_file(filename)
         with open(filename, 'rb') as _file:
             info = lt.torrent_info(lt.bdecode(_file.read()))
-        atp = {'ti': info}
-        atp['save_path'] = os.getcwd()
-        atp['storage_mode'] = lt.storage_mode_t.storage_mode_sparse
-        atp['add_paused'] = False
-        atp['auto_managed'] = True
-        atp['duplicate_is_error'] = True
+        atp = lt.add_torrent_params()
+        atp.ti = info
+        atp.save_path = os.getcwd()
+        atp.storage_mode = lt.storage_mode_t.storage_mode_sparse
+        atp.flags |= (
+            lt.torrent_flags.auto_managed
+            | lt.torrent_flags.duplicate_is_error & ~lt.torrent_flags.paused
+        )
         return atp
 
     def test_set_file_priorities(self):
