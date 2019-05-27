@@ -45,10 +45,10 @@ from deluge.event import (
 log = logging.getLogger(__name__)
 
 LT_DEFAULT_ADD_TORRENT_FLAGS = (
-    lt.torrent_flags.paused
-    | lt.torrent_flags.auto_managed
-    | lt.torrent_flags.update_subscribe
-    | lt.torrent_flags.apply_ip_filter
+    lt.add_torrent_params_flags_t.flag_paused
+    | lt.add_torrent_params_flags_t.flag_auto_managed
+    | lt.add_torrent_params_flags_t.flag_update_subscribe
+    | lt.add_torrent_params_flags_t.flag_apply_ip_filter
 )
 
 
@@ -361,11 +361,11 @@ class TorrentManager(component.Component):
         add_torrent_params['flags'] = (
             (
                 LT_DEFAULT_ADD_TORRENT_FLAGS
-                | lt.torrent_flags.duplicate_is_error
-                | lt.torrent_flags.upload_mode
+                | lt.add_torrent_params_flags_t.flag_duplicate_is_error
+                | lt.add_torrent_params_flags_t.flag_upload_mode
             )
-            ^ lt.torrent_flags.auto_managed
-            ^ lt.torrent_flags.paused
+            ^ lt.add_torrent_params_flags_t.flag_auto_managed
+            ^ lt.add_torrent_params_flags_t.flag_paused
         )
 
         torrent_handle = self.session.add_torrent(add_torrent_params)
@@ -477,13 +477,15 @@ class TorrentManager(component.Component):
         # Set flags: enable duplicate_is_error & override_resume_data, disable auto_managed.
         add_torrent_params['flags'] = (
             LT_DEFAULT_ADD_TORRENT_FLAGS
-            | lt.torrent_flags.duplicate_is_error
+            | lt.add_torrent_params_flags_t.flag_duplicate_is_error
             | lt.add_torrent_params_flags_t.flag_override_resume_data
-        ) ^ lt.torrent_flags.auto_managed
+        ) ^ lt.add_torrent_params_flags_t.flag_auto_managed
         if options['seed_mode']:
-            add_torrent_params['flags'] |= lt.torrent_flags.seed_mode
+            add_torrent_params['flags'] |= lt.add_torrent_params_flags_t.flag_seed_mode
         if options['super_seeding']:
-            add_torrent_params['flags'] |= lt.torrent_flags.super_seeding
+            add_torrent_params[
+                'flags'
+            ] |= lt.add_torrent_params_flags_t.flag_super_seeding
 
         return torrent_id, add_torrent_params
 

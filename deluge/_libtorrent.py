@@ -24,10 +24,12 @@ try:
 except ImportError:
     import libtorrent as lt
 
-REQUIRED_VERSION = '1.2.0.0'
-LT_VERSION = lt.version
+REQUIRED_VERSION = '1.1.2.0'
+LT_VERSION = lt.__version__
 
 if VersionSplit(LT_VERSION) < VersionSplit(REQUIRED_VERSION):
     raise ImportError(
         'Deluge %s requires libtorrent >= %s' % (get_version(), REQUIRED_VERSION)
     )
+
+setattr(lt, 'is_version_1_1', VersionSplit(lt.__version__) < VersionSplit('1.2.0.0'))
