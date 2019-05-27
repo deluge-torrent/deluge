@@ -216,6 +216,9 @@ class TorrentTestCase(BaseTestCase):
     def test_torrent_error_resume_data_unaltered(self):
         if windows_check():
             raise unittest.SkipTest('unexpected end of file in bencoded string')
+        if lt.__version__.split('.')[1] == '2':
+            raise unittest.SkipTest('Test not working as expected on lt 1.2')
+
         resume_data = {
             'active_time': 13399,
             'num_incomplete': 16777215,
