@@ -120,7 +120,9 @@ class CoreTestCase(BaseTestCase):
             self.patch(
                 deluge.core.torrentmanager,
                 'LT_DEFAULT_ADD_TORRENT_FLAGS',
-                592 if lt.is_version_1_1 else 168,
+                lt.add_torrent_params_flags_t.flag_auto_managed
+                | lt.add_torrent_params_flags_t.flag_update_subscribe
+                | lt.add_torrent_params_flags_t.flag_apply_ip_filter,
             )
         options = {'add_paused': paused, 'auto_managed': False}
         filepath = common.get_test_data_file(filename)
