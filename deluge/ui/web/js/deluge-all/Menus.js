@@ -31,6 +31,9 @@ deluge.menus = {
         var ids = deluge.torrents.getSelectedIds();
         var action = item.initialConfig.torrentAction;
         switch (action) {
+            case 'copy_magnet':
+                deluge.copyMagnetWindow.show();
+                break;
             case 'edit_trackers':
                 deluge.editTrackers.show();
                 break;
@@ -311,6 +314,13 @@ deluge.menus.torrent = new Ext.menu.Menu({
             }),
         },
         '-',
+        {
+            torrentAction: 'copy_magnet',
+            text: _("Copy Magnet URI"),
+            iconCls: 'icon-magnet',
+            handler: deluge.menus.onTorrentActionShow,
+            scope: deluge.menus,
+        },
         {
             torrentAction: 'force_reannounce',
             text: _('Update Tracker'),
