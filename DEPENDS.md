@@ -38,7 +38,6 @@ All modules will require the [common](#common) section dependencies.
 
 - [pywin32]
 - [certifi]
-- [py2-ipaddress] - Optional: Add IPv6 lookup for Python 2.
 
 ## Core (deluged daemon)
 
