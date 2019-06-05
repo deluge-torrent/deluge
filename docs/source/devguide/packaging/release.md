@@ -5,24 +5,21 @@
 - Update [translation](../contributing/translations.md) `po` files from
   [Launchpad](https://translations.launchpad.net/deluge) account.
 - Changelog is updated with relevant commits and release date is added.
-- Version number increment:
-  - setup.py
-  - man pages
-  - osx/Info.plist
-  - Version and month `sed` commands:
-    - `git grep -l '2\.0\.0' | grep -v CHANGELOG.md | xargs sed -i 's/2\.0\.0/2\.0\.1/g'`
-    - `git grep -l 'October' docs/man | xargs sed -i 's/October/November/g'`
-- Increment copyright year:
-  - osx/Info.plist
 - Tag release in git and push upstream.
   - e.g. `git tag -a deluge-2.0.0 -m "Deluge 2.0.0 Release"`
 
 ## Release
 
-- Run `make_release` script on extracted tarball e.g.
-  - `make_release deluge-2.0.0`
+- Create source and wheel distributions:
+
+        python setup.py sdist bdist_wheel
+
+- Upload to PyPi:
+
+        twine upload dist/deluge-2.0.0.tar.xz dist/deluge-2.0.0-py3-none-any.whl
+
 - Package for OSs, Ubuntu, Windows, OSX.
-- Upload source tarballs and packages to ftp.
+- Upload source tarballs and packages.
   (_Ensure file permissions are global readable:_ `0644`)
 
 ## Post-Release

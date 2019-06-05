@@ -114,6 +114,10 @@ html_theme = 'sphinx_rtd_theme'
 # given in html_static_path.
 # html_style = 'default.css'
 
+# Add font-mfizz for icons.
+html_css_files = [
+    'https://cdnjs.cloudflare.com/ajax/libs/font-mfizz/2.4.1/font-mfizz.min.css'
+]
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
 # html_title = None

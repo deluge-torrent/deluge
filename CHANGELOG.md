@@ -1,6 +1,12 @@
-# Deluge Changelog
+# Changelog
 
-## Deluge 2.0.0 - (In Development)
+## 2.0.0 (In Development)
+
+### Codebase
+
+- Ported to Python 3
+
+### Core
 
 - Improved Logging
 - Removed the AutoAdd feature on the core. It's now handled with the AutoAdd
@@ -8,14 +14,7 @@
   now, it even supports multiple users perfectly.
 - Authentication/Permission exceptions are now sent to clients and recreated
   there to allow acting upon them.
-- Enforced the use of the "deluge.plugins" namespace to reduce package
-  names clashing beetween regular packages and deluge plugins.
-- Fix potential for host_id collision when creating hostlist entries.
-- Add Option To Specify Outgoing Connection Interface.
 - Updated SSL/TLS Protocol parameters for better security.
-
-### Core
-
 - Make the distinction between adding to the session new unmanaged torrents
   and torrents loaded from state. This will break backwards compatability.
 - Pass a copy of an event instead of passing the event arguments to the
@@ -29,9 +28,12 @@
   which sould then ask the username/password to the user.
 - Implemented sequential downloads.
 - Provide information about a torrent's pieces states
+- Add Option To Specify Outgoing Connection Interface.
+- Fix potential for host_id collision when creating hostlist entries.
 
 ### GtkUI
 
+- Ported to GTK3 (3rd-party plugins will need updated).
 - Allow changing ownership of torrents.
 - Host entries in the Connection Manager UI are now editable.
 - Implemented sequential downloads UI handling.

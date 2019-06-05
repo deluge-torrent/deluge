@@ -1,4 +1,4 @@
-Deluge Documentation
+Deluge documentation
 ====================
 
 Contents
@@ -7,9 +7,11 @@ Contents
 .. toctree::
    :maxdepth: 2
 
-   Getting Started <intro/index.md>
+   Getting started <intro/index.md>
+   How-to guides <how-to/index.md>
+   Changelog <changelog.md>
    Contributing <contributing/index.md>
-   Developer Guide <devguide/index.md>
+   Developer guide <devguide/index.md>
    Reference <reference/index.rst>
 
 * :ref:`genindex`

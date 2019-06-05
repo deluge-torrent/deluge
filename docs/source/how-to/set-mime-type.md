@@ -10,15 +10,15 @@ gio mime x-scheme-handler/magnet
 gio mime x-scheme-handler/magnet deluge.desktop
 gio mime application/x-bittorrent deluge.desktop
 
-## Troubleshoot
+## Troubleshooting
 
 update-mime-database ~/.local/share/mime
 update-desktop-database ~/.local/share/applications
 
-# XDG
+### XDG Check
 
 xdg-mime query default x-scheme-handler/magnet
 
-References:
+## References
 
 https://help.gnome.org/admin/system-admin-guide/stable/mime-types-custom-user.html.en
