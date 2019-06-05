@@ -18,6 +18,7 @@ This should typically only be used by the Core. Plugins should utilize the
 from __future__ import unicode_literals
 
 import logging
+import types
 
 from twisted.internet import reactor
 
@@ -124,7 +125,15 @@ class AlertManager(component.Component):
                 for handler in self.handlers[alert_type]:
                     if log.isEnabledFor(logging.DEBUG):
                         log.debug('Handling alert: %s', alert_type)
-                    self.delayed_calls.append(reactor.callLater(0, handler, alert))
+                    # Copy alert attributes
+                    alert_copy = types.SimpleNamespace(
+                        **{
+                            attr: getattr(alert, attr)
+                            for attr in dir(alert)
+                            if not attr.startswith('__')
+                        }
+                    )
+                    self.delayed_calls.append(reactor.callLater(0, handler, alert_copy))
 
     def set_alert_queue_size(self, queue_size):
         """Sets the maximum size of the libtorrent alert queue"""
