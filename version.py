@@ -34,7 +34,7 @@
 from __future__ import print_function, unicode_literals
 
 import os
-from subprocess import PIPE, Popen
+import subprocess
 
 __all__ = ('get_version',)
 
@@ -44,16 +44,19 @@ VERSION_FILE = os.path.join(os.path.dirname(__file__), 'RELEASE-VERSION')
 def call_git_describe(prefix='', suffix=''):
     cmd = 'git describe --tags --match %s[0-9]*' % prefix
     try:
-        output = Popen(cmd.split(), stdout=PIPE, stderr=PIPE).communicate()
-        version = output[0].decode('utf-8').strip().replace(prefix, '')
-        if '-' in version:
-            version = '.dev'.join(version.replace(suffix, '').split('-')[:2])
-        return version
-    except OSError:
+        output = subprocess.check_output(cmd.split(), stderr=subprocess.PIPE)
+    except subprocess.CalledProcessError:
         return None
+    else:
+        version = output.decode('utf-8').strip().replace(prefix, '')
+        # A dash signifies git commit increments since parent tag.
+        if '-' in version:
+            segment = '.dev' if 'dev' in version else '.post'
+            version = segment.join(version.replace(suffix, '').split('-')[:2])
+        return version
 
 
-def get_version(prefix='', suffix=''):
+def get_version(prefix='deluge-', suffix='.dev0'):
     try:
         with open(VERSION_FILE, 'r') as f:
             release_version = f.readline().strip()
@@ -75,4 +78,4 @@ def get_version(prefix='', suffix=''):
 
 
 if __name__ == '__main__':
-    print(get_version(prefix='deluge-', suffix='.dev0'))
+    print(get_version())

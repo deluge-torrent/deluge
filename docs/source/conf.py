@@ -14,7 +14,6 @@ import os
 import sys
 from datetime import date
 
-import pkg_resources
 from recommonmark.states import DummyStateMachine
 from recommonmark.transform import AutoStructify
 from six.moves import builtins
@@ -34,7 +33,7 @@ sys.path.append(
 try:
     from version import get_version
 except ImportError:
-    get_version = None
+    from deluge.common import get_version
 
 
 # General configuration
@@ -71,10 +70,7 @@ current_year = date.today().year
 copyright = '2008-%s, Deluge Team' % current_year  # noqa: A001
 
 # The full version, including alpha/beta/rc tags.
-if get_version:
-    release = get_version(prefix='deluge-', suffix='.dev0')
-else:
-    release = pkg_resources.get_distribution('Deluge').version
+release = get_version()
 # The short X.Y version.
 version = '.'.join(release.split('.', 2)[:2])
 
