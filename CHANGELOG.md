@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.0.0 (In Development)
+## 2.0.0 (2019-06-06)
 
 ### Codebase
 
