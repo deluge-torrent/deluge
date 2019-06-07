@@ -45,7 +45,7 @@ def call_git_describe(prefix='', suffix=''):
     cmd = 'git describe --tags --match %s[0-9]*' % prefix
     try:
         output = subprocess.check_output(cmd.split(), stderr=subprocess.PIPE)
-    except subprocess.CalledProcessError:
+    except (OSError, subprocess.CalledProcessError):
         return None
     else:
         version = output.decode('utf-8').strip().replace(prefix, '')
