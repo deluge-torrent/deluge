@@ -1,6 +1,8 @@
 # Changelog
 
-## 2.1.0 (In development)
+## 2.0.1 (2019-06-07)
+
+- Fix setup.py build error without git installed.
 
 ## 2.0.0 (2019-06-06)
 
