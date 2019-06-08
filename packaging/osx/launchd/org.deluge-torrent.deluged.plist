@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>org.deluge-torrent.deluged</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/local/bin/deluged</string>
+        <string>-d</string>
+        <string>-L</string>
+        <string>error</string>
+        <string>-l</string>
+        <string>/var/log/deluged.log</string>
+    </array>
+    <key>StandardOutPath</key>
+    <string>/tmp/deluged.stdout</string>
+    <key>StandardErrorPath</key>
+    <string>/tmp/deluged.stderr</string>
+    <!-- To enable running as 'deluge' user remove comments.
+    <key>UserName</key>
+    <string>deluge</string>
+    -->
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+</dict>
+</plist>

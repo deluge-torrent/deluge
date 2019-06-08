@@ -46,20 +46,20 @@ There is no installer package currently for Windows, but can try Deluge as follo
 
 There is no `.app` package currently for macOS, but can try Deluge with homebrew.
 
-1. Install [Homebrew]
-2. Open a terminal.
-3. Run the following to install required packages:
+1.  Install [Homebrew]
+2.  Open a terminal.
+3.  Run the following to install required packages:
 
-   brew install pyobject3 gtk+3 adwaita-icon-theme
-   brew install libtorrent-rasterbar
+        brew install pyobject3 gtk+3 adwaita-icon-theme
+        brew install libtorrent-rasterbar
 
-4. To fix translations:
+4.  To fix translations:
 
-   brew link gettext --force
+        brew link gettext --force
 
-5. Install Deluge:
+5.  Install Deluge:
 
-   pip3 install deluge
+        pip3 install deluge
 
 [develop ppa]: https://launchpad.net/~deluge-team/+archive/ubuntu/develop/
 [homebrew]: https://brew.sh/
