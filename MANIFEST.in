@@ -8,6 +8,7 @@ include version.py
 include gen_web_gettext.py
 
 graft docs/man
+graft packaging/systemd
 
 include deluge/i18n/*.po
 recursive-exclude deluge/i18n *.mo

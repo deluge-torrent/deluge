@@ -6,9 +6,6 @@ Wants=deluged.service
 
 [Service]
 Type=simple
-
-User=deluge
-Group=deluge
 UMask=027
 
 ExecStart=/usr/bin/deluge-web -d

@@ -2,6 +2,10 @@
 
 ## 2.0.2 (WiP)
 
+### Packaging
+
+- Add systemd deluged and deluge-web service files to package tarball (#2034)
+
 ### Core
 
 - Fix Python 2 compatiblity issue with SimpleNamespace.
