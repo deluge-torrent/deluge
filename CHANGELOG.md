@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.0.2 (WiP)
+## 2.0.2 (2019-06-08)
 
 ### Packaging
 
