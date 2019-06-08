@@ -21,12 +21,15 @@ matrix:
   include:
     - name: Unit tests
       env: TOX_ENV=py3
-    - name: Unit tests (libtorrent 1.2)
+    - name: Unit tests - libtorrent 1.2
       env: TOX_ENV=py3
       addons:
         apt:
           sources: [sourceline: "ppa:libtorrent.org/1.2-daily"]
           packages: [python3-libtorrent, python3-venv]
+    - name: Unit tests - Python 2
+      env: TOX_ENV=py27
+      python: 2.7
     - if: commit_message =~ SECURITY_TEST
       env: TOX_ENV=security
     - name: Code linting
@@ -44,6 +47,7 @@ addons:
       - sourceline: "ppa:libtorrent.org/rc-1.1-daily"
       - deadsnakes
     packages:
+      - python-libtorrent
       - python3-libtorrent
       # Install py36 specifically for pre-commit to run black formatter.
       - python3.6

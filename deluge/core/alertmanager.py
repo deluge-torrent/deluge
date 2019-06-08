@@ -28,6 +28,14 @@ from deluge.common import decode_bytes
 
 log = logging.getLogger(__name__)
 
+try:
+    SimpleNamespace = types.SimpleNamespace  # Python 3.3+
+except AttributeError:
+
+    class SimpleNamespace(object):  # Python 2.7
+        def __init__(self, **attr):
+            self.__dict__.update(attr)
+
 
 class AlertManager(component.Component):
     """AlertManager fetches and processes libtorrent alerts"""
@@ -126,7 +134,7 @@ class AlertManager(component.Component):
                     if log.isEnabledFor(logging.DEBUG):
                         log.debug('Handling alert: %s', alert_type)
                     # Copy alert attributes
-                    alert_copy = types.SimpleNamespace(
+                    alert_copy = SimpleNamespace(
                         **{
                             attr: getattr(alert, attr)
                             for attr in dir(alert)

@@ -1,6 +1,14 @@
 # Changelog
 
+## 2.0.2 (WiP)
+
+### Core
+
+- Fix Python 2 compatiblity issue with SimpleNamespace.
+
 ## 2.0.1 (2019-06-07)
+
+### Packaging
 
 - Fix setup.py build error without git installed.
 
