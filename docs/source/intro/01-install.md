@@ -9,7 +9,7 @@ feel free to make suggestions for improvement.
 
 Until the stable PPA is updated, the development version of Deluge can be used:
 
-    sudo add-apt-repository -u ppa:deluge-team/develop
+    sudo add-apt-repository -u ppa:deluge-team/stable
     sudo apt install deluge
 
 ### <i class="icon-python"></i> PyPi

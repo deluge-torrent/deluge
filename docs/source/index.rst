@@ -9,7 +9,7 @@ Contents
 
    Getting started <intro/index.md>
    How-to guides <how-to/index.md>
-   Changelog <changelog.md>
+   Release notes <releases/index.md>
    Contributing <contributing/index.md>
    Developer guide <devguide/index.md>
    Reference <reference/index.rst>
