@@ -50,7 +50,7 @@ There is no `.app` package currently for macOS, but can try Deluge with homebrew
 2.  Open a terminal.
 3.  Run the following to install required packages:
 
-        brew install pyobject3 gtk+3 adwaita-icon-theme
+        brew install pygobject3 gtk+3 adwaita-icon-theme
         brew install libtorrent-rasterbar
 
 4.  To fix translations:
