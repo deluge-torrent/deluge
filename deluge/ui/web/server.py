@@ -202,7 +202,7 @@ class Flag(resource.Resource):
         return self
 
     def render(self, request):
-        path = ('ui', 'data', 'pixmaps', 'flags', request.country.lower() + '.png')
+        path = ('ui', 'data', 'pixmaps', 'flags', request.country.decode("utf-8").lower() + '.png')
         filename = common.resource_filename('deluge', os.path.join(*path))
         if os.path.exists(filename):
             request.setHeader(
