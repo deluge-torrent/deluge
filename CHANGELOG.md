@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.3 (WiP)
+
+### Web UI
+
+- Fix TypeError in Peers Tab setting country flag.
+
 ## 2.0.2 (2019-06-08)
 
 ### Packaging
@@ -47,7 +53,7 @@
 - Add Option To Specify Outgoing Connection Interface.
 - Fix potential for host_id collision when creating hostlist entries.
 
-### GtkUI
+### Gtk UI
 
 - Ported to GTK3 (3rd-party plugins will need updated).
 - Allow changing ownership of torrents.
@@ -62,7 +68,7 @@
   - Top: Ctrl+Alt+Shift+Up
   - Bottom: Ctrl+Alt+Shift+Down
 
-### WebUI
+### Web UI
 
 - Server (deluge-web) now daemonizes by default, use '-d' or '--do-not-daemonize' to disable.
 - Fixed the '--base' option to work for regular use, not just with reverse proxies.
