@@ -1,4 +1,4 @@
-default_language:
+default_language_version:
   python: python3
 exclude: >
   (?x)^(
