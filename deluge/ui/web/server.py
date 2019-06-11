@@ -583,7 +583,7 @@ class TopLevel(resource.Resource):
         if base[-1] != '/':
             base += '/'
 
-        request.base = base.encode('idna')
+        request.base = base.encode('utf-8')
 
         return resource.Resource.getChildWithDefault(self, path, request)
 

@@ -6,6 +6,7 @@
 
 - Fix TypeError in Peers Tab setting country flag.
 - Fix reverse proxy header TypeError (#3260).
+- Fix request.base 'idna' codec error (#3261).
 
 ### Documentation
 
