@@ -6,6 +6,11 @@
 
 - Fix TypeError in Peers Tab setting country flag.
 
+### Documentation
+
+- Fix macOS install typo.
+- Fix Windows install instructions.
+
 ## 2.0.2 (2019-06-08)
 
 ### Packaging

@@ -24,23 +24,10 @@ Install with pip:
 
 ## <i class="fa fa-windows"></i> Windows
 
-There is no installer package currently for Windows, but can try Deluge as follows.
+Unfortuately due to move to GTK3 and Python 3 there is no installer package currently
+available for Windows.
 
-1.  Download and install [Python 3.6].
-2.  Download and extract [gvsbuild] tarball to `C:\`.
-3.  Open a terminal.
-4.  Run this command to add `gvsbuild` directory to `PATH`:
-
-        set PATH=C:\gvsbuild\release;%PATH%
-
-5.  Install `gvsbuild` Python wheels:
-
-        pip install C:\gvsbuild\release\python\pycairo-1.18.0-cp36-cp36m-win_amd64.whl
-        pip install C:\gvsbuild\release\python\PyGObject-3.32.0-cp36-cp36m-win_amd64.whl
-
-6.  Install Deluge:
-
-        pip install deluge deluge-libtorrent
+Intrepid users can install Deluge from seperate packages as detailed in [issue #3201].
 
 ## <i class="fa fa-apple"></i> macOS
 
@@ -65,3 +52,4 @@ There is no `.app` package currently for macOS, but can try Deluge with homebrew
 [homebrew]: https://brew.sh/
 [python 3.6]: https://www.python.org/downloads/release/python-368/
 [gvsbuild]: https://ci.appveyor.com/api/buildjobs/b0y2sttcq3t1071q/artifacts/gvsbuild-vs14-x64.tar.gz
+[#3201]: https://dev.deluge-torrent.org/ticket/3201
