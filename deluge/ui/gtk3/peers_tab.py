@@ -352,10 +352,10 @@ class PeersTab(Tab):
             return True
 
     def _on_query_tooltip(self, widget, x, y, keyboard_tip, tooltip):
-        tooltip, x, y, model, path, _iter = widget.get_tooltip_context(
+        is_tooltip, x, y, model, path, _iter = widget.get_tooltip_context(
             x, y, keyboard_tip
         )
-        if tooltip:
+        if is_tooltip:
             country_code = model.get(_iter, 5)[0]
             if country_code != '  ' and country_code in COUNTRIES:
                 tooltip.set_text(COUNTRIES[country_code])

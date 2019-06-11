@@ -2,6 +2,10 @@
 
 ## 2.0.3 (WiP)
 
+### Gtk UI
+
+- Fix Peers Tab tooltip and context menu errors (#3266).
+
 ### Web UI
 
 - Fix TypeError in Peers Tab setting country flag.
