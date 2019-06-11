@@ -571,7 +571,7 @@ class TopLevel(resource.Resource):
     def getChildWithDefault(self, path, request):  # NOQA: N802
         # Calculate the request base
         header = request.getHeader(b'x-deluge-base')
-        base = header if header else component.get('DelugeWeb').base
+        base = header.decode('utf-8') if header else component.get('DelugeWeb').base
 
         # validate the base parameter
         if not base:

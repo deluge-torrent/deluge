@@ -5,6 +5,7 @@
 ### Web UI
 
 - Fix TypeError in Peers Tab setting country flag.
+- Fix reverse proxy header TypeError (#3260).
 
 ### Documentation
 
