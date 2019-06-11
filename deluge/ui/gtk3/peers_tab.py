@@ -348,7 +348,7 @@ class PeersTab(Tab):
         log.debug('on_button_press_event')
         # We only care about right-clicks
         if self.torrent_id and event.button == 3:
-            self.peer_menu.popup(None, None, None, event.button, event.time)
+            self.peer_menu.popup(None, None, None, None, event.button, event.time)
             return True
 
     def _on_query_tooltip(self, widget, x, y, keyboard_tip, tooltip):

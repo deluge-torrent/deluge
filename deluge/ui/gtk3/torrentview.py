@@ -930,5 +930,5 @@ class TorrentView(ListView, component.Component):
             return
 
         torrentmenu = component.get('MenuBar').torrentmenu
-        torrentmenu.popup(None, None, None, 3, event.time)
+        torrentmenu.popup(None, None, None, None, 3, event.time)
         return True

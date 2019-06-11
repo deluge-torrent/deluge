@@ -403,7 +403,7 @@ class StoredValuesList(ValueList):
 
             menuitem_edit.connect('activate', on_edit_clicked, path)
             menuitem_remove.connect('activate', on_remove_clicked, path)
-            self.path_list_popup.popup(None, None, None, event.button, time, data=path)
+            self.path_list_popup.popup(None, None, None, path, event.button, time)
             self.path_list_popup.show_all()
 
     def remove_selected_path(self):

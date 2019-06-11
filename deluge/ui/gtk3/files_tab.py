@@ -518,7 +518,7 @@ class FilesTab(Tab):
                 return func(event)
 
     def keypress_menu(self, event):
-        self.file_menu.popup(None, None, None, 3, event.time)
+        self.file_menu.popup(None, None, None, None, 3, event.time)
         return True
 
     def keypress_f2(self, event):
