@@ -198,7 +198,7 @@ class Auth(JSONComponent):
         """
         log.debug('Changing password')
         salt = hashlib.sha1(os.urandom(32)).hexdigest()
-        s = hashlib.sha1(salt)
+        s = hashlib.sha1(salt.encode('utf-8'))
         s.update(new_password.encode('utf8'))
         self.config['pwd_salt'] = salt
         self.config['pwd_sha1'] = s.hexdigest()
