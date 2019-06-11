@@ -89,7 +89,7 @@ else:
     # Test command exists and if not, remove.
     for command in required_cmds:
         if not which(command):
-            for k, v in EXTRACT_COMMANDS.items():
+            for k, v in list(EXTRACT_COMMANDS.items()):
                 if command in v[0]:
                     log.warning('%s not found, disabling support for %s', command, k)
                     del EXTRACT_COMMANDS[k]

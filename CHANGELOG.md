@@ -9,6 +9,10 @@
 - Fix request.base 'idna' codec error (#3261).
 - Fix unable to change password (#3262).
 
+### Extractor plugin
+
+- Fix potential error starting plugin.
+
 ### Documentation
 
 - Fix macOS install typo.
