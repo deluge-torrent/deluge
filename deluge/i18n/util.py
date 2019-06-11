@@ -119,7 +119,18 @@ def setup_translation():
 
         libintl = None
         if deluge.common.windows_check():
-            libintl = ctypes.cdll.LoadLibrary('libintl-8.dll')
+            for intl in ('libintl-8.dll', 'intl.dll'):
+                try:
+                    libintl = ctypes.cdll.LoadLibrary(intl)
+                except OSError as ex:
+                    exception = ex
+                else:
+                    break
+                finally:
+                    if not libintl:
+                        log.error('Unable to initialize gettext/locale!')
+                        log.error(exception)
+                        setup_mock_translation()
         elif deluge.common.osx_check():
             libintl = ctypes.cdll.LoadLibrary('libintl.dylib')
 
