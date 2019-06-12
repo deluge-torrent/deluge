@@ -22,7 +22,6 @@ gi.require_version('Gtk', '3.0')  # NOQA: E402
 gi.require_version('Gdk', '3.0')  # NOQA: E402
 
 # isort:imports-thirdparty
-from gi.repository.Gdk import Display
 from gi.repository.GLib import set_prgname
 from gi.repository.Gtk import Builder, ResponseType
 from twisted.internet import defer, gtk3reactor
@@ -55,7 +54,7 @@ from deluge.ui.tracker_icons import TrackerIcons
 
 # isort:imports-localfolder
 from .addtorrentdialog import AddTorrentDialog
-from .common import associate_magnet_links
+from .common import associate_magnet_links, windowing
 from .connectionmanager import ConnectionManager
 from .dialogs import YesNoDialog
 from .filtertreeview import FilterTreeView
@@ -137,10 +136,6 @@ DEFAULT_PREFS = {
     'focus_main_window_on_add': True,
     'language': None,
 }
-
-
-def windowing(like):
-    return like.lower() in str(type(Display.get_default())).lower()
 
 
 class GtkUI(object):

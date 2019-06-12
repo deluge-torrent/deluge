@@ -16,7 +16,7 @@ import shutil
 import sys
 
 import six.moves.cPickle as pickle  # noqa: N813
-from gi.repository.Gdk import SELECTION_CLIPBOARD
+from gi.repository.Gdk import SELECTION_CLIPBOARD, Display
 from gi.repository.GdkPixbuf import Colorspace, Pixbuf
 from gi.repository.GLib import GError
 from gi.repository.Gtk import (
@@ -389,3 +389,7 @@ def get_clipboard_text():
     )
     if text:
         return text.strip()
+
+
+def windowing(like):
+    return like.lower() in str(type(Display.get_default())).lower()

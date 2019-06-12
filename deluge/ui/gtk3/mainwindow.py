@@ -24,17 +24,18 @@ from deluge.common import decode_bytes, fspeed, resource_filename
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
 
-from .common import get_deluge_icon
+from .common import get_deluge_icon, windowing
 from .dialogs import PasswordDialog
 from .ipcinterface import process_args
 
-try:
-    from gi.repository import GdkX11
-except ImportError:
-    GdkX11 = None
-
+GdkX11 = None
 Wnck = None
-if GdkX11:
+if windowing('X11'):
+    try:
+        from gi.repository import GdkX11
+    except ImportError:
+        pass
+
     try:
         gi.require_version('Wnck', '3.0')
         from gi.repository import Wnck

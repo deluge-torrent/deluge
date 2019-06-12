@@ -34,7 +34,12 @@ from deluge.httpdownloader import download_file
 from deluge.ui.client import client
 from deluge.ui.common import TorrentInfo
 
-from .common import get_clipboard_text, listview_replace_treestore, reparent_iter
+from .common import (
+    get_clipboard_text,
+    listview_replace_treestore,
+    reparent_iter,
+    windowing,
+)
 from .dialogs import ErrorDialog
 from .edittrackersdialog import trackers_tiers_from_text
 from .path_chooser import PathChooser
@@ -174,11 +179,8 @@ class AddTorrentDialog(component.Component):
         self.dialog.present()
         if focus:
             timestamp = main_window.get_timestamp()
-            try:
+            if windowing('X11'):
                 self.dialog.get_window().set_user_time(timestamp)
-            except AttributeError:
-                # Not an X11 windowing system
-                pass
 
     def hide(self):
         self.dialog.hide()
