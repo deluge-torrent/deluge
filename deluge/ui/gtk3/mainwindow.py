@@ -13,6 +13,7 @@ import logging
 import os.path
 from hashlib import sha1 as sha
 
+import gi
 from gi.repository import Gtk
 from gi.repository.Gdk import DragAction, WindowState
 from twisted.internet import reactor
@@ -28,17 +29,17 @@ from .dialogs import PasswordDialog
 from .ipcinterface import process_args
 
 try:
-    import gi
-
-    gi.require_version('Wnck', '3.0')
-    from gi.repository import Wnck
-except ValueError:
-    Wnck = None
-
-try:
     from gi.repository import GdkX11
 except ImportError:
     GdkX11 = None
+
+Wnck = None
+if GdkX11:
+    try:
+        gi.require_version('Wnck', '3.0')
+        from gi.repository import Wnck
+    except (ImportError, ValueError):
+        pass
 
 log = logging.getLogger(__name__)
 

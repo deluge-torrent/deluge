@@ -4,6 +4,7 @@
 
 ### Gtk UI
 
+- Fix errors running on Wayland (#3265).
 - Fix Peers Tab tooltip and context menu errors (#3266).
 
 ### Web UI
