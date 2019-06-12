@@ -176,11 +176,17 @@ class AddTorrentDialog(component.Component):
             self.dialog.set_transient_for(None)
             self.dialog.set_position(Gtk.WindowPosition.CENTER)
 
-        self.dialog.present()
         if focus:
             timestamp = main_window.get_timestamp()
             if windowing('X11'):
+                # Use present with X11 set_user_time since
+                # present_with_time is inconsistent.
+                self.dialog.present()
                 self.dialog.get_window().set_user_time(timestamp)
+            else:
+                self.dialog.present_with_time(timestamp)
+        else:
+            self.dialog.present()
 
     def hide(self):
         self.dialog.hide()

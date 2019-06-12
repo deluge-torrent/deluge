@@ -178,9 +178,14 @@ class MainWindow(component.Component):
         def restore():
             # Restore the proper x,y coords for the window prior to showing it
             component.resume(self.child_components)
-            self.window.present()
-            if GdkX11:
-                self.window.get_window().set_user_time(self.get_timestamp())
+            timestamp = self.get_timestamp()
+            if windowing('X11'):
+                # Use present with X11 set_user_time since
+                # present_with_time is inconsistent.
+                self.window.present()
+                self.window.get_window().set_user_time(timestamp)
+            else:
+                self.window.present_with_time(timestamp)
             self.load_window_state()
 
         if self.config['lock_tray'] and not self.visible():
