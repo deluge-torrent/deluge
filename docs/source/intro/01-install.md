@@ -52,4 +52,4 @@ There is no `.app` package currently for macOS, but can try Deluge with homebrew
 [homebrew]: https://brew.sh/
 [python 3.6]: https://www.python.org/downloads/release/python-368/
 [gvsbuild]: https://ci.appveyor.com/api/buildjobs/b0y2sttcq3t1071q/artifacts/gvsbuild-vs14-x64.tar.gz
-[#3201]: https://dev.deluge-torrent.org/ticket/3201
+[issue #3201]: https://dev.deluge-torrent.org/ticket/3201#comment:9
