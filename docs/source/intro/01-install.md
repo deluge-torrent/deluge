@@ -24,7 +24,7 @@ Install with pip:
 
 ## <i class="fa fa-windows"></i> Windows
 
-Unfortuately due to move to GTK3 and Python 3 there is no installer package currently
+Unfortunately due to move to GTK3 and Python 3 there is no installer package currently
 available for Windows.
 
 Intrepid users can install Deluge from seperate packages as detailed in [issue #3201].
