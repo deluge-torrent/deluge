@@ -267,7 +267,7 @@ def associate_magnet_links(overwrite=False):
             from gi.repository import GConf
         except ValueError:
             log.debug(
-                'gconf not available, so will not attempt to register magnet uri handler'
+                'gconf not available, so will not attempt to register magnet URI handler'
             )
             return False
         else:
@@ -282,11 +282,11 @@ def associate_magnet_links(overwrite=False):
                     gconf_client.set_bool(
                         '/desktop/gnome/url-handlers/magnet/enabled', True
                     )
-                    log.info('Deluge registered as default magnet uri handler!')
+                    log.info('Deluge registered as default magnet URI handler!')
                     return True
                 else:
                     log.error(
-                        'Unable to register Deluge as default magnet uri handler.'
+                        'Unable to register Deluge as default magnet URI handler.'
                     )
                     return False
     return False

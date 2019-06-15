@@ -27,7 +27,7 @@ Use [six] to assist with compatibility.
 
 ### Unicode literals
 
-Add the following to files to ensure strings and bytes separatation so there
+Add the following to files to ensure strings and bytes separation so there
 are no surprises when running on Python 3.
 
     from __future__ import unicode_literals
@@ -49,7 +49,7 @@ GtkBuilder `.ui` files and the Python code updated.
 
 See the official [Migrating to GtkBuilder][migrate-gtkbuilder] document for more details.
 
-#### gtk-builder-convert
+#### GtkBuilder conversion script
 
 Install the `gtk-builder-convert` converter on Ubuntu with:
 
@@ -103,7 +103,7 @@ If you open and save the file it will update with the new requirement header:
       <requires lib="gtk+" version="3.10"/>
 
 You can fix deprecated widgets but keep the minimum GTK version to <= 3.10 for
-desktop compatiblity.
+desktop compatibility.
 
 An example of migrating a Deluge plugin to GtkBuilder: [AutoAdd GtkBuilder]
 
@@ -111,7 +111,7 @@ An example of migrating a Deluge plugin to GtkBuilder: [AutoAdd GtkBuilder]
 
 Move from PyGTK to GTK3 using Python bindings.
 
-https://pygobject.readthedocs.io/en/latest/guide/porting.html
+<https://pygobject.readthedocs.io/en/latest/guide/porting.html>
 
     wget https://gitlab.gnome.org/GNOME/pygobject/raw/master/tools/pygi-convert.sh
     cp gtkui.py gtk3ui.py

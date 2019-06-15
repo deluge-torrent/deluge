@@ -5,8 +5,8 @@ Message Formats
 ---------------
 DelugeRPC is a protocol used for daemon/client communication. There are four
 types of messages involved in the protocol: RPC Request, RPC Response,
-RPC Error and Event. All messages are zlib compressed rencoded strings and
-their data formats are detailed below.
+RPC Error and Event. All messages are zlib compressed with rencode encoded strings
+and their data formats are detailed below.
 
 """""""""""
 RPC Request

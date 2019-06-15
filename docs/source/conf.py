@@ -49,6 +49,7 @@ extensions = [
     'sphinx.ext.doctest',
     'sphinx.ext.napoleon',
     'sphinx.ext.coverage',
+    'sphinxcontrib.spelling',
 ]
 
 napoleon_include_init_with_doc = True
@@ -85,8 +86,7 @@ today_fmt = '%B %d, %Y'
 
 # List of directories, relative to source directories, that shouldn't be searched
 # for source files.
-# exclude_dirs = []
-# exclude_patterns = []
+exclude_patterns = []
 
 # The reST default role (used for this markup: `text`) to use for all documents.
 # default_role = None
@@ -105,6 +105,14 @@ today_fmt = '%B %d, %Y'
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
 
+
+# Options for spelling
+# --------------------
+spelling_show_suggestions = True
+spelling_word_list_filename = '../spelling_wordlist.txt'
+# Skip Deluge module rst files
+if 'spelling' in sys.argv or 'spellcheck_docs' in sys.argv:
+    exclude_patterns += ['modules']
 
 # Options for HTML output
 # -----------------------
@@ -132,7 +140,7 @@ html_css_files = [
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
 # pixels large.
-# html_favicon = None
+html_favicon = '../../deluge/ui/data/pixmaps/deluge.ico'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

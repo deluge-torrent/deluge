@@ -301,7 +301,7 @@ class AddTorrentDialog(component.Component):
             self.builder.get_object('prefetch_hbox').hide()
 
     def add_from_magnets(self, uris):
-        """Add a list of magnet uris to torrent_liststore."""
+        """Add a list of magnet URIs to torrent_liststore."""
         already_added = 0
 
         for uri in uris:
@@ -853,11 +853,11 @@ class AddTorrentDialog(component.Component):
             log.debug('Create torrent tracker lines: %s', trackers_text)
             trackers = list(trackers_tiers_from_text(trackers_text).keys())
 
-            # Convert the information to a magnet uri, this is just easier to
+            # Convert the information to a magnet URI, this is just easier to
             # handle this way.
             log.debug('trackers: %s', trackers)
             magnet = create_magnet_uri(infohash, infohash, trackers)
-            log.debug('magnet uri: %s', magnet)
+            log.debug('magnet URI: %s', magnet)
             self.add_from_magnets([magnet])
 
         entry.set_text('')

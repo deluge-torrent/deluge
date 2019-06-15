@@ -206,12 +206,12 @@ class Torrent(object):
         options (dict): The torrent options.
         state (TorrentState): The torrent state.
         filename (str): The filename of the torrent file.
-        magnet (str): The magnet uri.
+        magnet (str): The magnet URI.
 
     Attributes:
         torrent_id (str): The torrent_id for this torrent
         handle: Holds the libtorrent torrent handle
-        magnet (str): The magnet uri used to add this torrent (if available).
+        magnet (str): The magnet URI used to add this torrent (if available).
         status: Holds status info so that we don"t need to keep getting it from libtorrent.
         torrent_info: store the torrent info.
         has_metadata (bool): True if the metadata for the torrent is available, False otherwise.
@@ -913,7 +913,7 @@ class Torrent(object):
         return ''
 
     def get_magnet_uri(self):
-        """Returns a magnet uri for this torrent"""
+        """Returns a magnet URI for this torrent"""
         return lt.make_magnet_uri(self.handle)
 
     def get_name(self):

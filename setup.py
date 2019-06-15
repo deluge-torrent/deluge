@@ -443,6 +443,7 @@ cmdclass = {
     'build_trans': BuildTranslations,
     'build_plugins': BuildPlugins,
     'build_docs': BuildDoc,
+    'spellcheck_docs': BuildDoc,
     'install_data': InstallData,
     'clean_plugins': CleanPlugins,
     'clean_trans': CleanTranslations,

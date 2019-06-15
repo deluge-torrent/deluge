@@ -1,6 +1,6 @@
 # Release Checklist
 
-## Pre-Release
+## Pre-release
 
 - Update [translation] `po` files from [Launchpad] account.
 - Changelog is updated with relevant commits and release date is added.
@@ -30,9 +30,9 @@
   - Change release version in `version` files.
   - Run `trigger-deluge` to sync OSUOSL ftp site.
 - Create packages (Ubuntu, Windows, OSX).
-  - Ubuntu: https://code.launchpad.net/~deluge-team/+recipe/stable-releases
+  - Ubuntu: <https://code.launchpad.net/~deluge-team/+recipe/stable-releases>
 
-## Post-Release
+## Post-release
 
 - Update with version, hashes and release notes:
   - Publish docs on [ReadTheDocs].

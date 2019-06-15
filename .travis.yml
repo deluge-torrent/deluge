@@ -53,6 +53,8 @@ addons:
       - python3.6
       # Intall python3-venv to provide ensurepip module for tox.
       - python3-venv
+      # Spellchecking
+      - enchant
 
 # Install dependencies
 install:

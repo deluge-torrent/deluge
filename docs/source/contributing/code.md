@@ -5,13 +5,13 @@
 - A [new ticket](http://dev.deluge-torrent.org/newticket) is required for bugs
   or features. Search the ticket system first, to avoid filing a duplicate.
 - Ensure code follows the [syntax and conventions](#syntax-and-conventions).
-- Code must pass tests. See [testing.md] for
+- Code must pass tests. See [testing](testing.md) document for
   information on how to run and write unit tests.
 - Commit messages are informative.
 
 ## Pull request process:
 
-- Fork us on [github](https://github.com/deluge-torrent/deluge).
+- Fork us on [GitHub](https://github.com/deluge-torrent/deluge).
 - Clone your repository.
 - Create a feature branch for your issue.
 - Apply your changes:
@@ -19,16 +19,16 @@
   - Run the tests until they pass.
   - When you feel you are finished, rebase your commits to ensure a simple
     and informative commit log.
-- Create a pull request on github from your forked repository.
+- Create a pull request on GitHub from your forked repository.
   - Verify that the tests run by [Travis-ci](https://travis-ci.org/deluge-torrent/deluge)
     are passing.
 
 ## Syntax and conventions
 
-### Code formatters
+### Code formatting
 
 We use two applications to automatically format the code to save development
-time. They are both run with pre-commit.
+time. They are both run with [pre-commit].
 
 #### Black
 
@@ -36,7 +36,7 @@ time. They are both run with pre-commit.
 
 #### Prettier
 
-- Javascript
+- JavaScript
 - CSS
 - YAML
 - Markdown
@@ -51,32 +51,32 @@ time. They are both run with pre-commit.
 
 We follow [PEP8](http://www.python.org/dev/peps/pep-0008/) and
 [Python Code Style](http://docs.python-guide.org/en/latest/writing/style/)
-which is adhered to with Black formatter.
+which is adhered to with [Black].
 
-- Code '''must''' pass [flake8](https://pypi.python.org/pypi/flake8) (w/[https://pypi.python.org/pypi/flake8-quotes flake8-quotes]), [https://pypi.python.org/pypi/isort isort] and [http://www.pylint.org/ Pylint] source code checkers.
+- Code '''must''' pass [Black], [flake8] and [isort] source code checkers.
+  (Optionally [Pylint])
 
-  flake8 deluge
-  isort -rc -df deluge
-  pylint deluge
-  pylint deluge/plugins/\*/deluge/
+        flake8 deluge
+        isort -rc -df deluge
+        pylint deluge
+        pylint deluge/plugins/\*/deluge/
 
-- Using the [http://pre-commit.com/ pre-commit] app can aid in picking up
-  issues before creating git commits.
+- Using the [pre-commit] app can aid in identifying issues while creating git commits.
 
 #### Strings and bytes
 
 To prevent bugs or errors in the code byte strings (`str`) must be decoded to
-strings (unicode strings, `unicode`) on input and then encoded on output.
+strings (Unicode text strings, `unicode`) on input and then encoded on output.
 
 _Notes:_
 
-- PyGTK/GTK+ will accept `str` (utf8 encoded) or `unicode` but will only return
-  `str`. See [http://python-gtk-3-tutorial.readthedocs.org/en/latest/unicode.html GTK+ Unicode] docs.
+- PyGTK/GTK+ will accept `str` (UTF-8 encoded) or `unicode` but will only return
+  `str`. See [GTK3 Unicode] docs.
 - There is a `bytearray` type which enables in-place modification of a string.
   See [Python Bytearrays](http://stackoverflow.com/a/9099337/175584)
 - Python 3 renames `unicode` to `str` type and byte strings become `bytes` type.
 
-### Javascript
+### JavaScript
 
 - Classes should follow the Ext coding style.
 - Class names should be in !CamelCase
@@ -108,8 +108,16 @@ Google Style example:
        """
        return
 
-See complete list of [http://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html#docstring-sections supported headers].
+See complete list of [supported headers][napoleon sections].
 
 Verify that the documentation parses correctly with:
 
     python setup.py build_docs
+
+[pre-commit]: http://pre-commit.com/
+[flake8]: https://pypi.python.org/pypi/flake8
+[isort]: https://pypi.python.org/pypi/isort
+[pylint]: http://www.pylint.org/
+[black]: https://github.com/python/black/
+[gtk3 unicode]: http://python-gtk-3-tutorial.readthedocs.org/en/latest/unicode.html
+[napoleon sections]: http://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html#docstring-sections

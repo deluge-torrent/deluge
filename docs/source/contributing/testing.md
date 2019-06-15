@@ -36,7 +36,7 @@ Running the tests for a specific plugin (requires [pytest](https://pypi.python.o
 
 ## Tox
 
-All the tests for Deluge can be run using [tox](https://pypi.python.org/pypi/tox)
+All the tests for Deluge can be run using [Tox](https://pypi.python.org/pypi/tox)
 
 #### See available targets:
 
@@ -54,10 +54,10 @@ All the tests for Deluge can be run using [tox](https://pypi.python.org/pypi/tox
 
     tox -e lint
 
-## Travis-ci
+## Travis CI
 
 Deluge develop branch is tested automatically by [Travis].
-When creating a pull request (PR) on [github], Travis will be automatically run
+When creating a pull request (PR) on [GitHub], Travis will be automatically run
 the unit tests with the code in the PR.
 
 [travis]: https://travis-ci.org/deluge-torrent/deluge

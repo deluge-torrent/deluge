@@ -373,9 +373,9 @@ def show_file(path, timestamp=None):
 
 def open_url_in_browser(url):
     """
-    Opens a url in the desktop's default browser
+    Opens a URL in the desktop's default browser
 
-    :param url: the url to open
+    :param url: the URL to open
     :type url: string
 
     """
@@ -695,7 +695,7 @@ def is_url(url):
     """
     A simple test to check if the URL is valid
 
-    :param url: the url to test
+    :param url: the URL to test
     :type url: string
     :returns: True or False
     :rtype: bool
@@ -731,9 +731,9 @@ TR_PARAM = 'tr='
 
 def is_magnet(uri):
     """
-    A check to determine if a uri is a valid bittorrent magnet uri
+    A check to determine if a URI is a valid bittorrent magnet URI
 
-    :param uri: the uri to check
+    :param uri: the URI to check
     :type uri: string
     :returns: True or False
     :rtype: bool
@@ -819,7 +819,7 @@ def get_magnet_info(uri):
 
 
 def create_magnet_uri(infohash, name=None, trackers=None):
-    """Creates a magnet uri
+    """Creates a magnet URI
 
     Args:
         infohash (str): The info-hash of the torrent.
@@ -827,7 +827,7 @@ def create_magnet_uri(infohash, name=None, trackers=None):
         trackers (list or dict, optional): A list of trackers or dict or {tracker: tier} pairs.
 
     Returns:
-        str: A magnet uri string.
+        str: A magnet URI string.
 
     """
     try:
@@ -1175,7 +1175,7 @@ def create_localclient_account(append=False):
 
 
 def get_localhost_auth():
-    """Grabs the localclient auth line from the 'auth' file and creates a localhost uri.
+    """Grabs the localclient auth line from the 'auth' file and creates a localhost URI.
 
     Returns:
         tuple: With the username and password to login as.

@@ -472,7 +472,7 @@ class WebApi(JSONComponent):
         The current connection state.
 
         :returns: True if the client is connected
-        :rtype: booleon
+        :rtype: boolean
         """
         return client.connected()
 
@@ -498,7 +498,7 @@ class WebApi(JSONComponent):
         :type keys: list
         :param filter_dict: the filters to apply when selecting torrents.
         :type filter_dict: dictionary
-        :returns: The torrent and ui information.
+        :returns: The torrent and UI information.
         :rtype: dictionary
         """
         d = Deferred()
@@ -659,9 +659,9 @@ class WebApi(JSONComponent):
     @export
     def download_torrent_from_url(self, url, cookie=None):
         """
-        Download a torrent file from a url to a temporary directory.
+        Download a torrent file from a URL to a temporary directory.
 
-        :param url: the url of the torrent
+        :param url: the URL of the torrent
         :type url: string
         :returns: the temporary file name of the torrent file
         :rtype: string
@@ -829,7 +829,7 @@ class WebApi(JSONComponent):
             password (str): The password to login to the daemon with.
 
         Returns:
-            bool: True if succesful, False otherwise.
+            bool: True if successful, False otherwise.
 
         """
         return self.hostlist.update_host(host_id, host, port, username, password)
@@ -842,7 +842,7 @@ class WebApi(JSONComponent):
             host_id (str): The host identifying hash.
 
         Returns:
-            bool: True if succesful, False otherwise.
+            bool: True if successful, False otherwise.
 
         """
         return self.hostlist.remove_host(host_id)
@@ -1002,7 +1002,7 @@ class WebApi(JSONComponent):
 
 class WebUtils(JSONComponent):
     """
-    Utility functions for the webui that do not fit in the WebApi.
+    Utility functions for the Web UI that do not fit in the WebApi.
     """
 
     def __init__(self):
@@ -1014,6 +1014,6 @@ class WebUtils(JSONComponent):
         Get the available translated languages
 
         Returns:
-             list: of tuples [(lang-id, language-name), ...]
+             list: of tuples ``[(lang-id, language-name), ...]``
         """
         return get_languages()

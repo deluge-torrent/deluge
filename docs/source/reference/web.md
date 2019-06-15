@@ -1,7 +1,7 @@
 # Deluge Web UI
 
 The Deluge web interface is a full featured interface built using the ExtJS framework,
-running on top of a Twisted webserver.
+running on top of a Twisted web server.
 
 ## SSL Configuration
 
@@ -23,15 +23,15 @@ Sample guide: [How to Create a SSL Certificate][ssl cert]
 
 ### Enable Web UI SSL
 
-There are two ways to enable SSL encryption in the webserver:
+There are two ways to enable SSL encryption in the web server:
 
 - Specify in your config (accessible via the Preferences window).
-- Use `--ssl` when running the webserver, overriding the configuration value to enable SSL.
+- Use `--ssl` when running the web server, overriding the configuration value to enable SSL.
 
 ## Enable Development mode
 
-Add `?dev=true` to the webui url to enable development mode, uses the source js files
-(if available) rather than compressed versions:
+Append `?dev=true` to the Web UI URL to enable development mode, uses the source
+JavaScript files (if available) rather than compressed versions:
 
     http://127.0.0.1:8112/?dev=true
 

@@ -405,7 +405,7 @@ class Core(component.Component):
     # Exported Methods
     @export
     def add_torrent_file_async(self, filename, filedump, options, save_state=True):
-        """Adds a torrent file to the session asynchonously.
+        """Adds a torrent file to the session asynchronously.
 
         Args:
             filename (str): The filename of the torrent.
@@ -442,8 +442,8 @@ class Core(component.Component):
         Used by UIs to get magnet files for selection before adding to session.
 
         Args:
-            magnet (str): The magnet uri.
-            timeout (int): Number of seconds to wait before cancelling request.
+            magnet (str): The magnet URI.
+            timeout (int): Number of seconds to wait before canceling request.
 
         Returns:
             Deferred: A tuple of (torrent_id (str), metadata (dict)) for the magnet.
@@ -488,10 +488,11 @@ class Core(component.Component):
 
     @export
     def add_torrent_files(self, torrent_files):
-        """Adds multiple torrent files to the session asynchonously.
+        """Adds multiple torrent files to the session asynchronously.
 
         Args:
-            torrent_files (list of tuples): Torrent files as tuple of (filename, filedump, options).
+            torrent_files (list of tuples): Torrent files as tuple of
+            ``(filename, filedump, options)``.
 
         Returns:
             Deferred
@@ -517,10 +518,10 @@ class Core(component.Component):
     @export
     def add_torrent_url(self, url, options, headers=None):
         """
-        Adds a torrent from a url. Deluge will attempt to fetch the torrent
-        from url prior to adding it to the session.
+        Adds a torrent from a URL. Deluge will attempt to fetch the torrent
+        from the URL prior to adding it to the session.
 
-        :param url: the url pointing to the torrent file
+        :param url: the URL pointing to the torrent file
         :type url: string
         :param options: the options to apply to the torrent on add
         :type options: dict
@@ -529,7 +530,7 @@ class Core(component.Component):
 
         :returns: a Deferred which returns the torrent_id as a str or None
         """
-        log.info('Attempting to add url %s', url)
+        log.info('Attempting to add URL %s', url)
 
         def on_download_success(filename):
             # We got the file, so add it to the session
@@ -543,7 +544,7 @@ class Core(component.Component):
 
         def on_download_fail(failure):
             # Log the error and pass the failure onto the client
-            log.error('Failed to add torrent from url %s', url)
+            log.error('Failed to add torrent from URL %s', url)
             return failure
 
         tmp_fd, tmp_file = tempfile.mkstemp(prefix='deluge_url.', suffix='.torrent')
@@ -566,7 +567,7 @@ class Core(component.Component):
         :rtype: string
 
         """
-        log.debug('Attempting to add by magnet uri: %s', uri)
+        log.debug('Attempting to add by magnet URI: %s', uri)
 
         return self.torrentmanager.add(magnet=uri, options=options)
 
@@ -894,7 +895,8 @@ class Core(component.Component):
 
         Args:
             torrent_ids (list): A list of torrent_ids to set the options for.
-            options (dict): A dict of torrent options to set. See torrent.TorrentOptions class for valid keys.
+            options (dict): A dict of torrent options to set. See
+                ``torrent.TorrentOptions`` class for valid keys.
         """
         if 'owner' in options and not self.authmanager.has_account(options['owner']):
             raise DelugeError('Username "%s" is not known.' % options['owner'])
@@ -907,7 +909,7 @@ class Core(component.Component):
 
     @export
     def set_torrent_trackers(self, torrent_id, trackers):
-        """Sets a torrents tracker list.  trackers will be [{"url", "tier"}]"""
+        """Sets a torrents tracker list. trackers will be ``[{"url", "tier"}]``"""
         return self.torrentmanager[torrent_id].set_trackers(trackers)
 
     @deprecated
@@ -985,7 +987,7 @@ class Core(component.Component):
     @export
     def get_path_size(self, path):
         """Returns the size of the file or folder 'path' and -1 if the path is
-        unaccessible (non-existent or insufficient privs)"""
+        inaccessible (non-existent or insufficient privileges)"""
         return deluge.common.get_path_size(path)
 
     @export
@@ -1058,8 +1060,8 @@ class Core(component.Component):
     def upload_plugin(self, filename, filedump):
         """This method is used to upload new plugins to the daemon.  It is used
         when connecting to the daemon remotely and installing a new plugin on
-        the client side. 'plugin_data' is a xmlrpc.Binary object of the file data,
-        ie, plugin_file.read()"""
+        the client side. ``plugin_data`` is a ``xmlrpc.Binary`` object of the file data,
+        i.e. ``plugin_file.read()``"""
 
         try:
             filedump = b64decode(filedump)
@@ -1075,14 +1077,14 @@ class Core(component.Component):
     @export
     def rescan_plugins(self):
         """
-        Rescans the plugin folders for new plugins
+        Re-scans the plugin folders for new plugins
         """
         component.get('CorePluginManager').scan_for_plugins()
 
     @export
     def rename_files(self, torrent_id, filenames):
         """
-        Rename files in torrent_id.  Since this is an asynchronous operation by
+        Rename files in ``torrent_id``.  Since this is an asynchronous operation by
         libtorrent, watch for the TorrentFileRenamedEvent to know when the
         files have been renamed.
 
@@ -1258,7 +1260,7 @@ class Core(component.Component):
     @export
     def get_external_ip(self):
         """
-        Returns the external ip address recieved from libtorrent.
+        Returns the external IP address received from libtorrent.
         """
         return self.external_ip
 

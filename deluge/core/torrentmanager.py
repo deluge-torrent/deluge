@@ -340,11 +340,11 @@ class TorrentManager(component.Component):
             return torrent_info
 
     def prefetch_metadata(self, magnet, timeout):
-        """Download the metadata for a magnet uri.
+        """Download the metadata for a magnet URI.
 
         Args:
-            magnet (str): A magnet uri to download the metadata for.
-            timeout (int): Number of seconds to wait before cancelling.
+            magnet (str): A magnet URI to download the metadata for.
+            timeout (int): Number of seconds to wait before canceling.
 
         Returns:
             Deferred: A tuple of (torrent_id (str), metadata (dict))
@@ -509,7 +509,7 @@ class TorrentManager(component.Component):
             save_state (bool, optional): If True save the session state after adding torrent, defaults to True.
             filedump (str, optional): bencoded filedump of a torrent file.
             filename (str, optional): The filename of the torrent file.
-            magnet (str, optional): The magnet uri.
+            magnet (str, optional): The magnet URI.
             resume_data (lt.entry, optional): libtorrent fast resume data.
 
         Returns:
@@ -574,7 +574,7 @@ class TorrentManager(component.Component):
             save_state (bool, optional): If True save the session state after adding torrent, defaults to True.
             filedump (str, optional): bencoded filedump of a torrent file.
             filename (str, optional): The filename of the torrent file.
-            magnet (str, optional): The magnet uri.
+            magnet (str, optional): The magnet URI.
             resume_data (lt.entry, optional): libtorrent fast resume data.
 
         Returns:

@@ -1,8 +1,8 @@
 # How to connect to JSON-RPC with curl
 
-Before continuing make sure deluge-web or webui plugin is running.
+Before continuing make sure `deluge-web` or Web UI plugin is running.
 
-## Create a curl config
+## Create a curl configuration file
 
 To save a lot of typing and to keep the curl command short we shall create
 a `curl.cfg` files and put the following contents in it:
@@ -16,11 +16,11 @@ a `curl.cfg` files and put the following contents in it:
     url = "http://localhost:8112/json"
     write-out = "\n"
 
-To pretty-print the JSON result see: https://stackoverflow.com/q/352098/175584
+To pretty-print the JSON result see: <https://stackoverflow.com/q/352098/175584>
 
-## Login to WebUI
+## Login to Web UI
 
-Login to the WebUI and get session cookie:
+Login to the Web UI and get session cookie:
 
     curl -d '{"method": "auth.login", "params": ["deluge"], "id": 1}' -K curl.cfg
 
@@ -43,12 +43,12 @@ Check the contents of the cookie file to verify session ID created.
 
 ## Check connected to deluged
 
-Use the `web.connected` method to get a boolean response if the webui is
+Use the `web.connected` method to get a boolean response if the Web UI is
 connected to a deluged host:
 
     curl -d '{"method": "web.connected", "params": [], "id": 1}' -K curl.cfg
 
-Result is `false` because WebUI is not yet connected to the daemon:
+Result is `false` because Web UI is not yet connected to the daemon:
 
     {
         "error": null,
@@ -101,7 +101,7 @@ To connect to deluged with `<hostID>`:
     curl -d '{"method": "web.connect", \
     "params": ["<hostID>"], "id": 1}' -K curl.cfg
 
-The result contains the full list of avaiable host methods:
+The result contains the full list of available host methods:
 
     {
         "error": null,
@@ -148,7 +148,7 @@ A successful result:
 
     {"error": null, "result": null, "id": 1}
 
-## Useful curl config options
+## Useful curl configuration options
 
 For full list of options see man page `man curl` or help `curl --help`:
 

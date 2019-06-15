@@ -24,14 +24,14 @@ Install with pip:
 
 ## <i class="fa fa-windows"></i> Windows
 
-Unfortuately due to move to GTK3 and Python 3 there is no installer package currently
+Unfortunately due to move to GTK3 and Python 3 there is no installer package currently
 available for Windows.
 
-Intrepid users can install Deluge from seperate packages as detailed in [issue #3201].
+Intrepid users can install Deluge from separate packages as detailed in [issue #3201].
 
 ## <i class="fa fa-apple"></i> macOS
 
-There is no `.app` package currently for macOS, but can try Deluge with homebrew.
+There is no `.app` package currently for macOS, but can try Deluge with [Homebrew].
 
 1.  Install [Homebrew]
 2.  Open a terminal.

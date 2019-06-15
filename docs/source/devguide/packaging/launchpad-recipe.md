@@ -1,15 +1,15 @@
 # Launchpad recipe
 
 The launchpad build recipes are for build from source automatically to provide
-ubuntu packages. They are used to create daily builds of a git repo branch.
+Ubuntu packages. They are used to create daily builds of a Deluge git branch.
 
 Note these don't have the same control as a creating a publishing to PPA.
 
-Main reference: https://help.launchpad.net/Packaging/SourceBuilds/Recipes
+Main reference: <https://help.launchpad.net/Packaging/SourceBuilds/Recipes>
 
-## Deluge launchpad build recipes
+## Deluge Launchpad build recipes
 
-Recipe configuration: https://code.launchpad.net/~deluge-team/+recipes
+Recipe configuration: <https://code.launchpad.net/~deluge-team/+recipes>
 
 An example for building the develop branch:
 

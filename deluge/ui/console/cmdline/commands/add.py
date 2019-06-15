@@ -81,7 +81,7 @@ class Command(BaseCommand):
                 continue
             if deluge.common.is_url(torrent):
                 self.console.write(
-                    '{!info!}Attempting to add torrent from url: %s' % torrent
+                    '{!info!}Attempting to add torrent from URL: %s' % torrent
                 )
                 deferreds.append(
                     client.core.add_torrent_url(torrent, t_options)
@@ -90,7 +90,7 @@ class Command(BaseCommand):
                 )
             elif deluge.common.is_magnet(torrent):
                 self.console.write(
-                    '{!info!}Attempting to add torrent from magnet uri: %s' % torrent
+                    '{!info!}Attempting to add torrent from magnet URI: %s' % torrent
                 )
                 deferreds.append(
                     client.core.add_torrent_magnet(torrent, t_options)
