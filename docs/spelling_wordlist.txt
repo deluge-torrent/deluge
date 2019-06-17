@@ -26,3 +26,17 @@ auth
 hostlist
 hostname
 filesystem
+libtorrent
+Multi
+multi
+username
+whitelist
+systemd
+launchd
+plugin
+plugins
+app
+tarball
+tarballs
+Umask
+online

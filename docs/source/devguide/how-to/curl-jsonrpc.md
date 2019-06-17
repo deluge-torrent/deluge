@@ -18,9 +18,9 @@ a `curl.cfg` files and put the following contents in it:
 
 To pretty-print the JSON result see: <https://stackoverflow.com/q/352098/175584>
 
-## Login to Web UI
+## Log in to Web UI
 
-Login to the Web UI and get session cookie:
+Log in to the Web UI and get session cookie:
 
     curl -d '{"method": "auth.login", "params": ["deluge"], "id": 1}' -K curl.cfg
 

@@ -61,7 +61,8 @@ which is adhered to with [Black].
         pylint deluge
         pylint deluge/plugins/\*/deluge/
 
-- Using the [pre-commit] app can aid in identifying issues while creating git commits.
+- Using the [pre-commit] application can aid in identifying issues while
+  creating git commits.
 
 #### Strings and bytes
 

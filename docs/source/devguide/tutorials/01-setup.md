@@ -37,7 +37,7 @@ Download the latest git code to local folder.
 ### Create Python virtual environment
 
 Creation of a [Python virtual environment] keeps the development isolated
-and easier to maintain and tox has an option to make this process easier:
+and easier to maintain and Tox has an option to make this process easier:
 
     tox -e denv3
 
@@ -45,7 +45,7 @@ Activate virtual environment:
 
     source .venv/bin/activate
 
-Deluge will be installed by tox in _develop_ mode which creates links back
+Deluge will be installed by Tox in _develop_ mode which creates links back
 to source code so that changes will be reflected immediately without repeated
 installation. Check it is installed with:
 

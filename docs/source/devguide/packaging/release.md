@@ -28,7 +28,7 @@
   - Sub-directories correspond to _major.minor_ version e.g. all `2.0.x` patch
     releases are stored in `source/2.0`.
   - Change release version in `version` files.
-  - Run `trigger-deluge` to sync OSUOSL ftp site.
+  - Run `trigger-deluge` to sync OSUOSL FTP site.
 - Create packages (Ubuntu, Windows, OSX).
   - Ubuntu: <https://code.launchpad.net/~deluge-team/+recipe/stable-releases>
 
