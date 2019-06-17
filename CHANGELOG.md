@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.4 (WIP)
+
+### Documentation
+
+- Add How-to guides about services.
+
 ## 2.0.3 (2019-06-12)
 
 ### Gtk UI
