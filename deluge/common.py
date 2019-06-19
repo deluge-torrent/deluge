@@ -81,6 +81,9 @@ TORRENT_STATE = [
 # The output formatting for json.dump
 JSON_FORMAT = {'indent': 4, 'sort_keys': True, 'ensure_ascii': False}
 
+DBUS_FM_ID = 'org.freedesktop.FileManager1'
+DBUS_FM_PATH = '/org/freedesktop/FileManager1'
+
 PY2 = sys.version_info.major == 2
 
 
@@ -355,20 +358,25 @@ def show_file(path, timestamp=None):
             timestamp,
             timestamp,
         )
+
         if dbus:
             bus = dbus.SessionBus()
-            filemanager1 = bus.get_object(
-                'org.freedesktop.FileManager1', '/org/freedesktop/FileManager1'
-            )
-            paths = [urljoin('file:', pathname2url(path))]
-            filemanager1.ShowItems(
-                paths, startup_id, dbus_interface='org.freedesktop.FileManager1'
-            )
-        else:
-            env = os.environ.copy()
-            env['DESKTOP_STARTUP_ID'] = startup_id.replace('dbus', 'xdg-open')
-            # No option in xdg to highlight a file so just open parent folder.
-            subprocess.Popen(['xdg-open', os.path.dirname(path.rstrip('/'))], env=env)
+            try:
+                filemanager1 = bus.get_object(DBUS_FM_ID, DBUS_FM_PATH)
+            except dbus.exceptions.DBusException as e:
+                log.debug('Unable to get dbus file manager: %s', ex)
+                # Fallback to xdg-open
+            else:
+                paths = [urljoin('file:', pathname2url(path))]
+                filemanager1.ShowItems(
+                    paths, startup_id, dbus_interface=DBUS_FM_ID
+                )
+                return
+
+        env = os.environ.copy()
+        env['DESKTOP_STARTUP_ID'] = startup_id.replace('dbus', 'xdg-open')
+        # No option in xdg to highlight a file so just open parent folder.
+        subprocess.Popen(['xdg-open', os.path.dirname(path.rstrip('/'))], env=env)
 
 
 def open_url_in_browser(url):
