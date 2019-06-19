@@ -368,9 +368,7 @@ def show_file(path, timestamp=None):
                 # Fallback to xdg-open
             else:
                 paths = [urljoin('file:', pathname2url(path))]
-                filemanager1.ShowItems(
-                    paths, startup_id, dbus_interface=DBUS_FM_ID
-                )
+                filemanager1.ShowItems(paths, startup_id, dbus_interface=DBUS_FM_ID)
                 return
 
         env = os.environ.copy()
