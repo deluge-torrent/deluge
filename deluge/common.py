@@ -363,7 +363,7 @@ def show_file(path, timestamp=None):
             bus = dbus.SessionBus()
             try:
                 filemanager1 = bus.get_object(DBUS_FM_ID, DBUS_FM_PATH)
-            except dbus.exceptions.DBusException as e:
+            except dbus.exceptions.DBusException as ex:
                 log.debug('Unable to get dbus file manager: %s', ex)
                 # Fallback to xdg-open
             else:
