@@ -22,6 +22,10 @@ Install with pip:
 
     pip install deluge
 
+Install with all optional dependecies:
+
+    pip install deluge[all]
+
 ## <i class="fa fa-windows"></i> Windows
 
 Unfortunately due to move to GTK3 and Python 3 there is no installer package currently

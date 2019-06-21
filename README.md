@@ -1,6 +1,6 @@
 # Deluge BitTorrent Client
 
-[![build-status]][travis-deluge] [![docs-status]][rtd-deluge]
+[![build-status]][github-ci] [![docs-status]][rtd-deluge]
 
 Deluge is a BitTorrent client that utilizes a daemon/client model.
 It has various user interfaces available such as the GTK-UI, Web-UI and
@@ -13,10 +13,17 @@ From [PyPi](https://pypi.org/project/deluge):
 
     pip install deluge
 
+with all optional dependencies:
+
+    pip install deluge[all]
+
 From source code:
 
-    python setup.py build
-    python setup.py install
+    pip install .
+
+with all optional dependencies:
+
+    pip install .[all]
 
 See [DEPENDS](DEPENDS.md) and [Installing/Source] for dependency details.
 
@@ -56,8 +63,8 @@ See the [Thinclient guide] to connect to the daemon from another computer.
 [user guide]: https://dev.deluge-torrent.org/wiki/UserGuide
 [thinclient guide]: https://dev.deluge-torrent.org/wiki/UserGuide/ThinClient
 [installing/source]: https://dev.deluge-torrent.org/wiki/Installing/Source
-[build-status]: https://travis-ci.org/deluge-torrent/deluge.svg "Travis Status"
-[travis-deluge]: https://travis-ci.org/deluge-torrent/deluge
-[docs-status]: https://readthedocs.org/projects/deluge/badge/?version=develop
-[rtd-deluge]: https://deluge.readthedocs.io/en/develop/?badge=develop "Documentation Status"
+[build-status]: https://github.com/deluge-torrent/deluge/actions/workflows/ci.yml/badge.svg?branch=develop "CI"
+[github-ci]: https://github.com/deluge-torrent/deluge/actions/workflows/ci.yml
+[docs-status]: https://readthedocs.org/projects/deluge/badge/?version=latest
+[rtd-deluge]: https://deluge.readthedocs.io/en/latest/?badge=latest "Documentation Status"
 [lt]: https://libtorrent.org
