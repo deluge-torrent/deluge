@@ -235,6 +235,7 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
             this.url = new Deluge.add.UrlWindow();
             this.url.on('beforeadd', this.onTorrentBeforeAdd, this);
             this.url.on('add', this.onTorrentAdd, this);
+            this.url.on('addfailed', this.onTorrentAddFailed, this);
         }
 
         this.optionsPanel.form.getDefaults();
@@ -258,6 +259,7 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
                 url: deluge.config.base + 'upload',
                 waitMsg: _('Uploading your torrent...'),
                 success: this.onUploadSuccess,
+                failure: this.onUploadFailure,
                 scope: this,
                 torrentIds: torrentIds,
             });
@@ -281,6 +283,19 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
             }.bind(this)
         );
         this.fileUploadForm.reset();
+    },
+
+    onUploadFailure: function(form, action) {
+        this.hide();
+        Ext.MessageBox.show({
+            title: _('Error'),
+            msg: _('Failed to upload torrent'),
+            buttons: Ext.MessageBox.OK,
+            modal: false,
+            icon: Ext.MessageBox.ERROR,
+            iconCls: 'x-deluge-icon-error',
+        });
+        this.fireEvent('addfailed', this.torrentId);
     },
 
     onGotInfo: function(info, obj, response, request) {
@@ -312,6 +327,14 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
             this.list.getStore().commitChanges();
             this.optionsPanel.addTorrent(info);
             this.list.select(r);
+        }
+    },
+
+    onTorrentAddFailed: function(torrentId) {
+        var store = this.list.getStore();
+        var torrentRecord = store.getById(torrentId);
+        if (torrentRecord) {
+            store.remove(torrentRecord);
         }
     },
 

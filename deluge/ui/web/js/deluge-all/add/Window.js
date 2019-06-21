@@ -17,7 +17,7 @@ Ext.ns('Deluge.add');
 Deluge.add.Window = Ext.extend(Ext.Window, {
     initComponent: function() {
         Deluge.add.Window.superclass.initComponent.call(this);
-        this.addEvents('beforeadd', 'add');
+        this.addEvents('beforeadd', 'add', 'addfailed');
     },
 
     /**

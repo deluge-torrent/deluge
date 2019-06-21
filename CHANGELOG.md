@@ -2,6 +2,10 @@
 
 ## 2.0.4 (WIP)
 
+### WebUI
+
+- Handle torrent add failures
+
 ### Documentation
 
 - Add How-to guides about services.
