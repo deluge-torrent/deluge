@@ -325,7 +325,7 @@ class ArgParserBase(argparse.ArgumentParser):
 
             # Write pid file before chuid
             if options.pidfile:
-                with open(options.pidfile, 'wb') as _file:
+                with open(options.pidfile, 'w') as _file:
                     _file.write('%d\n' % os.getpid())
 
             if not common.windows_check():
