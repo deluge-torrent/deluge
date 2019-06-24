@@ -18,7 +18,7 @@ import logging
 from os.path import basename
 
 from gi import require_version
-from gi.repository import Gtk, GLib
+from gi.repository import GLib, Gtk
 from twisted.internet import defer
 
 import deluge.common
