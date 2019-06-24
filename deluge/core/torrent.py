@@ -810,7 +810,11 @@ class Torrent(object):
             if peer.flags & peer.connecting or peer.flags & peer.handshake:
                 continue
 
-            client = decode_bytes(peer.client)
+            try:
+                client = decode_bytes(peer.client)
+            except UnicodeDecodeError:
+                # libtorrent on Py3 can raise UnicodeDecodeError for peer_info.client
+                client = 'unknown'
 
             try:
                 country = component.get('Core').geoip_instance.country_code_by_addr(
