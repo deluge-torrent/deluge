@@ -54,6 +54,7 @@ Deluge.ux.AddLabelWindow = Ext.extend(Ext.Window, {
     title: _('Add Label'),
     width: 300,
     height: 100,
+    closeAction: 'hide',
 
     initComponent: function() {
         Deluge.ux.AddLabelWindow.superclass.initComponent.call(this);
@@ -124,6 +125,7 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
     title: _('Label Options'),
     width: 325,
     height: 240,
+    closeAction: 'hide',
 
     initComponent: function() {
         Deluge.ux.LabelOptionsWindow.superclass.initComponent.call(this);
