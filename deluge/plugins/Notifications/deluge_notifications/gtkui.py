@@ -18,7 +18,7 @@ import logging
 from os.path import basename
 
 from gi import require_version
-from gi.repository import Gtk
+from gi.repository import Gtk, GLib
 from twisted.internet import defer
 
 import deluge.common
@@ -178,7 +178,7 @@ class GtkUiNotifications(CustomNotifications):
 
         if Notify.init('Deluge'):
             self.note = Notify.Notification.new(title, message, 'deluge-panel')
-            self.note.set_hint('desktop-entry', 'deluge')
+            self.note.set_hint('desktop-entry', GLib.Variant('s', 'deluge'))
             if not self.note.show():
                 err_msg = _('Failed to popup notification')
                 log.warning(err_msg)
