@@ -10,7 +10,7 @@
 Ext.ns('Deluge');
 
 /**
- * @class Deluge.EditTrackerWindow
+ * @class Deluge.EditTrackersWindow
  * @extends Ext.Window
  */
 Deluge.EditTrackersWindow = Ext.extend(Ext.Window, {
