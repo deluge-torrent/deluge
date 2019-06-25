@@ -937,7 +937,7 @@ class Preferences(component.Component):
                         not self.gtkui_config['standalone']
                     )
 
-            mode = 'Thinclient' if was_standalone else 'Standalone'
+            mode = _('Thinclient') if was_standalone else _('Standalone')
             dialog = YesNoDialog(
                 _('Switching Deluge Client Mode...'),
                 _('Do you want to restart to use %s mode?' % mode),
