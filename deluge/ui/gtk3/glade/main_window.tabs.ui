@@ -105,7 +105,7 @@
                             <property name="row_spacing">5</property>
                             <property name="column_spacing">10</property>
                             <child>
-                              <object class="GtkLabel" id="summary_total_uploaded">
+                              <object class="GtkLabel" id="summary_download_speed">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="width_chars">20</property>
@@ -305,7 +305,7 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="summary_download_speed">
+                              <object class="GtkLabel" id="summary_total_uploaded">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="width_chars">15</property>
@@ -850,12 +850,6 @@
                         <child>
                           <placeholder/>
                         </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
                       </object>
                     </child>
                   </object>
@@ -1065,9 +1059,6 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <placeholder/>
-                                </child>
-                                <child>
                                   <object class="GtkCheckButton" id="chk_super_seeding">
                                     <property name="label" translatable="yes">Super Seeding</property>
                                     <property name="use_action_appearance">False</property>
@@ -1078,10 +1069,10 @@
                                     <signal name="toggled" handler="on_chk_toggled" swapped="no"/>
                                   </object>
                                   <packing>
-                                     <property name="expand">False</property>
-                                     <property name="fill">True</property>
-                                     <property name="position">4</property>
-                                     </packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">4</property>
+                                  </packing>
                                 </child>
                                 <child>
                                   <object class="GtkCheckButton" id="chk_move_completed">
@@ -1112,6 +1103,9 @@
                                     <property name="fill">True</property>
                                     <property name="position">6</property>
                                   </packing>
+                                </child>
+                                <child>
+                                  <placeholder/>
                                 </child>
                               </object>
                             </child>
