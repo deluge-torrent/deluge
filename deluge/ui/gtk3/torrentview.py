@@ -404,6 +404,13 @@ class TorrentView(ListView, component.Component):
             status_field=['last_seen_complete'],
             default=False,
         )
+        self.add_func_column(
+            _('Last Transfer'),
+            funcs.cell_data_time,
+            [int],
+            status_field=['time_since_transfer'],
+            default=False,
+        )
         self.add_texticon_column(
             _('Tracker'),
             function=funcs.cell_data_trackericon,
