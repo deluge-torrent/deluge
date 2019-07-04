@@ -143,7 +143,10 @@ class StatusBar(component.Component):
         # Add hbox to the statusbar after removing the initial label widget
         self.hbox = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, spacing=10)
         align = Gtk.Alignment()
-        align.set_padding(2, 0, 3, 0)
+        self.statusbar.set_margin_bottom(10)
+        self.statusbar.set_margin_start(10)
+        self.statusbar.set_margin_end(10)
+        self.statusbar.set_margin_top(10)
         align.add(self.hbox)
         frame = self.statusbar.get_children()[0]
         frame.remove(frame.get_children()[0])
