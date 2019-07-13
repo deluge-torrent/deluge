@@ -16,8 +16,10 @@ system.
 
 #### Build tools
 
-    sudo apt install git intltool closure-compiler
-    pip install --user tox tox-venv
+    sudo apt install git intltool closure-compiler python3-pip
+    pip3 install --user tox tox-venv
+
+You might need to add `~/.local/bin` to your PATH.
 
 #### Runtime libraries and tools
 
@@ -39,7 +41,7 @@ Download the latest git code to local folder.
 Creation of a [Python virtual environment] keeps the development isolated
 and easier to maintain and Tox has an option to make this process easier:
 
-    tox -e denv3
+    tox -e denv
 
 Activate virtual environment:
 
