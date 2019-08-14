@@ -136,7 +136,7 @@ ExecStart=/usr/bin/deluged -d -l /var/log/deluge/daemon.log -L warning
 ```
 
 ```
-ExecStart=/usr/bin/deluge-web -d -l /var/log/deluge/web.log -L warning
+ExecStart=/usr/bin/deluge-web -f -l /var/log/deluge/web.log -L warning
 ```
 
 See `deluged -h` for all available log-levels.
