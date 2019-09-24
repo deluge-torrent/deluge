@@ -329,18 +329,18 @@ class ArgParserBase(argparse.ArgumentParser):
                     _file.write('%d\n' % os.getpid())
 
             if not common.windows_check():
+                if options.group:
+                    if not options.group.isdigit():
+                        import grp
+
+                        options.group = grp.getgrnam(options.group)[2]
+                    os.setgid(options.group)
                 if options.user:
                     if not options.user.isdigit():
                         import pwd
 
                         options.user = pwd.getpwnam(options.user)[2]
                     os.setuid(options.user)
-                if options.group:
-                    if not options.group.isdigit():
-                        import grp
-
-                        options.group = grp.getgrnam(options.group)[2]
-                    os.setuid(options.group)
 
         return options
 
