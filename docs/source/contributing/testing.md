@@ -14,7 +14,7 @@ View the unit test coverage at: [deluge-torrent.github.io](http://deluge-torrent
 
 ### Trial
 
-Here are some examples that show running all the test through to selecting an
+Here are some examples that show running all the tests through to selecting an
 individual test.
 
     trial deluge
@@ -57,7 +57,7 @@ All the tests for Deluge can be run using [Tox](https://pypi.python.org/pypi/tox
 ## Travis CI
 
 Deluge develop branch is tested automatically by [Travis].
-When creating a pull request (PR) on [GitHub], Travis will be automatically run
+When creating a pull request (PR) on [github], Travis will automatically run
 the unit tests with the code in the PR.
 
 [travis]: https://travis-ci.org/deluge-torrent/deluge
