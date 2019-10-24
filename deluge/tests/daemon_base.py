@@ -19,10 +19,16 @@ from deluge.common import windows_check
 from . import common
 
 
+@pytest.mark.usefixtures('get_pytest_basetemp')
 class DaemonBase(object):
+    basetemp = None
 
     if windows_check():
         skip = 'windows cant start_core not enough arguments for format string'
+
+    @pytest.fixture
+    def get_pytest_basetemp(self, request):
+        self.basetemp = request.config.option.basetemp
 
     def common_set_up(self):
         common.set_tmp_config_dir()
@@ -56,12 +62,10 @@ class DaemonBase(object):
 
         # We are running py.test
         if hasattr(pytest, 'config'):
-            # Put log file in the py.test --basetemp argument
-            basetemp = pytest.config.option.basetemp
-            if basetemp:
-                if not os.path.exists(basetemp):
-                    os.makedirs(basetemp)
-                logfile = os.path.join(basetemp, logfile)
+            if self.basetemp:
+                if not os.path.exists(self.basetemp):
+                    os.makedirs(self.basetemp)
+                logfile = os.path.join(self.basetemp, logfile)
 
         for dummy in range(port_range):
             try:
