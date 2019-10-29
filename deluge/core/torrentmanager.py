@@ -809,7 +809,7 @@ class TorrentManager(component.Component):
 
             try:
                 with open(filepath, 'rb') as _file:
-                    state = pickle.load(_file)
+                    state = pickle.load(_file, encoding='utf-8')
             except (IOError, EOFError, pickle.UnpicklingError) as ex:
                 message = 'Unable to load {}: {}'.format(filepath, ex)
                 log.error(message)
