@@ -41,7 +41,7 @@ def atom(src, token):
             else:
                 if token[1].startswith('0x'):
                     # Hex number so return unconverted as string.
-                    return token[1].decode('string-escape')
+                    return token[1].encode('utf-8').decode('unicode-escape')
                 else:
                     return int(token[1], 0)
         except ValueError:
@@ -54,11 +54,11 @@ def atom(src, token):
     elif token[1].lower() == 'false':
         return False
     elif token[0] is tokenize.STRING or token[1] == '/':
-        return token[-1].decode('string-escape')
+        return token[-1].encode('utf-8').decode('unicode-escape')
     elif token[1].isalpha():
         # Parse Windows paths e.g. 'C:\\xyz' or 'C:/xyz'.
         if next()[1] == ':' and next()[1] in '\\/':
-            return token[-1].decode('string-escape')
+            return token[-1].encode('utf-8').decode('unicode-escape')
 
     raise SyntaxError('malformed expression (%s)' % token[1])
 
