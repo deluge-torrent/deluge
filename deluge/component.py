@@ -448,7 +448,7 @@ class ComponentRegistry(object):
 
         def on_stopped(result):
             return DeferredList(
-                [comp._component_shutdown() for comp in self.components.values()]
+                [comp._component_shutdown() for comp in list(self.components.values())]
             )
 
         return self.stop(list(self.components)).addCallback(on_stopped)
