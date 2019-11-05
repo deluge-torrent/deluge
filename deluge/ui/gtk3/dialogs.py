@@ -72,12 +72,12 @@ class BaseDialog(Gtk.Dialog):
         self.vbox.show_all()
 
     def _on_delete_event(self, widget, event):
-        self.deferred.callback(Gtk.ResponseType.DELETE_EVENT)
         self.destroy()
+        self.deferred.callback(Gtk.ResponseType.DELETE_EVENT)
 
     def _on_response(self, widget, response):
-        self.deferred.callback(response)
         self.destroy()
+        self.deferred.callback(response)
 
     def run(self):
         """
@@ -110,6 +110,8 @@ class YesNoDialog(BaseDialog):
             (_('_No'), Gtk.ResponseType.NO, _('_Yes'), Gtk.ResponseType.YES),
             parent,
         )
+        # Use the preferred size calculated from the content
+        self.set_default_size(-1, -1)
 
 
 class InformationDialog(BaseDialog):
