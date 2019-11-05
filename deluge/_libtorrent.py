@@ -18,16 +18,21 @@ Example:
 from __future__ import unicode_literals
 
 from deluge.common import VersionSplit, get_version
+from deluge.error import LibtorrentImportError
 
 try:
     import deluge.libtorrent as lt
 except ImportError:
-    import libtorrent as lt
+    try:
+        import libtorrent as lt
+    except ImportError as ex:
+        raise LibtorrentImportError('No libtorrent library found: %s' % (ex))
+
 
 REQUIRED_VERSION = '1.1.2.0'
 LT_VERSION = lt.__version__
 
 if VersionSplit(LT_VERSION) < VersionSplit(REQUIRED_VERSION):
-    raise ImportError(
+    raise LibtorrentImportError(
         'Deluge %s requires libtorrent >= %s' % (get_version(), REQUIRED_VERSION)
     )
