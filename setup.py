@@ -536,6 +536,8 @@ _package_data['deluge.ui.gtk3'] = ['glade/*.ui']
 
 setup_requires = ['setuptools', 'wheel']
 install_requires = [
+    "apispec; python_version >= '3'",
+    "docstring-parser >= 0.7.1; python_version >= '3'",
     'twisted[tls]>=17.1',
     # Add pyasn1 for setuptools workaround:
     #   https://github.com/pypa/setuptools/issues/1510

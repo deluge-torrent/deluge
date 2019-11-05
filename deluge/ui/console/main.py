@@ -204,10 +204,23 @@ Please use commands from the command line, e.g.:\n
             return d
 
         def on_connect_fail(reason):
-            if reason.check(DelugeError):
+            """
+            Args:
+                reason (twisted.python.failure.Failure): The cause of the error
+
+            """
+            rm = None
+            try:
                 rm = reason.getErrorMessage()
-            else:
-                rm = reason.value.message
+            except AttributeError:
+                pass
+
+            if rm is None:
+                try:
+                    rm = reason.value.message
+                except AttributeError:
+                    rm = str(reason)
+
             print(
                 'Could not connect to daemon: %s:%s\n %s'
                 % (options.daemon_addr, options.daemon_port, rm)

@@ -7,6 +7,8 @@ mako
 chardet
 six
 setproctitle
+apispec
+docstring-parser >= 0.7.1
 pywin32; sys_platform == 'win32'
 certifi; sys_platform == 'win32'
 zope.interface>=4.4.2

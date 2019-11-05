@@ -20,7 +20,7 @@ from twisted.internet.task import LoopingCall
 
 from deluge.common import AUTH_LEVEL_ADMIN, AUTH_LEVEL_NONE
 from deluge.error import NotAuthorizedError
-from deluge.ui.web.json_api import JSONComponent, export
+from deluge.ui.web.json_api import JSONComponent, WebapiNamespace
 
 log = logging.getLogger(__name__)
 
@@ -58,6 +58,13 @@ def make_expires(timeout):
     return expires, expires_str
 
 
+auth_ns = WebapiNamespace('AUTH')
+
+
+class AuthException(Exception):
+    pass
+
+
 class Auth(JSONComponent):
     """
     The component that implements authentification into the JSON interface.
@@ -91,9 +98,17 @@ class Auth(JSONComponent):
         """
         Creates a new session.
 
-        :param login: the username of the user logging in, currently \
-        only for future use currently.
-        :type login: string
+        Args:
+            request (twisted.web.http.Request): The request
+            login (str): the username of the user logging in, currently \
+                         only for future use.
+
+        Returns:
+            bool: True of successfully created sessions
+
+        Raises:
+            AuthException: If request api base path is invalid
+
         """
         m = hashlib.sha256()
         m.update(os.urandom(32))
@@ -102,10 +117,16 @@ class Auth(JSONComponent):
         expires, expires_str = make_expires(self.config['session_timeout'])
         checksum = str(make_checksum(session_id))
 
+        # Is this necessary?
+        # Ensure session_id is only valid for paths 'json' and 'api'
+        api_base = request.path.decode()[len(request.base.decode()) :].split('/')[0]
+        if api_base not in ['json', 'api']:
+            raise AuthException('Invalid request base path: %s' % (api_base))
+
         request.addCookie(
             b'_session_id',
             session_id + checksum,
-            path=request.base + b'json',
+            path=request.base + api_base.encode(),
             expires=expires_str,
         )
 
@@ -137,14 +158,15 @@ class Auth(JSONComponent):
         Check to ensure that a request is authorised to call the specified
         method of authentication level.
 
-        :param request: The HTTP request in question
-        :type request: twisted.web.http.Request
-        :param method: Check the specified method
-        :type method: function
-        :param level: Check the specified auth level
-        :type level: integer
+        Args:
+            request (twisted.web.http.Request): The HTTP request in question
+            method (func): Check the specified method
+            level (integer): Check the specified auth level
 
-        :raises: Exception
+        Raises:
+            AuthException:
+            NotAuthorizedError: If user is not authorized
+
         """
         cookie_sess_id = request.getCookie(b'_session_id')
         if cookie_sess_id:
@@ -171,16 +193,16 @@ class Auth(JSONComponent):
 
         if method:
             if not hasattr(method, '_json_export'):
-                raise Exception('Not an exported method')
+                raise AuthException('Not an exported method')
 
             method_level = getattr(method, '_json_auth_level')
             if method_level is None:
-                raise Exception('Method has no auth level')
+                raise AuthException('Method has no auth level')
 
             level = method_level
 
         if level is None:
-            raise Exception('No level specified to check against')
+            raise AuthException('No level specified to check against')
 
         request.auth_level = auth_level
         request.session_id = session_id
@@ -193,8 +215,9 @@ class Auth(JSONComponent):
         Change the password. This is to allow the UI to change/reset a
         password.
 
-        :param new_password: the password to change to
-        :type new_password: string
+        Args:
+            new_password (str): the password to change to
+
         """
         log.debug('Changing password')
         salt = hashlib.sha1(os.urandom(32)).hexdigest()
@@ -204,50 +227,57 @@ class Auth(JSONComponent):
         self.config['pwd_sha1'] = s.hexdigest()
         return True
 
-    @export
+    @auth_ns.post
     def change_password(self, old_password, new_password):
         """
         Change the password.
 
-        :param old_password: the current password
-        :type old_password: string
-        :param new_password: the password to change to
-        :type new_password: string
+        Args:
+            old_password (str): the current password
+            new_password (str): the password to change to
+
+        Returns:
+            bool: True if successfully changed the password, else False Example:: True
+
         """
         if not self.check_password(old_password):
             return False
         return self._change_password(new_password)
 
-    @export(AUTH_LEVEL_NONE)
+    @auth_ns.get(auth_level=AUTH_LEVEL_NONE)
     def check_session(self, session_id=None):
         """
         Check a session to see if it's still valid.
 
-        :returns: True if the session is valid, False if not.
-        :rtype: booleon
+        Returns:
+            bool: True if the session is valid, False if not Example:: True
+
         """
         return __request__.session_id is not None
 
-    @export
+    @auth_ns.get
     def delete_session(self):
         """
-        Removes a session.
+        Removes current a session.
 
-        :param session_id: the id for the session to remove
-        :type session_id: string
+        Returns:
+            bool: True Example:: True
+
         """
         del self.config['sessions'][__request__.session_id]
         return True
 
-    @export(AUTH_LEVEL_NONE)
+    @auth_ns.post(auth_level=AUTH_LEVEL_NONE, password='deluge')
     def login(self, password):
         """
-        Test a password to see if it's valid.
+        Generate a session id and return it as a cookie
 
-        :param password: the password to test
-        :type password: string
-        :returns: a session id or False
-        :rtype: string or False
+        Args:
+            password (str): the password used to log in Example:: 'deluge'
+
+        Returns:
+            bool: True on successfull login else False Example:: True
+
         """
         if self.check_password(password):
             log.info('Login success (ClientIP %s)', __request__.getClientIP())

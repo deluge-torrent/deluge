@@ -370,23 +370,41 @@ class ConsoleUIBaseTestCase(UIBaseTestCase):
 
 
 class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
-    """Implement Console tests that require a running daemon"""
+    """
+    Implement Console tests that require a running daemon
+
+    NOTE: The tests in this class must not be run directly. They must be run
+    through a subclass that also inherits from unittest.TestCase
+    """
 
     def set_up(self):
-        # Avoid calling reactor.shutdown after commands are executed by main.exec_args()
-        deluge.ui.console.main.reactor = common.ReactorOverride()
+        # Avoid calling reactor.stop (in ConsoleUI.quit) after commands are executed by main.exec_args()
+        mock_reactor = common.ReactorOverride()
+        self.patcher = mock.patch('deluge.ui.console.main.reactor', mock_reactor)
+        self.patcher.start()
         return UIWithDaemonBaseTestCase.set_up(self)
+
+    def tear_down(self):
+        d = UIWithDaemonBaseTestCase.tear_down(self)
+
+        def stop_patch(*args):
+            # Must stop the patcher as late as possible (after the ConsoleUI.quit method is called)
+            self.patcher.stop()
+
+        d.addCallback(stop_patch)
+        return d
 
     def patch_arg_command(self, command):
         if type(command) == str:
             command = [command]
         username, password = get_localhost_auth()
+
         self.patch(
             sys,
             'argv',
             self.var['sys_arg_cmd']
             + ['--port']
-            + ['58900']
+            + [str(self.listen_port)]
             + ['--username']
             + [username]
             + ['--password']
@@ -427,6 +445,7 @@ class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
         yield self.exec_command()
 
         std_output = fd.out.getvalue()
+
         self.assertTrue(
             std_output.endswith('move_completed: True\nmove_completed_path: /tmp\n')
             or std_output.endswith('move_completed_path: /tmp\nmove_completed: True\n')

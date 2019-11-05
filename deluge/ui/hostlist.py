@@ -19,6 +19,7 @@ from twisted.internet import defer
 from deluge.common import get_localhost_auth
 from deluge.config import Config
 from deluge.configmanager import get_config_dir
+from deluge.error import DelugeError
 from deluge.ui.client import Client, client
 
 log = logging.getLogger(__name__)
@@ -26,6 +27,18 @@ log = logging.getLogger(__name__)
 DEFAULT_HOST = '127.0.0.1'
 DEFAULT_PORT = 58846
 LOCALHOST = ('127.0.0.1', 'localhost')
+
+
+class BadHostIdError(DelugeError):
+    pass
+
+
+class UknownHostNameOrService(DelugeError):
+    pass
+
+
+class InvalidHostPort(DelugeError):
+    pass
 
 
 def default_hostlist():
@@ -49,10 +62,10 @@ def validate_host_info(hostname, port):
     try:
         gethostbyname(hostname)
     except gaierror as ex:
-        raise ValueError('Host %s: %s', hostname, ex.args[1])
+        raise UknownHostNameOrService('Host "%s": %s' % (hostname, ex.args[1]))
 
     if not isinstance(port, int):
-        raise ValueError('Invalid port. Must be an integer')
+        raise InvalidHostPort('Invalid port: "%s" Must be an integer' % port)
 
 
 def migrate_hostlist(old_filename, new_filename):
@@ -289,4 +302,4 @@ class HostList(object):
                 __, host, port, username, password = host_entry
                 return client.connect(host, port, username, password)
 
-        return defer.fail(Exception('Bad host id'))
+        return defer.fail(BadHostIdError('Bad host id'))
