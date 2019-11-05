@@ -94,3 +94,7 @@ class AuthenticationRequired(_UsernameBasedPasstroughError):
 
 class AuthManagerError(_UsernameBasedPasstroughError):
     pass
+
+
+class LibtorrentImportError(ImportError):
+    pass
