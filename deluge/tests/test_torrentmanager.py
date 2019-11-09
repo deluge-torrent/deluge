@@ -7,6 +7,8 @@
 
 from __future__ import unicode_literals
 
+import os
+import shutil
 import warnings
 from base64 import b64encode
 
@@ -28,7 +30,7 @@ warnings.resetwarnings()
 
 class TorrentmanagerTestCase(BaseTestCase):
     def set_up(self):
-        common.set_tmp_config_dir()
+        self.config_dir = common.set_tmp_config_dir()
         self.rpcserver = RPCServer(listen=False)
         self.core = Core()
         self.core.config.config['lsd'] = False
@@ -118,3 +120,12 @@ class TorrentmanagerTestCase(BaseTestCase):
         self.assertRaises(
             InvalidTorrentError, self.tm.remove, 'torrentidthatdoesntexist'
         )
+
+    def test_open_state_from_python2(self):
+        """Open a Python2 state with a UTF-8 encoded torrent filename."""
+        shutil.copy(
+            common.get_test_data_file('utf8_filename_torrents.state'),
+            os.path.join(self.config_dir, 'state', 'torrents.state'),
+        )
+        state = self.tm.open_state()
+        self.assertEqual(len(state.torrents), 1)
