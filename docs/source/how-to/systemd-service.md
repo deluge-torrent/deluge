@@ -190,7 +190,7 @@ BindsTo=xyz.mount
 
 For multiple mount points add a space between additional entries. e.g.:
 
-```init
+```ini
 After=network-online.target xyz.mount abc.mount def.mount
 ```
 
