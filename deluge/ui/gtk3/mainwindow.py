@@ -277,12 +277,14 @@ class MainWindow(component.Component):
     def save_position(self):
         self.config['window_maximized'] = self.window.props.is_maximized
         if not self.config['window_maximized'] and self.visible():
-            self.config['window_x_pos'], self.config[
-                'window_y_pos'
-            ] = self.window.get_position()
-            self.config['window_width'], self.config[
-                'window_height'
-            ] = self.window.get_size()
+            (
+                self.config['window_x_pos'],
+                self.config['window_y_pos'],
+            ) = self.window.get_position()
+            (
+                self.config['window_width'],
+                self.config['window_height'],
+            ) = self.window.get_size()
 
     def on_window_configure_event(self, widget, event):
         self.save_position()

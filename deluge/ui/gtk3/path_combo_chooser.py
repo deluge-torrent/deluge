@@ -538,9 +538,8 @@ class PathChooserPopup(object):
         self.set_max_popup_rows(max_visible_rows)
         self.popup_window.realize()
         self.alignment_widget = popup_alignment_widget
-        self.popup_buttonbox = (
-            None
-        )  # If set, the height of this widget is the minimum height
+        # If set, the height of this widget is the minimum height
+        self.popup_buttonbox = None
 
     def popup(self):
         """Make the popup visible."""

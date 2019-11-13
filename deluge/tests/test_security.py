@@ -28,11 +28,11 @@ SECURITY_TESTS = bool(os.getenv('SECURITY_TESTS', False))
 
 class SecurityBaseTestCase(object):
     if windows_check():
-        skip = 'windows can`t run .sh files'
+        skip = 'windows cannot run .sh files'
     elif not SECURITY_TESTS:
         skip = 'Skipping security tests'
 
-    http_err = 'can\'t run http tests on daemon'
+    http_err = 'cannot run http tests on daemon'
 
     def __init__(self):
         self.home_dir = os.path.expanduser('~')
@@ -132,7 +132,7 @@ class SecurityBaseTestCase(object):
 class DaemonSecurityTestCase(BaseTestCase, DaemonBase, SecurityBaseTestCase):
 
     if windows_check():
-        skip = 'windows can\'t start_core not enough arguments for format string'
+        skip = 'windows cannot start_core not enough arguments for format string'
 
     def __init__(self, testname):
         super(DaemonSecurityTestCase, self).__init__(testname)

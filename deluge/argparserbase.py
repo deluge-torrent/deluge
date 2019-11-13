@@ -122,7 +122,7 @@ class DelugeTextHelpFormatter(argparse.RawDescriptionHelpFormatter):
 
         """
         if not action.option_strings:
-            metavar, = self._metavar_formatter(action, action.dest)(1)
+            (metavar,) = self._metavar_formatter(action, action.dest)(1)
             return metavar
         else:
             parts = []

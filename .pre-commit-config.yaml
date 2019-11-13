@@ -6,20 +6,20 @@ exclude: >
   )$
 repos:
   - repo: https://github.com/ambv/black
-    rev: 19.3b0
+    rev: 19.10b0
     hooks:
       - id: black
         name: Fmt Black
         language_version: python3.6
   - repo: https://github.com/prettier/prettier
-    rev: 1.17.0
+    rev: 1.19.1
     hooks:
       - id: prettier
         name: Fmt Prettier
         # Workaround to list modified files only.
         args: [--list-different]
   - repo: https://gitlab.com/pycqa/flake8
-    rev: 3.7.7
+    rev: 3.7.9
     hooks:
       - id: flake8
         name: Chk Flake8
@@ -27,7 +27,7 @@ repos:
           - flake8-isort==2.7
           - pep8-naming==0.8.2
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v2.2.1
+    rev: v2.4.0
     hooks:
       - id: double-quote-string-fixer
         name: Fix Double-quotes

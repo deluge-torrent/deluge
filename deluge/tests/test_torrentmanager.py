@@ -82,7 +82,7 @@ class TorrentmanagerTestCase(BaseTestCase):
                 b'name': b'azcvsupdater_2.6.2.jar',
                 b'private': 0,
                 b'pieces': (
-                    b'\xdb\x04B\x05\xc3\'\xdab\xb8su97\xa9u'
+                    b"\xdb\x04B\x05\xc3'\xdab\xb8su97\xa9u"
                     b'\xca<w\\\x1ef\xd4\x9b\x16\xa9}\xc0\x9f:\xfd'
                     b'\x97qv\x83\xa2"\xef\x9d7\x0by!\rl\xe5v\xb7'
                     b'\x18{\xf7/"P\xe9\x8d\x01D\x9e8\xbd\x16\xe3'
