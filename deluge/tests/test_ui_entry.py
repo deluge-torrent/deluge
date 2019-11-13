@@ -446,6 +446,23 @@ class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
             and std_output.endswith(' Moving: 0\n')
         )
 
+    @defer.inlineCallbacks
+    def test_console_command_config_set_download_location(self):
+        fd = StringFileDescriptor(sys.stdout)
+        self.patch_arg_command(['config --set download_location /downloads'])
+        self.patch(sys, 'stdout', fd)
+
+        yield self.exec_command()
+        std_output = fd.out.getvalue()
+        self.assertTrue(
+            std_output.startswith(
+                'Setting "download_location" to: {}\'/downloads\''.format(
+                    'u' if PY2 else ''
+                )
+            )
+            and std_output.endswith('Configuration value successfully updated.\n')
+        )
+
 
 class ConsoleScriptEntryWithDaemonTestCase(
     BaseTestCase, ConsoleUIWithDaemonBaseTestCase

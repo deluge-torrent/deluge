@@ -10,9 +10,9 @@
 
 from __future__ import unicode_literals
 
+import json
 import logging
-import tokenize
-from io import StringIO
+import re
 
 import deluge.component as component
 import deluge.ui.console.utils.colors as colors
@@ -23,54 +23,25 @@ from . import BaseCommand
 log = logging.getLogger(__name__)
 
 
-def atom(src, token):
-    """taken with slight modifications from http://effbot.org/zone/simple-iterator-parser.htm"""
-    if token[1] == '(':
-        out = []
-        token = next(src)
-        while token[1] != ')':
-            out.append(atom(src, token))
-            token = next(src)
-            if token[1] == ',':
-                token = next(src)
-        return tuple(out)
-    elif token[0] is tokenize.NUMBER or token[1] == '-':
-        try:
-            if token[1] == '-':
-                return int(token[-1], 0)
-            else:
-                if token[1].startswith('0x'):
-                    # Hex number so return unconverted as string.
-                    return token[1].decode('string-escape')
-                else:
-                    return int(token[1], 0)
-        except ValueError:
-            try:
-                return float(token[-1])
-            except ValueError:
-                return str(token[-1])
-    elif token[1].lower() == 'true':
-        return True
-    elif token[1].lower() == 'false':
-        return False
-    elif token[0] is tokenize.STRING or token[1] == '/':
-        return token[-1].decode('string-escape')
-    elif token[1].isalpha():
-        # Parse Windows paths e.g. 'C:\\xyz' or 'C:/xyz'.
-        if next()[1] == ':' and next()[1] in '\\/':
-            return token[-1].decode('string-escape')
+def json_eval(source):
+    """Evaluates string as json data and returns Python objects."""
+    if source == '':
+        return source
 
-    raise SyntaxError('malformed expression (%s)' % token[1])
+    src = source.splitlines()[0]
 
+    # Substitutions to enable usage of pythonic syntax.
+    if src.startswith('(') and src.endswith(')'):
+        src = re.sub(r'^\((.*)\)$', r'[\1]', src)
+    elif src.lower() in ('true', 'false'):
+        src = src.lower()
+    elif src.lower() == 'none':
+        src = 'null'
 
-def simple_eval(source):
-    """ evaluates the 'source' string into a combination of primitive python objects
-    taken from http://effbot.org/zone/simple-iterator-parser.htm"""
-    src = StringIO(source).readline
-    src = tokenize.generate_tokens(src)
-    src = (token for token in src if token[0] is not tokenize.NL)
-    res = atom(src, next(src))
-    return res
+    try:
+        return json.loads(src)
+    except ValueError:
+        return src
 
 
 class Command(BaseCommand):
@@ -140,8 +111,8 @@ class Command(BaseCommand):
         val = ' '.join(options.values)
 
         try:
-            val = simple_eval(val)
-        except SyntaxError as ex:
+            val = json_eval(val)
+        except Exception as ex:
             self.console.write('{!error!}%s' % ex)
             return
 
@@ -161,7 +132,7 @@ class Command(BaseCommand):
         def on_set_config(result):
             self.console.write('{!success!}Configuration value successfully updated.')
 
-        self.console.write('Setting "%s" to: %s' % (key, val))
+        self.console.write('Setting "%s" to: %r' % (key, val))
         return client.core.set_config({key: val}).addCallback(on_set_config)
 
     def complete(self, text):
