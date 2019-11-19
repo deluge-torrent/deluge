@@ -88,7 +88,7 @@ class Logging(LoggingLoggerClass):
 
     def findCaller(self, *args, **kwargs):  # NOQA: N802
         f = logging.currentframe().f_back
-        rv = '(unknown file)', 0, '(unknown function)'
+        rv = ('(unknown file)', 0, '(unknown function)', None)
         while hasattr(f, 'f_code'):
             co = f.f_code
             filename = os.path.normcase(co.co_filename)
@@ -98,12 +98,12 @@ class Logging(LoggingLoggerClass):
             ):
                 f = f.f_back
                 continue
-            if common.PY2:
-                rv = (filename, f.f_lineno, co.co_name)
-            else:
-                rv = (filename, f.f_lineno, co.co_name, None)
+            rv = (co.co_filename, f.f_lineno, co.co_name, None)
             break
-        return rv
+        if common.PY2:
+            return rv[:-1]
+        else:
+            return rv
 
 
 levels = {
