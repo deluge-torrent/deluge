@@ -74,38 +74,33 @@ def prop(func):
     return property(doc=func.__doc__, **func())
 
 
-def find_json_objects(s):
-    """Find json objects in a string.
+def find_json_objects(text, decoder=json.JSONDecoder()):
+    """Find json objects in text.
 
     Args:
-        s (str): the string to find json objects in
+        text (str): The text to find json objects within.
 
     Returns:
         list: A list of tuples containing start and end locations of json
-            objects in string `s`. e.g. [(start, end), ...]
+            objects in the text. e.g. [(start, end), ...]
+
 
     """
     objects = []
-    opens = 0
-    start = s.find('{')
-    offset = start
+    offset = 0
+    while True:
+        try:
+            start = text.index('{', offset)
+        except ValueError:
+            break
 
-    if start < 0:
-        return []
-
-    quoted = False
-    for index, c in enumerate(s[offset:]):
-        if c == '"':
-            quoted = not quoted
-        elif quoted:
-            continue
-        elif c == '{':
-            opens += 1
-        elif c == '}':
-            opens -= 1
-            if opens == 0:
-                objects.append((start, index + offset + 1))
-                start = index + offset + 1
+        try:
+            __, index = decoder.raw_decode(text[start:])
+        except json.decoder.JSONDecodeError:
+            offset = start + 1
+        else:
+            offset = start + index
+            objects.append((start, offset))
 
     return objects
 

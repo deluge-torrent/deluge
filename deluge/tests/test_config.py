@@ -25,6 +25,7 @@ DEFAULTS = {
     'float': 0.435,
     'bool': True,
     'unicode': 'foobar',
+    'password': 'abc123*\\[!]?/<>#{@}=|"+$%(^)~',
 }
 
 
@@ -95,6 +96,7 @@ class ConfigTestCase(unittest.TestCase):
 
             self.assertEqual(config['string'], 'foobar')
             self.assertEqual(config['float'], 0.435)
+            self.assertEqual(config['password'], 'abc123*\\[!]?/<>#{@}=|"+$%(^)~')
 
         # Test opening a previous 1.2 config file of just a json object
         import json
@@ -107,8 +109,8 @@ class ConfigTestCase(unittest.TestCase):
         # Test opening a previous 1.2 config file of having the format versions
         # as ints
         with open(os.path.join(self.config_dir, 'test.conf'), 'wb') as _file:
-            _file.write(bytes(1) + b'\n')
-            _file.write(bytes(1) + b'\n')
+            _file.write(b'1\n')
+            _file.write(b'1\n')
             json.dump(DEFAULTS, getwriter('utf8')(_file), **JSON_FORMAT)
 
         check_config()
@@ -184,9 +186,27 @@ class ConfigTestCase(unittest.TestCase):
 }{
   "ssl": true,
   "enabled": false,
-  "port": 8115
+  "port": 8115,
   "password": "abc{def"
-}\n"""
+}"""
+
+        from deluge.config import find_json_objects
+
+        objects = find_json_objects(s)
+        self.assertEqual(len(objects), 2)
+
+    def test_find_json_objects_double_quote(self):
+        """Test with string containing double quote"""
+        s = r"""{
+  "file": 1,
+  "format": 1
+}{
+  "ssl": true,
+  "enabled": false,
+  "port": 8115,
+  "password": "abc\"def"
+}
+"""
 
         from deluge.config import find_json_objects
 
