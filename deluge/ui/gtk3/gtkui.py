@@ -157,11 +157,12 @@ class GtkUI(object):
             log.debug('Win32 "die" handler registered')
         elif osx_check() and windowing('quartz'):
             try:
-                import gtkosx_application
+                gi.require_version('GtkosxApplication', '1.0')
+                from gi.repository import GtkosxApplication
             except ImportError:
                 pass
             else:
-                self.osxapp = gtkosx_application.gtkosx_application_get()
+                self.osxapp = GtkosxApplication.Application()
                 self.osxapp.connect('NSApplicationWillTerminate', on_die)
                 log.debug('OSX quartz "die" handler registered')
 
