@@ -14,7 +14,12 @@ from __future__ import unicode_literals
 import logging
 import os.path
 
-from gi.repository import Gtk
+from gi import require_version
+
+require_version('Gtk', '3.0')
+require_version('Gdk', '3.0')
+
+from gi.repository import Gtk, Gdk
 
 import deluge.common
 import deluge.component as component
@@ -141,6 +146,35 @@ class MenuBar(component.Component):
         self.builder.connect_signals(self)
 
         self.change_sensitivity = ['menuitem_addtorrent']
+        menubar = self.main_builder.get_object('menubar')
+        group = Gtk.accel_groups_from_object(self.mainwindow.window)[0]
+
+        file_menu = self.main_builder.get_object('menu_file').get_submenu()
+        edit_menu = self.main_builder.get_object('menu_edit').get_submenu()
+        torrent_menu = self.main_builder.get_object('menu_torrent').get_submenu()
+        view_menu = self.main_builder.get_object('menu_view').get_submenu()
+        help_menu = self.main_builder.get_object('menu_help').get_submenu()
+    
+        Gtk.Menu.set_accel_group(file_menu, group)
+        Gtk.Menu.set_accel_group(edit_menu, group)
+        Gtk.Menu.set_accel_group(torrent_menu, group)
+        Gtk.Menu.set_accel_group(view_menu, group)
+        Gtk.Menu.set_accel_group(help_menu, group)
+
+        Gtk.Menu.set_accel_path(file_menu, "<DelugeMainWindow>/File")
+        Gtk.Menu.set_accel_path(edit_menu, "<DelugeMainWindow>/Edit")
+        Gtk.Menu.set_accel_path(torrent_menu, "<DelugeMainWindow>/Torrent")
+        Gtk.Menu.set_accel_path(view_menu, "<DelugeMainWindow>/View")
+        Gtk.Menu.set_accel_path(help_menu, "<DelugeMainWindow>/Help")
+        
+        Gtk.AccelMap.add_entry(Gtk.MenuItem.get_accel_path(self.main_builder.get_object('menuitem_addtorrent')), Gdk.unicode_to_keyval(ord('o')), Gdk.ModifierType.CONTROL_MASK)
+        Gtk.AccelMap.add_entry(Gtk.MenuItem.get_accel_path(self.main_builder.get_object('menuitem_createtorrent')), Gdk.unicode_to_keyval(ord('n')), Gdk.ModifierType.CONTROL_MASK)
+        Gtk.AccelMap.add_entry(Gtk.MenuItem.get_accel_path(self.main_builder.get_object('menuitem_quitdaemon')), Gdk.unicode_to_keyval(ord('q')), Gdk.ModifierType.SHIFT_MASK | Gdk.ModifierType.CONTROL_MASK)
+        Gtk.AccelMap.add_entry(Gtk.MenuItem.get_accel_path(self.main_builder.get_object('menuitem_preferences')), Gdk.unicode_to_keyval(ord('p')), Gdk.ModifierType.CONTROL_MASK)
+        Gtk.AccelMap.add_entry(Gtk.MenuItem.get_accel_path(self.main_builder.get_object('menuitem_connectionmanager')), Gdk.unicode_to_keyval(ord('m')), Gdk.ModifierType.CONTROL_MASK)
+        Gtk.AccelMap.add_entry(Gtk.MenuItem.get_accel_path(self.main_builder.get_object('find_menuitem')), Gdk.unicode_to_keyval(ord('f')), Gdk.ModifierType.CONTROL_MASK)
+        Gtk.AccelMap.add_entry(Gtk.MenuItem.get_accel_path(self.main_builder.get_object('menuitem_faq')), Gdk.keyval_from_name('F1'), 0)
+        
 
     def start(self):
         for widget in self.change_sensitivity:
