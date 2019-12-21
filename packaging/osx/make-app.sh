@@ -1,4 +1,5 @@
 #!/bin/bash
+set -o errexit
 
 APPDIR="./app/Deluge.app"
 RSCDIR="${APPDIR}/Contents/Resources"

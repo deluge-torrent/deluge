@@ -1,0 +1,51 @@
+<?xml version="1.0" standalone="no"?> <!--*- mode: xml -*-->
+<app-bundle>
+  <meta>
+    <prefix name="default">/opt/local</prefix>
+    <prefix name="py2app">${env:PY2APP_PREFIX}</prefix>
+    <prefix name="deluge">${env:DELUGEDIR}</prefix>
+    <prefix name="pythonlibdir">${env:PY2APP_PREFIX}/Resources/lib/python${env:PY2APP_PYTHON_VERSION}</prefix>
+    <destination overwrite="yes">app</destination>
+    <gtk>gtk+-3.0</gtk>
+    <launcher-script>${project}/deluge-launcher</launcher-script>
+  </meta>
+  <plist>${project}/Info.plist</plist>
+  <main-binary>${prefix:py2app}/MacOS/deluge-gtk</main-binary>
+  <binary dest="${bundle}/Contents/MacOS/deluged-bin">${prefix:py2app}/MacOS/deluged</binary>
+  <binary dest="${bundle}/Contents/MacOS/deluge-web-bin">${prefix:py2app}/MacOS/deluge-web</binary>
+  <binary dest="${bundle}/Contents/MacOS/deluge-console-bin">${prefix:py2app}/MacOS/deluge-console</binary>
+  
+  <data dest="${bundle}/Contents/Resources/lib/libpython${env:PY2APP_PYTHON_VERSION}.dylib">${prefix:py2app}/Frameworks/Python.framework/Versions/${env:PY2APP_PYTHON_VERSION}/Python</data>
+  <binary dest="${bundle}/Contents/MacOS/python">${prefix:py2app}/MacOS/python</binary>
+
+  <!-- not used: binary>${prefix}/lib/${gtkdir}/modules/*.so</binary-->
+  <binary>${prefix}/lib/gdk-pixbuf-2.0/${pkg:gdk-pixbuf-2.0:gdk_pixbuf_binary_version}/loaders/*.so</binary>
+  <binary>${prefix}/lib/${gtkdir}/${pkg:${gtk}:gtk_binary_version}/immodules/*.so</binary>
+  <data dest="${bundle}/Contents/Resources/include">${prefix:py2app}/Resources/include</data>
+  <data dest="${bundle}/Contents/Resources/share/glib-2.0/schemas/gschemas.compiled">${prefix}/share/glib-2.0/schemas/gschemas.compiled</data>
+  <data dest="${bundle}/Contents/Resources/">${prefix:py2app}/Resources/*.so</data>
+  <data dest="${bundle}/Contents/Resources/">${prefix:py2app}/Resources/*.py*</data>
+  <data dest="${bundle}/Contents/Resources/">${prefix:py2app}/Resources/*.sh</data>
+  <binary dest="${bundle}/Contents/Resources/lib">${prefix:py2app}/Frameworks/*.dylib</binary>
+  <binary dest="${bundle}/Contents/Resources/lib">${prefix}/lib/libgtkmacintegration-gtk3.2.dylib</binary>
+  <data dest="${bundle}/Contents/Resources/lib">${prefix:py2app}/Resources/lib/python*.zip</data>
+  <data dest="${bundle}/Contents/Resources/lib/python${env:PY2APP_PYTHON_VERSION}">${prefix:py2app}/Resources/lib/python${env:PY2APP_PYTHON_VERSION}</data>
+  <gir>${prefix}/share/gir-1.0/*.gir</gir>
+  <!-- gtk theme -->
+  <data>${prefix}/share/themes/McOS-MJV-Dark</data>
+  <data>${prefix}/share/themes/McOS-MJV</data>
+  <data>${prefix}/share/themes/Mac</data><!-- required for stock accelerators cmd-X etc... -->
+  <icon-theme icons="all">Adwaita</icon-theme>
+  <icon-theme icons="all">hicolor</icon-theme>
+
+  <data dest="${bundle}/Contents/Resources">${project}/deluge.icns</data>
+  <data dest="${bundle}/Contents/Resources">${project}/torrent.icns</data>
+
+  <data dest="${bundle}/Contents/MacOS/deluged">${project}/deluge-launcher</data>
+  <data dest="${bundle}/Contents/MacOS/deluge-web">${project}/deluge-launcher</data>
+  <data dest="${bundle}/Contents/MacOS/deluge-console">${project}/deluge-launcher</data>
+  <translations name="gtk30">${prefix}/share/locale</translations>
+  <translations name="gtk30-properties">${prefix}/share/locale</translations>
+  <translations name="gtk-mac-integration">${prefix}/share/locale</translations>
+  <translations name="deluge">${prefix:deluge}/deluge/i18n</translations>
+</app-bundle>

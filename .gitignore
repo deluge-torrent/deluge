@@ -22,3 +22,7 @@ deluge/ui/web/js/extjs/ext-extensions*.js
 osx/app
 RELEASE-VERSION
 .venv*
+/packaging/osx/app
+/packaging/osx/py2app-build
+*.app
+/py2app-build
