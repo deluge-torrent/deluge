@@ -32,8 +32,8 @@
   <data dest="${bundle}/Contents/Resources/lib/python${env:PY2APP_PYTHON_VERSION}">${prefix:py2app}/Resources/lib/python${env:PY2APP_PYTHON_VERSION}</data>
   <gir>${prefix}/share/gir-1.0/*.gir</gir>
   <!-- gtk theme -->
-  <data>${prefix}/share/themes/McOS-MJV-Dark</data>
-  <data>${prefix}/share/themes/McOS-MJV</data>
+  <data>${prefix}/share/themes/Mojave-dark</data>
+  <data>${prefix}/share/themes/Mojave-light</data>
   <data>${prefix}/share/themes/Mac</data><!-- required for stock accelerators cmd-X etc... -->
   <icon-theme icons="all">Adwaita</icon-theme>
   <icon-theme icons="all">hicolor</icon-theme>
