@@ -382,11 +382,11 @@ class PeersTab(Tab):
                 if ']' in value:
                     # ipv6
                     ip = value.split(']')[0][1:]
-                    port = value.split(']')[1][1:]
+                    port = int(value.split(']')[1][1:])
                 else:
                     # ipv4
                     ip = value.split(':')[0]
-                    port = value.split(':')[1]
+                    port = int(value.split(':')[1])
                 if deluge.common.is_ip(ip):
                     log.debug('adding peer %s to %s', value, self.torrent_id)
                     client.core.connect_peer(self.torrent_id, ip, port)
