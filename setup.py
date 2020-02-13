@@ -549,6 +549,7 @@ extras_require = {
         'setproctitle',
         'pillow',
         'chardet',
+        'ifaddr',
     ]
 }
 

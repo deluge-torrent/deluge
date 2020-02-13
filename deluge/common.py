@@ -17,6 +17,7 @@ import numbers
 import os
 import platform
 import re
+import socket
 import subprocess
 import sys
 import tarfile
@@ -43,6 +44,11 @@ if platform.system() in ('Windows', 'Microsoft'):
     from certifi import where
 
     os.environ['SSL_CERT_FILE'] = where()
+
+try:
+    import ifaddr
+except ImportError:
+    ifaddr = None
 
 
 if platform.system() not in ('Windows', 'Microsoft', 'Darwin'):
@@ -900,6 +906,29 @@ def free_space(path):
         return disk_data.f_bavail * block_size
 
 
+def is_interface(interface):
+    """Check if interface is a valid IP or network adapter.
+
+    Args:
+        interface (str): The IP or interface name to test.
+
+    Returns:
+        bool: Whether interface is valid is not.
+
+    Examples:
+        Windows:
+        >>> is_interface('{7A30AE62-23ZA-3744-Z844-A5B042524871}')
+        >>> is_interface('127.0.0.1')
+        True
+        Linux:
+        >>> is_interface('lo')
+        >>> is_interface('127.0.0.1')
+        True
+
+    """
+    return is_ip(interface) or is_interface_name(interface)
+
+
 def is_ip(ip):
     """A test to see if 'ip' is a valid IPv4 or IPv6 address.
 
@@ -935,15 +964,12 @@ def is_ipv4(ip):
 
     """
 
-    import socket
-
     try:
-        if windows_check():
-            return socket.inet_aton(ip)
-        else:
-            return socket.inet_pton(socket.AF_INET, ip)
+        socket.inet_pton(socket.AF_INET, ip)
     except OSError:
         return False
+    else:
+        return True
 
 
 def is_ipv6(ip):
@@ -962,23 +988,51 @@ def is_ipv6(ip):
     """
 
     try:
-        import ipaddress
-    except ImportError:
-        import socket
-
-        try:
-            return socket.inet_pton(socket.AF_INET6, ip)
-        except (OSError, AttributeError):
-            if windows_check():
-                log.warning('Unable to verify IPv6 Address on Windows.')
-                return True
+        socket.inet_pton(socket.AF_INET6, ip)
+    except OSError:
+        return False
     else:
-        try:
-            return ipaddress.IPv6Address(decode_bytes(ip))
-        except ipaddress.AddressValueError:
-            pass
+        return True
 
-    return False
+
+def is_interface_name(name):
+    """Returns True if an interface name exists.
+
+    Args:
+        name (str): The Interface to test. eg. eth0 linux. GUID on Windows.
+
+    Returns:
+        bool: Whether name is valid or not.
+
+    Examples:
+        >>> is_interface_name("eth0")
+        True
+        >>> is_interface_name("{7A30AE62-23ZA-3744-Z844-A5B042524871}")
+        True
+
+    """
+
+    if not windows_check():
+        try:
+            socket.if_nametoindex(name)
+        except OSError:
+            pass
+        else:
+            return True
+
+    if ifaddr:
+        try:
+            adapters = ifaddr.get_adapters()
+        except OSError:
+            return True
+        else:
+            return any([name == a.name for a in adapters])
+
+    if windows_check():
+        regex = '^{[0-9A-Z]{8}-([0-9A-Z]{4}-){3}[0-9A-Z]{12}}$'
+        return bool(re.search(regex, str(name)))
+
+    return True
 
 
 def decode_bytes(byte_str, encoding='utf8'):

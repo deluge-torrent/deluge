@@ -2573,8 +2573,8 @@ used sparingly.</property>
                                       <object class="GtkEntry" id="entry_interface">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="tooltip_text" translatable="yes">The IP address of the interface to listen for incoming bittorrent connections on. Leave this empty if you want to use the default.</property>
-                                        <property name="max_length">15</property>
+                                        <property name="tooltip_text" translatable="yes">IP address or network interface name to listen for incoming BitTorrent connections. Leave empty to use system default.</property>
+                                        <property name="max_length">40</property>
                                         <property name="width_chars">15</property>
                                         <property name="truncate_multiline">True</property>
                                         <property name="primary_icon_activatable">False</property>
@@ -2587,7 +2587,7 @@ used sparingly.</property>
                                   <object class="GtkLabel" id="label110">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Incoming Address</property>
+                                    <property name="label" translatable="yes">Incoming Interface</property>
                                     <attributes>
                                       <attribute name="weight" value="bold"/>
                                     </attributes>
@@ -2812,9 +2812,9 @@ used sparingly.</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="tooltip_text" translatable="yes">
-The network interface name or IP address for outgoing BitTorrent connections. (Leave empty for default.)
+                                          IP address or network interface name for outgoing BitTorrent connections. Leave empty to use system default.
                                         </property>
-                                        <property name="max_length">15</property>
+                                        <property name="max_length">40</property>
                                         <property name="invisible_char">●</property>
                                         <property name="width_chars">15</property>
                                         <property name="truncate_multiline">True</property>
