@@ -671,11 +671,15 @@ class Preferences(component.Component):
             'chk_random_outgoing_ports'
         ).get_active()
         incoming_address = self.builder.get_object('entry_interface').get_text().strip()
-        if deluge.common.is_ip(incoming_address) or not incoming_address:
+        if deluge.common.is_interface(incoming_address) or not incoming_address:
             new_core_config['listen_interface'] = incoming_address
-        new_core_config['outgoing_interface'] = (
+        outgoing_address = (
             self.builder.get_object('entry_outgoing_interface').get_text().strip()
         )
+        if deluge.common.is_interface(outgoing_address) or not outgoing_address:
+            new_core_config['outgoing_interface'] = (
+                self.builder.get_object('entry_outgoing_interface').get_text().strip()
+            )
         new_core_config['peer_tos'] = self.builder.get_object(
             'entry_peer_tos'
         ).get_text()

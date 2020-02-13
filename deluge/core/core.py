@@ -164,19 +164,25 @@ class Core(component.Component):
         # store the one in the config so we can restore it on shutdown
         self._old_listen_interface = None
         if listen_interface:
-            if deluge.common.is_ip(listen_interface):
+            if deluge.common.is_interface(listen_interface):
                 self._old_listen_interface = self.config['listen_interface']
                 self.config['listen_interface'] = listen_interface
             else:
                 log.error(
-                    'Invalid listen interface (must be IP Address): %s',
+                    'Invalid listen interface (must be IP Address or Interface Name): %s',
                     listen_interface,
                 )
 
         self._old_outgoing_interface = None
         if outgoing_interface:
-            self._old_outgoing_interface = self.config['outgoing_interface']
-            self.config['outgoing_interface'] = outgoing_interface
+            if deluge.common.is_interface(outgoing_interface):
+                self._old_outgoing_interface = self.config['outgoing_interface']
+                self.config['outgoing_interface'] = outgoing_interface
+            else:
+                log.error(
+                    'Invalid outgoing interface (must be IP Address or Interface Name): %s',
+                    outgoing_interface,
+                )
 
         # New release check information
         self.__new_release = None

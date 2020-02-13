@@ -28,6 +28,7 @@ All modules will require the [common](#common) section dependencies.
 - [setproctitle] - Optional: Renaming processes.
 - [Pillow] - Optional: Support for resizing tracker icons.
 - [dbus-python] - Optional: Show item location in filemanager.
+- [ifaddr] - Optional: Verify network interfaces.
 
 ### Linux and BSD
 
@@ -96,3 +97,4 @@ All modules will require the [common](#common) section dependencies.
 [libnotify]: https://developer.gnome.org/libnotify/
 [python-appindicator]: https://packages.ubuntu.com/xenial/python-appindicator
 [librsvg]: https://wiki.gnome.org/action/show/Projects/LibRsvg
+[ifaddr]: https://pypi.org/project/ifaddr/
