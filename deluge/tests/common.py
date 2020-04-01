@@ -268,8 +268,8 @@ except Exception:
     default_core_cb['triggers'] = [
         {'expr': 'Finished loading ', 'value': lambda reader, data, data_all: reader},
         {
-            'expr': 'Could not listen on localhost:%d' % (listen_port),
-            'type': 'errback',  # Error from libtorrent
+            'expr': 'Cannot start deluged, listen port in use.',
+            'type': 'errback',
             'value': lambda reader, data, data_all: CannotListenError(
                 'localhost',
                 listen_port,
