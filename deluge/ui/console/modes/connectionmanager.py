@@ -37,7 +37,11 @@ class ConnectionManager(BaseMode, PopupsHandler):
         self.update_select_host_popup()
 
     def update_select_host_popup(self):
-        selected_index = self.popup.current_selection() if self.popup else None
+        selected_index = None
+        if self.popup:
+            if not isinstance(self.popup, SelectablePopup):
+                return
+            selected_index = self.popup.current_selection()
 
         popup = SelectablePopup(
             self,
@@ -51,22 +55,23 @@ class ConnectionManager(BaseMode, PopupsHandler):
             % (_('Quit'), _('Add Host'), _('Delete Host')),
             space_below=True,
         )
-        self.push_popup(popup, clear=True)
 
         for host_entry in self.hostlist.get_hosts_info():
             host_id, hostname, port, user = host_entry
             args = {'data': host_id, 'foreground': 'red'}
             state = 'Offline'
-            if host_id in self.statuses:
+            if host_id in self.statuses and self.statuses[host_id][1] == 'Online':
                 state = 'Online'
                 args.update({'data': self.statuses[host_id], 'foreground': 'green'})
             host_str = '%s:%d [%s]' % (hostname, port, state)
-            self.popup.add_line(
+            popup.add_line(
                 host_id, host_str, selectable=True, use_underline=True, **args
             )
 
         if selected_index:
-            self.popup.set_selection(selected_index)
+            popup.set_selection(selected_index)
+
+        self.push_popup(popup, clear=True)
         self.inlist = True
         self.refresh()
 
@@ -93,7 +98,10 @@ class ConnectionManager(BaseMode, PopupsHandler):
             log.exception(result)
 
     def _host_selected(self, selected_host, *args, **kwargs):
-        if selected_host in self.statuses:
+        if (
+            selected_host in self.statuses
+            and self.statuses[selected_host][1] == 'Online'
+        ):
             d = self.hostlist.connect_host(selected_host)
             d.addCallback(self._on_connected)
             d.addErrback(self._on_connect_fail)
