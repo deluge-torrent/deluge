@@ -218,7 +218,7 @@ class HostList:
         try:
             ip = gethostbyname(host)
         except gaierror as ex:
-            log.error('Error resolving host %s to ip: %s', host, ex.args[1])
+            log.warning('Unable to resolve host %s to IP: %s', host, ex.args[1])
             return defer.succeed(status_offline)
 
         host_conn_info = (
