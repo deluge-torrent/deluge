@@ -1,5 +1,5 @@
+os: linux
 dist: xenial
-sudo: required
 
 language: python
 python:
@@ -17,7 +17,7 @@ git:
   # Set greater depth to get version from tags.
   depth: 1000
 
-matrix:
+jobs:
   include:
     - name: Unit tests
       env: TOX_ENV=py3
@@ -58,7 +58,7 @@ addons:
 
 # Install dependencies
 install:
-  - pip install tox tox-venv
+  - pip install tox
   # GTKUI tests
   - "if [ $TOX_ENV == 'gtkui' ]; then
     sudo apt install python3-gi python3-gi-cairo gir1.2-gtk-3.0;
