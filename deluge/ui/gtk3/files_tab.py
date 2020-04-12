@@ -13,15 +13,22 @@ import json
 import logging
 import os.path
 
+import gi  # isort:skip (Required before Gtk import).
+
+gi.require_version('Gtk', '3.0')  # NOQA: E402
+
+# isort:imports-thirdparty
 from gi.repository import Gio, Gtk
 from gi.repository.Gdk import DragAction, ModifierType, keyval_name
 from gi.repository.GObject import TYPE_UINT64
 
+# isort:imports-firstparty
 import deluge.component as component
 from deluge.common import open_file, show_file
 from deluge.ui.client import client
 from deluge.ui.common import FILE_PRIORITY
 
+# isort:imports-localfolder
 from .common import (
     listview_replace_treestore,
     load_pickled_state_file,
