@@ -24,7 +24,8 @@ try:
     from deluge.ui.gtk3.files_tab import FilesTab
     from deluge.ui.gtk3.gtkui import DEFAULT_PREFS
     from deluge.ui.gtk3.mainwindow import MainWindow
-except ImportError:
+except (ImportError, ValueError):
+    # gi.require_version gives ValueError if library not available
     libs_available = False
 
 setup_translation()
