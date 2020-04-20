@@ -250,7 +250,7 @@ log = logging.getLogger(__name__)
 class Gtk3UI(Gtk3PluginBase):
     def enable(self):
         self.builder = Gtk.Builder()
-        self.builder.add_from_file(get_resource('config.glade'))
+        self.builder.add_from_file(get_resource('config.ui'))
 
         component.get('Preferences').add_page(
             '%(name)s', self.builder.get_object('prefs_box'))
