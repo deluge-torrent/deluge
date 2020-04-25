@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from .util import (
     I18N_DOMAIN,
     get_languages,

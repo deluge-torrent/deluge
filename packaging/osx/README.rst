@@ -5,11 +5,11 @@ Instructions for building Deluge.app
 1. Compiler
 -----------
 
-- To build deluge and the gtk osx modules, you must use `gcc`
+- To build deluge and the gtk osx modules, you must use ``gcc``
 - This has been successfully working with :
     - gcc 4.2.1 - Xcode 4.1 - Mac OSX Lion (10.7.2)
     - llvm-gcc 4.2.1 - Xcode 4.3.1 (With Command line utilities) - Mac OSX Lion (10.7.3)
-- Check your version of gcc using `gcc -v`
+- Check your version of gcc using ``gcc -v``
 
 2. GTK-OSX jhbuild environment
 ------------------------------
@@ -24,7 +24,7 @@ a. Create a dedicated user account and use it for all the next steps::
         EOF
         . ~/.profile
 
-  *Note*: I'm using `gtk` login with `/opt/gtk` as home an jhbuild prefix.
+  *Note*: I'm using ``gtk`` login with ``/opt/gtk`` as home an jhbuild prefix.
 
 b. Download and run the gtk-osx-build-setup [3]_ script to install jhbuild::
 
@@ -35,17 +35,17 @@ c. Link or copy deluge osx jhbuildrc-custom::
 
         ln -sf deluge/osx/jhbuildrc-custom ~/.jhbuildrc-custom
 
-  *Note*: This setup builds only for `x86_64` arch to `/opt/gtk` prefix, feel free to edit.
+  *Note*: This setup builds only for ``x86_64`` arch to ``/opt/gtk`` prefix, feel free to edit.
 
 d. Build jhbuild and its modulesets: *(takes a while...)*::
 
         jhbuild bootstrap && jhbuild
 
-  *Note*: If you encounter an error while building `glib` like::
+  *Note*: If you encounter an error while building ``glib`` like::
 
         gconvert.c:65:2: error: #error GNU libiconv not in use but included iconv.h is from libiconv
 
-  Start a shell from jhbuild, edit the file `vim glib/gconvert.c +65` to delete the
+  Start a shell from jhbuild, edit the file ``vim glib/gconvert.c +65`` to delete the
   section raising error, which is irrelevant. *(Lion iconv.h looks like gnu one, but it is not)*
   Then exit the shell and resume build.
 
@@ -71,7 +71,7 @@ c. Build and install::
         python setup.py py2app
         python setup.py install
 
-d. Build app to `deluge/osx/app/Deluge.app`::
+d. Build app to ``deluge/osx/app/Deluge.app``::
 
         cd osx
         ./make-app

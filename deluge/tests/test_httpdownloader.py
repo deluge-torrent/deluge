@@ -119,7 +119,7 @@ class DownloadFileTestCase(unittest.TestCase):
     def get_url(self, path=''):
         return 'http://localhost:%d/%s' % (self.listen_port, path)
 
-    def setUp(self):  # NOQA
+    def setUp(self):
         setup_logger('warning', fname('log_file'))
         self.website = Site(TopLevelResource())
         self.listen_port = 51242
@@ -135,10 +135,10 @@ class DownloadFileTestCase(unittest.TestCase):
         else:
             raise error
 
-    def tearDown(self):  # NOQA
+    def tearDown(self):
         return self.webserver.stopListening()
 
-    def assertContains(self, filename, contents):  # NOQA
+    def assertContains(self, filename, contents):  # NOQA: N802
         with open(filename) as _file:
             try:
                 self.assertEqual(_file.read(), contents)
@@ -146,7 +146,7 @@ class DownloadFileTestCase(unittest.TestCase):
                 self.fail(ex)
         return filename
 
-    def assertNotContains(self, filename, contents, file_mode=''):  # NOQA
+    def assertNotContains(self, filename, contents, file_mode=''):  # NOQA: N802
         with open(filename, file_mode) as _file:
             try:
                 self.assertNotEqual(_file.read(), contents)
