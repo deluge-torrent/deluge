@@ -345,3 +345,11 @@ class TorrentTestCase(BaseTestCase):
 
         result = self.torrent.rename_files([[0, 'new_рбачёв']])
         self.assertIsNone(result)
+
+    def test_connect_peer_port(self):
+        """Test to ensure port is int for libtorrent"""
+        atp = self.get_torrent_atp('test_torrent.file.torrent')
+        handle = self.session.add_torrent(atp)
+        self.torrent = Torrent(handle, {})
+        self.assertFalse(self.torrent.connect_peer('127.0.0.1', 'text'))
+        self.assertTrue(self.torrent.connect_peer('127.0.0.1', '1234'))

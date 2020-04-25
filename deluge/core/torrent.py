@@ -1212,8 +1212,8 @@ class Torrent(object):
             bool: True is successful, otherwise False
         """
         try:
-            self.handle.connect_peer((peer_ip, peer_port), 0)
-        except RuntimeError as ex:
+            self.handle.connect_peer((peer_ip, int(peer_port)), 0)
+        except (RuntimeError, ValueError) as ex:
             log.debug('Unable to connect to peer: %s', ex)
             return False
         return True
