@@ -42,7 +42,18 @@ def cmp(x, y):
     and strictly positive if x > y.
     """
 
-    return (x > y) - (x < y)
+    try:
+        return (x > y) - (x < y)
+    except TypeError:
+        # Handle NoneType comparison
+        if x is None:
+            if y is None:
+                return 0
+            return -1
+        elif y is None:
+            return 1
+        else:
+            raise
 
 
 def create_blank_pixbuf(size=16):
