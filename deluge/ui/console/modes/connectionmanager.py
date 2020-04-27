@@ -32,9 +32,8 @@ class ConnectionManager(BaseMode, PopupsHandler):
         self.statuses = {}
         self.all_torrents = None
         self.hostlist = HostList()
-        self.update_hosts_status()
         BaseMode.__init__(self, stdscr, encoding=encoding)
-        self.update_select_host_popup()
+        self.update_hosts_status()
 
     def update_select_host_popup(self):
         selected_index = self.popup.current_selection() if self.popup else None
@@ -71,12 +70,11 @@ class ConnectionManager(BaseMode, PopupsHandler):
         self.refresh()
 
     def update_hosts_status(self):
+        def on_host_status(status_info):
+            self.statuses[status_info[0]] = status_info
+            self.update_select_host_popup()
+
         for host_entry in self.hostlist.get_hosts_info():
-
-            def on_host_status(status_info):
-                self.statuses[status_info[0]] = status_info
-                self.update_select_host_popup()
-
             self.hostlist.get_host_status(host_entry[0]).addCallback(on_host_status)
 
     def _on_connected(self, result):

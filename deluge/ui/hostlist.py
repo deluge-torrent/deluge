@@ -207,13 +207,13 @@ class HostList(object):
             host_id, host, port, user = self.get_host_info(host_id)
         except ValueError:
             log.warning('Problem getting host_id info from hostlist')
-            return status_offline
+            return defer.succeed(status_offline)
 
         try:
             ip = gethostbyname(host)
         except gaierror as ex:
             log.error('Error resolving host %s to ip: %s', host, ex.args[1])
-            return status_offline
+            return defer.succeed(status_offline)
 
         host_conn_info = (
             ip,
