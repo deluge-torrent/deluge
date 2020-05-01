@@ -41,11 +41,24 @@ jobs:
           key-server: keyserver.ubuntu.com
           install: python3-libtorrent-dbg
 
+      - name: Sets env var for security
+        if: (github.event_name == 'pull_request' && contains(github.event.pull_request.body, 'security_test')) || (github.event_name == 'push' && contains(github.event.head_commit.message, 'security_test'))
+        run: echo "SECURITY_TESTS=True" >> $GITHUB_ENV
+
       - name: Install dependencies
         run: |
           pip install --upgrade pip wheel
           pip install -r requirements.txt -r requirements-tests.txt
           pip install -e .
+
+      - name: Install security dependencies
+        if: contains(env.SECURITY_TESTS, 'True')
+        run: |
+          wget -O- $TESTSSL_URL$TESTSSL_VER | tar xz
+          mv -t deluge/tests/data testssl.sh-$TESTSSL_VER/testssl.sh testssl.sh-$TESTSSL_VER/etc/;
+        env:
+          TESTSSL_VER: 3.0.6
+          TESTSSL_URL: https://codeload.github.com/drwetter/testssl.sh/tar.gz/refs/tags/v
 
       - name: Setup core dump directory
         run: |
@@ -57,7 +70,7 @@ jobs:
           ulimit -c unlimited  # Enable core dumps to be captured
           cp /usr/lib/python3/dist-packages/libtorrent*.so $GITHUB_WORKSPACE/deluge
           python -c 'from deluge._libtorrent import lt; print(lt.__version__)';
-          catchsegv python -X dev -m pytest -v -m "not (todo or gtkui or security)" deluge
+          catchsegv python -X dev -m pytest -v -m "not (todo or gtkui)" deluge
 
       - uses: actions/upload-artifact@v2
         # capture all crashes as build artifacts

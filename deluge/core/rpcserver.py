@@ -12,13 +12,11 @@ from __future__ import unicode_literals
 
 import logging
 import os
-import stat
 import sys
 import traceback
 from collections import namedtuple
 from types import FunctionType
 
-from OpenSSL import crypto
 from twisted.internet import defer, reactor
 from twisted.internet.protocol import Factory, connectionDone
 
@@ -29,7 +27,7 @@ from deluge.core.authmanager import (
     AUTH_LEVEL_DEFAULT,
     AUTH_LEVEL_NONE,
 )
-from deluge.crypto_utils import get_context_factory
+from deluge.crypto_utils import check_ssl_keys, get_context_factory
 from deluge.error import (
     DelugeError,
     IncompatibleClient,
@@ -588,59 +586,3 @@ class RPCServer(component.Component):
 
     def stop(self):
         self.factory.state = 'stopping'
-
-
-def check_ssl_keys():
-    """
-    Check for SSL cert/key and create them if necessary
-    """
-    ssl_dir = deluge.configmanager.get_config_dir('ssl')
-    if not os.path.exists(ssl_dir):
-        # The ssl folder doesn't exist so we need to create it
-        os.makedirs(ssl_dir)
-        generate_ssl_keys()
-    else:
-        for f in ('daemon.pkey', 'daemon.cert'):
-            if not os.path.exists(os.path.join(ssl_dir, f)):
-                generate_ssl_keys()
-                break
-
-
-def generate_ssl_keys():
-    """
-    This method generates a new SSL key/cert.
-    """
-    from deluge.common import PY2
-
-    digest = 'sha256' if not PY2 else b'sha256'
-
-    # Generate key pair
-    pkey = crypto.PKey()
-    pkey.generate_key(crypto.TYPE_RSA, 2048)
-
-    # Generate cert request
-    req = crypto.X509Req()
-    subj = req.get_subject()
-    setattr(subj, 'CN', 'Deluge Daemon')
-    req.set_pubkey(pkey)
-    req.sign(pkey, digest)
-
-    # Generate certificate
-    cert = crypto.X509()
-    cert.set_serial_number(0)
-    cert.gmtime_adj_notBefore(0)
-    cert.gmtime_adj_notAfter(60 * 60 * 24 * 365 * 3)  # Three Years
-    cert.set_issuer(req.get_subject())
-    cert.set_subject(req.get_subject())
-    cert.set_pubkey(req.get_pubkey())
-    cert.sign(pkey, digest)
-
-    # Write out files
-    ssl_dir = deluge.configmanager.get_config_dir('ssl')
-    with open(os.path.join(ssl_dir, 'daemon.pkey'), 'wb') as _file:
-        _file.write(crypto.dump_privatekey(crypto.FILETYPE_PEM, pkey))
-    with open(os.path.join(ssl_dir, 'daemon.cert'), 'wb') as _file:
-        _file.write(crypto.dump_certificate(crypto.FILETYPE_PEM, cert))
-    # Make the files only readable by this user
-    for f in ('daemon.pkey', 'daemon.cert'):
-        os.chmod(os.path.join(ssl_dir, f), stat.S_IREAD | stat.S_IWRITE)
