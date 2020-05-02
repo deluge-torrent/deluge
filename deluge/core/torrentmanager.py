@@ -24,8 +24,15 @@ from twisted.internet.defer import Deferred, DeferredList
 from twisted.internet.task import LoopingCall
 
 import deluge.component as component
-from deluge._libtorrent import lt
-from deluge.common import PY2, archive_files, decode_bytes, get_magnet_info, is_magnet
+from deluge._libtorrent import LT_VERSION, lt
+from deluge.common import (
+    PY2,
+    VersionSplit,
+    archive_files,
+    decode_bytes,
+    get_magnet_info,
+    is_magnet,
+)
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
 from deluge.core.torrent import Torrent, TorrentOptions, sanitize_filepath
@@ -1392,7 +1399,22 @@ class TorrentManager(component.Component):
         log.debug(
             'Tracker Error Alert: %s [%s]', decode_bytes(alert.message()), error_message
         )
-        torrent.set_tracker_status('Error: ' + error_message)
+        if VersionSplit(LT_VERSION) >= VersionSplit('1.2.0.0'):
+            # libtorrent 1.2 added endpoint struct to each tracker. to prevent false updates
+            # we will need to verify that at least one endpoint to the errored tracker is working
+            for tracker in torrent.handle.trackers():
+                if tracker['url'] == alert.url:
+                    if any(
+                        endpoint['last_error']['value'] == 0
+                        for endpoint in tracker['endpoints']
+                    ):
+                        torrent.set_tracker_status('Announce OK')
+                    else:
+                        torrent.set_tracker_status('Error: ' + error_message)
+                    break
+        else:
+            # preserve old functionality for libtorrent < 1.2
+            torrent.set_tracker_status('Error: ' + error_message)
 
     def on_alert_storage_moved(self, alert):
         """Alert handler for libtorrent storage_moved_alert"""
