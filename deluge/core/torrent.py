@@ -991,6 +991,8 @@ class Torrent(object):
                 call to get_status based on the session_id
             update (bool): If True the status will be updated from libtorrent
                 if False, the cached values will be returned
+            all_keys (bool): If True return all keys while ignoring the keys param
+                if False, return only the requested keys
 
         Returns:
             dict: a dictionary of the status keys and their values
