@@ -344,8 +344,8 @@ class Core(CorePluginBase):
                     d = component.get('Core').add_torrent_file_async(
                         filename, b64encode(filedump), options
                     )
-                    d.addCallback(on_torrent_added, filename, filepath)
-                    d.addErrback(fail_torrent_add, filepath, magnet)
+                d.addCallback(on_torrent_added, filename, filepath)
+                d.addErrback(fail_torrent_add, filepath, magnet)
             except AddTorrentError as ex:
                 fail_torrent_add(str(ex), filepath, magnet)
 
