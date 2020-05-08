@@ -14,7 +14,7 @@
             return '';
         }
         return String.format(
-            '<img src="{0}flag/{1}" />',
+            '<img alt="{1}" title="{1}" src="{0}flag/{1}" />',
             deluge.config.base,
             value
         );
