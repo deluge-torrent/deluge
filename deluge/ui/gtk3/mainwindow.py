@@ -20,7 +20,7 @@ from twisted.internet import reactor
 from twisted.internet.error import ReactorNotRunning
 
 import deluge.component as component
-from deluge.common import decode_bytes, fspeed, resource_filename
+from deluge.common import decode_bytes, fspeed, resource_filename, windows_check
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
 
@@ -147,6 +147,13 @@ class MainWindow(component.Component):
             'NewVersionAvailableEvent', self.on_newversionavailable_event
         )
 
+        if windows_check():
+            from .utils.win32 import Win32ShutdownCheck
+
+            # Ensure we have gdkwindow.
+            self.window.realize()
+            Win32ShutdownCheck(self.window.get_window())
+
     def connect_signals(self, mapping_or_class):
         self.gtk_builder_signals_holder.connect_signals(mapping_or_class)
 
@@ -229,24 +236,7 @@ class MainWindow(component.Component):
         Args:
             shutdown (bool): Whether or not to shutdown the daemon as well.
             restart (bool): Whether or not to restart the application after closing.
-
         """
-
-        def quit_gtkui():
-            def stop_gtk_reactor(result=None):
-                self.restart = restart
-                try:
-                    reactor.callLater(0, reactor.fireSystemEvent, 'gtkui_close')
-                except ReactorNotRunning:
-                    log.debug('Attempted to stop the reactor but it is not running...')
-
-            if shutdown:
-                client.daemon.shutdown().addCallback(stop_gtk_reactor)
-            elif not client.is_standalone() and client.connected():
-                client.disconnect().addCallback(stop_gtk_reactor)
-            else:
-                stop_gtk_reactor()
-
         if self.config['lock_tray'] and not self.visible():
             dialog = PasswordDialog(_('Enter your password to Quit Deluge...'))
 
@@ -256,11 +246,34 @@ class MainWindow(component.Component):
                         self.config['tray_password']
                         == sha(decode_bytes(dialog.get_password()).encode()).hexdigest()
                     ):
-                        quit_gtkui()
+                        self.restart = restart
+                        self._quit_gtkui(shutdown)
 
             dialog.run().addCallback(on_dialog_response)
         else:
-            quit_gtkui()
+            self.restart = restart
+            self._quit_gtkui(shutdown)
+
+    @staticmethod
+    def _quit_gtkui(shutdown):
+        """Quits the GtkUI.
+
+        Args:
+            shutdown (bool): Whether or not to shutdown the daemon as well.
+        """
+
+        def stop_gtk_reactor(result):
+            try:
+                reactor.callLater(0, reactor.fireSystemEvent, 'gtkui_close')
+            except ReactorNotRunning:
+                log.debug('Attempted to stop the reactor but it is not running...')
+
+        if shutdown:
+            client.daemon.shutdown().addCallback(stop_gtk_reactor)
+        elif not client.is_standalone() and client.connected():
+            client.disconnect().addCallback(stop_gtk_reactor)
+        else:
+            stop_gtk_reactor()
 
     def load_window_state(self):
         if (
