@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # The contents of this file are subject to the Python Software Foundation
 # License Version 2.3 (the License).  You may not copy or use this file, in
 # either source code or executable form, except in compliance with the License.

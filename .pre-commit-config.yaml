@@ -27,7 +27,7 @@ repos:
           - flake8-isort==2.7
           - pep8-naming==0.8.2
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v2.4.0
+    rev: v2.5.0
     hooks:
       - id: double-quote-string-fixer
         name: Fix Double-quotes
@@ -39,3 +39,30 @@ repos:
         args: [--fix=auto]
       - id: trailing-whitespace
         name: Fix Trailing whitespace
+      - id: check-docstring-first
+        name: Chk docstrings on first line
+      - id: check-executables-have-shebangs
+        name: Chk executable files have shebangs
+      - id: check-merge-conflict
+        name: Chk for merge conflict strings
+      - id: check-vcs-permalinks
+        name: Chk all links are permalinks
+      - id: debug-statements
+        name: Chk for debug imports and breakpoint calls
+      - id: check-ast
+        name: Chk python files are parseable
+      - id: fix-encoding-pragma
+        name: Add encoding statements to python files
+  - repo: https://github.com/pre-commit/pygrep-hooks
+    rev: v1.5.1
+    hooks:
+      - id: python-check-blanket-noqa
+        name: Chk for noqa annotations with missing codes
+      - id: python-check-mock-methods
+        name: Chk for calling certain mock methods
+      - id: python-no-log-warn
+        name: Chk for warn method
+      - id: python-use-type-annotations
+        name: Chk type annotations are used instead of comments
+      - id: rst-backticks
+        name: Chk using single backticks in rst files

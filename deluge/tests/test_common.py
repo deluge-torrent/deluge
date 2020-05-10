@@ -36,11 +36,11 @@ from .common import get_test_data_file, set_tmp_config_dir
 
 
 class CommonTestCase(unittest.TestCase):
-    def setUp(self):  # NOQA
+    def setUp(self):
         self.config_dir = set_tmp_config_dir()
         setup_translation()
 
-    def tearDown(self):  # NOQA
+    def tearDown(self):
         pass
 
     def test_fsize(self):

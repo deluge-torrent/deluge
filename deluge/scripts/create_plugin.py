@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Creates an empty plugin and links it from ~/.config/deluge/plugins
 This plugin includes the framework for using the preferences dialog

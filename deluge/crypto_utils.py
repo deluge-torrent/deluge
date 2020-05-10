@@ -25,7 +25,7 @@ from twisted.internet.ssl import (
 # - https://hynek.me/articles/hardening-your-web-servers-ssl-ciphers/
 #
 # This list was inspired by the `urllib3` library
-# - https://github.com/urllib3/urllib3/blob/master/urllib3/util/ssl_.py#L79
+# - https://github.com/urllib3/urllib3/blob/898a16d09e4a6d9dbe10134a49b89eedfe8dae7f/src/urllib3/util/ssl_.py#L79
 #
 # The general intent is:
 # - prefer cipher suites that offer perfect forward secrecy (ECDHE),
