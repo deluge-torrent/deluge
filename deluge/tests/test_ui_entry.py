@@ -331,13 +331,11 @@ class ConsoleUIBaseTestCase(UIBaseTestCase):
             )  # Check command name
             self.assertTrue('Common Options:' in std_output)
             self.assertTrue('Console Options:' in std_output)
-            self.assertTrue(
-                'Console Commands:\n  The following console commands are available:'
-                in std_output
+            self.assertIn(
+                'Console Commands:\n  The following console commands are available:',
+                std_output,
             )
-            self.assertTrue(
-                'The following console commands are available:' in std_output
-            )
+            self.assertIn('The following console commands are available:', std_output)
 
     def test_console_command_info(self):
         self.patch(sys, 'argv', self.var['sys_arg_cmd'] + ['info'])
@@ -355,8 +353,8 @@ class ConsoleUIBaseTestCase(UIBaseTestCase):
         with mock.patch('deluge.ui.console.main.ConsoleUI'):
             self.assertRaises(SystemExit, self.exec_command)
             std_output = fd.out.getvalue()
-            self.assertTrue('usage: info' in std_output)
-            self.assertTrue('Show information about the torrents' in std_output)
+            self.assertIn('usage: info', std_output)
+            self.assertIn('Show information about the torrents', std_output)
 
     def test_console_unrecognized_arguments(self):
         self.patch(
@@ -366,7 +364,7 @@ class ConsoleUIBaseTestCase(UIBaseTestCase):
         self.patch(argparse._sys, 'stderr', fd)
         with mock.patch('deluge.ui.console.main.ConsoleUI'):
             self.assertRaises(SystemExit, self.exec_command)
-            self.assertTrue('unrecognized arguments: --ui' in fd.out.getvalue())
+            self.assertIn('unrecognized arguments: --ui', fd.out.getvalue())
 
 
 class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
@@ -386,7 +384,7 @@ class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
             'argv',
             self.var['sys_arg_cmd']
             + ['--port']
-            + ['58900']
+            + [str(self.listen_port)]
             + ['--username']
             + [username]
             + ['--password']
@@ -404,9 +402,8 @@ class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
         yield self.exec_command()
 
         std_output = fd.out.getvalue()
-        self.assertTrue(
-            std_output
-            == 'Attempting to add torrent: ' + filename + '\nTorrent added!\n'
+        self.assertEqual(
+            std_output, 'Attempting to add torrent: ' + filename + '\nTorrent added!\n'
         )
 
     @defer.inlineCallbacks
@@ -441,10 +438,8 @@ class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
         yield self.exec_command()
 
         std_output = fd.out.getvalue()
-        self.assertTrue(
-            std_output.startswith('Total upload: ')
-            and std_output.endswith(' Moving: 0\n')
-        )
+        self.assertTrue(std_output.startswith('Total upload: '))
+        self.assertTrue(std_output.endswith(' Moving: 0\n'))
 
     @defer.inlineCallbacks
     def test_console_command_config_set_download_location(self):
@@ -460,7 +455,9 @@ class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
                     'u' if PY2 else ''
                 )
             )
-            and std_output.endswith('Configuration value successfully updated.\n')
+        )
+        self.assertTrue(
+            std_output.endswith('Configuration value successfully updated.\n')
         )
 
 
