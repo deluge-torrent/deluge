@@ -217,7 +217,7 @@ class GtkUI(object):
 
             def nsapp_open_file(osxapp, filename):
                 # Ignore command name which is raised at app launch (python opening main script).
-                if filename == sys.argv[0]:
+                if (filename == sys.argv[0] or filename == sys.argv[0]+"-bin"):
                     return True
                 process_args([filename])
 
