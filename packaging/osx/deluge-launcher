@@ -61,9 +61,9 @@ export DELUGE_IS_RUNNING_BUNDLE=1
 export DELUGE_BUNDLE_I18N="${bundle_data}/locale"
 
 if [ "$(defaults read -g AppleInterfaceStyle 2>/dev/null)" ]; then
-    GTK_THEME="Mojave-dark"
+    GTK_THEME="McOS-CTLina-Dark"
 else
-    GTK_THEME="Mojave-light"
+    GTK_THEME="McOS-CTLina"
 fi
 export GTK_THEME
 
