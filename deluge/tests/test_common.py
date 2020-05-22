@@ -70,16 +70,16 @@ class CommonTestCase(unittest.TestCase):
 
     def test_ftime(self):
         self.assertEqual(ftime(0), '')
-        self.assertEqual(ftime(5), '5s')
-        self.assertEqual(ftime(100), '1m 40s')
-        self.assertEqual(ftime(3789), '1h 3m')
-        self.assertEqual(ftime(23011), '6h 23m')
-        self.assertEqual(ftime(391187), '4d 12h')
-        self.assertEqual(ftime(604800), '1w 0d')
-        self.assertEqual(ftime(13893086), '22w 6d')
-        self.assertEqual(ftime(59740269), '1y 46w')
-        self.assertEqual(ftime(61.25), '1m 1s')
-        self.assertEqual(ftime(119.9), '1m 59s')
+        self.assertEqual(ftime(5), '5 s')
+        self.assertEqual(ftime(100), '1 min 40 s')
+        self.assertEqual(ftime(3789), '1 h 3 min')
+        self.assertEqual(ftime(23011), '6 h 23 min')
+        self.assertEqual(ftime(391187), '4 d 12 h')
+        self.assertEqual(ftime(604800), '1 wk 0 d')
+        self.assertEqual(ftime(13893086), '22 wk 6 d')
+        self.assertEqual(ftime(59740269), '1 y 46 wk')
+        self.assertEqual(ftime(61.25), '1 min 1 s')
+        self.assertEqual(ftime(119.9), '1 min 59 s')
 
     def test_fdate(self):
         self.assertTrue(fdate(-1) == '')

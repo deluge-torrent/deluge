@@ -120,7 +120,7 @@ Deluge.Formatters = {
         }
         time = time.toFixed(0);
         if (time < 60) {
-            return time + 's';
+            return time + ' s';
         } else {
             time = time / 60;
         }
@@ -129,9 +129,9 @@ Deluge.Formatters = {
             var minutes = Math.floor(time);
             var seconds = Math.round(60 * (time - minutes));
             if (seconds > 0) {
-                return minutes + 'm ' + seconds + 's';
+                return minutes + ' min ' + seconds + ' s';
             } else {
-                return minutes + 'm';
+                return minutes + ' min';
             }
         } else {
             time = time / 60;
@@ -141,9 +141,9 @@ Deluge.Formatters = {
             var hours = Math.floor(time);
             var minutes = Math.round(60 * (time - hours));
             if (minutes > 0) {
-                return hours + 'h ' + minutes + 'm';
+                return hours + ' h ' + minutes + ' min';
             } else {
-                return hours + 'h';
+                return hours + ' h';
             }
         } else {
             time = time / 24;
@@ -152,9 +152,9 @@ Deluge.Formatters = {
         var days = Math.floor(time);
         var hours = Math.round(24 * (time - days));
         if (hours > 0) {
-            return days + 'd ' + hours + 'h';
+            return days + ' d ' + hours + ' h';
         } else {
-            return days + 'd';
+            return days + ' d';
         }
     },
 

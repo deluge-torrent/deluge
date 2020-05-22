@@ -568,7 +568,7 @@ def ftime(secs):
 
     Examples:
         >>> ftime(23011)
-        '6h 23m'
+        '6 h 23 min'
 
     Note:
         This function has been refactored for perfomance.
@@ -580,17 +580,17 @@ def ftime(secs):
     if secs <= 0:
         time_str = ''
     elif secs < 60:
-        time_str = '{}s'.format(secs)
+        time_str = '{} s'.format(secs)
     elif secs < 3600:
-        time_str = '{}m {}s'.format(secs // 60, secs % 60)
+        time_str = '{} min {} s'.format(secs // 60, secs % 60)
     elif secs < 86400:
-        time_str = '{}h {}m'.format(secs // 3600, secs // 60 % 60)
+        time_str = '{} h {} min'.format(secs // 3600, secs // 60 % 60)
     elif secs < 604800:
-        time_str = '{}d {}h'.format(secs // 86400, secs // 3600 % 24)
+        time_str = '{} d {} h'.format(secs // 86400, secs // 3600 % 24)
     elif secs < 31449600:
-        time_str = '{}w {}d'.format(secs // 604800, secs // 86400 % 7)
+        time_str = '{} wk {} d'.format(secs // 604800, secs // 86400 % 7)
     else:
-        time_str = '{}y {}w'.format(secs // 31449600, secs // 604800 % 52)
+        time_str = '{} y {} wk'.format(secs // 31449600, secs // 604800 % 52)
 
     return time_str
 
