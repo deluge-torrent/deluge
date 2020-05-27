@@ -9,6 +9,7 @@
 
 from __future__ import unicode_literals
 
+import json
 from io import BytesIO
 
 from twisted.internet import defer, reactor
@@ -128,6 +129,16 @@ class WebAPITestCase(WebServerTestBase):
         ret = self.deluge_web.web_api.get_torrent_info(filename)
         self.assertEqual(ret['name'], 'azcvsupdater_2.6.2.jar')
         self.assertEqual(ret['info_hash'], 'ab570cdd5a17ea1b61e970bb72047de141bce173')
+        self.assertTrue('files_tree' in ret)
+
+    def test_get_torrent_info_with_md5(self):
+        filename = common.get_test_data_file('md5sum.torrent')
+        ret = self.deluge_web.web_api.get_torrent_info(filename)
+        # JSON dumping happens during response creation in normal usage
+        # JSON serialization may fail if any of the dictionary items are byte arrays rather than strings
+        ret = json.loads(json.dumps(ret))
+        self.assertEqual(ret['name'], 'test')
+        self.assertEqual(ret['info_hash'], 'f6408ba9944cf9fe01b547b28f336b3ee6ec32c5')
         self.assertTrue('files_tree' in ret)
 
     def test_get_magnet_info(self):
