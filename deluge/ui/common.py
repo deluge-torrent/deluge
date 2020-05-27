@@ -262,9 +262,11 @@ class TorrentInfo(object):
 
                 def walk(path, item):
                     if item['type'] == 'dir':
-                        item.update(dirs[path])
+                        item['length'] = dirs[path]['length']
                     else:
-                        item.update(paths[path])
+                        item['path'] = paths[path]['path']
+                        item['length'] = paths[path]['length']
+                        item['index'] = paths[path]['index']
                     item['download'] = True
 
                 file_tree = FileTree2(list(paths))
