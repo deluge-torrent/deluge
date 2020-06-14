@@ -24,6 +24,102 @@ class UICommonTestCase(unittest.TestCase):
     def tearDown(self):  # NOQA: N803
         pass
 
+    def test_hash_optional_single_file(self):
+        """Ensure single file with `ed2k` and `sha1` keys are not in filetree output."""
+        filename = common.get_test_data_file('test.torrent')
+        files_tree = {'azcvsupdater_2.6.2.jar': (0, 307949, True)}
+        ti = TorrentInfo(filename, filetree=1)
+        self.assertEqual(ti.files_tree, files_tree)
+
+        files_tree2 = {
+            'contents': {
+                'azcvsupdater_2.6.2.jar': {
+                    'type': 'file',
+                    'index': 0,
+                    'length': 307949,
+                    'download': True,
+                }
+            }
+        }
+        ti = TorrentInfo(filename, filetree=2)
+        self.assertEqual(ti.files_tree, files_tree2)
+
+    def test_hash_optional_multi_file(self):
+        """Ensure multi-file with `filehash` and `ed2k` are keys not in filetree output."""
+        filename = common.get_test_data_file('filehash_field.torrent')
+        files_tree = {
+            'torrent_filehash': {
+                'tull.txt': (0, 54, True),
+                '還在一個人無聊嗎~還不趕緊上來聊天美.txt': (1, 54, True),
+            }
+        }
+        ti = TorrentInfo(filename, filetree=1)
+        self.assertEqual(ti.files_tree, files_tree)
+
+        filestree2 = {
+            'contents': {
+                'torrent_filehash': {
+                    'type': 'dir',
+                    'contents': {
+                        'tull.txt': {
+                            'type': 'file',
+                            'path': 'torrent_filehash/tull.txt',
+                            'length': 54,
+                            'index': 0,
+                            'download': True,
+                        },
+                        '還在一個人無聊嗎~還不趕緊上來聊天美.txt': {
+                            'type': 'file',
+                            'path': 'torrent_filehash/還在一個人無聊嗎~還不趕緊上來聊天美.txt',
+                            'length': 54,
+                            'index': 1,
+                            'download': True,
+                        },
+                    },
+                    'length': 108,
+                    'download': True,
+                }
+            },
+            'type': 'dir',
+        }
+        ti = TorrentInfo(filename, filetree=2)
+        self.assertEqual(ti.files_tree, filestree2)
+
+    def test_hash_optional_md5sum(self):
+        # Ensure `md5sum` key is not included in filetree output
+        filename = common.get_test_data_file('md5sum.torrent')
+        files_tree = {'test': {'lol': (0, 4, True), 'rofl': (1, 5, True)}}
+        ti = TorrentInfo(filename, filetree=1)
+        self.assertEqual(ti.files_tree, files_tree)
+        ti = TorrentInfo(filename, filetree=2)
+        files_tree2 = {
+            'contents': {
+                'test': {
+                    'type': 'dir',
+                    'contents': {
+                        'lol': {
+                            'type': 'file',
+                            'path': 'test/lol',
+                            'index': 0,
+                            'length': 4,
+                            'download': True,
+                        },
+                        'rofl': {
+                            'type': 'file',
+                            'path': 'test/rofl',
+                            'index': 1,
+                            'length': 5,
+                            'download': True,
+                        },
+                    },
+                    'length': 9,
+                    'download': True,
+                }
+            },
+            'type': 'dir',
+        }
+        self.assertEqual(ti.files_tree, files_tree2)
+
     def test_utf8_encoded_paths(self):
         filename = common.get_test_data_file('test.torrent')
         ti = TorrentInfo(filename)

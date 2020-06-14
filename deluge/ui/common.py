@@ -15,7 +15,6 @@ from __future__ import unicode_literals
 
 import logging
 import os
-from binascii import hexlify
 from hashlib import sha1 as sha
 
 from deluge import bencode
@@ -206,12 +205,9 @@ class TorrentInfo(object):
         self._info_hash = sha(bencode.bencode(info_dict)).hexdigest()
 
         # Get encoding from torrent file if available
-        encoding = info_dict.get('encoding', None)
-        codepage = info_dict.get('codepage', None)
-        if not encoding:
-            encoding = codepage if codepage else b'UTF-8'
-        if encoding:
-            encoding = encoding.decode()
+        encoding = info_dict.get(
+            'encoding', info_dict.get('codepage', b'UTF-8')
+        ).decode()
 
         # Decode 'name' with encoding unless 'name.utf-8' found.
         if 'name.utf-8' in info_dict:
@@ -231,27 +227,20 @@ class TorrentInfo(object):
 
                 if 'path.utf-8' in f:
                     path = decode_bytes(os.path.join(*f['path.utf-8']))
-                    del f['path.utf-8']
                 else:
                     path = decode_bytes(os.path.join(*f['path']), encoding)
 
                 if prefix:
                     path = os.path.join(prefix, path)
 
+                # Ensure agnostic path separator
+                path = path.replace('\\', '/')
+
                 self._files.append(
                     {'path': path, 'size': f['length'], 'download': True}
                 )
+                paths[path] = {'path': path, 'index': index, 'length': f['length']}
 
-                f['path'] = path
-                f['index'] = index
-                if 'sha1' in f and len(f['sha1']) == 20:
-                    f['sha1'] = hexlify(f['sha1']).decode()
-                if 'ed2k' in f and len(f['ed2k']) == 16:
-                    f['ed2k'] = hexlify(f['ed2k']).decode()
-                if 'filehash' in f and len(f['filehash']) == 20:
-                    f['filehash'] = hexlify(f['filehash']).decode()
-
-                paths[path] = f
                 dirname = os.path.dirname(path)
                 while dirname:
                     dirinfo = dirs.setdefault(dirname, {})
@@ -538,7 +527,7 @@ class FileTree(object):
 
         def walk(directory, parent_path):
             for path in list(directory):
-                full_path = os.path.join(parent_path, path)
+                full_path = os.path.join(parent_path, path).replace('\\', '/')
                 if isinstance(directory[path], dict):
                     directory[path] = (
                         callback(full_path, directory[path]) or directory[path]
