@@ -1,6 +1,6 @@
 # Installing Deluge
 
-Instructions for installing Deluge server and the GTK client.
+Instructions for installing Deluge.
 
 ## <i class="icon-ubuntu"></i> Ubuntu
 
