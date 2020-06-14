@@ -55,7 +55,7 @@ Install with pip:
 
     pip3 install deluge
 
-### Daily Builds
+### <i class="icon-script"></i> Daily Builds
 
 Deluge has a [stable PPA] from `master` and a [development PPA] from `develop` branch.
 
