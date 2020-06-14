@@ -2,23 +2,20 @@
 
 Instructions for installing Deluge server and the GTK client.
 
-
 ## <i class="icon-ubuntu"></i> Ubuntu
 
 Deluge is available from Ubuntu's Universe repository.
 
 ```
 sudo add-apt-repository universe
-sudo apt install deluge deluge-gtk
+sudo apt install deluge
 ```
-
 
 ## <i class="icon-fedora"></i> Fedora
 
 ```
-sudo dnf install deluge deluge-gtk
+sudo dnf install deluge
 ```
-
 
 ## <i class="fa fa-windows"></i> Windows
 
@@ -26,7 +23,6 @@ Unfortunately due to move to GTK3 and Python 3 there is no installer package cur
 available for Windows.
 
 Intrepid users can install Deluge from separate packages as detailed in [issue #3201].
-
 
 ## <i class="fa fa-apple"></i> macOS
 
@@ -47,7 +43,6 @@ There is no `.app` package currently for macOS, but can install Deluge with [Hom
 
         pip3 install deluge
 
-
 ## Alternative Installs
 
 ### <i class="icon-python"></i> PyPi
@@ -60,13 +55,21 @@ Install with pip:
 
     pip3 install deluge
 
-### Developer PPA
+### Daily Builds
 
-Deluge also has a [development ppa]
+Deluge has a [stable PPA] from `master` and a [development PPA] from `develop` branch.
+
+#### Stable
 
     sudo add-apt-repository -u ppa:deluge-team/stable
     sudo apt install deluge
 
+#### Development
+
+    sudo add-apt-repository -u ppa:deluge-team/develop
+    sudo apt install deluge
+
 [development ppa]: https://launchpad.net/~deluge-team/+archive/ubuntu/develop/
+[stable ppa]: https://launchpad.net/~deluge-team/+archive/ubuntu/stable/
 [homebrew]: https://brew.sh/
 [issue #3201]: https://dev.deluge-torrent.org/ticket/3201#comment:9
