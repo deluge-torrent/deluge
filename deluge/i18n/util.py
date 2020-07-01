@@ -132,7 +132,7 @@ def setup_translation():
                         log.error(exception)
                         setup_mock_translation()
         elif deluge.common.osx_check():
-            libintl = ctypes.cdll.LoadLibrary('libintl.dylib')
+            libintl = ctypes.cdll.LoadLibrary('libintl.8.dylib')
 
         if libintl:
             libintl.bindtextdomain(
