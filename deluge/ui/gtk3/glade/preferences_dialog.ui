@@ -2862,6 +2862,7 @@ The network interface name or IP address for outgoing BitTorrent connections. (L
                                                 <property name="sensitive">False</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="max_length">5</property>
+                                                <property name="width_chars">7</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="adjustment">adjustment_spin_outgoing_port_min</property>
@@ -2894,6 +2895,7 @@ The network interface name or IP address for outgoing BitTorrent connections. (L
                                                 <property name="sensitive">False</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="max_length">5</property>
+                                                <property name="width_chars">7</property>
                                                 <property name="primary_icon_activatable">False</property>
                                                 <property name="secondary_icon_activatable">False</property>
                                                 <property name="adjustment">adjustment_spin_outgoing_port_max</property>

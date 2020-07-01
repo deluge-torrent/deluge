@@ -45,7 +45,7 @@ from deluge.common import (
     windows_check,
 )
 from deluge.configmanager import ConfigManager, get_config_dir
-from deluge.error import DaemonRunningError
+from deluge.error import DaemonRunningError, LibtorrentImportError
 from deluge.i18n import I18N_DOMAIN, set_language, setup_translation
 from deluge.ui.client import client
 from deluge.ui.hostlist import LOCALHOST
@@ -320,8 +320,8 @@ class GtkUI(object):
                 'A Deluge daemon (deluged) is already running.\n'
                 'To use Standalone mode, stop local daemon and restart Deluge.'
             )
-        except ImportError as ex:
-            if 'No module named libtorrent' in str(ex):
+        except LibtorrentImportError as ex:
+            if 'libtorrent library not found' in str(ex):
                 err_msg = _(
                     'Only Thin Client mode is available because libtorrent is not installed.\n'
                     'To use Standalone mode, please install libtorrent package.'
@@ -329,9 +329,17 @@ class GtkUI(object):
             else:
                 log.exception(ex)
                 err_msg = _(
-                    'Only Thin Client mode is available due to unknown Import Error.\n'
+                    'Only Thin Client mode is available due to libtorrent import error: %s\n'
                     'To use Standalone mode, please see logs for error details.'
+                    % (str(ex))
                 )
+
+        except ImportError as ex:
+            log.exception(ex)
+            err_msg = _(
+                'Only Thin Client mode is available due to unknown Import Error.\n'
+                'To use Standalone mode, please see logs for error details.'
+            )
         except Exception as ex:
             log.exception(ex)
             err_msg = _(

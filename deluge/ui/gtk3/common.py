@@ -29,7 +29,7 @@ from gi.repository.Gtk import (
     SortType,
 )
 
-from deluge.common import PY2, get_pixmap, osx_check, windows_check
+from deluge.common import PY2, get_pixmap, is_ip, osx_check, windows_check
 
 log = logging.getLogger(__name__)
 
@@ -42,7 +42,18 @@ def cmp(x, y):
     and strictly positive if x > y.
     """
 
-    return (x > y) - (x < y)
+    try:
+        return (x > y) - (x < y)
+    except TypeError:
+        # Handle NoneType comparison
+        if x is None:
+            if y is None:
+                return 0
+            return -1
+        elif y is None:
+            return 1
+        else:
+            raise
 
 
 def create_blank_pixbuf(size=16):
@@ -393,3 +404,30 @@ def get_clipboard_text():
 
 def windowing(like):
     return like.lower() in str(type(Display.get_default())).lower()
+
+
+def parse_ip_port(text):
+    """Return an IP and port from text.
+
+    Parses both IPv4 and IPv6.
+
+    Params:
+        text (str): Text to be parsed for IP and port.
+
+    Returns:
+        tuple: (ip (str), port (int))
+
+    """
+    if '.' in text:
+        # ipv4
+        ip, __, port = text.rpartition(':')
+    elif '[' in text:
+        # ipv6
+        ip, __, port = text.partition('[')[2].partition(']:')
+    else:
+        return None, None
+
+    if ip and is_ip(ip) and port.isdigit():
+        return ip, int(port)
+    else:
+        return None, None

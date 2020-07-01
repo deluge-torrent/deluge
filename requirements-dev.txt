@@ -3,7 +3,6 @@
 -r requirements-tests.txt
 sphinx-autobuild
 tox
-tox-venv
 pre-commit
 flake8-blind-except
 flake8-builtins

@@ -171,6 +171,7 @@
                         <property name="image">quit_image</property>
                         <property name="use_stock">False</property>
                         <signal name="activate" handler="on_menuitem_quit_activate" swapped="no"/>
+                        <accelerator key="Q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                   </object>

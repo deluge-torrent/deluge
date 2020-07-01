@@ -32,6 +32,7 @@ from .common import (
     icon_downloading,
     icon_seeding,
     load_pickled_state_file,
+    parse_ip_port,
     save_pickled_state_file,
 )
 from .torrentdetails import Tab
@@ -376,19 +377,15 @@ class PeersTab(Tab):
         peer_dialog = builder.get_object('connect_peer_dialog')
         txt_ip = builder.get_object('txt_ip')
         response = peer_dialog.run()
+
         if response:
             value = txt_ip.get_text()
-            if value and ':' in value:
-                if ']' in value:
-                    # ipv6
-                    ip = value.split(']')[0][1:]
-                    port = value.split(']')[1][1:]
-                else:
-                    # ipv4
-                    ip = value.split(':')[0]
-                    port = value.split(':')[1]
-                if deluge.common.is_ip(ip):
-                    log.debug('adding peer %s to %s', value, self.torrent_id)
-                    client.core.connect_peer(self.torrent_id, ip, port)
+            ip, port = parse_ip_port(value)
+            if ip and port:
+                log.info('Adding peer IP: %s port: %s to %s', ip, port, self.torrent_id)
+                client.core.connect_peer(self.torrent_id, ip, port)
+            else:
+                log.error('Error parsing peer "%s"', value)
+
         peer_dialog.destroy()
         return True
