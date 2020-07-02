@@ -16,7 +16,6 @@
     <property name="page_increment">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment_share_ratio">
-    <property name="lower">0.5</property>
     <property name="upper">100</property>
     <property name="value">2</property>
     <property name="step_increment">0.10000000000000001</property>
