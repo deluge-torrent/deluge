@@ -33,7 +33,6 @@ class Command(BaseCommand):
             help=_('Also removes the torrent data'),
         )
         parser.add_argument(
-            '-c',
             '--confirm',
             action='store_true',
             default=False,
