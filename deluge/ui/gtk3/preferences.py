@@ -392,6 +392,7 @@ class Preferences(component.Component):
             'chk_new_releases': ('active', 'new_release_check'),
             'chk_send_info': ('active', 'send_info'),
             'entry_geoip': ('text', 'geoip_db_location'),
+            'entry_geoipv6': ('text', 'geoip_v6_db_location'),
             'combo_encin': ('active', 'enc_in_policy'),
             'combo_encout': ('active', 'enc_out_policy'),
             'combo_enclevel': ('active', 'enc_level'),

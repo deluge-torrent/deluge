@@ -82,7 +82,7 @@ Deluge.preferences.Other = Ext.extend(Ext.form.FormPanel, {
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
-            title: _('GeoIP Database'),
+            title: _('GeoIP IPv4 Database'),
             autoHeight: true,
             labelWidth: 80,
             defaultType: 'textfield',
@@ -91,6 +91,24 @@ Deluge.preferences.Other = Ext.extend(Ext.form.FormPanel, {
             'geoip_db_location',
             fieldset.add({
                 name: 'geoip_db_location',
+                fieldLabel: _('Path:'),
+                labelSeparator: '',
+                width: 200,
+            })
+        );
+
+        fieldset = this.add({
+            xtype: 'fieldset',
+            border: false,
+            title: _('GeoIP IPv6 Database'),
+            autoHeight: true,
+            labelWidth: 80,
+            defaultType: 'textfield',
+        });
+        optMan.bind(
+            'geoip_v6_db_location',
+            fieldset.add({
+                name: 'geoip_v6_db_location',
                 fieldLabel: _('Path:'),
                 labelSeparator: '',
                 width: 200,

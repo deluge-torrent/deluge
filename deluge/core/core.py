@@ -159,6 +159,7 @@ class Core(component.Component):
 
         # GeoIP instance with db loaded
         self.geoip_instance = None
+        self.geoip_instance_v6 = None
 
         # These keys will be dropped from the set_config() RPC and are
         # configurable from the command-line.

@@ -123,6 +123,7 @@ DEFAULT_PREFS = {
     'peer_tos': '0x00',
     'rate_limit_ip_overhead': True,
     'geoip_db_location': '/usr/share/GeoIP/GeoIP.dat',
+    'geoip_v6_db_location': '/usr/share/GeoIP/GeoIPv6.dat',
     'cache_size': 512,
     'cache_expiry': 60,
     'auto_manage_prefer_seeds': False,
@@ -477,10 +478,22 @@ class PreferencesManager(component.Component):
         self.core.apply_session_setting('rate_limit_ip_overhead', value)
 
     def _on_set_geoip_db_location(self, key, geoipdb_path):
-        # Load the GeoIP DB for country look-ups if available
+        # Load the GeoIP v4 DB for country look-ups if available
         if os.path.exists(geoipdb_path):
             try:
                 self.core.geoip_instance = GeoIP.open(
+                    geoipdb_path, GeoIP.GEOIP_STANDARD
+                )
+            except AttributeError:
+                log.warning('GeoIP Unavailable')
+        else:
+            log.warning('Unable to find GeoIP database file: %s', geoipdb_path)
+
+    def _on_set_geoip_v6_db_location(self, key, geoipdb_path):
+        # Load the GeoIP v6 DB for country look-ups if available
+        if os.path.exists(geoipdb_path):
+            try:
+                self.core.geoip_instance_v6 = GeoIP.open(
                     geoipdb_path, GeoIP.GEOIP_STANDARD
                 )
             except AttributeError:
