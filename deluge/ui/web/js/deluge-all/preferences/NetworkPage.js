@@ -9,15 +9,6 @@
  */
 Ext.namespace('Deluge.preferences');
 
-// custom Vtype for vtype:'IPAddress'
-Ext.apply(Ext.form.VTypes, {
-    IPAddress: function(v) {
-        return /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/.test(v);
-    },
-    IPAddressText: 'Must be a numeric IP address',
-    IPAddressMask: /[\d\.]/i,
-});
-
 /**
  * @class Deluge.preferences.Network
  * @extends Ext.form.FormPanel
@@ -35,7 +26,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
-            title: _('Incoming Address'),
+            title: _('Incoming Interfaces (coma separated)'),
             style: 'margin-bottom: 5px; padding-bottom: 0px;',
             autoHeight: true,
             labelWidth: 1,
@@ -47,8 +38,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
                 name: 'listen_interface',
                 fieldLabel: '',
                 labelSeparator: '',
-                width: 200,
-                vtype: 'IPAddress',
+                width: 250,
             })
         );
 
@@ -98,7 +88,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
-            title: _('Outgoing Interface'),
+            title: _('Outgoing Interfaces (coma separated)'),
             style: 'margin-bottom: 5px; padding-bottom: 0px;',
             autoHeight: true,
             labelWidth: 1,
@@ -110,7 +100,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
                 name: 'outgoing_interface',
                 fieldLabel: '',
                 labelSeparator: '',
-                width: 40,
+                width: 250,
             })
         );
 

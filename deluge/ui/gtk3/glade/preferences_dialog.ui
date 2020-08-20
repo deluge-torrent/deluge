@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.1 -->
+<!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.0"/>
   <object class="GtkAdjustment" id="adjustment_cache_expiry">
@@ -245,7 +245,7 @@
     <property name="type_hint">dialog</property>
     <signal name="configure-event" handler="on_pref_dialog_configure_event" swapped="no"/>
     <signal name="delete-event" handler="on_pref_dialog_delete_event" swapped="no"/>
-    <child>
+    <child type="titlebar">
       <placeholder/>
     </child>
     <child internal-child="vbox">
@@ -2555,9 +2555,9 @@ used sparingly.</property>
                                       <object class="GtkEntry" id="entry_interface">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="tooltip_text" translatable="yes">The IP address of the interface to listen for incoming bittorrent connections on. Leave this empty if you want to use the default.</property>
-                                        <property name="max_length">15</property>
-                                        <property name="width_chars">15</property>
+                                        <property name="tooltip_text" translatable="yes">Coma separated list of IP addresses / network interface names to be listened for incoming bittorrent connections. Leave this empty if you want to use the default.</property>
+                                        <property name="max_length">100</property>
+                                        <property name="width_chars">30</property>
                                         <property name="truncate_multiline">True</property>
                                         <property name="primary_icon_activatable">False</property>
                                         <property name="secondary_icon_activatable">False</property>
@@ -2569,7 +2569,7 @@ used sparingly.</property>
                                   <object class="GtkLabel" id="label110">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Incoming Address</property>
+                                    <property name="label" translatable="yes">Incoming Interfaces</property>
                                     <attributes>
                                       <attribute name="weight" value="bold"/>
                                     </attributes>
@@ -2775,12 +2775,10 @@ used sparingly.</property>
                                       <object class="GtkEntry" id="entry_outgoing_interface">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="tooltip_text" translatable="yes">
-The network interface name or IP address for outgoing BitTorrent connections. (Leave empty for default.)
-                                        </property>
-                                        <property name="max_length">15</property>
+                                        <property name="tooltip_text" translatable="yes">Coma separated list of allowed IP addresses / network interface names for outgoing bittorrent TCP connections. Leave this empty if you want to use the default.</property>
+                                        <property name="max_length">100</property>
                                         <property name="invisible_char">●</property>
-                                        <property name="width_chars">15</property>
+                                        <property name="width_chars">30</property>
                                         <property name="truncate_multiline">True</property>
                                         <property name="primary_icon_activatable">False</property>
                                         <property name="secondary_icon_activatable">False</property>
@@ -4270,7 +4268,7 @@ the proxy instead of using the local DNS service</property>
                                   <object class="GtkLabel" id="label108">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">GeoIP Database</property>
+                                    <property name="label" translatable="yes">GeoIP Database IPv4</property>
                                     <attributes>
                                       <attribute name="weight" value="bold"/>
                                     </attributes>
@@ -4282,6 +4280,73 @@ the proxy instead of using the local DNS service</property>
                                 <property name="fill">False</property>
                                 <property name="padding">5</property>
                                 <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkFrame" id="frame23">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label_xalign">0</property>
+                                <property name="shadow_type">none</property>
+                                <child>
+                                  <object class="GtkAlignment" id="alignment31">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="top_padding">2</property>
+                                    <property name="left_padding">12</property>
+                                    <child>
+                                      <object class="GtkBox" id="box2">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <property name="spacing">5</property>
+                                        <child>
+                                          <object class="GtkLabel" id="label26">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">False</property>
+                                            <property name="label" translatable="yes">Location:</property>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkEntry" id="entry_geoipv6">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="tooltip_text" translatable="yes">If Deluge cannot find the database file at this location it will fallback to using DNS to resolve the peer's country.</property>
+                                            <property name="invisible_char">●</property>
+                                            <property name="truncate_multiline">True</property>
+                                            <property name="primary_icon_activatable">False</property>
+                                            <property name="secondary_icon_activatable">False</property>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
+                                <child type="label">
+                                  <object class="GtkLabel" id="label34">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">GeoIP Database IPv6</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
+                                  </object>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="padding">5</property>
+                                <property name="position">2</property>
                               </packing>
                             </child>
                             <child>
@@ -4363,7 +4428,7 @@ the proxy instead of using the local DNS service</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
-                                <property name="position">2</property>
+                                <property name="position">3</property>
                               </packing>
                             </child>
                           </object>

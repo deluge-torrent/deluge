@@ -513,9 +513,13 @@ class OtherPane(BasePreferencePane):
             _('Yes, please send anonymous statistics.'),
             core_conf['send_info'],
         )
-        self.add_header(_('GeoIP Database'), space_above=True)
+        self.add_header(_('GeoIP Database IPv4'), space_above=True)
         self.add_text_input(
             'geoip_db_location', 'Location:', core_conf['geoip_db_location']
+        )
+        self.add_header(_('GeoIP Database IPv6'), space_above=True)
+        self.add_text_input(
+            'geoip_v6_db_location', 'Location:', core_conf['geoip_v6_db_location']
         )
 
 

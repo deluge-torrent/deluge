@@ -16,6 +16,7 @@ Attributes:
 
 from __future__ import division, unicode_literals
 
+import ipaddress
 import logging
 import os
 import socket
@@ -817,8 +818,14 @@ class Torrent(object):
                 client = 'unknown'
 
             try:
-                country = component.get('Core').geoip_instance.country_code_by_addr(
-                    peer.ip[0]
+                country = (
+                    component.get('Core').geoip_instance.country_code_by_addr(
+                        peer.ip[0]
+                    )
+                    if ipaddress.ip_address(peer.ip[0]).version == 4
+                    else component.get(
+                        'Core'
+                    ).geoip_instance_v6.country_code_by_addr_v6(peer.ip[0])
                 )
             except AttributeError:
                 country = ''

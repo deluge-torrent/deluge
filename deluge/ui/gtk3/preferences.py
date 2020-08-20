@@ -392,6 +392,7 @@ class Preferences(component.Component):
             'chk_new_releases': ('active', 'new_release_check'),
             'chk_send_info': ('active', 'send_info'),
             'entry_geoip': ('text', 'geoip_db_location'),
+            'entry_geoipv6': ('text', 'geoip_v6_db_location'),
             'combo_encin': ('active', 'enc_in_policy'),
             'combo_encout': ('active', 'enc_out_policy'),
             'combo_enclevel': ('active', 'enc_level'),
@@ -677,8 +678,8 @@ class Preferences(component.Component):
             'chk_random_outgoing_ports'
         ).get_active()
         incoming_address = self.builder.get_object('entry_interface').get_text().strip()
-        if deluge.common.is_ip(incoming_address) or not incoming_address:
-            new_core_config['listen_interface'] = incoming_address
+
+        new_core_config['listen_interface'] = incoming_address
         new_core_config['outgoing_interface'] = (
             self.builder.get_object('entry_outgoing_interface').get_text().strip()
         )

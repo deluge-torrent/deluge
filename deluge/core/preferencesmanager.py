@@ -10,6 +10,7 @@
 
 from __future__ import unicode_literals
 
+import ipaddress
 import logging
 import os
 import platform
@@ -122,6 +123,7 @@ DEFAULT_PREFS = {
     'peer_tos': '0x00',
     'rate_limit_ip_overhead': True,
     'geoip_db_location': '/usr/share/GeoIP/GeoIP.dat',
+    'geoip_v6_db_location': '/usr/share/GeoIP/GeoIPv6.dat',
     'cache_size': 512,
     'cache_expiry': 60,
     'auto_manage_prefer_seeds': False,
@@ -214,24 +216,39 @@ class PreferencesManager(component.Component):
             listen_ports = self.config['listen_ports']
 
         if self.config['listen_interface']:
-            interface = self.config['listen_interface'].strip()
+            interfaces = self.config['listen_interface'].strip()
         else:
-            interface = '0.0.0.0'
+            interfaces = '0.0.0.0'
+
+        lib_interfaces = []
+        for interface in interfaces.split(','):
+            interface = interface.strip()
+            try:
+                # add square brackets to ipv6 only, as needed by lib torrent
+                lib_interfaces.append(
+                    '[' + interface + ']'
+                    if ipaddress.ip_address(interface).version == 6
+                    else interface
+                )
+            except ValueError:
+                # ip address format failed, assume network interface name
+                lib_interfaces.append(interface)
 
         log.debug(
             'Listen Interface: %s, Ports: %s with use_sys_port: %s',
-            interface,
+            lib_interfaces,
             listen_ports,
             self.config['listen_use_sys_port'],
         )
-        interfaces = [
-            '%s:%s' % (interface, port)
+        interface_port_list = [
+            '%s:%s' % (lib_interface, port)
             for port in range(listen_ports[0], listen_ports[1] + 1)
+            for lib_interface in lib_interfaces
         ]
         self.core.apply_session_settings(
             {
                 'listen_system_port_fallback': self.config['listen_use_sys_port'],
-                'listen_interfaces': ''.join(interfaces),
+                'listen_interfaces': ','.join(interface_port_list),
             }
         )
 
@@ -461,10 +478,22 @@ class PreferencesManager(component.Component):
         self.core.apply_session_setting('rate_limit_ip_overhead', value)
 
     def _on_set_geoip_db_location(self, key, geoipdb_path):
-        # Load the GeoIP DB for country look-ups if available
+        # Load the GeoIP v4 DB for country look-ups if available
         if os.path.exists(geoipdb_path):
             try:
                 self.core.geoip_instance = GeoIP.open(
+                    geoipdb_path, GeoIP.GEOIP_STANDARD
+                )
+            except AttributeError:
+                log.warning('GeoIP Unavailable')
+        else:
+            log.warning('Unable to find GeoIP database file: %s', geoipdb_path)
+
+    def _on_set_geoip_v6_db_location(self, key, geoipdb_path):
+        # Load the GeoIP v6 DB for country look-ups if available
+        if os.path.exists(geoipdb_path):
+            try:
+                self.core.geoip_instance_v6 = GeoIP.open(
                     geoipdb_path, GeoIP.GEOIP_STANDARD
                 )
             except AttributeError:
