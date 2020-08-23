@@ -62,7 +62,7 @@ class Command(BaseCommand):
                 name = self.console.get_torrent_name(t_id)
                 self.console.write('* %-50s (%s)' % (name, t_id))
             self.console.write(
-                _('Confirm with -c to remove the listed torrents (Count: %d)')
+                _('Confirm with --confirm to remove the listed torrents (Count: %d)')
                 % len(torrent_ids)
             )
             return
