@@ -33,7 +33,7 @@ class DaemonBase(object):
     def common_set_up(self):
         common.set_tmp_config_dir()
         self.listen_port = 58900
-        self.core = None
+        self.process_protocol = None
         return component.start()
 
     def terminate_core(self, *args):
@@ -41,9 +41,8 @@ class DaemonBase(object):
             if hasattr(args[0], 'getTraceback'):
                 print('terminate_core: Errback Exception: %s' % args[0].getTraceback())
 
-        if not self.core.killed:
-            d = self.core.kill()
-            return d
+        if not self.process_protocol.killed:
+            return self.process_protocol.kill()
 
     @defer.inlineCallbacks
     def start_core(
@@ -69,7 +68,7 @@ class DaemonBase(object):
 
         for dummy in range(port_range):
             try:
-                d, self.core = common.start_core(
+                d, self.process_protocol = common.start_core(
                     listen_port=self.listen_port,
                     logfile=logfile,
                     timeout=timeout,

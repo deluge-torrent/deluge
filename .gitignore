@@ -22,3 +22,7 @@ deluge/ui/web/js/extjs/ext-extensions*.js
 osx/app
 RELEASE-VERSION
 .venv*
+
+swagger_ui/package-lock.json
+swagger_ui/node_modules/
+deluge/ui/web/js/swagger-ui

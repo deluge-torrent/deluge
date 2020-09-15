@@ -110,8 +110,14 @@ class WebAPITestCase(WebServerTestBase):
 
         # Add invalid port
         conn[2] = 'bad port'
-        ret = self.deluge_web.web_api.add_host(conn[1], conn[2], conn[3], conn[4])
-        self.assertEqual(ret, (False, 'Invalid port. Must be an integer'))
+
+        from deluge.ui.hostlist import InvalidHostPort
+
+        with self.assertRaises(InvalidHostPort) as context:
+            self.deluge_web.web_api.add_host(conn[1], conn[2], conn[3], conn[4])
+        self.assertEqual(
+            'Invalid port: "bad port" Must be an integer', str(context.exception)
+        )
 
     def test_remove_host(self):
         conn = ['connection_id', '', 0, '', '']

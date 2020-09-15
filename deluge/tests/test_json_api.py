@@ -23,7 +23,7 @@ import deluge.ui.web.json_api
 from deluge.error import DelugeError
 from deluge.ui.client import client
 from deluge.ui.web.auth import Auth
-from deluge.ui.web.json_api import JSON, JSONException
+from deluge.ui.web.json_api import ERROR_RESPONSE_CODE, JSON, JsonAPIException
 
 from . import common
 from .basetest import BaseTestCase
@@ -85,9 +85,9 @@ class JSONTestCase(JSONBase):
             self.assertEqual(response['result'], None)
             self.assertEqual(response['id'], None)
             self.assertEqual(
-                response['error']['message'], 'JSONException: JSON not decodable'
+                response['error']['message'], 'JsonAPIException: JSON not decodable'
             )
-            self.assertEqual(response['error']['code'], 5)
+            self.assertEqual(response['error']['code'], ERROR_RESPONSE_CODE.RPC_ERROR)
 
         request.write = write
         request.write_was_called = False
@@ -102,20 +102,29 @@ class JSONTestCase(JSONBase):
         json_data = {'method': 'no-existing-module.test', 'id': 0, 'params': []}
         request.json = json_lib.dumps(json_data).encode()
         request_id, result, error = json._handle_request(request)
-        self.assertEqual(error, {'message': 'Unknown method', 'code': 2})
+        self.assertEqual(
+            error,
+            {
+                'message': 'Unknown method',
+                'code': ERROR_RESPONSE_CODE.RPC_UNKNOWN_METHOD,
+            },
+        )
 
     def test_handle_request_invalid_json_request(self):
         json = JSON()
         request = MagicMock()
+        # Missing method
         json_data = {'id': 0, 'params': []}
         request.json = json_lib.dumps(json_data).encode()
-        self.assertRaises(JSONException, json._handle_request, request)
-        json_data = {'method': 'some.method', 'params': []}
-        request.json = json_lib.dumps(json_data).encode()
-        self.assertRaises(JSONException, json._handle_request, request)
+        self.assertRaises(JsonAPIException, json._handle_request, request)
+        # Missing param
         json_data = {'method': 'some.method', 'id': 0}
         request.json = json_lib.dumps(json_data).encode()
-        self.assertRaises(JSONException, json._handle_request, request)
+        self.assertRaises(JsonAPIException, json._handle_request, request)
+        # No id is valid
+        json_data = {'method': 'system.listMethods', 'params': []}
+        request.json = json_lib.dumps(json_data).encode()
+        json._handle_request(request)
 
     def test_on_json_request_invalid_content_type(self):
         """Test for exception with content type not application/json"""
@@ -124,7 +133,7 @@ class JSONTestCase(JSONBase):
         request.getHeader.return_value = b'text/plain'
         json_data = {'method': 'some.method', 'id': 0, 'params': []}
         request.json = json_lib.dumps(json_data).encode()
-        self.assertRaises(JSONException, json._on_json_request, request)
+        self.assertRaises(JsonAPIException, json._on_json_request, request)
 
 
 class JSONCustomUserTestCase(JSONBase):
@@ -148,7 +157,13 @@ class JSONCustomUserTestCase(JSONBase):
         json_data = {'method': 'core.get_libtorrent_version', 'id': 0, 'params': []}
         request.json = json_lib.dumps(json_data).encode()
         request_id, result, error = json._handle_request(request)
-        self.assertEqual(error, {'message': 'Not authenticated', 'code': 1})
+        self.assertEqual(
+            error,
+            {
+                'message': 'Not authenticated',
+                'code': ERROR_RESPONSE_CODE.RPC_NOT_AUTHENTICATED,
+            },
+        )
 
 
 class RPCRaiseDelugeErrorJSONTestCase(JSONBase):
@@ -181,6 +196,7 @@ class RPCRaiseDelugeErrorJSONTestCase(JSONBase):
         auth = Auth(auth_conf)
         request = Request(MagicMock(), False)
         request.base = b''
+        request.path = b'json'
         auth._create_session(request)
         methods = yield json.get_remote_methods()
         # Verify the function has been registered
@@ -273,7 +289,7 @@ class JSONRequestFailedTestCase(JSONBase, WebServerMockBase):
                 'Failure: [Failure instance: Traceback (failure with no frames):'
                 " <class 'deluge.error.DelugeError'>: DelugeERROR\n]",
             )
-            self.assertEqual(response['error']['code'], 4)
+            self.assertEqual(response['error']['code'], ERROR_RESPONSE_CODE.RPC_ERROR)
 
         request.write = write
         request.write_was_called = False

@@ -31,6 +31,7 @@ from deluge.ui.web.auth import Auth
 from deluge.ui.web.common import Template
 from deluge.ui.web.json_api import JSON, WebApi, WebUtils
 from deluge.ui.web.pluginmanager import PluginManager
+from deluge.ui.web.webapidoc.json_webapi import JSONWebapi
 
 log = logging.getLogger(__name__)
 
@@ -68,6 +69,9 @@ UI_CONFIG_KEYS = (
     'base',
     'first_login',
 )
+
+
+mimetypes.add_type('application/json', '.map', strict=True)
 
 
 def rpath(*paths):
@@ -219,11 +223,9 @@ class Flag(resource.Resource):
             return ''
 
 
-class LookupResource(resource.Resource, component.Component):
-    def __init__(self, name, *directories):
+class LocalFilesResource(resource.Resource):
+    def __init__(self, *directories):
         resource.Resource.__init__(self)
-        component.Component.__init__(self, name)
-
         self.__paths = {}
         for directory in directories:
             self.add_directory(directory)
@@ -248,26 +250,49 @@ class LookupResource(resource.Resource, component.Component):
         else:
             return self
 
-    def render(self, request):
-        log.debug('Requested path: %s', request.lookup_path)
-        path = os.path.dirname(request.lookup_path).decode()
-
+    def lookup_file(self, path, filename):
         if path in self.__paths:
-            filename = os.path.basename(request.path).decode()
             for directory in self.__paths[path]:
                 path = os.path.join(directory, filename)
                 if os.path.isfile(path):
                     log.debug('Serving path: %s', path)
                     mime_type = mimetypes.guess_type(path)
-                    request.setHeader(b'content-type', mime_type[0].encode())
-                    with open(path, 'rb') as _file:
-                        data = _file.read()
-                    return data
+                    return path, mime_type[0]
+        return None, None
+
+    def render(self, request):
+        # When lookup path is empty, redirect to index.html
+        if getattr(request, 'lookup_path', b'') == b'':
+            redirect_url = os.path.join(request.uri.decode(), 'index.html')
+            request.redirect(redirect_url)
+            request.finish()
+            return server.NOT_DONE_YET
+
+        log.debug('Requested path: %s', request.lookup_path)
+        path = os.path.dirname(request.lookup_path).decode()
+
+        if path in self.__paths:
+            filename = os.path.basename(request.path).decode()
+            filepath, mime_type = self.lookup_file(path, filename)
+            if filepath:
+                if mime_type is None:
+                    log.warning('Failed to find mimetype for: %s', filepath)
+                else:
+                    request.setHeader(b'content-type', mime_type.encode())
+                with open(filepath, 'rb') as _file:
+                    data = _file.read()
+                return data
 
         request.setResponseCode(http.NOT_FOUND)
         request.setHeader(b'content-type', b'text/html')
         template = Template(filename=rpath(os.path.join('render', '404.html')))
         return template.render()
+
+
+class LookupResource(LocalFilesResource, component.Component):
+    def __init__(self, name, *directories):
+        component.Component.__init__(self, name)
+        LocalFilesResource.__init__(self, *directories)
 
 
 class ScriptResource(resource.Resource, component.Component):
@@ -348,6 +373,20 @@ class ScriptResource(resource.Resource, component.Component):
 
         del self.__scripts[script_type]['scripts'][path]
         self.__scripts[script_type]['order'].remove(path)
+
+    def has_script(self, path, script_type=None):
+        """
+        Check if a script exists in the script resource
+
+        :param path: The path of the folder
+        :type path: string
+        :param script_type: The type of script to add (normal, debug, dev)
+        :param script_type: string
+        """
+        if script_type not in ('dev', 'debug', 'normal'):
+            script_type = 'normal'
+
+        return path in self.__scripts[script_type]['scripts']
 
     def get_scripts(self, script_type=None):
         """
@@ -458,9 +497,9 @@ class TopLevel(resource.Resource):
         'css/deluge.css',
     ]
 
-    def __init__(self):
+    def __init__(self, webapidoc_path):
         resource.Resource.__init__(self)
-
+        self.webapidoc_path = webapidoc_path
         self.putChild(b'css', LookupResource('Css', rpath('css')))
         if os.path.isfile(rpath('js', 'gettext.js')):
             self.putChild(
@@ -484,6 +523,7 @@ class TopLevel(resource.Resource):
         )
 
         js = ScriptResource()
+        self.js = js
 
         # configure the dev scripts
         js.add_script(
@@ -519,11 +559,21 @@ class TopLevel(resource.Resource):
         js.add_script('ext-extensions.js', rpath('js', 'extjs', 'ext-extensions.js'))
         js.add_script('deluge-all.js', rpath('js', 'deluge-all.js'))
 
-        self.js = js
+        self.webapidoc_resource = LookupResource('Webapidoc', rpath('js', 'swagger-ui'))
+
+        self.putChild(self.webapidoc_path.encode(), self.webapidoc_resource)
+        self.js.add_script_folder('swagger-ui', rpath('js', 'swagger-ui'))
+
         self.putChild(b'js', js)
         self.putChild(
             b'json', EncodingResourceWrapper(JSON(), [server.GzipEncoderFactory()])
         )
+
+        jsonwebapi = EncodingResourceWrapper(
+            JSONWebapi('api'), [server.GzipEncoderFactory()]
+        )
+        self.putChild(b'api', jsonwebapi)
+
         self.putChild(
             b'upload', EncodingResourceWrapper(Upload(), [server.GzipEncoderFactory()])
         )
@@ -664,7 +714,8 @@ class DelugeWeb(component.Component):
         self.config.run_converter((0, 1), 2, self._migrate_config_1_to_2)
         self.config.register_set_function('language', self._on_language_changed)
         self.socket = None
-        self.top_level = TopLevel()
+        self.webapidoc_path = 'webapidoc'
+        self.top_level = TopLevel(self.webapidoc_path)
 
         self.interface = self.config['interface']
         self.port = self.config['port']
@@ -740,6 +791,10 @@ class DelugeWeb(component.Component):
 
         component.get('Web').enable()
 
+        # TODO: Check if correct
+        # Plugins must be enabled here to register exported json functions
+        self.plugins.enable_plugins()
+
         if self.daemon:
             reactor.run()
 
@@ -748,6 +803,13 @@ class DelugeWeb(component.Component):
         ip = self.socket.getHost().host
         ip = '[%s]' % ip if is_ipv6(ip) else ip
         log.info('Serving at http://%s:%s%s', ip, self.port, self.base)
+        log.info(
+            'Serving webapidoc at http://%s:%s%s%s',
+            ip,
+            self.port,
+            self.base,
+            self.webapidoc_path,
+        )
 
     def start_ssl(self):
         check_ssl_keys()
@@ -765,6 +827,13 @@ class DelugeWeb(component.Component):
         ip = self.socket.getHost().host
         ip = '[%s]' % ip if is_ipv6(ip) else ip
         log.info('Serving at https://%s:%s%s', ip, self.port, self.base)
+        log.info(
+            'Serving webapidoc at https://%s:%s%s%s',
+            ip,
+            self.port,
+            self.base,
+            self.webapidoc_path,
+        )
 
     def stop(self):
         log.info('Shutting down webserver')
@@ -773,7 +842,10 @@ class DelugeWeb(component.Component):
         except KeyError:
             pass
 
-        self.plugins.disable_plugins()
+        # TODO: Check if this is correct
+        # Disabling plugins removes them from enabled_plugins list in web.conf???
+        # self.plugins.disable_plugins()
+
         log.debug('Saving configuration file')
         self.config.save()
 

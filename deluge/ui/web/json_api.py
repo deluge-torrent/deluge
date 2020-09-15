@@ -9,6 +9,7 @@
 
 from __future__ import division, unicode_literals
 
+import inspect
 import json
 import logging
 import os
@@ -25,12 +26,13 @@ from twisted.web import http, resource, server
 from deluge import component, httpdownloader
 from deluge.common import AUTH_LEVEL_DEFAULT, get_magnet_info, is_magnet
 from deluge.configmanager import get_config_dir
-from deluge.error import NotAuthorizedError
+from deluge.decorators import deprecated
+from deluge.error import DelugeError, NotAuthorizedError
 from deluge.i18n import get_languages
 from deluge.ui.client import Client, client
 from deluge.ui.common import FileTree2, TorrentInfo
 from deluge.ui.coreconfig import CoreConfig
-from deluge.ui.hostlist import HostList
+from deluge.ui.hostlist import BadHostIdError, HostList
 from deluge.ui.sessionproxy import SessionProxy
 from deluge.ui.web.common import _
 
@@ -44,7 +46,8 @@ class JSONComponent(component.Component):
         self._json.register_object(self, name)
 
 
-def export(auth_level=AUTH_LEVEL_DEFAULT):
+@deprecated
+def export(auth_level=AUTH_LEVEL_DEFAULT, **kwargs):
     """
     Decorator function to register an object's method as a RPC. The object
     will need to be registered with a `:class:JSON` to be effective.
@@ -56,7 +59,7 @@ def export(auth_level=AUTH_LEVEL_DEFAULT):
 
     """
 
-    def wrap(func, *args, **kwargs):
+    def wrap(func, *wargs, **wkwargs):
         func._json_export = True
         func._json_auth_level = auth_level
         return func
@@ -69,15 +72,103 @@ def export(auth_level=AUTH_LEVEL_DEFAULT):
         return wrap
 
 
-class JSONException(Exception):
+def inspect_function_arguments(function):
+    """
+    Returns the list of variables names of a function and if it
+    accepts keyword arguments.
+
+    Args:
+        function (func): The function to inspect
+
+    Returns:
+        tuple: A tuple with a list of argument names, and a bool indicating
+               if the function accepts keyword arguments
+    """
+    parameters = inspect.signature(function).parameters
+    bound_arguments = [
+        name
+        for name, p in parameters.items()
+        if p.kind not in (p.VAR_POSITIONAL, p.VAR_KEYWORD)
+    ]
+    has_kwargs = any(p.kind == p.VAR_KEYWORD for p in parameters.values())
+    return list(bound_arguments), has_kwargs
+
+
+def export_webapi(*function, auth_level=AUTH_LEVEL_DEFAULT, **kwargs):
+    """
+    Decorator function to register an object's method as a RPC. The object
+    will need to be registered with a `:class:JSON` to be effective.
+
+    Args:
+        function (func): The exported function
+        auth_level (int): the auth level required to call this method
+
+    """
+
+    def wrap(func, *wargs, **wkwargs):
+        res = inspect_function_arguments(func)
+        args = res[0]
+
+        # Remove the self argument
+        if args[0] == 'self':
+            args = args[1:]
+
+        defaults = {}
+        for arg in args:
+            if arg in kwargs:
+                defaults[arg] = kwargs[arg]
+
+        func._json_export = True
+        func._json_auth_level = auth_level
+        func._webapi = {
+            'args': args,
+            'kwargs': res[1],
+            'method': kwargs.get('method', 'POST'),
+            'defaults': defaults,
+            'export_kwargs': kwargs,  # The argument passed to the export_webapi function
+        }
+        return func
+
+    if len(function) > 0:
+        func = function[0]
+        return wrap(func)
+    else:
+        return wrap
+
+
+class WebapiNamespace(object):
+    def __init__(self, name):
+        self.name = name
+
+    def get(self, *args, **kwargs):
+        kwargs['method'] = 'GET'
+        return export_webapi(*args, **kwargs)
+
+    def post(self, *args, **kwargs):
+        kwargs['method'] = 'POST'
+        return export_webapi(*args, **kwargs)
+
+
+class JsonAPIException(Exception):
     def __init__(self, inner_exception):
         self.inner_exception = inner_exception
         Exception.__init__(self, str(inner_exception))
 
 
+class ERROR_RESPONSE_CODE(object):  # noqa: N801
+    RPC_NOT_AUTHENTICATED = 1
+    RPC_UNKNOWN_METHOD = 2
+    RPC_EXCEPTION = 3
+    RPC_ERROR = 4
+    DELUGE_ERROR = 5
+
+
+webapi = WebapiNamespace('Webapi')
+
+
 class JSON(resource.Resource, component.Component):
     """
-    A Twisted Web resource that exposes a JSON-RPC interface for web clients \
+    A Twisted Web resource that exposes a JSON-RPC interface for web clients
     to use.
     """
 
@@ -120,7 +211,7 @@ class JSON(resource.Resource, component.Component):
             meth.__globals__['__request__'] = request
             component.get('Auth').check_request(request, meth)
             return meth(*params)
-        raise JSONException('Unknown system method')
+        raise JsonAPIException('Unknown system method')
 
     def _exec_remote(self, method, params, request):
         """
@@ -129,6 +220,40 @@ class JSON(resource.Resource, component.Component):
         component.get('Auth').check_request(request, level=AUTH_LEVEL_DEFAULT)
         core_component, method = method.split('.')
         return getattr(getattr(client, core_component), method)(*params)
+
+    def _exec_method(self, request, method, params, request_id):
+        """
+        Takes some json data as a string and attempts to decode it, and process
+        the rpc object that should be contained, returning a deferred for all
+        procedure calls and the request id.
+        """
+        result = None
+        error = None
+
+        try:
+            if method.startswith('system.') or method in self._local_methods:
+                result = self._exec_local(method, params, request)
+            elif method in self._remote_methods:
+                result = self._exec_remote(method, params, request)
+            else:
+                error = {
+                    'message': 'Unknown method',
+                    'code': ERROR_RESPONSE_CODE.RPC_UNKNOWN_METHOD,
+                }
+        except NotAuthorizedError:
+            error = {
+                'message': 'Not authenticated',
+                'code': ERROR_RESPONSE_CODE.RPC_NOT_AUTHENTICATED,
+            }
+        except Exception as ex:
+            log.error('Error calling method `%s`: %s', method, ex)
+            log.exception(ex)
+            error = {
+                'message': '%s: %s' % (ex.__class__.__name__, str(ex)),
+                'code': ERROR_RESPONSE_CODE.RPC_EXCEPTION,
+            }
+
+        return request_id, result, error
 
     def _handle_request(self, request):
         """
@@ -139,37 +264,20 @@ class JSON(resource.Resource, component.Component):
         try:
             request_data = json.loads(request.json.decode())
         except (ValueError, TypeError):
-            raise JSONException('JSON not decodable')
+            raise JsonAPIException('JSON not decodable')
 
         try:
             method = request_data['method']
             params = request_data['params']
-            request_id = request_data['id']
+            request_id = request_data.get('id', None)
         except KeyError as ex:
             message = 'Invalid JSON request, missing param %s in %s' % (
                 ex,
                 request_data,
             )
-            raise JSONException(message)
+            raise JsonAPIException(message)
 
-        result = None
-        error = None
-
-        try:
-            if method.startswith('system.') or method in self._local_methods:
-                result = self._exec_local(method, params, request)
-            elif method in self._remote_methods:
-                result = self._exec_remote(method, params, request)
-            else:
-                error = {'message': 'Unknown method', 'code': 2}
-        except NotAuthorizedError:
-            error = {'message': 'Not authenticated', 'code': 1}
-        except Exception as ex:
-            log.error('Error calling method `%s`: %s', method, ex)
-            log.exception(ex)
-            error = {'message': '%s: %s' % (ex.__class__.__name__, str(ex)), 'code': 3}
-
-        return request_id, result, error
+        return self._exec_method(request, method, params, request_id)
 
     def _on_rpc_request_finished(self, result, response, request):
         """
@@ -185,7 +293,7 @@ class JSON(resource.Resource, component.Component):
         log.error(reason)
         response['error'] = {
             'message': '%s: %s' % (reason.__class__.__name__, str(reason)),
-            'code': 4,
+            'code': ERROR_RESPONSE_CODE.RPC_ERROR,
         }
         return self._send_response(request, response)
 
@@ -197,7 +305,7 @@ class JSON(resource.Resource, component.Component):
         content_type = request.getHeader(b'content-type').decode()
         if content_type != 'application/json':
             message = 'Invalid JSON request content-type: %s' % content_type
-            raise JSONException(message)
+            raise JsonAPIException(message)
 
         log.debug('json-request: %s', request.json)
         response = {'result': None, 'error': None, 'id': None}
@@ -220,7 +328,7 @@ class JSON(resource.Resource, component.Component):
             'result': None,
             'id': None,
             'error': {
-                'code': 5,
+                'code': ERROR_RESPONSE_CODE.RPC_ERROR,
                 'message': '%s: %s' % (reason.__class__.__name__, str(reason)),
             },
         }
@@ -434,9 +542,17 @@ class WebApi(JSONComponent):
         return d_methods
 
     def _on_client_connect_fail(self, result, host_id):
-        log.error(
-            'Unable to connect to daemon, check host_id "%s" is correct.', host_id
-        )
+        if isinstance(result.value, BadHostIdError):
+            error_msg = 'Unable to connect to daemon due to invalid host_id "{}"'.format(
+                host_id
+            )
+        else:
+            error_msg = 'Unable to connect to daemon with host_id "%s": %s' % (
+                host_id,
+                result.value,
+            )
+            log.error(error_msg)
+        raise DelugeError(error_msg)
 
     def _on_client_disconnect(self, *args):
         component.get('Web.PluginManager').stop()
@@ -451,7 +567,7 @@ class WebApi(JSONComponent):
         self.sessionproxy.stop()
         return defer.succeed(True)
 
-    @export
+    @webapi.post
     def connect(self, host_id):
         """Connect the web client to a daemon.
 
@@ -459,24 +575,27 @@ class WebApi(JSONComponent):
             host_id (str): The id of the daemon in the host list.
 
         Returns:
-            Deferred: List of methods the daemon supports.
+            Deferred(list): List of methods the daemon supports \
+                            Example:: ["core.is_session_paused", "..."]
+
         """
         d = self.hostlist.connect_host(host_id)
         d.addCallback(self._on_client_connect)
         d.addErrback(self._on_client_connect_fail, host_id)
         return d
 
-    @export
+    @webapi.get
     def connected(self):
         """
         The current connection state.
 
-        :returns: True if the client is connected
-        :rtype: boolean
+        Returns:
+            bool: True if the client is connected. Example:: True
+
         """
         return client.connected()
 
-    @export
+    @webapi.get
     def disconnect(self):
         """
         Disconnect the web interface from the connected daemon.
@@ -489,17 +608,28 @@ class WebApi(JSONComponent):
         d.addCallback(on_disconnect)
         return d
 
-    @export
+    @webapi.post
     def update_ui(self, keys, filter_dict):
         """
         Gather the information required for updating the web interface.
 
-        :param keys: the information about the torrents to gather
-        :type keys: list
-        :param filter_dict: the filters to apply when selecting torrents.
-        :type filter_dict: dictionary
-        :returns: The torrent and UI information.
-        :rtype: dictionary
+        Args:
+            keys (list): the information about the torrents to gather Example:: ["id"]
+            filter_dict (dict): the filters to apply when selecting torrents Example:: {}
+
+        Returns:
+            dict: The torrent and UI information Example::
+                  {
+                      "connected": False,
+                      "torrents": None,
+                      "filters": None,
+                      "stats": {
+                        "max_download": None,
+                        "max_upload": None,
+                        "max_num_connections": None
+                      }
+                  }
+
         """
         d = Deferred()
         ui_info = {
@@ -633,38 +763,52 @@ class WebApi(JSONComponent):
                 pass
         d.callback(torrent)
 
-    @export
+    @webapi.post(tags=['torrents'])
     def get_torrent_status(self, torrent_id, keys):
-        """Get the status for a torrent, filtered by status keys."""
+        """
+        Get the status for a torrent, filtered by status keys.
+
+        Args:
+            torrent_id (str): The id of the torrent
+            keys (list): The status keys to retrieve
+
+        Returns:
+            dict: the status information
+
+        """
         main_deferred = Deferred()
         d = component.get('SessionProxy').get_torrent_status(torrent_id, keys)
         d.addCallback(self._on_torrent_status, main_deferred)
         return main_deferred
 
-    @export
+    @webapi.post
     def get_torrent_files(self, torrent_id):
         """
         Gets the files for a torrent in tree format
 
-        :param torrent_id: the id of the torrent to retrieve.
-        :type torrent_id: string
-        :returns: The torrents files in a tree
-        :rtype: dictionary
+        Args:
+            torrent_id (str): The id of the torrent
+
+        Returns:
+            dict: The torrents files in a tree
+
         """
         main_deferred = Deferred()
         d = component.get('SessionProxy').get_torrent_status(torrent_id, FILES_KEYS)
         d.addCallback(self._on_got_files, main_deferred)
         return main_deferred
 
-    @export
+    @webapi.post(tags=['torrents'])
     def download_torrent_from_url(self, url, cookie=None):
         """
         Download a torrent file from a URL to a temporary directory.
 
-        :param url: the URL of the torrent
-        :type url: string
-        :returns: the temporary file name of the torrent file
-        :rtype: string
+        Args:
+            url (str): the URL of the torrent
+
+        Returns:
+            str: The temporary file name of the torrent file
+
         """
 
         def on_download_success(result):
@@ -686,25 +830,23 @@ class WebApi(JSONComponent):
         d.addCallbacks(on_download_success, on_download_fail)
         return d
 
-    @export
+    @webapi.post(tags=['torrents'])
     def get_torrent_info(self, filename):
         """
         Return information about a torrent on the filesystem.
 
-        :param filename: the path to the torrent
-        :type filename: string
+        Args:
+            filename (str): the path to the torrent
 
-        :returns: information about the torrent:
-
-        ::
-
+        Returns:
+            dict: information about the torrent
+                  ::
             {
                 "name": the torrent name,
                 "files_tree": the files the torrent contains,
                 "info_hash" the torrents info_hash
             }
 
-        :rtype: dictionary
         """
         try:
             torrent_info = TorrentInfo(filename.strip(), 2)
@@ -713,26 +855,37 @@ class WebApi(JSONComponent):
             log.error(ex)
             return False
 
-    @export
+    @webapi.post(tags=['torrents'])
     def get_magnet_info(self, uri):
-        """Parse a magnet URI for hash and name."""
+        """
+        Parse a magnet URI for hash and name.
+
+        Args:
+            uri (str): the magnet URI
+
+        Returns:
+            dict: Information about the magnet link.
+
+        """
         return get_magnet_info(uri)
 
-    @export
+    @webapi.post(tags=['torrents'])
     def add_torrents(self, torrents):
         """
         Add torrents by file
 
-        :param torrents: A list of dictionaries containing the torrent \
-            path and torrent options to add with.
-        :type torrents: list
+        Args:
+            torrents (list): A list of dictionaries containing the torrent \
+                             path and torrent options to add with. \
+                             Example:: [{"path": "/path/to/file.torrent",\
+                               "options": {"download_location": "/home/deluge/"}}]
 
-        ::
+        Example::
 
             json_api.web.add_torrents([{
                 "path": "/tmp/deluge-web/some-torrent-file.torrent",
                 "options": {"download_location": "/home/deluge/"}
-            }])
+             }])
 
         """
         deferreds = []
@@ -765,7 +918,7 @@ class WebApi(JSONComponent):
         """Information about a host from supplied host id.
 
         Args:
-            host_id (str): The id of the host.
+            host_id (str): The host identifying hash.
 
         Returns:
             list: The host information, empty list if not found.
@@ -773,42 +926,54 @@ class WebApi(JSONComponent):
         """
         return list(self.hostlist.get_host_info(host_id))
 
-    @export
+    @webapi.get(tags=['hosts'])
     def get_hosts(self):
         """
-        Return the hosts in the hostlist.
+        Get the hosts in the hostlist.
+
+        Returns:
+            list: The hosts Example:: [["f2ed4e6f0fcb4a679fc6ee1e1cdb242f", "127.0.0.1",
+                                        58846, "localclient"]]
+
         """
         log.debug('get_hosts called')
         return self.hostlist.get_hosts_info()
 
-    @export
+    @webapi.post(tags=['hosts'])
     def get_host_status(self, host_id):
         """
         Returns the current status for the specified host.
 
-        :param host_id: the hash id of the host
-        :type host_id: string
+        Args:
+            host_id (str): The host identifying hash.
+
+        Returns:
+            Deferred(tuple): The host information, empty tuple if not found Example::
+                             ('f2ed4e6f0fcb4a679fc6ee1e1cdb242f', 'Online', '2.0.4')
 
         """
 
         def response(result):
             return result
 
-        return self.hostlist.get_host_status(host_id).addCallback(response)
+        return defer.maybeDeferred(self.hostlist.get_host_status, host_id).addCallback(
+            response
+        )
 
-    @export
+    @webapi.post(tags=['hosts'])
     def add_host(self, host, port, username='', password=''):
         """Adds a host to the list.
 
         Args:
-            host (str): The IP or hostname of the deluge daemon.
-            port (int): The port of the deluge daemon.
+            host (str): The IP or hostname of the deluge daemon Example:: "localhost"
+            port (int): The port of the deluge daemon Example:: 58846
             username (str): The username to login to the daemon with.
             password (str): The password to login to the daemon with.
 
         Returns:
             tuple: A tuple of (bool, str). If True will contain the host_id, otherwise
-                if False will contain the error message.
+                if False will contain the error message. Example::
+                                                         (True, "f2ed4e6f0fcb4a679fc6ee1e1cdb242f")
         """
         try:
             host_id = self.hostlist.add_host(host, port, username, password)
@@ -817,50 +982,55 @@ class WebApi(JSONComponent):
         else:
             return True, host_id
 
-    @export
+    @webapi.post(tags=['hosts'])
     def edit_host(self, host_id, host, port, username='', password=''):
         """Edit host details in the hostlist.
 
         Args:
             host_id (str): The host identifying hash.
-            host (str): The IP or hostname of the deluge daemon.
-            port (int): The port of the deluge daemon.
+            host (str): The IP or hostname of the deluge daemon Example:: "localhost"
+            port (int): The port of the deluge daemon Example:: 58846
             username (str): The username to login to the daemon with.
             password (str): The password to login to the daemon with.
 
         Returns:
-            bool: True if successful, False otherwise.
+            bool: True if successful, False otherwise. Example:: True
 
         """
         return self.hostlist.update_host(host_id, host, port, username, password)
 
-    @export
+    @webapi.post(tags=['hosts'])
     def remove_host(self, host_id):
         """Removes a host from the hostlist.
 
         Args:
-            host_id (str): The host identifying hash.
+            host_id (str): The host identifying hash
 
         Returns:
-            bool: True if successful, False otherwise.
+            bool: True if successful, False otherwise Example:: True
 
         """
         return self.hostlist.remove_host(host_id)
 
-    @export
+    @webapi.post
     def start_daemon(self, port):
         """
         Starts a local daemon.
+
+        Args:
+            port (int): Port for the daemon to listen on
+
         """
         client.start_daemon(port, get_config_dir())
 
-    @export
+    @webapi.post
     def stop_daemon(self, host_id):
         """
         Stops a running daemon.
 
-        :param host_id: the hash id of the host
-        :type host_id: string
+        Args:
+            host_id (str): The host identifying hash
+
         """
         main_deferred = Deferred()
         host = self._get_host(host_id)
@@ -889,13 +1059,15 @@ class WebApi(JSONComponent):
             main_deferred.callback((False, 'An error occurred'))
         return main_deferred
 
-    @export
+    @webapi.get
     def get_config(self):
         """
         Get the configuration dictionary for the web interface.
 
-        :rtype: dictionary
-        :returns: the configuration
+        Returns:
+            dict: the configuration. Example:: {"enabled_plugins": ["Label"],\
+                                                "port": 8112, "...": "..."}
+
         """
         config = component.get('DelugeWeb').config.config.copy()
         del config['sessions']
@@ -903,13 +1075,14 @@ class WebApi(JSONComponent):
         del config['pwd_sha1']
         return config
 
-    @export
+    @webapi.post
     def set_config(self, config):
         """
         Sets the configuration dictionary for the web interface.
 
-        :param config: The configuration options to update
-        :type config: dictionary
+        Args:
+            config (dict): The configuration options to update
+
         """
         web_config = component.get('DelugeWeb').config
         for key in config:
@@ -918,7 +1091,7 @@ class WebApi(JSONComponent):
                 continue
             web_config[key] = config[key]
 
-    @export
+    @webapi.get(tags=['plugins'])
     def get_plugins(self):
         """All available and enabled plugins within WebUI.
 
@@ -926,7 +1099,11 @@ class WebApi(JSONComponent):
             This does not represent all plugins from deluge.client.core.
 
         Returns:
-            dict: A dict containing 'available_plugins' and 'enabled_plugins' lists.
+            dict: A dict containing 'available_plugins' and 'enabled_plugins' lists Example::
+                  {
+                      "available_plugins": ["Label", "AutoAdd", "..."],
+                      "enabled_plugins": ["Label"]
+                  }
 
         """
 
@@ -935,19 +1112,68 @@ class WebApi(JSONComponent):
             'available_plugins': component.get('Web.PluginManager').available_plugins,
         }
 
-    @export
+    @webapi.post(tags=['plugins'])
     def get_plugin_info(self, name):
-        """Get the details for a plugin."""
+        """
+        Get the details for a plugin.
+
+        Args:
+            name (str): The plugin name
+
+        Returns:
+            dict: plugin info from the metadata Example::
+                  {
+                    "Name": "PluginName",
+                    "License": "GPLv3",
+                    "Author": "Author name",
+                    "Home-page": "http://deluge-torrent.org",
+                    "Summary": "Allows Deluge to be even better",
+                    "Platform": "UNKNOWN",
+                    "Version": "1.0",
+                    "Author-email": "author@gmail.com",
+                    "Description": "Plugin that does almost everything"
+                  }
+
+        """
         return component.get('Web.PluginManager').get_plugin_info(name)
 
-    @export
+    @webapi.post(tags=['plugins'])
     def get_plugin_resources(self, name):
-        """Get the resource data files for a plugin."""
+        """
+        Get the resource data files for a plugin.
+
+        Args:
+            name (str): The plugin name
+
+        Returns:
+            dict: plugin resource info Example::
+                  {
+                   "scripts": [
+                      "js/label/label.js"
+                    ],
+                    "debug_scripts": [
+                      "js/label/label.js"
+                    ],
+                    "name": "Label"
+                  }
+
+        """
         return component.get('Web.PluginManager').get_plugin_resources(name)
 
-    @export
+    @webapi.post(tags=['plugins'])
     def upload_plugin(self, filename, path):
-        """Upload a plugin to config."""
+        """
+        Upload a plugin to config.
+
+        Args:
+            filename (str): The destination filename of the plugin Example:: "PluginName-1.0.0-py3.6.egg"
+            path (str): The absolute path to the plugin file to upload Example::
+                        "/path/to/plugin/PluginName-1.0.0-py3.6.egg"
+
+        Returns:
+             Deferred(bool): True if uploaded successfully, else False Example:: True
+
+        """
         main_deferred = Deferred()
 
         shutil.copyfile(path, os.path.join(get_config_dir(), 'plugins', filename))
@@ -972,32 +1198,48 @@ class WebApi(JSONComponent):
         d.addErrback(on_upload_error)
         return main_deferred
 
-    @export
+    @webapi.post
     def register_event_listener(self, event):
         """
         Add a listener to the event queue.
 
-        :param event: The event name
-        :type event: string
+        Args:
+            event (str): The event name
+
         """
         self.event_queue.add_listener(__request__.session_id, event)
 
-    @export
+    @webapi.post
     def deregister_event_listener(self, event):
         """
         Remove an event listener from the event queue.
 
-        :param event: The event name
-        :type event: string
+        Args:
+            event (str): The event name
+
         """
         self.event_queue.remove_listener(__request__.session_id, event)
 
-    @export
+    @webapi.get
     def get_events(self):
         """
         Retrieve the pending events for the session.
         """
         return self.event_queue.get_events(__request__.session_id)
+
+    @webapi.get
+    def get_methods(self):
+        """
+        Get the available methods
+
+        Returns:
+             list: The methods
+
+        """
+        methods = []
+        methods.extend(self._json._local_methods)
+        methods.extend(self._json._remote_methods)
+        return methods
 
 
 class WebUtils(JSONComponent):
@@ -1008,12 +1250,15 @@ class WebUtils(JSONComponent):
     def __init__(self):
         super(WebUtils, self).__init__('WebUtils')
 
-    @export
+    @webapi.get
     def get_languages(self):
         """
         Get the available translated languages
 
         Returns:
-             list: of tuples ``[(lang-id, language-name), ...]``
+             list: Each language in a tuple of (lang-id, language-name).\
+                   Example:: [("en_GB", "English (United Kingdom)"), \
+                              ("eo", "Esperanto"), ("...", "...")]
+
         """
         return get_languages()
