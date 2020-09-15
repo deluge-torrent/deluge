@@ -12,6 +12,7 @@ from __future__ import unicode_literals
 
 import logging
 import struct
+import traceback
 import zlib
 
 import rencode
@@ -126,14 +127,31 @@ class DelugeTransferProtocol(Protocol, object):
 
         """
         try:
-            self.message_received(
-                rencode.loads(zlib.decompress(data), decode_utf8=True)
-            )
-        except Exception as ex:
+            msg = rencode.loads(zlib.decompress(data), decode_utf8=True)
+        except zlib.error as ex:
             log.warning(
-                'Failed to decompress (%d bytes) and load serialized data with rencode: %s',
+                'Failed to decompress (%d bytes): %s.\n%s',
                 len(data),
                 ex,
+                traceback.format_exc(),
+            )
+            return
+        except Exception as ex:
+            log.warning(
+                'Failed to load serialized data with rencode: %s.\n%s',
+                len(data),
+                ex,
+                traceback.format_exc(),
+            )
+            return
+        try:
+            self.message_received(msg)
+        except Exception as ex:
+            log.error(
+                'Failed to process received message: %s: %s\n%s',
+                msg,
+                ex,
+                traceback.format_exc(),
             )
 
     def get_bytes_recv(self):
