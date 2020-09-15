@@ -791,6 +791,10 @@ class DelugeWeb(component.Component):
 
         component.get('Web').enable()
 
+        # TODO: Check if correct
+        # Plugins must be enabled here to register exported json functions
+        self.plugins.enable_plugins()
+
         if self.daemon:
             reactor.run()
 
@@ -838,7 +842,10 @@ class DelugeWeb(component.Component):
         except KeyError:
             pass
 
-        self.plugins.disable_plugins()
+        # TODO: Check if this is correct
+        # Disabling plugins removes them from enabled_plugins list in web.conf???
+        # self.plugins.disable_plugins()
+
         log.debug('Saving configuration file')
         self.config.save()
 
