@@ -135,7 +135,7 @@ class Core(CorePluginBase):
                 ]
                 if windows_check():
                     # Escape ampersand on windows (see #2784)
-                    cmd_args = [cmd_arg.replace('&', '^^^&') for cmd_arg in cmd_args]
+                    cmd_args = [cmd_arg.replace(b'&', b'^^^&') for cmd_arg in cmd_args]
 
                 if os.path.isfile(command) and os.access(command, os.X_OK):
                     log.debug('Running %s with args: %s', command, cmd_args)
