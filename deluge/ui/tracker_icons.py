@@ -12,6 +12,7 @@ from __future__ import unicode_literals
 import logging
 import os
 from tempfile import mkstemp
+from six import string_types
 
 from twisted.internet import defer, threads
 from twisted.web.error import PageRedirect
@@ -178,7 +179,10 @@ class TrackerIcons(Component):
         :returns: the TrackerIcon for the host
         :rtype: TrackerIcon
         """
-        host = host.lower()
+        if isinstance(host, string_types):
+            host = host.lower()
+        else:
+            host = host.lower().decode()
         if host in self.icons:
             return self.icons[host]
         else:
@@ -195,7 +199,10 @@ class TrackerIcons(Component):
         :returns: a Deferred which fires with the TrackerIcon for the given host
         :rtype: Deferred
         """
-        host = host.lower()
+        if isinstance(host, string_types):
+            host = host.lower()
+        else:
+            host = host.lower().decode()
         if host in self.icons:
             # We already have it, so let's return it
             d = defer.succeed(self.icons[host])
