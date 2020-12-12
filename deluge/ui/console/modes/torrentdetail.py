@@ -710,7 +710,7 @@ class TorrentDetail(BaseMode, PopupsHandler):
                 'skip_priority',
                 '_Skip',
                 foreground='red',
-                cb_arg=FILE_PRIORITY['Low'],
+                cb_arg=FILE_PRIORITY['Skip'],
                 was_empty=was_empty,
             )
             popup.add_line(
