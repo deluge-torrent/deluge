@@ -191,7 +191,7 @@ class Tracker(resource.Resource):
             request.finish()
 
     def render(self, request):
-        d = self.tracker_icons.fetch(request.tracker_name)
+        d = self.tracker_icons.fetch(request.tracker_name.decode())
         d.addCallback(self.on_got_icon, request)
         return server.NOT_DONE_YET
 
