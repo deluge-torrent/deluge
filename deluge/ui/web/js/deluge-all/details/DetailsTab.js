@@ -18,7 +18,7 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
 
     oldData: {},
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.details.DetailsTab.superclass.initComponent.call(this);
         this.addItem('torrent_name', _('Name:'));
         this.addItem('hash', _('Hash:'));
@@ -31,7 +31,7 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
         this.addItem('creator', _('Created By:'));
     },
 
-    onRender: function(ct, position) {
+    onRender: function (ct, position) {
         Deluge.details.DetailsTab.superclass.onRender.call(this, ct, position);
         this.body.setStyle('padding', '10px');
         this.dl = Ext.DomHelper.append(this.body, { tag: 'dl' }, true);
@@ -41,7 +41,7 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
         }
     },
 
-    addItem: function(id, label) {
+    addItem: function (id, label) {
         if (!this.rendered) {
             this.queuedItems[id] = label;
         } else {
@@ -50,7 +50,7 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
     },
 
     // private
-    doAddItem: function(id, label) {
+    doAddItem: function (id, label) {
         Ext.DomHelper.append(this.dl, { tag: 'dt', cls: id, html: label });
         this.fields[id] = Ext.DomHelper.append(
             this.dl,
@@ -59,7 +59,7 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
         );
     },
 
-    clear: function() {
+    clear: function () {
         if (!this.fields) return;
         for (var k in this.fields) {
             this.fields[k].dom.innerHTML = '';
@@ -67,7 +67,7 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
         this.oldData = {};
     },
 
-    update: function(torrentId) {
+    update: function (torrentId) {
         deluge.client.web.get_torrent_status(torrentId, Deluge.Keys.Details, {
             success: this.onRequestComplete,
             scope: this,
@@ -75,7 +75,7 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
         });
     },
 
-    onRequestComplete: function(torrent, request, response, options) {
+    onRequestComplete: function (torrent, request, response, options) {
         var data = {
             torrent_name: torrent.name,
             hash: options.options.torrentId,

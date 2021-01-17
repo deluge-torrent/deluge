@@ -68,10 +68,10 @@ class ListView(object):
 
     class TreeviewColumn(Gtk.TreeViewColumn, object):
         """
-            TreeViewColumn does not signal right-click events, and we need them
-            This subclass is equivalent to TreeViewColumn, but it signals these events
+        TreeViewColumn does not signal right-click events, and we need them
+        This subclass is equivalent to TreeViewColumn, but it signals these events
 
-            Most of the code of this class comes from Quod Libet (http://www.sacredchao.net/quodlibet)
+        Most of the code of this class comes from Quod Libet (http://www.sacredchao.net/quodlibet)
         """
 
         __gsignals__ = {
@@ -281,7 +281,7 @@ class ListView(object):
 
     def save_state(self, filename):
         """Saves the listview state (column positions and visibility) to
-            filename."""
+        filename."""
         # A list of ListViewColumnStates
         state = []
 
@@ -627,8 +627,7 @@ class ListView(object):
         unique=False,
         default_sort=False,
     ):
-        """Add a text column to the listview.  Only the header name is required.
-        """
+        """Add a text column to the listview.  Only the header name is required."""
         render = Gtk.CellRendererText()
         self.add_column(
             header,

@@ -60,14 +60,14 @@ class ConsoleCommandParser(ConsoleBaseParser):
     def parse_args(self, args=None):
         """Parse known UI args and handle common and process group options.
 
-            Notes:
-                If started by deluge entry script this has already been done.
+        Notes:
+            If started by deluge entry script this has already been done.
 
-            Args:
-                args (list, optional): The arguments to parse.
+        Args:
+            args (list, optional): The arguments to parse.
 
-            Returns:
-                argparse.Namespace: The parsed arguments.
+        Returns:
+            argparse.Namespace: The parsed arguments.
         """
         from deluge.ui.ui_entry import AMBIGUOUS_CMD_ARGS
 
@@ -118,9 +118,9 @@ class OptionParser(ConsoleBaseParser):
     def error(self, msg):
         """error(msg : string)
 
-           Print a usage message incorporating 'msg' to stderr and exit.
-           If you override this in a subclass, it should not return -- it
-           should either exit or raise an exception.
+        Print a usage message incorporating 'msg' to stderr and exit.
+        If you override this in a subclass, it should not return -- it
+        should either exit or raise an exception.
         """
         raise OptionParserError(msg)
 

@@ -14,7 +14,7 @@ Ext.namespace('Deluge.preferences');
  * @extends Ext.form.FormPanel
  */
 Deluge.preferences.Bandwidth = Ext.extend(Ext.form.FormPanel, {
-    constructor: function(config) {
+    constructor: function (config) {
         config = Ext.apply(
             {
                 border: false,
@@ -28,7 +28,7 @@ Deluge.preferences.Bandwidth = Ext.extend(Ext.form.FormPanel, {
         Deluge.preferences.Bandwidth.superclass.constructor.call(this, config);
     },
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.preferences.Bandwidth.superclass.initComponent.call(this);
 
         var om = deluge.preferences.getOptionsManager();

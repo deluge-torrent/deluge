@@ -57,10 +57,10 @@ from deluge.event import (
 from deluge.httpdownloader import download_file
 
 try:
-    from urllib.request import urlopen, URLError
+    from urllib.request import URLError, urlopen
 except ImportError:
     # PY2 fallback
-    from urllib2 import urlopen, URLError
+    from urllib2 import URLError, urlopen
 
 log = logging.getLogger(__name__)
 

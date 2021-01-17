@@ -4,10 +4,8 @@ dist: xenial
 language: python
 python:
   # Travis Xenial Python to support system_site_packages
-  - 3.5
+  - 3.5_with_system_site_packages
 cache: pip
-virtualenv:
-  system_site_packages: true
 
 env:
   global:
@@ -21,19 +19,20 @@ jobs:
   include:
     - name: Unit tests
       env: TOX_ENV=py3
-    - name: Unit tests - libtorrent 1.2
-      env: TOX_ENV=py3
-      addons:
-        apt:
-          sources: [sourceline: "ppa:libtorrent.org/1.2-daily"]
-          packages: [python3-libtorrent, python3-venv]
+    #~ - name: Unit tests - libtorrent 1.2
+    #~ env: TOX_ENV=py3
+    #~ addons:
+    #~ apt:
+    #~ sources: [sourceline: "ppa:libtorrent.org/1.2-daily"]
+    #~ packages: [python3-libtorrent, python3-venv]
     - name: Unit tests - Python 2
       env: TOX_ENV=py27
-      python: 2.7
+      python: 2.7_with_system_site_packages
     - if: commit_message =~ SECURITY_TEST
       env: TOX_ENV=security
     - name: Code linting
       env: TOX_ENV=lint
+      python: 3.6
     - name: Docs build
       env: TOX_ENV=docs
     - name: GTK unit tests
@@ -73,7 +72,9 @@ install:
 before_script:
   - export PYTHONPATH=$PYTHONPATH:$PWD
   # Verify libtorrent installed and version
-  - python -c "import libtorrent as lt; print(lt.__version__)"
+  - "if [ $TOX_ENV != 'lint' ]; then
+    python -c 'import libtorrent as lt; print(lt.__version__)';
+    fi"
   # Start xvfb for the GTKUI tests
   - "if [ $TOX_ENV == 'gtkui' ]; then
     /sbin/start-stop-daemon --start --quiet --background \

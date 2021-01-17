@@ -28,16 +28,16 @@ Deluge.about.AboutWindow = Ext.extend(Ext.Window, {
     },
     buttonAlign: 'center',
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.about.AboutWindow.superclass.initComponent.call(this);
         this.addEvents({
             build_ready: true,
         });
 
         var self = this;
-        var libtorrent = function() {
+        var libtorrent = function () {
             deluge.client.core.get_libtorrent_version({
-                success: function(lt_version) {
+                success: function (lt_version) {
                     comment += '<br/>' + _('libtorrent:') + ' ' + lt_version;
                     Ext.getCmp('about_comment').setText(comment, false);
                     self.fireEvent('build_ready');
@@ -57,10 +57,10 @@ Deluge.about.AboutWindow = Ext.extend(Ext.Window, {
             client_version +
             '<br/>';
         deluge.client.web.connected({
-            success: function(connected) {
+            success: function (connected) {
                 if (connected) {
                     deluge.client.daemon.get_version({
-                        success: function(server_version) {
+                        success: function (server_version) {
                             comment +=
                                 _('Server:') + ' ' + server_version + '<br/>';
                             libtorrent();
@@ -70,7 +70,7 @@ Deluge.about.AboutWindow = Ext.extend(Ext.Window, {
                     this.fireEvent('build_ready');
                 }
             },
-            failure: function() {
+            failure: function () {
                 this.fireEvent('build_ready');
             },
             scope: this,
@@ -111,19 +111,19 @@ Deluge.about.AboutWindow = Ext.extend(Ext.Window, {
         this.addButton(_('Close'), this.onCloseClick, this);
     },
 
-    show: function() {
-        this.on('build_ready', function() {
+    show: function () {
+        this.on('build_ready', function () {
             Deluge.about.AboutWindow.superclass.show.call(this);
         });
     },
 
-    onCloseClick: function() {
+    onCloseClick: function () {
         this.close();
     },
 });
 
 Ext.namespace('Deluge');
 
-Deluge.About = function() {
+Deluge.About = function () {
     new Deluge.about.AboutWindow().show();
 };

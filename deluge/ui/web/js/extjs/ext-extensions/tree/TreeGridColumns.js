@@ -4,9 +4,9 @@
  * licensing@sencha.com
  * http://www.sencha.com/license
  */
-(function() {
+(function () {
     Ext.override(Ext.list.Column, {
-        init: function() {
+        init: function () {
             var types = Ext.data.Types,
                 st = this.sortType;
 

@@ -183,7 +183,7 @@ sb.setStatus({
     activeThreadId: 0,
 
     // private
-    initComponent: function() {
+    initComponent: function () {
         if (this.statusAlign == 'right') {
             this.cls += ' x-status-right';
         }
@@ -191,7 +191,7 @@ sb.setStatus({
     },
 
     // private
-    afterRender: function() {
+    afterRender: function () {
         Ext.ux.StatusBar.superclass.afterRender.call(this);
 
         var right = this.statusAlign == 'right';
@@ -260,7 +260,7 @@ statusBar.setStatus({
 </code></pre>
      * @return {Ext.ux.StatusBar} this
      */
-    setStatus: function(o) {
+    setStatus: function (o) {
         o = o || {};
 
         if (typeof o == 'string') {
@@ -307,7 +307,7 @@ statusBar.setStatus({
      * </ul>
      * @return {Ext.ux.StatusBar} this
      */
-    clearStatus: function(o) {
+    clearStatus: function (o) {
         o = o || {};
 
         if (o.threadId && o.threadId !== this.activeThreadId) {
@@ -330,7 +330,7 @@ statusBar.setStatus({
                 remove: false,
                 useDisplay: true,
                 scope: this,
-                callback: function() {
+                callback: function () {
                     this.setStatus({
                         text: text,
                         iconCls: iconCls,
@@ -356,7 +356,7 @@ statusBar.setStatus({
      * @param {String} text (optional) The text to set (defaults to '')
      * @return {Ext.ux.StatusBar} this
      */
-    setText: function(text) {
+    setText: function (text) {
         this.activeThreadId++;
         this.text = text || '';
         if (this.rendered) {
@@ -369,7 +369,7 @@ statusBar.setStatus({
      * Returns the current status text.
      * @return {String} The status text
      */
-    getText: function() {
+    getText: function () {
         return this.text;
     },
 
@@ -379,7 +379,7 @@ statusBar.setStatus({
      * @param {String} iconCls (optional) The icon class to set (defaults to '', and any current icon class is removed)
      * @return {Ext.ux.StatusBar} this
      */
-    setIcon: function(cls) {
+    setIcon: function (cls) {
         this.activeThreadId++;
         cls = cls || '';
 
@@ -408,7 +408,7 @@ statusBar.setStatus({
      * {@link #busyIconCls} will be used in conjunction with all of the default options for {@link #setStatus}.
      * @return {Ext.ux.StatusBar} this
      */
-    showBusy: function(o) {
+    showBusy: function (o) {
         if (typeof o == 'string') {
             o = { text: o };
         }

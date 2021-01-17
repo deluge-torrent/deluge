@@ -19,7 +19,7 @@ Deluge.ux.AutoAdd.AutoAddMainPanel = Ext.extend(Ext.Panel, {
     id: 'main_tab_panel',
     title: _('Main'),
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.ux.AutoAdd.AutoAddMainPanel.superclass.initComponent.call(this);
         this.watchFolderFset = new Ext.form.FieldSet({
             xtype: 'fieldset',
@@ -69,7 +69,7 @@ Deluge.ux.AutoAdd.AutoAddMainPanel = Ext.extend(Ext.Panel, {
                             checked: true,
                             hideLabel: true,
                             listeners: {
-                                check: function(cb, newValue) {
+                                check: function (cb, newValue) {
                                     if (newValue) {
                                         Ext.getCmp(
                                             'append_extension'
@@ -98,7 +98,7 @@ Deluge.ux.AutoAdd.AutoAddMainPanel = Ext.extend(Ext.Panel, {
                                     ),
                                     hideLabel: true,
                                     listeners: {
-                                        check: function(cb, newValue) {
+                                        check: function (cb, newValue) {
                                             if (newValue) {
                                                 Ext.getCmp(
                                                     'append_extension'
@@ -141,7 +141,7 @@ Deluge.ux.AutoAdd.AutoAddMainPanel = Ext.extend(Ext.Panel, {
                                             ),
                                             hideLabel: true,
                                             listeners: {
-                                                check: function(cb, newValue) {
+                                                check: function (cb, newValue) {
                                                     if (newValue) {
                                                         Ext.getCmp(
                                                             'append_extension'
@@ -201,7 +201,7 @@ Deluge.ux.AutoAdd.AutoAddMainPanel = Ext.extend(Ext.Panel, {
                     xtype: 'checkbox',
                     boxLabel: _('Set download folder'),
                     listeners: {
-                        check: function(cb, checked) {
+                        check: function (cb, checked) {
                             Ext.getCmp('download_location').setDisabled(
                                 !checked
                             );
@@ -233,7 +233,7 @@ Deluge.ux.AutoAdd.AutoAddMainPanel = Ext.extend(Ext.Panel, {
                     xtype: 'checkbox',
                     boxLabel: _('Set move completed folder'),
                     listeners: {
-                        check: function(cb, checked) {
+                        check: function (cb, checked) {
                             Ext.getCmp('move_completed_path').setDisabled(
                                 !checked
                             );
@@ -271,7 +271,7 @@ Deluge.ux.AutoAdd.AutoAddMainPanel = Ext.extend(Ext.Panel, {
                             xtype: 'checkbox',
                             boxLabel: _('Label:'),
                             listeners: {
-                                check: function(cb, checked) {
+                                check: function (cb, checked) {
                                     Ext.getCmp('label').setDisabled(!checked);
                                 },
                             },

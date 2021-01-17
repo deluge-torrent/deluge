@@ -17,7 +17,7 @@ Deluge.details.StatusTab = Ext.extend(Ext.Panel, {
     title: _('Status'),
     autoScroll: true,
 
-    onRender: function(ct, position) {
+    onRender: function (ct, position) {
         Deluge.details.StatusTab.superclass.onRender.call(this, ct, position);
 
         this.progressBar = this.add({
@@ -33,7 +33,7 @@ Deluge.details.StatusTab = Ext.extend(Ext.Panel, {
             width: 1000,
             listeners: {
                 render: {
-                    fn: function(panel) {
+                    fn: function (panel) {
                         panel.load({
                             url: deluge.config.base + 'render/tab_status.html',
                             text: _('Loading') + '...',
@@ -48,14 +48,14 @@ Deluge.details.StatusTab = Ext.extend(Ext.Panel, {
         });
     },
 
-    clear: function() {
+    clear: function () {
         this.progressBar.updateProgress(0, ' ');
         for (var k in this.fields) {
             this.fields[k].innerHTML = '';
         }
     },
 
-    update: function(torrentId) {
+    update: function (torrentId) {
         if (!this.fields) this.getFields();
         deluge.client.web.get_torrent_status(torrentId, Deluge.Keys.Status, {
             success: this.onRequestComplete,
@@ -63,18 +63,18 @@ Deluge.details.StatusTab = Ext.extend(Ext.Panel, {
         });
     },
 
-    onPanelUpdate: function(el, response) {
+    onPanelUpdate: function (el, response) {
         this.fields = {};
         Ext.each(
             Ext.query('dd', this.status.body.dom),
-            function(field) {
+            function (field) {
                 this.fields[field.className] = field;
             },
             this
         );
     },
 
-    onRequestComplete: function(status) {
+    onRequestComplete: function (status) {
         seeds =
             status.total_seeds > -1
                 ? status.num_seeds + ' (' + status.total_seeds + ')'

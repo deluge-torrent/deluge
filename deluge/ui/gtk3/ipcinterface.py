@@ -31,8 +31,8 @@ try:
     from urllib.request import url2pathname
 except ImportError:
     # PY2 fallback
-    from urlparse import urlparse  # pylint: disable=ungrouped-imports
     from urllib import url2pathname  # pylint: disable=ungrouped-imports
+    from urlparse import urlparse  # pylint: disable=ungrouped-imports
 
 log = logging.getLogger(__name__)
 
@@ -84,8 +84,8 @@ class IPCInterface(component.Component):
         if windows_check():
             # If we're on windows we need to check the global mutex to see if deluge is
             # already running.
-            import win32event
             import win32api
+            import win32event
             import winerror
 
             self.mutex = win32event.CreateMutex(None, False, 'deluge')

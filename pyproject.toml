@@ -6,3 +6,8 @@ requires = [
 
 [tool.black]
 skip-string-normalization = true
+
+[tool.isort]
+profile = "black"
+# Python 2 stdlib
+extra_standard_library = ["urlparse", "HTMLParser", "urllib2"]

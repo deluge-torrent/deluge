@@ -40,8 +40,9 @@ class Gtk(UI):
 
     def start(self):
         super(Gtk, self).start()
-        from .gtkui import GtkUI
         import deluge.common
+
+        from .gtkui import GtkUI
 
         def run(options):
             try:

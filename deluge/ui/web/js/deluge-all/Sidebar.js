@@ -24,7 +24,7 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
     // private
     selected: null,
 
-    constructor: function(config) {
+    constructor: function (config) {
         config = Ext.apply(
             {
                 id: 'sidebar',
@@ -43,16 +43,16 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
     },
 
     // private
-    initComponent: function() {
+    initComponent: function () {
         Deluge.Sidebar.superclass.initComponent.call(this);
         deluge.events.on('disconnect', this.onDisconnect, this);
     },
 
-    createFilter: function(filter, states) {
+    createFilter: function (filter, states) {
         var panel = new Deluge.FilterPanel({
             filter: filter,
         });
-        panel.on('selectionchange', function(view, nodes) {
+        panel.on('selectionchange', function (view, nodes) {
             deluge.ui.update();
         });
         this.add(panel);
@@ -60,7 +60,7 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
         this.doLayout();
         this.panels[filter] = panel;
 
-        panel.header.on('click', function(header) {
+        panel.header.on('click', function (header) {
             if (!deluge.config.sidebar_multiple_filters) {
                 deluge.ui.update();
             }
@@ -74,16 +74,16 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
         this.fireEvent('afterfiltercreate', this, panel);
     },
 
-    getFilter: function(filter) {
+    getFilter: function (filter) {
         return this.panels[filter];
     },
 
-    getFilterStates: function() {
+    getFilterStates: function () {
         var states = {};
 
         if (deluge.config.sidebar_multiple_filters) {
             // Grab the filters from each of the filter panels
-            this.items.each(function(panel) {
+            this.items.each(function (panel) {
                 var state = panel.getState();
                 if (state == null) return;
                 states[panel.filterType] = state;
@@ -100,12 +100,12 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
         return states;
     },
 
-    hasFilter: function(filter) {
+    hasFilter: function (filter) {
         return this.panels[filter] ? true : false;
     },
 
     // private
-    onDisconnect: function() {
+    onDisconnect: function () {
         for (var filter in this.panels) {
             this.remove(this.panels[filter]);
         }
@@ -113,11 +113,11 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
         this.selected = null;
     },
 
-    onFilterSelect: function(selModel, rowIndex, record) {
+    onFilterSelect: function (selModel, rowIndex, record) {
         deluge.ui.update();
     },
 
-    update: function(filters) {
+    update: function (filters) {
         for (var filter in filters) {
             var states = filters[filter];
             if (Ext.getKeys(this.panels).indexOf(filter) > -1) {
@@ -130,7 +130,7 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
         // Perform a cleanup of fitlers that are not enabled any more.
         Ext.each(
             Ext.keys(this.panels),
-            function(filter) {
+            function (filter) {
                 if (Ext.keys(filters).indexOf(filter) == -1) {
                     // We need to remove the panel
                     this.remove(this.panels[filter]);

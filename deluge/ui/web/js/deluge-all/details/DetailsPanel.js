@@ -16,7 +16,7 @@ Deluge.details.DetailsPanel = Ext.extend(Ext.TabPanel, {
     id: 'torrentDetails',
     activeTab: 0,
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.details.DetailsPanel.superclass.initComponent.call(this);
         this.add(new Deluge.details.StatusTab());
         this.add(new Deluge.details.DetailsTab());
@@ -25,8 +25,8 @@ Deluge.details.DetailsPanel = Ext.extend(Ext.TabPanel, {
         this.add(new Deluge.details.OptionsTab());
     },
 
-    clear: function() {
-        this.items.each(function(panel) {
+    clear: function () {
+        this.items.each(function (panel) {
             if (panel.clear) {
                 panel.clear.defer(100, panel);
                 panel.disable();
@@ -34,14 +34,14 @@ Deluge.details.DetailsPanel = Ext.extend(Ext.TabPanel, {
         });
     },
 
-    update: function(tab) {
+    update: function (tab) {
         var torrent = deluge.torrents.getSelected();
         if (!torrent) {
             this.clear();
             return;
         }
 
-        this.items.each(function(tab) {
+        this.items.each(function (tab) {
             if (tab.disabled) tab.enable();
         });
 
@@ -52,7 +52,7 @@ Deluge.details.DetailsPanel = Ext.extend(Ext.TabPanel, {
     /* Event Handlers */
 
     // We need to add the events in onRender since Deluge.Torrents has not been created yet.
-    onRender: function(ct, position) {
+    onRender: function (ct, position) {
         Deluge.details.DetailsPanel.superclass.onRender.call(
             this,
             ct,
@@ -64,18 +64,18 @@ Deluge.details.DetailsPanel = Ext.extend(Ext.TabPanel, {
 
         deluge.torrents.getSelectionModel().on(
             'selectionchange',
-            function(selModel) {
+            function (selModel) {
                 if (!selModel.hasSelection()) this.clear();
             },
             this
         );
     },
 
-    onTabChange: function(panel, tab) {
+    onTabChange: function (panel, tab) {
         this.update(tab);
     },
 
-    onTorrentsClick: function(grid, rowIndex, e) {
+    onTorrentsClick: function (grid, rowIndex, e) {
         this.update();
     },
 });

@@ -11,7 +11,7 @@
 Ext.ux.tree.TreeGridNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
     isTreeGridNodeUI: true,
 
-    renderElements: function(n, a, targetNode, bulkRender) {
+    renderElements: function (n, a, targetNode, bulkRender) {
         var t = n.getOwnerTree(),
             cols = t.columns,
             c = cols[0],
@@ -111,7 +111,7 @@ Ext.ux.tree.TreeGridNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
     },
 
     // private
-    animExpand: function(cb) {
+    animExpand: function (cb) {
         this.ctNode.style.display = '';
         Ext.ux.tree.TreeGridNodeUI.superclass.animExpand.call(this, cb);
     },
@@ -121,7 +121,7 @@ Ext.ux.tree.TreeGridRootNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
     isTreeGridNodeUI: true,
 
     // private
-    render: function() {
+    render: function () {
         if (!this.rendered) {
             this.wrap = this.ctNode = this.node.ownerTree.innerCt.dom;
             this.node.expanded = true;
@@ -131,13 +131,13 @@ Ext.ux.tree.TreeGridRootNodeUI = Ext.extend(Ext.tree.TreeNodeUI, {
             // weird table-layout: fixed issue in webkit
             var ct = this.ctNode;
             ct.style.tableLayout = null;
-            (function() {
+            (function () {
                 ct.style.tableLayout = 'fixed';
             }.defer(1));
         }
     },
 
-    destroy: function() {
+    destroy: function () {
         if (this.elNode) {
             Ext.dd.Registry.unregister(this.elNode.id);
         }

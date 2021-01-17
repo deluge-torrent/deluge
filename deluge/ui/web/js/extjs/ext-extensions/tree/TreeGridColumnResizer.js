@@ -15,17 +15,17 @@ Ext.tree.ColumnResizer = Ext.extend(Ext.util.Observable, {
      */
     minWidth: 14,
 
-    constructor: function(config) {
+    constructor: function (config) {
         Ext.apply(this, config);
         Ext.tree.ColumnResizer.superclass.constructor.call(this);
     },
 
-    init: function(tree) {
+    init: function (tree) {
         this.tree = tree;
         tree.on('render', this.initEvents, this);
     },
 
-    initEvents: function(tree) {
+    initEvents: function (tree) {
         tree.mon(tree.innerHd, 'mousemove', this.handleHdMove, this);
         this.tracker = new Ext.dd.DragTracker({
             onBeforeStart: this.onBeforeStart.createDelegate(this),
@@ -39,7 +39,7 @@ Ext.tree.ColumnResizer = Ext.extend(Ext.util.Observable, {
         tree.on('beforedestroy', this.tracker.destroy, this.tracker);
     },
 
-    handleHdMove: function(e, t) {
+    handleHdMove: function (e, t) {
         var hw = 5,
             x = e.getPageX(),
             hd = e.getTarget('.x-treegrid-hd', 3, true);
@@ -74,12 +74,12 @@ Ext.tree.ColumnResizer = Ext.extend(Ext.util.Observable, {
         }
     },
 
-    onBeforeStart: function(e) {
+    onBeforeStart: function (e) {
         this.dragHd = this.activeHd;
         return !!this.dragHd;
     },
 
-    onStart: function(e) {
+    onStart: function (e) {
         this.dragHeadersDisabled = this.tree.headersDisabled;
         this.tree.headersDisabled = true;
         this.proxy = this.tree.body.createChild({ cls: 'x-treegrid-resizer' });
@@ -98,14 +98,14 @@ Ext.tree.ColumnResizer = Ext.extend(Ext.util.Observable, {
             this.tree.innerBody.translatePoints(this.hdX).left;
     },
 
-    onDrag: function(e) {
+    onDrag: function (e) {
         var cursorX = this.tracker.getXY()[0];
         this.proxy.setWidth(
             (cursorX - this.hdX).constrain(this.minWidth, this.maxWidth)
         );
     },
 
-    onEnd: function(e) {
+    onEnd: function (e) {
         var nw = this.proxy.getWidth(),
             tree = this.tree,
             disabled = this.dragHeadersDisabled;
@@ -116,7 +116,7 @@ Ext.tree.ColumnResizer = Ext.extend(Ext.util.Observable, {
         tree.columns[this.hdIndex].width = nw;
         tree.updateColumnWidths();
 
-        setTimeout(function() {
+        setTimeout(function () {
             tree.headersDisabled = disabled;
         }, 100);
     },

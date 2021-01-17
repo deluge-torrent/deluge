@@ -42,7 +42,7 @@ deluge.ui = {
      * @description Create all the interface components, the json-rpc client
      * and set up various events that the UI will utilise.
      */
-    initialize: function() {
+    initialize: function () {
         deluge.add = new Deluge.add.AddWindow();
         deluge.details = new Deluge.details.DetailsPanel();
         deluge.connectionManager = new Deluge.ConnectionManager();
@@ -100,7 +100,7 @@ deluge.ui = {
 
         deluge.client.on(
             'connected',
-            function(e) {
+            function (e) {
                 deluge.login.show();
             },
             this,
@@ -113,7 +113,7 @@ deluge.ui = {
         this.originalTitle = document.title;
     },
 
-    checkConnection: function() {
+    checkConnection: function () {
         deluge.client.web.connected({
             success: this.onConnectionSuccess,
             failure: this.onConnectionError,
@@ -121,7 +121,7 @@ deluge.ui = {
         });
     },
 
-    update: function() {
+    update: function () {
         var filters = deluge.sidebar.getFilterStates();
         this.oldFilters = this.filters;
         this.filters = filters;
@@ -134,9 +134,9 @@ deluge.ui = {
         deluge.details.update();
     },
 
-    onConnectionError: function(error) {},
+    onConnectionError: function (error) {},
 
-    onConnectionSuccess: function(result) {
+    onConnectionSuccess: function (result) {
         deluge.statusbar.setStatus({
             iconCls: 'x-deluge-statusbar icon-ok',
             text: _('Connection restored'),
@@ -147,7 +147,7 @@ deluge.ui = {
         }
     },
 
-    onUpdateError: function(error) {
+    onUpdateError: function (error) {
         if (this.errorCount == 2) {
             Ext.MessageBox.show({
                 title: _('Lost Connection'),
@@ -169,7 +169,7 @@ deluge.ui = {
      * @private
      * Updates the various components in the interface.
      */
-    onUpdate: function(data) {
+    onUpdate: function (data) {
         if (!data['connected']) {
             deluge.connectionManager.disconnect(true);
             return;
@@ -199,7 +199,7 @@ deluge.ui = {
      * @private
      * Start the Deluge UI polling the server and update the interface.
      */
-    onConnect: function() {
+    onConnect: function () {
         if (!this.running) {
             this.running = setInterval(this.update, 2000);
             this.update();
@@ -214,14 +214,14 @@ deluge.ui = {
      * @static
      * @private
      */
-    onDisconnect: function() {
+    onDisconnect: function () {
         this.stop();
     },
 
-    onGotPlugins: function(plugins) {
+    onGotPlugins: function (plugins) {
         Ext.each(
             plugins.enabled_plugins,
-            function(plugin) {
+            function (plugin) {
                 if (deluge.plugins[plugin]) return;
                 deluge.client.web.get_plugin_resources(plugin, {
                     success: this.onGotPluginResources,
@@ -232,7 +232,7 @@ deluge.ui = {
         );
     },
 
-    onPluginEnabled: function(pluginName) {
+    onPluginEnabled: function (pluginName) {
         if (deluge.plugins[pluginName]) {
             deluge.plugins[pluginName].enable();
         } else {
@@ -243,13 +243,13 @@ deluge.ui = {
         }
     },
 
-    onGotPluginResources: function(resources) {
+    onGotPluginResources: function (resources) {
         var scripts = Deluge.debug
             ? resources.debug_scripts
             : resources.scripts;
         Ext.each(
             scripts,
-            function(script) {
+            function (script) {
                 Ext.ux.JSLoader({
                     url: deluge.config.base + script,
                     onLoad: this.onPluginLoaded,
@@ -260,11 +260,11 @@ deluge.ui = {
         );
     },
 
-    onPluginDisabled: function(pluginName) {
+    onPluginDisabled: function (pluginName) {
         if (deluge.plugins[pluginName]) deluge.plugins[pluginName].disable();
     },
 
-    onPluginLoaded: function(options) {
+    onPluginLoaded: function (options) {
         // This could happen if the plugin has multiple scripts
         if (!Deluge.hasPlugin(options.pluginName)) return;
 
@@ -278,7 +278,7 @@ deluge.ui = {
      * @static
      * Stop the Deluge UI polling the server and clear the interface.
      */
-    stop: function() {
+    stop: function () {
         if (this.running) {
             clearInterval(this.running);
             this.running = false;
@@ -287,6 +287,6 @@ deluge.ui = {
     },
 };
 
-Ext.onReady(function(e) {
+Ext.onReady(function (e) {
     deluge.ui.initialize();
 });

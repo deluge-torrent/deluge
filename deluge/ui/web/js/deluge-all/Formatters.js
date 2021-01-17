@@ -24,7 +24,7 @@ Deluge.Formatters = {
      * @return {String} a string in the date representation of the current locale
      * or "" if seconds < 0.
      */
-    date: function(timestamp) {
+    date: function (timestamp) {
         function zeroPad(num, count) {
             var numZeropad = num + '';
             while (numZeropad.length < count) {
@@ -52,7 +52,7 @@ Deluge.Formatters = {
      * @param {Boolean} showZero pass in true to displays 0 values
      * @return {String} formatted string with KiB, MiB or GiB units.
      */
-    size: function(bytes, showZero) {
+    size: function (bytes, showZero) {
         if (!bytes && !showZero) return '';
         bytes = bytes / 1024.0;
 
@@ -78,7 +78,7 @@ Deluge.Formatters = {
      * @param {Boolean} showZero pass in true to displays 0 values
      * @return {String} formatted string with K, M or G units.
      */
-    sizeShort: function(bytes, showZero) {
+    sizeShort: function (bytes, showZero) {
         if (!bytes && !showZero) return '';
         bytes = bytes / 1024.0;
 
@@ -104,7 +104,7 @@ Deluge.Formatters = {
      * @param {Boolean} showZero pass in true to displays 0 values
      * @return {String} formatted string with KiB, MiB or GiB units.
      */
-    speed: function(bytes, showZero) {
+    speed: function (bytes, showZero) {
         return !bytes && !showZero ? '' : fsize(bytes, showZero) + '/s';
     },
 
@@ -114,7 +114,7 @@ Deluge.Formatters = {
      * @param {Number} time the number of seconds
      * @return {String} a formatted time string. will return '' if seconds == 0
      */
-    timeRemaining: function(time) {
+    timeRemaining: function (time) {
         if (time <= 0) {
             return '&infin;';
         }
@@ -164,11 +164,11 @@ Deluge.Formatters = {
      * @param {Mixed} value the value to be displayed
      * @return the untouched value.
      */
-    plain: function(value) {
+    plain: function (value) {
         return value;
     },
 
-    cssClassEscape: function(value) {
+    cssClassEscape: function (value) {
         return value.toLowerCase().replace('.', '_');
     },
 };

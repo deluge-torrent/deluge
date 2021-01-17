@@ -24,7 +24,7 @@ Deluge.EditConnectionWindow = Ext.extend(Ext.Window, {
     bodyStyle: 'padding: 10px 5px;',
     closeAction: 'hide',
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.EditConnectionWindow.superclass.initComponent.call(this);
 
         this.addEvents('hostedited');
@@ -80,17 +80,11 @@ Deluge.EditConnectionWindow = Ext.extend(Ext.Window, {
         });
     },
 
-    show: function(connection) {
+    show: function (connection) {
         Deluge.EditConnectionWindow.superclass.show.call(this);
 
-        this.form
-            .getForm()
-            .findField('host')
-            .setValue(connection.get('host'));
-        this.form
-            .getForm()
-            .findField('port')
-            .setValue(connection.get('port'));
+        this.form.getForm().findField('host').setValue(connection.get('host'));
+        this.form.getForm().findField('port').setValue(connection.get('port'));
         this.form
             .getForm()
             .findField('username')
@@ -98,7 +92,7 @@ Deluge.EditConnectionWindow = Ext.extend(Ext.Window, {
         this.host_id = connection.id;
     },
 
-    onEditClick: function() {
+    onEditClick: function () {
         var values = this.form.getForm().getValues();
         deluge.client.web.edit_host(
             this.host_id,
@@ -107,7 +101,7 @@ Deluge.EditConnectionWindow = Ext.extend(Ext.Window, {
             values.username,
             values.password,
             {
-                success: function(result) {
+                success: function (result) {
                     if (!result) {
                         console.log(result);
                         Ext.MessageBox.show({
@@ -128,7 +122,7 @@ Deluge.EditConnectionWindow = Ext.extend(Ext.Window, {
         );
     },
 
-    onHide: function() {
+    onHide: function () {
         this.form.getForm().reset();
     },
 });

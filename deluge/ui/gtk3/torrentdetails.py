@@ -112,11 +112,11 @@ class TorrentDetails(component.Component):
         self.tabs = {}
 
         # Add the default tabs
-        from .status_tab import StatusTab
         from .details_tab import DetailsTab
         from .files_tab import FilesTab
-        from .peers_tab import PeersTab
         from .options_tab import OptionsTab
+        from .peers_tab import PeersTab
+        from .status_tab import StatusTab
         from .trackers_tab import TrackersTab
 
         default_tabs = {

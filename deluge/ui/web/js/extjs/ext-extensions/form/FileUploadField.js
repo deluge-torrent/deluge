@@ -50,7 +50,7 @@ Ext.ux.form.FileUploadField = Ext.extend(Ext.form.TextField, {
     autoSize: Ext.emptyFn,
 
     // private
-    initComponent: function() {
+    initComponent: function () {
         Ext.ux.form.FileUploadField.superclass.initComponent.call(this);
 
         this.addEvents(
@@ -66,7 +66,7 @@ Ext.ux.form.FileUploadField = Ext.extend(Ext.form.TextField, {
     },
 
     // private
-    onRender: function(ct, position) {
+    onRender: function (ct, position) {
         Ext.ux.form.FileUploadField.superclass.onRender.call(
             this,
             ct,
@@ -97,30 +97,30 @@ Ext.ux.form.FileUploadField = Ext.extend(Ext.form.TextField, {
         this.resizeEl = this.positionEl = this.wrap;
     },
 
-    bindListeners: function() {
+    bindListeners: function () {
         this.fileInput.on({
             scope: this,
-            mouseenter: function() {
+            mouseenter: function () {
                 this.button.addClass(['x-btn-over', 'x-btn-focus']);
             },
-            mouseleave: function() {
+            mouseleave: function () {
                 this.button.removeClass([
                     'x-btn-over',
                     'x-btn-focus',
                     'x-btn-click',
                 ]);
             },
-            mousedown: function() {
+            mousedown: function () {
                 this.button.addClass('x-btn-click');
             },
-            mouseup: function() {
+            mouseup: function () {
                 this.button.removeClass([
                     'x-btn-over',
                     'x-btn-focus',
                     'x-btn-click',
                 ]);
             },
-            change: function() {
+            change: function () {
                 var value = this.fileInput.dom.files;
                 // Fallback to value.
                 if (!value) value = this.fileInput.dom.value;
@@ -130,7 +130,7 @@ Ext.ux.form.FileUploadField = Ext.extend(Ext.form.TextField, {
         });
     },
 
-    createFileInput: function() {
+    createFileInput: function () {
         this.fileInput = this.wrap.createChild({
             id: this.getFileInputId(),
             name: this.name || this.getId(),
@@ -142,7 +142,7 @@ Ext.ux.form.FileUploadField = Ext.extend(Ext.form.TextField, {
         this.fileInput.dom.multiple = this.multiple;
     },
 
-    reset: function() {
+    reset: function () {
         if (this.rendered) {
             this.fileInput.remove();
             this.createFileInput();
@@ -152,12 +152,12 @@ Ext.ux.form.FileUploadField = Ext.extend(Ext.form.TextField, {
     },
 
     // private
-    getFileInputId: function() {
+    getFileInputId: function () {
         return this.id + '-file';
     },
 
     // private
-    onResize: function(w, h) {
+    onResize: function (w, h) {
         Ext.ux.form.FileUploadField.superclass.onResize.call(this, w, h);
 
         this.wrap.setWidth(w);
@@ -172,23 +172,23 @@ Ext.ux.form.FileUploadField = Ext.extend(Ext.form.TextField, {
     },
 
     // private
-    onDestroy: function() {
+    onDestroy: function () {
         Ext.ux.form.FileUploadField.superclass.onDestroy.call(this);
         Ext.destroy(this.fileInput, this.button, this.wrap);
     },
 
-    onDisable: function() {
+    onDisable: function () {
         Ext.ux.form.FileUploadField.superclass.onDisable.call(this);
         this.doDisable(true);
     },
 
-    onEnable: function() {
+    onEnable: function () {
         Ext.ux.form.FileUploadField.superclass.onEnable.call(this);
         this.doDisable(false);
     },
 
     // private
-    doDisable: function(disabled) {
+    doDisable: function (disabled) {
         this.fileInput.dom.disabled = disabled;
         this.button.setDisabled(disabled);
     },
@@ -197,7 +197,7 @@ Ext.ux.form.FileUploadField = Ext.extend(Ext.form.TextField, {
     preFocus: Ext.emptyFn,
 
     // private
-    alignErrorIcon: function() {
+    alignErrorIcon: function () {
         this.errorIcon.alignTo(this.wrap, 'tl-tr', [2, 0]);
     },
 });

@@ -204,9 +204,9 @@ class Config(object):
         global callLater
         if callLater is None:
             # Must import here and not at the top or it will throw ReactorAlreadyInstalledError
-            from twisted.internet.reactor import (
+            from twisted.internet.reactor import (  # pylint: disable=redefined-outer-name
                 callLater,
-            )  # pylint: disable=redefined-outer-name
+            )
         # Run the set_function for this key if any
         try:
             for func in self.__set_functions[key]:
@@ -304,9 +304,9 @@ class Config(object):
         global callLater
         if callLater is None:
             # Must import here and not at the top or it will throw ReactorAlreadyInstalledError
-            from twisted.internet.reactor import (
+            from twisted.internet.reactor import (  # pylint: disable=redefined-outer-name
                 callLater,
-            )  # pylint: disable=redefined-outer-name
+            )
 
         # We set the save_timer for 5 seconds if not already set
         if not self._save_timer or not self._save_timer.active():

@@ -40,7 +40,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
             '</dl>'
     ),
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.preferences.Plugins.superclass.initComponent.call(this);
         this.defaultValues = {
             version: '',
@@ -50,7 +50,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
         };
         this.pluginTemplate.compile();
 
-        var checkboxRenderer = function(v, p, record) {
+        var checkboxRenderer = function (v, p, record) {
             p.css += ' x-grid3-check-col-td';
             return (
                 '<div class="x-grid3-check-col' + (v ? '-on' : '') + '"> </div>'
@@ -72,7 +72,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
                     width: 0.2,
                     sortable: true,
                     tpl: new Ext.XTemplate('{enabled:this.getCheckbox}', {
-                        getCheckbox: function(v) {
+                        getCheckbox: function (v) {
                             return (
                                 '<div class="x-grid3-check-col' +
                                 (v ? '-on' : '') +
@@ -141,23 +141,23 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
         deluge.events.on('PluginEnabledEvent', this.onPluginEnabled, this);
     },
 
-    disablePlugin: function(plugin) {
+    disablePlugin: function (plugin) {
         deluge.client.core.disable_plugin(plugin);
     },
 
-    enablePlugin: function(plugin) {
+    enablePlugin: function (plugin) {
         deluge.client.core.enable_plugin(plugin);
     },
 
-    setInfo: function(plugin) {
+    setInfo: function (plugin) {
         if (!this.pluginInfo.rendered) return;
         var values = plugin || this.defaultValues;
         this.pluginInfo.body.dom.innerHTML = this.pluginTemplate.apply(values);
     },
 
-    updatePlugins: function() {
-        var onGotAvailablePlugins = function(plugins) {
-            this.availablePlugins = plugins.sort(function(a, b) {
+    updatePlugins: function () {
+        var onGotAvailablePlugins = function (plugins) {
+            this.availablePlugins = plugins.sort(function (a, b) {
                 return a.toLowerCase().localeCompare(b.toLowerCase());
             });
 
@@ -167,7 +167,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
             });
         };
 
-        var onGotEnabledPlugins = function(plugins) {
+        var onGotEnabledPlugins = function (plugins) {
             this.enabledPlugins = plugins;
             this.onGotPlugins();
         };
@@ -178,11 +178,11 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
         });
     },
 
-    updatePluginsGrid: function() {
+    updatePluginsGrid: function () {
         var plugins = [];
         Ext.each(
             this.availablePlugins,
-            function(plugin) {
+            function (plugin) {
                 if (this.enabledPlugins.indexOf(plugin) > -1) {
                     plugins.push([true, plugin]);
                 } else {
@@ -194,7 +194,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
         this.list.getStore().loadData(plugins);
     },
 
-    onNodeClick: function(dv, index, node, e) {
+    onNodeClick: function (dv, index, node, e) {
         var el = new Ext.Element(e.target);
         if (el.getAttribute('rel') != 'chkbox') return;
 
@@ -209,16 +209,16 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
         }
     },
 
-    onFindMorePlugins: function() {
+    onFindMorePlugins: function () {
         window.open('http://dev.deluge-torrent.org/wiki/Plugins');
     },
 
-    onGotPlugins: function() {
+    onGotPlugins: function () {
         this.setInfo();
         this.updatePluginsGrid();
     },
 
-    onGotPluginInfo: function(info) {
+    onGotPluginInfo: function (info) {
         var values = {
             author: info['Author'],
             version: info['Version'],
@@ -230,7 +230,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
         delete info;
     },
 
-    onInstallPluginWindow: function() {
+    onInstallPluginWindow: function () {
         if (!this.installWindow) {
             this.installWindow = new Deluge.preferences.InstallPluginWindow();
             this.installWindow.on('pluginadded', this.onPluginInstall, this);
@@ -238,7 +238,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
         this.installWindow.show();
     },
 
-    onPluginEnabled: function(pluginName) {
+    onPluginEnabled: function (pluginName) {
         var index = this.list.getStore().find('plugin', pluginName);
         if (index == -1) return;
         var plugin = this.list.getStore().getAt(index);
@@ -246,7 +246,7 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
         plugin.commit();
     },
 
-    onPluginDisabled: function(pluginName) {
+    onPluginDisabled: function (pluginName) {
         var index = this.list.getStore().find('plugin', pluginName);
         if (index == -1) return;
         var plugin = this.list.getStore().getAt(index);
@@ -254,11 +254,11 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
         plugin.commit();
     },
 
-    onPluginInstall: function() {
+    onPluginInstall: function () {
         this.updatePlugins();
     },
 
-    onPluginSelect: function(dv, selections) {
+    onPluginSelect: function (dv, selections) {
         if (selections.length == 0) return;
         var r = dv.getRecords(selections)[0];
         deluge.client.web.get_plugin_info(r.get('plugin'), {
@@ -267,11 +267,11 @@ Deluge.preferences.Plugins = Ext.extend(Ext.Panel, {
         });
     },
 
-    onPreferencesShow: function() {
+    onPreferencesShow: function () {
         this.updatePlugins();
     },
 
-    onPluginInfoRender: function(ct, position) {
+    onPluginInfoRender: function (ct, position) {
         this.setInfo();
     },
 });

@@ -3,7 +3,7 @@ pytest-twisted
 pytest-cov
 mock
 pre-commit
-flake8
+flake8<=3.7.9
 flake8-quotes
 flake8-isort
 pep8-naming

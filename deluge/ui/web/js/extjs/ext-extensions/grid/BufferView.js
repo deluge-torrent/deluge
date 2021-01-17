@@ -46,7 +46,7 @@ Ext.ux.grid.BufferView = Ext.extend(Ext.grid.GridView, {
      */
     cleanDelay: 500,
 
-    initTemplates: function() {
+    initTemplates: function () {
         Ext.ux.grid.BufferView.superclass.initTemplates.call(this);
         var ts = this.templates;
         // empty div to act as a place holder for a row
@@ -68,23 +68,23 @@ Ext.ux.grid.BufferView = Ext.extend(Ext.grid.GridView, {
         ts.rowBody.compile();
     },
 
-    getStyleRowHeight: function() {
+    getStyleRowHeight: function () {
         return Ext.isBorderBox
             ? this.rowHeight + this.borderHeight
             : this.rowHeight;
     },
 
-    getCalculatedRowHeight: function() {
+    getCalculatedRowHeight: function () {
         return this.rowHeight + this.borderHeight;
     },
 
-    getVisibleRowCount: function() {
+    getVisibleRowCount: function () {
         var rh = this.getCalculatedRowHeight(),
             visibleHeight = this.scroller.dom.clientHeight;
         return visibleHeight < 1 ? 0 : Math.ceil(visibleHeight / rh);
     },
 
-    getVisibleRows: function() {
+    getVisibleRows: function () {
         var count = this.getVisibleRowCount(),
             sc = this.scroller.dom.scrollTop,
             start =
@@ -97,7 +97,7 @@ Ext.ux.grid.BufferView = Ext.extend(Ext.grid.GridView, {
         };
     },
 
-    doRender: function(cs, rs, ds, startRow, colCount, stripe, onlyBody) {
+    doRender: function (cs, rs, ds, startRow, colCount, stripe, onlyBody) {
         var ts = this.templates,
             ct = ts.cell,
             rt = ts.row,
@@ -162,18 +162,18 @@ Ext.ux.grid.BufferView = Ext.extend(Ext.grid.GridView, {
         return buf.join('');
     },
 
-    isRowRendered: function(index) {
+    isRowRendered: function (index) {
         var row = this.getRow(index);
         return row && row.childNodes.length > 0;
     },
 
-    syncScroll: function() {
+    syncScroll: function () {
         Ext.ux.grid.BufferView.superclass.syncScroll.apply(this, arguments);
         this.update();
     },
 
     // a (optionally) buffered method to update contents of gridview
-    update: function() {
+    update: function () {
         if (this.scrollDelay) {
             if (!this.renderTask) {
                 this.renderTask = new Ext.util.DelayedTask(this.doUpdate, this);
@@ -184,14 +184,14 @@ Ext.ux.grid.BufferView = Ext.extend(Ext.grid.GridView, {
         }
     },
 
-    onRemove: function(ds, record, index, isUpdate) {
+    onRemove: function (ds, record, index, isUpdate) {
         Ext.ux.grid.BufferView.superclass.onRemove.apply(this, arguments);
         if (isUpdate !== true) {
             this.update();
         }
     },
 
-    doUpdate: function() {
+    doUpdate: function () {
         if (this.getVisibleRowCount() > 0) {
             var g = this.grid,
                 cm = g.colModel,
@@ -219,14 +219,14 @@ Ext.ux.grid.BufferView = Ext.extend(Ext.grid.GridView, {
     },
 
     // a buffered method to clean rows
-    clean: function() {
+    clean: function () {
         if (!this.cleanTask) {
             this.cleanTask = new Ext.util.DelayedTask(this.doClean, this);
         }
         this.cleanTask.delay(this.cleanDelay);
     },
 
-    doClean: function() {
+    doClean: function () {
         if (this.getVisibleRowCount() > 0) {
             var vr = this.getVisibleRows();
             vr.first -= this.cacheSize;
@@ -249,7 +249,7 @@ Ext.ux.grid.BufferView = Ext.extend(Ext.grid.GridView, {
         }
     },
 
-    removeTask: function(name) {
+    removeTask: function (name) {
         var task = this[name];
         if (task && task.cancel) {
             task.cancel();
@@ -257,13 +257,13 @@ Ext.ux.grid.BufferView = Ext.extend(Ext.grid.GridView, {
         }
     },
 
-    destroy: function() {
+    destroy: function () {
         this.removeTask('cleanTask');
         this.removeTask('renderTask');
         Ext.ux.grid.BufferView.superclass.destroy.call(this);
     },
 
-    layout: function() {
+    layout: function () {
         Ext.ux.grid.BufferView.superclass.layout.call(this);
         this.update();
     },

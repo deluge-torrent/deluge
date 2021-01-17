@@ -40,7 +40,7 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
     ],
     daysOfWeek: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.ux.ScheduleSelector.superclass.initComponent.call(this);
 
         // ExtJS' radiogroup implementation is very broken for styling.
@@ -57,7 +57,7 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
         });*/
     },
 
-    onRender: function(ct, position) {
+    onRender: function (ct, position) {
         Deluge.ux.ScheduleSelector.superclass.onRender.call(this, ct, position);
 
         var dom = this.body.dom;
@@ -126,7 +126,7 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
 
         Ext.each(
             this.daysOfWeek,
-            function(day) {
+            function (day) {
                 var cells = [];
                 var row = createEl(table, 'tr');
                 var label = createEl(row, 'th');
@@ -175,7 +175,7 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
         );
     },
 
-    updateCell: function(cell) {
+    updateCell: function (cell) {
         // sanity check
         if (cell.currentValue == undefined) return;
 
@@ -188,29 +188,29 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
         }
     },
 
-    getCurrentBrushValue: function() {
+    getCurrentBrushValue: function () {
         var v = null;
         var brushes = Ext.get(this.body.dom).findParent('form').elements[
             this.stateBrushName
         ];
-        Ext.each(brushes, function(b) {
+        Ext.each(brushes, function (b) {
             if (b.checked) v = b.value;
         });
 
         return v;
     },
 
-    onCellClick: function(event, cell) {
+    onCellClick: function (event, cell) {
         cell.oldValue = cell.currentValue;
 
         this.dragAnchor = null;
     },
 
-    onCellMouseDown: function(event, cell) {
+    onCellMouseDown: function (event, cell) {
         this.dragAnchor = cell;
     },
 
-    onCellMouseUp: function(event, cell) {
+    onCellMouseUp: function (event, cell) {
         // if we're dragging...
         if (this.dragAnchor) {
             // set all those between here and the anchor to the new values
@@ -226,7 +226,7 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
         }
     },
 
-    onCellMouseOver: function(event, cell) {
+    onCellMouseOver: function (event, cell) {
         // LEFT TOOL TIP
         // if it isn't showing and we're dragging, show it.
         // otherwise if dragging, leave it alone unless we're dragging to the left.
@@ -295,7 +295,7 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
                 // dragged into another day. Abort! Abort!
                 Ext.each(
                     this.daysOfWeek,
-                    function(day) {
+                    function (day) {
                         this.revertCells(day, 0, 23);
                     },
                     this
@@ -323,7 +323,7 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
         }
     },
 
-    onCellMouseOut: function(event, cell) {
+    onCellMouseOut: function (event, cell) {
         if (!this.dragAnchor) this.hideCellLeftTooltip();
 
         // revert state. If new state has been set, old and new will be equal.
@@ -333,7 +333,7 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
         }
     },
 
-    previewCells: function(day, fromHour, toHour) {
+    previewCells: function (day, fromHour, toHour) {
         var cells = this.scheduleCells[day];
         var curBrushValue = this.getCurrentBrushValue();
 
@@ -348,7 +348,7 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
         }
     },
 
-    revertCells: function(day, fromHour, toHour) {
+    revertCells: function (day, fromHour, toHour) {
         var cells = this.scheduleCells[day];
 
         if (toHour > cells.length) toHour = cells.length;
@@ -359,7 +359,7 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
         }
     },
 
-    confirmCells: function(day, fromHour, toHour) {
+    confirmCells: function (day, fromHour, toHour) {
         var cells = this.scheduleCells[day];
 
         if (toHour > cells.length) toHour = cells.length;
@@ -371,7 +371,7 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
         }
     },
 
-    showCellLeftTooltip: function(text, cell) {
+    showCellLeftTooltip: function (text, cell) {
         var tooltip = this.cellLeftTooltip;
 
         if (!tooltip) {
@@ -400,19 +400,19 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
         tooltip.style.visibility = 'visible';
     },
 
-    hideCellLeftTooltip: function() {
+    hideCellLeftTooltip: function () {
         if (this.cellLeftTooltip) {
             this.cellLeftTooltip.style.visibility = 'hidden';
         }
     },
 
-    isCellLeftTooltipHidden: function() {
+    isCellLeftTooltipHidden: function () {
         if (this.cellLeftTooltip)
             return this.cellLeftTooltip.style.visibility == 'hidden';
         else return true;
     },
 
-    showCellRightTooltip: function(text, cell) {
+    showCellRightTooltip: function (text, cell) {
         var tooltip = this.cellRightTooltip;
 
         if (!tooltip) {
@@ -441,19 +441,19 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
         tooltip.style.visibility = 'visible';
     },
 
-    hideCellRightTooltip: function() {
+    hideCellRightTooltip: function () {
         if (this.cellRightTooltip) {
             this.cellRightTooltip.style.visibility = 'hidden';
         }
     },
 
-    isCellRightTooltipHidden: function() {
+    isCellRightTooltipHidden: function () {
         if (this.cellRightTooltip)
             return this.cellRightTooltip.style.visibility == 'hidden';
         else return true;
     },
 
-    getConfig: function() {
+    getConfig: function () {
         var config = [];
 
         for (var i = 0; i < 24; i++) {
@@ -471,7 +471,7 @@ Deluge.ux.ScheduleSelector = Ext.extend(Ext.form.FieldSet, {
         return config;
     },
 
-    setConfig: function(config) {
+    setConfig: function (config) {
         for (var i = 0; i < 24; i++) {
             var hourConfig = config[i];
 
@@ -496,7 +496,7 @@ Deluge.ux.preferences.SchedulerPage = Ext.extend(Ext.Panel, {
     header: false,
     layout: 'fit',
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.ux.preferences.SchedulerPage.superclass.initComponent.call(this);
 
         this.form = this.add({
@@ -561,7 +561,7 @@ Deluge.ux.preferences.SchedulerPage = Ext.extend(Ext.Panel, {
         this.on('show', this.updateConfig, this);
     },
 
-    onRender: function(ct, position) {
+    onRender: function (ct, position) {
         Deluge.ux.preferences.SchedulerPage.superclass.onRender.call(
             this,
             ct,
@@ -572,7 +572,7 @@ Deluge.ux.preferences.SchedulerPage = Ext.extend(Ext.Panel, {
         this.form.doLayout();
     },
 
-    onApply: function() {
+    onApply: function () {
         // build settings object
         var config = {};
 
@@ -586,13 +586,13 @@ Deluge.ux.preferences.SchedulerPage = Ext.extend(Ext.Panel, {
         deluge.client.scheduler.set_config(config);
     },
 
-    onOk: function() {
+    onOk: function () {
         this.onApply();
     },
 
-    updateConfig: function() {
+    updateConfig: function () {
         deluge.client.scheduler.get_config({
-            success: function(config) {
+            success: function (config) {
                 this.schedule.setConfig(config['button_state']);
                 this.downloadLimit.setValue(config['low_down']);
                 this.uploadLimit.setValue(config['low_up']);
@@ -608,11 +608,11 @@ Deluge.ux.preferences.SchedulerPage = Ext.extend(Ext.Panel, {
 Deluge.plugins.SchedulerPlugin = Ext.extend(Deluge.Plugin, {
     name: 'Scheduler',
 
-    onDisable: function() {
+    onDisable: function () {
         deluge.preferences.removePage(this.prefsPage);
     },
 
-    onEnable: function() {
+    onEnable: function () {
         this.prefsPage = deluge.preferences.addPage(
             new Deluge.ux.preferences.SchedulerPage()
         );

@@ -21,7 +21,7 @@ Ext.namespace('Ext.ux.form');
 Ext.ux.form.ToggleField = Ext.extend(Ext.form.Field, {
     cls: 'x-toggle-field',
 
-    initComponent: function() {
+    initComponent: function () {
         Ext.ux.form.ToggleField.superclass.initComponent.call(this);
 
         this.toggle = new Ext.form.Checkbox();
@@ -32,7 +32,7 @@ Ext.ux.form.ToggleField = Ext.extend(Ext.form.Field, {
         });
     },
 
-    onRender: function(ct, position) {
+    onRender: function (ct, position) {
         if (!this.el) {
             this.panel = new Ext.Panel({
                 cls: this.groupCls,
@@ -50,16 +50,13 @@ Ext.ux.form.ToggleField = Ext.extend(Ext.form.Field, {
             this.panel.add(this.input);
             this.panel.doLayout();
 
-            this.toggle
-                .getEl()
-                .parent()
-                .setStyle('padding-right', '10px');
+            this.toggle.getEl().parent().setStyle('padding-right', '10px');
         }
         Ext.ux.form.ToggleField.superclass.onRender.call(this, ct, position);
     },
 
     // private
-    onResize: function(w, h) {
+    onResize: function (w, h) {
         this.panel.setSize(w, h);
         this.panel.doLayout();
 
@@ -68,7 +65,7 @@ Ext.ux.form.ToggleField = Ext.extend(Ext.form.Field, {
         this.input.setSize(inputWidth, h);
     },
 
-    onToggleCheck: function(toggle, checked) {
+    onToggleCheck: function (toggle, checked) {
         this.input.setDisabled(!checked);
     },
 });

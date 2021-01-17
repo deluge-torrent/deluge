@@ -13,7 +13,7 @@
  * @author Damien Churchill <damoxc@gmail.com>
  */
 Ext.override(Ext.tree.MultiSelectionModel, {
-    onNodeClick: function(node, e) {
+    onNodeClick: function (node, e) {
         if (e.ctrlKey && this.isSelected(node)) {
             this.unselect(node);
         } else if (e.shiftKey && !this.isSelected(node)) {
@@ -34,7 +34,7 @@ Ext.override(Ext.tree.MultiSelectionModel, {
             }
 
             // Select all the nodes
-            parentNode.eachChild(function(n) {
+            parentNode.eachChild(function (n) {
                 var i = parentNode.indexOf(n);
                 if (fi < i && i < li) {
                     this.select(n, e, true, true);
@@ -48,7 +48,7 @@ Ext.override(Ext.tree.MultiSelectionModel, {
         }
     },
 
-    select: function(node, e, keepExisting, suppressEvent) {
+    select: function (node, e, keepExisting, suppressEvent) {
         if (keepExisting !== true) {
             this.clearSelections(true);
         }

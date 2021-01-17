@@ -26,9 +26,9 @@ except ImportError:
 
 try:
     import signal
-    from fcntl import ioctl
-    import termios
     import struct
+    import termios
+    from fcntl import ioctl
 except ImportError:
     pass
 

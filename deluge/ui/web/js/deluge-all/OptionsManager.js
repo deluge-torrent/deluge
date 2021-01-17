@@ -18,7 +18,7 @@ Ext.namespace('Deluge');
  * @param {Object} config Configuration options
  */
 Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
-    constructor: function(config) {
+    constructor: function (config) {
         config = config || {};
         this.binds = {};
         this.changed = {};
@@ -56,7 +56,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
      * Add a set of default options and values to the options manager
      * @param {Object} options The default options.
      */
-    addOptions: function(options) {
+    addOptions: function (options) {
         this.options = Ext.applyIf(this.options, options);
     },
 
@@ -65,7 +65,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
      * @param {String} option
      * @param {Ext.form.Field} field
      */
-    bind: function(option, field) {
+    bind: function (option, field) {
         this.binds[option] = this.binds[option] || [];
         this.binds[option].push(field);
         field._doption = option;
@@ -81,7 +81,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
     /**
      * Changes all the changed values to be the default values
      */
-    commit: function() {
+    commit: function () {
         this.options = Ext.apply(this.options, this.changed);
         this.reset();
     },
@@ -91,7 +91,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
      * @param {Mixed} oldValue The original value
      * @param {Mixed} value The new value to convert
      */
-    convertValueType: function(oldValue, value) {
+    convertValueType: function (oldValue, value) {
         if (Ext.type(oldValue) != Ext.type(value)) {
             switch (Ext.type(oldValue)) {
                 case 'string':
@@ -121,7 +121,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
      * @param {String} [option] A single option or an array of options to return.
      * @returns {Object} the options value.
      */
-    get: function() {
+    get: function () {
         if (arguments.length == 1) {
             var option = arguments[0];
             return this.isDirty(option)
@@ -131,7 +131,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
             var options = {};
             Ext.each(
                 arguments,
-                function(option) {
+                function (option) {
                     if (!this.has(option)) return;
                     options[option] = this.isDirty(option)
                         ? this.changed[option]
@@ -148,7 +148,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
      * @param {String|Array} [option] A single option or an array of options to return.
      * @returns {Object} the value of the option
      */
-    getDefault: function(option) {
+    getDefault: function (option) {
         return this.options[option];
     },
 
@@ -156,7 +156,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
      * Returns the dirty (changed) values.
      * @returns {Object} the changed options
      */
-    getDirty: function() {
+    getDirty: function () {
         return this.changed;
     },
 
@@ -164,7 +164,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
      * @param {String} [option] The option to check
      * @returns {Boolean} true if the option has been changed from the default.
      */
-    isDirty: function(option) {
+    isDirty: function (option) {
         return !Ext.isEmpty(this.changed[option]);
     },
 
@@ -173,14 +173,14 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
      * @param {String} option
      * @returns {Boolean} true if the option exists, else false.
      */
-    has: function(option) {
+    has: function (option) {
         return this.options[option];
     },
 
     /**
      * Reset the options back to the default values.
      */
-    reset: function() {
+    reset: function () {
         this.changed = {};
     },
 
@@ -189,7 +189,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
      * @param {String} option
      * @param {Object} value The value for the option
      */
-    set: function(option, value) {
+    set: function (option, value) {
         if (option === undefined) {
             return;
         } else if (typeof option == 'object') {
@@ -209,7 +209,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
      * @param {String/Object} option or options to update
      * @param {Object} [value];
      */
-    update: function(option, value) {
+    update: function (option, value) {
         if (option === undefined) {
             return;
         } else if (value === undefined) {
@@ -238,7 +238,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
      * Lets the option manager know when a field is blurred so if a value
      * so value changing operations can continue on that field.
      */
-    onFieldBlur: function(field, event) {
+    onFieldBlur: function (field, event) {
         if (this.focused == field) {
             this.focused = null;
         }
@@ -249,7 +249,7 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
      * @param {Ext.form.Field} field
      * @private
      */
-    onFieldChange: function(field, event) {
+    onFieldChange: function (field, event) {
         if (field.field) field = field.field; // fix for spinners
         this.update(field._doption, field.getValue());
     },
@@ -258,16 +258,16 @@ Deluge.OptionsManager = Ext.extend(Ext.util.Observable, {
      * Lets the option manager know when a field is focused so if a value changing
      * operation is performed it will not change the value of the field.
      */
-    onFieldFocus: function(field, event) {
+    onFieldFocus: function (field, event) {
         this.focused = field;
     },
 
-    onChange: function(option, newValue, oldValue) {
+    onChange: function (option, newValue, oldValue) {
         // If we don't have a bind there's nothing to do.
         if (Ext.isEmpty(this.binds[option])) return;
         Ext.each(
             this.binds[option],
-            function(bind) {
+            function (bind) {
                 // The field is currently focused so we do not want to change it.
                 if (bind == this.focused) return;
                 // Set the form field to the new value.

@@ -20,7 +20,7 @@ Deluge.FilterPanel = Ext.extend(Ext.Panel, {
 
     show_zero: null,
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.FilterPanel.superclass.initComponent.call(this);
         this.filterType = this.initialConfig.filter;
         var title = '';
@@ -36,7 +36,7 @@ Deluge.FilterPanel = Ext.extend(Ext.Panel, {
             (title = this.filterType.replace('_', ' ')),
                 (parts = title.split(' ')),
                 (title = '');
-            Ext.each(parts, function(p) {
+            Ext.each(parts, function (p) {
                 fl = p.substring(0, 1).toUpperCase();
                 title += fl + p.substring(1) + ' ';
             });
@@ -75,7 +75,7 @@ Deluge.FilterPanel = Ext.extend(Ext.Panel, {
      * Return the currently selected filter state
      * @returns {String} the current filter state
      */
-    getState: function() {
+    getState: function () {
         if (!this.list.getSelectionCount()) return;
 
         var state = this.list.getSelectedRecords()[0];
@@ -87,7 +87,7 @@ Deluge.FilterPanel = Ext.extend(Ext.Panel, {
     /**
      * Return the current states in the filter
      */
-    getStates: function() {
+    getStates: function () {
         return this.states;
     },
 
@@ -95,18 +95,18 @@ Deluge.FilterPanel = Ext.extend(Ext.Panel, {
      * Return the Store for the ListView of the FilterPanel
      * @returns {Ext.data.Store} the ListView store
      */
-    getStore: function() {
+    getStore: function () {
         return this.list.getStore();
     },
 
     /**
      * Update the states in the FilterPanel
      */
-    updateStates: function(states) {
+    updateStates: function (states) {
         this.states = {};
         Ext.each(
             states,
-            function(state) {
+            function (state) {
                 this.states[state[0]] = state[1];
             },
             this
@@ -118,7 +118,7 @@ Deluge.FilterPanel = Ext.extend(Ext.Panel, {
                 : this.show_zero;
         if (!show_zero) {
             var newStates = [];
-            Ext.each(states, function(state) {
+            Ext.each(states, function (state) {
                 if (state[1] > 0 || state[0] == 'All') {
                     newStates.push(state);
                 }
@@ -130,7 +130,7 @@ Deluge.FilterPanel = Ext.extend(Ext.Panel, {
         var filters = {};
         Ext.each(
             states,
-            function(s, i) {
+            function (s, i) {
                 var record = store.getById(s[0]);
                 if (!record) {
                     record = new store.recordType({
@@ -149,7 +149,7 @@ Deluge.FilterPanel = Ext.extend(Ext.Panel, {
             this
         );
 
-        store.each(function(record) {
+        store.each(function (record) {
             if (filters[record.id]) return;
             store.remove(record);
             var selected = this.list.getSelectedRecords()[0];

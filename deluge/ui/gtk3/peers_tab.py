@@ -305,8 +305,8 @@ class PeersTab(Tab):
                     peer_ip = peer['ip']
                 else:
                     # This is an IPv6 address
-                    import socket
                     import binascii
+                    import socket
 
                     # Split out the :port
                     ip = ':'.join(peer['ip'].split(':')[:-1])

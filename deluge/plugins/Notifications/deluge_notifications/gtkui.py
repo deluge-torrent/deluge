@@ -42,7 +42,7 @@ except ImportError:
 
 try:
     require_version('Notify', '0.7')
-    from gi.repository import Notify, GLib
+    from gi.repository import GLib, Notify
 except (ValueError, ImportError):
     POPUP_AVAILABLE = False
 else:

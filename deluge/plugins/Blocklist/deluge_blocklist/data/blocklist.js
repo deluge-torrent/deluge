@@ -22,7 +22,7 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
     border: false,
     autoScroll: true,
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.ux.preferences.BlocklistPage.superclass.initComponent.call(this);
 
         this.URLFset = this.add({
@@ -210,11 +210,11 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
                         fields: [{ name: 'ip' }],
                     }),
                     listeners: {
-                        afteredit: function(e) {
+                        afteredit: function (e) {
                             e.record.commit();
                         },
                     },
-                    setEmptyText: function(text) {
+                    setEmptyText: function (text) {
                         if (this.viewReady) {
                             this.getView().emptyText = text;
                             this.getView().refresh();
@@ -222,7 +222,7 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
                             Ext.apply(this.viewConfig, { emptyText: text });
                         }
                     },
-                    loadData: function(data) {
+                    loadData: function (data) {
                         this.getStore().loadData(data);
                         if (this.viewReady) {
                             this.getView().updateHeaders();
@@ -264,7 +264,7 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
         this.forceDownload.setHandler(this.forceDown, this);
     },
 
-    onApply: function() {
+    onApply: function () {
         var config = {};
 
         config['url'] = this.URL.getValue();
@@ -285,13 +285,13 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
         deluge.client.blocklist.set_config(config);
     },
 
-    onOk: function() {
+    onOk: function () {
         this.onApply();
     },
 
-    onUpdate: function() {
+    onUpdate: function () {
         deluge.client.blocklist.get_status({
-            success: function(status) {
+            success: function (status) {
                 if (status['state'] == 'Downloading') {
                     this.InfoFset.hide();
                     this.checkDownload.getComponent(0).setDisabled(true);
@@ -339,19 +339,19 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
         });
     },
 
-    checkDown: function() {
+    checkDown: function () {
         this.onApply();
         deluge.client.blocklist.check_import();
     },
 
-    forceDown: function() {
+    forceDown: function () {
         this.onApply();
         deluge.client.blocklist.check_import((force = true));
     },
 
-    updateConfig: function() {
+    updateConfig: function () {
         deluge.client.blocklist.get_config({
-            success: function(config) {
+            success: function (config) {
                 this.URL.setValue(config['url']);
                 this.checkListDays.setValue(config['check_after_days']);
                 this.chkImportOnStart.setValue(config['load_on_start']);
@@ -369,7 +369,7 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
         });
 
         deluge.client.blocklist.get_status({
-            success: function(status) {
+            success: function (status) {
                 this.lblFileSize.setText(fsize(status['file_size']));
                 this.lblDate.setText(fdate(status['file_date']));
                 this.lblType.setText(status['file_type']);
@@ -381,7 +381,7 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
         });
     },
 
-    addIP: function() {
+    addIP: function () {
         var store = this.WhitelistFset.getComponent(0).getStore();
         var IP = store.recordType;
         var i = new IP({
@@ -392,7 +392,7 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
         this.WhitelistFset.getComponent(0).startEditing(0, 0);
     },
 
-    deleteIP: function() {
+    deleteIP: function () {
         var selections = this.WhitelistFset.getComponent(0)
             .getSelectionModel()
             .getSelections();
@@ -403,7 +403,7 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
         store.commitChanges();
     },
 
-    onDestroy: function() {
+    onDestroy: function () {
         Ext.TaskMgr.stop(this.updateTask);
 
         deluge.preferences.un('show', this.updateConfig, this);
@@ -415,11 +415,11 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
 Deluge.plugins.BlocklistPlugin = Ext.extend(Deluge.Plugin, {
     name: 'Blocklist',
 
-    onDisable: function() {
+    onDisable: function () {
         deluge.preferences.removePage(this.prefsPage);
     },
 
-    onEnable: function() {
+    onEnable: function () {
         this.prefsPage = deluge.preferences.addPage(
             new Deluge.ux.preferences.BlocklistPage()
         );

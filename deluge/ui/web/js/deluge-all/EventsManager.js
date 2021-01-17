@@ -15,7 +15,7 @@
  * Class for holding global events that occur within the UI.
  */
 Deluge.EventsManager = Ext.extend(Ext.util.Observable, {
-    constructor: function() {
+    constructor: function () {
         this.toRegister = [];
         this.on('login', this.onLogin, this);
         Deluge.EventsManager.superclass.constructor.call(this);
@@ -24,7 +24,7 @@ Deluge.EventsManager = Ext.extend(Ext.util.Observable, {
     /**
      * Append an event handler to this object.
      */
-    addListener: function(eventName, fn, scope, o) {
+    addListener: function (eventName, fn, scope, o) {
         this.addEvents(eventName);
         if (/[A-Z]/.test(eventName.substring(0, 1))) {
             if (!deluge.client) {
@@ -42,7 +42,7 @@ Deluge.EventsManager = Ext.extend(Ext.util.Observable, {
         );
     },
 
-    getEvents: function() {
+    getEvents: function () {
         deluge.client.web.get_events({
             success: this.onGetEventsSuccess,
             failure: this.onGetEventsFailure,
@@ -53,8 +53,8 @@ Deluge.EventsManager = Ext.extend(Ext.util.Observable, {
     /**
      * Starts the EventsManagerManager checking for events.
      */
-    start: function() {
-        Ext.each(this.toRegister, function(eventName) {
+    start: function () {
+        Ext.each(this.toRegister, function (eventName) {
             deluge.client.web.register_event_listener(eventName);
         });
         this.running = true;
@@ -65,21 +65,21 @@ Deluge.EventsManager = Ext.extend(Ext.util.Observable, {
     /**
      * Stops the EventsManagerManager checking for events.
      */
-    stop: function() {
+    stop: function () {
         this.running = false;
     },
 
     // private
-    onLogin: function() {
+    onLogin: function () {
         this.start();
     },
 
-    onGetEventsSuccess: function(events) {
+    onGetEventsSuccess: function (events) {
         if (!this.running) return;
         if (events) {
             Ext.each(
                 events,
-                function(event) {
+                function (event) {
                     var name = event[0],
                         args = event[1];
                     args.splice(0, 0, name);
@@ -92,7 +92,7 @@ Deluge.EventsManager = Ext.extend(Ext.util.Observable, {
     },
 
     // private
-    onGetEventsFailure: function(result, error) {
+    onGetEventsFailure: function (result, error) {
         // the request timed out or we had a communication failure
         if (!this.running) return;
         if (!error.isTimeout && this.errorCount++ >= 3) {

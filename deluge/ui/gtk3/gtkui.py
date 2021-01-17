@@ -75,7 +75,7 @@ set_prgname('deluge')
 log = logging.getLogger(__name__)
 
 try:
-    from setproctitle import setproctitle, getproctitle
+    from setproctitle import getproctitle, setproctitle
 except ImportError:
 
     def setproctitle(title):

@@ -24,7 +24,7 @@ Deluge.AddConnectionWindow = Ext.extend(Ext.Window, {
     bodyStyle: 'padding: 10px 5px;',
     closeAction: 'hide',
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.AddConnectionWindow.superclass.initComponent.call(this);
 
         this.addEvents('hostadded');
@@ -80,7 +80,7 @@ Deluge.AddConnectionWindow = Ext.extend(Ext.Window, {
         });
     },
 
-    onAddClick: function() {
+    onAddClick: function () {
         var values = this.form.getForm().getValues();
         deluge.client.web.add_host(
             values.host,
@@ -88,7 +88,7 @@ Deluge.AddConnectionWindow = Ext.extend(Ext.Window, {
             values.username,
             values.password,
             {
-                success: function(result) {
+                success: function (result) {
                     if (!result[0]) {
                         Ext.MessageBox.show({
                             title: _('Error'),
@@ -111,7 +111,7 @@ Deluge.AddConnectionWindow = Ext.extend(Ext.Window, {
         );
     },
 
-    onHide: function() {
+    onHide: function () {
         this.form.getForm().reset();
     },
 });

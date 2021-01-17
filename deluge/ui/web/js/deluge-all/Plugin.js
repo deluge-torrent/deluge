@@ -21,7 +21,7 @@ Deluge.Plugin = Ext.extend(Ext.util.Observable, {
      */
     name: null,
 
-    constructor: function(config) {
+    constructor: function (config) {
         this.isDelugePlugin = true;
         this.addEvents({
             /**
@@ -43,7 +43,7 @@ Deluge.Plugin = Ext.extend(Ext.util.Observable, {
      * Disables the plugin, firing the "{@link #disabled}" event and
      * then executing the plugins clean up method onDisabled.
      */
-    disable: function() {
+    disable: function () {
         this.fireEvent('disabled', this);
         if (this.onDisable) this.onDisable();
     },
@@ -52,13 +52,13 @@ Deluge.Plugin = Ext.extend(Ext.util.Observable, {
      * Enables the plugin, firing the "{@link #enabled}" event and
      * then executes the plugins setup method, onEnabled.
      */
-    enable: function() {
+    enable: function () {
         deluge.client.reloadMethods();
         this.fireEvent('enable', this);
         if (this.onEnable) this.onEnable();
     },
 
-    registerTorrentStatus: function(key, header, options) {
+    registerTorrentStatus: function (key, header, options) {
         options = options || {};
         var cc = options.colCfg || {},
             sc = options.storeCfg || {};
@@ -79,23 +79,23 @@ Deluge.Plugin = Ext.extend(Ext.util.Observable, {
         deluge.torrents.getView().refresh(true);
     },
 
-    deregisterTorrentStatus: function(key) {
+    deregisterTorrentStatus: function (key) {
         var fields = [];
-        Ext.each(deluge.torrents.meta.fields, function(field) {
+        Ext.each(deluge.torrents.meta.fields, function (field) {
             if (field.name != key) fields.push(field);
         });
         deluge.torrents.meta.fields = fields;
         deluge.torrents.getStore().reader.onMetaChange(deluge.torrents.meta);
 
         var cols = [];
-        Ext.each(deluge.torrents.columns, function(col) {
+        Ext.each(deluge.torrents.columns, function (col) {
             if (col.dataIndex != key) cols.push(col);
         });
         deluge.torrents.colModel.setConfig(cols);
         deluge.torrents.columns = cols;
 
         var keys = [];
-        Ext.each(Deluge.Keys.Grid, function(k) {
+        Ext.each(Deluge.Keys.Grid, function (k) {
             if (k == key) keys.push(k);
         });
         Deluge.Keys.Grid = keys;

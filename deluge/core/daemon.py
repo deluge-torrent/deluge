@@ -200,6 +200,7 @@ class Daemon(object):
         if rpc not in self.get_method_list():
             return False
 
-        return self.rpcserver.get_session_auth_level() >= self.rpcserver.get_rpc_auth_level(
-            rpc
+        return (
+            self.rpcserver.get_session_auth_level()
+            >= self.rpcserver.get_rpc_auth_level(rpc)
         )

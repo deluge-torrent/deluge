@@ -15,7 +15,7 @@ Deluge.FileBrowser = Ext.extend(Ext.Window, {
     width: 500,
     height: 400,
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.FileBrowser.superclass.initComponent.call(this);
 
         this.add({

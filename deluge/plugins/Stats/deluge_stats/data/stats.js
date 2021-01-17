@@ -10,7 +10,7 @@
  */
 
 StatsPlugin = Ext.extend(Deluge.Plugin, {
-    constructor: function(config) {
+    constructor: function (config) {
         config = Ext.apply(
             {
                 name: 'Stats',
@@ -20,8 +20,8 @@ StatsPlugin = Ext.extend(Deluge.Plugin, {
         StatsPlugin.superclass.constructor.call(this, config);
     },
 
-    onDisable: function() {},
+    onDisable: function () {},
 
-    onEnable: function() {},
+    onEnable: function () {},
 });
 new StatsPlugin();

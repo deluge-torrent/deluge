@@ -23,7 +23,7 @@ Deluge.LoginWindow = Ext.extend(Ext.Window, {
     width: 300,
     height: 120,
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.LoginWindow.superclass.initComponent.call(this);
         this.on('show', this.onShow, this);
 
@@ -56,17 +56,17 @@ Deluge.LoginWindow = Ext.extend(Ext.Window, {
         this.passwordField.on('specialkey', this.onSpecialKey, this);
     },
 
-    logout: function() {
+    logout: function () {
         deluge.events.fire('logout');
         deluge.client.auth.delete_session({
-            success: function(result) {
+            success: function (result) {
                 this.show(true);
             },
             scope: this,
         });
     },
 
-    show: function(skipCheck) {
+    show: function (skipCheck) {
         if (this.firstShow) {
             deluge.client.on('error', this.onClientError, this);
             this.firstShow = false;
@@ -77,28 +77,28 @@ Deluge.LoginWindow = Ext.extend(Ext.Window, {
         }
 
         deluge.client.auth.check_session({
-            success: function(result) {
+            success: function (result) {
                 if (result) {
                     deluge.events.fire('login');
                 } else {
                     this.show(true);
                 }
             },
-            failure: function(result) {
+            failure: function (result) {
                 this.show(true);
             },
             scope: this,
         });
     },
 
-    onSpecialKey: function(field, e) {
+    onSpecialKey: function (field, e) {
         if (e.getKey() == 13) this.onLogin();
     },
 
-    onLogin: function() {
+    onLogin: function () {
         var passwordField = this.passwordField;
         deluge.client.auth.login(passwordField.getValue(), {
-            success: function(result) {
+            success: function (result) {
                 if (result) {
                     deluge.events.fire('login');
                     this.hide();
@@ -109,7 +109,7 @@ Deluge.LoginWindow = Ext.extend(Ext.Window, {
                         msg: _('You entered an incorrect password'),
                         buttons: Ext.MessageBox.OK,
                         modal: false,
-                        fn: function() {
+                        fn: function () {
                             passwordField.focus(true, 10);
                         },
                         icon: Ext.MessageBox.WARNING,
@@ -121,14 +121,14 @@ Deluge.LoginWindow = Ext.extend(Ext.Window, {
         });
     },
 
-    onClientError: function(errorObj, response, requestOptions) {
+    onClientError: function (errorObj, response, requestOptions) {
         if (errorObj.error.code == 1) {
             deluge.events.fire('logout');
             this.show(true);
         }
     },
 
-    onShow: function() {
+    onShow: function () {
         this.passwordField.focus(true, 300);
     },
 });

@@ -19,7 +19,7 @@ Deluge.preferences.Daemon = Ext.extend(Ext.form.FormPanel, {
     header: false,
     layout: 'form',
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.preferences.Daemon.superclass.initComponent.call(this);
 
         var om = deluge.preferences.getOptionsManager();

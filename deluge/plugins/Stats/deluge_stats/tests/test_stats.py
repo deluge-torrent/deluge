@@ -72,14 +72,15 @@ class StatsTestCase(BaseTestCase):
 
         Not strictly a unit test, but tests if calls do not fail...
         """
-        from deluge.ui.gtkui.gtkui import DEFAULT_PREFS
-        from deluge.ui.gtkui.preferences import Preferences
-        from deluge.ui.gtkui.mainwindow import MainWindow
+        from deluge_stats import graph, gtkui
+
         from deluge.configmanager import ConfigManager
+        from deluge.ui.gtkui.gtkui import DEFAULT_PREFS
+        from deluge.ui.gtkui.mainwindow import MainWindow
         from deluge.ui.gtkui.pluginmanager import PluginManager
+        from deluge.ui.gtkui.preferences import Preferences
         from deluge.ui.gtkui.torrentdetails import TorrentDetails
         from deluge.ui.gtkui.torrentview import TorrentView
-        from deluge_stats import graph, gtkui
 
         ConfigManager('gtkui.conf', defaults=DEFAULT_PREFS)
 

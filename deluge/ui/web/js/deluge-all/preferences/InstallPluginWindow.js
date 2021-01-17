@@ -26,7 +26,7 @@ Deluge.preferences.InstallPluginWindow = Ext.extend(Ext.Window, {
     modal: true,
     plain: true,
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.preferences.InstallPluginWindow.superclass.initComponent.call(
             this
         );
@@ -53,7 +53,7 @@ Deluge.preferences.InstallPluginWindow = Ext.extend(Ext.Window, {
         });
     },
 
-    onInstall: function(field, e) {
+    onInstall: function (field, e) {
         this.form.getForm().submit({
             url: deluge.config.base + 'upload',
             waitMsg: _('Uploading your plugin...'),
@@ -62,11 +62,11 @@ Deluge.preferences.InstallPluginWindow = Ext.extend(Ext.Window, {
         });
     },
 
-    onUploadPlugin: function(info, obj, response, request) {
+    onUploadPlugin: function (info, obj, response, request) {
         this.fireEvent('pluginadded');
     },
 
-    onUploadSuccess: function(fp, upload) {
+    onUploadSuccess: function (fp, upload) {
         this.hide();
         if (upload.result.success) {
             var filename = this.form.getForm().getFieldValues().file;

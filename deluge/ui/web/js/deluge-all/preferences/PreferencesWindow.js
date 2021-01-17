@@ -36,7 +36,7 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
 
     pages: {},
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.preferences.PreferencesWindow.superclass.initComponent.call(
             this
         );
@@ -94,7 +94,7 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
         this.initPages();
     },
 
-    initPages: function() {
+    initPages: function () {
         deluge.preferences = this;
         this.addPage(new Deluge.preferences.Downloads());
         this.addPage(new Deluge.preferences.Network());
@@ -109,7 +109,7 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
         this.addPage(new Deluge.preferences.Plugins());
     },
 
-    onApply: function(e) {
+    onApply: function (e) {
         var changed = this.optionsManager.getDirty();
         if (!Ext.isObjectEmpty(changed)) {
             // Workaround for only displaying single listen port but still pass array to core.
@@ -134,7 +134,7 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
      * Return the options manager for the preferences window.
      * @returns {Deluge.OptionsManager} the options manager
      */
-    getOptionsManager: function() {
+    getOptionsManager: function () {
         return this.optionsManager;
     },
 
@@ -142,7 +142,7 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
      * Adds a page to the preferences window.
      * @param {Mixed} page
      */
-    addPage: function(page) {
+    addPage: function (page) {
         var store = this.list.getStore();
         var name = page.title;
         store.add([new PreferencesRecord({ name: name })]);
@@ -157,7 +157,7 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
      * Removes a preferences page from the window.
      * @param {mixed} name
      */
-    removePage: function(page) {
+    removePage: function (page) {
         var name = page.title;
         var store = this.list.getStore();
         store.removeAt(store.find('name', name));
@@ -169,7 +169,7 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
      * Select which preferences page is displayed.
      * @param {String} page The page name to change to
      */
-    selectPage: function(page) {
+    selectPage: function (page) {
         if (this.pages[page].index < 0) {
             this.pages[page].index = this.configPanel.items.indexOf(
                 this.pages[page]
@@ -179,7 +179,7 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
     },
 
     // private
-    doSelectPage: function(page) {
+    doSelectPage: function (page) {
         if (this.pages[page].index < 0) {
             this.pages[page].index = this.configPanel.items.indexOf(
                 this.pages[page]
@@ -190,23 +190,23 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
     },
 
     // private
-    onGotConfig: function(config) {
+    onGotConfig: function (config) {
         this.getOptionsManager().set(config);
     },
 
     // private
-    onPageSelect: function(list, selections) {
+    onPageSelect: function (list, selections) {
         var r = list.getRecord(selections[0]);
         this.doSelectPage(r.get('name'));
     },
 
     // private
-    onSetConfig: function() {
+    onSetConfig: function () {
         this.getOptionsManager().commit();
     },
 
     // private
-    onAfterRender: function() {
+    onAfterRender: function () {
         if (!this.list.getSelectionCount()) {
             this.list.select(0);
         }
@@ -214,7 +214,7 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
     },
 
     // private
-    onShow: function() {
+    onShow: function () {
         if (!deluge.client.core) return;
         deluge.client.core.get_config({
             success: this.onGotConfig,
@@ -223,12 +223,12 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
     },
 
     // private
-    onClose: function() {
+    onClose: function () {
         this.hide();
     },
 
     // private
-    onOk: function() {
+    onOk: function () {
         var changed = this.optionsManager.getDirty();
         if (!Ext.isObjectEmpty(changed)) {
             deluge.client.core.set_config(changed, {

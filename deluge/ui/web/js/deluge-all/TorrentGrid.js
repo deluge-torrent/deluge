@@ -8,7 +8,7 @@
  * See LICENSE for more details.
  */
 
-(function() {
+(function () {
     /* Renderers for the Torrent Grid */
     function queueRenderer(value) {
         return value == -1 ? '' : value + 1;
@@ -337,21 +337,21 @@
                 key: 'a',
                 ctrl: true,
                 stopEvent: true,
-                handler: function() {
+                handler: function () {
                     deluge.torrents.getSelectionModel().selectAll();
                 },
             },
             {
                 key: [46],
                 stopEvent: true,
-                handler: function() {
+                handler: function () {
                     ids = deluge.torrents.getSelectedIds();
                     deluge.removeWindow.show(ids);
                 },
             },
         ],
 
-        constructor: function(config) {
+        constructor: function (config) {
             config = Ext.apply(
                 {
                     id: 'torrentGrid',
@@ -376,12 +376,12 @@
             Deluge.TorrentGrid.superclass.constructor.call(this, config);
         },
 
-        initComponent: function() {
+        initComponent: function () {
             Deluge.TorrentGrid.superclass.initComponent.call(this);
             deluge.events.on('torrentsRemoved', this.onTorrentsRemoved, this);
             deluge.events.on('disconnect', this.onDisconnect, this);
 
-            this.on('rowcontextmenu', function(grid, rowIndex, e) {
+            this.on('rowcontextmenu', function (grid, rowIndex, e) {
                 e.stopEvent();
                 var selection = grid.getSelectionModel();
                 if (!selection.isSelected(rowIndex)) {
@@ -397,7 +397,7 @@
          * @param index {int} The row index of the torrent you wish to retrieve.
          * @return {Ext.data.Record} The record representing the torrent.
          */
-        getTorrent: function(index) {
+        getTorrent: function (index) {
             return this.getStore().getAt(index);
         },
 
@@ -405,14 +405,14 @@
          * Returns the currently selected record.
          * @ return {Array/Ext.data.Record} The record(s) representing the rows
          */
-        getSelected: function() {
+        getSelected: function () {
             return this.getSelectionModel().getSelected();
         },
 
         /**
          * Returns the currently selected records.
          */
-        getSelections: function() {
+        getSelections: function () {
             return this.getSelectionModel().getSelections();
         },
 
@@ -420,7 +420,7 @@
          * Return the currently selected torrent id.
          * @return {String} The currently selected id.
          */
-        getSelectedId: function() {
+        getSelectedId: function () {
             return this.getSelectionModel().getSelected().id;
         },
 
@@ -428,15 +428,15 @@
          * Return the currently selected torrent ids.
          * @return {Array} The currently selected ids.
          */
-        getSelectedIds: function() {
+        getSelectedIds: function () {
             var ids = [];
-            Ext.each(this.getSelectionModel().getSelections(), function(r) {
+            Ext.each(this.getSelectionModel().getSelections(), function (r) {
                 ids.push(r.id);
             });
             return ids;
         },
 
-        update: function(torrents, wipe) {
+        update: function (torrents, wipe) {
             var store = this.getStore();
 
             // Need to perform a complete reload of the torrent grid.
@@ -470,7 +470,7 @@
             store.add(newTorrents);
 
             // Remove any torrents that should not be in the store.
-            store.each(function(record) {
+            store.each(function (record) {
                 if (!torrents[record.id]) {
                     store.remove(record);
                     delete this.torrents[record.id];
@@ -484,17 +484,17 @@
         },
 
         // private
-        onDisconnect: function() {
+        onDisconnect: function () {
             this.getStore().removeAll();
             this.torrents = {};
         },
 
         // private
-        onTorrentsRemoved: function(torrentIds) {
+        onTorrentsRemoved: function (torrentIds) {
             var selModel = this.getSelectionModel();
             Ext.each(
                 torrentIds,
-                function(torrentId) {
+                function (torrentId) {
                     var record = this.getStore().getById(torrentId);
                     if (selModel.isSelected(record)) {
                         selModel.deselectRow(this.getStore().indexOf(record));

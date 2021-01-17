@@ -14,7 +14,7 @@ Ext.namespace('Deluge.preferences');
  * @extends Ext.form.FormPanel
  */
 Deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
-    constructor: function(config) {
+    constructor: function (config) {
         config = Ext.apply(
             {
                 border: false,
@@ -29,7 +29,7 @@ Deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
         Deluge.preferences.Downloads.superclass.constructor.call(this, config);
     },
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.preferences.Downloads.superclass.initComponent.call(this);
 
         var optMan = deluge.preferences.getOptionsManager();

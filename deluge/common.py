@@ -43,8 +43,8 @@ try:
     from urllib.request import pathname2url
 except ImportError:
     # PY2 fallback
-    from urlparse import urljoin  # pylint: disable=ungrouped-imports
     from urllib import pathname2url, unquote_plus  # pylint: disable=ungrouped-imports
+    from urlparse import urljoin  # pylint: disable=ungrouped-imports
 
 # Windows workaround for HTTPS requests requiring certificate authority bundle.
 # see: https://twistedmatrix.com/trac/ticket/9209
@@ -1013,9 +1013,9 @@ def decode_bytes(byte_str, encoding='utf8'):
     if encoding.lower() not in ['utf8', 'utf-8']:
         encodings.insert(0, lambda: (encoding, 'strict'))
 
-    for l in encodings:
+    for enc in encodings:
         try:
-            return byte_str.decode(*l())
+            return byte_str.decode(*enc())
         except UnicodeDecodeError:
             pass
     return ''
@@ -1144,6 +1144,7 @@ AUTH_LEVEL_DEFAULT = AUTH_LEVEL_NORMAL
 
 def create_auth_file():
     import stat
+
     import deluge.configmanager
 
     auth_file = deluge.configmanager.get_config_dir('auth')
@@ -1159,6 +1160,7 @@ def create_auth_file():
 def create_localclient_account(append=False):
     import random
     from hashlib import sha1 as sha
+
     import deluge.configmanager
 
     auth_file = deluge.configmanager.get_config_dir('auth')
@@ -1244,8 +1246,7 @@ def set_env_variable(name, value):
         os.environ[name] = value.encode('utf8')
 
     if windows_check():
-        from ctypes import windll
-        from ctypes import cdll
+        from ctypes import cdll, windll
 
         # Update the copy maintained by Windows (so SysInternals Process Explorer sees it)
         result = windll.kernel32.SetEnvironmentVariableW(name, value)
@@ -1274,7 +1275,7 @@ def unicode_argv():
         # Versions 2.x of Python don't support Unicode in sys.argv on
         # Windows, with the underlying Windows API instead replacing multi-byte
         # characters with '?'.
-        from ctypes import POINTER, byref, cdll, c_int, windll
+        from ctypes import POINTER, byref, c_int, cdll, windll
         from ctypes.wintypes import LPCWSTR, LPWSTR
 
         get_cmd_linew = cdll.kernel32.GetCommandLineW

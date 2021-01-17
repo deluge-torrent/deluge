@@ -27,11 +27,11 @@ Deluge.data.SortTypes = {
         return ((+d[1] * 256 + (+d[2])) * 256 + (+d[3])) * 256 + (+d[4]);
     },
 
-    asQueuePosition: function(value) {
+    asQueuePosition: function (value) {
         return value > -1 ? value : Number.MAX_VALUE;
     },
 
-    asName: function(value) {
+    asName: function (value) {
         return String(value).toLowerCase();
     },
 };

@@ -1180,8 +1180,8 @@ class Preferences(component.Component):
             chooser.destroy()
             return
 
-        from base64 import b64encode
         import shutil
+        from base64 import b64encode
 
         filename = os.path.split(filepath)[1]
         shutil.copyfile(filepath, os.path.join(get_config_dir(), 'plugins', filename))

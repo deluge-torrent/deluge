@@ -10,8 +10,8 @@
 
 // Allow radiogroups to be treated as a single form element.
 Ext.override(Ext.form.RadioGroup, {
-    afterRender: function() {
-        this.items.each(function(i) {
+    afterRender: function () {
+        this.items.each(function (i) {
             this.relayEvents(i, ['check']);
         }, this);
         if (this.lazyValue) {
@@ -22,21 +22,21 @@ Ext.override(Ext.form.RadioGroup, {
         Ext.form.RadioGroup.superclass.afterRender.call(this);
     },
 
-    getName: function() {
+    getName: function () {
         return this.items.first().getName();
     },
 
-    getValue: function() {
+    getValue: function () {
         return this.items.first().getGroupValue();
     },
 
-    setValue: function(v) {
+    setValue: function (v) {
         if (!this.items.each) {
             this.value = v;
             this.lazyValue = true;
             return;
         }
-        this.items.each(function(item) {
+        this.items.each(function (item) {
             if (item.rendered) {
                 var checked = item.el.getValue() == String(v);
                 item.el.dom.checked = checked;

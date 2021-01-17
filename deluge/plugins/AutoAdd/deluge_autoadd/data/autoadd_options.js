@@ -60,7 +60,7 @@ Deluge.ux.AutoAdd.AutoAddWindowBase = Ext.extend(Ext.Window, {
         ],
     }),
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.ux.AutoAdd.AutoAddWindowBase.superclass.initComponent.call(this);
         this.addButton(_('Cancel'), this.onCancelClick, this);
 
@@ -81,11 +81,11 @@ Deluge.ux.AutoAdd.AutoAddWindowBase = Ext.extend(Ext.Window, {
         });
     },
 
-    onCancelClick: function() {
+    onCancelClick: function () {
         this.hide();
     },
 
-    getOptions: function() {
+    getOptions: function () {
         var options = {};
 
         options['enabled'] = Ext.getCmp('enabled').getValue();
@@ -102,22 +102,22 @@ Deluge.ux.AutoAdd.AutoAddWindowBase = Ext.extend(Ext.Window, {
         options['append_extension'] = Ext.getCmp('append_extension').getValue();
         options['owner'] = Ext.getCmp('owner').getValue();
 
-        this.toggle_ids.forEach(function(toggle_id) {
+        this.toggle_ids.forEach(function (toggle_id) {
             options[toggle_id] = Ext.getCmp(toggle_id).getValue();
         });
-        this.spin_ids.forEach(function(spin_id) {
+        this.spin_ids.forEach(function (spin_id) {
             options[spin_id] = Ext.getCmp(spin_id).getValue();
             options[spin_id + '_toggle'] = Ext.getCmp(
                 spin_id + '_toggle'
             ).getValue();
         });
-        this.spin_int_ids.forEach(function(spin_int_id) {
+        this.spin_int_ids.forEach(function (spin_int_id) {
             options[spin_int_id] = Ext.getCmp(spin_int_id).getValue();
             options[spin_int_id + '_toggle'] = Ext.getCmp(
                 spin_int_id + '_toggle'
             ).getValue();
         });
-        this.chk_ids.forEach(function(chk_id) {
+        this.chk_ids.forEach(function (chk_id) {
             options[chk_id] = Ext.getCmp(chk_id).getValue();
             options[chk_id + '_toggle'] = Ext.getCmp(
                 chk_id + '_toggle'
@@ -137,7 +137,7 @@ Deluge.ux.AutoAdd.AutoAddWindowBase = Ext.extend(Ext.Window, {
         return options;
     },
 
-    loadOptions: function(options) {
+    loadOptions: function (options) {
         /*
          * Populate all available options data to the UI
          */
@@ -193,7 +193,7 @@ Deluge.ux.AutoAdd.AutoAddWindowBase = Ext.extend(Ext.Window, {
                 : false
         );
 
-        this.spin_ids.forEach(function(spin_id) {
+        this.spin_ids.forEach(function (spin_id) {
             Ext.getCmp(spin_id).setValue(
                 options[spin_id] !== undefined ? options[spin_id] : 0
             );
@@ -203,7 +203,7 @@ Deluge.ux.AutoAdd.AutoAddWindowBase = Ext.extend(Ext.Window, {
                     : false
             );
         });
-        this.chk_ids.forEach(function(chk_id) {
+        this.chk_ids.forEach(function (chk_id) {
             Ext.getCmp(chk_id).setValue(
                 options[chk_id] !== undefined ? options[chk_id] : true
             );
@@ -237,14 +237,14 @@ Deluge.ux.AutoAdd.AutoAddWindowBase = Ext.extend(Ext.Window, {
             'path',
             'download_location',
             'copy_torrent',
-        ].forEach(function(field) {
+        ].forEach(function (field) {
             value = options[field] !== undefined ? options[field] : '';
             Ext.getCmp(field).setValue(value);
         });
 
         if (Object.keys(options).length === 0) {
             deluge.client.core.get_config({
-                success: function(config) {
+                success: function (config) {
                     var value;
                     Ext.getCmp('download_location').setValue(
                         options['download_location'] !== undefined
@@ -291,11 +291,11 @@ Deluge.ux.AutoAdd.AutoAddWindowBase = Ext.extend(Ext.Window, {
         }
 
         deluge.client.core.get_enabled_plugins({
-            success: function(plugins) {
+            success: function (plugins) {
                 if (plugins !== undefined && plugins.indexOf('Label') > -1) {
                     this.MainTab.LabelFset.setVisible(true);
                     deluge.client.label.get_labels({
-                        success: function(labels) {
+                        success: function (labels) {
                             for (
                                 var index = 0;
                                 index < labels.length;
@@ -305,7 +305,7 @@ Deluge.ux.AutoAdd.AutoAddWindowBase = Ext.extend(Ext.Window, {
                             }
                             this.labels.loadData(labels, false);
                         },
-                        failure: function(failure) {
+                        failure: function (failure) {
                             console.error(failure);
                         },
                         scope: this,
@@ -324,30 +324,26 @@ Deluge.ux.AutoAdd.AutoAddWindowBase = Ext.extend(Ext.Window, {
                 accounts[index] = [accounts[index]['username']];
             }
             me.accounts.loadData(accounts, false);
-            Ext.getCmp('owner')
-                .setValue(owner)
-                .enable();
+            Ext.getCmp('owner').setValue(owner).enable();
         }
 
         function on_accounts_failure(failure) {
             deluge.client.autoadd.get_auth_user({
-                success: function(user) {
+                success: function (user) {
                     me.accounts.loadData([[user]], false);
-                    Ext.getCmp('owner')
-                        .setValue(user)
-                        .disable(true);
+                    Ext.getCmp('owner').setValue(user).disable(true);
                 },
                 scope: this,
             });
         }
 
         deluge.client.autoadd.is_admin_level({
-            success: function(is_admin) {
+            success: function (is_admin) {
                 if (is_admin) {
                     deluge.client.core.get_known_accounts({
-                        success: function(accounts) {
+                        success: function (accounts) {
                             deluge.client.autoadd.get_auth_user({
-                                success: function(user) {
+                                success: function (user) {
                                     on_accounts(
                                         accounts,
                                         options['owner'] !== undefined
@@ -379,7 +375,7 @@ Deluge.ux.AutoAdd.EditAutoAddCommandWindow = Ext.extend(
     {
         title: _('Edit Watch Folder'),
 
-        initComponent: function() {
+        initComponent: function () {
             Deluge.ux.AutoAdd.EditAutoAddCommandWindow.superclass.initComponent.call(
                 this
             );
@@ -389,7 +385,7 @@ Deluge.ux.AutoAdd.EditAutoAddCommandWindow = Ext.extend(
             });
         },
 
-        show: function(watchdir_id, options) {
+        show: function (watchdir_id, options) {
             Deluge.ux.AutoAdd.EditAutoAddCommandWindow.superclass.show.call(
                 this
             );
@@ -397,11 +393,11 @@ Deluge.ux.AutoAdd.EditAutoAddCommandWindow = Ext.extend(
             this.loadOptions(options);
         },
 
-        onSaveClick: function() {
+        onSaveClick: function () {
             try {
                 var options = this.getOptions();
                 deluge.client.autoadd.set_options(this.watchdir_id, options, {
-                    success: function() {
+                    success: function () {
                         this.fireEvent('watchdiredit', this, options);
                     },
                     scope: this,
@@ -429,7 +425,7 @@ Deluge.ux.AutoAdd.AddAutoAddCommandWindow = Ext.extend(
     {
         title: _('Add Watch Folder'),
 
-        initComponent: function() {
+        initComponent: function () {
             Deluge.ux.AutoAdd.AddAutoAddCommandWindow.superclass.initComponent.call(
                 this
             );
@@ -439,21 +435,21 @@ Deluge.ux.AutoAdd.AddAutoAddCommandWindow = Ext.extend(
             });
         },
 
-        show: function() {
+        show: function () {
             Deluge.ux.AutoAdd.AddAutoAddCommandWindow.superclass.show.call(
                 this
             );
             this.loadOptions();
         },
 
-        onAddClick: function() {
+        onAddClick: function () {
             var options = this.getOptions();
             deluge.client.autoadd.add(options, {
-                success: function() {
+                success: function () {
                     this.fireEvent('watchdiradd', this, options);
                     this.hide();
                 },
-                failure: function(err) {
+                failure: function (err) {
                     const regex = /: (.*\n)\n?\]/m;
                     var error;
                     if ((error = regex.exec(err.error.message)) !== null) {

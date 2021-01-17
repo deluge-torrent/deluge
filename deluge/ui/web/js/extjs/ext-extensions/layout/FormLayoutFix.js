@@ -12,7 +12,7 @@
 // remove spaces for hidden elements and make show(), hide(), enable() and disable() act on
 // the label. don't use hideLabel with this.
 Ext.override(Ext.layout.FormLayout, {
-    renderItem: function(c, position, target) {
+    renderItem: function (c, position, target) {
         if (
             c &&
             !c.rendered &&

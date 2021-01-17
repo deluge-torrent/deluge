@@ -10,7 +10,7 @@
 Ext.namespace('Deluge');
 
 Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
-    constructor: function(config) {
+    constructor: function (config) {
         config = Ext.apply(
             {
                 id: 'deluge-statusbar',
@@ -22,14 +22,14 @@ Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
         Deluge.Statusbar.superclass.constructor.call(this, config);
     },
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.Statusbar.superclass.initComponent.call(this);
 
         deluge.events.on('connect', this.onConnect, this);
         deluge.events.on('disconnect', this.onDisconnect, this);
     },
 
-    createButtons: function() {
+    createButtons: function () {
         this.buttons = this.add(
             {
                 id: 'statusbar-connections',
@@ -213,7 +213,7 @@ Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
                 cls: 'x-btn-text-icon',
                 iconCls: 'x-deluge-traffic',
                 tooltip: _('Protocol Traffic Download/Upload'),
-                handler: function() {
+                handler: function () {
                     deluge.preferences.show();
                     deluge.preferences.selectPage('Network');
                 },
@@ -240,7 +240,7 @@ Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
                 cls: 'x-btn-text-icon',
                 iconCls: 'x-deluge-freespace',
                 tooltip: _('Freespace in download folder'),
-                handler: function() {
+                handler: function () {
                     deluge.preferences.show();
                     deluge.preferences.selectPage('Downloads');
                 },
@@ -249,7 +249,7 @@ Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
         this.created = true;
     },
 
-    onConnect: function() {
+    onConnect: function () {
         this.setStatus({
             iconCls: 'x-connected',
             text: '',
@@ -257,7 +257,7 @@ Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
         if (!this.created) {
             this.createButtons();
         } else {
-            Ext.each(this.buttons, function(item) {
+            Ext.each(this.buttons, function (item) {
                 item.show();
                 item.enable();
             });
@@ -265,23 +265,23 @@ Deluge.Statusbar = Ext.extend(Ext.ux.StatusBar, {
         this.doLayout();
     },
 
-    onDisconnect: function() {
+    onDisconnect: function () {
         this.clearStatus({ useDefaults: true });
-        Ext.each(this.buttons, function(item) {
+        Ext.each(this.buttons, function (item) {
             item.hide();
             item.disable();
         });
         this.doLayout();
     },
 
-    update: function(stats) {
+    update: function (stats) {
         if (!stats) return;
 
         function addSpeed(val) {
             return val + ' KiB/s';
         }
 
-        var updateStat = function(name, config) {
+        var updateStat = function (name, config) {
             var item = this.items.get('statusbar-' + name);
             if (config.limit.value > 0) {
                 var value = config.value.formatter

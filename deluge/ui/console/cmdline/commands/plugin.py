@@ -106,8 +106,8 @@ class Command(BaseCommand):
 
         elif options.install:
             import os.path
-            from base64 import b64encode
             import shutil
+            from base64 import b64encode
 
             filepath = options.install
 

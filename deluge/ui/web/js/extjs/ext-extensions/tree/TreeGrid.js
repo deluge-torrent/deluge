@@ -26,7 +26,7 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
 
     columnsText: 'Columns',
 
-    initComponent: function() {
+    initComponent: function () {
         if (!this.root) {
             this.root = new Ext.tree.AsyncTreeNode({ text: 'Root' });
         }
@@ -98,7 +98,7 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
         }
     },
 
-    initColumns: function() {
+    initColumns: function () {
         var cs = this.columns,
             len = cs.length,
             columns = [],
@@ -127,7 +127,7 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
         this.columns = columns;
     },
 
-    onRender: function() {
+    onRender: function () {
         Ext.tree.TreePanel.superclass.onRender.apply(this, arguments);
 
         this.el.addClass('x-treegrid');
@@ -176,7 +176,7 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
         }
     },
 
-    setRootNode: function(node) {
+    setRootNode: function (node) {
         node.attributes.uiProvider = Ext.ux.tree.TreeGridRootNodeUI;
         node = Ext.ux.tree.TreeGrid.superclass.setRootNode.call(this, node);
         if (this.innerCt) {
@@ -187,7 +187,7 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
         return node;
     },
 
-    clearInnerCt: function() {
+    clearInnerCt: function () {
         if (Ext.isIE) {
             var dom = this.innerCt.dom;
             while (dom.firstChild) {
@@ -198,7 +198,7 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
         }
     },
 
-    initEvents: function() {
+    initEvents: function () {
         Ext.ux.tree.TreeGrid.superclass.initEvents.apply(this, arguments);
 
         this.mon(this.innerBody, 'scroll', this.syncScroll, this);
@@ -210,7 +210,7 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
         });
     },
 
-    onResize: function(w, h) {
+    onResize: function (w, h) {
         Ext.ux.tree.TreeGrid.superclass.onResize.apply(this, arguments);
 
         var bd = this.innerBody.dom;
@@ -234,7 +234,7 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
                 this.setScrollOffset(sw);
             } else {
                 var me = this;
-                setTimeout(function() {
+                setTimeout(function () {
                     me.setScrollOffset(
                         bd.offsetWidth - bd.clientWidth > 10 ? sw : 0
                     );
@@ -243,7 +243,7 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
         }
     },
 
-    updateColumnWidths: function() {
+    updateColumnWidths: function () {
         var cols = this.columns,
             colCount = cols.length,
             groups = this.outerCt.query('colgroup'),
@@ -282,7 +282,7 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
         this.syncHeaderScroll();
     },
 
-    getVisibleColumns: function() {
+    getVisibleColumns: function () {
         var columns = [],
             cs = this.columns,
             len = cs.length,
@@ -296,7 +296,7 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
         return columns;
     },
 
-    getTotalColumnWidth: function() {
+    getTotalColumnWidth: function () {
         var total = 0;
         for (
             var i = 0, cs = this.getVisibleColumns(), len = cs.length;
@@ -308,13 +308,13 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
         return total;
     },
 
-    setScrollOffset: function(scrollOffset) {
+    setScrollOffset: function (scrollOffset) {
         this.scrollOffset = scrollOffset;
         this.updateColumnWidths();
     },
 
     // private
-    handleHdDown: function(e, t) {
+    handleHdDown: function (e, t) {
         var hd = e.getTarget('.x-treegrid-hd');
 
         if (hd && Ext.fly(t).hasClass('x-grid3-hd-btn')) {
@@ -332,7 +332,7 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
 
             this.hmenu.on(
                 'hide',
-                function() {
+                function () {
                     Ext.fly(hd).removeClass('x-grid3-hd-menu-open');
                 },
                 this,
@@ -347,7 +347,7 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
     },
 
     // private
-    handleHdOver: function(e, t) {
+    handleHdOver: function (e, t) {
         var hd = e.getTarget('.x-treegrid-hd');
         if (hd && !this.headersDisabled) {
             index = this.findHeaderIndex(hd);
@@ -365,7 +365,7 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
     },
 
     // private
-    handleHdOut: function(e, t) {
+    handleHdOut: function (e, t) {
         var hd = e.getTarget('.x-treegrid-hd');
         if (hd && (!Ext.isIE || !e.within(hd, true))) {
             this.activeHdRef = null;
@@ -374,7 +374,7 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
         }
     },
 
-    findHeaderIndex: function(hd) {
+    findHeaderIndex: function (hd) {
         hd = hd.dom || hd;
         var cs = hd.parentNode.childNodes;
         for (var i = 0, c; (c = cs[i]); i++) {
@@ -386,7 +386,7 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
     },
 
     // private
-    beforeColMenuShow: function() {
+    beforeColMenuShow: function () {
         var cols = this.columns,
             colCount = cols.length,
             i,
@@ -409,7 +409,7 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
     },
 
     // private
-    handleHdMenuClick: function(item) {
+    handleHdMenuClick: function (item) {
         var index = this.hdCtxIndex,
             id = item.getItemId();
 
@@ -430,7 +430,7 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
         return true;
     },
 
-    setColumnVisible: function(index, visible) {
+    setColumnVisible: function (index, visible) {
         this.columns[index].hidden = !visible;
         this.updateColumnWidths();
     },
@@ -438,26 +438,26 @@ Ext.ux.tree.TreeGrid = Ext.extend(Ext.tree.TreePanel, {
     /**
      * Scrolls the grid to the top
      */
-    scrollToTop: function() {
+    scrollToTop: function () {
         this.innerBody.dom.scrollTop = 0;
         this.innerBody.dom.scrollLeft = 0;
     },
 
     // private
-    syncScroll: function() {
+    syncScroll: function () {
         this.syncHeaderScroll();
         var mb = this.innerBody.dom;
         this.fireEvent('bodyscroll', mb.scrollLeft, mb.scrollTop);
     },
 
     // private
-    syncHeaderScroll: function() {
+    syncHeaderScroll: function () {
         var mb = this.innerBody.dom;
         this.innerHd.dom.scrollLeft = mb.scrollLeft;
         this.innerHd.dom.scrollLeft = mb.scrollLeft; // second time for IE (1/2 time first fails, other browsers ignore)
     },
 
-    registerNode: function(n) {
+    registerNode: function (n) {
         Ext.ux.tree.TreeGrid.superclass.registerNode.call(this, n);
         if (!n.uiProvider && !n.isRoot && !n.ui.isTreeGridNodeUI) {
             n.ui = new Ext.ux.tree.TreeGridNodeUI(n);

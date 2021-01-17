@@ -21,7 +21,7 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
     title: _('Connection Manager'),
     iconCls: 'x-deluge-connect-window-icon',
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.ConnectionManager.superclass.initComponent.call(this);
         this.on('hide', this.onHide, this);
         this.on('show', this.onShow, this);
@@ -133,9 +133,9 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
      * Check to see if the the web interface is currently connected
      * to a Deluge Daemon and show the Connection Manager if not.
      */
-    checkConnected: function() {
+    checkConnected: function () {
         deluge.client.web.connected({
-            success: function(connected) {
+            success: function (connected) {
                 if (connected) {
                     deluge.events.fire('connect');
                 } else {
@@ -146,7 +146,7 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
         });
     },
 
-    disconnect: function(show) {
+    disconnect: function (show) {
         deluge.events.fire('disconnect');
         if (show) {
             if (this.isVisible()) return;
@@ -154,15 +154,15 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
         }
     },
 
-    loadHosts: function() {
+    loadHosts: function () {
         deluge.client.web.get_hosts({
             success: this.onGetHosts,
             scope: this,
         });
     },
 
-    update: function() {
-        this.list.getStore().each(function(r) {
+    update: function () {
+        this.list.getStore().each(function (r) {
             deluge.client.web.get_host_status(r.id, {
                 success: this.onGetHostStatus,
                 scope: this,
@@ -175,7 +175,7 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
      * passed in records host state.
      * @param {Ext.data.Record} record The hosts record to update the UI for
      */
-    updateButtons: function(record) {
+    updateButtons: function (record) {
         var button = this.buttons[1],
             status = record.get('status');
 
@@ -209,7 +209,7 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
     },
 
     // private
-    onAddClick: function(button, e) {
+    onAddClick: function (button, e) {
         if (!this.addWindow) {
             this.addWindow = new Deluge.AddConnectionWindow();
             this.addWindow.on('hostadded', this.onHostChange, this);
@@ -218,7 +218,7 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
     },
 
     // private
-    onEditClick: function(button, e) {
+    onEditClick: function (button, e) {
         var connection = this.list.getSelectedRecords()[0];
         if (!connection) return;
 
@@ -230,24 +230,24 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
     },
 
     // private
-    onHostChange: function() {
+    onHostChange: function () {
         this.loadHosts();
     },
 
     // private
-    onClose: function(e) {
+    onClose: function (e) {
         this.hide();
     },
 
     // private
-    onConnect: function(e) {
+    onConnect: function (e) {
         var selected = this.list.getSelectedRecords()[0];
         if (!selected) return;
 
         var me = this;
-        var disconnect = function() {
+        var disconnect = function () {
             deluge.client.web.disconnect({
-                success: function(result) {
+                success: function (result) {
                     this.update(this);
                     deluge.events.fire('disconnect');
                 },
@@ -268,11 +268,11 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
 
             var id = selected.id;
             deluge.client.web.connect(id, {
-                success: function(methods) {
+                success: function (methods) {
                     deluge.client.reloadMethods();
                     deluge.client.on(
                         'connected',
-                        function(e) {
+                        function (e) {
                             deluge.events.fire('connect');
                         },
                         this,
@@ -285,11 +285,11 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
     },
 
     // private
-    onGetHosts: function(hosts) {
+    onGetHosts: function (hosts) {
         this.list.getStore().loadData(hosts);
         Ext.each(
             hosts,
-            function(host) {
+            function (host) {
                 deluge.client.web.get_host_status(host[0], {
                     success: this.onGetHostStatus,
                     scope: this,
@@ -300,7 +300,7 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
     },
 
     // private
-    onGetHostStatus: function(host) {
+    onGetHostStatus: function (host) {
         var record = this.list.getStore().getById(host[0]);
         record.set('status', host[1]);
         record.set('version', host[2]);
@@ -311,19 +311,19 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
     },
 
     // private
-    onHide: function() {
+    onHide: function () {
         if (this.running) window.clearInterval(this.running);
     },
 
     // private
-    onLogin: function() {
+    onLogin: function () {
         if (deluge.config.first_login) {
             Ext.MessageBox.confirm(
                 _('Change Default Password'),
                 _(
                     'We recommend changing the default password.<br><br>Would you like to change it now?'
                 ),
-                function(res) {
+                function (res) {
                     this.checkConnected();
                     if (res == 'yes') {
                         deluge.preferences.show();
@@ -339,7 +339,7 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
     },
 
     // private
-    onLogout: function() {
+    onLogout: function () {
         this.disconnect();
         if (!this.hidden && this.rendered) {
             this.hide();
@@ -347,12 +347,12 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
     },
 
     // private
-    onRemoveClick: function(button) {
+    onRemoveClick: function (button) {
         var connection = this.list.getSelectedRecords()[0];
         if (!connection) return;
 
         deluge.client.web.remove_host(connection.id, {
-            success: function(result) {
+            success: function (result) {
                 if (!result) {
                     Ext.MessageBox.show({
                         title: _('Error'),
@@ -371,7 +371,7 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
     },
 
     // private
-    onSelectionChanged: function(list, selections) {
+    onSelectionChanged: function (list, selections) {
         if (selections[0]) {
             this.editHostButton.enable();
             this.removeHostButton.enable();
@@ -387,7 +387,7 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
 
     // FIXME: Find out why this is being fired twice
     // private
-    onShow: function() {
+    onShow: function () {
         if (!this.addHostButton) {
             var bbar = this.panel.getBottomToolbar();
             this.addHostButton = bbar.items.get('cm-add');
@@ -401,7 +401,7 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
     },
 
     // private
-    onStopClick: function(button, e) {
+    onStopClick: function (button, e) {
         var connection = this.list.getSelectedRecords()[0];
         if (!connection) return;
 
@@ -411,7 +411,7 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
         } else {
             // This means we need to stop the daemon
             deluge.client.web.stop_daemon(connection.id, {
-                success: function(result) {
+                success: function (result) {
                     if (!result[0]) {
                         Ext.MessageBox.show({
                             title: _('Error'),

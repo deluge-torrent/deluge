@@ -21,7 +21,7 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
     layout: 'fit',
     border: false,
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.ux.preferences.NotificationsPage.superclass.initComponent.call(
             this
         );
@@ -44,7 +44,7 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
             xtype: 'checkbox',
             boxLabel: _('Enabled'),
             listeners: {
-                check: function(object, checked) {
+                check: function (object, checked) {
                     this.setSmtpDisabled(!checked);
                 },
                 scope: this,
@@ -227,11 +227,11 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
                         fields: [{ name: 'recipient' }],
                     }),
                     listeners: {
-                        afteredit: function(e) {
+                        afteredit: function (e) {
                             e.record.commit();
                         },
                     },
-                    setEmptyText: function(text) {
+                    setEmptyText: function (text) {
                         if (this.viewReady) {
                             this.getView().emptyText = text;
                             this.getView().refresh();
@@ -239,7 +239,7 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
                             Ext.apply(this.viewConfig, { emptyText: text });
                         }
                     },
-                    loadData: function(data) {
+                    loadData: function (data) {
                         this.getStore().loadData(data);
                         if (this.viewReady) {
                             this.getView().updateHeaders();
@@ -259,7 +259,7 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
             },
             colModel: new Ext.grid.ColumnModel({
                 defaults: {
-                    renderer: function(
+                    renderer: function (
                         value,
                         meta,
                         record,
@@ -310,7 +310,7 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
                 ],
             }),
             listeners: {
-                cellclick: function(grid, rowIndex, colIndex, e) {
+                cellclick: function (grid, rowIndex, colIndex, e) {
                     var record = grid.getStore().getAt(rowIndex);
                     var field = grid.getColumnModel().getDataIndex(colIndex);
                     var value = record.get(field);
@@ -322,18 +322,18 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
                         }
                     }
                 },
-                beforeedit: function(e) {
+                beforeedit: function (e) {
                     if (Ext.isBoolean(e.value)) {
                         return false;
                     }
 
                     return e.record.get('enabled');
                 },
-                afteredit: function(e) {
+                afteredit: function (e) {
                     e.record.commit();
                 },
             },
-            setEmptyText: function(text) {
+            setEmptyText: function (text) {
                 if (this.viewReady) {
                     this.getView().emptyText = text;
                     this.getView().refresh();
@@ -341,13 +341,13 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
                     Ext.apply(this.viewConfig, { emptyText: text });
                 }
             },
-            setSub: function(eventName) {
+            setSub: function (eventName) {
                 var store = this.getStore();
                 var index = store.find('event', eventName);
                 store.getAt(index).set('email', true);
                 store.getAt(index).commit();
             },
-            loadData: function(data) {
+            loadData: function (data) {
                 this.getStore().loadData(data);
                 if (this.viewReady) {
                     this.getView().updateHeaders();
@@ -374,9 +374,9 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
         this.on('show', this.updateConfig, this);
     },
 
-    updateConfig: function() {
+    updateConfig: function () {
         deluge.client.notifications.get_handled_events({
-            success: function(events) {
+            success: function (events) {
                 var data = [];
                 var keys = Ext.keys(events);
                 for (var i = 0; i < keys.length; i++) {
@@ -388,7 +388,7 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
             scope: this,
         });
         deluge.client.notifications.get_config({
-            success: function(config) {
+            success: function (config) {
                 this.chkEnableEmail.setValue(config['smtp_enabled']);
                 this.setSmtpDisabled(!config['smtp_enabled']);
 
@@ -420,7 +420,7 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
         });
     },
 
-    onApply: function() {
+    onApply: function () {
         var config = {};
 
         config['smtp_enabled'] = this.chkEnableEmail.getValue();
@@ -461,11 +461,11 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
         deluge.client.notifications.set_config(config);
     },
 
-    onOk: function() {
+    onOk: function () {
         this.onApply();
     },
 
-    onAddClick: function() {
+    onAddClick: function () {
         var store = this.recipientsFset.getComponent(0).getStore();
         var Recipient = store.recordType;
         var i = new Recipient({
@@ -476,7 +476,7 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
         this.recipientsFset.getComponent(0).startEditing(0, 0);
     },
 
-    onRemoveClick: function() {
+    onRemoveClick: function () {
         var selections = this.recipientsFset
             .getComponent(0)
             .getSelectionModel()
@@ -488,7 +488,7 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
         store.commitChanges();
     },
 
-    setSmtpDisabled: function(disable) {
+    setSmtpDisabled: function (disable) {
         this.hBoxHost.setDisabled(disable);
         this.hBoxPort.setDisabled(disable);
         this.hBoxUser.setDisabled(disable);
@@ -498,7 +498,7 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
         this.recipientsFset.getComponent(0).setDisabled(disable);
     },
 
-    onDestroy: function() {
+    onDestroy: function () {
         deluge.preferences.un('show', this.updateConfig, this);
 
         Deluge.ux.preferences.NotificationsPage.superclass.onDestroy.call(this);
@@ -508,11 +508,11 @@ Deluge.ux.preferences.NotificationsPage = Ext.extend(Ext.Panel, {
 Deluge.plugins.NotificationsPlugin = Ext.extend(Deluge.Plugin, {
     name: 'Notifications',
 
-    onDisable: function() {
+    onDisable: function () {
         deluge.preferences.removePage(this.prefsPage);
     },
 
-    onEnable: function() {
+    onEnable: function () {
         this.prefsPage = deluge.preferences.addPage(
             new Deluge.ux.preferences.NotificationsPage()
         );

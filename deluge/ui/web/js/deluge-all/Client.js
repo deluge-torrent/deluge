@@ -31,7 +31,7 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
      * Fires when the client has retrieved the list of methods from the server.
      * @param {Ext.ux.util.RpcClient} this
      */
-    constructor: function(config) {
+    constructor: function (config) {
         Ext.ux.util.RpcClient.superclass.constructor.call(this, config);
         this._url = config.url || null;
         this._id = 0;
@@ -44,14 +44,14 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
         this.reloadMethods();
     },
 
-    reloadMethods: function() {
+    reloadMethods: function () {
         this._execute('system.listMethods', {
             success: this._setMethods,
             scope: this,
         });
     },
 
-    _execute: function(method, options) {
+    _execute: function (method, options) {
         options = options || {};
         options.params = options.params || [];
         options.id = this._id;
@@ -74,7 +74,7 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
         });
     },
 
-    _onFailure: function(response, requestOptions) {
+    _onFailure: function (response, requestOptions) {
         var options = requestOptions.options;
         errorObj = {
             id: options.id,
@@ -100,7 +100,7 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
         }
     },
 
-    _onSuccess: function(response, requestOptions) {
+    _onSuccess: function (response, requestOptions) {
         var responseObj = Ext.decode(response.responseText);
         var options = requestOptions.options;
         if (responseObj.error) {
@@ -138,9 +138,9 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
         }
     },
 
-    _parseArgs: function(args) {
+    _parseArgs: function (args) {
         var params = [];
-        Ext.each(args, function(arg) {
+        Ext.each(args, function (arg) {
             params.push(arg);
         });
 
@@ -149,7 +149,7 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
             var keys = Ext.keys(options),
                 isOption = false;
 
-            Ext.each(this._optionKeys, function(key) {
+            Ext.each(this._optionKeys, function (key) {
                 if (keys.indexOf(key) > -1) isOption = true;
             });
 
@@ -165,15 +165,15 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
         return options;
     },
 
-    _setMethods: function(methods) {
+    _setMethods: function (methods) {
         var components = {},
             self = this;
 
-        Ext.each(methods, function(method) {
+        Ext.each(methods, function (method) {
             var parts = method.split('.');
             var component = components[parts[0]] || {};
 
-            var fn = function() {
+            var fn = function () {
                 var options = self._parseArgs(arguments);
                 return self._execute(method, options);
             };
@@ -186,7 +186,7 @@ Ext.ux.util.RpcClient = Ext.extend(Ext.util.Observable, {
         }
         Ext.each(
             this._components,
-            function(component) {
+            function (component) {
                 if (!component in components) {
                     delete this[component];
                 }

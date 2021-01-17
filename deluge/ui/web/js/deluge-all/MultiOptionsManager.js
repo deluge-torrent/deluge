@@ -15,7 +15,7 @@
  * @extends Deluge.OptionsManager
  */
 Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
-    constructor: function(config) {
+    constructor: function (config) {
         this.currentId = null;
         this.stored = {};
         Deluge.MultiOptionsManager.superclass.constructor.call(this, config);
@@ -25,7 +25,7 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
      * Changes bound fields to use the specified id.
      * @param {String} id
      */
-    changeId: function(id, dontUpdateBinds) {
+    changeId: function (id, dontUpdateBinds) {
         var oldId = this.currentId;
         this.currentId = id;
         if (!dontUpdateBinds) {
@@ -33,7 +33,7 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
                 if (!this.binds[option]) continue;
                 Ext.each(
                     this.binds[option],
-                    function(bind) {
+                    function (bind) {
                         bind.setValue(this.get(option));
                     },
                     this
@@ -47,7 +47,7 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
      * Changes all the changed values to be the default values
      * @param {String} id
      */
-    commit: function() {
+    commit: function () {
         this.stored[this.currentId] = Ext.apply(
             this.stored[this.currentId],
             this.changed[this.currentId]
@@ -60,7 +60,7 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
      * @param {String/Array} option A single option or an array of options to return.
      * @returns {Object} the options value.
      */
-    get: function() {
+    get: function () {
         if (arguments.length == 1) {
             var option = arguments[0];
             return this.isDirty(option)
@@ -78,7 +78,7 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
             var options = {};
             Ext.each(
                 arguments,
-                function(option) {
+                function (option) {
                     options[option] = this.isDirty(option)
                         ? this.changed[this.currentId][option]
                         : this.getDefault(option);
@@ -94,7 +94,7 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
      * @param {String} option A single option.
      * @returns {Object} the value of the option
      */
-    getDefault: function(option) {
+    getDefault: function (option) {
         return this.has(option)
             ? this.stored[this.currentId][option]
             : this.options[option];
@@ -104,7 +104,7 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
      * Returns the dirty (changed) values.
      * @returns {Object} the changed options
      */
-    getDirty: function() {
+    getDirty: function () {
         return this.changed[this.currentId] ? this.changed[this.currentId] : {};
     },
 
@@ -113,7 +113,7 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
      * @param {String} option
      * @returns {Boolean} true if the option has been changed, else false.
      */
-    isDirty: function(option) {
+    isDirty: function (option) {
         return (
             this.changed[this.currentId] &&
             !Ext.isEmpty(this.changed[this.currentId][option])
@@ -126,7 +126,7 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
      * @param {String} option
      * @returns {Boolean} true if the id has an option, else false.
      */
-    has: function(option) {
+    has: function (option) {
         return (
             this.stored[this.currentId] &&
             !Ext.isEmpty(this.stored[this.currentId][option])
@@ -136,7 +136,7 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
     /**
      * Reset the options back to the default values for the specified id.
      */
-    reset: function() {
+    reset: function () {
         if (this.changed[this.currentId]) delete this.changed[this.currentId];
         if (this.stored[this.currentId]) delete this.stored[this.currentId];
     },
@@ -144,7 +144,7 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
     /**
      * Reset the options back to their defaults for all ids.
      */
-    resetAll: function() {
+    resetAll: function () {
         this.changed = {};
         this.stored = {};
         this.changeId(null);
@@ -156,7 +156,7 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
      * @param {String} option
      * @param {Object} value The value for the option
      */
-    setDefault: function(option, value) {
+    setDefault: function (option, value) {
         if (option === undefined) {
             return;
         } else if (value === undefined) {
@@ -187,7 +187,7 @@ Deluge.MultiOptionsManager = Ext.extend(Deluge.OptionsManager, {
      * @param {String/Object} option or options to update
      * @param {Object} [value];
      */
-    update: function(option, value) {
+    update: function (option, value) {
         if (option === undefined) {
             return;
         } else if (value === undefined) {

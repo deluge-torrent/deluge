@@ -19,7 +19,7 @@ Deluge.ux.AutoAdd.AutoAddOptionsPanel = Ext.extend(Ext.Panel, {
     id: 'options_tab_panel',
     title: _('Options'),
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.ux.AutoAdd.AutoAddOptionsPanel.superclass.initComponent.call(
             this
         );
@@ -149,7 +149,7 @@ Deluge.ux.AutoAdd.AutoAddOptionsPanel = Ext.extend(Ext.Panel, {
                             hideLabel: true,
                             width: 175,
                             listeners: {
-                                check: function(cb, checked) {
+                                check: function (cb, checked) {
                                     Ext.getCmp('stop_ratio').setDisabled(
                                         !checked
                                     );
@@ -223,7 +223,7 @@ Deluge.ux.AutoAdd.AutoAddOptionsPanel = Ext.extend(Ext.Panel, {
         this.add([this.ownerFset, this.bandwidthFset, this.queueFset]);
     },
 
-    _getBandwidthContainer: function(values) {
+    _getBandwidthContainer: function (values) {
         return new Ext.Container({
             xtype: 'container',
             layout: 'hbox',
@@ -236,7 +236,7 @@ Deluge.ux.AutoAdd.AutoAddOptionsPanel = Ext.extend(Ext.Panel, {
                     boxLabel: _(values.labelCheckbox),
                     width: 175,
                     listeners: {
-                        check: function(cb, checked) {
+                        check: function (cb, checked) {
                             Ext.getCmp(values.idSpinner).setDisabled(!checked);
                         },
                     },
@@ -257,7 +257,7 @@ Deluge.ux.AutoAdd.AutoAddOptionsPanel = Ext.extend(Ext.Panel, {
         });
     },
 
-    _getQueueContainer: function(values) {
+    _getQueueContainer: function (values) {
         return new Ext.Container({
             xtype: 'container',
             layout: 'hbox',
@@ -270,7 +270,7 @@ Deluge.ux.AutoAdd.AutoAddOptionsPanel = Ext.extend(Ext.Panel, {
                     boxLabel: _(values.labelCheckbox),
                     width: 175,
                     listeners: {
-                        check: function(cb, checked) {
+                        check: function (cb, checked) {
                             Ext.getCmp(values.nameRadio).setDisabled(!checked);
                             Ext.getCmp('not_' + values.nameRadio).setDisabled(
                                 !checked

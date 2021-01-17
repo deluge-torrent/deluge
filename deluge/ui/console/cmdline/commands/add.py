@@ -26,8 +26,8 @@ try:
     from urllib.request import url2pathname
 except ImportError:
     # PY2 fallback
-    from urlparse import urlparse  # pylint: disable=ungrouped-imports
     from urllib import url2pathname  # pylint: disable=ungrouped-imports
+    from urlparse import urlparse  # pylint: disable=ungrouped-imports
 
 
 class Command(BaseCommand):

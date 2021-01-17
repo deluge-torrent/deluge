@@ -25,21 +25,19 @@ Ext.state.Manager.setProvider(
 // Add some additional functions to ext and setup some of the
 // configurable parameters
 Ext.apply(Ext, {
-    escapeHTML: function(text) {
-        text = String(text)
-            .replace('<', '&lt;')
-            .replace('>', '&gt;');
+    escapeHTML: function (text) {
+        text = String(text).replace('<', '&lt;').replace('>', '&gt;');
         return text.replace('&', '&amp;');
     },
 
-    isObjectEmpty: function(obj) {
+    isObjectEmpty: function (obj) {
         for (var i in obj) {
             return false;
         }
         return true;
     },
 
-    areObjectsEqual: function(obj1, obj2) {
+    areObjectsEqual: function (obj1, obj2) {
         var equal = true;
         if (!obj1 || !obj2) return false;
         for (var i in obj1) {
@@ -50,7 +48,7 @@ Ext.apply(Ext, {
         return equal;
     },
 
-    keys: function(obj) {
+    keys: function (obj) {
         var keys = [];
         for (var i in obj)
             if (obj.hasOwnProperty(i)) {
@@ -59,7 +57,7 @@ Ext.apply(Ext, {
         return keys;
     },
 
-    values: function(obj) {
+    values: function (obj) {
         var values = [];
         for (var i in obj) {
             if (obj.hasOwnProperty(i)) {
@@ -69,7 +67,7 @@ Ext.apply(Ext, {
         return values;
     },
 
-    splat: function(obj) {
+    splat: function (obj) {
         var type = Ext.type(obj);
         return type ? (type != 'array' ? [obj] : obj) : [];
     },
@@ -106,7 +104,7 @@ Ext.apply(Deluge, {
      * @param {String} text The text to display on the bar
      * @param {Number} modified Amount to subtract from the width allowing for fixes
      */
-    progressBar: function(progress, width, text, modifier) {
+    progressBar: function (progress, width, text, modifier) {
         modifier = Ext.value(modifier, 10);
         var progressWidth = ((width / 100.0) * progress).toFixed(0);
         var barWidth = progressWidth - 1;
@@ -125,7 +123,7 @@ Ext.apply(Deluge, {
      * Constructs a new instance of the specified plugin.
      * @param {String} name The plugin name to create
      */
-    createPlugin: function(name) {
+    createPlugin: function (name) {
         return new Deluge.pluginStore[name]();
     },
 
@@ -133,7 +131,7 @@ Ext.apply(Deluge, {
      * Check to see if a plugin has been registered.
      * @param {String} name The plugin name to check
      */
-    hasPlugin: function(name) {
+    hasPlugin: function (name) {
         return Deluge.pluginStore[name] ? true : false;
     },
 
@@ -142,7 +140,7 @@ Ext.apply(Deluge, {
      * @param {String} name The plugin name to register
      * @param {Plugin} plugin The plugin to register
      */
-    registerPlugin: function(name, plugin) {
+    registerPlugin: function (name, plugin) {
         Deluge.pluginStore[name] = plugin;
     },
 });

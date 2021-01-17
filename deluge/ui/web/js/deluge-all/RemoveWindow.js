@@ -27,16 +27,16 @@ Deluge.RemoveWindow = Ext.extend(Ext.Window, {
     bodyStyle: 'padding: 5px; padding-left: 10px;',
     html: 'Are you sure you wish to remove the torrent (s)?',
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.RemoveWindow.superclass.initComponent.call(this);
         this.addButton(_('Cancel'), this.onCancel, this);
         this.addButton(_('Remove With Data'), this.onRemoveData, this);
         this.addButton(_('Remove Torrent'), this.onRemove, this);
     },
 
-    remove: function(removeData) {
+    remove: function (removeData) {
         deluge.client.core.remove_torrents(this.torrentIds, removeData, {
-            success: function(result) {
+            success: function (result) {
                 if (result == true) {
                     console.log(
                         'Error(s) occured when trying to delete torrent(s).'
@@ -49,25 +49,25 @@ Deluge.RemoveWindow = Ext.extend(Ext.Window, {
         });
     },
 
-    show: function(ids) {
+    show: function (ids) {
         Deluge.RemoveWindow.superclass.show.call(this);
         this.torrentIds = ids;
     },
 
-    onCancel: function() {
+    onCancel: function () {
         this.hide();
         this.torrentIds = null;
     },
 
-    onRemove: function() {
+    onRemove: function () {
         this.remove(false);
     },
 
-    onRemoveData: function() {
+    onRemoveData: function () {
         this.remove(true);
     },
 
-    onRemoved: function(torrentIds) {
+    onRemoved: function (torrentIds) {
         deluge.events.fire('torrentsRemoved', torrentIds);
         this.hide();
         deluge.ui.update();

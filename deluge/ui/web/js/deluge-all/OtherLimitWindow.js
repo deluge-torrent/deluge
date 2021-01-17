@@ -20,7 +20,7 @@ Deluge.OtherLimitWindow = Ext.extend(Ext.Window, {
     constrainHeader: true,
     closeAction: 'hide',
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.OtherLimitWindow.superclass.initComponent.call(this);
         this.form = this.add({
             xtype: 'form',
@@ -53,30 +53,27 @@ Deluge.OtherLimitWindow = Ext.extend(Ext.Window, {
         this.afterMethod('show', this.doFocusField, this);
     },
 
-    setValue: function(value) {
+    setValue: function (value) {
         this.form.getForm().setValues({ limit: value });
     },
 
-    onCancelClick: function() {
+    onCancelClick: function () {
         this.form.getForm().reset();
         this.hide();
     },
 
-    onOkClick: function() {
+    onOkClick: function () {
         var config = {};
         config[this.group] = this.form.getForm().getValues().limit;
         deluge.client.core.set_config(config, {
-            success: function() {
+            success: function () {
                 deluge.ui.update();
             },
         });
         this.hide();
     },
 
-    doFocusField: function() {
-        this.form
-            .getForm()
-            .findField('limit')
-            .focus(true, 10);
+    doFocusField: function () {
+        this.form.getForm().findField('limit').focus(true, 10);
     },
 });

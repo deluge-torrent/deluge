@@ -133,6 +133,6 @@ Deluge.Keys = {
 
 // Merge the grid and status keys together as the status keys contain all the
 // grid ones.
-Ext.each(Deluge.Keys.Grid, function(key) {
+Ext.each(Deluge.Keys.Grid, function (key) {
     Deluge.Keys.Status.push(key);
 });

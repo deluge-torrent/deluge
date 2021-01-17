@@ -40,7 +40,7 @@ Ext.ux.tree.TreeGridSorter = Ext.extend(Ext.tree.TreeSorter, {
      */
     sortDescText: 'Sort Descending',
 
-    constructor: function(tree, config) {
+    constructor: function (tree, config) {
         if (!Ext.isObject(config)) {
             config = {
                 property: tree.columns[0].dataIndex || 'text',
@@ -58,7 +58,7 @@ Ext.ux.tree.TreeGridSorter = Ext.extend(Ext.tree.TreeSorter, {
         tree.ddAppendOnly = true;
 
         var me = this;
-        this.defaultSortFn = function(n1, n2) {
+        this.defaultSortFn = function (n1, n2) {
             var desc = me.dir && me.dir.toLowerCase() == 'desc',
                 prop = me.property || 'text',
                 sortType = me.sortType,
@@ -101,7 +101,7 @@ Ext.ux.tree.TreeGridSorter = Ext.extend(Ext.tree.TreeSorter, {
         tree.on('headermenuclick', this.onHeaderMenuClick, this);
     },
 
-    onAfterTreeRender: function() {
+    onAfterTreeRender: function () {
         if (this.tree.hmenu) {
             this.tree.hmenu.insert(
                 0,
@@ -120,14 +120,14 @@ Ext.ux.tree.TreeGridSorter = Ext.extend(Ext.tree.TreeSorter, {
         this.updateSortIcon(0, 'asc');
     },
 
-    onHeaderMenuClick: function(c, id, index) {
+    onHeaderMenuClick: function (c, id, index) {
         if (id === 'asc' || id === 'desc') {
             this.onHeaderClick(c, null, index);
             return false;
         }
     },
 
-    onHeaderClick: function(c, el, i) {
+    onHeaderClick: function (c, el, i) {
         if (c && !this.tree.headersDisabled) {
             var me = this;
 
@@ -139,7 +139,7 @@ Ext.ux.tree.TreeGridSorter = Ext.extend(Ext.tree.TreeSorter, {
                 : this.caseSensitive;
             me.sortFn = c.sortFn || this.defaultSortFn;
 
-            this.tree.root.cascade(function(n) {
+            this.tree.root.cascade(function (n) {
                 if (!n.isLeaf()) {
                     me.updateSort(me.tree, n);
                 }
@@ -150,7 +150,7 @@ Ext.ux.tree.TreeGridSorter = Ext.extend(Ext.tree.TreeSorter, {
     },
 
     // private
-    updateSortIcon: function(col, dir) {
+    updateSortIcon: function (col, dir) {
         var sc = this.sortClasses,
             hds = this.tree.innerHd.select('td').removeClass(sc);
         hds.item(col).addClass(sc[dir == 'desc' ? 1 : 0]);

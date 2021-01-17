@@ -8,7 +8,7 @@
  * See LICENSE for more details.
  */
 
-(function() {
+(function () {
     function flagRenderer(value) {
         if (!value.replace(' ', '').replace(' ', '')) {
             return '';
@@ -40,7 +40,7 @@
         // fast way to figure out if we have a peer already.
         peers: {},
 
-        constructor: function(config) {
+        constructor: function (config) {
             config = Ext.apply(
                 {
                     title: _('Peers'),
@@ -107,19 +107,19 @@
             Deluge.details.PeersTab.superclass.constructor.call(this, config);
         },
 
-        clear: function() {
+        clear: function () {
             this.getStore().removeAll();
             this.peers = {};
         },
 
-        update: function(torrentId) {
+        update: function (torrentId) {
             deluge.client.web.get_torrent_status(torrentId, Deluge.Keys.Peers, {
                 success: this.onRequestComplete,
                 scope: this,
             });
         },
 
-        onRequestComplete: function(torrent, options) {
+        onRequestComplete: function (torrent, options) {
             if (!torrent) return;
 
             var store = this.getStore();
@@ -129,7 +129,7 @@
             // Go through the peers updating and creating peer records
             Ext.each(
                 torrent.peers,
-                function(peer) {
+                function (peer) {
                     if (this.peers[peer.ip]) {
                         var record = store.getById(peer.ip);
                         record.beginEdit();
@@ -150,7 +150,7 @@
             store.add(newPeers);
 
             // Remove any peers that should not be left in the store.
-            store.each(function(record) {
+            store.each(function (record) {
                 if (!addresses[record.id]) {
                     store.remove(record);
                     delete this.peers[record.id];

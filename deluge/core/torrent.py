@@ -1340,8 +1340,8 @@ class Torrent(object):
     def scrape_tracker(self):
         """Scrape the tracker
 
-         A scrape request queries the tracker for statistics such as total
-         number of incomplete peers, complete peers, number of downloads etc.
+        A scrape request queries the tracker for statistics such as total
+        number of incomplete peers, complete peers, number of downloads etc.
         """
         try:
             self.handle.scrape_tracker()

@@ -25,7 +25,7 @@ Deluge.ux.preferences.AutoAddPage = Ext.extend(Ext.Panel, {
     border: false,
     watchdirs: {},
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.ux.preferences.AutoAddPage.superclass.initComponent.call(this);
 
         var autoAdd = this;
@@ -41,10 +41,10 @@ Deluge.ux.preferences.AutoAddPage = Ext.extend(Ext.Panel, {
                     sortable: true,
                     dataIndex: 'enabled',
                     tpl: new Ext.XTemplate('{enabled:this.getCheckbox}', {
-                        getCheckbox: function(checked, selected) {
+                        getCheckbox: function (checked, selected) {
                             Deluge.ux.AutoAdd.onClickFunctions[
                                 selected.id
-                            ] = function() {
+                            ] = function () {
                                 if (selected.enabled) {
                                     deluge.client.autoadd.disable_watchdir(
                                         selected.id
@@ -122,9 +122,9 @@ Deluge.ux.preferences.AutoAddPage = Ext.extend(Ext.Panel, {
         this.on('show', this.onPreferencesShow, this);
     },
 
-    updateWatchDirs: function() {
+    updateWatchDirs: function () {
         deluge.client.autoadd.get_watchdirs({
-            success: function(watchdirs) {
+            success: function (watchdirs) {
                 this.watchdirs = watchdirs;
                 var watchdirsArray = [];
                 for (var id in watchdirs) {
@@ -145,12 +145,12 @@ Deluge.ux.preferences.AutoAddPage = Ext.extend(Ext.Panel, {
         });
     },
 
-    onAddClick: function() {
+    onAddClick: function () {
         if (!this.addWin) {
             this.addWin = new Deluge.ux.AutoAdd.AddAutoAddCommandWindow();
             this.addWin.on(
                 'watchdiradd',
-                function() {
+                function () {
                     this.updateWatchDirs();
                 },
                 this
@@ -159,12 +159,12 @@ Deluge.ux.preferences.AutoAddPage = Ext.extend(Ext.Panel, {
         this.addWin.show();
     },
 
-    onEditClick: function() {
+    onEditClick: function () {
         if (!this.editWin) {
             this.editWin = new Deluge.ux.AutoAdd.EditAutoAddCommandWindow();
             this.editWin.on(
                 'watchdiredit',
-                function() {
+                function () {
                     this.updateWatchDirs();
                 },
                 this
@@ -174,39 +174,27 @@ Deluge.ux.preferences.AutoAddPage = Ext.extend(Ext.Panel, {
         this.editWin.show(id, this.watchdirs[id]);
     },
 
-    onPreferencesShow: function() {
+    onPreferencesShow: function () {
         this.updateWatchDirs();
     },
 
-    onRemoveClick: function() {
+    onRemoveClick: function () {
         var record = this.list.getSelectedRecords()[0];
         deluge.client.autoadd.remove(record.id, {
-            success: function() {
+            success: function () {
                 this.updateWatchDirs();
             },
             scope: this,
         });
     },
 
-    onSelectionChange: function(dv, selections) {
+    onSelectionChange: function (dv, selections) {
         if (selections.length) {
-            this.panel
-                .getBottomToolbar()
-                .items.get(1)
-                .enable();
-            this.panel
-                .getBottomToolbar()
-                .items.get(3)
-                .enable();
+            this.panel.getBottomToolbar().items.get(1).enable();
+            this.panel.getBottomToolbar().items.get(3).enable();
         } else {
-            this.panel
-                .getBottomToolbar()
-                .items.get(1)
-                .disable();
-            this.panel
-                .getBottomToolbar()
-                .items.get(3)
-                .disable();
+            this.panel.getBottomToolbar().items.get(1).disable();
+            this.panel.getBottomToolbar().items.get(3).disable();
         }
     },
 });
@@ -218,12 +206,12 @@ Deluge.plugins.AutoAddPlugin = Ext.extend(Deluge.Plugin, {
         prefsPage: null,
     },
 
-    onDisable: function() {
+    onDisable: function () {
         deluge.preferences.removePage(Deluge.plugins.AutoAddPlugin.prefsPage);
         Deluge.plugins.AutoAddPlugin.prefsPage = null;
     },
 
-    onEnable: function() {
+    onEnable: function () {
         /*
          * Called for each of the JavaScript files.
          * This will prevent adding unnecessary tabs to the preferences window.

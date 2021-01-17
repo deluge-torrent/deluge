@@ -21,7 +21,7 @@ Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
     disabled: true,
     labelWidth: 1,
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.add.OptionsTab.superclass.initComponent.call(this);
 
         this.optionsManager = new Deluge.MultiOptionsManager();
@@ -174,7 +174,7 @@ Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
         );
     },
 
-    getDefaults: function() {
+    getDefaults: function () {
         var keys = [
             'add_paused',
             'pre_allocate_storage',
@@ -190,7 +190,7 @@ Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
         ];
 
         deluge.client.core.get_config_values(keys, {
-            success: function(config) {
+            success: function (config) {
                 var options = {
                     file_priorities: [],
                     add_paused: config.add_paused,

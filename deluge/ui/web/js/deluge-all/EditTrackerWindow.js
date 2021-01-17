@@ -27,7 +27,7 @@ Deluge.EditTrackerWindow = Ext.extend(Ext.Window, {
     closeAction: 'hide',
     iconCls: 'x-deluge-edit-trackers',
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.EditTrackerWindow.superclass.initComponent.call(this);
 
         this.addButton(_('Cancel'), this.onCancelClick, this);
@@ -50,32 +50,23 @@ Deluge.EditTrackerWindow = Ext.extend(Ext.Window, {
         });
     },
 
-    show: function(record) {
+    show: function (record) {
         Deluge.EditTrackerWindow.superclass.show.call(this);
 
         this.record = record;
-        this.form
-            .getForm()
-            .findField('tracker')
-            .setValue(record.data['url']);
+        this.form.getForm().findField('tracker').setValue(record.data['url']);
     },
 
-    onCancelClick: function() {
+    onCancelClick: function () {
         this.hide();
     },
 
-    onHide: function() {
-        this.form
-            .getForm()
-            .findField('tracker')
-            .setValue('');
+    onHide: function () {
+        this.form.getForm().findField('tracker').setValue('');
     },
 
-    onSaveClick: function() {
-        var url = this.form
-            .getForm()
-            .findField('tracker')
-            .getValue();
+    onSaveClick: function () {
+        var url = this.form.getForm().findField('tracker').getValue();
         this.record.set('url', url);
         this.record.commit();
         this.hide();

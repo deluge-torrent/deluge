@@ -112,9 +112,9 @@ class Console(UI):
         )
         # To properly print help message for the console commands ( e.g. deluge-console info -h),
         # we add a subparser for each command which will trigger the help/usage when given
-        from deluge.ui.console.parser import (
+        from deluge.ui.console.parser import (  # import here because (see top)
             ConsoleCommandParser,
-        )  # import here because (see top)
+        )
 
         self.console_parser = ConsoleCommandParser(
             parents=[self.parser],

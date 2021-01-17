@@ -100,9 +100,7 @@ def tracker_error_filter(torrent_ids, values):
 
 
 class FilterManager(component.Component):
-    """FilterManager
-
-    """
+    """FilterManager"""
 
     def __init__(self, core):
         component.Component.__init__(self, 'FilterManager')

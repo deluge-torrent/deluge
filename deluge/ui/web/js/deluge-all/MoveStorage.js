@@ -10,7 +10,7 @@
 
 Ext.namespace('Deluge');
 Deluge.MoveStorage = Ext.extend(Ext.Window, {
-    constructor: function(config) {
+    constructor: function (config) {
         config = Ext.apply(
             {
                 title: _('Move Download Folder'),
@@ -30,7 +30,7 @@ Deluge.MoveStorage = Ext.extend(Ext.Window, {
         Deluge.MoveStorage.superclass.constructor.call(this, config);
     },
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.MoveStorage.superclass.initComponent.call(this);
 
         this.addButton(_('Cancel'), this.onCancel, this);
@@ -62,21 +62,21 @@ Deluge.MoveStorage = Ext.extend(Ext.Window, {
         //});
     },
 
-    hide: function() {
+    hide: function () {
         Deluge.MoveStorage.superclass.hide.call(this);
         this.torrentIds = null;
     },
 
-    show: function(torrentIds) {
+    show: function (torrentIds) {
         Deluge.MoveStorage.superclass.show.call(this);
         this.torrentIds = torrentIds;
     },
 
-    onCancel: function() {
+    onCancel: function () {
         this.hide();
     },
 
-    onMove: function() {
+    onMove: function () {
         var dest = this.moveLocation.getValue();
         deluge.client.core.move_storage(this.torrentIds, dest);
         this.hide();

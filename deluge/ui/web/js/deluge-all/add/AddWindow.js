@@ -12,7 +12,7 @@ Ext.namespace('Deluge.add');
 
 // This override allows file upload buttons to contain icons
 Ext.override(Ext.ux.form.FileUploadField, {
-    onRender: function(ct, position) {
+    onRender: function (ct, position) {
         Ext.ux.form.FileUploadField.superclass.onRender.call(
             this,
             ct,
@@ -58,7 +58,7 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
     plain: true,
     iconCls: 'x-deluge-add-window-icon',
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.add.AddWindow.superclass.initComponent.call(this);
 
         this.addButton(_('Cancel'), this.onCancelClick, this);
@@ -168,17 +168,17 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
         this.on('show', this.onShow, this);
     },
 
-    clear: function() {
+    clear: function () {
         this.list.getStore().removeAll();
         this.optionsPanel.clear();
         // Reset upload form so handler fires when a canceled file is reselected
         this.fileUploadForm.reset();
     },
 
-    onAddClick: function() {
+    onAddClick: function () {
         var torrents = [];
         if (!this.list) return;
-        this.list.getStore().each(function(r) {
+        this.list.getStore().each(function (r) {
             var id = r.get('info_hash');
             torrents.push({
                 path: this.optionsPanel.getFilename(id),
@@ -187,29 +187,29 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
         }, this);
 
         deluge.client.web.add_torrents(torrents, {
-            success: function(result) {},
+            success: function (result) {},
         });
         this.clear();
         this.hide();
     },
 
-    onCancelClick: function() {
+    onCancelClick: function () {
         this.clear();
         this.hide();
     },
 
-    onFile: function() {
+    onFile: function () {
         if (!this.file) this.file = new Deluge.add.FileWindow();
         this.file.show();
     },
 
-    onHide: function() {
+    onHide: function () {
         this.optionsPanel.setActiveTab(0);
         this.optionsPanel.files.setDisabled(true);
         this.optionsPanel.form.setDisabled(true);
     },
 
-    onRemove: function() {
+    onRemove: function () {
         if (!this.list.getSelectionCount()) return;
         var torrent = this.list.getSelectedRecords()[0];
         if (!torrent) return;
@@ -220,7 +220,7 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
             delete this.torrents[torrent.id];
     },
 
-    onSelect: function(list, selections) {
+    onSelect: function (list, selections) {
         if (selections.length) {
             var record = this.list.getRecord(selections[0]);
             this.optionsPanel.setTorrent(record.get('info_hash'));
@@ -230,7 +230,7 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
         }
     },
 
-    onShow: function() {
+    onShow: function () {
         if (!this.url) {
             this.url = new Deluge.add.UrlWindow();
             this.url.on('beforeadd', this.onTorrentBeforeAdd, this);
@@ -241,14 +241,14 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
         this.optionsPanel.form.getDefaults();
     },
 
-    onFileSelected: function() {
+    onFileSelected: function () {
         if (this.fileUploadForm.isValid()) {
             var torrentIds = [];
             var files = this.fileUploadForm.findField('torrentFile').value;
             var randomId = this.createTorrentId();
             Array.prototype.forEach.call(
                 files,
-                function(file, i) {
+                function (file, i) {
                     // Append index for batch of unique torrentIds.
                     var torrentId = randomId + i.toString();
                     torrentIds.push(torrentId);
@@ -266,14 +266,14 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
         }
     },
 
-    onUploadSuccess: function(fp, upload) {
+    onUploadSuccess: function (fp, upload) {
         if (!upload.result.success) {
             this.clear();
             return;
         }
 
         upload.result.files.forEach(
-            function(filename, i) {
+            function (filename, i) {
                 deluge.client.web.get_torrent_info(filename, {
                     success: this.onGotInfo,
                     scope: this,
@@ -285,7 +285,7 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
         this.fileUploadForm.reset();
     },
 
-    onUploadFailure: function(form, action) {
+    onUploadFailure: function (form, action) {
         this.hide();
         Ext.MessageBox.show({
             title: _('Error'),
@@ -298,18 +298,18 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
         this.fireEvent('addfailed', this.torrentId);
     },
 
-    onGotInfo: function(info, obj, response, request) {
+    onGotInfo: function (info, obj, response, request) {
         info.filename = request.options.filename;
         torrentId = request.options.torrentId;
         this.onTorrentAdd(torrentId, info);
     },
 
-    onTorrentBeforeAdd: function(torrentId, text) {
+    onTorrentBeforeAdd: function (torrentId, text) {
         var store = this.list.getStore();
         store.loadData([[torrentId, null, text]], true);
     },
 
-    onTorrentAdd: function(torrentId, info) {
+    onTorrentAdd: function (torrentId, info) {
         var r = this.list.getStore().getById(torrentId);
         if (!info) {
             Ext.MessageBox.show({
@@ -330,7 +330,7 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
         }
     },
 
-    onTorrentAddFailed: function(torrentId) {
+    onTorrentAddFailed: function (torrentId) {
         var store = this.list.getStore();
         var torrentRecord = store.getById(torrentId);
         if (torrentRecord) {
@@ -338,7 +338,7 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
         }
     },
 
-    onUrl: function(button, event) {
+    onUrl: function (button, event) {
         this.url.show();
     },
 });

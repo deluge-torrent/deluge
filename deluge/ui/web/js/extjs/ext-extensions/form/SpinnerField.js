@@ -19,7 +19,7 @@ Ext.ux.form.SpinnerField = Ext.extend(Ext.form.NumberField, {
     onBlur: Ext.emptyFn,
     adjustSize: Ext.BoxComponent.prototype.adjustSize,
 
-    constructor: function(config) {
+    constructor: function (config) {
         var spinnerConfig = Ext.copyTo(
             {},
             config,
@@ -41,23 +41,23 @@ Ext.ux.form.SpinnerField = Ext.extend(Ext.form.NumberField, {
     },
 
     // private
-    getResizeEl: function() {
+    getResizeEl: function () {
         return this.wrap;
     },
 
     // private
-    getPositionEl: function() {
+    getPositionEl: function () {
         return this.wrap;
     },
 
     // private
-    alignErrorIcon: function() {
+    alignErrorIcon: function () {
         if (this.wrap) {
             this.errorIcon.alignTo(this.wrap, 'tl-tr', [2, 0]);
         }
     },
 
-    validateBlur: function() {
+    validateBlur: function () {
         return true;
     },
 });

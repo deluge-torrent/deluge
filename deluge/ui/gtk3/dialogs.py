@@ -159,8 +159,8 @@ class ErrorDialog(BaseDialog):
         )
 
         if traceback:
-            import traceback
             import sys
+            import traceback
 
             tb = sys.exc_info()
             tb = traceback.format_exc(tb[2])

@@ -1061,9 +1061,9 @@ class ComboInput(InputField):
                     # No match, so start at beginning
                     select_in_range(0, selected)
 
-            from deluge.ui.console.widgets.popup import (
+            from deluge.ui.console.widgets.popup import (  # Must import here
                 SelectablePopup,
-            )  # Must import here
+            )
 
             select_popup = SelectablePopup(
                 self.parent,

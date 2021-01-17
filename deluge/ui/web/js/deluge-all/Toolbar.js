@@ -14,7 +14,7 @@
  * @extends Ext.Toolbar
  */
 Deluge.Toolbar = Ext.extend(Ext.Toolbar, {
-    constructor: function(config) {
+    constructor: function (config) {
         config = Ext.apply(
             {
                 items: [
@@ -118,62 +118,62 @@ Deluge.Toolbar = Ext.extend(Ext.Toolbar, {
 
     connectedButtons: ['add', 'remove', 'pause', 'resume', 'up', 'down'],
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.Toolbar.superclass.initComponent.call(this);
         deluge.events.on('connect', this.onConnect, this);
         deluge.events.on('login', this.onLogin, this);
     },
 
-    onConnect: function() {
+    onConnect: function () {
         Ext.each(
             this.connectedButtons,
-            function(buttonId) {
+            function (buttonId) {
                 this.items.get(buttonId).enable();
             },
             this
         );
     },
 
-    onDisconnect: function() {
+    onDisconnect: function () {
         Ext.each(
             this.connectedButtons,
-            function(buttonId) {
+            function (buttonId) {
                 this.items.get(buttonId).disable();
             },
             this
         );
     },
 
-    onLogin: function() {
+    onLogin: function () {
         this.items.get('logout').enable();
     },
 
-    onLogout: function() {
+    onLogout: function () {
         this.items.get('logout').disable();
         deluge.login.logout();
     },
 
-    onConnectionManagerClick: function() {
+    onConnectionManagerClick: function () {
         deluge.connectionManager.show();
     },
 
-    onHelpClick: function() {
+    onHelpClick: function () {
         window.open('http://dev.deluge-torrent.org/wiki/UserGuide');
     },
 
-    onAboutClick: function() {
+    onAboutClick: function () {
         var about = new Deluge.about.AboutWindow();
         about.show();
     },
 
-    onPreferencesClick: function() {
+    onPreferencesClick: function () {
         deluge.preferences.show();
     },
 
-    onTorrentAction: function(item) {
+    onTorrentAction: function (item) {
         var selection = deluge.torrents.getSelections();
         var ids = [];
-        Ext.each(selection, function(record) {
+        Ext.each(selection, function (record) {
             ids.push(record.id);
         });
 
@@ -184,7 +184,7 @@ Deluge.Toolbar = Ext.extend(Ext.Toolbar, {
             case 'pause':
             case 'resume':
                 deluge.client.core[item.id + '_torrent'](ids, {
-                    success: function() {
+                    success: function () {
                         deluge.ui.update();
                     },
                 });
@@ -192,7 +192,7 @@ Deluge.Toolbar = Ext.extend(Ext.Toolbar, {
             case 'up':
             case 'down':
                 deluge.client.core['queue_' + item.id](ids, {
-                    success: function() {
+                    success: function () {
                         deluge.ui.update();
                     },
                 });
@@ -200,7 +200,7 @@ Deluge.Toolbar = Ext.extend(Ext.Toolbar, {
         }
     },
 
-    onTorrentAdd: function() {
+    onTorrentAdd: function () {
         deluge.add.show();
     },
 });

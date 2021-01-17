@@ -9,7 +9,7 @@
  */
 
 Ext.override(Ext.ux.tree.TreeGridNodeUI, {
-    updateColumns: function() {
+    updateColumns: function () {
         if (!this.rendered) return;
 
         var a = this.node.attributes,

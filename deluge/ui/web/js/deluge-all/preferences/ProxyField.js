@@ -18,7 +18,7 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
     autoHeight: true,
     labelWidth: 70,
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.preferences.ProxyField.superclass.initComponent.call(this);
         this.proxyType = this.add({
             xtype: 'combo',
@@ -145,11 +145,11 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
         this.setting = false;
     },
 
-    getName: function() {
+    getName: function () {
         return this.initialConfig.name;
     },
 
-    getValue: function() {
+    getValue: function () {
         return {
             type: this.proxyType.getValue(),
             hostname: this.hostname.getValue(),
@@ -165,7 +165,7 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
     },
 
     // Set the values of the proxies
-    setValue: function(value) {
+    setValue: function (value) {
         this.setting = true;
         this.proxyType.setValue(value['type']);
         var index = this.proxyType.getStore().find('id', value['type']);
@@ -185,7 +185,7 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
         this.setting = false;
     },
 
-    onFieldChange: function(field, newValue, oldValue) {
+    onFieldChange: function (field, newValue, oldValue) {
         if (this.setting) return;
         var newValues = this.getValue();
         var oldValues = Ext.apply({}, newValues);
@@ -194,7 +194,7 @@ Deluge.preferences.ProxyField = Ext.extend(Ext.form.FieldSet, {
         this.fireEvent('change', this, newValues, oldValues);
     },
 
-    onTypeSelect: function(combo, record, index) {
+    onTypeSelect: function (combo, record, index) {
         var typeId = record.get('id');
         if (typeId > 0) {
             this.hostname.show();

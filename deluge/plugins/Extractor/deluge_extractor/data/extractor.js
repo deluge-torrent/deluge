@@ -21,7 +21,7 @@ Deluge.ux.preferences.ExtractorPage = Ext.extend(Ext.Panel, {
     layout: 'fit',
     border: false,
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.ux.preferences.ExtractorPage.superclass.initComponent.call(this);
 
         this.form = this.add({
@@ -59,7 +59,7 @@ Deluge.ux.preferences.ExtractorPage = Ext.extend(Ext.Panel, {
         this.on('show', this.updateConfig, this);
     },
 
-    onApply: function() {
+    onApply: function () {
         // build settings object
         var config = {};
 
@@ -69,13 +69,13 @@ Deluge.ux.preferences.ExtractorPage = Ext.extend(Ext.Panel, {
         deluge.client.extractor.set_config(config);
     },
 
-    onOk: function() {
+    onOk: function () {
         this.onApply();
     },
 
-    updateConfig: function() {
+    updateConfig: function () {
         deluge.client.extractor.get_config({
-            success: function(config) {
+            success: function (config) {
                 this.extract_path.setValue(config['extract_path']);
                 this.use_name_folder.setValue(config['use_name_folder']);
             },
@@ -87,11 +87,11 @@ Deluge.ux.preferences.ExtractorPage = Ext.extend(Ext.Panel, {
 Deluge.plugins.ExtractorPlugin = Ext.extend(Deluge.Plugin, {
     name: 'Extractor',
 
-    onDisable: function() {
+    onDisable: function () {
         deluge.preferences.removePage(this.prefsPage);
     },
 
-    onEnable: function() {
+    onEnable: function () {
         this.prefsPage = deluge.preferences.addPage(
             new Deluge.ux.preferences.ExtractorPage()
         );

@@ -9,7 +9,7 @@
  */
 
 Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
-    constructor: function(config) {
+    constructor: function (config) {
         config = Ext.apply(
             {
                 autoScroll: true,
@@ -30,7 +30,7 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
         Deluge.details.OptionsTab.superclass.constructor.call(this, config);
     },
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.details.OptionsTab.superclass.initComponent.call(this);
 
         (this.fieldsets = {}), (this.fields = {});
@@ -339,7 +339,7 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
         });
     },
 
-    onRender: function(ct, position) {
+    onRender: function (ct, position) {
         Deluge.details.OptionsTab.superclass.onRender.call(this, ct, position);
 
         // This is another hack I think, so keep an eye out here when upgrading.
@@ -348,17 +348,17 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
         this.doLayout();
     },
 
-    clear: function() {
+    clear: function () {
         if (this.torrentId == null) return;
         this.torrentId = null;
         this.optionsManager.changeId(null);
     },
 
-    reset: function() {
+    reset: function () {
         if (this.torrentId) this.optionsManager.reset();
     },
 
-    update: function(torrentId) {
+    update: function (torrentId) {
         if (this.torrentId && !torrentId) this.clear(); // we want to clear the pane if we get a null torrent torrentIds
 
         if (!torrentId) return; // We do not care about null torrentIds.
@@ -373,33 +373,33 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
         });
     },
 
-    onApply: function() {
+    onApply: function () {
         var changed = this.optionsManager.getDirty();
         deluge.client.core.set_torrent_options([this.torrentId], changed, {
-            success: function() {
+            success: function () {
                 this.optionsManager.commit();
             },
             scope: this,
         });
     },
 
-    onEditTrackers: function() {
+    onEditTrackers: function () {
         deluge.editTrackers.show();
     },
 
-    onMoveCompletedChecked: function(checkbox, checked) {
+    onMoveCompletedChecked: function (checkbox, checked) {
         this.fields.move_completed_path.setDisabled(!checked);
 
         if (!checked) return;
         this.fields.move_completed_path.focus();
     },
 
-    onStopRatioChecked: function(checkbox, checked) {
+    onStopRatioChecked: function (checkbox, checked) {
         this.fields.remove_at_ratio.setDisabled(!checked);
         this.fields.stop_ratio.setDisabled(!checked);
     },
 
-    onRequestComplete: function(torrent, options) {
+    onRequestComplete: function (torrent, options) {
         this.fields['private'].setValue(torrent['private']);
         this.fields['private'].setDisabled(true);
         delete torrent['private'];

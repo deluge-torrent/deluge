@@ -18,7 +18,7 @@ Deluge.ux.ExecuteWindowBase = Ext.extend(Ext.Window, {
     height: 130,
     closeAction: 'hide',
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.ux.ExecuteWindowBase.superclass.initComponent.call(this);
         this.addButton(_('Cancel'), this.onCancelClick, this);
 
@@ -56,7 +56,7 @@ Deluge.ux.ExecuteWindowBase = Ext.extend(Ext.Window, {
         });
     },
 
-    onCancelClick: function() {
+    onCancelClick: function () {
         this.hide();
     },
 });
@@ -64,7 +64,7 @@ Deluge.ux.ExecuteWindowBase = Ext.extend(Ext.Window, {
 Deluge.ux.EditExecuteCommandWindow = Ext.extend(Deluge.ux.ExecuteWindowBase, {
     title: _('Edit Command'),
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.ux.EditExecuteCommandWindow.superclass.initComponent.call(this);
         this.addButton(_('Save'), this.onSaveClick, this);
         this.addEvents({
@@ -72,7 +72,7 @@ Deluge.ux.EditExecuteCommandWindow = Ext.extend(Deluge.ux.ExecuteWindowBase, {
         });
     },
 
-    show: function(command) {
+    show: function (command) {
         Deluge.ux.EditExecuteCommandWindow.superclass.show.call(this);
         this.command = command;
         this.form.getForm().setValues({
@@ -81,14 +81,14 @@ Deluge.ux.EditExecuteCommandWindow = Ext.extend(Deluge.ux.ExecuteWindowBase, {
         });
     },
 
-    onSaveClick: function() {
+    onSaveClick: function () {
         var values = this.form.getForm().getFieldValues();
         deluge.client.execute.save_command(
             this.command.id,
             values.event,
             values.command,
             {
-                success: function() {
+                success: function () {
                     this.fireEvent(
                         'commandedit',
                         this,
@@ -106,7 +106,7 @@ Deluge.ux.EditExecuteCommandWindow = Ext.extend(Deluge.ux.ExecuteWindowBase, {
 Deluge.ux.AddExecuteCommandWindow = Ext.extend(Deluge.ux.ExecuteWindowBase, {
     title: _('Add Command'),
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.ux.AddExecuteCommandWindow.superclass.initComponent.call(this);
         this.addButton(_('Add'), this.onAddClick, this);
         this.addEvents({
@@ -114,10 +114,10 @@ Deluge.ux.AddExecuteCommandWindow = Ext.extend(Deluge.ux.ExecuteWindowBase, {
         });
     },
 
-    onAddClick: function() {
+    onAddClick: function () {
         var values = this.form.getForm().getFieldValues();
         deluge.client.execute.add_command(values.event, values.command, {
-            success: function() {
+            success: function () {
                 this.fireEvent(
                     'commandadd',
                     this,
@@ -143,7 +143,7 @@ Deluge.ux.preferences.ExecutePage = Ext.extend(Ext.Panel, {
     layout: 'fit',
     border: false,
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.ux.preferences.ExecutePage.superclass.initComponent.call(this);
         var event_map = (this.event_map = {
             complete: _('Torrent Complete'),
@@ -166,7 +166,7 @@ Deluge.ux.preferences.ExecutePage = Ext.extend(Ext.Panel, {
                     sortable: true,
                     dataIndex: 'event',
                     tpl: new Ext.XTemplate('{[this.getEvent(values.event)]}', {
-                        getEvent: function(e) {
+                        getEvent: function (e) {
                             return event_map[e] ? event_map[e] : e;
                         },
                     }),
@@ -215,21 +215,21 @@ Deluge.ux.preferences.ExecutePage = Ext.extend(Ext.Panel, {
         this.on('show', this.onPreferencesShow, this);
     },
 
-    updateCommands: function() {
+    updateCommands: function () {
         deluge.client.execute.get_commands({
-            success: function(commands) {
+            success: function (commands) {
                 this.list.getStore().loadData(commands);
             },
             scope: this,
         });
     },
 
-    onAddClick: function() {
+    onAddClick: function () {
         if (!this.addWin) {
             this.addWin = new Deluge.ux.AddExecuteCommandWindow();
             this.addWin.on(
                 'commandadd',
-                function() {
+                function () {
                     this.updateCommands();
                 },
                 this
@@ -238,19 +238,19 @@ Deluge.ux.preferences.ExecutePage = Ext.extend(Ext.Panel, {
         this.addWin.show();
     },
 
-    onCommandAdded: function(win, evt, cmd) {
+    onCommandAdded: function (win, evt, cmd) {
         var record = new this.list.getStore().recordType({
             event: evt,
             command: cmd,
         });
     },
 
-    onEditClick: function() {
+    onEditClick: function () {
         if (!this.editWin) {
             this.editWin = new Deluge.ux.EditExecuteCommandWindow();
             this.editWin.on(
                 'commandedit',
-                function() {
+                function () {
                     this.updateCommands();
                 },
                 this
@@ -259,39 +259,27 @@ Deluge.ux.preferences.ExecutePage = Ext.extend(Ext.Panel, {
         this.editWin.show(this.list.getSelectedRecords()[0]);
     },
 
-    onPreferencesShow: function() {
+    onPreferencesShow: function () {
         this.updateCommands();
     },
 
-    onRemoveClick: function() {
+    onRemoveClick: function () {
         var record = this.list.getSelectedRecords()[0];
         deluge.client.execute.remove_command(record.id, {
-            success: function() {
+            success: function () {
                 this.updateCommands();
             },
             scope: this,
         });
     },
 
-    onSelectionChange: function(dv, selections) {
+    onSelectionChange: function (dv, selections) {
         if (selections.length) {
-            this.panel
-                .getBottomToolbar()
-                .items.get(1)
-                .enable();
-            this.panel
-                .getBottomToolbar()
-                .items.get(3)
-                .enable();
+            this.panel.getBottomToolbar().items.get(1).enable();
+            this.panel.getBottomToolbar().items.get(3).enable();
         } else {
-            this.panel
-                .getBottomToolbar()
-                .items.get(1)
-                .disable();
-            this.panel
-                .getBottomToolbar()
-                .items.get(3)
-                .disable();
+            this.panel.getBottomToolbar().items.get(1).disable();
+            this.panel.getBottomToolbar().items.get(3).disable();
         }
     },
 });
@@ -299,11 +287,11 @@ Deluge.ux.preferences.ExecutePage = Ext.extend(Ext.Panel, {
 Deluge.plugins.ExecutePlugin = Ext.extend(Deluge.Plugin, {
     name: 'Execute',
 
-    onDisable: function() {
+    onDisable: function () {
         deluge.preferences.removePage(this.prefsPage);
     },
 
-    onEnable: function() {
+    onEnable: function () {
         this.prefsPage = deluge.preferences.addPage(
             new Deluge.ux.preferences.ExecutePage()
         );

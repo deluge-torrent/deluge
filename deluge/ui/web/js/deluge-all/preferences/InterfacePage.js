@@ -19,7 +19,7 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
     header: false,
     layout: 'form',
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.preferences.Interface.superclass.initComponent.call(this);
 
         var om = (this.optionsManager = new Deluge.OptionsManager());
@@ -189,7 +189,7 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
         );
     },
 
-    onApply: function() {
+    onApply: function () {
         var changed = this.optionsManager.getDirty();
         if (!Ext.isObjectEmpty(changed)) {
             deluge.client.web.set_config(changed, {
@@ -211,7 +211,7 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
                         no: _('Close'),
                     },
                     multiline: false,
-                    fn: function(btnText) {
+                    fn: function (btnText) {
                         if (btnText === 'yes') location.reload();
                     },
                     icon: Ext.MessageBox.QUESTION,
@@ -223,21 +223,21 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
         }
     },
 
-    onOk: function() {
+    onOk: function () {
         this.onApply();
     },
 
-    onGotConfig: function(config) {
+    onGotConfig: function (config) {
         this.optionsManager.set(config);
     },
 
-    onGotLanguages: function(info, obj, response, request) {
+    onGotLanguages: function (info, obj, response, request) {
         info.unshift(['', _('System Default')]);
         this.language.store.loadData(info);
         this.language.setValue(this.optionsManager.get('language'));
     },
 
-    onPasswordChange: function() {
+    onPasswordChange: function () {
         var newPassword = this.newPassword.getValue();
         if (newPassword != this.confirmPassword.getValue()) {
             Ext.MessageBox.show({
@@ -253,7 +253,7 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
 
         var oldPassword = this.oldPassword.getValue();
         deluge.client.auth.change_password(oldPassword, newPassword, {
-            success: function(result) {
+            success: function (result) {
                 if (!result) {
                     Ext.MessageBox.show({
                         title: _('Password'),
@@ -282,11 +282,11 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
         });
     },
 
-    onSetConfig: function() {
+    onSetConfig: function () {
         this.optionsManager.commit();
     },
 
-    onPageShow: function() {
+    onPageShow: function () {
         deluge.client.web.get_config({
             success: this.onGotConfig,
             scope: this,
@@ -297,7 +297,7 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
         });
     },
 
-    onSSLCheck: function(e, checked) {
+    onSSLCheck: function (e, checked) {
         this.pkeyField.setDisabled(!checked);
         this.certField.setDisabled(!checked);
     },

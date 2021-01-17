@@ -18,7 +18,7 @@ Deluge.preferences.Encryption = Ext.extend(Ext.form.FormPanel, {
     title: _('Encryption'),
     header: false,
 
-    initComponent: function() {
+    initComponent: function () {
         Deluge.preferences.Encryption.superclass.initComponent.call(this);
 
         var optMan = deluge.preferences.getOptionsManager();
