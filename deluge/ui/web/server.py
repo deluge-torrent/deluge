@@ -32,8 +32,6 @@ from deluge.ui.web.common import Template
 from deluge.ui.web.json_api import JSON, WebApi, WebUtils
 from deluge.ui.web.pluginmanager import PluginManager
 
-from six import string_types
-
 log = logging.getLogger(__name__)
 
 CONFIG_DEFAULTS = {
@@ -176,10 +174,7 @@ class Tracker(resource.Resource):
             self.tracker_icons = TrackerIcons()
 
     def getChild(self, path, request):  # NOQA: N802
-        if isinstance(path, string_types):
-            request.tracker_name = path
-        else:
-            request.tracker_name = path.decode()
+        request.tracker_name = path
         return self
 
     def on_got_icon(self, icon, request):
@@ -196,7 +191,7 @@ class Tracker(resource.Resource):
             request.finish()
 
     def render(self, request):
-        d = self.tracker_icons.fetch(request.tracker_name)
+        d = self.tracker_icons.fetch(request.tracker_name.decode())
         d.addCallback(self.on_got_icon, request)
         return server.NOT_DONE_YET
 
