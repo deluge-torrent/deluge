@@ -266,6 +266,9 @@ class Torrent(object):
             self.is_finished = False
             self.filename = filename
 
+        if not self.filename:
+            self.filename = ''
+
         self.forced_error = None
         self.statusmsg = None
         self.state = None
@@ -1316,7 +1319,7 @@ class Torrent(object):
         torrent_files = [
             os.path.join(get_config_dir(), 'state', self.torrent_id + '.torrent')
         ]
-        if delete_copies:
+        if delete_copies and self.filename:
             torrent_files.append(
                 os.path.join(self.config['torrentfiles_location'], self.filename)
             )

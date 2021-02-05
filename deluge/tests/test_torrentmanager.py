@@ -56,6 +56,16 @@ class TorrentmanagerTestCase(BaseTestCase):
         )
         self.assertTrue(self.tm.remove(torrent_id, False))
 
+    @defer.inlineCallbacks
+    def test_remove_magnet(self):
+        """Test remove magnet before received metadata and delete_copies is True"""
+        magnet = 'magnet:?xt=urn:btih:ab570cdd5a17ea1b61e970bb72047de141bce173'
+        options = {}
+        self.core.config.config['copy_torrent_file'] = True
+        self.core.config.config['del_copy_torrent_file'] = True
+        torrent_id = yield self.core.add_torrent_magnet(magnet, options)
+        self.assertTrue(self.tm.remove(torrent_id, False))
+
     def test_prefetch_metadata(self):
         from deluge._libtorrent import lt
 
