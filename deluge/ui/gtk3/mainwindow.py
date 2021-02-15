@@ -20,11 +20,11 @@ from twisted.internet import reactor
 from twisted.internet.error import ReactorNotRunning
 
 import deluge.component as component
-from deluge.common import decode_bytes, fspeed, resource_filename
+from deluge.common import decode_bytes, fspeed, is_magnet, is_url, resource_filename
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
 
-from .common import get_deluge_icon, windowing
+from .common import get_clipboard_text, get_deluge_icon, windowing
 from .dialogs import PasswordDialog
 from .ipcinterface import process_args
 
@@ -132,6 +132,7 @@ class MainWindow(component.Component):
         self.window.connect('configure-event', self.on_window_configure_event)
         self.window.connect('delete-event', self.on_window_delete_event)
         self.window.connect('drag-data-received', self.on_drag_data_received_event)
+        self.window.connect('notify::is-active', self.on_focus)
         self.tabsbar_pane.connect(
             'notify::position', self.on_tabsbar_pane_position_event
         )
@@ -147,6 +148,9 @@ class MainWindow(component.Component):
         client.register_event_handler(
             'NewVersionAvailableEvent', self.on_newversionavailable_event
         )
+
+        self.previous_clipboard_text = ''
+        self.first_run = True
 
     def connect_signals(self, mapping_or_class):
         self.gtk_builder_signals_holder.connect_signals(mapping_or_class)
@@ -329,6 +333,19 @@ class MainWindow(component.Component):
 
     def on_expose_event(self, widget, event):
         component.get('SystemTray').blink(False)
+
+    def on_focus(self, window, param):
+        if window.props.is_active and not self.first_run and self.config['detect_urls']:
+            text = get_clipboard_text()
+            if text == self.previous_clipboard_text:
+                return
+            self.previous_clipboard_text = text
+            if text and (
+                (is_url(text) and text.endswith('.torrent')) or is_magnet(text)
+            ):
+                component.get('AddTorrentDialog').show()
+                component.get('AddTorrentDialog').on_button_url_clicked(window)
+        self.first_run = False
 
     def stop(self):
         self.window.set_title('Deluge')

@@ -570,6 +570,9 @@ class Preferences(component.Component):
         self.builder.get_object('piecesbar_toggle').set_active(
             self.gtkui_config['show_piecesbar']
         )
+        self.builder.get_object('urldetect_toggle').set_active(
+            self.gtkui_config['detect_urls']
+        )
         self.__set_color('completed', from_config=True)
         self.__set_color('downloading', from_config=True)
         self.__set_color('waiting', from_config=True)
@@ -1460,6 +1463,9 @@ class Preferences(component.Component):
         self.gtkui_config['show_piecesbar'] = widget.get_active()
         colors_widget = self.builder.get_object('piecebar_colors_expander')
         colors_widget.set_visible(widget.get_active())
+
+    def on_urldetect_toggle_toggled(self, widget):
+        self.gtkui_config['detect_urls'] = widget.get_active()
 
     def on_checkbutton_language_toggled(self, widget):
         self.language_combo.set_visible(not self.language_checkbox.get_active())

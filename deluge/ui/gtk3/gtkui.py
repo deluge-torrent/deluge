@@ -130,6 +130,7 @@ DEFAULT_PREFS = {
     'show_rate_in_title': False,
     'createtorrent.trackers': [],
     'show_piecesbar': False,
+    'detect_urls': True,
     'pieces_color_missing': [65535, 0, 0],
     'pieces_color_waiting': [4874, 56494, 0],
     'pieces_color_downloading': [65535, 55255, 0],
