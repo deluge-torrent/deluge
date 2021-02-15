@@ -12,9 +12,10 @@ from __future__ import unicode_literals
 import logging
 import os.path
 from hashlib import sha1 as sha
+from urllib.parse import urlparse
 
 import gi
-from gi.repository import Gtk
+from gi.repository import Gdk, Gtk
 from gi.repository.Gdk import DragAction, WindowState
 from twisted.internet import reactor
 from twisted.internet.error import ReactorNotRunning
@@ -131,6 +132,7 @@ class MainWindow(component.Component):
         self.window.connect('configure-event', self.on_window_configure_event)
         self.window.connect('delete-event', self.on_window_delete_event)
         self.window.connect('drag-data-received', self.on_drag_data_received_event)
+        self.window.connect('notify::is-active', self.on_focus)
         self.tabsbar_pane.connect(
             'notify::position', self.on_tabsbar_pane_position_event
         )
@@ -146,6 +148,9 @@ class MainWindow(component.Component):
         client.register_event_handler(
             'NewVersionAvailableEvent', self.on_newversionavailable_event
         )
+
+        self.previous_text = ''
+        self.first_run = True
 
     def connect_signals(self, mapping_or_class):
         self.gtk_builder_signals_holder.connect_signals(mapping_or_class)
@@ -328,6 +333,21 @@ class MainWindow(component.Component):
 
     def on_expose_event(self, widget, event):
         component.get('SystemTray').blink(False)
+
+    def on_focus(self, window, param):
+        if window.props.is_active and not self.first_run:
+            text = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD).wait_for_text()
+            text = text if '//' in text else '//' + text
+            if text == self.previous_text:
+                return
+            else:
+                self.previous_text = text
+            parsed_txt = urlparse(text)
+            # one would think parsed_txt.scheme should match "magnet", but this is how it goes:
+            if parsed_txt.path.endswith('.torrent') or parsed_txt.netloc == 'magnet:':
+                component.get('AddTorrentDialog').show()
+                component.get('AddTorrentDialog').on_button_url_clicked(window)
+        self.first_run = False
 
     def stop(self):
         self.window.set_title('Deluge')
