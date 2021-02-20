@@ -9,6 +9,7 @@ from __future__ import unicode_literals
 
 import tempfile
 from email.utils import formatdate
+from io import open
 
 from twisted.internet import reactor
 from twisted.internet.error import CannotListenError
@@ -47,9 +48,30 @@ class RenameResource(Resource):
 
 class AttachmentResource(Resource):
     def render(self, request):
-        request.setHeader(b'Content-Type', b'text/plain')
+        content_type = b'text/plain'
+        charset = request.getHeader(b'content-charset')
+        if charset:
+            content_type += b'; charset=' + charset
+        request.setHeader(b'Content-Type', content_type)
         request.setHeader(b'Content-Disposition', b'attachment')
-        return b'Attachement with no filename set'
+        append = request.getHeader(b'content-append') or b''
+        content = 'Attachment with no filename set{}'.format(append.decode('utf8'))
+        return (
+            content.encode(charset.decode('utf8'))
+            if charset
+            else content.encode('utf8')
+        )
+
+
+class TorrentResource(Resource):
+    def render(self, request):
+        content_type = b'application/x-bittorrent'
+        charset = request.getHeader(b'content-charset')
+        if charset:
+            content_type += b'; charset=' + charset
+        request.setHeader(b'Content-Type', content_type)
+        request.setHeader(b'Content-Disposition', b'attachment; filename=test.torrent')
+        return 'Binary attachment ignore charset 世丕且\n'.encode('utf8')
 
 
 class CookieResource(Resource):
@@ -101,6 +123,7 @@ class TopLevelResource(Resource):
         self.putChild(b'redirect', self.redirect_rsrc)
         self.putChild(b'rename', RenameResource())
         self.putChild(b'attachment', AttachmentResource())
+        self.putChild(b'torrent', TorrentResource())
         self.putChild(b'partial', PartialDownloadResource())
 
     def getChild(self, path, request):  # NOQA: N802
@@ -110,7 +133,7 @@ class TopLevelResource(Resource):
             return Resource.getChild(self, path, request)
 
     def render(self, request):
-        if request.getHeader('If-Modified-Since'):
+        if request.getHeader(b'If-Modified-Since'):
             request.setResponseCode(NOT_MODIFIED)
         return b'<h1>Deluge HTTP Downloader tests webserver here</h1>'
 
@@ -139,7 +162,7 @@ class DownloadFileTestCase(unittest.TestCase):
         return self.webserver.stopListening()
 
     def assertContains(self, filename, contents):  # NOQA
-        with open(filename) as _file:
+        with open(filename, 'r', encoding='utf8') as _file:
             try:
                 self.assertEqual(_file.read(), contents)
             except Exception as ex:
@@ -147,7 +170,7 @@ class DownloadFileTestCase(unittest.TestCase):
         return filename
 
     def assertNotContains(self, filename, contents, file_mode=''):  # NOQA
-        with open(filename, file_mode) as _file:
+        with open(filename, 'r', encoding='utf8') as _file:
             try:
                 self.assertNotEqual(_file.read(), contents)
             except Exception as ex:
@@ -212,7 +235,7 @@ class DownloadFileTestCase(unittest.TestCase):
         url = self.get_url('attachment')
         d = download_file(url, fname('original'))
         d.addCallback(self.assertEqual, fname('original'))
-        d.addCallback(self.assertContains, 'Attachement with no filename set')
+        d.addCallback(self.assertContains, 'Attachment with no filename set')
         return d
 
     def test_download_with_rename_prevented(self):
@@ -263,4 +286,24 @@ class DownloadFileTestCase(unittest.TestCase):
         d = download_file(self.get_url(), fname('index.html'), headers=headers)
         d.addCallback(self.fail)
         d.addErrback(self.assertIsInstance, Failure)
+        return d
+
+    def test_download_text_reencode_charset(self):
+        """Re-encode as UTF-8 specified charset for text content-type header"""
+        url = self.get_url('attachment')
+        filepath = fname('test.txt')
+        headers = {'content-charset': 'Windows-1251', 'content-append': 'бвгде'}
+        d = download_file(url, filepath, headers=headers)
+        d.addCallback(self.assertEqual, filepath)
+        d.addCallback(self.assertContains, 'Attachment with no filename setбвгде')
+        return d
+
+    def test_download_binary_ignore_charset(self):
+        """Ignore charset for binary content-type header e.g. torrent files"""
+        url = self.get_url('torrent')
+        headers = {'content-charset': 'Windows-1251'}
+        filepath = fname('test.torrent')
+        d = download_file(url, fname('test.torrent'), headers=headers)
+        d.addCallback(self.assertEqual, filepath)
+        d.addCallback(self.assertContains, 'Binary attachment ignore charset 世丕且\n')
         return d

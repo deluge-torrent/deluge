@@ -151,9 +151,12 @@ class HTTPDownloaderAgent(object):
 
                     self.filename = new_file_name
 
-            cont_type = headers.getRawHeaders(b'content-type')[0].decode()
-            params = cgi.parse_header(cont_type)[1]
-            encoding = params.get('charset', None)
+            cont_type_header = headers.getRawHeaders(b'content-type')[0].decode()
+            cont_type, params = cgi.parse_header(cont_type_header)
+            # Only re-ecode text content types.
+            encoding = None
+            if cont_type.startswith('text/'):
+                encoding = params.get('charset', None)
             response.deliverBody(
                 BodyHandler(response.request, finished, body_length, self, encoding)
             )
