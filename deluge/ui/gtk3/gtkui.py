@@ -121,6 +121,7 @@ DEFAULT_PREFS = {
     'show_toolbar': True,
     'show_statusbar': True,
     'show_tabsbar': True,
+    'tabsbar_tab_pos': 'left',
     'tabsbar_position': 235,
     'sidebar_show_zero': False,
     'sidebar_show_trackers': True,

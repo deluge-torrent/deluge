@@ -14,7 +14,14 @@ from __future__ import unicode_literals
 import logging
 from collections import namedtuple
 
-from gi.repository.Gtk import CheckMenuItem, Menu, SeparatorMenuItem
+from gi.repository.Gtk import (
+    CheckMenuItem,
+    Menu,
+    MenuItem,
+    PositionType,
+    RadioMenuItem,
+    SeparatorMenuItem,
+)
 
 import deluge.component as component
 from deluge.ui.client import client
@@ -100,6 +107,7 @@ class TorrentDetails(component.Component):
     def __init__(self):
         component.Component.__init__(self, 'TorrentDetails', interval=2)
         main_builder = component.get('MainWindow').get_builder()
+        self.config = component.get('MainWindow').config
 
         self.notebook = main_builder.get_object('torrent_info')
 
@@ -175,7 +183,6 @@ class TorrentDetails(component.Component):
         # Generate the checklist menu
         self.generate_menu()
 
-        self.config = component.get('MainWindow').config
         self.visible(self.config['show_tabsbar'])
 
     def tab_insert_position(self, weight):
@@ -314,9 +321,24 @@ class TorrentDetails(component.Component):
             self.generate_menu()
         self.visible(True)
 
+    def create_tab_pos_menuitem(self):
+        """Returns a menu to select which side of the notebook the tabs should be shown"""
+        tab_pos_menu = Menu()
+        tab_pos_menuitem = MenuItem(_('Position'))
+        group = []
+        for pos in ('top', 'right', 'bottom', 'left'):
+            menuitem = RadioMenuItem.new_with_mnemonic(group, _(pos.capitalize()))
+            group = menuitem.get_group()
+            menuitem.connect('toggled', self._on_tabs_pos_toggled, pos)
+            menuitem.set_active(pos == self.notebook.get_tab_pos().value_nick)
+            tab_pos_menu.append(menuitem)
+        tab_pos_menuitem.set_submenu(tab_pos_menu)
+        return tab_pos_menuitem
+
     def generate_menu(self):
         """Generates the checklist menu for all the tabs and attaches it"""
         menu = Menu()
+
         # Create 'All' menuitem and a separator
         menuitem = CheckMenuItem.new_with_mnemonic(self.translate_tabs['All'])
         menuitem.set_name('All')
@@ -346,6 +368,9 @@ class TorrentDetails(component.Component):
             menuitem.set_active(self.tabs[name].is_visible)
             menuitem.connect('toggled', self._on_menuitem_toggled)
             menu.append(menuitem)
+
+        menu.append(SeparatorMenuItem())
+        menu.append(self.create_tab_pos_menuitem())
 
         self.menu_tabs.set_submenu(menu)
         self.menu_tabs.show_all()
@@ -439,6 +464,10 @@ class TorrentDetails(component.Component):
             return
 
         self.set_tab_visible(name, widget.get_active())
+
+    def _on_tabs_pos_toggled(self, widget, position):
+        self.config['tabsbar_tab_pos'] = position
+        self.notebook.set_tab_pos(getattr(PositionType, position.upper()))
 
     def save_state(self):
         """We save the state, which is basically the tab_index list"""

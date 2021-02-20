@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.1 -->
+<!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.0"/>
   <object class="GtkAdjustment" id="spin_max_connections_adjustment">
@@ -38,14 +38,14 @@
   </object>
   <object class="GtkWindow" id="tabs">
     <property name="can_focus">False</property>
-    <child>
+    <child type="titlebar">
       <placeholder/>
     </child>
     <child>
       <object class="GtkNotebook" id="dummy_nb_see_main_win_torrent_info">
         <property name="visible">True</property>
         <property name="can_focus">True</property>
-        <property name="tab_pos">left</property>
+        <property name="enable_popup">True</property>
         <child>
           <object class="GtkScrolledWindow" id="status_tab">
             <property name="visible">True</property>
