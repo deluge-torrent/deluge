@@ -10,10 +10,13 @@
 from __future__ import unicode_literals
 
 import logging
+from os import environ
 
 from deluge.ui.ui import UI
 
 log = logging.getLogger(__name__)
+# Hide pygame community banner
+environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 
 
 # Keep this class in __init__.py to avoid the console having to import everything in gtkui.py
