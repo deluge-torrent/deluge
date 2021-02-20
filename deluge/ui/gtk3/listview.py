@@ -144,7 +144,6 @@ class ListView(object):
         self.liststore = None
         self.model_filter = None
 
-        self.treeview.set_rules_hint(True)
         self.treeview.set_reorderable(False)
         self.treeview.set_rubber_banding(True)  # Enable mouse multi-row selection.
         self.treeview.get_selection().set_mode(Gtk.SelectionMode.MULTIPLE)

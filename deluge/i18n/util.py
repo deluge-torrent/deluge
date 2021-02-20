@@ -108,7 +108,6 @@ def setup_translation():
             locale.textdomain(I18N_DOMAIN)
 
         gettext.bindtextdomain(I18N_DOMAIN, translations_path)
-        gettext.bind_textdomain_codeset(I18N_DOMAIN, 'UTF-8')
         gettext.textdomain(I18N_DOMAIN)
 
         # Workaround for Python 2 unicode gettext (keyword removed in Py3).
@@ -139,7 +138,6 @@ def setup_translation():
                 I18N_DOMAIN, translations_path.encode(sys.getfilesystemencoding())
             )
             libintl.textdomain(I18N_DOMAIN)
-            libintl.bind_textdomain_codeset(I18N_DOMAIN, 'UTF-8')
             libintl.gettext.restype = ctypes.c_char_p
 
     except Exception as ex:

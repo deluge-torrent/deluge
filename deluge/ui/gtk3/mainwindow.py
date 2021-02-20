@@ -155,10 +155,6 @@ class MainWindow(component.Component):
         self.main_builder.prev_connect_signals(self.gtk_builder_signals_holder)
         self.sidebar_pane.set_position(self.config['sidebar_position'])
         self.tabsbar_pane.set_position(self.config['tabsbar_position'])
-        tab_pos = self.config['tabsbar_tab_pos']
-        self.tabsbar_torrent_info.set_tab_pos(
-            getattr(Gtk.PositionType, tab_pos.upper())
-        )
 
         if not (
             self.config['start_in_tray'] and self.config['enable_system_tray']

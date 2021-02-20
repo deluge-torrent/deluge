@@ -142,12 +142,11 @@ class StatusBar(component.Component):
         self.current_warnings = []
         # Add hbox to the statusbar after removing the initial label widget
         self.hbox = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, spacing=10)
-        align = Gtk.Alignment()
-        align.set_padding(2, 0, 3, 0)
-        align.add(self.hbox)
+        self.hbox.set_margin_top(2)
+        self.hbox.set_margin_bottom(3)
         frame = self.statusbar.get_children()[0]
         frame.remove(frame.get_children()[0])
-        frame.add(align)
+        frame.add(self.hbox)
         self.statusbar.show_all()
         # Create the not connected item
         self.not_connected_item = StatusBarItem(

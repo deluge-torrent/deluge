@@ -89,10 +89,10 @@ class FilterTreeView(component.Component):
         self.treeview.set_headers_visible(False)
         self.treeview.set_level_indentation(-21)
         # Force theme to use expander-size so we don't cut out entries due to indentation hack.
-        Gtk.rc_parse_string(
-            """style "treeview-style" {GtkTreeView::expander-size = 7}
-                            class "GtkTreeView" style "treeview-style" """
-        )
+        provider = Gtk.CssProvider()
+        provider.load_from_data('* {-GtkTreeView-expander-size: 9;}'.encode())
+        context = self.treeview.get_style_context()
+        context.add_provider(provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 
         self.treeview.set_model(self.treestore)
         self.treeview.get_selection().connect('changed', self.on_selection_changed)

@@ -110,6 +110,9 @@ class TorrentDetails(component.Component):
         self.config = component.get('MainWindow').config
 
         self.notebook = main_builder.get_object('torrent_info')
+        self.notebook.set_tab_pos(
+            getattr(PositionType, self.config['tabsbar_tab_pos'].upper())
+        )
 
         # This is the menu item we'll attach the tabs checklist menu to
         self.menu_tabs = main_builder.get_object('menu_tabs')
@@ -324,7 +327,7 @@ class TorrentDetails(component.Component):
     def create_tab_pos_menuitem(self):
         """Returns a menu to select which side of the notebook the tabs should be shown"""
         tab_pos_menu = Menu()
-        tab_pos_menuitem = MenuItem(_('Position'))
+        tab_pos_menuitem = MenuItem.new_with_label(_('Position'))
         group = []
         for pos in ('top', 'right', 'bottom', 'left'):
             menuitem = RadioMenuItem.new_with_mnemonic(group, _(pos.capitalize()))
