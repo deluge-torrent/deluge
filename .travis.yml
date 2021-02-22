@@ -39,6 +39,17 @@ jobs:
       env: TOX_ENV=gtkui
     - name: Plugins unit tests
       env: TOX_ENV=plugins
+    - name: Windows Unit tests
+      os: windows
+      language: shell
+      before_install:
+        - choco install python --version 3.6.8
+        - python --version
+        - python -m pip install --upgrade pip
+        - python -m pip install deluge-libtorrent
+      env:
+        - PATH=/c/Python36:/c/Python36/Scripts:$PATH
+        - TOX_ENV=py3
 
 addons:
   apt:

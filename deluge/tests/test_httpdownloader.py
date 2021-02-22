@@ -7,6 +7,7 @@
 
 from __future__ import unicode_literals
 
+import os
 import tempfile
 from email.utils import formatdate
 from io import open
@@ -21,7 +22,6 @@ from twisted.web.resource import EncodingResourceWrapper, Resource
 from twisted.web.server import GzipEncoderFactory, Site
 from twisted.web.util import redirectTo
 
-from deluge.common import windows_check
 from deluge.httpdownloader import download_file
 from deluge.log import setup_logger
 
@@ -29,7 +29,7 @@ temp_dir = tempfile.mkdtemp()
 
 
 def fname(name):
-    return '%s/%s' % (temp_dir, name)
+    return os.path.join(temp_dir, name)
 
 
 class RedirectResource(Resource):
@@ -198,10 +198,6 @@ class DownloadFileTestCase(unittest.TestCase):
         return d
 
     def test_download_with_rename(self):
-
-        if windows_check():
-            raise unittest.SkipTest('on windows \\  != / for path names')
-
         url = self.get_url('rename?filename=renamed')
         d = download_file(url, fname('original'))
         d.addCallback(self.assertEqual, fname('renamed'))
@@ -209,10 +205,6 @@ class DownloadFileTestCase(unittest.TestCase):
         return d
 
     def test_download_with_rename_exists(self):
-
-        if windows_check():
-            raise unittest.SkipTest('on windows \\  != / for path names')
-
         open(fname('renamed'), 'w').close()
         url = self.get_url('rename?filename=renamed')
         d = download_file(url, fname('original'))
@@ -221,10 +213,6 @@ class DownloadFileTestCase(unittest.TestCase):
         return d
 
     def test_download_with_rename_sanitised(self):
-
-        if windows_check():
-            raise unittest.SkipTest('on windows \\  != / for path names')
-
         url = self.get_url('rename?filename=/etc/passwd')
         d = download_file(url, fname('original'))
         d.addCallback(self.assertEqual, fname('passwd'))

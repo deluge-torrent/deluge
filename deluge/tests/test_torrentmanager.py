@@ -15,8 +15,10 @@ from base64 import b64encode
 import mock
 import pytest
 from twisted.internet import defer, task
+from twisted.trial import unittest
 
 from deluge import component
+from deluge.common import windows_check
 from deluge.core.core import Core
 from deluge.core.rpcserver import RPCServer
 from deluge.error import InvalidTorrentError
@@ -137,5 +139,10 @@ class TorrentmanagerTestCase(BaseTestCase):
             common.get_test_data_file('utf8_filename_torrents.state'),
             os.path.join(self.config_dir, 'state', 'torrents.state'),
         )
+        if windows_check():
+            raise unittest.SkipTest(
+                'Windows ModuleNotFoundError due to Linux line ending'
+            )
+
         state = self.tm.open_state()
         self.assertEqual(len(state.torrents), 1)
