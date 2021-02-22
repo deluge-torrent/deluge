@@ -176,7 +176,7 @@ Date: %(date)s
     def _on_torrent_finished_event(self, torrent_id):
         log.debug('Handler for TorrentFinishedEvent called for CORE')
         torrent = component.get('TorrentManager')[torrent_id]
-        torrent_status = torrent.get_status({})
+        torrent_status = torrent.get_status(['name', 'num_files'])
         # Email
         subject = _('Finished Torrent "%(name)s"') % torrent_status
         message = (
