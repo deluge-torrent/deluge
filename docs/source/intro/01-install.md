@@ -31,7 +31,7 @@ Intrepid users can install Deluge from separate packages as detailed in [issue #
 
 ## <i class="fa fa-apple"></i> macOS
 
-There is no `.app` package currently for macOS, but can try Deluge with [Homebrew].
+There is this [thread] about `.app` package for macOS, but can try Deluge with [Homebrew].
 
 1.  Install [Homebrew]
 2.  Open a terminal.
@@ -53,3 +53,4 @@ There is no `.app` package currently for macOS, but can try Deluge with [Homebre
 [python 3.6]: https://www.python.org/downloads/release/python-368/
 [gvsbuild]: https://ci.appveyor.com/api/buildjobs/b0y2sttcq3t1071q/artifacts/gvsbuild-vs14-x64.tar.gz
 [issue #3201]: https://dev.deluge-torrent.org/ticket/3201#comment:9
+[thread]: https://forum.deluge-torrent.org/viewtopic.php?f=13&t=55393&start=30
