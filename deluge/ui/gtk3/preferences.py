@@ -77,7 +77,7 @@ class Preferences(component.Component):
         self.load_pref_dialog_state()
 
         self.builder.get_object('image_magnet').set_from_file(
-            deluge.common.get_pixmap('magnet.png')
+            deluge.common.get_pixmap('magnet16.png')
         )
 
         # Hide the unused associate magnet button on OSX see: #2420

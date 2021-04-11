@@ -39,14 +39,9 @@ Images Authors:
     * files: deluge/ui/data/pixmaps/*.svg, *.png
              deluge/ui/web/icons/active.png, alert.png, all.png, checking.png, dht.png,
              downloading.png, inactive.png, queued.png, seeding.png, traffic.png
-      exceptions: deluge/ui/data/pixmaps/deluge.svg and derivatives
-      copyright: Andrew Resch
-      license: GPLv3
-
-    * files: deluge/ui/data/pixmaps/deluge.svg and derivatives
-             deluge/ui/web/icons/apple-pre-*.png, deluge*.png
              deluge/ui/web/images/deluge*.png
-      copyright: Andrew Wedderburn
+             deluge/ui/web/icons/apple-pre-*.png, deluge*.png
+      copyright: Calum Lind
       license: GPLv3
 
     * files: deluge/plugins/blocklist/blocklist/data/*.png
@@ -55,11 +50,9 @@ Images Authors:
       license: GPLv2
       url: http://ftp.acc.umu.se/pub/GNOME/sources/gnome-icon-theme
 
-    * files: deluge/ui/data/pixmaps/magnet.png
-      copyright: Woothemes
-      license: Freeware
-      icon pack: WP Woothemes Ultimate
-      url: http://www.woothemes.com/
+    * files: deluge/ui/data/pixmaps/magnet*.svg, *.png
+      copyright:  Matias Wilkman
+      license:
 
     * files: deluge/ui/data/pixmaps/flags/*.png
       copyright: Mark James <mjames@gmail.com>

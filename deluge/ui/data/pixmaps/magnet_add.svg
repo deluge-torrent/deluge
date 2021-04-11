@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="48px"
+   height="48px"
+   id="svg16888"
+   sodipodi:version="0.32"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
+   sodipodi:docname="add-magnet.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   version="1.1"
+   inkscape:export-filename="/home/kali/code/deluge/deluge/ui/data/pixmaps/x-deluge-copy-magnet-uri-icon.png"
+   inkscape:export-xdpi="227.45343"
+   inkscape:export-ydpi="227.45343">
+  <defs
+     id="defs16890" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="6.6036891"
+     inkscape:cx="24.635975"
+     inkscape:cy="13.381649"
+     inkscape:current-layer="layer3"
+     showgrid="true"
+     inkscape:grid-bbox="true"
+     inkscape:document-units="px"
+     inkscape:window-width="1920"
+     inkscape:window-height="925"
+     inkscape:window-x="0"
+     inkscape:window-y="31"
+     inkscape:grid-points="true"
+     inkscape:document-rotation="0"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata16893">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+        <dc:date>November 2007</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Luca Ferretti</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:source>http://www.gnome.org</dc:source>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>edit</rdf:li>
+            <rdf:li>copy</rdf:li>
+            <rdf:li>copy to clipboard</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/LGPL/2.1/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/LGPL/2.1/">
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Reproduction" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/Distribution" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/Notice" />
+        <cc:permits
+           rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/ShareAlike" />
+        <cc:requires
+           rdf:resource="http://web.resource.org/cc/SourceCode" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Layer 2"
+     style="display:inline">
+    <path
+       style="fill:#ff0000;fill-opacity:1;stroke-width:0.084844"
+       d="m 19.334232,31.418784 a 0.90623357,1.1438367 0 0 0 0.906233,-1.14384 V 25.31832 c 0,-12.210457 12.083111,-12.191395 12.083111,0 v 4.956624 a 0.90623357,1.1438367 0 0 0 0.906233,1.14384 h 11.471402 a 0.90623357,1.1438367 0 0 0 0.906234,-1.153375 c -0.0073,-2.039841 -0.04535,-3.841381 0,-5.080542 0,-14.35515 -10.283474,-23.5058431 -19.389614,-23.5058431 -9.106142,0 -19.257461,9.1506931 -19.257461,23.5153781 0.045378,1.220091 0.015034,3.145549 0,5.071007 a 0.90623357,1.1438367 0 0 0 0.9062351,1.153375 z"
+       id="path1134" />
+    <path
+       style="fill:#515151;fill-opacity:0.543816;stroke-width:0.084844"
+       d="m 6.9490455,35.612845 v 7.63511 a 2.7187006,3.4315101 0 0 0 2.7186865,3.431514 h 7.85403 a 2.7187006,3.4315101 0 0 0 2.718703,-3.431514 V 35.62238 A 0.90623357,1.1438367 0 0 0 19.334232,34.478548 H 7.8552793 a 0.89792643,1.1333516 0 0 0 -0.9062338,1.134297 z"
+       id="path1132" />
+    <path
+       style="fill:#515151;fill-opacity:0.543816;stroke-width:0.084844"
+       d="m 33.224525,34.469013 h 11.484252 a 0.90623357,1.1438367 0 0 1 0.906219,1.143832 v 7.625583 a 2.7187006,3.4315101 0 0 1 -2.718688,3.431506 h -7.85403 a 2.7187006,3.4315101 0 0 1 -2.718702,-3.431506 v -7.625583 a 0.89792643,1.1333516 0 0 1 0.900949,-1.143832 z"
+       id="path267" />
+  </g>
+  <g
+     id="layer1"
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     style="display:none">
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;stroke:none;stroke-width:7.09866;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect3157"
+       width="30.975992"
+       height="30.975992"
+       x="18.097294"
+       y="17.130117" />
+    <rect
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:5.16267;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect11064"
+       width="15.487996"
+       height="13.551996"
+       x="21.323959"
+       y="31.327448"
+       ry="1.9584693" />
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:5.16267;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect11066"
+       width="11.615996"
+       height="9.6799974"
+       x="23.259958"
+       y="33.263447"
+       ry="0" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.936;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 25.195958,36.167447 h 7.743998"
+       id="path12037" />
+    <path
+       id="path13008"
+       d="m 25.195958,40.039446 h 7.743998"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.936;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <rect
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:5.16267;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect16900"
+       width="15.487996"
+       height="13.551996"
+       x="30.358624"
+       y="20.356785"
+       ry="2.0447536" />
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:5.16267;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect16902"
+       width="11.615996"
+       height="9.6799974"
+       x="32.294624"
+       y="22.292784"
+       ry="0" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.936;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 34.230623,25.196783 h 7.743998"
+       id="path16904" />
+    <path
+       id="path16906"
+       d="m 34.230623,29.068782 h 7.743998"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1.936;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="Layer 3">
+    <path
+       id="text1353"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;fill:#03ff48;fill-opacity:1;stroke:#000000;stroke-width:0.674513;stroke-opacity:1"
+       d="m 8.4078166,2.1897337 c 10e-7,1.9963132 0,3.9926271 0,5.9889403 -2.445989,0 -4.891978,0 -7.337967,0 0,2.545234 0,5.090468 0,7.635701 2.445989,0 4.891978,0 7.337967,0 0,2.445989 0,4.891978 0,7.337968 2.5364514,0 5.0729034,0 7.6093534,0 1e-6,-2.44599 0,-4.891979 0,-7.337968 2.44599,0 4.891979,0 7.337968,0 0,-2.545233 0,-5.090467 0,-7.635701 -2.445989,0 -4.891978,0 -7.337968,0 1e-6,-2.445989 0,-4.891978 0,-7.33796734 -2.53645,0 -5.072902,0 -7.6093534,0 0,0.44967504 10e-7,0.89935104 0,1.34902704 z" />
+  </g>
+</svg>
