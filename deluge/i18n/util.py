@@ -116,22 +116,30 @@ def setup_translation():
         gettext.install(I18N_DOMAIN, translations_path, names=['ngettext'], **kwargs)
         builtins.__dict__['_n'] = builtins.__dict__['ngettext']
 
-        libintl = None
-        if deluge.common.windows_check():
-            for intl in ('libintl-8.dll', 'intl.dll'):
+        def load_libintl(libintls):
+            errors = []
+            for library in libintls:
                 try:
-                    libintl = ctypes.cdll.LoadLibrary(intl)
+                    libintl = ctypes.cdll.LoadLibrary(library)
                 except OSError as ex:
-                    exception = ex
+                    errors.append(ex)
                 else:
                     break
-                finally:
-                    if not libintl:
-                        log.error('Unable to initialize gettext/locale!')
-                        log.error(exception)
-                        setup_mock_translation()
+
+            if not libintl:
+                log.debug(
+                    'Unable to initialize gettext/locale:\n  %s', '\n  '.join(errors)
+                )
+                setup_mock_translation()
+                return
+
+            return libintl
+
+        libintl = None
+        if deluge.common.windows_check():
+            libintl = load_libintl(['libintl-8.dll', 'intl.dll'])
         elif deluge.common.osx_check():
-            libintl = ctypes.cdll.LoadLibrary('libintl.dylib')
+            libintl = load_libintl(['libintl.8.dylib', 'libintl.dylib'])
 
         if libintl:
             libintl.bindtextdomain(
