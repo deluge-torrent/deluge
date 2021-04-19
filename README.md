@@ -4,7 +4,7 @@
 
 Deluge is a BitTorrent client that utilizes a daemon/client model.
 It has various user interfaces available such as the GTK-UI, Web-UI and
-a Console-UI. It uses [libtorrent][lt] at it's core to handle the BitTorrent
+a Console-UI. It uses [libtorrent][lt] at its core to handle the BitTorrent
 protocol.
 
 ## Install
