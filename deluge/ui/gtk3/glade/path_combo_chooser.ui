@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.1 -->
+<!-- Generated with glade 3.36.0 -->
 <interface>
   <requires lib="gtk+" version="3.0"/>
   <object class="GtkAdjustment" id="adjustment1">
@@ -27,9 +27,6 @@
     <property name="type_hint">dialog</property>
     <signal name="delete-event" handler="on_completion_config_dialog_delete_event" swapped="no"/>
     <signal name="key-release-event" handler="on_completion_config_dialog_key_release_event" swapped="no"/>
-    <child>
-      <placeholder/>
-    </child>
     <child internal-child="vbox">
       <object class="GtkBox" id="dialog-vbox1">
         <property name="visible">True</property>
@@ -497,12 +494,12 @@
     <action-widgets>
       <action-widget response="0">config_dialog_button_close</action-widget>
     </action-widgets>
+    <child type="titlebar">
+      <placeholder/>
+    </child>
   </object>
   <object class="GtkWindow" id="combobox_window">
     <property name="can_focus">False</property>
-    <child>
-      <placeholder/>
-    </child>
     <child>
       <object class="GtkBox" id="entry_combobox_hbox">
         <property name="visible">True</property>
@@ -571,6 +568,7 @@
           <object class="GtkEntry" id="entry_text">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="hexpand">True</property>
             <property name="invisible_char">•</property>
             <signal name="changed" handler="on_entry_text_changed" swapped="no"/>
             <signal name="delete-text" handler="on_entry_text_delete_text" swapped="no"/>
@@ -625,6 +623,9 @@
         </child>
       </object>
     </child>
+    <child type="titlebar">
+      <placeholder/>
+    </child>
   </object>
   <object class="GtkListStore" id="completion_tree_store">
     <columns>
@@ -645,9 +646,6 @@
     <signal name="button-press-event" handler="on_completion_popup_window_button_press_event" swapped="no"/>
     <signal name="focus-out-event" handler="on_completion_popup_window_focus_out_event" swapped="no"/>
     <signal name="key-press-event" handler="on_completion_popup_window_key_press_event" swapped="no"/>
-    <child>
-      <placeholder/>
-    </child>
     <child>
       <object class="GtkBox" id="popup_content_box1">
         <property name="visible">True</property>
@@ -704,6 +702,9 @@
         </child>
       </object>
     </child>
+    <child type="titlebar">
+      <placeholder/>
+    </child>
   </object>
   <object class="GtkDialog" id="filechooserdialog">
     <property name="can_focus">False</property>
@@ -712,9 +713,6 @@
     <property name="window_position">center</property>
     <property name="destroy_with_parent">True</property>
     <property name="type_hint">dialog</property>
-    <child>
-      <placeholder/>
-    </child>
     <child internal-child="vbox">
       <object class="GtkBox" id="box1">
         <property name="can_focus">False</property>
@@ -774,6 +772,9 @@
       <action-widget response="2">filechooser_button_cancel</action-widget>
       <action-widget response="0">filechooser_button_open</action-widget>
     </action-widgets>
+    <child type="titlebar">
+      <placeholder/>
+    </child>
   </object>
   <object class="GtkListStore" id="stored_values_tree_store">
     <columns>
@@ -794,9 +795,6 @@
     <signal name="button-press-event" handler="on_stored_values_popup_window_button_press_event" swapped="no"/>
     <signal name="focus-out-event" handler="on_stored_values_popup_window_focus_out_event" swapped="no"/>
     <signal name="hide" handler="on_stored_values_popup_window_hide" swapped="no"/>
-    <child>
-      <placeholder/>
-    </child>
     <child>
       <object class="GtkBox" id="hbox1">
         <property name="visible">True</property>
@@ -997,6 +995,9 @@
           </packing>
         </child>
       </object>
+    </child>
+    <child type="titlebar">
+      <placeholder/>
     </child>
   </object>
 </interface>
