@@ -24,10 +24,14 @@ import deluge.configmanager
 from deluge._libtorrent import lt
 from deluge.event import ConfigValueChangedEvent
 
+GeoIP = None
 try:
-    import GeoIP
+    from GeoIP import GeoIP
 except ImportError:
-    GeoIP = None
+    try:
+        from pygeoip import GeoIP
+    except ImportError:
+        pass
 
 try:
     from urllib.parse import quote_plus
@@ -464,9 +468,7 @@ class PreferencesManager(component.Component):
         # Load the GeoIP DB for country look-ups if available
         if os.path.exists(geoipdb_path):
             try:
-                self.core.geoip_instance = GeoIP.open(
-                    geoipdb_path, GeoIP.GEOIP_STANDARD
-                )
+                self.core.geoip_instance = GeoIP(geoipdb_path, 0)
             except AttributeError:
                 log.warning('GeoIP Unavailable')
         else:

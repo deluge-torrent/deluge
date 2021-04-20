@@ -42,7 +42,7 @@ All modules will require the [common](#common) section dependencies.
 ## Core (deluged daemon)
 
 - [libtorrent] _>= 1.1.1_
-- [GeoIP] - Optional: IP address location lookup. (_Debian: `python-geoip`_)
+- [GeoIP] or [pygeoip] - Optional: IP address country lookup. _Debian: `python-geoip`_
 
 ## GTK UI
 
