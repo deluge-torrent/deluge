@@ -12,7 +12,7 @@ from __future__ import unicode_literals
 import logging
 import os.path
 
-from gi.repository import Gtk
+from gi.repository import Gdk, Gtk
 from twisted.internet import defer
 
 import deluge.component as component
@@ -132,6 +132,7 @@ class EditTrackersDialog(object):
 
         self.dialog.connect('delete-event', self._on_delete_event)
         self.dialog.connect('response', self._on_response)
+        self.treeview.connect('button_press_event', self.on_button_press_event)
 
     def run(self):
         # Make sure we have a torrent_id.. if not just return
@@ -215,8 +216,18 @@ class EditTrackersDialog(object):
             self.liststore.remove(selected)
 
     def on_button_edit_clicked(self, widget):
-        """edits an existing tracker"""
+        """edits an existing tracker on edit button click"""
         log.debug('on_button_edit_clicked')
+        self._edit_tracker()
+
+    def on_button_press_event(self, widget, event):
+        """edits an existing tracker on double click on tracker name"""
+        if event.type == Gdk.EventType.DOUBLE_BUTTON_PRESS:
+            log.debug('button_press_event double click')
+            self._edit_tracker()
+
+    def _edit_tracker(self):
+        """edits an existing tracker"""
         selected = self.get_selected()
         if selected:
             tracker = self.liststore.get_value(selected, 1)
