@@ -11,6 +11,8 @@ from __future__ import unicode_literals
 
 import logging
 
+import six
+
 from deluge.decorators import overrides
 from deluge.ui.console.modes.basemode import InputKeyHandler
 from deluge.ui.console.utils import curses_util as util
@@ -341,6 +343,10 @@ class MessagePopup(Popup, BaseInputPane):
         width_req=0.5,
         **kwargs
     ):
+        if not isinstance(message, six.string_types):
+            log.warn("Expected string type for message. Got '%s'", type(message))
+            message = str(message)
+
         self.message = message
         Popup.__init__(
             self,
