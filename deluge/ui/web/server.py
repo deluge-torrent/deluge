@@ -23,8 +23,7 @@ from twisted.web.resource import EncodingResourceWrapper
 
 from deluge import common, component, configmanager
 from deluge.common import is_ipv6
-from deluge.core.rpcserver import check_ssl_keys
-from deluge.crypto_utils import get_context_factory
+from deluge.crypto_utils import check_ssl_keys, get_context_factory
 from deluge.i18n import set_language, setup_translation
 from deluge.ui.tracker_icons import TrackerIcons
 from deluge.ui.web.auth import Auth

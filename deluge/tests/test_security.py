@@ -45,6 +45,7 @@ class SecurityBaseTestCase(object):
                 get_test_data_file('testssl.sh'),
                 '--quiet',
                 '--nodns',
+                'none',
                 '--color',
                 '0',
                 test,
@@ -55,11 +56,11 @@ class SecurityBaseTestCase(object):
         def on_result(results):
 
             if test == '-e':
-                results = results[0].split('\n')[7:-6]
+                results = results[0].split(b'\n')[7:-6]
                 self.assertTrue(len(results) > 3)
             else:
-                self.assertIn('OK', results[0])
-                self.assertNotIn('NOT ok', results[0])
+                self.assertIn(b'OK', results[0])
+                self.assertNotIn(b'NOT ok', results[0])
 
         d.addCallback(on_result)
         return d

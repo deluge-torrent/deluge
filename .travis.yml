@@ -29,6 +29,7 @@ jobs:
       env: TOX_ENV=py27
       python: 2.7_with_system_site_packages
     - if: commit_message =~ SECURITY_TEST
+      name: Security tests
       env: TOX_ENV=security
     - name: Code linting
       env: TOX_ENV=lint
@@ -76,9 +77,9 @@ install:
     fi"
   # Security tests
   - "if [ $TOX_ENV == 'security' ]; then
-    testssl_url=https://github.com/drwetter/testssl.sh/archive/v2.9.5-5.tar.gz;
+    testssl_url=https://github.com/drwetter/testssl.sh/archive/3.0.1.tar.gz;
     wget -O- $testssl_url | tar xz
-    && mv -t deluge/tests/data testssl.sh-2.9.5-5/testssl.sh testssl.sh-2.9.5-5/etc/;
+    && mv -t deluge/tests/data testssl.sh-3.0.1/testssl.sh testssl.sh-3.0.1/etc/;
     fi"
 
 before_script:
