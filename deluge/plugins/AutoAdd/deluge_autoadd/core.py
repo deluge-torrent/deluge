@@ -21,7 +21,9 @@ import shutil
 from base64 import b64encode
 
 from twisted.internet import reactor
+from twisted.internet.defer import maybeDeferred
 from twisted.internet.task import LoopingCall, deferLater
+from twisted.python.failure import Failure
 
 import deluge.component as component
 import deluge.configmanager
@@ -325,6 +327,9 @@ class Core(CorePluginBase):
                     os.remove(filepath)
 
             def fail_torrent_add(err_msg, filepath, magnet):
+                if isinstance(err_msg, Failure):
+                    err_msg = err_msg.getErrorMessage()
+
                 # torrent handle is invalid and so is the magnet link
                 log.error(
                     'Cannot Autoadd %s: %s: %s',
@@ -337,8 +342,10 @@ class Core(CorePluginBase):
             try:
                 # The torrent looks good, so lets add it to the session.
                 if magnet:
-                    d = component.get('Core').add_torrent_magnet(
-                        filedump.strip(), options
+                    d = maybeDeferred(
+                        component.get('Core').add_torrent_magnet,
+                        filedump.strip(),
+                        options,
                     )
                 else:
                     d = component.get('Core').add_torrent_file_async(
