@@ -1,0 +1,90 @@
+name: Deluge CI
+
+on:
+  push:
+  pull_request:
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  test-linux:
+    runs-on: ubuntu-20.04
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+
+      - name: Cache pip
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          # Look to see if there is a cache hit for the corresponding requirements file
+          key: ${{ runner.os }}-pip-${{ hashFiles('tox.ini', 'setup.py', 'requirements*.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+            ${{ runner.os }}-
+
+      - name: Add libtorrent deb repository
+        uses: myci-actions/add-deb-repo@8
+        with:
+          repo: deb http://ppa.launchpad.net/libtorrent.org/1.2-daily/ubuntu focal main
+          repo-name: libtorrent
+          keys: 58E5430D9667FAEFFCA0B93F32309D6B9E009EDB
+          key-server: keyserver.ubuntu.com
+          install: python3-libtorrent
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip wheel
+          pip install -r requirements.txt -r requirements-tests.txt
+          pip install -e .
+
+      - name: Test with pytest
+        run: |
+          cp /usr/lib/python3/dist-packages/libtorrent*.so $GITHUB_WORKSPACE/deluge
+          python -c 'from deluge._libtorrent import lt; print(lt.__version__)';
+          pytest -m "not (todo or gtkui or security)" deluge
+
+  test-windows:
+    runs-on: windows-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.6"
+
+      - name: Cache pip
+        uses: actions/cache@v2
+        with:
+          path: '%LOCALAPPDATA%\pip\Cache'
+          # Look to see if there is a cache hit for the corresponding requirements file
+          key: ${{ runner.os }}-pip-${{ hashFiles('tox.ini', 'setup.py', 'requirements*.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+            ${{ runner.os }}-
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip wheel certifi
+          python -m pip install deluge-libtorrent
+          pip install -r requirements.txt -r requirements-tests.txt
+          pip install -e .
+
+      - name: Test with pytest
+        run: |
+          python -c 'import libtorrent as lt; print(lt.__version__)';
+          pytest -m "not (todo or gtkui or security)" deluge
