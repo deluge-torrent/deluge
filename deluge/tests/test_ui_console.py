@@ -9,7 +9,6 @@ from __future__ import unicode_literals
 
 import argparse
 
-from deluge.common import windows_check
 from deluge.ui.console.cmdline.commands.add import Command
 from deluge.ui.console.cmdline.commands.config import json_eval
 from deluge.ui.console.widgets.fields import TextInput
@@ -46,8 +45,7 @@ class UIConsoleFieldTestCase(BaseTestCase):
             complete=False,
         )
         self.assertTrue(t)
-        if not windows_check():
-            self.assertTrue(t.handle_read(33))
+        self.assertTrue(t.handle_read(33))
 
 
 class UIConsoleCommandsTestCase(BaseTestCase):

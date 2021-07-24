@@ -11,7 +11,7 @@ from twisted.internet import defer
 
 import deluge.component as component
 from deluge import error
-from deluge.common import AUTH_LEVEL_NORMAL, get_localhost_auth, windows_check
+from deluge.common import AUTH_LEVEL_NORMAL, get_localhost_auth
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
 from deluge.ui.client import Client, DaemonSSLProxy, client
 
@@ -79,10 +79,6 @@ class NoVersionSendingClient(Client):
 
 
 class ClientTestCase(BaseTestCase, DaemonBase):
-
-    if windows_check():
-        skip = 'windows cant start_core not enough arguments for format string'
-
     def set_up(self):
         d = self.common_set_up()
         d.addCallback(self.start_core)

@@ -67,6 +67,14 @@ DEFAULT_CONSOLE_PREFS = {
 }
 
 
+class MockConsoleLog(object):
+    def write(self, data):
+        pass
+
+    def flush(self):
+        pass
+
+
 class ConsoleUI(component.Component, TermResizeHandler):
     def __init__(self, options, cmds, log_stream):
         component.Component.__init__(self, 'ConsoleUI')
@@ -114,6 +122,7 @@ class ConsoleUI(component.Component, TermResizeHandler):
                  all commands are executed. Else None is returned.
         """
         if self.options.parsed_cmds:
+            # Non-Interactive mode
             self.interactive = False
             if not self._commands:
                 print('No valid console commands found')
@@ -122,41 +131,37 @@ class ConsoleUI(component.Component, TermResizeHandler):
             deferred = self.exec_args(self.options)
             reactor.run()
             return deferred
-        else:
-            # Interactive
-            if deluge.common.windows_check():
-                print(
-                    """\nDeluge-console does not run in interactive mode on Windows. \n
+
+        # Interactive
+
+        # We use the curses.wrapper function to prevent the console from getting
+        # messed up if an uncaught exception is experienced.
+        try:
+            from curses import wrapper
+        except ImportError:
+            wrapper = None
+
+        if deluge.common.windows_check() and not wrapper:
+            print(
+                """\nDeluge-console does not run in interactive mode on Windows. \n
 Please use commands from the command line, e.g.:\n
-    deluge-console.exe help
-    deluge-console.exe info
-    deluge-console.exe "add --help"
-    deluge-console.exe "add -p c:\\mytorrents c:\\new.torrent"
+deluge-console.exe help
+deluge-console.exe info
+deluge-console.exe "add --help"
+deluge-console.exe "add -p c:\\mytorrents c:\\new.torrent"
 """
-                )
-            else:
+            )
 
-                class ConsoleLog(object):
-                    def write(self, data):
-                        pass
+        # We don't ever want log output to terminal when running in
+        # interactive mode, so insert a dummy here
+        self.log_stream.out = MockConsoleLog()
 
-                    def flush(self):
-                        pass
+        # Set Esc key delay to 0 to avoid a very annoying delay
+        # due to curses waiting in case of other key are pressed
+        # after ESC is pressed
+        os.environ.setdefault('ESCDELAY', '0')
 
-                # We don't ever want log output to terminal when running in
-                # interactive mode, so insert a dummy here
-                self.log_stream.out = ConsoleLog()
-
-                # Set Esc key delay to 0 to avoid a very annoying delay
-                # due to curses waiting in case of other key are pressed
-                # after ESC is pressed
-                os.environ.setdefault('ESCDELAY', '0')
-
-                # We use the curses.wrapper function to prevent the console from getting
-                # messed up if an uncaught exception is experienced.
-                from curses import wrapper
-
-                wrapper(self.run)
+        wrapper(self.run)
 
     def quit(self):
         if client.connected():

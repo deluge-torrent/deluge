@@ -8,6 +8,7 @@
 from __future__ import unicode_literals
 
 import os
+import sys
 import tarfile
 
 from twisted.trial import unittest
@@ -98,8 +99,9 @@ class CommonTestCase(unittest.TestCase):
         self.assertTrue(is_infohash('2dc5d0e71a66fe69649a640d39cb00a259704973'))
 
     def test_get_path_size(self):
-        if windows_check():
-            raise unittest.SkipTest('os devnull is different on windows')
+        if windows_check() and sys.version_info < (3, 8):
+            # https://bugs.python.org/issue1311
+            raise unittest.SkipTest('os.devnull returns False on Windows')
         self.assertTrue(get_path_size(os.devnull) == 0)
         self.assertTrue(get_path_size('non-existant.file') == -1)
 

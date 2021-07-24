@@ -69,7 +69,7 @@ def add_watchdog(deferred, timeout=0.05, message=None):
         return value
 
     deferred.addBoth(callback)
-    watchdog = reactor.callLater(timeout, defer.timeout, deferred)
+    watchdog = reactor.callLater(timeout, defer.Deferred.addTimeout, deferred)
     return watchdog
 
 

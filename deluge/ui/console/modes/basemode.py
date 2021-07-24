@@ -67,7 +67,9 @@ class TermResizeHandler(object):
         try:
             signal.signal(signal.SIGWINCH, self.on_terminal_size)
         except ValueError as ex:
-            log.debug('Unable to catch SIGWINCH signal: %s', ex)
+            log.debug('TermResize unavailable, unable to catch SIGWINCH signal: %s', ex)
+        except AttributeError as ex:
+            log.debug('TermResize unavailable, no SIGWINCH signal on Windows: %s', ex)
 
     def on_terminal_size(self, *args):
         # Get the new rows and cols value

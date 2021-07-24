@@ -19,6 +19,9 @@ from twisted.internet import defer
 
 import deluge
 import deluge.component as component
+import deluge.ui.console
+import deluge.ui.console.cmdline.commands.quit
+import deluge.ui.console.main
 import deluge.ui.web.server
 from deluge.common import PY2, get_localhost_auth, windows_check
 from deluge.ui import ui_entry
@@ -27,11 +30,6 @@ from deluge.ui.web.server import DelugeWeb
 from . import common
 from .basetest import BaseTestCase
 from .daemon_base import DaemonBase
-
-if not windows_check():
-    import deluge.ui.console
-    import deluge.ui.console.cmdline.commands.quit
-    import deluge.ui.console.main
 
 DEBUG_COMMAND = False
 
@@ -102,7 +100,7 @@ class UIWithDaemonBaseTestCase(UIBaseTestCase, DaemonBase):
 class DelugeEntryTestCase(BaseTestCase):
 
     if windows_check():
-        skip = 'cannot test console ui on windows'
+        skip = 'Console ui test on Windows broken due to sys args issue'
 
     def set_up(self):
         common.set_tmp_config_dir()
@@ -250,7 +248,7 @@ class WebUIBaseTestCase(UIBaseTestCase):
 class WebUIScriptEntryTestCase(BaseTestCase, WebUIBaseTestCase):
 
     if windows_check():
-        skip = 'cannot test console ui on windows'
+        skip = 'Console ui test on Windows broken due to sys args issue'
 
     def __init__(self, testname):
         super(WebUIScriptEntryTestCase, self).__init__(testname)
@@ -269,7 +267,7 @@ class WebUIScriptEntryTestCase(BaseTestCase, WebUIBaseTestCase):
 class WebUIDelugeScriptEntryTestCase(BaseTestCase, WebUIBaseTestCase):
 
     if windows_check():
-        skip = 'cannot test console ui on windows'
+        skip = 'Console ui test on Windows broken due to sys args issue'
 
     def __init__(self, testname):
         super(WebUIDelugeScriptEntryTestCase, self).__init__(testname)
@@ -466,7 +464,7 @@ class ConsoleScriptEntryWithDaemonTestCase(
 ):
 
     if windows_check():
-        skip = 'cannot test console ui on windows'
+        skip = 'Console ui test on Windows broken due to sys args issue'
 
     def __init__(self, testname):
         super(ConsoleScriptEntryWithDaemonTestCase, self).__init__(testname)
@@ -492,7 +490,7 @@ class ConsoleScriptEntryWithDaemonTestCase(
 class ConsoleScriptEntryTestCase(BaseTestCase, ConsoleUIBaseTestCase):
 
     if windows_check():
-        skip = 'cannot test console ui on windows'
+        skip = 'Console ui test on Windows broken due to sys args issue'
 
     def __init__(self, testname):
         super(ConsoleScriptEntryTestCase, self).__init__(testname)
