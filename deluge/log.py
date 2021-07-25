@@ -17,6 +17,8 @@ import logging.handlers
 import os
 import sys
 
+from incremental import Version
+from twisted import version as twisted_version
 from twisted.internet import defer
 from twisted.python.log import PythonLoggingObserver
 
@@ -180,7 +182,8 @@ def setup_logger(
         root_logger.addHandler(handler)
     root_logger.setLevel(level)
 
-    if twisted_observer:
+    # Issue fixed in Twisted 18.9.0 https://twistedmatrix.com/trac/ticket/7927
+    if twisted_observer and twisted_version < Version('Twisted', 18, 9, 0):
         twisted_logging = TwistedLoggingObserver()
         twisted_logging.start()
 
@@ -204,8 +207,13 @@ class TwistedLoggingObserver(PythonLoggingObserver):
             getattr(LoggingLoggerClass, event_dict['log_level'].name)(
                 log, fmt % (event_dict)
             )
-        else:
+            return
+
+        try:
             PythonLoggingObserver.emit(self, event_dict)
+        except TypeError:
+            # Ignore logging args problem with Python 3.8 and Twisted <= 19
+            pass
 
 
 def tweak_logging_levels():
