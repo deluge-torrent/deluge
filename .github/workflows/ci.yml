@@ -51,7 +51,7 @@ jobs:
         run: |
           cp /usr/lib/python3/dist-packages/libtorrent*.so $GITHUB_WORKSPACE/deluge
           python -c 'from deluge._libtorrent import lt; print(lt.__version__)';
-          pytest -m "not (todo or gtkui or security)" deluge
+          catchsegv pytest -m "not (todo or gtkui or security)" deluge
 
   test-windows:
     runs-on: windows-latest
