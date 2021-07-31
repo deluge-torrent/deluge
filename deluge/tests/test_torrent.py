@@ -12,8 +12,8 @@ import time
 from base64 import b64encode
 
 import mock
-from twisted.internet import reactor
-from twisted.internet.task import defer, deferLater
+from twisted.internet import defer, reactor
+from twisted.internet.task import deferLater
 from twisted.trial import unittest
 
 import deluge.component as component
