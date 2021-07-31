@@ -358,8 +358,8 @@ class Core(component.Component):
 
         if blocks_read:
             self.session_status['read_hit_ratio'] = (
-                self.session_status['disk.num_blocks_cache_hits'] / blocks_read
-            )
+                blocks_read - self.session_status['disk.num_read_ops']
+            ) / blocks_read
         else:
             self.session_status['read_hit_ratio'] = 0.0
 
