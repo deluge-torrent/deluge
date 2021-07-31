@@ -77,16 +77,34 @@ class Core(CorePluginBase):
         self.length = self.config['length']
 
         # self.stats = get_key(self.saved_stats, 'stats') or {}
-        self.stats_keys = ['peer.num_peers_half_open', 'dht.dht_node_cache']
-        self.add_stats(
+
+        # keys needed from core.get_session_status
+        self.stat_keys = [
             'upload_rate',
             'download_rate',
-            'dht_nodes',
-            'dht_cache_nodes',
-            'dht_torrents',
-            'num_peers',
-            'num_connections',
-        )
+            'dht.dht_nodes',
+            'dht.dht_node_cache',
+            'dht.dht_torrents',
+            'peer.num_peers_connected',
+            'peer.num_peers_half_open',
+        ]
+        # collected statistics and functions to get them
+        self.stat_getters = {
+            'upload_rate': lambda s: s['upload_rate'],
+            'download_rate': lambda s: s['download_rate'],
+            'dht_nodes': lambda s: s['dht.dht_nodes'],
+            'dht_cache_nodes': lambda s: s['dht.dht_node_cache'],
+            'dht_torrents': lambda s: s['dht.dht_torrents'],
+            'num_peers': lambda s: s['peer.num_peers_connected'],
+            'num_connections': lambda s: s['peer.num_peers_connected']
+            + s['peer.num_peers_half_open'],
+        }
+
+        # initialize stats object
+        for key in self.stat_getters.keys():
+            for i in self.intervals:
+                if key not in self.stats[i]:
+                    self.stats[i][key] = []
 
         self.update_stats()
 
@@ -101,33 +119,13 @@ class Core(CorePluginBase):
         self.save_timer.stop() if self.save_timer.running else None
         self.save_stats()
 
-    def add_stats(self, *stats):
-        for stat in stats:
-            if stat not in self.stats_keys:
-                self.stats_keys.append(stat)
-            for i in self.intervals:
-                if stat not in self.stats[i]:
-                    self.stats[i][stat] = []
-
     def update_stats(self):
         # Get all possible stats!
         stats = {}
-        for key in self.stats_keys:
-            # try all keys we have, very inefficient but saves having to
-            # work out where a key comes from...
-            try:
-                stats.update(self.core.get_session_status([key]))
-            except AttributeError:
-                pass
-        stats['num_connections'] = (
-            stats['num_peers'] + stats['peer.num_peers_half_open']
-        )
-        stats['dht_cache_nodes'] = stats['dht.dht_node_cache']
-        stats.update(
-            self.core.get_config_values(
-                ['max_download', 'max_upload', 'max_num_connections']
-            )
-        )
+        raw_stats = self.core.get_session_status(self.stat_keys)
+        for name, fn in self.stat_getters.items():
+            stats[name] = fn(raw_stats)
+
         # status = self.core.session.status()
         # for stat in dir(status):
         #     if not stat.startswith('_') and stat not in stats:
