@@ -20,7 +20,7 @@ import deluge.component as component
 import deluge.core.torrent
 import deluge.tests.common as common
 from deluge._libtorrent import lt
-from deluge.common import utf8_encode_structure, windows_check
+from deluge.common import VersionSplit, utf8_encode_structure, windows_check
 from deluge.core.core import Core
 from deluge.core.rpcserver import RPCServer
 from deluge.core.torrent import Torrent
@@ -217,8 +217,8 @@ class TorrentTestCase(BaseTestCase):
     def test_torrent_error_resume_data_unaltered(self):
         if windows_check():
             raise unittest.SkipTest('unexpected end of file in bencoded string')
-        if lt.__version__.split('.')[1] == '2':
-            raise unittest.SkipTest('Test not working as expected on lt 1.2')
+        if VersionSplit(lt.__version__) >= VersionSplit('1.2.0.0'):
+            raise unittest.SkipTest('Test not working as expected on lt 1.2 or greater')
 
         resume_data = {
             'active_time': 13399,
