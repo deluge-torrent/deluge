@@ -51,6 +51,9 @@ Open http://localhost:8112 with default password `deluge`.
 
 `deluged`
 
+### Mobile client (Android and IOS)
+<a href="https://github.com/CCExtractor/Deluge-mobile-remote-client" target="_blank">Deluge Mobile Remote client</a>
+
 See the [Thinclient guide] to connect to the daemon from another computer.
 
 ## Contact
