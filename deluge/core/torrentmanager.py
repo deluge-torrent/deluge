@@ -441,6 +441,11 @@ class TorrentManager(component.Component):
                 add_torrent_params['url'] = magnet.strip().encode('utf8')
                 add_torrent_params['name'] = magnet_info['name']
                 torrent_id = magnet_info['info_hash']
+                # Workaround lt 1.2 bug for magnet resume data with no metadata
+                if resume_data and VersionSplit(LT_VERSION) >= VersionSplit('1.2.10.0'):
+                    add_torrent_params['info_hash'] = bytes(
+                        bytearray.fromhex(torrent_id)
+                    )
             else:
                 raise AddTorrentError(
                     'Unable to add magnet, invalid magnet info: %s' % magnet
@@ -1250,7 +1255,7 @@ class TorrentManager(component.Component):
     def on_alert_add_torrent(self, alert):
         """Alert handler for libtorrent add_torrent_alert"""
         if not alert.handle.is_valid():
-            log.warning('Torrent handle is invalid!')
+            log.warning('Torrent handle is invalid: %s', alert.error.message())
             return
 
         try:
