@@ -653,7 +653,7 @@ class Core(component.Component):
                     )
                     status[key] = self.session_status[new_key]
                 else:
-                    log.warning('Session status key not valid: %s', key)
+                    log.debug('Session status key not valid: %s', key)
         return status
 
     @export
