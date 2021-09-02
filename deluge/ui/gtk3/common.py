@@ -16,7 +16,7 @@ import shutil
 import sys
 
 import six.moves.cPickle as pickle  # noqa: N813
-from gi.repository.Gdk import SELECTION_CLIPBOARD, Display
+from gi.repository.Gdk import SELECTION_CLIPBOARD, SELECTION_PRIMARY, Display
 from gi.repository.GdkPixbuf import Colorspace, Pixbuf
 from gi.repository.GLib import GError
 from gi.repository.Gtk import (
@@ -395,8 +395,8 @@ def listview_replace_treestore(listview):
 
 def get_clipboard_text():
     text = (
-        Clipboard.get(selection=SELECTION_CLIPBOARD).wait_for_text()
-        or Clipboard.get().wait_for_text()
+        Clipboard.get(SELECTION_CLIPBOARD).wait_for_text()
+        or Clipboard.get(SELECTION_PRIMARY).wait_for_text()
     )
     if text:
         return text.strip()
