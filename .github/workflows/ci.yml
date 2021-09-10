@@ -39,7 +39,7 @@ jobs:
           repo-name: libtorrent
           keys: 58E5430D9667FAEFFCA0B93F32309D6B9E009EDB
           key-server: keyserver.ubuntu.com
-          install: python3-libtorrent
+          install: python3-libtorrent-dbg
 
       - name: Install dependencies
         run: |
@@ -47,11 +47,24 @@ jobs:
           pip install -r requirements.txt -r requirements-tests.txt
           pip install -e .
 
+      - name: Setup core dump directory
+        run: |
+          sudo mkdir /cores/ && sudo chmod 777 /cores/
+          echo "/cores/%E.%p" | sudo tee /proc/sys/kernel/core_pattern
+
       - name: Test with pytest
         run: |
+          ulimit -c unlimited  # Enable core dumps to be captured
           cp /usr/lib/python3/dist-packages/libtorrent*.so $GITHUB_WORKSPACE/deluge
           python -c 'from deluge._libtorrent import lt; print(lt.__version__)';
-          catchsegv pytest -m "not (todo or gtkui or security)" deluge
+          catchsegv python -X dev -m pytest -v -m "not (todo or gtkui or security)" deluge
+
+      - uses: actions/upload-artifact@v2
+        # capture all crashes as build artifacts
+        if: failure()
+        with:
+          name: crashes
+          path: /cores
 
   test-windows:
     runs-on: windows-latest
