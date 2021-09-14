@@ -9,54 +9,54 @@ msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2019-06-06 11:53+0100\n"
-"PO-Revision-Date: 2019-03-23 13:27+0000\n"
-"Last-Translator: Jonatan Nyberg <Unknown>\n"
+"POT-Creation-Date: 2019-11-12 14:55+0000\n"
+"PO-Revision-Date: 2021-07-23 20:55+0000\n"
+"Last-Translator: Anders Jonsson <Unknown>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2019-06-06 11:12+0000\n"
-"X-Generator: Launchpad (build 18978)\n"
+"X-Launchpad-Export-Date: 2021-09-10 18:01+0000\n"
+"X-Generator: Launchpad (build aca2013fd8cd2fea408d75f89f9bc012fbab307d)\n"
 "Language: sv\n"
 
-#: deluge/common.py:405
+#: deluge/common.py:411
 msgid "B"
 msgstr "B"
 
-#: deluge/common.py:406
+#: deluge/common.py:412
 msgid "KiB"
 msgstr "KiB"
 
-#: deluge/common.py:407
+#: deluge/common.py:413
 msgid "MiB"
 msgstr "MiB"
 
-#: deluge/common.py:408
+#: deluge/common.py:414
 msgid "GiB"
 msgstr "GiB"
 
-#: deluge/common.py:409
+#: deluge/common.py:415
 msgid "TiB"
 msgstr "TiB"
 
-#: deluge/common.py:410
+#: deluge/common.py:416
 msgid "K"
 msgstr "K"
 
-#: deluge/common.py:411
+#: deluge/common.py:417
 msgid "M"
 msgstr "M"
 
-#: deluge/common.py:412
+#: deluge/common.py:418
 msgid "G"
 msgstr "G"
 
-#: deluge/common.py:413
+#: deluge/common.py:419
 msgid "T"
 msgstr "T"
 
-#: deluge/common.py:509 deluge/ui/gtk3/statusbar.py:442
+#: deluge/common.py:515 deluge/ui/gtk3/statusbar.py:442
 #: deluge/ui/gtk3/statusbar.py:455 deluge/ui/gtk3/statusbar.py:464
 #: deluge/ui/gtk3/statusbar.py:477 deluge/ui/gtk3/statusbar.py:484
 #: deluge/ui/gtk3/statusbar.py:526 deluge/ui/gtk3/statusbar.py:542
@@ -67,7 +67,7 @@ msgstr "T"
 msgid "K/s"
 msgstr "K/s"
 
-#: deluge/common.py:509 deluge/ui/gtk3/menubar.py:449
+#: deluge/common.py:515 deluge/ui/gtk3/menubar.py:449
 #: deluge/ui/gtk3/menubar.py:455
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:80
 #: deluge/ui/console/widgets/statusbars.py:104
@@ -81,27 +81,27 @@ msgstr "K/s"
 msgid "KiB/s"
 msgstr "KiB/s"
 
-#: deluge/common.py:515
+#: deluge/common.py:521
 msgid "M/s"
 msgstr "M/s"
 
-#: deluge/common.py:515
+#: deluge/common.py:521
 msgid "MiB/s"
 msgstr "MiB/s"
 
-#: deluge/common.py:521
+#: deluge/common.py:527
 msgid "G/s"
 msgstr "G/s"
 
-#: deluge/common.py:521
+#: deluge/common.py:527
 msgid "GiB/s"
 msgstr "GiB/s"
 
-#: deluge/common.py:527
+#: deluge/common.py:533
 msgid "T/s"
 msgstr "T/s"
 
-#: deluge/common.py:527
+#: deluge/common.py:533
 msgid "TiB/s"
 msgstr "TiB/s"
 
@@ -191,12 +191,14 @@ msgstr "IP-adress för att lyssna på BitTorrent-anslutningar"
 msgid ""
 "The network interface name or IP address for outgoing BitTorrent connections."
 msgstr ""
+"Namnet på nätverksgränssnittet eller IP-adressen för utgående BitTorrent-"
+"anslutningar."
 
 #: deluge/core/daemon_entry.py:63
 msgid "Config keys to be unmodified by `set_config` RPC"
 msgstr "Konfigurer nycklarna för att avmodifieras av `set_config` RPC"
 
-#: deluge/ui/common.py:37 deluge/ui/gtk3/filtertreeview.py:135
+#: deluge/ui/common.py:37 deluge/ui/gtk3/filtertreeview.py:130
 #: deluge/ui/web/js/deluge-all/UI.js:18
 msgid "All"
 msgstr "Alla"
@@ -237,7 +239,7 @@ msgid "Queued"
 msgstr "Köad"
 
 #: deluge/ui/common.py:45 deluge/ui/common.py:122
-#: deluge/ui/gtk3/statusbar.py:396 deluge/ui/gtk3/filtertreeview.py:136
+#: deluge/ui/gtk3/statusbar.py:396 deluge/ui/gtk3/filtertreeview.py:131
 #: deluge/plugins/AutoAdd/deluge_autoadd/gtkui.py:330
 #: deluge/ui/web/js/deluge-all/AddConnectionWindow.js:94
 #: deluge/ui/web/js/deluge-all/EditConnectionWindow.js:114
@@ -246,7 +248,9 @@ msgstr "Köad"
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:417
 #: deluge/ui/web/js/deluge-all/UI.js:27
 #: deluge/ui/web/js/deluge-all/details/StatusTab.js:121
-#: deluge/ui/web/js/deluge-all/add/AddWindow.js:301
+#: deluge/ui/web/js/deluge-all/add/UrlWindow.js:98
+#: deluge/ui/web/js/deluge-all/add/AddWindow.js:291
+#: deluge/ui/web/js/deluge-all/add/AddWindow.js:316
 msgid "Error"
 msgstr "Fel"
 
@@ -270,7 +274,7 @@ msgid "State"
 msgstr "Tillstånd"
 
 #: deluge/ui/common.py:54 deluge/ui/gtk3/createtorrentdialog.py:72
-#: deluge/ui/gtk3/addtorrentdialog.py:118 deluge/ui/gtk3/files_tab.py:113
+#: deluge/ui/gtk3/addtorrentdialog.py:123 deluge/ui/gtk3/files_tab.py:113
 #: deluge/ui/gtk3/torrentview.py:283
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:174
 #: deluge/ui/console/modes/preferences/preference_panes.py:738
@@ -454,7 +458,7 @@ msgstr "Flytta färdig till sökväg"
 msgid "Move On Completed Path"
 msgstr "Flytta färdiga till sökväg"
 
-#: deluge/ui/common.py:115 deluge/ui/gtk3/filtertreeview.py:140
+#: deluge/ui/common.py:115 deluge/ui/gtk3/filtertreeview.py:135
 #: deluge/ui/gtk3/torrentview.py:416
 #: deluge/plugins/AutoAdd/deluge_autoadd/gtkui.py:499
 #: deluge/ui/web/js/deluge-all/FilterPanel.js:32
@@ -474,7 +478,7 @@ msgstr "Distributiörsrankning"
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:22
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:294
 msgid "Super Seeding"
-msgstr ""
+msgstr "Superdistribuering"
 
 #: deluge/ui/common.py:123 deluge/ui/web/js/deluge-all/details/StatusTab.js:122
 msgid "Warning"
@@ -572,7 +576,7 @@ msgstr "Insticksmoduler"
 #: deluge/ui/common.py:150 deluge/ui/web/js/deluge-all/Deluge.js:154
 #: deluge/ui/web/js/deluge-all/Menus.js:365
 msgid "Skip"
-msgstr ""
+msgstr "Hoppa över"
 
 #: deluge/ui/common.py:151 deluge/ui/web/js/deluge-all/Deluge.js:155
 #: deluge/ui/web/js/deluge-all/Menus.js:371
@@ -1632,7 +1636,7 @@ msgid "Daemon not running"
 msgstr "Demon är inte igång"
 
 #: deluge/ui/gtk3/createtorrentdialog.py:62
-#: deluge/ui/gtk3/addtorrentdialog.py:105 deluge/ui/gtk3/files_tab.py:92
+#: deluge/ui/gtk3/addtorrentdialog.py:110 deluge/ui/gtk3/files_tab.py:92
 #: deluge/ui/web/js/deluge-all/details/FilesTab.js:18
 #: deluge/ui/web/js/deluge-all/add/FilesTab.js:28
 msgid "Filename"
@@ -1651,7 +1655,7 @@ msgstr "Välj en fil"
 #: deluge/ui/gtk3/createtorrentdialog.py:132
 #: deluge/ui/gtk3/createtorrentdialog.py:169
 #: deluge/ui/gtk3/createtorrentdialog.py:258
-#: deluge/ui/gtk3/addtorrentdialog.py:690 deluge/ui/gtk3/dialogs.py:203
+#: deluge/ui/gtk3/addtorrentdialog.py:698 deluge/ui/gtk3/dialogs.py:203
 #: deluge/ui/gtk3/dialogs.py:261 deluge/ui/gtk3/dialogs.py:273
 #: deluge/ui/gtk3/dialogs.py:364 deluge/ui/gtk3/dialogs.py:427
 #: deluge/ui/gtk3/preferences.py:1158
@@ -1671,13 +1675,13 @@ msgstr "Välj en fil"
 #: deluge/ui/gtk3/glade/edit_trackers.add.ui.h:2
 #: deluge/ui/gtk3/glade/add_torrent_dialog.url.ui.h:2
 msgid "_Cancel"
-msgstr ""
+msgstr "_Avbryt"
 
 #: deluge/ui/gtk3/createtorrentdialog.py:134
 #: deluge/ui/gtk3/createtorrentdialog.py:171
-#: deluge/ui/gtk3/addtorrentdialog.py:692 deluge/ui/gtk3/preferences.py:1160
+#: deluge/ui/gtk3/addtorrentdialog.py:700 deluge/ui/gtk3/preferences.py:1160
 msgid "_Open"
-msgstr ""
+msgstr "_Öppna"
 
 #: deluge/ui/gtk3/createtorrentdialog.py:165
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:28
@@ -1693,32 +1697,32 @@ msgstr "Spara .torrent-fil"
 #: deluge/ui/gtk3/glade/connection_manager.addhost.ui.h:3
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:30
 msgid "_Save"
-msgstr ""
+msgstr "_Spara"
 
 #: deluge/ui/gtk3/createtorrentdialog.py:271
-#: deluge/ui/gtk3/addtorrentdialog.py:704
+#: deluge/ui/gtk3/addtorrentdialog.py:712
 msgid "Torrent files"
 msgstr "Torrenter"
 
 #: deluge/ui/gtk3/createtorrentdialog.py:275
-#: deluge/ui/gtk3/addtorrentdialog.py:708
+#: deluge/ui/gtk3/addtorrentdialog.py:716
 msgid "All files"
 msgstr "Alla filer"
 
-#: deluge/ui/gtk3/mainwindow.py:185
+#: deluge/ui/gtk3/mainwindow.py:192
 msgid "Enter your password to show Deluge..."
 msgstr "Ange ditt lösenord för att visa Deluge…"
 
-#: deluge/ui/gtk3/mainwindow.py:244
+#: deluge/ui/gtk3/mainwindow.py:251
 msgid "Enter your password to Quit Deluge..."
 msgstr "Ange ditt lösenord för att avsluta Deluge…"
 
-#: deluge/ui/gtk3/mainwindow.py:336
+#: deluge/ui/gtk3/mainwindow.py:343
 #, python-brace-format
 msgid "D: {download_rate} U: {upload_rate} - Deluge"
-msgstr ""
+msgstr "N: {download_rate} U: {upload_rate} - Deluge"
 
-#: deluge/ui/gtk3/mainwindow.py:350 deluge/ui/gtk3/aboutdialog.py:26
+#: deluge/ui/gtk3/mainwindow.py:357 deluge/ui/gtk3/aboutdialog.py:26
 #: deluge/ui/gtk3/aboutdialog.py:27 deluge/ui/gtk3/systemtray.py:96
 #: deluge/ui/gtk3/systemtray.py:184 deluge/ui/gtk3/systemtray.py:244
 #: deluge/ui/data/share/applications/deluge.desktop.in.h:1
@@ -1726,6 +1730,16 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/AboutWindow.js:91
 msgid "Deluge"
 msgstr "Deluge"
+
+#: deluge/ui/gtk3/path_combo_chooser.py:393
+#: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:20
+msgid "Edit path"
+msgstr "Redigera sökväg"
+
+#: deluge/ui/gtk3/path_combo_chooser.py:395
+#: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:21
+msgid "Remove path"
+msgstr "Ta bort sökväg"
 
 #: deluge/ui/gtk3/options_tab.py:136
 msgid "_Apply to selected"
@@ -1817,20 +1831,20 @@ msgstr "Server:"
 msgid "libtorrent:"
 msgstr "libtorrent:"
 
-#: deluge/ui/gtk3/addtorrentdialog.py:97 deluge/ui/gtk3/queuedtorrents.py:51
+#: deluge/ui/gtk3/addtorrentdialog.py:102 deluge/ui/gtk3/queuedtorrents.py:51
 msgid "Torrent"
 msgstr "Torrent"
 
-#: deluge/ui/gtk3/addtorrentdialog.py:224
+#: deluge/ui/gtk3/addtorrentdialog.py:232
 #, python-format
 msgid "Add Torrents (%d)"
 msgstr "Lägg till torrenter (%d)"
 
-#: deluge/ui/gtk3/addtorrentdialog.py:230
+#: deluge/ui/gtk3/addtorrentdialog.py:238
 msgid "Duplicate torrent(s)"
-msgstr ""
+msgstr "Duplicera torrent/torrenter"
 
-#: deluge/ui/gtk3/addtorrentdialog.py:232
+#: deluge/ui/gtk3/addtorrentdialog.py:240
 #, python-format
 msgid ""
 "You cannot add the same torrent twice. %d torrents were already added."
@@ -1838,57 +1852,57 @@ msgstr ""
 "Du kan inte lägga till samma torrent två gånger. %d torrenter var redan "
 "tillagda."
 
-#: deluge/ui/gtk3/addtorrentdialog.py:247
+#: deluge/ui/gtk3/addtorrentdialog.py:255
 msgid "Invalid File"
 msgstr "Ogiltig fil"
 
-#: deluge/ui/gtk3/addtorrentdialog.py:282
+#: deluge/ui/gtk3/addtorrentdialog.py:290
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:8
 msgid "Please wait for files..."
-msgstr ""
+msgstr "Vänta på filer..."
 
-#: deluge/ui/gtk3/addtorrentdialog.py:288
+#: deluge/ui/gtk3/addtorrentdialog.py:296
 msgid "Unable to download files for this magnet"
-msgstr ""
+msgstr "Det går inte att hämta filer för denna magnet"
 
-#: deluge/ui/gtk3/addtorrentdialog.py:686
+#: deluge/ui/gtk3/addtorrentdialog.py:694
 msgid "Choose a .torrent file"
 msgstr "Välj en .torrent-fil"
 
-#: deluge/ui/gtk3/addtorrentdialog.py:769
+#: deluge/ui/gtk3/addtorrentdialog.py:777
 msgid "Invalid URL"
 msgstr "Ogiltig URL"
 
-#: deluge/ui/gtk3/addtorrentdialog.py:770
+#: deluge/ui/gtk3/addtorrentdialog.py:778
 msgid "is not a valid URL."
 msgstr "är inte en giltig URL."
 
-#: deluge/ui/gtk3/addtorrentdialog.py:776
+#: deluge/ui/gtk3/addtorrentdialog.py:784
 msgid "Downloading..."
 msgstr "Hämtar…"
 
-#: deluge/ui/gtk3/addtorrentdialog.py:811
+#: deluge/ui/gtk3/addtorrentdialog.py:819
 msgid "Download Failed"
 msgstr "Hämtningen misslyckades"
 
-#: deluge/ui/gtk3/addtorrentdialog.py:812
+#: deluge/ui/gtk3/addtorrentdialog.py:820
 msgid "Failed to download:"
 msgstr "Hämtningen misslyckades:"
 
 #: deluge/ui/gtk3/dialogs.py:110
 msgid "_No"
-msgstr ""
+msgstr "_Nej"
 
 #: deluge/ui/gtk3/dialogs.py:110
 msgid "_Yes"
-msgstr ""
+msgstr "_Ja"
 
 #: deluge/ui/gtk3/dialogs.py:132 deluge/ui/gtk3/dialogs.py:156
 #: deluge/ui/gtk3/glade/queuedtorrents.ui.h:2
 #: deluge/ui/gtk3/glade/main_window.new_release.ui.h:2
 #: deluge/ui/gtk3/glade/connection_manager.ui.h:2
 msgid "_Close"
-msgstr ""
+msgstr "_Stäng"
 
 #: deluge/ui/gtk3/dialogs.py:179
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:195
@@ -1941,7 +1955,7 @@ msgstr "Redigera befintligt konto"
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:16
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:38
 msgid "_Apply"
-msgstr ""
+msgstr "_Tillämpa"
 
 #: deluge/ui/gtk3/dialogs.py:270
 msgid "New Account"
@@ -1958,7 +1972,7 @@ msgstr "Skapa nytt konto"
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:20
 #: deluge/ui/gtk3/glade/connection_manager.ui.h:4
 msgid "_Add"
-msgstr ""
+msgstr "_Lägg till"
 
 #: deluge/ui/gtk3/dialogs.py:289
 msgid "Authentication Level:"
@@ -1982,7 +1996,7 @@ msgstr "Lösenordsskyddad"
 #: deluge/ui/gtk3/glade/edit_trackers.add.ui.h:3
 #: deluge/ui/gtk3/glade/add_torrent_dialog.url.ui.h:3
 msgid "_OK"
-msgstr ""
+msgstr "_OK"
 
 #: deluge/ui/gtk3/common.py:155 deluge/ui/gtk3/menubar.py:83
 msgid "Other..."
@@ -2070,12 +2084,12 @@ msgstr "Ange högst antal inkommande anslutningar"
 #: deluge/ui/gtk3/tab_data_funcs.py:28
 #, python-brace-format
 msgid "{state} {percent}%"
-msgstr ""
+msgstr "{state} {percent}%"
 
 #: deluge/ui/gtk3/tab_data_funcs.py:30
 #, python-brace-format
 msgid "{state}: {err_msg}"
-msgstr ""
+msgstr "{state}: {err_msg}"
 
 #: deluge/ui/gtk3/tab_data_funcs.py:42
 #: deluge/ui/gtk3/torrentview_data_funcs.py:284
@@ -2119,7 +2133,7 @@ msgstr "Fi_ler"
 #: deluge/ui/gtk3/torrentdetails.py:146
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:28
 msgid "_Peers"
-msgstr "_Nodar"
+msgstr "_Noder"
 
 #: deluge/ui/gtk3/torrentdetails.py:147
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:45
@@ -2166,7 +2180,7 @@ msgstr "Nedåt"
 msgid "Up"
 msgstr "Uppåt"
 
-#: deluge/ui/gtk3/gtkui.py:318
+#: deluge/ui/gtk3/gtkui.py:313
 msgid ""
 "A Deluge daemon (deluged) is already running.\n"
 "To use Standalone mode, stop local daemon and restart Deluge."
@@ -2174,7 +2188,7 @@ msgstr ""
 "En Deluge-demon (deluged) körs redan.\n"
 "För att använda fristående läge, stoppa lokala demonen och starta om Deluge."
 
-#: deluge/ui/gtk3/gtkui.py:324
+#: deluge/ui/gtk3/gtkui.py:319
 msgid ""
 "Only Thin Client mode is available because libtorrent is not installed.\n"
 "To use Standalone mode, please install libtorrent package."
@@ -2183,7 +2197,7 @@ msgstr ""
 "installerat.\n"
 "För att använda fristående läge, installera libtorrent-paketet."
 
-#: deluge/ui/gtk3/gtkui.py:330 deluge/ui/gtk3/gtkui.py:336
+#: deluge/ui/gtk3/gtkui.py:325 deluge/ui/gtk3/gtkui.py:331
 msgid ""
 "Only Thin Client mode is available due to unknown Import Error.\n"
 "To use Standalone mode, please see logs for error details."
@@ -2191,11 +2205,11 @@ msgstr ""
 "Endast tunt klientläge är tillgängligt på grund av okänt importfel.\n"
 "För att använda fristående läge, se loggar för felinformation."
 
-#: deluge/ui/gtk3/gtkui.py:354
+#: deluge/ui/gtk3/gtkui.py:349
 msgid "Continue in Thin Client mode?"
 msgstr "Fortsätt i tunt klientläge?"
 
-#: deluge/ui/gtk3/gtkui.py:355
+#: deluge/ui/gtk3/gtkui.py:350
 msgid "Change User Interface Mode"
 msgstr "Ändra användargränssnittsläge"
 
@@ -2234,7 +2248,7 @@ msgstr "Version"
 #: deluge/ui/gtk3/connectionmanager.py:219
 #: deluge/ui/gtk3/glade/connection_manager.ui.h:8
 msgid "_Start Daemon"
-msgstr ""
+msgstr "_Starta demon"
 
 #: deluge/ui/gtk3/connectionmanager.py:250
 msgid "_Stop Daemon"
@@ -2323,6 +2337,15 @@ msgstr ""
 "Du måste starta om Deluges användargränssnitt för att ändringarna ska ta "
 "effekt."
 
+#: deluge/ui/gtk3/preferences.py:940
+msgid "Thinclient"
+msgstr ""
+
+#: deluge/ui/gtk3/preferences.py:940
+#: deluge/ui/gtk3/glade/preferences_dialog.ui.h:18
+msgid "Standalone"
+msgstr "Självständig"
+
 #: deluge/ui/gtk3/preferences.py:942
 msgid "Switching Deluge Client Mode..."
 msgstr "Växlar Deluge klientläge..."
@@ -2393,39 +2416,39 @@ msgstr "Autentisering misslyckades"
 msgid "An error occurred while removing account"
 msgstr "Ett fel uppstod vid borttagning av konto"
 
-#: deluge/ui/gtk3/filtertreeview.py:127
+#: deluge/ui/gtk3/filtertreeview.py:122
 #: deluge/ui/web/js/deluge-all/FilterPanel.js:28
 msgid "States"
 msgstr "Tillstånd"
 
-#: deluge/ui/gtk3/filtertreeview.py:133
+#: deluge/ui/gtk3/filtertreeview.py:128
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:23
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:21
 #: deluge/ui/web/js/deluge-all/FilterPanel.js:30
 msgid "Trackers"
 msgstr "Bevakare"
 
-#: deluge/ui/gtk3/filtertreeview.py:137 deluge/ui/gtk3/filtertreeview.py:143
+#: deluge/ui/gtk3/filtertreeview.py:132 deluge/ui/gtk3/filtertreeview.py:138
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:7
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:33
 msgid "None"
 msgstr "Ingen"
 
-#: deluge/ui/gtk3/filtertreeview.py:142
+#: deluge/ui/gtk3/filtertreeview.py:137
 msgid "Admin"
 msgstr "Administratör"
 
-#: deluge/ui/gtk3/filtertreeview.py:164
+#: deluge/ui/gtk3/filtertreeview.py:159
 #: deluge/ui/web/js/deluge-all/FilterPanel.js:34
 msgid "Labels"
 msgstr "Etiketter"
 
-#: deluge/ui/gtk3/filtertreeview.py:209
+#: deluge/ui/gtk3/filtertreeview.py:204
 #: deluge/plugins/Label/deluge_label/gtkui/submenu.py:28
 msgid "No Label"
 msgstr "Ingen etikett"
 
-#: deluge/ui/gtk3/filtertreeview.py:211
+#: deluge/ui/gtk3/filtertreeview.py:206
 msgid "No Owner"
 msgstr "Ingen ägare"
 
@@ -2538,7 +2561,7 @@ msgstr "_Ta bort"
 
 #: deluge/ui/gtk3/glade/queuedtorrents.ui.h:6
 msgid "_Clear"
-msgstr ""
+msgstr "_Rensa"
 
 #: deluge/ui/gtk3/glade/queuedtorrents.ui.h:7
 msgid "Automatically add torrents on connect"
@@ -2566,7 +2589,7 @@ msgstr "Avsluta & _stäng av demon"
 #: deluge/ui/gtk3/glade/main_window.ui.h:5
 #: deluge/ui/gtk3/glade/tray_menu.ui.h:8
 msgid "_Quit"
-msgstr ""
+msgstr "_Avsluta"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:6
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:192
@@ -2577,7 +2600,7 @@ msgstr "_Redigera"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:7
 msgid "_Preferences"
-msgstr ""
+msgstr "_Inställningar"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:8
 msgid "_Connection Manager"
@@ -2653,7 +2676,7 @@ msgstr "_Gemenskap"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:26
 msgid "_About"
-msgstr ""
+msgstr "_Om"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:27
 msgid "Add torrent"
@@ -2687,7 +2710,7 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:33
 msgid "Filter"
-msgstr ""
+msgstr "Filtrera"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:34
 msgid "Pause the selected torrents"
@@ -2794,7 +2817,7 @@ msgstr "Full ström"
 #: deluge/ui/console/modes/preferences/preference_panes.py:400
 #: deluge/ui/web/js/deluge-all/preferences/EncryptionPage.js:89
 msgid "Either"
-msgstr ""
+msgstr "Antingen"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:8
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:34
@@ -2825,10 +2848,6 @@ msgstr "HTTP tillstånd"
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:39
 msgid "I2P"
 msgstr "I2P"
-
-#: deluge/ui/gtk3/glade/preferences_dialog.ui.h:18
-msgid "Standalone"
-msgstr "Självständig"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:19
 msgid "The standalone self-contained application"
@@ -2890,7 +2909,7 @@ msgstr "Saknar:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:33
 msgid "_Revert"
-msgstr ""
+msgstr "_Återgå"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:34
 msgid "Revert color to default"
@@ -2947,7 +2966,7 @@ msgid "System Default"
 msgstr "Systemstandard"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:48
-msgid "<b>Languge</b>"
+msgid "<b>Language</b>"
 msgstr "<b>Språk</b>"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:49
@@ -2960,7 +2979,7 @@ msgstr "Flytta slutförda till:"
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:15
 #: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:70
 msgid "Copy of .torrent files to:"
-msgstr "Kopieria .torrentfiler till:"
+msgstr "Kopiera .torrentfiler till:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:51
 #: deluge/ui/console/modes/preferences/preference_panes.py:275
@@ -3267,12 +3286,16 @@ msgid ""
 "connections. (Leave empty for default.)\n"
 "                                        "
 msgstr ""
+"\n"
+"Namnet på nätverksgränssnittet eller IP-adressen för utgående BitTorrent-"
+"anslutningar. (Lämna tomt för standard.)\n"
+"                                        "
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:117
 #: deluge/ui/console/modes/preferences/preference_panes.py:359
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:101
 msgid "Outgoing Interface"
-msgstr ""
+msgstr "Utgående gränssnitt"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:118
 #: deluge/plugins/Notifications/deluge_notifications/data/config.ui.h:11
@@ -3612,11 +3635,11 @@ msgstr "GeoIP-databas"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:183
 msgid "Associate with Deluge"
-msgstr ""
+msgstr "Associera med Deluge"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:184
 msgid "Magnet Links"
-msgstr ""
+msgstr "Magnetlänkar"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:185
 #: deluge/ui/web/js/deluge-all/preferences/DaemonPage.js:37
@@ -3649,7 +3672,7 @@ msgstr "Kontrollera regelbundet webbplatsen efter uppdateringar"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:193
 msgid "_Delete"
-msgstr ""
+msgstr "_Ta bort"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:194
 msgid "Accounts"
@@ -3784,14 +3807,6 @@ msgstr "Ctrl+H"
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:19
 msgid "Ctrl+D"
 msgstr "Ctrl+D"
-
-#: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:20
-msgid "Edit path"
-msgstr "Redigera sökväg"
-
-#: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:21
-msgid "Remove path"
-msgstr "Ta bort sökväg"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:22
 msgid "Toggle hidden files"
@@ -3997,7 +4012,7 @@ msgstr "Tillgänglighet:"
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:9
 #: deluge/ui/web/render/tab_status.html:25
 msgid "Seed Rank:"
-msgstr "Distrubutörsrankning:"
+msgstr "Distributörsrankning:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:10
 msgid "ETA Time:"
@@ -4234,12 +4249,12 @@ msgstr "Redigera bevakare"
 #: deluge/ui/gtk3/glade/edit_trackers.ui.h:4
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:19
 msgid "_Up"
-msgstr ""
+msgstr "_Upp"
 
 #: deluge/ui/gtk3/glade/edit_trackers.ui.h:8
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:22
 msgid "_Down"
-msgstr ""
+msgstr "_Ner"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.menu_peer.ui.h:1
 msgid "_Add Peer"
@@ -4438,7 +4453,7 @@ msgstr "_Automatiskt hanterad"
 
 #: deluge/ui/gtk3/glade/torrent_menu.options.ui.h:7
 msgid "_Super Seeding"
-msgstr ""
+msgstr "_Superdistribuering"
 
 #: deluge/ui/gtk3/glade/torrent_menu.options.ui.h:8
 msgid "_Change Ownership"
@@ -4488,11 +4503,11 @@ msgstr "Uppstartsalternativ"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.menu_file.ui.h:1
 msgid "_Open File"
-msgstr ""
+msgstr "_Öppna fil"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.menu_file.ui.h:2
 msgid "_Show Folder"
-msgstr ""
+msgstr "_Visa mapp"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.menu_file.ui.h:3
 msgid "_Expand All"
@@ -4500,19 +4515,19 @@ msgstr "_Expandera alla"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.menu_file.ui.h:4
 msgid "_Skip"
-msgstr ""
+msgstr "_Hoppa över"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.menu_file.ui.h:5
 msgid "_Low"
-msgstr ""
+msgstr "_Låg"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.menu_file.ui.h:6
 msgid "_Normal"
-msgstr ""
+msgstr "_Normal"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.menu_file.ui.h:7
 msgid "_High"
-msgstr ""
+msgstr "_Hög"
 
 #: deluge/ui/data/share/appdata/deluge.appdata.xml.in.h:1
 msgid "Deluge Team"
@@ -4670,11 +4685,11 @@ msgstr ""
 
 #: deluge/ui/console/cmdline/commands/add.py:38
 msgid "Download folder for torrent"
-msgstr ""
+msgstr "Hämta mapp för torrent"
 
 #: deluge/ui/console/cmdline/commands/add.py:44
 msgid "Move the completed torrent to this folder"
-msgstr ""
+msgstr "Flytta den färdiga torrenten till den här mappen"
 
 #: deluge/ui/console/cmdline/commands/add.py:50
 msgid "One or more torrent files, URLs or magnet URIs"
@@ -4885,17 +4900,20 @@ msgstr "Använd slumpmässiga portar"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:352
 msgid "Incoming Interface"
-msgstr ""
+msgstr "Inkommande gränssnitt"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:355
 msgid "IP address of the interface to listen on (leave empty for default):"
 msgstr ""
+"IP-adressen för gränssnittet att lyssna på (lämna tomt för standard):"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:363
 msgid ""
 "The network interface name or IP address for outgoing BitTorrent "
 "connections. (Leave empty for default.):"
 msgstr ""
+"Namnet på nätverksgränssnittet eller IP-adressen för utgående BitTorrent-"
+"anslutningar. (Lämna tomt för standard.):"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:382
 msgid "Inbound"
@@ -5600,38 +5618,38 @@ msgstr "Poppupp-avisering inte aktiverad."
 
 #: deluge/plugins/Notifications/deluge_notifications/gtkui.py:177
 msgid "libnotify is not installed"
-msgstr ""
+msgstr "libnotify är inte installerad"
 
-#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:183
+#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:185
 msgid "Failed to popup notification"
-msgstr ""
+msgstr "Det gick inte att poppupp-anmälan"
 
-#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:186
+#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:188
 msgid "Notification popup shown"
 msgstr "Poppupp-avisering visas"
 
-#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:190
+#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:192
 msgid "Sound notification not enabled"
 msgstr "Ljudavisering inte aktiverad"
 
-#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:192
+#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:194
 msgid "pygame is not installed"
 msgstr "pygame är inte installerad"
 
-#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:204
+#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:206
 #, python-format
 msgid "Sound notification failed %s"
 msgstr "Misslyckades med ljudavisering %s"
 
-#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:208
+#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:210
 msgid "Sound notification Success"
 msgstr "Ljudavisering lyckades"
 
-#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:232
+#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:234
 msgid "Finished Torrent"
 msgstr "Slutförde torrent"
 
-#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:236
+#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:238
 #, python-format
 msgid ""
 "The torrent \"%(name)s\" including %(num_files)i file(s) has finished "
@@ -5639,12 +5657,12 @@ msgid ""
 msgstr ""
 "Torrenten ”%(name)s” omfattande %(num_files)i fil(er) har laddats ner."
 
-#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:285
-#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:315
+#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:287
+#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:317
 msgid "Notifications"
 msgstr "Aviseringar"
 
-#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:661
+#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:663
 msgid "Choose Sound File"
 msgstr "Välj ljudfil"
 
@@ -5764,7 +5782,7 @@ msgstr "Schemaläggare"
 
 #: deluge/plugins/Scheduler/deluge_scheduler/gtkui.py:289
 msgid "<b>Schedule</b>"
-msgstr ""
+msgstr "<b>Schema</b>"
 
 #: deluge/plugins/Scheduler/deluge_scheduler/gtkui.py:301
 msgid "Download Limit:"
@@ -5824,11 +5842,11 @@ msgstr "Spara"
 
 #: deluge/ui/web/js/deluge-all/AboutWindow.js:19
 msgid "About Deluge"
-msgstr ""
+msgstr "Om Deluge"
 
 #: deluge/ui/web/js/deluge-all/AboutWindow.js:102
 msgid "Copyright 2007-2018 Deluge Team"
-msgstr ""
+msgstr "Copyright 2007-2018 Deluge Team"
 
 #: deluge/ui/web/js/deluge-all/RemoveWindow.js:33
 msgid "Remove With Data"
@@ -5888,7 +5906,7 @@ msgstr "Senaste överföring"
 
 #: deluge/ui/web/js/deluge-all/Deluge.js:158
 msgid "Mixed"
-msgstr ""
+msgstr "Blandad"
 
 #: deluge/ui/web/js/deluge-all/Statusbar.js:87
 msgid "Set Maximum Connections"
@@ -6251,6 +6269,10 @@ msgstr "Webbadress"
 msgid "Cookies"
 msgstr "Kakor"
 
+#: deluge/ui/web/js/deluge-all/add/UrlWindow.js:99
+msgid "Failed to download torrent"
+msgstr "Det gick inte att hämta torrent"
+
 #: deluge/ui/web/js/deluge-all/add/AddWindow.js:133
 msgid "File"
 msgstr "Arkiv"
@@ -6259,11 +6281,15 @@ msgstr "Arkiv"
 msgid "Infohash"
 msgstr "Infohash"
 
-#: deluge/ui/web/js/deluge-all/add/AddWindow.js:259
+#: deluge/ui/web/js/deluge-all/add/AddWindow.js:260
 msgid "Uploading your torrent..."
 msgstr "Skickar din torrent…"
 
-#: deluge/ui/web/js/deluge-all/add/AddWindow.js:302
+#: deluge/ui/web/js/deluge-all/add/AddWindow.js:292
+msgid "Failed to upload torrent"
+msgstr "Det gick inte att skicka torrent"
+
+#: deluge/ui/web/js/deluge-all/add/AddWindow.js:317
 msgid "Not a valid torrent"
 msgstr "Inte en giltig torrent"
 
@@ -6285,7 +6311,7 @@ msgstr "Lägg till i pausat läge"
 
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:161
 msgid "Super Seed"
-msgstr ""
+msgstr "Superdistributör"
 
 #: deluge/ui/web/js/deluge-all/add/FilesTab.js:43
 msgid "Download"
@@ -6299,337 +6325,5 @@ msgstr "Tid kvar:"
 msgid "Date Added:"
 msgstr "Tillagd:"
 
-#~ msgid "pynotify is not installed"
-#~ msgstr "pynotify är inte installerad"
-
-#~ msgid "pynotify failed to show notification"
-#~ msgstr "pynotify misslyckades med att visa meddelandet"
-
-#~ msgid "<b><i><big>Notifications</big></i></b>"
-#~ msgstr "<b><i><big>Aviseringar</big></i></b>"
-
-#~ msgid "Associate Magnet links with Deluge"
-#~ msgstr "Associera magnetlänkar med Deluge"
-
-#~ msgid "_Normal Priority"
-#~ msgstr "_Normal prioritering"
-
-#~ msgid "_High Priority"
-#~ msgstr "_Hög prioritering"
-
-#~ msgid "Breton"
-#~ msgstr "Bretonska"
-
-#~ msgid "Belarusian"
-#~ msgstr "Vitryska"
-
-#~ msgid "Bulgarian"
-#~ msgstr "Bulgariska"
-
-#~ msgid "Bengali"
-#~ msgstr "Bengaliska"
-
-#~ msgid "Afrikaans"
-#~ msgstr "Afrikaans"
-
-#~ msgid "Arabic"
-#~ msgstr "Arabiska"
-
-#~ msgid "Asturian"
-#~ msgstr "Asturiska"
-
-#~ msgid "Azerbaijani"
-#~ msgstr "Azerbajdzjanska"
-
-#~ msgid "German"
-#~ msgstr "Tyska"
-
-#~ msgid "Danish"
-#~ msgstr "Danska"
-
-#~ msgid "Catalan"
-#~ msgstr "Katalanska"
-
-#~ msgid "Bosnian"
-#~ msgstr "Bosniska"
-
-#~ msgid "Welsh"
-#~ msgstr "Walesiska"
-
-#~ msgid "Czech"
-#~ msgstr "Tjeckiska"
-
-#~ msgid "English (Australia)"
-#~ msgstr "Engelska (Australien)"
-
-#~ msgid "English (Canada)"
-#~ msgstr "Engelska (Kanada)"
-
-#~ msgid "Greek"
-#~ msgstr "Grekiska"
-
-#~ msgid "English"
-#~ msgstr "Engelska"
-
-#~ msgid "Persian"
-#~ msgstr "Persiska"
-
-#~ msgid "Basque"
-#~ msgstr "Baskiska"
-
-#~ msgid "Estonian"
-#~ msgstr "Estniska"
-
-#~ msgid "Venezuelan Spanish"
-#~ msgstr "Venezuelansk spanska"
-
-#~ msgid "Mexican Spanish"
-#~ msgstr "Mexikansk spanska"
-
-#~ msgid "Nicaraguan Spanish"
-#~ msgstr "Nicaraguansk spanska"
-
-#~ msgid "Spanish"
-#~ msgstr "Spanska"
-
-#~ msgid "Argentinian Spanish"
-#~ msgstr "Argentinsk spanska"
-
-#~ msgid "English (United Kingdom)"
-#~ msgstr "Engelska (Storbritanien)"
-
-#~ msgid "Esperanto"
-#~ msgstr "Esperanto"
-
-#~ msgid "Irish"
-#~ msgstr "Irländska"
-
-#~ msgid "Frisian"
-#~ msgstr "Frisiska"
-
-#~ msgid "French"
-#~ msgstr "Franska"
-
-#~ msgid "Finnish"
-#~ msgstr "Finska"
-
-#~ msgid "Galician"
-#~ msgstr "Galesiska"
-
-#~ msgid "Hindi"
-#~ msgstr "Hindi"
-
-#~ msgid "Croatian"
-#~ msgstr "Kroatiska"
-
-#~ msgid "Hungarian"
-#~ msgstr "Bulgariska"
-
-#~ msgid "Interlingua"
-#~ msgstr "Interlingua"
-
-#~ msgid "Hebrew"
-#~ msgstr "Hebreiska"
-
-#~ msgid "Khmer"
-#~ msgstr "Khmeriska"
-
-#~ msgid "Kazakh"
-#~ msgstr "Kazakiska"
-
-#~ msgid "Korean"
-#~ msgstr "Koreanska"
-
-#~ msgid "Kannada"
-#~ msgstr "Kannada"
-
-#~ msgid "Indonesian"
-#~ msgstr "Indonesiska"
-
-#~ msgid "Icelandic"
-#~ msgstr "Isländska"
-
-#~ msgid "Italian"
-#~ msgstr "Italienska"
-
-#~ msgid "Japanese"
-#~ msgstr "Japanska"
-
-#~ msgid "Georgian"
-#~ msgstr "Georgiska"
-
-#~ msgid "Macedonian"
-#~ msgstr "Makedonska"
-
-#~ msgid "Latvian"
-#~ msgstr "Lettiska"
-
-#~ msgid "Latin"
-#~ msgstr "Latinska"
-
-#~ msgid "Kurdish"
-#~ msgstr "Kurdiska"
-
-#~ msgid "Lithuanian"
-#~ msgstr "Litauiska"
-
-#~ msgid "Luxembourgish"
-#~ msgstr "Luxemburgska"
-
-#~ msgid "Mayaly"
-#~ msgstr "Malajiska"
-
-#~ msgid "Burmese"
-#~ msgstr "Burmesiska"
-
-#~ msgid "Malayalam"
-#~ msgstr "Malayalam"
-
-#~ msgid "Mongolian"
-#~ msgstr "Mongoliska"
-
-#~ msgid "Punjabi"
-#~ msgstr "Punjabi"
-
-#~ msgid "Portuguese"
-#~ msgstr "Portugisiska"
-
-#~ msgid "Piedmontese"
-#~ msgstr "Piemontesiska"
-
-#~ msgid "Polish"
-#~ msgstr "Polska"
-
-#~ msgid "Low German"
-#~ msgstr "Lågtyska"
-
-#~ msgid "Dutch"
-#~ msgstr "Holländska"
-
-#~ msgid "Norwegian Bokmal"
-#~ msgstr "Norska (bokmål)"
-
-#~ msgid "Nepali"
-#~ msgstr "Nepali"
-
-#~ msgid "Norwegian Nynorsk"
-#~ msgstr "Nynorska"
-
-#~ msgid "Ossetic"
-#~ msgstr "Ossetiska"
-
-#~ msgid "Serbian"
-#~ msgstr "Serbiska"
-
-#~ msgid "Sinhalese"
-#~ msgstr "Singalesiska"
-
-#~ msgid "Slovenian"
-#~ msgstr "Slovenska"
-
-#~ msgid "Slovak"
-#~ msgstr "Slovakiska"
-
-#~ msgid "Russian"
-#~ msgstr "Ryska"
-
-#~ msgid "Romanian"
-#~ msgstr "Rumänska"
-
-#~ msgid "Brazilian Portuguese"
-#~ msgstr "Brasiliansk portugisiska"
-
-#~ msgid "Albanian"
-#~ msgstr "Albanska"
-
-#~ msgid "Serbian Latin"
-#~ msgstr "Serbisk-latinska"
-
-#~ msgid "Swedish"
-#~ msgstr "Svenska"
-
-#~ msgid "Tatar"
-#~ msgstr "Tatariska"
-
-#~ msgid "Ukrainian"
-#~ msgstr "Ukrainska"
-
-#~ msgid "Udmurt"
-#~ msgstr "Udmurtiska"
-
-#~ msgid "Turkish"
-#~ msgstr "Turkiska"
-
-#~ msgid "Tagalog"
-#~ msgstr "Tagalog"
-
-#~ msgid "Klingon"
-#~ msgstr "Klingonska"
-
-#~ msgid "Swahili"
-#~ msgstr "Swahili"
-
-#~ msgid "Tamil"
-#~ msgstr "Tamil"
-
-#~ msgid "Telugu"
-#~ msgstr "Telugu"
-
-#~ msgid "Thai"
-#~ msgstr "Thailändska"
-
-#~ msgid "Traditional Chinese"
-#~ msgstr "Traditionell kinesiska"
-
-#~ msgid "Simplified Chinese"
-#~ msgstr "Förenklad kinesiska"
-
-#~ msgid "Vietnamese"
-#~ msgstr "Vietnamesiska"
-
-#~ msgid "Urdu"
-#~ msgstr "Urdu"
-
-#~ msgid "Chinese (Hong Kong)"
-#~ msgstr "Kinesiska (Hong Kong)"
-
-#~ msgid "Chinese (Simplified)"
-#~ msgstr "Kinesiska (förenklad)"
-
-#~ msgid "Chinese (Taiwan)"
-#~ msgstr "Kinesiska (Taiwan)"
-
-#~ msgid "Ignore"
-#~ msgstr "Ignorera"
-
-#~ msgid "Inuktitut"
-#~ msgstr "Inuktitut"
-
-#~ msgid "IP address of the interface to listen on (leave empty for default)"
-#~ msgstr "IP-adress för gränssnittet att lyssna på (lämna tomt för standard)"
-
-#~ msgid "download folder for torrent"
-#~ msgstr "ladda ner mapp för torrent"
-
-#, python-format
-#~ msgid "%s: %s"
-#~ msgstr "%s: %s"
-
-#~ msgid "_Start"
-#~ msgstr "_Starta"
-
-#~ msgid "_Low Priority"
-#~ msgstr "_Låg prioritet"
-
-#~ msgid "_Ignore"
-#~ msgstr "_Ignorera"
-
-#~ msgid "_Filter"
-#~ msgstr "_Filter"
-
-#~ msgid "Duplicate Torrent(s)"
-#~ msgstr "Duplicerade torrent(er)"
-
-#, python-format
-#~ msgid "D: %s U: %s - Deluge"
-#~ msgstr "H: %s U: %s - Deluge"
+#~ msgid "<b>Languge</b>"
+#~ msgstr "<b>Språk</b>"

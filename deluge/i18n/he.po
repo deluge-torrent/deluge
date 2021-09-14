@@ -7,53 +7,53 @@ msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2019-06-06 11:53+0100\n"
-"PO-Revision-Date: 2018-02-27 08:53+0000\n"
+"POT-Creation-Date: 2019-11-12 14:55+0000\n"
+"PO-Revision-Date: 2019-06-06 10:57+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Hebrew <he@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2019-06-06 11:12+0000\n"
-"X-Generator: Launchpad (build 18978)\n"
+"X-Launchpad-Export-Date: 2021-09-10 18:01+0000\n"
+"X-Generator: Launchpad (build aca2013fd8cd2fea408d75f89f9bc012fbab307d)\n"
 
-#: deluge/common.py:405
+#: deluge/common.py:411
 msgid "B"
 msgstr ""
 
-#: deluge/common.py:406
+#: deluge/common.py:412
 msgid "KiB"
 msgstr ""
 
-#: deluge/common.py:407
+#: deluge/common.py:413
 msgid "MiB"
 msgstr ""
 
-#: deluge/common.py:408
+#: deluge/common.py:414
 msgid "GiB"
 msgstr ""
 
-#: deluge/common.py:409
+#: deluge/common.py:415
 msgid "TiB"
 msgstr ""
 
-#: deluge/common.py:410
+#: deluge/common.py:416
 msgid "K"
 msgstr ""
 
-#: deluge/common.py:411
+#: deluge/common.py:417
 msgid "M"
 msgstr ""
 
-#: deluge/common.py:412
+#: deluge/common.py:418
 msgid "G"
 msgstr ""
 
-#: deluge/common.py:413
+#: deluge/common.py:419
 msgid "T"
 msgstr ""
 
-#: deluge/common.py:509 deluge/ui/gtk3/statusbar.py:442
+#: deluge/common.py:515 deluge/ui/gtk3/statusbar.py:442
 #: deluge/ui/gtk3/statusbar.py:455 deluge/ui/gtk3/statusbar.py:464
 #: deluge/ui/gtk3/statusbar.py:477 deluge/ui/gtk3/statusbar.py:484
 #: deluge/ui/gtk3/statusbar.py:526 deluge/ui/gtk3/statusbar.py:542
@@ -64,7 +64,7 @@ msgstr ""
 msgid "K/s"
 msgstr ""
 
-#: deluge/common.py:509 deluge/ui/gtk3/menubar.py:449
+#: deluge/common.py:515 deluge/ui/gtk3/menubar.py:449
 #: deluge/ui/gtk3/menubar.py:455
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:80
 #: deluge/ui/console/widgets/statusbars.py:104
@@ -76,29 +76,29 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:94
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:121
 msgid "KiB/s"
-msgstr ""
+msgstr "KiB/s"
 
-#: deluge/common.py:515
+#: deluge/common.py:521
 msgid "M/s"
 msgstr ""
 
-#: deluge/common.py:515
+#: deluge/common.py:521
 msgid "MiB/s"
 msgstr ""
 
-#: deluge/common.py:521
+#: deluge/common.py:527
 msgid "G/s"
 msgstr ""
 
-#: deluge/common.py:521
+#: deluge/common.py:527
 msgid "GiB/s"
 msgstr ""
 
-#: deluge/common.py:527
+#: deluge/common.py:533
 msgid "T/s"
 msgstr ""
 
-#: deluge/common.py:527
+#: deluge/common.py:533
 msgid "TiB/s"
 msgstr ""
 
@@ -189,10 +189,10 @@ msgstr ""
 msgid "Config keys to be unmodified by `set_config` RPC"
 msgstr ""
 
-#: deluge/ui/common.py:37 deluge/ui/gtk3/filtertreeview.py:135
+#: deluge/ui/common.py:37 deluge/ui/gtk3/filtertreeview.py:130
 #: deluge/ui/web/js/deluge-all/UI.js:18
 msgid "All"
-msgstr ""
+msgstr "הכל"
 
 #: deluge/ui/common.py:38 deluge/plugins/AutoAdd/deluge_autoadd/gtkui.py:490
 #: deluge/plugins/AutoAdd/deluge_autoadd/gtkui.py:534
@@ -207,30 +207,30 @@ msgstr ""
 #: deluge/ui/common.py:40 deluge/ui/web/js/deluge-all/UI.js:21
 #: deluge/ui/web/js/deluge-all/UI.js:25
 msgid "Checking"
-msgstr ""
+msgstr "בודק"
 
 #: deluge/ui/common.py:41
 #: deluge/ui/console/modes/preferences/preference_panes.py:568
 #: deluge/ui/web/js/deluge-all/UI.js:22
 msgid "Downloading"
-msgstr ""
+msgstr "מוריד"
 
 #: deluge/ui/common.py:42
 #: deluge/ui/console/modes/preferences/preference_panes.py:575
 #: deluge/ui/web/js/deluge-all/UI.js:23
 msgid "Seeding"
-msgstr ""
+msgstr "משתף"
 
 #: deluge/ui/common.py:43 deluge/ui/web/js/deluge-all/UI.js:24
 msgid "Paused"
-msgstr ""
+msgstr "מושהה"
 
 #: deluge/ui/common.py:44 deluge/ui/web/js/deluge-all/UI.js:26
 msgid "Queued"
-msgstr ""
+msgstr "ממתין"
 
 #: deluge/ui/common.py:45 deluge/ui/common.py:122
-#: deluge/ui/gtk3/statusbar.py:396 deluge/ui/gtk3/filtertreeview.py:136
+#: deluge/ui/gtk3/statusbar.py:396 deluge/ui/gtk3/filtertreeview.py:131
 #: deluge/plugins/AutoAdd/deluge_autoadd/gtkui.py:330
 #: deluge/ui/web/js/deluge-all/AddConnectionWindow.js:94
 #: deluge/ui/web/js/deluge-all/EditConnectionWindow.js:114
@@ -239,15 +239,17 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:417
 #: deluge/ui/web/js/deluge-all/UI.js:27
 #: deluge/ui/web/js/deluge-all/details/StatusTab.js:121
-#: deluge/ui/web/js/deluge-all/add/AddWindow.js:301
+#: deluge/ui/web/js/deluge-all/add/UrlWindow.js:98
+#: deluge/ui/web/js/deluge-all/add/AddWindow.js:291
+#: deluge/ui/web/js/deluge-all/add/AddWindow.js:316
 msgid "Error"
-msgstr ""
+msgstr "שגיאה"
 
 #: deluge/ui/common.py:50 deluge/ui/gtk3/listview.py:793
 #: deluge/ui/gtk3/torrentview.py:180 deluge/ui/gtk3/torrentview.py:276
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:107
 msgid "Name"
-msgstr ""
+msgstr "שם"
 
 #: deluge/ui/common.py:51 deluge/ui/common.py:53
 #: deluge/ui/gtk3/files_tab.py:126 deluge/ui/gtk3/torrentview.py:310
@@ -256,14 +258,14 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/details/PeersTab.js:80
 #: deluge/ui/web/js/deluge-all/details/FilesTab.js:34
 msgid "Progress"
-msgstr ""
+msgstr "התקדמות"
 
 #: deluge/ui/common.py:52 deluge/ui/web/js/deluge-all/Sidebar.js:12
 msgid "State"
-msgstr ""
+msgstr "מצב"
 
 #: deluge/ui/common.py:54 deluge/ui/gtk3/createtorrentdialog.py:72
-#: deluge/ui/gtk3/addtorrentdialog.py:118 deluge/ui/gtk3/files_tab.py:113
+#: deluge/ui/gtk3/addtorrentdialog.py:123 deluge/ui/gtk3/files_tab.py:113
 #: deluge/ui/gtk3/torrentview.py:283
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:174
 #: deluge/ui/console/modes/preferences/preference_panes.py:738
@@ -271,17 +273,17 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/details/FilesTab.js:23
 #: deluge/ui/web/js/deluge-all/add/FilesTab.js:33
 msgid "Size"
-msgstr ""
+msgstr "גודל"
 
 #: deluge/ui/common.py:55 deluge/ui/gtk3/torrentview.py:289
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:244
 msgid "Downloaded"
-msgstr ""
+msgstr "ירד"
 
 #: deluge/ui/common.py:56 deluge/ui/gtk3/torrentview.py:296
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:252
 msgid "Uploaded"
-msgstr ""
+msgstr "הועלה"
 
 #: deluge/ui/common.py:57 deluge/ui/gtk3/torrentview.py:303
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:260
@@ -291,21 +293,21 @@ msgstr ""
 #: deluge/ui/common.py:58 deluge/ui/gtk3/torrentview.py:373
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:165
 msgid "Ratio"
-msgstr ""
+msgstr "יחס"
 
 #: deluge/ui/common.py:59 deluge/ui/gtk3/torrentview.py:340
 #: deluge/ui/gtk3/peers_tab.py:133
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:144
 #: deluge/ui/web/js/deluge-all/details/PeersTab.js:87
 msgid "Down Speed"
-msgstr ""
+msgstr "מהירות הורדה"
 
 #: deluge/ui/common.py:60 deluge/ui/gtk3/torrentview.py:346
 #: deluge/ui/gtk3/peers_tab.py:146
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:151
 #: deluge/ui/web/js/deluge-all/details/PeersTab.js:94
 msgid "Up Speed"
-msgstr ""
+msgstr "מהירות העלאה"
 
 #: deluge/ui/common.py:61 deluge/ui/gtk3/torrentview.py:352
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:268
@@ -329,7 +331,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:136
 #: deluge/ui/web/js/deluge-all/details/PeersTab.js:46
 msgid "Peers"
-msgstr ""
+msgstr "משתפים"
 
 #: deluge/ui/common.py:66 deluge/ui/gtk3/torrentview.py:317
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:128
@@ -339,7 +341,7 @@ msgstr ""
 #: deluge/ui/common.py:67 deluge/ui/gtk3/torrentview.py:380
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:173
 msgid "Avail"
-msgstr ""
+msgstr "זמינות"
 
 #: deluge/ui/common.py:68 deluge/ui/gtk3/torrentview.py:333
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:284
@@ -350,14 +352,14 @@ msgstr ""
 #: deluge/ui/gtk3/torrentview.py:387
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:181
 msgid "Added"
-msgstr ""
+msgstr "נוסף"
 
 #: deluge/ui/common.py:70 deluge/ui/gtk3/createtorrentdialog.py:88
 #: deluge/ui/gtk3/edittrackersdialog.py:127 deluge/ui/gtk3/torrentview.py:408
 #: deluge/ui/web/js/deluge-all/EditTrackersWindow.js:57
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:205
 msgid "Tracker"
-msgstr ""
+msgstr "טראקר"
 
 #: deluge/ui/common.py:72 deluge/ui/gtk3/torrentview.py:414
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:10
@@ -396,7 +398,7 @@ msgstr ""
 #: deluge/ui/common.py:87 deluge/ui/gtk3/torrentview.py:366
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:158
 msgid "ETA"
-msgstr ""
+msgstr "זמן משוער"
 
 #: deluge/ui/common.py:88 deluge/ui/gtk3/torrentview.py:418
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:30
@@ -407,7 +409,7 @@ msgstr ""
 #: deluge/ui/common.py:90 deluge/ui/gtk3/glade/main_window.tabs.ui.h:31
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:287
 msgid "Prioritize First/Last"
-msgstr ""
+msgstr "דירוג ראשון/אחרון"
 
 #: deluge/ui/common.py:94 deluge/ui/gtk3/glade/main_window.tabs.ui.h:32
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:14
@@ -421,7 +423,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/Menus.js:253
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:195
 msgid "Auto Managed"
-msgstr ""
+msgstr "ניהול אוטומטי"
 
 #: deluge/ui/common.py:99
 msgid "Stop At Ratio"
@@ -447,7 +449,7 @@ msgstr ""
 msgid "Move On Completed Path"
 msgstr ""
 
-#: deluge/ui/common.py:115 deluge/ui/gtk3/filtertreeview.py:140
+#: deluge/ui/common.py:115 deluge/ui/gtk3/filtertreeview.py:135
 #: deluge/ui/gtk3/torrentview.py:416
 #: deluge/plugins/AutoAdd/deluge_autoadd/gtkui.py:499
 #: deluge/ui/web/js/deluge-all/FilterPanel.js:32
@@ -457,7 +459,7 @@ msgstr ""
 
 #: deluge/ui/common.py:116
 msgid "Pieces"
-msgstr ""
+msgstr "חלקים"
 
 #: deluge/ui/common.py:117
 msgid "Seed Rank"
@@ -471,15 +473,15 @@ msgstr ""
 
 #: deluge/ui/common.py:123 deluge/ui/web/js/deluge-all/details/StatusTab.js:122
 msgid "Warning"
-msgstr ""
+msgstr "אזהרה"
 
 #: deluge/ui/common.py:124 deluge/ui/web/js/deluge-all/details/StatusTab.js:123
 msgid "Announce OK"
-msgstr ""
+msgstr "קריאה תקינה"
 
 #: deluge/ui/common.py:125 deluge/ui/web/js/deluge-all/details/StatusTab.js:124
 msgid "Announce Sent"
-msgstr ""
+msgstr "קריאה נשלחה"
 
 #: deluge/ui/common.py:129
 #: deluge/ui/console/modes/preferences/preference_panes.py:174
@@ -487,14 +489,14 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:18
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:31
 msgid "Interface"
-msgstr ""
+msgstr "מנשק"
 
 #: deluge/ui/common.py:130
 #: deluge/ui/console/modes/preferences/preference_panes.py:230
 #: deluge/ui/console/modes/preferences/preferences.py:90
 #: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:21
 msgid "Downloads"
-msgstr ""
+msgstr "הורדות"
 
 #: deluge/ui/common.py:131 deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:33
 #: deluge/ui/console/modes/preferences/preference_panes.py:409
@@ -504,7 +506,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:21
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:73
 msgid "Bandwidth"
-msgstr ""
+msgstr "רוחב פס"
 
 #: deluge/ui/common.py:132
 #: deluge/ui/console/modes/preferences/preference_panes.py:550
@@ -514,14 +516,14 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:176
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:18
 msgid "Queue"
-msgstr ""
+msgstr "בתהליך"
 
 #: deluge/ui/common.py:133
 #: deluge/ui/console/modes/preferences/preference_panes.py:300
 #: deluge/ui/console/modes/preferences/preferences.py:91
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:28
 msgid "Network"
-msgstr ""
+msgstr "רשת"
 
 #: deluge/ui/common.py:134 deluge/ui/gtk3/glade/preferences_dialog.ui.h:146
 #: deluge/ui/console/modes/preferences/preference_panes.py:640
@@ -530,14 +532,14 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/preferences/ProxyPage.js:21
 #: deluge/ui/web/js/deluge-all/preferences/ProxyPage.js:35
 msgid "Proxy"
-msgstr ""
+msgstr "פרוקסי"
 
 #: deluge/ui/common.py:135
 #: deluge/ui/console/modes/preferences/preference_panes.py:685
 #: deluge/ui/console/modes/preferences/preferences.py:97
 #: deluge/ui/web/js/deluge-all/preferences/CachePage.js:18
 msgid "Cache"
-msgstr ""
+msgstr "מטמון"
 
 #: deluge/ui/common.py:136 deluge/ui/gtk3/glade/preferences_dialog.ui.h:190
 #: deluge/ui/console/modes/preferences/preference_panes.py:499
@@ -548,19 +550,19 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/preferences/OtherPage.js:21
 #: deluge/ui/web/js/deluge-all/preferences/DaemonPage.js:69
 msgid "Other"
-msgstr ""
+msgstr "אחר"
 
 #: deluge/ui/common.py:137
 #: deluge/ui/console/modes/preferences/preference_panes.py:524
 #: deluge/ui/console/modes/preferences/preferences.py:94
 #: deluge/ui/web/js/deluge-all/preferences/DaemonPage.js:18
 msgid "Daemon"
-msgstr ""
+msgstr "שרת"
 
 #: deluge/ui/common.py:138
 #: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:18
 msgid "Plugins"
-msgstr ""
+msgstr "תוספים"
 
 #: deluge/ui/common.py:150 deluge/ui/web/js/deluge-all/Deluge.js:154
 #: deluge/ui/web/js/deluge-all/Menus.js:365
@@ -590,859 +592,859 @@ msgstr ""
 
 #: deluge/ui/countries.py:10
 msgid "Afghanistan"
-msgstr ""
+msgstr "אפגניסטן"
 
 #: deluge/ui/countries.py:11
 msgid "Aland Islands"
-msgstr ""
+msgstr "איי אולנד"
 
 #: deluge/ui/countries.py:12
 msgid "Albania"
-msgstr ""
+msgstr "אלבניה"
 
 #: deluge/ui/countries.py:13
 msgid "Algeria"
-msgstr ""
+msgstr "אלג'יריה"
 
 #: deluge/ui/countries.py:14
 msgid "American Samoa"
-msgstr ""
+msgstr "סמואה האמריקאית"
 
 #: deluge/ui/countries.py:15
 msgid "Andorra"
-msgstr ""
+msgstr "אנדורה"
 
 #: deluge/ui/countries.py:16
 msgid "Angola"
-msgstr ""
+msgstr "אנגולה"
 
 #: deluge/ui/countries.py:17
 msgid "Anguilla"
-msgstr ""
+msgstr "אנגואילה"
 
 #: deluge/ui/countries.py:18
 msgid "Antarctica"
-msgstr ""
+msgstr "אנטרקטיקה"
 
 #: deluge/ui/countries.py:19
 msgid "Antigua and Barbuda"
-msgstr ""
+msgstr "אנטיגואה וברבודה"
 
 #: deluge/ui/countries.py:20
 msgid "Argentina"
-msgstr ""
+msgstr "ארגנטינה"
 
 #: deluge/ui/countries.py:21
 msgid "Armenia"
-msgstr ""
+msgstr "ארמניה"
 
 #: deluge/ui/countries.py:22
 msgid "Aruba"
-msgstr ""
+msgstr "ארובה"
 
 #: deluge/ui/countries.py:23
 msgid "Australia"
-msgstr ""
+msgstr "אוסטרליה"
 
 #: deluge/ui/countries.py:24
 msgid "Austria"
-msgstr ""
+msgstr "אוסטריה"
 
 #: deluge/ui/countries.py:25
 msgid "Azerbaijan"
-msgstr ""
+msgstr "אזרביג'ן"
 
 #: deluge/ui/countries.py:26
 msgid "Bahamas"
-msgstr ""
+msgstr "בהמאס"
 
 #: deluge/ui/countries.py:27
 msgid "Bahrain"
-msgstr ""
+msgstr "בחריין"
 
 #: deluge/ui/countries.py:28
 msgid "Bangladesh"
-msgstr ""
+msgstr "בנגלדש"
 
 #: deluge/ui/countries.py:29
 msgid "Barbados"
-msgstr ""
+msgstr "ברבדוס"
 
 #: deluge/ui/countries.py:30
 msgid "Belarus"
-msgstr ""
+msgstr "בלרוס"
 
 #: deluge/ui/countries.py:31
 msgid "Belgium"
-msgstr ""
+msgstr "בלגיה"
 
 #: deluge/ui/countries.py:32
 msgid "Belize"
-msgstr ""
+msgstr "בליז"
 
 #: deluge/ui/countries.py:33
 msgid "Benin"
-msgstr ""
+msgstr "בנין"
 
 #: deluge/ui/countries.py:34
 msgid "Bermuda"
-msgstr ""
+msgstr "ברמודה"
 
 #: deluge/ui/countries.py:35
 msgid "Bhutan"
-msgstr ""
+msgstr "בהוטן"
 
 #: deluge/ui/countries.py:36
 msgid "Bolivia"
-msgstr ""
+msgstr "בוליביה"
 
 #: deluge/ui/countries.py:37
 msgid "Bosnia and Herzegovina"
-msgstr ""
+msgstr "בוסניה הרצגובינה"
 
 #: deluge/ui/countries.py:38
 msgid "Botswana"
-msgstr ""
+msgstr "בוטסוואנה"
 
 #: deluge/ui/countries.py:39
 msgid "Bouvet Island"
-msgstr ""
+msgstr "האי באווט"
 
 #: deluge/ui/countries.py:40
 msgid "Brazil"
-msgstr ""
+msgstr "ברזיל"
 
 #: deluge/ui/countries.py:41
 msgid "British Indian Ocean Territory"
-msgstr ""
+msgstr "טריטוריית האוקיאנוס ההודי הבריטית"
 
 #: deluge/ui/countries.py:42
 msgid "Brunei Darussalam"
-msgstr ""
+msgstr "ברונאי דרוסלאלם"
 
 #: deluge/ui/countries.py:43
 msgid "Bulgaria"
-msgstr ""
+msgstr "בולגריה"
 
 #: deluge/ui/countries.py:44
 msgid "Burkina Faso"
-msgstr ""
+msgstr "בורקינה פאסו"
 
 #: deluge/ui/countries.py:45
 msgid "Burundi"
-msgstr ""
+msgstr "בורונדי"
 
 #: deluge/ui/countries.py:46
 msgid "Cambodia"
-msgstr ""
+msgstr "קמבודיה"
 
 #: deluge/ui/countries.py:47
 msgid "Cameroon"
-msgstr ""
+msgstr "קמרון"
 
 #: deluge/ui/countries.py:48
 msgid "Canada"
-msgstr ""
+msgstr "קנדה"
 
 #: deluge/ui/countries.py:49
 msgid "Cape Verde"
-msgstr ""
+msgstr "כף ורדה"
 
 #: deluge/ui/countries.py:50
 msgid "Cayman Islands"
-msgstr ""
+msgstr "איי קיימן"
 
 #: deluge/ui/countries.py:51
 msgid "Central African Republic"
-msgstr ""
+msgstr "הרפובליקה המרכז אפריקנית"
 
 #: deluge/ui/countries.py:52
 msgid "Chad"
-msgstr ""
+msgstr "צ'אד"
 
 #: deluge/ui/countries.py:53
 msgid "Chile"
-msgstr ""
+msgstr "צ'ילה"
 
 #: deluge/ui/countries.py:54
 msgid "China"
-msgstr ""
+msgstr "סין"
 
 #: deluge/ui/countries.py:55
 msgid "Christmas Island"
-msgstr ""
+msgstr "איי חג המולד"
 
 #: deluge/ui/countries.py:56
 msgid "Cocos (Keeling) Islands"
-msgstr ""
+msgstr "איי קוקוס, קילינג"
 
 #: deluge/ui/countries.py:57
 msgid "Colombia"
-msgstr ""
+msgstr "קולומביה"
 
 #: deluge/ui/countries.py:58
 msgid "Comoros"
-msgstr ""
+msgstr "קומורוס"
 
 #: deluge/ui/countries.py:59
 msgid "Congo"
-msgstr ""
+msgstr "קונגו"
 
 #: deluge/ui/countries.py:60
 msgid "Congo, The Democratic Republic of the"
-msgstr ""
+msgstr "קונגו, הרפובליקה הדמוקרטית של"
 
 #: deluge/ui/countries.py:61
 msgid "Cook Islands"
-msgstr ""
+msgstr "איי קוק"
 
 #: deluge/ui/countries.py:62
 msgid "Costa Rica"
-msgstr ""
+msgstr "קוסטה ריקה"
 
 #: deluge/ui/countries.py:63
 msgid "Cote d'Ivoire"
-msgstr ""
+msgstr "חוף השנהב"
 
 #: deluge/ui/countries.py:64
 msgid "Croatia"
-msgstr ""
+msgstr "קרואטיה"
 
 #: deluge/ui/countries.py:65
 msgid "Cuba"
-msgstr ""
+msgstr "קובה"
 
 #: deluge/ui/countries.py:66
 msgid "Cyprus"
-msgstr ""
+msgstr "קפריסין"
 
 #: deluge/ui/countries.py:67
 msgid "Czech Republic"
-msgstr ""
+msgstr "הרפובליקה הצ'כית"
 
 #: deluge/ui/countries.py:68
 msgid "Denmark"
-msgstr ""
+msgstr "דנמרק"
 
 #: deluge/ui/countries.py:69
 msgid "Djibouti"
-msgstr ""
+msgstr "דג'יבוטי"
 
 #: deluge/ui/countries.py:70
 msgid "Dominica"
-msgstr ""
+msgstr "דומיניקה"
 
 #: deluge/ui/countries.py:71
 msgid "Dominican Republic"
-msgstr ""
+msgstr "הרפובליקה הדומיניקנית"
 
 #: deluge/ui/countries.py:72
 msgid "Ecuador"
-msgstr ""
+msgstr "אקוודור"
 
 #: deluge/ui/countries.py:73
 msgid "Egypt"
-msgstr ""
+msgstr "מצרים"
 
 #: deluge/ui/countries.py:74
 msgid "El Salvador"
-msgstr ""
+msgstr "אל סלבדור"
 
 #: deluge/ui/countries.py:75
 msgid "Equatorial Guinea"
-msgstr ""
+msgstr "גינאה המשוונית"
 
 #: deluge/ui/countries.py:76
 msgid "Eritrea"
-msgstr ""
+msgstr "אריתריאה"
 
 #: deluge/ui/countries.py:77
 msgid "Estonia"
-msgstr ""
+msgstr "אסטוניה"
 
 #: deluge/ui/countries.py:78
 msgid "Ethiopia"
-msgstr ""
+msgstr "אתיופיה"
 
 #: deluge/ui/countries.py:79
 msgid "Falkland Islands (Malvinas)"
-msgstr ""
+msgstr "איי פוקלנד"
 
 #: deluge/ui/countries.py:80
 msgid "Faroe Islands"
-msgstr ""
+msgstr "איי פארו"
 
 #: deluge/ui/countries.py:81
 msgid "Fiji"
-msgstr ""
+msgstr "פיג'י"
 
 #: deluge/ui/countries.py:82
 msgid "Finland"
-msgstr ""
+msgstr "פינלנד"
 
 #: deluge/ui/countries.py:83
 msgid "France"
-msgstr ""
+msgstr "צרפת"
 
 #: deluge/ui/countries.py:84
 msgid "French Guiana"
-msgstr ""
+msgstr "גינאה הצרפתית"
 
 #: deluge/ui/countries.py:85
 msgid "French Polynesia"
-msgstr ""
+msgstr "פולינזיה הצרפתית"
 
 #: deluge/ui/countries.py:86
 msgid "French Southern Territories"
-msgstr ""
+msgstr "הטריטוריות הדרומיות של צרפת"
 
 #: deluge/ui/countries.py:87
 msgid "Gabon"
-msgstr ""
+msgstr "גבון"
 
 #: deluge/ui/countries.py:88
 msgid "Gambia"
-msgstr ""
+msgstr "גמביה"
 
 #: deluge/ui/countries.py:89
 msgid "Georgia"
-msgstr ""
+msgstr "גיאורגיה"
 
 #: deluge/ui/countries.py:90
 msgid "Germany"
-msgstr ""
+msgstr "גרמניה"
 
 #: deluge/ui/countries.py:91
 msgid "Ghana"
-msgstr ""
+msgstr "גאנה"
 
 #: deluge/ui/countries.py:92
 msgid "Gibraltar"
-msgstr ""
+msgstr "גיברלטר"
 
 #: deluge/ui/countries.py:93
 msgid "Greece"
-msgstr ""
+msgstr "יוון"
 
 #: deluge/ui/countries.py:94
 msgid "Greenland"
-msgstr ""
+msgstr "גרינלנד"
 
 #: deluge/ui/countries.py:95
 msgid "Grenada"
-msgstr ""
+msgstr "גרנדה"
 
 #: deluge/ui/countries.py:96
 msgid "Guadeloupe"
-msgstr ""
+msgstr "גוואדלופ"
 
 #: deluge/ui/countries.py:97
 msgid "Guam"
-msgstr ""
+msgstr "גואם"
 
 #: deluge/ui/countries.py:98
 msgid "Guatemala"
-msgstr ""
+msgstr "גואטמלה"
 
 #: deluge/ui/countries.py:99
 msgid "Guernsey"
-msgstr ""
+msgstr "גאורנסי"
 
 #: deluge/ui/countries.py:100
 msgid "Guinea"
-msgstr ""
+msgstr "גינאה"
 
 #: deluge/ui/countries.py:101
 msgid "Guinea-Bissau"
-msgstr ""
+msgstr "גינאה ביסאו"
 
 #: deluge/ui/countries.py:102
 msgid "Guyana"
-msgstr ""
+msgstr "גויאנה"
 
 #: deluge/ui/countries.py:103
 msgid "Haiti"
-msgstr ""
+msgstr "האיטי"
 
 #: deluge/ui/countries.py:104
 msgid "Heard Island and McDonald Islands"
-msgstr ""
+msgstr "האיים הרד ומקדונלד"
 
 #: deluge/ui/countries.py:105
 msgid "Holy See (Vatican City State)"
-msgstr ""
+msgstr "וותיקן"
 
 #: deluge/ui/countries.py:106
 msgid "Honduras"
-msgstr ""
+msgstr "הונדורס"
 
 #: deluge/ui/countries.py:107
 msgid "Hong Kong"
-msgstr ""
+msgstr "הונג קונג"
 
 #: deluge/ui/countries.py:108
 msgid "Hungary"
-msgstr ""
+msgstr "הונגריה"
 
 #: deluge/ui/countries.py:109
 msgid "Iceland"
-msgstr ""
+msgstr "איסלנד"
 
 #: deluge/ui/countries.py:110
 msgid "India"
-msgstr ""
+msgstr "הודו"
 
 #: deluge/ui/countries.py:111
 msgid "Indonesia"
-msgstr ""
+msgstr "אינדונזיה"
 
 #: deluge/ui/countries.py:112
 msgid "Iran, Islamic Republic of"
-msgstr ""
+msgstr "אירן, הרפובליקה האיסלמית של"
 
 #: deluge/ui/countries.py:113
 msgid "Iraq"
-msgstr ""
+msgstr "עיראק"
 
 #: deluge/ui/countries.py:114
 msgid "Ireland"
-msgstr ""
+msgstr "אירלנד"
 
 #: deluge/ui/countries.py:115
 msgid "Isle of Man"
-msgstr ""
+msgstr "האי מאן"
 
 #: deluge/ui/countries.py:116
 msgid "Israel"
-msgstr ""
+msgstr "ישראל"
 
 #: deluge/ui/countries.py:117
 msgid "Italy"
-msgstr ""
+msgstr "איטליה"
 
 #: deluge/ui/countries.py:118
 msgid "Jamaica"
-msgstr ""
+msgstr "ג'מייקה"
 
 #: deluge/ui/countries.py:119
 msgid "Japan"
-msgstr ""
+msgstr "יפן"
 
 #: deluge/ui/countries.py:120
 msgid "Jersey"
-msgstr ""
+msgstr "ג'רזי"
 
 #: deluge/ui/countries.py:121
 msgid "Jordan"
-msgstr ""
+msgstr "ירדן"
 
 #: deluge/ui/countries.py:122
 msgid "Kazakhstan"
-msgstr ""
+msgstr "קאזחאסטן"
 
 #: deluge/ui/countries.py:123
 msgid "Kenya"
-msgstr ""
+msgstr "קניה"
 
 #: deluge/ui/countries.py:124
 msgid "Kiribati"
-msgstr ""
+msgstr "קיריבטי"
 
 #: deluge/ui/countries.py:125
 msgid "Korea, Democratic People's Republic of"
-msgstr ""
+msgstr "קוריאה, דמוקרטיית העם של"
 
 #: deluge/ui/countries.py:126
 msgid "Korea, Republic of"
-msgstr ""
+msgstr "קוריאה, הרפובליקה של"
 
 #: deluge/ui/countries.py:127
 msgid "Kuwait"
-msgstr ""
+msgstr "כווית"
 
 #: deluge/ui/countries.py:128
 msgid "Kyrgyzstan"
-msgstr ""
+msgstr "קירגיסטאן"
 
 #: deluge/ui/countries.py:129
 msgid "Lao People's Democratic Republic"
-msgstr ""
+msgstr "לאוס"
 
 #: deluge/ui/countries.py:130
 msgid "Latvia"
-msgstr ""
+msgstr "לטביה"
 
 #: deluge/ui/countries.py:131
 msgid "Lebanon"
-msgstr ""
+msgstr "לבנון"
 
 #: deluge/ui/countries.py:132
 msgid "Lesotho"
-msgstr ""
+msgstr "לסותו"
 
 #: deluge/ui/countries.py:133
 msgid "Liberia"
-msgstr ""
+msgstr "ליבריה"
 
 #: deluge/ui/countries.py:134
 msgid "Libyan Arab Jamahiriya"
-msgstr ""
+msgstr "לוב"
 
 #: deluge/ui/countries.py:135
 msgid "Liechtenstein"
-msgstr ""
+msgstr "ליכטנשטיין"
 
 #: deluge/ui/countries.py:136
 msgid "Lithuania"
-msgstr ""
+msgstr "ליטא"
 
 #: deluge/ui/countries.py:137
 msgid "Luxembourg"
-msgstr ""
+msgstr "לוקסמבורג"
 
 #: deluge/ui/countries.py:138
 msgid "Macao"
-msgstr ""
+msgstr "מאקאו"
 
 #: deluge/ui/countries.py:139
 msgid "Macedonia, The Former Yugoslav Republic of"
-msgstr ""
+msgstr "הרפובליקה היוגוסלבית לשעבר של מקדוניה"
 
 #: deluge/ui/countries.py:140
 msgid "Madagascar"
-msgstr ""
+msgstr "מדגסקר"
 
 #: deluge/ui/countries.py:141
 msgid "Malawi"
-msgstr ""
+msgstr "מלאוי"
 
 #: deluge/ui/countries.py:142
 msgid "Malaysia"
-msgstr ""
+msgstr "מלזיה"
 
 #: deluge/ui/countries.py:143
 msgid "Maldives"
-msgstr ""
+msgstr "מלדיב"
 
 #: deluge/ui/countries.py:144
 msgid "Mali"
-msgstr ""
+msgstr "מאלי"
 
 #: deluge/ui/countries.py:145
 msgid "Malta"
-msgstr ""
+msgstr "מלטה"
 
 #: deluge/ui/countries.py:146
 msgid "Marshall Islands"
-msgstr ""
+msgstr "איי מרשל"
 
 #: deluge/ui/countries.py:147
 msgid "Martinique"
-msgstr ""
+msgstr "מרטיניק"
 
 #: deluge/ui/countries.py:148
 msgid "Mauritania"
-msgstr ""
+msgstr "מאוריטניה"
 
 #: deluge/ui/countries.py:149
 msgid "Mauritius"
-msgstr ""
+msgstr "מאוריציוס"
 
 #: deluge/ui/countries.py:150
 msgid "Mayotte"
-msgstr ""
+msgstr "מאיוט"
 
 #: deluge/ui/countries.py:151
 msgid "Mexico"
-msgstr ""
+msgstr "מקסיקו"
 
 #: deluge/ui/countries.py:152
 msgid "Micronesia, Federated States of"
-msgstr ""
+msgstr "מיקרונזיה"
 
 #: deluge/ui/countries.py:153
 msgid "Moldova"
-msgstr ""
+msgstr "מולדובה"
 
 #: deluge/ui/countries.py:154
 msgid "Monaco"
-msgstr ""
+msgstr "מונקו"
 
 #: deluge/ui/countries.py:155
 msgid "Mongolia"
-msgstr ""
+msgstr "מונגוליה"
 
 #: deluge/ui/countries.py:156
 msgid "Montenegro"
-msgstr ""
+msgstr "מונטנגרו"
 
 #: deluge/ui/countries.py:157
 msgid "Montserrat"
-msgstr ""
+msgstr "מונסראט"
 
 #: deluge/ui/countries.py:158
 msgid "Morocco"
-msgstr ""
+msgstr "מרוקו"
 
 #: deluge/ui/countries.py:159
 msgid "Mozambique"
-msgstr ""
+msgstr "מוזמביק"
 
 #: deluge/ui/countries.py:160
 msgid "Myanmar"
-msgstr ""
+msgstr "מיאנמאר"
 
 #: deluge/ui/countries.py:161
 msgid "Namibia"
-msgstr ""
+msgstr "נמיביה"
 
 #: deluge/ui/countries.py:162
 msgid "Nauru"
-msgstr ""
+msgstr "נאורו"
 
 #: deluge/ui/countries.py:163
 msgid "Nepal"
-msgstr ""
+msgstr "נפאל"
 
 #: deluge/ui/countries.py:164
 msgid "Netherlands"
-msgstr ""
+msgstr "הולנד"
 
 #: deluge/ui/countries.py:165
 msgid "Netherlands Antilles"
-msgstr ""
+msgstr "אנטילים הולנדים"
 
 #: deluge/ui/countries.py:166
 msgid "New Caledonia"
-msgstr ""
+msgstr "קלדוניה החדשה"
 
 #: deluge/ui/countries.py:167
 msgid "New Zealand"
-msgstr ""
+msgstr "ניו זילנד"
 
 #: deluge/ui/countries.py:168
 msgid "Nicaragua"
-msgstr ""
+msgstr "ניקרגואה"
 
 #: deluge/ui/countries.py:169
 msgid "Niger"
-msgstr ""
+msgstr "ניז'ר"
 
 #: deluge/ui/countries.py:170
 msgid "Nigeria"
-msgstr ""
+msgstr "ניגריה"
 
 #: deluge/ui/countries.py:171
 msgid "Niue"
-msgstr ""
+msgstr "ניאו"
 
 #: deluge/ui/countries.py:172
 msgid "Norfolk Island"
-msgstr ""
+msgstr "האי נורפולק"
 
 #: deluge/ui/countries.py:173
 msgid "Northern Mariana Islands"
-msgstr ""
+msgstr "איי מרינה הצפוניים"
 
 #: deluge/ui/countries.py:174
 msgid "Norway"
-msgstr ""
+msgstr "נורבגיה"
 
 #: deluge/ui/countries.py:175
 msgid "Oman"
-msgstr ""
+msgstr "עומן"
 
 #: deluge/ui/countries.py:176
 msgid "Pakistan"
-msgstr ""
+msgstr "פקיסטן"
 
 #: deluge/ui/countries.py:177
 msgid "Palau"
-msgstr ""
+msgstr "פלאו"
 
 #: deluge/ui/countries.py:178
 msgid "Palestinian Territory, Occupied"
-msgstr ""
+msgstr "הרשות הפלסטינאית"
 
 #: deluge/ui/countries.py:179
 msgid "Panama"
-msgstr ""
+msgstr "פנמה"
 
 #: deluge/ui/countries.py:180
 msgid "Papua New Guinea"
-msgstr ""
+msgstr "פפואה גינאה החדשה"
 
 #: deluge/ui/countries.py:181
 msgid "Paraguay"
-msgstr ""
+msgstr "פארגוואי"
 
 #: deluge/ui/countries.py:182
 msgid "Peru"
-msgstr ""
+msgstr "פרו"
 
 #: deluge/ui/countries.py:183
 msgid "Philippines"
-msgstr ""
+msgstr "פיליפינים"
 
 #: deluge/ui/countries.py:184
 msgid "Pitcairn"
-msgstr ""
+msgstr "פיטקרן"
 
 #: deluge/ui/countries.py:185
 msgid "Poland"
-msgstr ""
+msgstr "פולין"
 
 #: deluge/ui/countries.py:186
 msgid "Portugal"
-msgstr ""
+msgstr "פורטוגל"
 
 #: deluge/ui/countries.py:187
 msgid "Puerto Rico"
-msgstr ""
+msgstr "פורטו ריקו"
 
 #: deluge/ui/countries.py:188
 msgid "Qatar"
-msgstr ""
+msgstr "קטאר"
 
 #: deluge/ui/countries.py:189
 msgid "Reunion"
-msgstr ""
+msgstr "ריוניון"
 
 #: deluge/ui/countries.py:190
 msgid "Romania"
-msgstr ""
+msgstr "רומניה"
 
 #: deluge/ui/countries.py:191
 msgid "Russian Federation"
-msgstr ""
+msgstr "הפדרציה הרוסית"
 
 #: deluge/ui/countries.py:192
 msgid "Rwanda"
-msgstr ""
+msgstr "רואנדה"
 
 #: deluge/ui/countries.py:193
 msgid "Saint Barthelemy"
-msgstr ""
+msgstr "סנט ברתלמי"
 
 #: deluge/ui/countries.py:194
 msgid "Saint Helena"
-msgstr ""
+msgstr "סנט הלנה"
 
 #: deluge/ui/countries.py:195
 msgid "Saint Kitts and Nevis"
-msgstr ""
+msgstr "סנט קיטס ונביס"
 
 #: deluge/ui/countries.py:196
 msgid "Saint Lucia"
-msgstr ""
+msgstr "סנטה לוסיה"
 
 #: deluge/ui/countries.py:197
 msgid "Saint Martin"
-msgstr ""
+msgstr "סן מרטן"
 
 #: deluge/ui/countries.py:198
 msgid "Saint Pierre and Miquelon"
-msgstr ""
+msgstr "סנט פייר ומיקלון"
 
 #: deluge/ui/countries.py:199
 msgid "Saint Vincent and the Grenadines"
-msgstr ""
+msgstr "סנט וינסנט והגרנדינים"
 
 #: deluge/ui/countries.py:200
 msgid "Samoa"
-msgstr ""
+msgstr "סמואה"
 
 #: deluge/ui/countries.py:201
 msgid "San Marino"
-msgstr ""
+msgstr "סאן מרינו"
 
 #: deluge/ui/countries.py:202
 msgid "Sao Tome and Principe"
-msgstr ""
+msgstr "סאו תומה ופרינסיפה"
 
 #: deluge/ui/countries.py:203
 msgid "Saudi Arabia"
-msgstr ""
+msgstr "ערב הסעודית"
 
 #: deluge/ui/countries.py:204
 msgid "Senegal"
-msgstr ""
+msgstr "סנגל"
 
 #: deluge/ui/countries.py:205
 msgid "Serbia"
-msgstr ""
+msgstr "סרביה"
 
 #: deluge/ui/countries.py:206
 msgid "Seychelles"
-msgstr ""
+msgstr "איי סיישל"
 
 #: deluge/ui/countries.py:207
 msgid "Sierra Leone"
-msgstr ""
+msgstr "סיירה ליאון"
 
 #: deluge/ui/countries.py:208
 msgid "Singapore"
-msgstr ""
+msgstr "סינגפור"
 
 #: deluge/ui/countries.py:209
 msgid "Slovakia"
-msgstr ""
+msgstr "סלובקיה"
 
 #: deluge/ui/countries.py:210
 msgid "Slovenia"
-msgstr ""
+msgstr "סלובניה"
 
 #: deluge/ui/countries.py:211
 msgid "Solomon Islands"
-msgstr ""
+msgstr "איי שלמה"
 
 #: deluge/ui/countries.py:212
 msgid "Somalia"
-msgstr ""
+msgstr "סומליה"
 
 #: deluge/ui/countries.py:213
 msgid "South Africa"
-msgstr ""
+msgstr "דרום אפריקה"
 
 #: deluge/ui/countries.py:214
 msgid "South Georgia and the South Sandwich Islands"
-msgstr ""
+msgstr "דרום ג'ורגיה ואיי דרום סנדביץ'"
 
 #: deluge/ui/countries.py:215
 msgid "Spain"
-msgstr ""
+msgstr "ספרד"
 
 #: deluge/ui/countries.py:216
 msgid "Sri Lanka"
-msgstr ""
+msgstr "סרי לנקה"
 
 #: deluge/ui/countries.py:217
 msgid "Sudan"
-msgstr ""
+msgstr "סודן"
 
 #: deluge/ui/countries.py:218
 msgid "Suriname"
-msgstr ""
+msgstr "סורינאם"
 
 #: deluge/ui/countries.py:219
 msgid "Svalbard and Jan Mayen"
-msgstr ""
+msgstr "סוולברד ויאן מאין"
 
 #: deluge/ui/countries.py:220
 msgid "Swaziland"
-msgstr ""
+msgstr "סווזילנד"
 
 #: deluge/ui/countries.py:221
 msgid "Sweden"
-msgstr ""
+msgstr "שבדיה"
 
 #: deluge/ui/countries.py:222
 msgid "Switzerland"
-msgstr ""
+msgstr "שוויץ"
 
 #: deluge/ui/countries.py:223
 msgid "Syrian Arab Republic"
-msgstr ""
+msgstr "הרפובליקה הערבית הסורית"
 
 #: deluge/ui/countries.py:224
 msgid "Taiwan"
@@ -1450,127 +1452,127 @@ msgstr ""
 
 #: deluge/ui/countries.py:225
 msgid "Tajikistan"
-msgstr ""
+msgstr "טג'יקיסטאן"
 
 #: deluge/ui/countries.py:226
 msgid "Tanzania, United Republic of"
-msgstr ""
+msgstr "טנזניה, הרפובליקה המאוחדת של"
 
 #: deluge/ui/countries.py:227
 msgid "Thailand"
-msgstr ""
+msgstr "תאילנד"
 
 #: deluge/ui/countries.py:228
 msgid "Timor-Leste"
-msgstr ""
+msgstr "טימור מזרח"
 
 #: deluge/ui/countries.py:229
 msgid "Togo"
-msgstr ""
+msgstr "טוגו"
 
 #: deluge/ui/countries.py:230
 msgid "Tokelau"
-msgstr ""
+msgstr "טוקלאו"
 
 #: deluge/ui/countries.py:231
 msgid "Tonga"
-msgstr ""
+msgstr "טונגה"
 
 #: deluge/ui/countries.py:232
 msgid "Trinidad and Tobago"
-msgstr ""
+msgstr "טרינידד וטובגו"
 
 #: deluge/ui/countries.py:233
 msgid "Tunisia"
-msgstr ""
+msgstr "טוניסיה"
 
 #: deluge/ui/countries.py:234
 msgid "Turkey"
-msgstr ""
+msgstr "טורקיה"
 
 #: deluge/ui/countries.py:235
 msgid "Turkmenistan"
-msgstr ""
+msgstr "טורקמניסטאן"
 
 #: deluge/ui/countries.py:236
 msgid "Turks and Caicos Islands"
-msgstr ""
+msgstr "איי טורק וקייקוס"
 
 #: deluge/ui/countries.py:237
 msgid "Tuvalu"
-msgstr ""
+msgstr "טובלו"
 
 #: deluge/ui/countries.py:238
 msgid "Uganda"
-msgstr ""
+msgstr "אוגנדה"
 
 #: deluge/ui/countries.py:239
 msgid "Ukraine"
-msgstr ""
+msgstr "אוקראינה"
 
 #: deluge/ui/countries.py:240
 msgid "United Arab Emirates"
-msgstr ""
+msgstr "איחוד האמירויות"
 
 #: deluge/ui/countries.py:241
 msgid "United Kingdom"
-msgstr ""
+msgstr "הממלכה המאוחדת"
 
 #: deluge/ui/countries.py:242
 msgid "United States"
-msgstr ""
+msgstr "ארצות הברית"
 
 #: deluge/ui/countries.py:243
 msgid "United States Minor Outlying Islands"
-msgstr ""
+msgstr "האיים הקטנים מסביב לארצות הברית"
 
 #: deluge/ui/countries.py:244
 msgid "Uruguay"
-msgstr ""
+msgstr "אורוגואי"
 
 #: deluge/ui/countries.py:245
 msgid "Uzbekistan"
-msgstr ""
+msgstr "אוזבקיסטן"
 
 #: deluge/ui/countries.py:246
 msgid "Vanuatu"
-msgstr ""
+msgstr "ואנואטו"
 
 #: deluge/ui/countries.py:247
 msgid "Venezuela"
-msgstr ""
+msgstr "ונצואלה"
 
 #: deluge/ui/countries.py:248
 msgid "Viet Nam"
-msgstr ""
+msgstr "ויטנאם"
 
 #: deluge/ui/countries.py:249
 msgid "Virgin Islands, British"
-msgstr ""
+msgstr "איי הבתולה (בריטיים)"
 
 #: deluge/ui/countries.py:250
 msgid "Virgin Islands, U.S."
-msgstr ""
+msgstr "איי הבתולה (ארה\"ב)"
 
 #: deluge/ui/countries.py:251
 msgid "Wallis and Futuna"
-msgstr ""
+msgstr "ואליס ופוטונה"
 
 #: deluge/ui/countries.py:252
 msgid "Western Sahara"
-msgstr ""
+msgstr "מערב סהרה"
 
 #: deluge/ui/countries.py:253
 msgid "Yemen"
-msgstr ""
+msgstr "תימן"
 
 #: deluge/ui/countries.py:254
 msgid "Zambia"
-msgstr ""
+msgstr "זמביה"
 
 #: deluge/ui/countries.py:255
 msgid "Zimbabwe"
-msgstr ""
+msgstr "זימבבואה"
 
 #: deluge/ui/ui_entry.py:51
 msgid "UI Options"
@@ -1616,14 +1618,14 @@ msgstr ""
 
 #: deluge/ui/web/json_api.py:875
 msgid "Daemon not running"
-msgstr ""
+msgstr "השרת לא מופעל"
 
 #: deluge/ui/gtk3/createtorrentdialog.py:62
-#: deluge/ui/gtk3/addtorrentdialog.py:105 deluge/ui/gtk3/files_tab.py:92
+#: deluge/ui/gtk3/addtorrentdialog.py:110 deluge/ui/gtk3/files_tab.py:92
 #: deluge/ui/web/js/deluge-all/details/FilesTab.js:18
 #: deluge/ui/web/js/deluge-all/add/FilesTab.js:28
 msgid "Filename"
-msgstr ""
+msgstr "שם קובץ"
 
 #: deluge/ui/gtk3/createtorrentdialog.py:85
 #: deluge/ui/gtk3/edittrackersdialog.py:124
@@ -1633,12 +1635,12 @@ msgstr ""
 
 #: deluge/ui/gtk3/createtorrentdialog.py:128
 msgid "Choose a file"
-msgstr ""
+msgstr "בחר קובץ"
 
 #: deluge/ui/gtk3/createtorrentdialog.py:132
 #: deluge/ui/gtk3/createtorrentdialog.py:169
 #: deluge/ui/gtk3/createtorrentdialog.py:258
-#: deluge/ui/gtk3/addtorrentdialog.py:690 deluge/ui/gtk3/dialogs.py:203
+#: deluge/ui/gtk3/addtorrentdialog.py:698 deluge/ui/gtk3/dialogs.py:203
 #: deluge/ui/gtk3/dialogs.py:261 deluge/ui/gtk3/dialogs.py:273
 #: deluge/ui/gtk3/dialogs.py:364 deluge/ui/gtk3/dialogs.py:427
 #: deluge/ui/gtk3/preferences.py:1158
@@ -1662,19 +1664,19 @@ msgstr ""
 
 #: deluge/ui/gtk3/createtorrentdialog.py:134
 #: deluge/ui/gtk3/createtorrentdialog.py:171
-#: deluge/ui/gtk3/addtorrentdialog.py:692 deluge/ui/gtk3/preferences.py:1160
+#: deluge/ui/gtk3/addtorrentdialog.py:700 deluge/ui/gtk3/preferences.py:1160
 msgid "_Open"
 msgstr ""
 
 #: deluge/ui/gtk3/createtorrentdialog.py:165
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:28
 msgid "Choose a folder"
-msgstr ""
+msgstr "בחר תיקייה"
 
 #: deluge/ui/gtk3/createtorrentdialog.py:254
 #: deluge/ui/gtk3/glade/create_torrent_dialog.remote_save.ui.h:4
 msgid "Save .torrent file"
-msgstr ""
+msgstr "קמור קובץ .torrent"
 
 #: deluge/ui/gtk3/createtorrentdialog.py:260
 #: deluge/ui/gtk3/glade/connection_manager.addhost.ui.h:3
@@ -1683,35 +1685,45 @@ msgid "_Save"
 msgstr ""
 
 #: deluge/ui/gtk3/createtorrentdialog.py:271
-#: deluge/ui/gtk3/addtorrentdialog.py:704
+#: deluge/ui/gtk3/addtorrentdialog.py:712
 msgid "Torrent files"
-msgstr ""
+msgstr "קבצי טורנט"
 
 #: deluge/ui/gtk3/createtorrentdialog.py:275
-#: deluge/ui/gtk3/addtorrentdialog.py:708
+#: deluge/ui/gtk3/addtorrentdialog.py:716
 msgid "All files"
-msgstr ""
+msgstr "כל הקבצים"
 
-#: deluge/ui/gtk3/mainwindow.py:185
+#: deluge/ui/gtk3/mainwindow.py:192
 msgid "Enter your password to show Deluge..."
 msgstr ""
 
-#: deluge/ui/gtk3/mainwindow.py:244
+#: deluge/ui/gtk3/mainwindow.py:251
 msgid "Enter your password to Quit Deluge..."
 msgstr ""
 
-#: deluge/ui/gtk3/mainwindow.py:336
+#: deluge/ui/gtk3/mainwindow.py:343
 #, python-brace-format
 msgid "D: {download_rate} U: {upload_rate} - Deluge"
 msgstr ""
 
-#: deluge/ui/gtk3/mainwindow.py:350 deluge/ui/gtk3/aboutdialog.py:26
+#: deluge/ui/gtk3/mainwindow.py:357 deluge/ui/gtk3/aboutdialog.py:26
 #: deluge/ui/gtk3/aboutdialog.py:27 deluge/ui/gtk3/systemtray.py:96
 #: deluge/ui/gtk3/systemtray.py:184 deluge/ui/gtk3/systemtray.py:244
 #: deluge/ui/data/share/applications/deluge.desktop.in.h:1
 #: deluge/ui/web/js/deluge-all/Toolbar.js:23
 #: deluge/ui/web/js/deluge-all/AboutWindow.js:91
 msgid "Deluge"
+msgstr "Deluge"
+
+#: deluge/ui/gtk3/path_combo_chooser.py:393
+#: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:20
+msgid "Edit path"
+msgstr ""
+
+#: deluge/ui/gtk3/path_combo_chooser.py:395
+#: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:21
+msgid "Remove path"
 msgstr ""
 
 #: deluge/ui/gtk3/options_tab.py:136
@@ -1773,66 +1785,66 @@ msgstr ""
 #: deluge/ui/gtk3/aboutdialog.py:829
 #: deluge/ui/web/js/deluge-all/AboutWindow.js:65
 msgid "Server:"
-msgstr ""
+msgstr "שרת:"
 
 #: deluge/ui/gtk3/aboutdialog.py:833
 #: deluge/ui/web/js/deluge-all/AboutWindow.js:41
 msgid "libtorrent:"
 msgstr ""
 
-#: deluge/ui/gtk3/addtorrentdialog.py:97 deluge/ui/gtk3/queuedtorrents.py:51
+#: deluge/ui/gtk3/addtorrentdialog.py:102 deluge/ui/gtk3/queuedtorrents.py:51
 msgid "Torrent"
-msgstr ""
+msgstr "טורנט"
 
-#: deluge/ui/gtk3/addtorrentdialog.py:224
+#: deluge/ui/gtk3/addtorrentdialog.py:232
 #, python-format
 msgid "Add Torrents (%d)"
 msgstr ""
 
-#: deluge/ui/gtk3/addtorrentdialog.py:230
+#: deluge/ui/gtk3/addtorrentdialog.py:238
 msgid "Duplicate torrent(s)"
 msgstr ""
 
-#: deluge/ui/gtk3/addtorrentdialog.py:232
+#: deluge/ui/gtk3/addtorrentdialog.py:240
 #, python-format
 msgid ""
 "You cannot add the same torrent twice. %d torrents were already added."
 msgstr ""
 
-#: deluge/ui/gtk3/addtorrentdialog.py:247
+#: deluge/ui/gtk3/addtorrentdialog.py:255
 msgid "Invalid File"
-msgstr ""
+msgstr "קובץ לא תקין"
 
-#: deluge/ui/gtk3/addtorrentdialog.py:282
+#: deluge/ui/gtk3/addtorrentdialog.py:290
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:8
 msgid "Please wait for files..."
 msgstr ""
 
-#: deluge/ui/gtk3/addtorrentdialog.py:288
+#: deluge/ui/gtk3/addtorrentdialog.py:296
 msgid "Unable to download files for this magnet"
 msgstr ""
 
-#: deluge/ui/gtk3/addtorrentdialog.py:686
+#: deluge/ui/gtk3/addtorrentdialog.py:694
 msgid "Choose a .torrent file"
-msgstr ""
+msgstr "בחר קובץ טורנט"
 
-#: deluge/ui/gtk3/addtorrentdialog.py:769
+#: deluge/ui/gtk3/addtorrentdialog.py:777
 msgid "Invalid URL"
-msgstr ""
+msgstr "כתובת לא תקינה"
 
-#: deluge/ui/gtk3/addtorrentdialog.py:770
+#: deluge/ui/gtk3/addtorrentdialog.py:778
 msgid "is not a valid URL."
 msgstr ""
 
-#: deluge/ui/gtk3/addtorrentdialog.py:776
+#: deluge/ui/gtk3/addtorrentdialog.py:784
 msgid "Downloading..."
 msgstr ""
 
-#: deluge/ui/gtk3/addtorrentdialog.py:811
+#: deluge/ui/gtk3/addtorrentdialog.py:819
 msgid "Download Failed"
-msgstr ""
+msgstr "הורדה נכשלה"
 
-#: deluge/ui/gtk3/addtorrentdialog.py:812
+#: deluge/ui/gtk3/addtorrentdialog.py:820
 msgid "Failed to download:"
 msgstr ""
 
@@ -1855,7 +1867,7 @@ msgstr ""
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:195
 #: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:38
 msgid "Details:"
-msgstr ""
+msgstr "פרטים:"
 
 #: deluge/ui/gtk3/dialogs.py:200
 msgid "Authenticate"
@@ -1875,7 +1887,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/EditConnectionWindow.js:65
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:74
 msgid "Username:"
-msgstr ""
+msgstr "שם משתמש:"
 
 #: deluge/ui/gtk3/dialogs.py:217 deluge/ui/gtk3/dialogs.py:310
 #: deluge/ui/gtk3/dialogs.py:437
@@ -1888,7 +1900,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/LoginWindow.js:47
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:83
 msgid "Password:"
-msgstr ""
+msgstr "סיסמה:"
 
 #: deluge/ui/gtk3/dialogs.py:257
 msgid "Edit Account"
@@ -1947,11 +1959,11 @@ msgstr ""
 
 #: deluge/ui/gtk3/common.py:155 deluge/ui/gtk3/menubar.py:83
 msgid "Other..."
-msgstr ""
+msgstr "אחר...‏"
 
 #: deluge/ui/gtk3/statusbar.py:155 deluge/ui/web/js/deluge-all/Statusbar.js:18
 msgid "Not Connected"
-msgstr ""
+msgstr "לא מחובר"
 
 #: deluge/ui/gtk3/statusbar.py:175
 msgid "Connections (Limit)"
@@ -1971,7 +1983,7 @@ msgstr ""
 
 #: deluge/ui/gtk3/statusbar.py:201 deluge/ui/web/js/deluge-all/Statusbar.js:234
 msgid "DHT Nodes"
-msgstr ""
+msgstr "DHT Nodes"
 
 #: deluge/ui/gtk3/statusbar.py:207
 msgid "Free Disk Space"
@@ -2046,16 +2058,16 @@ msgstr ""
 
 #: deluge/ui/gtk3/tab_data_funcs.py:96
 msgid "Yes"
-msgstr ""
+msgstr "כן"
 
 #: deluge/ui/gtk3/tab_data_funcs.py:96
 msgid "No"
-msgstr ""
+msgstr "לא"
 
 #: deluge/ui/gtk3/files_tab.py:140
 #: deluge/ui/web/js/deluge-all/details/FilesTab.js:48
 msgid "Priority"
-msgstr ""
+msgstr "עדיפות"
 
 #: deluge/ui/gtk3/torrentdetails.py:142
 msgid "_All"
@@ -2064,29 +2076,29 @@ msgstr ""
 #: deluge/ui/gtk3/torrentdetails.py:143
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:15
 msgid "_Status"
-msgstr ""
+msgstr "_מצב"
 
 #: deluge/ui/gtk3/torrentdetails.py:144
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:26
 msgid "_Details"
-msgstr ""
+msgstr "_פרטים"
 
 #: deluge/ui/gtk3/torrentdetails.py:145
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:27
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:9
 msgid "Fi_les"
-msgstr ""
+msgstr "קב_צים"
 
 #: deluge/ui/gtk3/torrentdetails.py:146
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:28
 msgid "_Peers"
-msgstr ""
+msgstr "_מקורות"
 
 #: deluge/ui/gtk3/torrentdetails.py:147
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:45
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:36
 msgid "_Options"
-msgstr ""
+msgstr "_אפשרויות"
 
 #: deluge/ui/gtk3/torrentdetails.py:148
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:52
@@ -2106,7 +2118,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/Menus.js:199
 #: deluge/ui/web/js/deluge-all/Menus.js:244
 msgid "Unlimited"
-msgstr ""
+msgstr "ללא הגבלה"
 
 #: deluge/ui/gtk3/systemtray.py:245
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:39
@@ -2115,7 +2127,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/EditTrackersWindow.js:85
 #: deluge/ui/web/js/deluge-all/Menus.js:298
 msgid "Down"
-msgstr ""
+msgstr "למטה"
 
 #: deluge/ui/gtk3/systemtray.py:248
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:37
@@ -2125,48 +2137,48 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/EditTrackersWindow.js:79
 #: deluge/ui/web/js/deluge-all/Menus.js:291
 msgid "Up"
-msgstr ""
+msgstr "למעלה"
 
-#: deluge/ui/gtk3/gtkui.py:318
+#: deluge/ui/gtk3/gtkui.py:313
 msgid ""
 "A Deluge daemon (deluged) is already running.\n"
 "To use Standalone mode, stop local daemon and restart Deluge."
 msgstr ""
 
-#: deluge/ui/gtk3/gtkui.py:324
+#: deluge/ui/gtk3/gtkui.py:319
 msgid ""
 "Only Thin Client mode is available because libtorrent is not installed.\n"
 "To use Standalone mode, please install libtorrent package."
 msgstr ""
 
-#: deluge/ui/gtk3/gtkui.py:330 deluge/ui/gtk3/gtkui.py:336
+#: deluge/ui/gtk3/gtkui.py:325 deluge/ui/gtk3/gtkui.py:331
 msgid ""
 "Only Thin Client mode is available due to unknown Import Error.\n"
 "To use Standalone mode, please see logs for error details."
 msgstr ""
 
-#: deluge/ui/gtk3/gtkui.py:354
+#: deluge/ui/gtk3/gtkui.py:349
 msgid "Continue in Thin Client mode?"
 msgstr ""
 
-#: deluge/ui/gtk3/gtkui.py:355
+#: deluge/ui/gtk3/gtkui.py:350
 msgid "Change User Interface Mode"
 msgstr ""
 
 #: deluge/ui/gtk3/connectionmanager.py:52
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:56
 msgid "Offline"
-msgstr ""
+msgstr "מנותק"
 
 #: deluge/ui/gtk3/connectionmanager.py:53
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:53
 msgid "Online"
-msgstr ""
+msgstr "מקוון"
 
 #: deluge/ui/gtk3/connectionmanager.py:54
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:59
 msgid "Connected"
-msgstr ""
+msgstr "מחובר"
 
 #: deluge/ui/gtk3/connectionmanager.py:110
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:176
@@ -2178,7 +2190,7 @@ msgstr ""
 #: deluge/ui/gtk3/connectionmanager.py:115
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:66
 msgid "Host"
-msgstr ""
+msgstr "שרת מארח"
 
 #: deluge/ui/gtk3/connectionmanager.py:122
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:73
@@ -2236,12 +2248,12 @@ msgstr ""
 #: deluge/ui/console/cmdline/commands/connect.py:33
 #: deluge/ui/console/modes/preferences/preference_panes.py:651
 msgid "Username"
-msgstr ""
+msgstr "שם משתמש"
 
 #: deluge/ui/gtk3/preferences.py:135
 #: deluge/ui/console/modes/preferences/preference_panes.py:399
 msgid "Level"
-msgstr ""
+msgstr "רמה"
 
 #: deluge/ui/gtk3/preferences.py:159
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:2
@@ -2252,12 +2264,12 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/preferences/EncryptionPage.js:67
 #: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:71
 msgid "Enabled"
-msgstr ""
+msgstr "מופעל"
 
 #: deluge/ui/gtk3/preferences.py:162
 #: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:87
 msgid "Plugin"
-msgstr ""
+msgstr "תוסף"
 
 #: deluge/ui/gtk3/preferences.py:876 deluge/ui/gtk3/preferences.py:886
 msgid "Attention"
@@ -2271,6 +2283,15 @@ msgstr ""
 msgid "You must now restart the deluge UI for the changes to take effect."
 msgstr ""
 
+#: deluge/ui/gtk3/preferences.py:940
+msgid "Thinclient"
+msgstr ""
+
+#: deluge/ui/gtk3/preferences.py:940
+#: deluge/ui/gtk3/glade/preferences_dialog.ui.h:18
+msgid "Standalone"
+msgstr ""
+
 #: deluge/ui/gtk3/preferences.py:942
 msgid "Switching Deluge Client Mode..."
 msgstr ""
@@ -2282,7 +2303,7 @@ msgstr ""
 
 #: deluge/ui/gtk3/preferences.py:1154
 msgid "Select the Plugin"
-msgstr ""
+msgstr "בחר את התוסף"
 
 #: deluge/ui/gtk3/preferences.py:1170
 msgid "Plugin Eggs"
@@ -2339,39 +2360,39 @@ msgstr ""
 msgid "An error occurred while removing account"
 msgstr ""
 
-#: deluge/ui/gtk3/filtertreeview.py:127
+#: deluge/ui/gtk3/filtertreeview.py:122
 #: deluge/ui/web/js/deluge-all/FilterPanel.js:28
 msgid "States"
 msgstr ""
 
-#: deluge/ui/gtk3/filtertreeview.py:133
+#: deluge/ui/gtk3/filtertreeview.py:128
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:23
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:21
 #: deluge/ui/web/js/deluge-all/FilterPanel.js:30
 msgid "Trackers"
-msgstr ""
+msgstr "טראקרים"
 
-#: deluge/ui/gtk3/filtertreeview.py:137 deluge/ui/gtk3/filtertreeview.py:143
+#: deluge/ui/gtk3/filtertreeview.py:132 deluge/ui/gtk3/filtertreeview.py:138
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:7
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:33
 msgid "None"
-msgstr ""
+msgstr "ללא"
 
-#: deluge/ui/gtk3/filtertreeview.py:142
+#: deluge/ui/gtk3/filtertreeview.py:137
 msgid "Admin"
-msgstr ""
+msgstr "מנהל"
 
-#: deluge/ui/gtk3/filtertreeview.py:164
+#: deluge/ui/gtk3/filtertreeview.py:159
 #: deluge/ui/web/js/deluge-all/FilterPanel.js:34
 msgid "Labels"
-msgstr ""
+msgstr "תויות"
 
-#: deluge/ui/gtk3/filtertreeview.py:209
+#: deluge/ui/gtk3/filtertreeview.py:204
 #: deluge/plugins/Label/deluge_label/gtkui/submenu.py:28
 msgid "No Label"
 msgstr ""
 
-#: deluge/ui/gtk3/filtertreeview.py:211
+#: deluge/ui/gtk3/filtertreeview.py:206
 msgid "No Owner"
 msgstr ""
 
@@ -2381,11 +2402,11 @@ msgstr ""
 
 #: deluge/ui/gtk3/queuedtorrents.py:118
 msgid " Torrents Queued"
-msgstr ""
+msgstr " הטורנטים הועברו ברשימה"
 
 #: deluge/ui/gtk3/queuedtorrents.py:120
 msgid " Torrent Queued"
-msgstr ""
+msgstr " הטורנט הועבר ברשימה"
 
 #: deluge/ui/gtk3/torrentview.py:421
 msgid "Torrent is shared between other Deluge users or not."
@@ -2402,19 +2423,19 @@ msgstr ""
 
 #: deluge/ui/gtk3/menubar.py:79
 msgid "Set Unlimited"
-msgstr ""
+msgstr "קבע לבלתי מוגבל"
 
 #: deluge/ui/gtk3/menubar.py:91 deluge/ui/web/js/deluge-all/Menus.js:259
 msgid "On"
-msgstr ""
+msgstr "פועל"
 
 #: deluge/ui/gtk3/menubar.py:94 deluge/ui/web/js/deluge-all/Menus.js:265
 msgid "Off"
-msgstr ""
+msgstr "כבוי"
 
 #: deluge/ui/gtk3/menubar.py:101
 msgid "Disable"
-msgstr ""
+msgstr "כיבוי"
 
 #: deluge/ui/gtk3/menubar.py:104
 msgid "Enable..."
@@ -2443,12 +2464,12 @@ msgstr ""
 #: deluge/ui/gtk3/peers_tab.py:91
 #: deluge/ui/web/js/deluge-all/details/PeersTab.js:66
 msgid "Address"
-msgstr ""
+msgstr "כתובת"
 
 #: deluge/ui/gtk3/peers_tab.py:107
 #: deluge/ui/web/js/deluge-all/details/PeersTab.js:73
 msgid "Client"
-msgstr ""
+msgstr "תוכנה"
 
 #: deluge/ui/gtk3/__init__.py:29
 msgid "GTK Options"
@@ -2462,11 +2483,11 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.progress.ui.h:1
 msgid "Creating Torrent"
-msgstr ""
+msgstr "יצירת טורנט"
 
 #: deluge/ui/gtk3/glade/queuedtorrents.ui.h:1
 msgid "Queued Torrents"
-msgstr ""
+msgstr "טורנטים בתהליך"
 
 #: deluge/ui/gtk3/glade/queuedtorrents.ui.h:4
 msgid "Add Queued Torrents"
@@ -2478,7 +2499,7 @@ msgstr ""
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:21
 #: deluge/ui/gtk3/glade/connection_manager.ui.h:6
 msgid "_Remove"
-msgstr ""
+msgstr "_הסרה"
 
 #: deluge/ui/gtk3/glade/queuedtorrents.ui.h:6
 msgid "_Clear"
@@ -2486,22 +2507,22 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/queuedtorrents.ui.h:7
 msgid "Automatically add torrents on connect"
-msgstr ""
+msgstr "הוסף טורנטים אוטומטית בהתחברות"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:1
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:4
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:12
 msgid "_File"
-msgstr ""
+msgstr "_קובץ"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:2
 #: deluge/ui/gtk3/glade/tray_menu.ui.h:2
 msgid "_Add Torrent"
-msgstr ""
+msgstr "_הוסף טורנט"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:3
 msgid "_Create Torrent"
-msgstr ""
+msgstr "י_צרת טורנט"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:4
 msgid "Quit & _Shutdown Daemon"
@@ -2510,14 +2531,14 @@ msgstr ""
 #: deluge/ui/gtk3/glade/main_window.ui.h:5
 #: deluge/ui/gtk3/glade/tray_menu.ui.h:8
 msgid "_Quit"
-msgstr ""
+msgstr "_סיים"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:6
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:192
 #: deluge/ui/gtk3/glade/edit_trackers.ui.h:6
 #: deluge/ui/gtk3/glade/connection_manager.ui.h:5
 msgid "_Edit"
-msgstr ""
+msgstr "_עריכה"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:7
 msgid "_Preferences"
@@ -2525,35 +2546,35 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:8
 msgid "_Connection Manager"
-msgstr ""
+msgstr "מנהל _החיבור"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:9
 msgid "_Torrent"
-msgstr ""
+msgstr "_טורנט"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:10
 msgid "_View"
-msgstr ""
+msgstr "_תצוגה"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:11
 msgid "_Toolbar"
-msgstr ""
+msgstr "_סרגל כלים"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:12
 msgid "_Sidebar"
-msgstr ""
+msgstr "סרגל _צד"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:13
 msgid "Status_bar"
-msgstr ""
+msgstr "_שורת מצב"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:14
 msgid "T_abs"
-msgstr ""
+msgstr "ל_שוניות"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:15
 msgid "_Columns"
-msgstr ""
+msgstr "_עמודות"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:16
 msgid "_Find ..."
@@ -2561,15 +2582,15 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:17
 msgid "S_idebar"
-msgstr ""
+msgstr "_סרגל צד"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:18
 msgid "Show _Zero Hits"
-msgstr ""
+msgstr "הצג _אפס התאמות"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:19
 msgid "Show _Trackers"
-msgstr ""
+msgstr "הצג _טראקרים"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:20
 msgid "Show _Owners"
@@ -2577,7 +2598,7 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:21
 msgid "_Help"
-msgstr ""
+msgstr "_עזרה"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:22
 msgid "_Homepage"
@@ -2589,7 +2610,7 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:24
 msgid "Frequently Asked Questions"
-msgstr ""
+msgstr "שאלות נפוצות"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:25
 msgid "_Community"
@@ -2601,16 +2622,16 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:27
 msgid "Add torrent"
-msgstr ""
+msgstr "הוסף טורנט"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:28
 msgid "Add Torrent"
-msgstr ""
+msgstr "הוסף טורנט"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:29
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:221
 msgid "Remove torrent"
-msgstr ""
+msgstr "הסר טורנט"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:30
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:105
@@ -2619,7 +2640,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/RemoveWindow.js:34
 #: deluge/ui/web/js/deluge-all/Menus.js:331
 msgid "Remove Torrent"
-msgstr ""
+msgstr "הסר טורנט"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:31
 msgid ""
@@ -2633,53 +2654,53 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:34
 msgid "Pause the selected torrents"
-msgstr ""
+msgstr "השהה את הטורנטים הנבחרים"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:35
 #: deluge/ui/web/js/deluge-all/Toolbar.js:54
 #: deluge/ui/web/js/deluge-all/Menus.js:52
 msgid "Pause"
-msgstr ""
+msgstr "השהה"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:36
 msgid "Resume the selected torrents"
-msgstr ""
+msgstr "המשך את הטורנטים הנבחרים"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:37
 #: deluge/ui/web/js/deluge-all/Toolbar.js:61
 #: deluge/ui/web/js/deluge-all/Menus.js:59
 msgid "Resume"
-msgstr ""
+msgstr "המשך"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:38
 msgid "Queue Torrent Up"
-msgstr ""
+msgstr "העלה עדיפות"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:39
 msgid "Queue Up"
-msgstr ""
+msgstr "למעלה בתור"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:40
 msgid "Queue Torrent Down"
-msgstr ""
+msgstr "הורד עדיפות"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:41
 msgid "Queue Down"
-msgstr ""
+msgstr "למטה בתור"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:42
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:14
 #: deluge/ui/web/js/deluge-all/Toolbar.js:84
 #: deluge/ui/web/js/deluge-all/preferences/PreferencesWindow.js:24
 msgid "Preferences"
-msgstr ""
+msgstr "העדפות"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:43
 #: deluge/ui/gtk3/glade/connection_manager.ui.h:1
 #: deluge/ui/web/js/deluge-all/Toolbar.js:91
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:21
 msgid "Connection Manager"
-msgstr ""
+msgstr "מנהל החיבור"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:44
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:2
@@ -2710,7 +2731,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/preferences/EncryptionPage.js:45
 #: deluge/ui/web/js/deluge-all/preferences/EncryptionPage.js:66
 msgid "Forced"
-msgstr ""
+msgstr "מאולץ"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:3
 #: deluge/ui/console/modes/preferences/preference_panes.py:383
@@ -2718,13 +2739,13 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/preferences/EncryptionPage.js:47
 #: deluge/ui/web/js/deluge-all/preferences/EncryptionPage.js:68
 msgid "Disabled"
-msgstr ""
+msgstr "כבוי"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:4
 #: deluge/ui/console/modes/preferences/preference_panes.py:400
 #: deluge/ui/web/js/deluge-all/preferences/EncryptionPage.js:87
 msgid "Handshake"
-msgstr ""
+msgstr "לחיצת יד"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:5
 #: deluge/ui/console/modes/preferences/preference_panes.py:400
@@ -2756,7 +2777,7 @@ msgstr ""
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:11
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:37
 msgid "HTTP"
-msgstr ""
+msgstr "HTTP"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:12
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:38
@@ -2766,10 +2787,6 @@ msgstr ""
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:13
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:39
 msgid "I2P"
-msgstr ""
-
-#: deluge/ui/gtk3/glade/preferences_dialog.ui.h:18
-msgid "Standalone"
 msgstr ""
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:19
@@ -2845,7 +2862,7 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:37
 msgid "Enable system tray icon"
-msgstr ""
+msgstr "הפעל סמל במגש מערכת"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:38
 msgid "App Indicator"
@@ -2857,15 +2874,15 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:40
 msgid "Minimize to tray on close"
-msgstr ""
+msgstr "הקטן למגש המערכת בסגירה"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:41
 msgid "Start in tray"
-msgstr ""
+msgstr "התחל במגש המערכת"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:42
 msgid "Password protect system tray"
-msgstr ""
+msgstr "הגן בסיסמה על הסמל במגש המערכת"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:44
 msgid "System Tray"
@@ -2886,20 +2903,20 @@ msgid "System Default"
 msgstr ""
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:48
-msgid "<b>Languge</b>"
+msgid "<b>Language</b>"
 msgstr ""
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:49
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:16
 #: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:61
 msgid "Move completed to:"
-msgstr ""
+msgstr "העבר הורדות שהושלמו ל:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:50
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:15
 #: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:70
 msgid "Copy of .torrent files to:"
-msgstr ""
+msgstr "העתקת קבצי .torrent ל:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:51
 #: deluge/ui/console/modes/preferences/preference_panes.py:275
@@ -2915,7 +2932,7 @@ msgstr ""
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:53
 #: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:53
 msgid "Download to:"
-msgstr ""
+msgstr "הורדה אל:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:54
 msgid "Download Folders"
@@ -2924,11 +2941,11 @@ msgstr ""
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:55
 #: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:93
 msgid "Prioritize first and last pieces of torrent"
-msgstr ""
+msgstr "קבע סדרי עדיפויות לחלקים הראשונים והאחרונים של הטורנט"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:56
 msgid "Prioritize first and last pieces of files in torrent"
-msgstr ""
+msgstr "תעדף את החלקים הראשון והאחרון של הקבצים בטורנט"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:57
 #: deluge/ui/console/modes/preferences/preference_panes.py:287
@@ -2950,7 +2967,7 @@ msgstr ""
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:64
 #: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:111
 msgid "Add torrents in Paused state"
-msgstr ""
+msgstr "הוסף טורנטים במצב מושהה"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:65
 #: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:120
@@ -2967,11 +2984,11 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:68
 msgid "Always show"
-msgstr ""
+msgstr "הצג תמיד"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:69
 msgid "Bring the dialog to focus"
-msgstr ""
+msgstr "התמקד בחלון התוכנה"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:70
 msgid "Add Torrents Dialog"
@@ -2987,7 +3004,7 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:73
 msgid "The maximum number of connections allowed.  Set -1 for unlimited."
-msgstr ""
+msgstr "מספר החיבורים המקסימלי המותר. -1 עבור מהירות בלתי מוגבלת."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:74
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:42
@@ -2995,11 +3012,11 @@ msgstr ""
 #: deluge/plugins/Stats/deluge_stats/data/config.ui.h:8
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:8
 msgid "Connections:"
-msgstr ""
+msgstr "חיבורים:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:75
 msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
-msgstr ""
+msgstr "מספר נקודות העלאה מקסימלי עבור כל הטורנטים. -1 עבור בלתי מוגבל"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:76
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:43
@@ -3010,34 +3027,34 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:77
 msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
-msgstr ""
+msgstr "מהירות הורדה מקסימלית עבור כל הטורנטים. -1 עבור ללא הגבלה."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:78
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:41
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:7
 msgid "Download Speed:"
-msgstr ""
+msgstr "מהירות הורדה:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:79
 msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
-msgstr ""
+msgstr "מהירות העלאה מקסימלית עבור כל הטורנטים. -1 עבור ללא הגבלה."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:81
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:39
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:6
 msgid "Upload Speed:"
-msgstr ""
+msgstr "מהירות העלאה:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:82
 #: deluge/ui/console/modes/preferences/preference_panes.py:458
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:131
 msgid "Ignore limits on local network"
-msgstr ""
+msgstr "התעלם מהגבלות ברשת מקומית"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:83
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:141
 msgid "Rate limit IP overhead"
-msgstr ""
+msgstr "מגבלת יחס של כמות IP"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:84
 msgid ""
@@ -3051,11 +3068,11 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:86
 msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
-msgstr ""
+msgstr "מקסימום נקודות העלאה לכל טורנט. -1 עבור בלתי מוגבל."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:87
 msgid "The maximum number of connections per torrent.  Set -1 for unlimited."
-msgstr ""
+msgstr "מספר המקסימלי של חיבורים לכל טורנט. -1 עבור בלתי מוגבל."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:88
 msgid "The maximum number download speed per torrent.  Set -1 for unlimited."
@@ -3164,7 +3181,7 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:109
 msgid "Random"
-msgstr ""
+msgstr "אקראי"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:110
 msgid "Uses random ports in range 49152 to 65525"
@@ -3172,11 +3189,11 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:111
 msgid "Active Port:"
-msgstr ""
+msgstr "יציאה פעילה:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:112
 msgid "Test Active Port"
-msgstr ""
+msgstr "בדוק יציאה פעילה"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:113
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:58
@@ -3201,12 +3218,12 @@ msgstr ""
 #: deluge/plugins/Notifications/deluge_notifications/data/config.ui.h:11
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:155
 msgid "From:"
-msgstr ""
+msgstr "מ:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:119
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:165
 msgid "To:"
-msgstr ""
+msgstr "ל:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:120
 #: deluge/ui/console/modes/preferences/preference_panes.py:328
@@ -3227,36 +3244,36 @@ msgstr ""
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:123
 #: deluge/ui/web/js/deluge-all/preferences/EncryptionPage.js:80
 msgid "Level:"
-msgstr ""
+msgstr "רמה:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:124
 #: deluge/ui/console/modes/preferences/preference_panes.py:379
 #: deluge/ui/web/js/deluge-all/preferences/EncryptionPage.js:18
 msgid "Encryption"
-msgstr ""
+msgstr "הצפנה"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:125
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:194
 msgid "UPnP"
-msgstr ""
+msgstr "UPnP"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:126
 msgid "Universal Plug and Play"
-msgstr ""
+msgstr "Universal Plug and Play"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:127
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:203
 msgid "NAT-PMP"
-msgstr ""
+msgstr "NAT-PMP"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:128
 msgid "NAT Port Mapping Protocol"
-msgstr ""
+msgstr "פרוטוקול מיפוי יציאות NAT"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:129
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:213
 msgid "Peer Exchange"
-msgstr ""
+msgstr "חילופי מקורות"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:130
 msgid "Exchanges peers between clients. (Disabling requires restart)"
@@ -3265,21 +3282,21 @@ msgstr ""
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:131
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:223
 msgid "LSD"
-msgstr ""
+msgstr "LSD"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:132
 msgid "Local Service Discovery finds local peers on your network."
-msgstr ""
+msgstr "מגלה שירות מקומי מאתר מקורות ברשת המקומית שלך."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:133
 #: deluge/ui/console/widgets/statusbars.py:118
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:232
 msgid "DHT"
-msgstr ""
+msgstr "DHT"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:134
 msgid "Distributed hash table may improve the amount of active connections."
-msgstr ""
+msgstr "טבלת גיבוב מבוזרת יכולה לשפר את כמות החיבורים הפעילים."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:135
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:251
@@ -3297,7 +3314,7 @@ msgstr ""
 #: deluge/ui/console/modes/connectionmanager.py:121
 #: deluge/plugins/Notifications/deluge_notifications/data/config.ui.h:5
 msgid "Hostname:"
-msgstr ""
+msgstr "שם מארח:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:138
 #: deluge/ui/gtk3/glade/connection_manager.addhost.ui.h:5
@@ -3308,7 +3325,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:62
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:150
 msgid "Port:"
-msgstr ""
+msgstr "יציאה:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:140
 #: deluge/ui/console/modes/preferences/preference_panes.py:658
@@ -3373,7 +3390,7 @@ msgstr ""
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:153
 #: deluge/ui/web/js/deluge-all/preferences/CachePage.js:53
 msgid "Cache Expiry (seconds):"
-msgstr ""
+msgstr "תוקף המטמון (שניות):"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:154
 #: deluge/ui/console/modes/preferences/preference_panes.py:694
@@ -3381,7 +3398,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/preferences/EncryptionPage.js:29
 #: deluge/ui/web/js/deluge-all/preferences/CachePage.js:30
 msgid "Settings"
-msgstr ""
+msgstr "הגדרות"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:155
 msgid ""
@@ -3401,7 +3418,7 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:158
 msgid "Writes:"
-msgstr ""
+msgstr "כותב:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:159
 msgid ""
@@ -3452,7 +3469,7 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:169
 msgid "Reads:"
-msgstr ""
+msgstr "קורא:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:170
 #: deluge/ui/console/modes/preferences/preference_panes.py:723
@@ -3467,11 +3484,11 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:172
 msgid "Cache Size:"
-msgstr ""
+msgstr "גדול מטמון:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:173
 msgid "Read Cache Size:"
-msgstr ""
+msgstr "גודל קריאת מטמון:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:175
 #: deluge/ui/gtk3/glade/connection_manager.ui.h:7
@@ -3483,11 +3500,13 @@ msgid ""
 "Help us improve Deluge by sending us your Python version, PyGTK version, OS "
 "and processor types.  Absolutely no other information is sent."
 msgstr ""
+"עזרו לנו להשתפר על ידי שליחת גרסאות ה־Python וה־PyGTK שלכם, מערכת ההפעלה "
+"וסוג המעבד. כמובן ששום מידע נוסף לא נשלח."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:178
 #: deluge/ui/web/js/deluge-all/preferences/OtherPage.js:77
 msgid "Yes, please send anonymous statistics"
-msgstr ""
+msgstr "כן, שלח בבקשה סטטיסטיקות אנונימיות"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:179
 #: deluge/ui/console/modes/preferences/preference_panes.py:503
@@ -3497,13 +3516,15 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:180
 msgid "Location:"
-msgstr ""
+msgstr "מיקום:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:181
 msgid ""
 "If Deluge cannot find the database file at this location it will fallback to "
 "using DNS to resolve the peer's country."
 msgstr ""
+"במידה ו־Deluge לא ימצא את קובץ מסד הנתונים במיקום הזה יתבצע שימוש ב־DNS כדי "
+"לבדוק את המדינה של המקור."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:182
 #: deluge/ui/console/modes/preferences/preference_panes.py:516
@@ -3522,31 +3543,31 @@ msgstr ""
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:185
 #: deluge/ui/web/js/deluge-all/preferences/DaemonPage.js:37
 msgid "Daemon port:"
-msgstr ""
+msgstr "יציאת השרת:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:186
 #: deluge/ui/console/modes/preferences/preference_panes.py:655
 #: deluge/ui/web/js/deluge-all/preferences/DaemonPage.js:30
 msgid "Port"
-msgstr ""
+msgstr "מספר פורט"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:187
 #: deluge/ui/web/js/deluge-all/preferences/DaemonPage.js:61
 msgid "Allow Remote Connections"
-msgstr ""
+msgstr "אפשר חיבורים מרוחקים"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:188
 #: deluge/plugins/Stats/deluge_stats/data/tabs.ui.h:4
 #: deluge/ui/web/js/deluge-all/Statusbar.js:39
 #: deluge/ui/web/js/deluge-all/preferences/DaemonPage.js:50
 msgid "Connections"
-msgstr ""
+msgstr "חיבורים"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:189
 #: deluge/ui/console/modes/preferences/preference_panes.py:543
 #: deluge/ui/web/js/deluge-all/preferences/DaemonPage.js:80
 msgid "Periodically check the website for new releases"
-msgstr ""
+msgstr "בדיקה תקופתית אחר גרסאות חדשות באתר הבית"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:193
 msgid "_Delete"
@@ -3559,28 +3580,28 @@ msgstr ""
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:196
 #: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:29
 msgid "Version:"
-msgstr ""
+msgstr "גירסה:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:197
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:16
 #: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:26
 msgid "Author:"
-msgstr ""
+msgstr "יוצר:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:198
 #: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:35
 msgid "Homepage:"
-msgstr ""
+msgstr "דף הבית:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:199
 #: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:32
 msgid "Author Email:"
-msgstr ""
+msgstr "כתובת דואל היוצר:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:200
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:18
 msgid "Info"
-msgstr ""
+msgstr "מידע"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:201
 msgid "_Install"
@@ -3604,11 +3625,11 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/connect_peer_dialog.ui.h:1
 msgid "Add Peer"
-msgstr ""
+msgstr "הוסף מקור"
 
 #: deluge/ui/gtk3/glade/connect_peer_dialog.ui.h:4
 msgid "hostname:port"
-msgstr ""
+msgstr "hostname:port"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:1
 msgid "Properties"
@@ -3622,7 +3643,7 @@ msgstr ""
 #: deluge/plugins/Blocklist/deluge_blocklist/data/blocklist_pref.ui.h:2
 #: deluge/plugins/Extractor/deluge_extractor/data/extractor_prefs.ui.h:5
 msgid "<b>General</b>"
-msgstr ""
+msgstr "<b>כללי</b>"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:5
 msgid "Show path entry"
@@ -3684,14 +3705,6 @@ msgstr ""
 msgid "Ctrl+D"
 msgstr ""
 
-#: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:20
-msgid "Edit path"
-msgstr ""
-
-#: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:21
-msgid "Remove path"
-msgstr ""
-
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:22
 msgid "Toggle hidden files"
 msgstr ""
@@ -3741,7 +3754,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/add/UrlWindow.js:27
 #: deluge/ui/web/js/deluge-all/add/AddWindow.js:65
 msgid "Add"
-msgstr ""
+msgstr "הוסף"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:32
 msgid "Add the current entry value to the list"
@@ -3764,7 +3777,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:110
 #: deluge/ui/web/js/deluge-all/add/AddWindow.js:156
 msgid "Remove"
-msgstr ""
+msgstr "הסר"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:36
 msgid "Remove the selected entry"
@@ -3792,7 +3805,7 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.infohash.ui.h:1
 msgid "Add Infohash"
-msgstr ""
+msgstr "הוסף Infohash"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.infohash.ui.h:4
 msgid "From Infohash"
@@ -3800,18 +3813,18 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.infohash.ui.h:5
 msgid "Infohash:"
-msgstr ""
+msgstr "Infohash:"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.infohash.ui.h:6
 #: deluge/ui/gtk3/glade/edit_trackers.add.ui.h:5
 #: deluge/ui/web/js/deluge-all/AddTrackerWindow.js:53
 msgid "Trackers:"
-msgstr ""
+msgstr "טראקרים:"
 
 #: deluge/ui/gtk3/glade/connection_manager.addhost.ui.h:1
 #: deluge/ui/console/modes/connectionmanager.py:51
 msgid "Add Host"
-msgstr ""
+msgstr "הוסף מארח"
 
 #: deluge/ui/gtk3/glade/move_storage_dialog.ui.h:1
 #: deluge/ui/web/js/deluge-all/MoveStorage.js:16
@@ -3825,15 +3838,15 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/move_storage_dialog.ui.h:5
 msgid "Destination:"
-msgstr ""
+msgstr "יעד:"
 
 #: deluge/ui/gtk3/glade/main_window.new_release.ui.h:1
 msgid "New Release"
-msgstr ""
+msgstr "גרסה חדשה"
 
 #: deluge/ui/gtk3/glade/main_window.new_release.ui.h:3
 msgid "_Goto Website"
-msgstr ""
+msgstr "_עבור לאתר"
 
 #: deluge/ui/gtk3/glade/main_window.new_release.ui.h:4
 msgid "New Release Available!"
@@ -3853,7 +3866,7 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/main_window.new_release.ui.h:8
 msgid "Do not show this dialog in the future"
-msgstr ""
+msgstr "אל תציג את החלון שוב בעתיד"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:1
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:26
@@ -3931,7 +3944,7 @@ msgstr ""
 #: deluge/plugins/Label/deluge_label/data/label_add.ui.h:3
 #: deluge/ui/web/js/deluge-all/details/DetailsTab.js:23
 msgid "Name:"
-msgstr ""
+msgstr "שם:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:18
 #: deluge/ui/web/js/deluge-all/details/DetailsTab.js:25
@@ -3965,7 +3978,7 @@ msgstr ""
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:24
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:17
 msgid "Comments:"
-msgstr ""
+msgstr "הערות:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:29
 msgid "Owner:"
@@ -3973,21 +3986,21 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:34
 msgid "Move completed:"
-msgstr ""
+msgstr "העברת טורנטים שהושלמו:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:36
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:39
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:12
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:205
 msgid "Stop seed at ratio:"
-msgstr ""
+msgstr "הפסק לשתף כשיחס השיתוף מגיע ל:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:37
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:40
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:13
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:233
 msgid "Remove at ratio"
-msgstr ""
+msgstr "הסרה ביחס שיתוף"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:44
 msgid "Bandwidth Limits"
@@ -4018,7 +4031,7 @@ msgstr ""
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:51
 #: deluge/ui/gtk3/glade/torrent_menu.ui.h:8
 msgid "_Edit Trackers"
-msgstr ""
+msgstr "_ערוך טראקרים"
 
 #: deluge/ui/gtk3/glade/torrent_menu.queue.ui.h:1
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:44
@@ -4035,15 +4048,15 @@ msgstr ""
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:1
 #: deluge/ui/web/js/deluge-all/add/AddWindow.js:50
 msgid "Add Torrents"
-msgstr ""
+msgstr "הוספת טורנטים"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:5
 msgid "_URL"
-msgstr ""
+msgstr "_כתובת"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:6
 msgid "Info_hash"
-msgstr ""
+msgstr "Info_hash"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:11
 msgid "Move Complete Folder"
@@ -4051,12 +4064,12 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:12
 msgid "Add In _Paused State"
-msgstr ""
+msgstr "הוסף _במצב מושהה"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:13
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:134
 msgid "Prioritize First/Last Pieces"
-msgstr ""
+msgstr "העדף חלק ראשון/אחרון"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:21
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:46
@@ -4091,15 +4104,15 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:34
 msgid "Apply To All"
-msgstr ""
+msgstr "החל לכולם"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:35
 msgid "Revert To Defaults"
-msgstr ""
+msgstr "החזר לברירת מחדל"
 
 #: deluge/ui/gtk3/glade/tray_menu.ui.h:1
 msgid "_Show Deluge"
-msgstr ""
+msgstr "_הצג"
 
 #: deluge/ui/gtk3/glade/tray_menu.ui.h:3
 msgid "_Pause Session"
@@ -4112,23 +4125,23 @@ msgstr ""
 #: deluge/ui/gtk3/glade/tray_menu.ui.h:5
 #: deluge/ui/gtk3/glade/torrent_menu.options.ui.h:1
 msgid "_Download Speed Limit"
-msgstr ""
+msgstr "_הגבלת מהירות הורדה"
 
 #: deluge/ui/gtk3/glade/tray_menu.ui.h:6
 #: deluge/ui/gtk3/glade/torrent_menu.options.ui.h:2
 msgid "_Upload Speed Limit"
-msgstr ""
+msgstr "_הגבלת מהירות העלאה"
 
 #: deluge/ui/gtk3/glade/tray_menu.ui.h:7
 msgid "Quit & Shutdown Daemon"
-msgstr ""
+msgstr "יצאה & כיבוי השרת"
 
 #: deluge/ui/gtk3/glade/edit_trackers.ui.h:1
 #: deluge/ui/web/js/deluge-all/EditTrackersWindow.js:17
 #: deluge/ui/web/js/deluge-all/Menus.js:323
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:318
 msgid "Edit Trackers"
-msgstr ""
+msgstr "עריכת טראקרים"
 
 #: deluge/ui/gtk3/glade/edit_trackers.ui.h:4
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:19
@@ -4146,22 +4159,22 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/main_window.tabs.menu_peer.ui.h:2
 msgid "Add a peer by its IP"
-msgstr ""
+msgstr "הוסף מקור על פי כתובת IP"
 
 #: deluge/ui/gtk3/glade/edit_trackers.edit.ui.h:1
 #: deluge/ui/web/js/deluge-all/EditTrackerWindow.js:17
 msgid "Edit Tracker"
-msgstr ""
+msgstr "עריכת טקראקר"
 
 #: deluge/ui/gtk3/glade/edit_trackers.edit.ui.h:4
 #: deluge/ui/web/js/deluge-all/EditTrackerWindow.js:44
 #: deluge/ui/web/js/deluge-all/details/DetailsTab.js:30
 msgid "Tracker:"
-msgstr ""
+msgstr "טראקר:"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.remote_path.ui.h:1
 msgid "Enter Remote Path"
-msgstr ""
+msgstr "הזן נתיב מרוחק"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.remote_path.ui.h:4
 msgid "Remote Path"
@@ -4171,7 +4184,7 @@ msgstr ""
 #: deluge/ui/gtk3/glade/create_torrent_dialog.remote_save.ui.h:5
 #: deluge/ui/web/js/deluge-all/preferences/OtherPage.js:94
 msgid "Path:"
-msgstr ""
+msgstr "נתיב:"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:1
 msgid "32 KiB"
@@ -4215,38 +4228,38 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:11
 msgid "Create Torrent"
-msgstr ""
+msgstr "יצירת טורנט"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:13
 msgid "Fol_der"
-msgstr ""
+msgstr "תי_קיה"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:14
 msgid "_Remote Path"
-msgstr ""
+msgstr "נתיב _מרוחק"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:15
 #: deluge/ui/web/js/deluge-all/details/FilesTab.js:12
 #: deluge/ui/web/js/deluge-all/details/FilesTab.js:73
 #: deluge/ui/web/js/deluge-all/add/FilesTab.js:18
 msgid "Files"
-msgstr ""
+msgstr "קבצים"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:24
 msgid "Webseeds"
-msgstr ""
+msgstr "משתפי רשת"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:25
 msgid "Piece Size:"
-msgstr ""
+msgstr "גודל החלק:"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:26
 msgid "Set Private Flag"
-msgstr ""
+msgstr "קביעת דגל פרטי"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:27
 msgid "Add this torrent to the session"
-msgstr ""
+msgstr "הוסף את הטורנט להפעלה"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:28
 #: deluge/ui/console/modes/preferences/preference_panes.py:279
@@ -4256,11 +4269,11 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:80
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:17
 msgid "Options"
-msgstr ""
+msgstr "אפשרויות"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.remote_save.ui.h:1
 msgid "Save .torrent as"
-msgstr ""
+msgstr "שמור .torrent בשם"
 
 #: deluge/ui/gtk3/glade/torrent_menu.ui.h:1
 msgid "_Open Download Folder"
@@ -4272,32 +4285,32 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/torrent_menu.ui.h:3
 msgid "Resu_me"
-msgstr ""
+msgstr "המש_ך"
 
 #: deluge/ui/gtk3/glade/torrent_menu.ui.h:4
 #: deluge/ui/gtk3/glade/filtertree_menu.ui.h:4
 msgid "Resume selected torrents."
-msgstr ""
+msgstr "המשך טורנטים נבחרים."
 
 #: deluge/ui/gtk3/glade/torrent_menu.ui.h:5
 msgid "Opt_ions"
-msgstr ""
+msgstr "אפש_רויות"
 
 #: deluge/ui/gtk3/glade/torrent_menu.ui.h:6
 msgid "_Queue"
-msgstr ""
+msgstr "_העבר לתור"
 
 #: deluge/ui/gtk3/glade/torrent_menu.ui.h:7
 msgid "_Update Tracker"
-msgstr ""
+msgstr "_עדכן טראקר"
 
 #: deluge/ui/gtk3/glade/torrent_menu.ui.h:9
 msgid "_Remove Torrent"
-msgstr ""
+msgstr "_הסר טורנט"
 
 #: deluge/ui/gtk3/glade/torrent_menu.ui.h:10
 msgid "_Force Re-check"
-msgstr ""
+msgstr "_הכרח בדיקה מחדש"
 
 #: deluge/ui/gtk3/glade/torrent_menu.ui.h:11
 msgid "_Move Download Folder"
@@ -4305,27 +4318,27 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/other_dialog.ui.h:3
 msgid "label"
-msgstr ""
+msgstr "תווית"
 
 #: deluge/ui/gtk3/glade/filtertree_menu.ui.h:1
 msgid "_Select All"
-msgstr ""
+msgstr "_בחר הכל"
 
 #: deluge/ui/gtk3/glade/filtertree_menu.ui.h:2
 msgid "_Pause All"
-msgstr ""
+msgstr "_עצור הכל"
 
 #: deluge/ui/gtk3/glade/filtertree_menu.ui.h:3
 msgid "Resu_me All"
-msgstr ""
+msgstr "המש_ך הכל"
 
 #: deluge/ui/gtk3/glade/torrent_menu.options.ui.h:3
 msgid "_Connection Limit"
-msgstr ""
+msgstr "גבול _החיבור:"
 
 #: deluge/ui/gtk3/glade/torrent_menu.options.ui.h:4
 msgid "Upload _Slot Limit"
-msgstr ""
+msgstr "גבול _נקודות העלאה"
 
 #: deluge/ui/gtk3/glade/torrent_menu.options.ui.h:5
 msgid "Stop seed at _ratio"
@@ -4333,7 +4346,7 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/torrent_menu.options.ui.h:6
 msgid "_Auto Managed"
-msgstr ""
+msgstr "מנוהל _אוטומטית"
 
 #: deluge/ui/gtk3/glade/torrent_menu.options.ui.h:7
 msgid "_Super Seeding"
@@ -4346,7 +4359,7 @@ msgstr ""
 #: deluge/ui/gtk3/glade/edit_trackers.add.ui.h:1
 #: deluge/ui/web/js/deluge-all/AddTrackerWindow.js:26
 msgid "Add Tracker"
-msgstr ""
+msgstr "הוסף טראקר"
 
 #: deluge/ui/gtk3/glade/edit_trackers.add.ui.h:4
 msgid "Add Trackers"
@@ -4354,7 +4367,7 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.url.ui.h:1
 msgid "Add URL"
-msgstr ""
+msgstr "הוסף כתובת"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.url.ui.h:4
 msgid "From URL"
@@ -4363,7 +4376,7 @@ msgstr ""
 #: deluge/ui/gtk3/glade/add_torrent_dialog.url.ui.h:5
 #: deluge/plugins/Blocklist/deluge_blocklist/data/blocklist_pref.ui.h:1
 msgid "URL:"
-msgstr ""
+msgstr "‏URL:"
 
 #: deluge/ui/gtk3/glade/connection_manager.ui.h:9
 msgid "Deluge Daemons"
@@ -4395,7 +4408,7 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/main_window.tabs.menu_file.ui.h:3
 msgid "_Expand All"
-msgstr ""
+msgstr "_הרחב הכל"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.menu_file.ui.h:4
 msgid "_Skip"
@@ -4492,7 +4505,7 @@ msgstr ""
 #: deluge/ui/console/console.py:134
 #: deluge/plugins/Execute/deluge_execute/data/execute_prefs.ui.h:2
 msgid "Command"
-msgstr ""
+msgstr "פקודה"
 
 #: deluge/ui/console/cmdline/command.py:208
 #, python-format
@@ -4611,7 +4624,7 @@ msgstr ""
 #: deluge/ui/console/modes/preferences/preference_panes.py:652
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:259
 msgid "Password"
-msgstr ""
+msgstr "סיסמה"
 
 #: deluge/ui/console/cmdline/commands/move.py:34
 msgid "The path to move the torrents to"
@@ -4752,17 +4765,17 @@ msgstr ""
 #: deluge/ui/console/modes/preferences/preference_panes.py:313
 #: deluge/ui/console/modes/preferences/preference_panes.py:337
 msgid "From"
-msgstr ""
+msgstr "מאת"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:321
 #: deluge/ui/console/modes/preferences/preference_panes.py:345
 msgid "To"
-msgstr ""
+msgstr "אל"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:331
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:131
 msgid "Use Random Ports"
-msgstr ""
+msgstr "שימוש ביציאות אקראיות"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:352
 msgid "Incoming Interface"
@@ -4780,11 +4793,11 @@ msgstr ""
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:382
 msgid "Inbound"
-msgstr ""
+msgstr "כלפי פנים"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:391
 msgid "Outbound"
-msgstr ""
+msgstr "כלפי חוץ"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:413
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:38
@@ -4794,13 +4807,13 @@ msgstr ""
 #: deluge/ui/console/modes/preferences/preference_panes.py:416
 #: deluge/ui/console/modes/preferences/preference_panes.py:469
 msgid "Maximum Connections"
-msgstr ""
+msgstr "מס' חיבורים מקסימלי"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:423
 #: deluge/ui/console/modes/preferences/preference_panes.py:476
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:63
 msgid "Maximum Upload Slots"
-msgstr ""
+msgstr "מקסימום נקודות העלאה"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:430
 #: deluge/ui/console/modes/preferences/preference_panes.py:483
@@ -4814,15 +4827,15 @@ msgstr ""
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:444
 msgid "Maximum Half-Open Connections"
-msgstr ""
+msgstr "מקסימום חיבורים חצי-פתוחים"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:451
 msgid "Maximum Connection Attempts per Second"
-msgstr ""
+msgstr "מספר ניסיונות התחברות מקסימלי לשנייה"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:463
 msgid "Rate Limit IP Overhead"
-msgstr ""
+msgstr "דרג את מגבלת כמות ה- IP"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:466
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:148
@@ -4847,7 +4860,7 @@ msgstr ""
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:593
 msgid "Share Ratio"
-msgstr ""
+msgstr "יחס שיתוף"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:601
 msgid "Time Ratio"
@@ -4867,7 +4880,7 @@ msgstr ""
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:649
 msgid "Type"
-msgstr ""
+msgstr "סוג"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:653
 msgid "Hostname"
@@ -4925,7 +4938,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:333
 #: deluge/ui/web/js/deluge-all/preferences/PreferencesWindow.js:87
 msgid "Apply"
-msgstr ""
+msgstr "החל"
 
 #: deluge/ui/console/modes/preferences/preferences.py:145
 #: deluge/ui/web/js/deluge-all/EditTrackersWindow.js:35
@@ -4952,19 +4965,19 @@ msgstr ""
 
 #: deluge/plugins/Blocklist/deluge_blocklist/webui.py:21
 msgid "Emule IP list (GZip)"
-msgstr ""
+msgstr "רשימת IP מאימיול (GZip)"
 
 #: deluge/plugins/Blocklist/deluge_blocklist/webui.py:22
 msgid "SafePeer Text (Zipped)"
-msgstr ""
+msgstr "SafePeer טקסט (Zipped)"
 
 #: deluge/plugins/Blocklist/deluge_blocklist/webui.py:23
 msgid "PeerGuardian Text (Uncompressed)"
-msgstr ""
+msgstr "טקסט PeerGuardian (לא־מכווץ)"
 
 #: deluge/plugins/Blocklist/deluge_blocklist/webui.py:24
 msgid "PeerGuardian P2B (GZip)"
-msgstr ""
+msgstr "PeerGuardian P2B (GZip)"
 
 #: deluge/plugins/Blocklist/deluge_blocklist/gtkui.py:45
 msgid "Blocked IP Ranges /Whitelisted IP Ranges"
@@ -4974,7 +4987,7 @@ msgstr ""
 #: deluge/plugins/Blocklist/deluge_blocklist/gtkui.py:156
 #: deluge/plugins/Blocklist/deluge_blocklist/gtkui.py:204
 msgid "Blocklist"
-msgstr ""
+msgstr "רשימת חסומים"
 
 #: deluge/plugins/Blocklist/deluge_blocklist/gtkui.py:233
 msgid "Bad IP address"
@@ -4982,73 +4995,73 @@ msgstr ""
 
 #: deluge/plugins/Blocklist/deluge_blocklist/peerguardian.py:40
 msgid "Invalid leader"
-msgstr ""
+msgstr "leader לא תקין"
 
 #: deluge/plugins/Blocklist/deluge_blocklist/peerguardian.py:44
 msgid "Invalid magic code"
-msgstr ""
+msgstr "קוד magic לא תקין"
 
 #: deluge/plugins/Blocklist/deluge_blocklist/peerguardian.py:49
 msgid "Invalid version"
-msgstr ""
+msgstr "גרסה לא תקינה"
 
 #: deluge/plugins/Blocklist/deluge_blocklist/data/blocklist_pref.ui.h:3
 msgid "Days"
-msgstr ""
+msgstr "ימים"
 
 #: deluge/plugins/Blocklist/deluge_blocklist/data/blocklist_pref.ui.h:4
 msgid "Check for new list every:"
-msgstr ""
+msgstr "חפש רשימה חדשה כל:"
 
 #: deluge/plugins/Blocklist/deluge_blocklist/data/blocklist_pref.ui.h:5
 msgid "Import blocklist on startup"
-msgstr ""
+msgstr "ייבא רשימת חסומים עם ההפעלה"
 
 #: deluge/plugins/Blocklist/deluge_blocklist/data/blocklist_pref.ui.h:6
 #: deluge/plugins/WebUi/deluge_webui/data/config.ui.h:4
 msgid "<b>Settings</b>"
-msgstr ""
+msgstr "<b>הגדרות</b>"
 
 #: deluge/plugins/Blocklist/deluge_blocklist/data/blocklist_pref.ui.h:7
 msgid "Download the blocklist file if necessary and import the file."
-msgstr ""
+msgstr "הורדת קובץ רשימת החסומים לפי הצורך וייבא אותה."
 
 #: deluge/plugins/Blocklist/deluge_blocklist/data/blocklist_pref.ui.h:8
 msgid "Check Download and Import"
-msgstr ""
+msgstr "בדוק הורדה ויבוא"
 
 #: deluge/plugins/Blocklist/deluge_blocklist/data/blocklist_pref.ui.h:9
 msgid "Download a new blocklist file and import it."
-msgstr ""
+msgstr "הורד רשימת חסומים חדשה וייבא אותה."
 
 #: deluge/plugins/Blocklist/deluge_blocklist/data/blocklist_pref.ui.h:10
 msgid "Force Download and Import"
-msgstr ""
+msgstr "הכרח הורדה ויבוא"
 
 #: deluge/plugins/Blocklist/deluge_blocklist/data/blocklist_pref.ui.h:11
 msgid "Blocklist is up to date"
-msgstr ""
+msgstr "רשימת חסומים מעודכנת"
 
 #: deluge/plugins/Blocklist/deluge_blocklist/data/blocklist_pref.ui.h:12
 msgid "<b>Options</b>"
-msgstr ""
+msgstr "<b>אפשרויות</b>"
 
 #: deluge/plugins/Blocklist/deluge_blocklist/data/blocklist_pref.ui.h:13
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:25
 msgid "Type:"
-msgstr ""
+msgstr "סוג:"
 
 #: deluge/plugins/Blocklist/deluge_blocklist/data/blocklist_pref.ui.h:14
 msgid "Date:"
-msgstr ""
+msgstr "תאריך:"
 
 #: deluge/plugins/Blocklist/deluge_blocklist/data/blocklist_pref.ui.h:15
 msgid "File Size:"
-msgstr ""
+msgstr "גודל הקובץ:"
 
 #: deluge/plugins/Blocklist/deluge_blocklist/data/blocklist_pref.ui.h:16
 msgid "<b>Info</b>"
-msgstr ""
+msgstr "<b>מידע</b>"
 
 #: deluge/plugins/Blocklist/deluge_blocklist/data/blocklist_pref.ui.h:17
 msgid "<b>Whitelist</b>"
@@ -5056,11 +5069,11 @@ msgstr ""
 
 #: deluge/plugins/Execute/deluge_execute/gtkui.py:36
 msgid "Torrent Complete"
-msgstr ""
+msgstr "טורנט הושלם"
 
 #: deluge/plugins/Execute/deluge_execute/gtkui.py:37
 msgid "Torrent Added"
-msgstr ""
+msgstr "התווסף טורנט"
 
 #: deluge/plugins/Execute/deluge_execute/gtkui.py:38
 msgid "Torrent Removed"
@@ -5069,19 +5082,19 @@ msgstr ""
 #: deluge/plugins/Execute/deluge_execute/gtkui.py:64
 #: deluge/plugins/Execute/deluge_execute/gtkui.py:79
 msgid "Execute"
-msgstr ""
+msgstr "הפעלה"
 
 #: deluge/plugins/Execute/deluge_execute/data/execute_prefs.ui.h:1
 msgid "Event"
-msgstr ""
+msgstr "אירוע"
 
 #: deluge/plugins/Execute/deluge_execute/data/execute_prefs.ui.h:3
 msgid "<b>Add Command</b>"
-msgstr ""
+msgstr "<b>הוסף פקודה</b>"
 
 #: deluge/plugins/Execute/deluge_execute/data/execute_prefs.ui.h:4
 msgid "<b>Commands</b>"
-msgstr ""
+msgstr "<b>פקודה</b>"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/gtkui.py:327
 #: deluge/plugins/AutoAdd/deluge_autoadd/gtkui.py:342
@@ -5134,7 +5147,7 @@ msgstr ""
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:4
 #: deluge/plugins/Extractor/deluge_extractor/data/extractor_prefs.ui.h:2
 msgid "Select A Folder"
-msgstr ""
+msgstr "בחר תיקייה"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:5
 msgid "Enable this watch folder"
@@ -5229,26 +5242,26 @@ msgstr ""
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:33
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:103
 msgid "Max Upload Speed:"
-msgstr ""
+msgstr "מהירות העלאה מקסימלית:"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:34
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:130
 msgid "Max Connections:"
-msgstr ""
+msgstr "מספר חיבורים מקסימלי:"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:35
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:153
 msgid "Max Upload Slots:"
-msgstr ""
+msgstr "מקסימום נקודות העלאה:"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:37
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:77
 msgid "Max Download Speed:"
-msgstr ""
+msgstr "מהירות הורדה מקסימלית:"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:38
 msgid "<b>Bandwidth</b>"
-msgstr ""
+msgstr "<b>רוחב פס</b>"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:41
 #: deluge/ui/web/render/tab_status.html:19
@@ -5265,7 +5278,7 @@ msgstr ""
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:47
 msgid "<b>Queue</b>"
-msgstr ""
+msgstr "<b>עדיפות</b>"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/config.ui.h:1
 msgid "<b>Watch Folders:</b>"
@@ -5285,7 +5298,7 @@ msgstr ""
 
 #: deluge/plugins/Stats/deluge_stats/gtkui.py:66
 msgid "seconds"
-msgstr ""
+msgstr "שניות"
 
 #: deluge/plugins/Stats/deluge_stats/data/tabs.ui.h:1
 msgid "Stats"
@@ -5348,54 +5361,54 @@ msgstr ""
 
 #: deluge/plugins/WebUi/deluge_webui/data/config.ui.h:1
 msgid "Enable web interface"
-msgstr ""
+msgstr "הפעל מנשק דפדפן"
 
 #: deluge/plugins/WebUi/deluge_webui/data/config.ui.h:2
 msgid "Enable SSL"
-msgstr ""
+msgstr "הפעל SSL"
 
 #: deluge/plugins/WebUi/deluge_webui/data/config.ui.h:3
 msgid "Listening port:"
-msgstr ""
+msgstr "מאזין לפיתחה:"
 
 #: deluge/plugins/Label/deluge_label/core.py:184
 msgid "Invalid label, valid characters:[a-z0-9_-]"
-msgstr ""
+msgstr "טקסט לא חוקי. תווים חוקיים: [-_a-z0-9]"
 
 #: deluge/plugins/Label/deluge_label/core.py:186
 msgid "Empty Label"
-msgstr ""
+msgstr "תווית ריקה"
 
 #: deluge/plugins/Label/deluge_label/core.py:187
 msgid "Label already exists"
-msgstr ""
+msgstr "התווית בר קיימת"
 
 #: deluge/plugins/Label/deluge_label/core.py:195
 #: deluge/plugins/Label/deluge_label/core.py:285
 #: deluge/plugins/Label/deluge_label/core.py:320
 msgid "Unknown Label"
-msgstr ""
+msgstr "תווית לא ידוע"
 
 #: deluge/plugins/Label/deluge_label/core.py:321
 msgid "Unknown Torrent"
-msgstr ""
+msgstr "טורנט לא ידוע"
 
 #: deluge/plugins/Label/deluge_label/gtkui/sidebar_menu.py:46
 msgid "Label _Options"
-msgstr ""
+msgstr "_אפשרויות תווית"
 
 #: deluge/plugins/Label/deluge_label/gtkui/sidebar_menu.py:47
 msgid "_Remove Label"
-msgstr ""
+msgstr "_הסר תווית"
 
 #: deluge/plugins/Label/deluge_label/gtkui/sidebar_menu.py:48
 msgid "_Add Label"
-msgstr ""
+msgstr "_הוסף תווית"
 
 #: deluge/plugins/Label/deluge_label/gtkui/sidebar_menu.py:177
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:2
 msgid "Label Options"
-msgstr ""
+msgstr "אפשרויות תווית"
 
 #: deluge/plugins/Label/deluge_label/gtkui/submenu.py:34
 #: deluge/plugins/Label/deluge_label/gtkui/label_config.py:37
@@ -5403,7 +5416,7 @@ msgstr ""
 #: deluge/plugins/Label/deluge_label/gtkui/__init__.py:49
 #: deluge/plugins/Label/deluge_label/gtkui/__init__.py:77
 msgid "Label"
-msgstr ""
+msgstr "תווית"
 
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:1
 msgid "tracker1.org"
@@ -5411,19 +5424,19 @@ msgstr ""
 
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:3
 msgid "<b>Label Options</b>"
-msgstr ""
+msgstr "<b>אפשרויות תוית</b>"
 
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:9
 msgid "Apply per torrent max settings:"
-msgstr ""
+msgstr "החל הגדרות מקסימום עבור כל טורנט:"
 
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:10
 msgid "Maximum"
-msgstr ""
+msgstr "מקסימום"
 
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:14
 msgid "Apply Queue settings:"
-msgstr ""
+msgstr "החל הגדרות תור:"
 
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:17
 msgid "Apply folder settings:"
@@ -5431,27 +5444,27 @@ msgstr ""
 
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:19
 msgid "<i>(1 line per tracker)</i>"
-msgstr ""
+msgstr "<i>(שורה אחת לכל טקראקר)</i>"
 
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:20
 msgid "Automatically apply label:"
-msgstr ""
+msgstr "החל תווית אוטומטית:"
 
 #: deluge/plugins/Label/deluge_label/data/label_add.ui.h:1
 msgid "Add Label"
-msgstr ""
+msgstr "הוסף תווית"
 
 #: deluge/plugins/Label/deluge_label/data/label_add.ui.h:2
 msgid "<b>Add Label</b>"
-msgstr ""
+msgstr "<b>הוסף תווית</b>"
 
 #: deluge/plugins/Label/deluge_label/data/label_pref.ui.h:1
 msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
-msgstr ""
+msgstr "<i>השתמש בסרגל הצד כדי להוסיף,לערוך ולמחוק תוויות. </i>\n"
 
 #: deluge/plugins/Label/deluge_label/data/label_pref.ui.h:3
 msgid "<b>Labels</b>"
-msgstr ""
+msgstr "<b>תוויות</b>"
 
 #: deluge/plugins/Notifications/deluge_notifications/gtkui.py:171
 msgid "Notification Blink shown"
@@ -5465,48 +5478,48 @@ msgstr ""
 msgid "libnotify is not installed"
 msgstr ""
 
-#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:183
+#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:185
 msgid "Failed to popup notification"
 msgstr ""
 
-#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:186
+#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:188
 msgid "Notification popup shown"
 msgstr ""
 
-#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:190
+#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:192
 msgid "Sound notification not enabled"
 msgstr ""
 
-#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:192
+#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:194
 msgid "pygame is not installed"
 msgstr ""
 
-#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:204
+#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:206
 #, python-format
 msgid "Sound notification failed %s"
 msgstr ""
 
-#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:208
+#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:210
 msgid "Sound notification Success"
 msgstr ""
 
-#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:232
+#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:234
 msgid "Finished Torrent"
 msgstr ""
 
-#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:236
+#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:238
 #, python-format
 msgid ""
 "The torrent \"%(name)s\" including %(num_files)i file(s) has finished "
 "downloading."
 msgstr ""
 
-#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:285
-#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:315
+#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:287
+#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:317
 msgid "Notifications"
 msgstr ""
 
-#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:661
+#: deluge/plugins/Notifications/deluge_notifications/gtkui.py:663
 msgid "Choose Sound File"
 msgstr ""
 
@@ -5596,7 +5609,7 @@ msgstr ""
 
 #: deluge/plugins/Extractor/deluge_extractor/data/extractor_prefs.ui.h:1
 msgid "Extract to:"
-msgstr ""
+msgstr "חלץ אל:"
 
 #: deluge/plugins/Extractor/deluge_extractor/data/extractor_prefs.ui.h:3
 msgid "Create torrent name sub-folder"
@@ -5619,15 +5632,15 @@ msgstr ""
 
 #: deluge/plugins/Scheduler/deluge_scheduler/gtkui.py:301
 msgid "Download Limit:"
-msgstr ""
+msgstr "הגבלת הורדה:"
 
 #: deluge/plugins/Scheduler/deluge_scheduler/gtkui.py:310
 msgid "Upload Limit:"
-msgstr ""
+msgstr "הגבלת העלאה:"
 
 #: deluge/plugins/Scheduler/deluge_scheduler/gtkui.py:319
 msgid "Active Torrents:"
-msgstr ""
+msgstr "טורנטים פעילים:"
 
 #: deluge/plugins/Scheduler/deluge_scheduler/gtkui.py:328
 msgid "Active Downloading:"
@@ -5639,7 +5652,7 @@ msgstr ""
 
 #: deluge/plugins/Scheduler/deluge_scheduler/gtkui.py:350
 msgid "<b>Slow Settings</b>"
-msgstr ""
+msgstr "<b>הגדרות איטיות</b>"
 
 #: deluge/ui/web/js/deluge-all/FileBrowser.js:13
 msgid "File Browser"
@@ -5667,11 +5680,11 @@ msgstr ""
 
 #: deluge/ui/web/js/deluge-all/Toolbar.js:108
 msgid "Logout"
-msgstr ""
+msgstr "יציאה"
 
 #: deluge/ui/web/js/deluge-all/EditTrackerWindow.js:34
 msgid "Save"
-msgstr ""
+msgstr "שמור"
 
 #: deluge/ui/web/js/deluge-all/AboutWindow.js:19
 msgid "About Deluge"
@@ -5693,7 +5706,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/EditConnectionWindow.js:44
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:53
 msgid "Host:"
-msgstr ""
+msgstr "מארח:"
 
 #: deluge/ui/web/js/deluge-all/AddConnectionWindow.js:96
 #, python-brace-format
@@ -5702,7 +5715,7 @@ msgstr ""
 
 #: deluge/ui/web/js/deluge-all/MoveStorage.js:37
 msgid "Move"
-msgstr ""
+msgstr "העבר"
 
 #: deluge/ui/web/js/deluge-all/MoveStorage.js:54
 msgid "Browse"
@@ -5719,7 +5732,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/LoginWindow.js:22
 #: deluge/ui/web/js/deluge-all/LoginWindow.js:31
 msgid "Login"
-msgstr ""
+msgstr "כניסה"
 
 #: deluge/ui/web/js/deluge-all/LoginWindow.js:108
 msgid "Login Failed"
@@ -5743,11 +5756,11 @@ msgstr ""
 
 #: deluge/ui/web/js/deluge-all/Statusbar.js:87
 msgid "Set Maximum Connections"
-msgstr ""
+msgstr "קבע את מספר החיבורים המקסימלי"
 
 #: deluge/ui/web/js/deluge-all/Statusbar.js:97
 msgid "Download Speed"
-msgstr ""
+msgstr "קצב הורדה"
 
 #: deluge/ui/web/js/deluge-all/Statusbar.js:102
 #: deluge/ui/web/js/deluge-all/Statusbar.js:161
@@ -5786,19 +5799,19 @@ msgstr ""
 
 #: deluge/ui/web/js/deluge-all/Statusbar.js:145
 msgid "Set Maximum Download Speed"
-msgstr ""
+msgstr "קבע מהירות הורדה מקסימלית"
 
 #: deluge/ui/web/js/deluge-all/Statusbar.js:156
 msgid "Upload Speed"
-msgstr ""
+msgstr "קצב העלאה"
 
 #: deluge/ui/web/js/deluge-all/Statusbar.js:204
 msgid "Set Maximum Upload Speed"
-msgstr ""
+msgstr "קבע מהירות העלאה מקסימלית"
 
 #: deluge/ui/web/js/deluge-all/Statusbar.js:215
 msgid "Protocol Traffic Download/Upload"
-msgstr ""
+msgstr "תנועת ההעלאה/הורדה של הפרוטוקול"
 
 #: deluge/ui/web/js/deluge-all/Statusbar.js:242
 msgid "Freespace in download folder"
@@ -5812,7 +5825,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:33
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:187
 msgid "Connect"
-msgstr ""
+msgstr "התחבר"
 
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:120
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:197
@@ -5844,7 +5857,7 @@ msgstr ""
 
 #: deluge/ui/web/js/deluge-all/Sidebar.js:33
 msgid "Filters"
-msgstr ""
+msgstr "פילטרים"
 
 #: deluge/ui/web/js/deluge-all/UI.js:142
 msgid "Connection restored"
@@ -5880,7 +5893,7 @@ msgstr ""
 
 #: deluge/ui/web/js/deluge-all/Menus.js:316
 msgid "Update Tracker"
-msgstr ""
+msgstr "עדכן טראקר"
 
 #: deluge/ui/web/js/deluge-all/Menus.js:339
 msgid "Force Recheck"
@@ -5892,7 +5905,7 @@ msgstr ""
 
 #: deluge/ui/web/js/deluge-all/details/DetailsTab.js:13
 msgid "Details"
-msgstr ""
+msgstr "פרטים"
 
 #: deluge/ui/web/js/deluge-all/details/DetailsTab.js:28
 msgid "Comment:"
@@ -5909,11 +5922,11 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:272
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:116
 msgid "General"
-msgstr ""
+msgstr "כללי"
 
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:279
 msgid "Private"
-msgstr ""
+msgstr "פרטי"
 
 #: deluge/ui/web/js/deluge-all/details/StatusTab.js:39
 msgid "Loading"
@@ -5921,11 +5934,11 @@ msgstr ""
 
 #: deluge/ui/web/js/deluge-all/details/StatusTab.js:118
 msgid "True"
-msgstr ""
+msgstr "אמת"
 
 #: deluge/ui/web/js/deluge-all/preferences/OtherPage.js:50
 msgid "Be alerted about new releases"
-msgstr ""
+msgstr "הודיעו לי כאשר יש גרסה חדשה"
 
 #: deluge/ui/web/js/deluge-all/preferences/OtherPage.js:67
 msgid ""
@@ -5965,29 +5978,29 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:52
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:162
 msgid "Maximum Connections:"
-msgstr ""
+msgstr "מקסימום חיבורים:"
 
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:74
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:184
 msgid "Maximum Download Speed (KiB/s):"
-msgstr ""
+msgstr "מהירות הורדה מקסימלית (KiB/s):"
 
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:85
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:195
 msgid "Maximum Upload Speed (KiB/s):"
-msgstr ""
+msgstr "מהירות העלאה מקסימלית (KiB/s):"
 
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:96
 msgid "Maximum Half-Open Connections:"
-msgstr ""
+msgstr "מקסימום חיבורים חצי פתוחים:"
 
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:107
 msgid "Maximum Connection Attempts per Second:"
-msgstr ""
+msgstr "מספר ניסיונות התחברות מקסימלי לשנייה:"
 
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:173
 msgid "Maximum Upload Slots:"
-msgstr ""
+msgstr "מקסימום נקודות העלאה:"
 
 #: deluge/ui/web/js/deluge-all/preferences/CachePage.js:43
 msgid "Cache Size (16 KiB Blocks):"
@@ -6035,7 +6048,7 @@ msgstr ""
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:124
 msgid "Server"
-msgstr ""
+msgstr "שרת"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:140
 msgid "Session Timeout:"
@@ -6063,7 +6076,7 @@ msgstr ""
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:210
 msgid "Refresh"
-msgstr ""
+msgstr "רענון"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:244
 msgid "Invalid Password"
@@ -6092,25 +6105,33 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/add/UrlWindow.js:37
 #: deluge/ui/web/js/deluge-all/add/AddWindow.js:143
 msgid "Url"
-msgstr ""
+msgstr "כתובת"
 
 #: deluge/ui/web/js/deluge-all/add/UrlWindow.js:45
 msgid "Cookies"
 msgstr ""
 
+#: deluge/ui/web/js/deluge-all/add/UrlWindow.js:99
+msgid "Failed to download torrent"
+msgstr ""
+
 #: deluge/ui/web/js/deluge-all/add/AddWindow.js:133
 msgid "File"
-msgstr ""
+msgstr "קובץ"
 
 #: deluge/ui/web/js/deluge-all/add/AddWindow.js:149
 msgid "Infohash"
 msgstr ""
 
-#: deluge/ui/web/js/deluge-all/add/AddWindow.js:259
+#: deluge/ui/web/js/deluge-all/add/AddWindow.js:260
 msgid "Uploading your torrent..."
 msgstr ""
 
-#: deluge/ui/web/js/deluge-all/add/AddWindow.js:302
+#: deluge/ui/web/js/deluge-all/add/AddWindow.js:292
+msgid "Failed to upload torrent"
+msgstr ""
+
+#: deluge/ui/web/js/deluge-all/add/AddWindow.js:317
 msgid "Not a valid torrent"
 msgstr ""
 
@@ -6128,7 +6149,7 @@ msgstr ""
 
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:125
 msgid "Add In Paused State"
-msgstr ""
+msgstr "הוסף במצב מושהה"
 
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:161
 msgid "Super Seed"
@@ -6136,7 +6157,7 @@ msgstr ""
 
 #: deluge/ui/web/js/deluge-all/add/FilesTab.js:43
 msgid "Download"
-msgstr ""
+msgstr "הורדה"
 
 #: deluge/ui/web/render/tab_status.html:11
 msgid "ETA:"
