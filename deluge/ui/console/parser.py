@@ -23,7 +23,7 @@ class OptionParserError(Exception):
 class ConsoleBaseParser(argparse.ArgumentParser):
     def format_help(self):
         """Differs from ArgumentParser.format_help by adding the raw epilog
-        as formatted in the string. Default bahavior mangles the formatting.
+        as formatted in the string. Default behavior mangles the formatting.
 
         """
         # Handle epilog manually to keep the text formatting

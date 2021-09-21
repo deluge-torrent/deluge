@@ -218,7 +218,7 @@ class TwistedLoggingObserver(PythonLoggingObserver):
 
 def tweak_logging_levels():
     """This function allows tweaking the logging levels for all or some loggers.
-    This is mostly usefull for developing purposes hence the contents of the
+    This is mostly useful for developing purposes hence the contents of the
     file are NOT like regular deluge config file's.
 
     To use is, create a file named "logging.conf" on your Deluge's config dir

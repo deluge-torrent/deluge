@@ -112,7 +112,7 @@ class ListView(object):
             Gtk.TreeViewColumn.set_visible(self, visible)
             if self.data_func:
                 if not visible:
-                    # Set data function to None to prevent unecessary calls when column is hidden
+                    # Set data function to None to prevent unnecessary calls when column is hidden
                     self.set_cell_data_func(self.cell_renderer, None, func_data=None)
                 else:
                     self.set_cell_data_func(

@@ -246,7 +246,7 @@ class BuildTranslations(cmd.Command):
                             upto_date = True
 
         if upto_date:
-            sys.stdout.write(' po files already upto date.  ')
+            sys.stdout.write(' po files already up to date.  ')
         sys.stdout.write('\b\b \nFinished compiling translation files. \n')
 
 

@@ -28,8 +28,8 @@ class DelugeTransferProtocol(Protocol, object):
     """
     Deluge RPC wire protocol.
 
-    Data messages are transfered with a header containing a protocol version
-    and the length of the data to be transfered (payload).
+    Data messages are transferred with a header containing a protocol version
+    and the length of the data to be transferred (payload).
 
     The format is::
 
@@ -51,7 +51,7 @@ class DelugeTransferProtocol(Protocol, object):
         """
         Transfer the data.
 
-        :param data: data to be transfered in a data structure serializable by rencode.
+        :param data: data to be transferred in a data structure serializable by rencode.
         """
         body = zlib.compress(rencode.dumps(data))
         body_len = len(body)
@@ -68,8 +68,8 @@ class DelugeTransferProtocol(Protocol, object):
         """
         This method is called whenever data is received.
 
-        :param data: a message as transfered by transfer_message, or a part of such
-                     a messsage.
+        :param data: a message as transferred by transfer_message, or a part of such
+                     a message.
 
         Global variables:
             _buffer         - contains the data received
@@ -120,7 +120,7 @@ class DelugeTransferProtocol(Protocol, object):
 
     def _handle_complete_message(self, data):
         """
-        Handles a complete message as it is transfered on the network.
+        Handles a complete message as it is transferred on the network.
 
         :param data: a zlib compressed string encoded with rencode.
 

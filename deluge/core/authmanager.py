@@ -101,7 +101,7 @@ class AuthManager(component.Component):
             int: The auth level for this user.
 
         Raises:
-            AuthenticationRequired: If aditional details are required to authenticate.
+            AuthenticationRequired: If additional details are required to authenticate.
             BadLoginError: If the username does not exist or password does not match.
 
         """

@@ -96,7 +96,7 @@ class TorrentState:  # pylint: disable=old-style-class
         super_seeding=False,
         name=None,
     ):
-        # Build the class atrribute list from args
+        # Build the class attribute list from args
         for key, value in locals().items():
             if key == 'self':
                 continue
@@ -654,7 +654,7 @@ class TorrentManager(component.Component):
         # Resume AlertManager if paused for adding torrent to libtorrent.
         component.resume('AlertManager')
 
-        # Store the orignal resume_data, in case of errors.
+        # Store the original resume_data, in case of errors.
         if resume_data:
             self.resume_data[torrent.torrent_id] = resume_data
 
@@ -1037,7 +1037,7 @@ class TorrentManager(component.Component):
             )
 
         def on_torrent_resume_save(dummy_result, torrent_id):
-            """Recieved torrent resume_data alert so remove from waiting list"""
+            """Received torrent resume_data alert so remove from waiting list"""
             self.waiting_on_resume_data.pop(torrent_id, None)
 
         deferreds = []

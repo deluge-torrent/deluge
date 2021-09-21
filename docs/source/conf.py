@@ -255,7 +255,7 @@ MOCK_MODULES = ['deluge._libtorrent', 'xdg', 'xdg.BaseDirectory']
 for mod_name in MOCK_MODULES:
     sys.modules[mod_name] = Mock()
 
-# Must add these for autodoc to import packages successully
+# Must add these for autodoc to import packages successfully
 builtins.__dict__['_'] = lambda x: x
 builtins.__dict__['_n'] = lambda s, p, n: s if n == 1 else p
 

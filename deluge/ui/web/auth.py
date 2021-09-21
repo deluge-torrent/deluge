@@ -60,7 +60,7 @@ def make_expires(timeout):
 
 class Auth(JSONComponent):
     """
-    The component that implements authentification into the JSON interface.
+    The component that implements authentication into the JSON interface.
     """
 
     def __init__(self, config):

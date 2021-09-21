@@ -90,7 +90,7 @@ class LabelSidebarMenu(object):
             for item in self.items:
                 item.set_sensitive(sensitive)
 
-            # add is allways enabled.
+            # add is always enabled.
             self.item_add.set_sensitive(True)
         else:
             # not a label -->hide everything.

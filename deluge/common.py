@@ -436,7 +436,7 @@ def fsize(fsize_b, precision=1, shortform=False):
         '110 KiB'
 
     Note:
-        This function has been refactored for perfomance with the
+        This function has been refactored for performance with the
         fsize units being translated outside the function.
 
     """
@@ -571,7 +571,7 @@ def ftime(secs):
         '6h 23m'
 
     Note:
-        This function has been refactored for perfomance.
+        This function has been refactored for performance.
 
     """
 

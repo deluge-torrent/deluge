@@ -102,7 +102,7 @@ class HostList(object):
         self.config.save()
 
     def check_info_exists(self, hostname, port, username, skip_host_id=None):
-        """Check for exising host entries with the same details.
+        """Check for existing host entries with the same details.
 
         Args:
             hostname (str): The IP or hostname of the deluge daemon.

@@ -267,7 +267,7 @@ class Core(component.Component):
             version (str): The version string in PEP440 dotted notation.
 
         Returns:
-            str: The formattted peer_id with Deluge prefix e.g. '--DE200s--'
+            str: The formatted peer_id with Deluge prefix e.g. '--DE200s--'
 
         """
         split = deluge.common.VersionSplit(version)
@@ -456,7 +456,7 @@ class Core(component.Component):
             return result
 
         d = self.torrentmanager.prefetch_metadata(magnet, timeout)
-        # Use a seperate callback chain to handle existing prefetching magnet.
+        # Use a separate callback chain to handle existing prefetching magnet.
         result_d = defer.Deferred()
         d.addBoth(on_metadata, result_d)
         return result_d
@@ -747,7 +747,7 @@ class Core(component.Component):
             import traceback
 
             traceback.print_exc()
-            # Torrent was probaly removed meanwhile
+            # Torrent was probably removed meanwhile
             return {}
 
         # Ask the plugin manager to fill in the plugin keys

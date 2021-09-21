@@ -4,7 +4,7 @@
 
 Deluge is a BitTorrent client that utilizes a daemon/client model.
 It has various user interfaces available such as the GTK-UI, Web-UI and
-a Console-UI. It uses [libtorrent][lt] at it's core to handle the BitTorrent
+Console-UI. It uses [libtorrent][lt] at its core to handle the BitTorrent
 protocol.
 
 ## Install
@@ -58,7 +58,7 @@ See the [Thinclient guide] to connect to the daemon from another computer.
 - [Homepage](https://deluge-torrent.org)
 - [User guide][user guide]
 - [Forum](https://forum.deluge-torrent.org)
-- [IRC Freenode #deluge](irc://irc.freenode.net/deluge)
+- [IRC Libera.Chat #deluge](irc://irc.libera.chat/deluge)
 
 [user guide]: https://dev.deluge-torrent.org/wiki/UserGuide
 [thinclient guide]: https://dev.deluge-torrent.org/wiki/UserGuide/ThinClient

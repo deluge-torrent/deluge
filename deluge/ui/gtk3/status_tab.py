@@ -110,7 +110,7 @@ class StatusTab(Tab):
             if decode_bytes(widget[0].get_text()) != txt:
                 widget[0].set_text(txt)
 
-        # Update progress bar seperately as it's a special case (not a label).
+        # Update progress bar separately as it's a special case (not a label).
         fraction = status['progress'] / 100
 
         if self.config['show_piecesbar']:

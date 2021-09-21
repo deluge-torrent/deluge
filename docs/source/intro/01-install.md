@@ -22,7 +22,7 @@ Install with pip:
 
     pip install deluge
 
-Install with all optional dependecies:
+Install with all optional dependencies:
 
     pip install deluge[all]
 

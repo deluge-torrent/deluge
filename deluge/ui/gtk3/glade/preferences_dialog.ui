@@ -2204,7 +2204,7 @@ used sparingly.</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="receives_default">False</property>
-                                                <property name="tooltip_text" translatable="yes">Torrents not transfering any data do not count towards download/seeding active count.</property>
+                                                <property name="tooltip_text" translatable="yes">Torrents not transferring any data do not count towards download/seeding active count.</property>
                                                 <property name="halign">start</property>
                                                 <property name="draw_indicator">True</property>
                                               </object>

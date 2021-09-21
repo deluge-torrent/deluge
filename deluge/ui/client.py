@@ -65,7 +65,7 @@ class DelugeRPCRequest(object):
         Returns a properly formatted RPCRequest based on the properties.  Will
         raise a TypeError if the properties haven't been set yet.
 
-        :returns: a properly formated RPCRequest
+        :returns: a properly formatted RPCRequest
         """
         if (
             self.request_id is None
@@ -150,7 +150,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                 # so it could pass back to the 2nd deferred on the chain. But,
                 # that does not always happen.
                 # So, just do some instance checking and just log rpc error at
-                # diferent levels.
+                # different levels.
                 r = self.__rpc_requests[request_id]
                 msg = 'RPCError Message Received!'
                 msg += '\n' + '-' * 80
@@ -168,7 +168,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                     # Let's log these as errors
                     log.error(msg)
                 else:
-                    # The rest just get's logged in debug level, just to log
+                    # The rest just gets logged in debug level, just to log
                     # what's happening
                     log.debug(msg)
             except Exception:

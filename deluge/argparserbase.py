@@ -264,7 +264,7 @@ class ArgParserBase(argparse.ArgumentParser):
             args = [a for a in args if a not in withhold]
         options, remaining = super(ArgParserBase, self).parse_known_args(args=args)
         options.remaining = remaining
-        # Hanlde common and process group options
+        # Handle common and process group options
         return self._handle_ui_options(options)
 
     def _handle_ui_options(self, options):

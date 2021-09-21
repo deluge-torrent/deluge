@@ -293,7 +293,8 @@ class ComponentRegistry(object):
             obj (Component): a component object to deregister
 
         Returns:
-            Deferred: a deferred object that will fire once the Component has been sucessfully deregistered
+            Deferred: a deferred object that will fire once the Component has been
+                successfully deregistered
 
         """
         if obj in self.components.values():

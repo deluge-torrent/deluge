@@ -221,7 +221,7 @@ class GtkUI(object):
             menubar_osx(self, self.osxapp)
             self.osxapp.ready()
 
-        # Initalize the plugins
+        # Initialize the plugins
         self.plugins = PluginManager()
 
         # Show the connection manager

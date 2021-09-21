@@ -449,7 +449,7 @@ class FilesTab(Tab):
             try:
                 value = completed_bytes / self.treestore[parent][1] * 100
             except ZeroDivisionError:
-                # Catch the unusal error found when moving folders around
+                # Catch the unusual error found when moving folders around
                 value = 0
             self.treestore[parent][3] = value
             self.treestore[parent][2] = '%i%%' % value

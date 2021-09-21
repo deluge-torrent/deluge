@@ -129,7 +129,7 @@ class PluginManagerBase(object):
 
         """
         if plugin_name not in self.available_plugins:
-            log.warning('Cannot enable non-existant plugin %s', plugin_name)
+            log.warning('Cannot enable non-existent plugin %s', plugin_name)
             return defer.succeed(False)
 
         if plugin_name in self.plugins:
@@ -243,7 +243,7 @@ class PluginManagerBase(object):
                 del self.plugins[name]
                 self.config['enabled_plugins'].remove(name)
             except Exception as ex:
-                log.warning('Problems occured disabling plugin: %s', name)
+                log.warning('Problems occurred disabling plugin: %s', name)
                 log.debug(ex)
                 ret = False
             else:
@@ -260,7 +260,7 @@ class PluginManagerBase(object):
         cont_lines = []
         # Missing plugin info
         if not self.pkg_env[name]:
-            log.warning('Failed to retrive info for plugin: %s', name)
+            log.warning('Failed to retrieve info for plugin: %s', name)
             for k in info:
                 info[k] = 'not available'
             return info

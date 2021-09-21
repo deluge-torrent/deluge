@@ -224,7 +224,7 @@ class FilterTreeView(component.Component):
         label = decode_bytes(model.get_value(row, 2))
         count = model.get_value(row, 3)
 
-        # Supress Warning: g_object_set_qdata: assertion `G_IS_OBJECT (object)' failed
+        # Suppress Warning: g_object_set_qdata: assertion `G_IS_OBJECT (object)' failed
         original_filters = warnings.filters[:]
         warnings.simplefilter('ignore')
         try:

@@ -56,7 +56,7 @@ def overrides(*args):
     if inspect.isfunction(args[0]):
         return _overrides(stack, args[0])
     else:
-        # One or more classes are specifed, so return a function that will be
+        # One or more classes are specified, so return a function that will be
         # called with the real function as argument
         def ret_func(func, **kwargs):
             return _overrides(stack, func, explicit_base_classes=args)
@@ -107,7 +107,7 @@ def _overrides(stack, method, explicit_base_classes=None):
     for c in base_classes + check_classes:
         classes[c] = get_class(c)
 
-    # Verify that the excplicit override class is one of base classes
+    # Verify that the explicit override class is one of base classes
     if explicit_base_classes:
         from itertools import product
 
@@ -146,7 +146,7 @@ def _overrides(stack, method, explicit_base_classes=None):
 def deprecated(func):
     """This is a decorator which can be used to mark function as deprecated.
 
-    It will result in a warning being emmitted when the function is used.
+    It will result in a warning being emitted when the function is used.
 
     """
 

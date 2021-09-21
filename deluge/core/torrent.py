@@ -431,14 +431,14 @@ class Torrent(object):
         # Setting the priorites for all the pieces of this torrent
         self.handle.prioritize_pieces(priorities)
 
-    def set_sequential_download(self, set_sequencial):
+    def set_sequential_download(self, sequential):
         """Sets whether to download the pieces of the torrent in order.
 
         Args:
-            set_sequencial (bool): Enable sequencial downloading.
+            sequential (bool): Enable sequential downloading.
         """
-        self.options['sequential_download'] = set_sequencial
-        self.handle.set_sequential_download(set_sequencial)
+        self.options['sequential_download'] = sequential
+        self.handle.set_sequential_download(sequential)
 
     def set_auto_managed(self, auto_managed):
         """Set auto managed mode, i.e. will be started or queued automatically.
@@ -1393,7 +1393,7 @@ class Torrent(object):
         This basically does a file rename on all of the folders children.
 
         Args:
-            folder (str): The orignal folder name
+            folder (str): The original folder name
             new_folder (str): The new folder name
 
         Returns:

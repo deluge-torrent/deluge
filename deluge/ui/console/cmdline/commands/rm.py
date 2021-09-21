@@ -70,7 +70,9 @@ class Command(BaseCommand):
 
         def on_removed_finished(errors):
             if errors:
-                self.console.write('Error(s) occured when trying to delete torrent(s).')
+                self.console.write(
+                    'Error(s) occurred when trying to delete torrent(s).'
+                )
                 for t_id, e_msg in errors:
                     self.console.write('Error removing torrent %s : %s' % (t_id, e_msg))
 
