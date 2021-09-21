@@ -912,6 +912,10 @@ class Core(component.Component):
         """Sets a torrents tracker list. trackers will be ``[{"url", "tier"}]``"""
         return self.torrentmanager[torrent_id].set_trackers(trackers)
 
+    @export
+    def get_magnet_uri(self, torrent_id):
+        return self.torrentmanager[torrent_id].get_magnet_uri()
+
     @deprecated
     @export
     def set_torrent_max_connections(self, torrent_id, value):
