@@ -160,7 +160,6 @@ DISK_CACHE_KEYS = [
     'disk.num_blocks_written',
     'disk.num_read_ops',
     'disk.num_write_ops',
-    'disk.num_blocks_cache_hits',
     'read_hit_ratio',
     'write_hit_ratio',
     'disk.disk_blocks_in_use',

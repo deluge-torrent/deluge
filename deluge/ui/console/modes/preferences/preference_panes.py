@@ -724,11 +724,6 @@ class CachePane(BasePreferencePane):
         self.add_info_field(
             'blocks_read', '  %s:' % _('Blocks Read'), status['disk.num_blocks_read']
         )
-        self.add_info_field(
-            'blocks_read_hit',
-            '  %s:' % _('Blocks Read hit'),
-            status['disk.num_blocks_cache_hits'],
-        )
         self.add_info_field('reads', '  %s:' % _('Reads'), status['disk.num_read_ops'])
         self.add_info_field(
             'read_hit_ratio',

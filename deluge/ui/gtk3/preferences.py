@@ -957,7 +957,6 @@ class Preferences(component.Component):
             'label_cache_num_blocks_written',
             'label_cache_read_hit_ratio',
             'label_cache_write_hit_ratio',
-            'label_cache_num_blocks_cache_hits',
             'label_cache_disk_blocks_in_use',
             'label_cache_read_cache_blocks',
         )

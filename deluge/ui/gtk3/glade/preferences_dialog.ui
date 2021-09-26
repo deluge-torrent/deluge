@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.1 -->
+<!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.0"/>
   <object class="GtkAdjustment" id="adjustment_cache_expiry">
@@ -245,7 +245,7 @@
     <property name="type_hint">dialog</property>
     <signal name="configure-event" handler="on_pref_dialog_configure_event" swapped="no"/>
     <signal name="delete-event" handler="on_pref_dialog_delete_event" swapped="no"/>
-    <child>
+    <child type="titlebar">
       <placeholder/>
     </child>
     <child internal-child="vbox">
@@ -3880,28 +3880,16 @@ the proxy instead of using the local DNS service</property>
                                                       </packing>
                                                     </child>
                                                     <child>
-                                                      <object class="GtkLabel" id="label119">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                        <property name="tooltip_text" translatable="yes">The number of blocks that were served from cache.</property>
-                                                        <property name="halign">start</property>
-                                                        <property name="label" translatable="yes">Blocks Read Hit:</property>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="left_attach">0</property>
-                                                        <property name="top_attach">1</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
                                                       <object class="GtkLabel" id="label122">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                         <property name="tooltip_text" translatable="yes">The cache hit ratio for the read cache.</property>
+                                                        <property name="halign">start</property>
                                                         <property name="label" translatable="yes">Read Cache Hit Ratio:</property>
                                                       </object>
                                                       <packing>
                                                         <property name="left_attach">0</property>
-                                                        <property name="top_attach">3</property>
+                                                        <property name="top_attach">2</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -3915,23 +3903,13 @@ the proxy instead of using the local DNS service</property>
                                                       </packing>
                                                     </child>
                                                     <child>
-                                                      <object class="GtkLabel" id="label_cache_num_blocks_cache_hits">
-                                                        <property name="visible">True</property>
-                                                        <property name="can_focus">False</property>
-                                                      </object>
-                                                      <packing>
-                                                        <property name="left_attach">1</property>
-                                                        <property name="top_attach">1</property>
-                                                      </packing>
-                                                    </child>
-                                                    <child>
                                                       <object class="GtkLabel" id="label_cache_read_hit_ratio">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                       </object>
                                                       <packing>
                                                         <property name="left_attach">1</property>
-                                                        <property name="top_attach">3</property>
+                                                        <property name="top_attach">2</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -3945,7 +3923,7 @@ the proxy instead of using the local DNS service</property>
                                                       </object>
                                                       <packing>
                                                         <property name="left_attach">0</property>
-                                                        <property name="top_attach">2</property>
+                                                        <property name="top_attach">1</property>
                                                       </packing>
                                                     </child>
                                                     <child>
@@ -3955,7 +3933,7 @@ the proxy instead of using the local DNS service</property>
                                                       </object>
                                                       <packing>
                                                         <property name="left_attach">1</property>
-                                                        <property name="top_attach">2</property>
+                                                        <property name="top_attach">1</property>
                                                       </packing>
                                                     </child>
                                                   </object>
