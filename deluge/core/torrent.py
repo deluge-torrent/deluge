@@ -874,11 +874,18 @@ class Torrent(object):
         """
         if not self.has_metadata:
             return []
-        return [
-            progress / _file.size if _file.size else 0.0
-            for progress, _file in zip(
+
+        try:
+            files_progresses = zip(
                 self.handle.file_progress(), self.torrent_info.files()
             )
+        except Exception:
+            # Handle libtorrent >=2.0.0,<=2.0.4 file_progress error
+            files_progresses = zip(iter(lambda: 0, 1), self.torrent_info.files())
+
+        return [
+            progress / _file.size if _file.size else 0.0
+            for progress, _file in files_progresses
         ]
 
     def get_tracker_host(self):
