@@ -14,6 +14,7 @@ from math import pi
 import gi  # isort:skip (Version check required before import).
 
 gi.require_version('PangoCairo', '1.0')  # NOQA: E402
+gi.require_foreign('cairo')  # NOQA: E402
 gi.require_version('cairo', '1.0')  # NOQA: E402
 
 # isort:imports-thirdparty
@@ -38,7 +39,8 @@ class PiecesBar(DrawingArea):
         # Get progress bar styles, in order to keep font consistency
         pb = ProgressBar()
         pb_style = pb.get_style_context()
-        self.text_font = pb_style.get_property('font', StateFlags.NORMAL)
+        # Get a copy of Pango.FontDescription since original needs freed.
+        self.text_font = pb_style.get_property('font', StateFlags.NORMAL).copy()
         self.text_font.set_weight(Weight.BOLD)
         # Done with the ProgressBar styles, don't keep refs of it
         del pb, pb_style
