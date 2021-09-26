@@ -14,17 +14,17 @@ import os.path
 from hashlib import sha1 as sha
 
 import gi
-from gi.repository import Gdk, Gtk
+from gi.repository import Gtk
 from gi.repository.Gdk import DragAction, WindowState
 from twisted.internet import reactor
 from twisted.internet.error import ReactorNotRunning
 
 import deluge.component as component
-from deluge.common import decode_bytes, fspeed, resource_filename, is_url, is_magnet
+from deluge.common import decode_bytes, fspeed, is_magnet, is_url, resource_filename
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
 
-from .common import get_deluge_icon, windowing, get_clipboard_text
+from .common import get_clipboard_text, get_deluge_icon, windowing
 from .dialogs import PasswordDialog
 from .ipcinterface import process_args
 
@@ -148,7 +148,7 @@ class MainWindow(component.Component):
             'NewVersionAvailableEvent', self.on_newversionavailable_event
         )
 
-        self.previous_text = ''
+        self.previous_clipboard_text = ''
         self.first_run = True
 
     def connect_signals(self, mapping_or_class):
@@ -334,12 +334,11 @@ class MainWindow(component.Component):
         component.get('SystemTray').blink(False)
 
     def on_focus(self, window, param):
-        if window.props.is_active and not self.first_run:
+        if window.props.is_active and not self.first_run and self.config['detect_urls']:
             text = get_clipboard_text()
-            if text == self.previous_text:
+            if text == self.previous_clipboard_text:
                 return
-            else:
-                self.previous_text = text
+            self.previous_clipboard_text = text
             if text and ((is_url(text) and text.endswith('.torrent')) or is_magnet(text)):
                 component.get('AddTorrentDialog').show()
                 component.get('AddTorrentDialog').on_button_url_clicked(window)
@@ -397,4 +396,3 @@ class MainWindow(component.Component):
                     return win.is_on_workspace(active_wksp)
                 return False
         return True
-

@@ -505,6 +505,33 @@ and daemon (does not apply in Standalone mode).</property>
                                           </packing>
                                         </child>
                                         <child>
+                                          <object class="GtkCheckButton" id="urldetect_toggle">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">False</property>
+                                            <property name="tooltip_text" translatable="yes">When checked, 
+Deluge will automatically pop up the Add Torrent dialog when
+a torrent URL is detected on the clipboard</property>
+                                            <property name="draw_indicator">True</property>
+                                            <signal name="toggled" handler="on_urldetect_toggle_toggled" swapped="no"/>
+                                            <child>
+                                              <object class="GtkLabel" id="label63">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="halign">start</property>
+                                                <property name="label" translatable="yes">Detect torrent URLs from clipboard.</property>
+                                                <property name="use_markup">True</property>
+                                              </object>
+                                            </child>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">True</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">2</property>
+                                          </packing>
+                                        </child>
+ 
+                                        <child>
                                           <object class="GtkExpander" id="piecebar_colors_expander">
                                             <property name="can_focus">True</property>
                                             <child>
