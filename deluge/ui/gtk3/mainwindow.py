@@ -339,7 +339,9 @@ class MainWindow(component.Component):
             if text == self.previous_clipboard_text:
                 return
             self.previous_clipboard_text = text
-            if text and ((is_url(text) and text.endswith('.torrent')) or is_magnet(text)):
+            if text and (
+                (is_url(text) and text.endswith('.torrent')) or is_magnet(text)
+            ):
                 component.get('AddTorrentDialog').show()
                 component.get('AddTorrentDialog').on_button_url_clicked(window)
         self.first_run = False
