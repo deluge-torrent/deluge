@@ -20,7 +20,11 @@ import logging
 import math
 import time
 
-from gi.repository import cairo
+import gi
+
+gi.require_foreign('cairo')  # NOQA: E402
+
+import cairo  # isort:skip (gi checks required before import).
 
 log = logging.getLogger(__name__)
 
