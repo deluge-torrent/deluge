@@ -1626,18 +1626,9 @@ class TorrentManager(component.Component):
         self.handle_torrents_status_callback(self.torrents_status_requests.pop())
 
     def on_alert_external_ip(self, alert):
-        """Alert handler for libtorrent external_ip_alert
-
-        Note:
-            The alert.message IPv4 address format is:
-                'external IP received: 0.0.0.0'
-            and IPv6 address format is:
-                'external IP received: 0:0:0:0:0:0:0:0'
-        """
-
-        external_ip = decode_bytes(alert.message()).split(' ')[-1]
-        log.info('on_alert_external_ip: %s', external_ip)
-        component.get('EventManager').emit(ExternalIPEvent(external_ip))
+        """Alert handler for libtorrent external_ip_alert"""
+        log.info('on_alert_external_ip: %s', alert.external_address)
+        component.get('EventManager').emit(ExternalIPEvent(alert.external_address))
 
     def on_alert_performance(self, alert):
         """Alert handler for libtorrent performance_alert"""
