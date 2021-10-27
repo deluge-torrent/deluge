@@ -8,7 +8,7 @@ Wants=deluged.service
 Type=simple
 UMask=027
 
-ExecStart=/usr/bin/deluge-web -d
+ExecStart=/usr/bin/deluge-web
 
 Restart=on-failure
 
