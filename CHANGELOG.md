@@ -2,13 +2,73 @@
 
 ## 2.0.4 (WIP)
 
-### WebUI
+### Packaging
+
+- Fix python optional setup.py requirements
+
+### Gtk UI
+
+- Add detection of torrent URL on GTK UI focus
+- Fix piecesbar crashing when enabled
+- Remove num_blocks_cache_hits in stats
+- Fix unhandled error with empty clipboard
+- Add torrentdetails tabs position menu (#3441)
+- Hide pygame community banner in console
+- Fix cmp function for None types (#3309)
+- Fix loading config with double-quotes in string
+- Fix Status tab download speed and uploaded
+
+### Web UI
 
 - Handle torrent add failures
+- Add menu option to copy magnet URI
+- Fix md5sums in torrent files breaking file listing (#3388)
+- Add country flag alt/title for accessibility
+
+### Console UI
+
+- Fix allowing use of windows-curses on Windows
+- Fix hostlist status lookup errors
+- Fix AttributeError setting config values
+- Fix setting 'Skip' priority
+
+### Core
+
+- Add workaround libtorrent 2.0 file_progress error
+- Fix allow enabling any plugin Python version
+- Export torrent get_magnet_uri method
+- Fix loading magnet with resume_data and no metadata (#3478)
+- Fix httpdownloader reencoding torrent file downloads (#3440)
+- Fix lt listen_interfaces not comma-separated (#3337)
+- Fix unable to remove magnet with delete_copies enabled (#3325)
+- Fix Python 3.8 compatibility
+- Fix loading config with double-quotes in string
+- Fix pickle loading non-ascii state error (#3298)
+- Fix creation of pidfile via command option
+- Fix for peer.client UnicodeDecodeError
+- Fix show_file unhandled dbus error
 
 ### Documentation
 
 - Add How-to guides about services.
+
+### Stats plugin
+
+- Fix constant session status key warnings
+- Fix cairo error
+
+### Notifications plugin
+
+- Fix email KeyError with status name
+- Fix unhandled TypeErrors on Python 3
+
+### Autoadd plugin
+
+- Fix magnet missing applied labels
+
+### Execute plugin
+
+- Fix failing to run on Windows (#3439)
 
 ## 2.0.3 (2019-06-12)
 
