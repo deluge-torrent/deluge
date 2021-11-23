@@ -23,7 +23,7 @@ recursive-exclude deluge/tests *.pyc
 
 graft deluge/ui/data
 recursive-exclude deluge/ui/data *.desktop *.xml
-graft deluge/ui/gtkui/glade
+graft deluge/ui/gtk3/glade
 
 include deluge/ui/web/index.html
 include deluge/ui/web/css/*.css
