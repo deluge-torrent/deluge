@@ -30,8 +30,12 @@ from .common import build_menu_radio_list, get_logo
 from .dialogs import OtherDialog
 
 try:
-    require_version('AppIndicator3', '0.1')
-    from gi.repository import AppIndicator3
+    try:
+        require_version('AyatanaAppIndicator3', '0.1')
+        from gi.repository import AyatanaAppIndicator3 as AppIndicator3
+    except (ValueError, ImportError):
+        require_version('AppIndicator3', '0.1')
+        from gi.repository import AppIndicator3
 except (ValueError, ImportError):
     AppIndicator3 = None
 
