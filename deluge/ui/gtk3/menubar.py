@@ -23,6 +23,17 @@ from .path_chooser import PathChooser
 
 log = logging.getLogger(__name__)
 
+default_main_window_accelmap = {
+    '<Deluge-MainWindow>/File/Add Torrent': '<Primary>o',
+    '<Deluge-MainWindow>/File/Create Torrent': '<Primary>n',
+    '<Deluge-MainWindow>/File/Quit & Shutdown Daemon': '<Primary><Shift>q',
+    '<Deluge-MainWindow>/File/Quit': '<Primary>q',
+    '<Deluge-MainWindow>/Edit/Preferences': '<Primary>p',
+    '<Deluge-MainWindow>/Edit/Connection Manager': '<Primary>m',
+    '<Deluge-MainWindow>/View/Find ...': '<Primary>f',
+    '<Deluge-MainWindow>/Help/FAQ': 'F1',
+}
+
 
 class MenuBar(component.Component):
     def __init__(self):
@@ -111,6 +122,11 @@ class MenuBar(component.Component):
 
         # Attach the torrent_menu to the Torrent file menu
         self.menu_torrent.set_submenu(self.torrentmenu)
+
+        # Set keyboard shortcuts
+        for accel_path, accelerator in default_main_window_accelmap.items():
+            accel_key, accel_mods = Gtk.accelerator_parse(accelerator)
+            Gtk.AccelMap.change_entry(accel_path, accel_key, accel_mods, True)
 
         # Make sure the view menuitems are showing the correct active state
         self.main_builder.get_object('menuitem_toolbar').set_active(
