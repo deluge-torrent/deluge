@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.0.4 (WIP)
+## 2.0.4 (2021-12-12)
 
 ### Packaging
 
