@@ -15,7 +15,7 @@
 
       python setup.py sdist bdist_wheel
 
-- Upload to PyPi (currently only accepts `tar.gz`):
+- Upload to PyPi (only accepts `tar.gz`):
 
       twine upload dist/deluge-2.0.0.tar.gz dist/deluge-2.0.0-py3-none-any.whl
 
@@ -23,21 +23,26 @@
 
       cd dist; sha256sum deluge-2.0.0.tar.xz > deluge-2.0.0.tar.xz.sha256
 
-- Upload source tarballs and packages to `download.deluge-torrent.org`.
+- Upload source tarballs and packages to `ftp-osl.osuosl.org`.
+
   - Ensure file permissions are global readable: `0644`
   - Sub-directories correspond to _major.minor_ version e.g. all `2.0.x` patch
     releases are stored in `source/2.0`.
-  - Change release version in `version` files.
-  - Run `trigger-deluge` to sync OSUOSL FTP site.
+  - Change release version in `version*` files, create a new version file for
+    any major releases.
+  - SSH into OSUOSL FTP site and run `trigger-deluge` to sync files.
+
 - Create packages (Ubuntu, Windows, OSX).
   - Ubuntu: <https://code.launchpad.net/~deluge-team/+recipe/stable-releases>
+    - Ensure launchpad git repo has sync'd to get latest version
+    - Update version in recipe (reset any dash number to 0)
+    - Check for new distribution series needing selected.
+    - Request build for selected series.
 
 ## Post-release
 
 - Update with version, hashes and release notes:
-  - Publish docs on [ReadTheDocs].
-  - Forum announcement.
-  - IRC welcome message.
+  - Publish new docs version on [ReadTheDocs].
   - [Wikipedia]
 - Close Trac milestone and add new milestone version for future tickets.
 - Ensure all stable branch commits are also applied to development branch.
