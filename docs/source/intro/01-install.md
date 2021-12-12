@@ -6,7 +6,7 @@ Instructions for installing Deluge.
 
 ### <i class="icon-ubuntu"></i> Ubuntu
 
-One-click [**APT Install**](https://tinyurl.com/installdeluge)
+One-click [**Install**](https://tinyurl.com/installdeluge)
 
 ```
 sudo apt install deluge
@@ -39,6 +39,12 @@ pacman -S deluge-gtk
 ### <i class="icon-gentoo"></i> Gentoo
 
 [Package Details](https://packages.gentoo.org/packages/net-p2p/deluge)
+
+### Flatpak
+
+One-click [**Install**](https://dl.flathub.org/repo/appstream/org.deluge_torrent.deluge.flatpakref)
+
+[Package Details](https://flathub.org/apps/details/org.deluge_torrent.deluge)
 
 ## <i class="fa fa-windows"></i> Windows
 
