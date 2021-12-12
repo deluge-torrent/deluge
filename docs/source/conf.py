@@ -14,8 +14,6 @@ import os
 import sys
 from datetime import date
 
-from recommonmark.states import DummyStateMachine
-from recommonmark.transform import AutoStructify
 from six.moves import builtins
 from sphinx.ext import apidoc
 from sphinx.ext.autodoc import ClassDocumenter, bool_option
@@ -50,6 +48,7 @@ extensions = [
     'sphinx.ext.napoleon',
     'sphinx.ext.coverage',
     'sphinxcontrib.spelling',
+    'myst_parser',
 ]
 
 napoleon_include_init_with_doc = True
@@ -59,7 +58,6 @@ napoleon_use_rtype = False
 templates_path = ['_templates']
 
 # The suffix of source filenames.
-source_parsers = {'.md': 'recommonmark.parser.CommonMarkParser'}
 source_suffix = ['.rst', '.md']
 
 # The master toctree document.
@@ -295,19 +293,6 @@ def maybe_skip_member(app, what, name, obj, skip, options):
         return True
 
 
-# Monkey patch to fix recommonmark 0.4 doc reference issues.
-orig_run_role = DummyStateMachine.run_role
-
-
-def run_role(self, name, options=None, content=None):
-    if name == 'doc':
-        name = 'any'
-    return orig_run_role(self, name, options, content)
-
-
-DummyStateMachine.run_role = run_role
-
-
 # Run the sphinx-apidoc to create package/modules rst files for autodoc.
 def run_apidoc(__):
     cur_dir = os.path.abspath(os.path.dirname(__file__))
@@ -329,5 +314,3 @@ def run_apidoc(__):
 def setup(app):
     app.connect('builder-inited', run_apidoc)
     app.connect('autodoc-skip-member', maybe_skip_member)
-    app.add_config_value('recommonmark_config', {}, True)
-    app.add_transform(AutoStructify)

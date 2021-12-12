@@ -12,7 +12,7 @@ and will need modified if using other installation methods e.g. `Deluge.app`.
 Create the file `/Library/LaunchDaemons/org.deluge-torrent.deluged.plist`
 containing the following:
 
-```eval_rst
+```{eval-rst}
 .. literalinclude:: ../../../packaging/osx/launchd/org.deluge-torrent.deluged.plist
     :language: xml
 ```
@@ -29,7 +29,7 @@ sudo launchctl start org.deluge-torrent.deluged
 Create the file `/Library/LaunchDaemons/org.deluge-torrent.deluge-web.plist`
 containing the following:
 
-```eval_rst
+```{eval-rst}
 .. literalinclude:: ../../../packaging/osx/launchd/org.deluge-torrent.deluge-web.plist
     :language: xml
 ```

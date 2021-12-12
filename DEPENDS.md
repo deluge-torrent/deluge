@@ -30,11 +30,11 @@ All modules will require the [common](#common) section dependencies.
 - [Pillow] - Optional: Support for resizing tracker icons.
 - [dbus-python] - Optional: Show item location in filemanager.
 
-#### Linux and BSD
+### Linux and BSD
 
 - [distro] - Optional: OS platform information.
 
-#### Windows OS
+### Windows OS
 
 - [pywin32]
 - [certifi]
@@ -52,7 +52,7 @@ All modules will require the [common](#common) section dependencies.
 - [librsvg] _>= 2_
 - [libappindicator3] w/GIR - Optional: Ubuntu system tray icon.
 
-#### MacOS
+### MacOS
 
 - [GtkOSXApplication]
 

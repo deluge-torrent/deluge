@@ -46,4 +46,4 @@
 [wikipedia]: http://en.wikipedia.org/wiki/Deluge_%28software%29
 [launchpad]: https://translations.launchpad.net/deluge
 [translation]: ../../contributing/translations.md
-[release notes]: ../../release/index.md
+[release notes]: ../../releases/index.md

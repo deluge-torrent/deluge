@@ -1,4 +1,4 @@
-sphinx==2.0.*
-recommonmark==0.4.*
+sphinx==4.*
+myst-parser
 sphinx_rtd_theme
 sphinxcontrib-spelling

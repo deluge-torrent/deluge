@@ -3,7 +3,12 @@
 This is a starting point if you are new to Deluge where we will walk
 you through getting up and running with our BitTorrent client.
 
-- [1. Installing Deluge](01-install.md)
+```{toctree}
+:numbered: 1
+:titlesonly:
+
+01-install
+```
 
 <!--
 2. Using Deluge

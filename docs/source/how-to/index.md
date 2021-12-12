@@ -4,7 +4,11 @@ A collection of guides covering common issues that might be encountered using De
 
 ## GTK UI
 
-- [Set default torrent application](set-mime-type.md)
+```{toctree}
+:titlesonly:
+
+Set default torrent application <set-mime-type>
+```
 
 ## Deluge as a service
 
@@ -14,6 +18,10 @@ shutdown and automatically restart them if they crash.
 
 The Deluge daemon deluged and Web UI deluge-web can both be run as services.
 
-- [Create systemd services for Linux](systemd-service.md)
-- [Create launchd services for macOS](launchd-service.md)
-- [Create NSSM services for Windows](nssm-service.md)
+```{toctree}
+:titlesonly:
+
+Create systemd services for Linux <systemd-service>
+Create launchd services for macOS <launchd-service>
+Create NSSM services for Windows <nssm-service>
+```

@@ -38,7 +38,7 @@ Running the tests for a specific plugin (requires [pytest](https://pypi.python.o
 
 All the tests for Deluge can be run using [Tox](https://pypi.python.org/pypi/tox)
 
-#### See available targets:
+### See available targets:
 
     tox -l
     py27
@@ -46,11 +46,11 @@ All the tests for Deluge can be run using [Tox](https://pypi.python.org/pypi/tox
     lint
     docs
 
-#### Run specific test:
+### Run specific test:
 
     tox -e py3
 
-#### Verify code with pre-commit:
+### Verify code with pre-commit:
 
     tox -e lint
 

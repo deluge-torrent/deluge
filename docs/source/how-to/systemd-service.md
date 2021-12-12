@@ -30,7 +30,7 @@ sudo adduser <username> deluge
 
 Create the file `/etc/systemd/system/deluged.service` containing the following:
 
-```eval_rst
+```{eval-rst}
 .. literalinclude:: ../../../packaging/systemd/deluged.service
     :language: ini
 ```
@@ -47,7 +47,7 @@ sudo mkdir /etc/systemd/system/deluged.service.d/
 Then create a user file `/etc/systemd/system/deluged.service.d/user.conf` with
 the following contents:
 
-```eval_rst
+```{eval-rst}
 .. literalinclude:: ../../../packaging/systemd/user.conf
     :language: ini
 ```
@@ -82,7 +82,7 @@ after changes.
 
 Create the file `/etc/systemd/system/deluge-web.service` containing the following:
 
-```eval_rst
+```{eval-rst}
 .. literalinclude:: ../../../packaging/systemd/deluge-web.service
     :language: ini
 ```
@@ -99,7 +99,7 @@ sudo mkdir /etc/systemd/system/deluge-web.service.d/
 Then create a user file `/etc/systemd/system/deluge-web.service.d/user.conf` with
 the following contents:
 
-```eval_rst
+```{eval-rst}
 .. literalinclude:: ../../../packaging/systemd/user.conf
     :language: ini
 ```
