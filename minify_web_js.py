@@ -22,11 +22,16 @@ import fnmatch
 import os
 import subprocess
 import sys
-from distutils.spawn import find_executable
+
+try:
+    from shutil import which
+except ImportError:
+    # PY2 Fallback
+    from distutils.spawn import find_executable as which
 
 closure_cmd = None
 for cmd in ['closure-compiler', 'closure']:
-    if find_executable(cmd):
+    if which(cmd):
         closure_cmd = cmd
         break
 

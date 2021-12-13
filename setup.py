@@ -15,18 +15,22 @@ import glob
 import os
 import platform
 import sys
-from distutils import cmd
 from distutils.command.build import build as _build
 from distutils.command.clean import clean as _clean
 from distutils.command.install_data import install_data as _install_data
-from distutils.spawn import find_executable
 from shutil import rmtree
 
-from setuptools import find_packages, setup
+from setuptools import Command, find_packages, setup
 from setuptools.command.test import test as _test
 
 import msgfmt
 from version import get_version
+
+try:
+    from shutil import which
+except ImportError:
+    # PY2 Fallback
+    from distutils.spawn import find_executable as which
 
 try:
     from sphinx.setup_command import BuildDoc
@@ -72,7 +76,7 @@ class PyTest(_test):
         sys.exit(errcode)
 
 
-class CleanDocs(cmd.Command):
+class CleanDocs(Command):
     description = 'Clean the documentation build and module rst files'
     user_options = []
 
@@ -94,7 +98,7 @@ class CleanDocs(cmd.Command):
             os.remove(module)
 
 
-class BuildWebUI(cmd.Command):
+class BuildWebUI(Command):
     description = 'Minify WebUI files'
     user_options = []
 
@@ -145,7 +149,7 @@ class BuildWebUI(cmd.Command):
             create_gettext_js(deluge_all_path)
 
 
-class CleanWebUI(cmd.Command):
+class CleanWebUI(Command):
     description = 'Clean the documentation build and rst files'
     user_options = []
 
@@ -177,7 +181,7 @@ class CleanWebUI(cmd.Command):
             pass
 
 
-class BuildTranslations(cmd.Command):
+class BuildTranslations(Command):
     description = 'Compile .po files into .mo files & create .desktop file'
 
     user_options = [
@@ -202,7 +206,7 @@ class BuildTranslations(cmd.Command):
             basedir = os.path.join(self.build_lib, 'deluge', 'i18n')
 
         intltool_merge = 'intltool-merge'
-        if not windows_check() and find_executable(intltool_merge):
+        if not windows_check() and which(intltool_merge):
             intltool_merge_opts = '--utf8 --quiet'
             for data_file in (desktop_data, appdata_data):
                 # creates the translated file from .in file.
@@ -250,7 +254,7 @@ class BuildTranslations(cmd.Command):
         sys.stdout.write('\b\b \nFinished compiling translation files. \n')
 
 
-class CleanTranslations(cmd.Command):
+class CleanTranslations(Command):
     description = 'Cleans translations files.'
     user_options = [
         ('all', 'a', 'Remove all build output, not just temporary by-products')
@@ -270,7 +274,7 @@ class CleanTranslations(cmd.Command):
                 os.remove(path)
 
 
-class BuildPlugins(cmd.Command):
+class BuildPlugins(Command):
     description = 'Build plugins into .eggs'
 
     user_options = [
@@ -314,7 +318,7 @@ class BuildPlugins(cmd.Command):
                     )
 
 
-class CleanPlugins(cmd.Command):
+class CleanPlugins(Command):
     description = 'Cleans the plugin folders'
     user_options = [
         ('all', 'a', 'Remove all build output, not just temporary by-products')
@@ -361,7 +365,7 @@ class CleanPlugins(cmd.Command):
                 os.removedirs(path)
 
 
-class EggInfoPlugins(cmd.Command):
+class EggInfoPlugins(Command):
     description = 'Create .egg-info directories for plugins'
 
     user_options = []
