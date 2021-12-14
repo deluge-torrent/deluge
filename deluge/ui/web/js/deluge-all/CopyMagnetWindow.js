@@ -51,7 +51,7 @@ Deluge.CopyMagnet = Ext.extend(Ext.Window, {
     },
     show: function (a) {
         Deluge.CopyMagnet.superclass.show.call(this);
-        const torrent = deluge.torrents.getSelected();
+        var torrent = deluge.torrents.getSelected();
         deluge.client.core.get_magnet_uri(torrent.id, {
             success: this.onRequestComplete,
             scope: this,

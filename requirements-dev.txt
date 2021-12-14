@@ -11,3 +11,4 @@ flake8-comprehensions
 flake8-debugger
 flake8-mock
 flake8-mutable
+rjsmin

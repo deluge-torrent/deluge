@@ -13,7 +13,7 @@ All modules will require the [common](#common) section dependencies.
 
 - [setuptools]
 - [intltool] - Optional: Desktop file translation for \*nix.
-- [closure-compiler] - Minify javascript (alternative is [slimit])
+- [closure-compiler] - Minify javascript (alternative is [rjsmin])
 
 ## Common
 
@@ -71,7 +71,7 @@ All modules will require the [common](#common) section dependencies.
 [setuptools]: https://setuptools.readthedocs.io/en/latest/
 [intltool]: https://freedesktop.org/wiki/Software/intltool/
 [closure-compiler]: https://developers.google.com/closure/compiler/
-[slimit]: https://slimit.readthedocs.io/en/latest/
+[rjsmin]: https://pypi.org/project/rjsmin/
 [openssl]: https://www.openssl.org/
 [pyopenssl]: https://pyopenssl.org
 [twisted]: https://twistedmatrix.com

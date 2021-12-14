@@ -592,13 +592,13 @@ class TopLevel(resource.Resource):
         uri_false = ('false', 'no', 'off', '0')
 
         debug_arg = None
-        req_dbg_arg = request.args.get('debug', [b''])[-1].decode().lower()
+        req_dbg_arg = request.args.get(b'debug', [b''])[-1].decode().lower()
         if req_dbg_arg in uri_true:
             debug_arg = True
         elif req_dbg_arg in uri_false:
             debug_arg = False
 
-        dev_arg = request.args.get('dev', [b''])[-1].decode().lower() in uri_true
+        dev_arg = request.args.get(b'dev', [b''])[-1].decode().lower() in uri_true
         dev_ver = 'dev' in common.get_version()
 
         script_type = 'normal'

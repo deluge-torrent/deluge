@@ -55,14 +55,14 @@ def minify_closure(file_in, file_out):
         return False
 
 
-# Closure outputs smallest files but it is a java-based command, so have slimit
+# Closure outputs smallest files but java-based command, can use rJSmin
 # as a python-only fallback.
 #
-#   deluge-all.js: Closure 127K, Slimit: 143K, JSMin: 162K
+#   deluge-all.js: Closure 131K, rJSmin: 148K
 #
 if not closure_cmd:
     try:
-        from slimit import minify as minify
+        from rjsmin import jsmin as minify
     except ImportError:
         print('Warning: No minifying command found.')
         minify = None
@@ -124,6 +124,8 @@ def minify_js_dir(source_dir):
     print('Minifying %s' % source_dir)
     if not minify_file(file_debug_js, file_minified_js):
         print('Warning: Failed minifying files %s, debug only' % source_dir)
+        if os.path.isfile(file_minified_js):
+            os.remove(file_minified_js)
 
 
 if __name__ == '__main__':
