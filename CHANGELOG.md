@@ -2,6 +2,11 @@
 
 ## 2.0.5 (WIP)
 
+### WebUI
+
+- Fix js minifying error resulting in WebUI blank screen.
+- Silence erronous missing translations warning.
+
 ## 2.0.4 (2021-12-12)
 
 ### Packaging
