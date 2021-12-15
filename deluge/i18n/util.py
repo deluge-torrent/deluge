@@ -69,18 +69,21 @@ def set_language(lang):
     :param lang: the language, e.g. "en", "de" or "en_GB"
     :type lang: str
     """
+    if not lang:
+        return
+
     # Necessary to set these environment variables for GtkBuilder
     deluge.common.set_env_variable('LANGUAGE', lang)  # Windows/Linux
     deluge.common.set_env_variable('LANG', lang)  # For OSX
 
-    translations_path = get_translations_path()
     try:
-        ro = gettext.translation(
-            'deluge', localedir=translations_path, languages=[lang]
+        translation = gettext.translation(
+            'deluge', localedir=get_translations_path(), languages=[lang]
         )
-        ro.install()
-    except IOError as ex:
-        log.warning('IOError when loading translations: %s', ex)
+    except IOError:
+        log.warning('Unable to find translation (.mo) to set language: %s', lang)
+    else:
+        translation.install()
 
 
 def setup_mock_translation(warn_msg=None):
