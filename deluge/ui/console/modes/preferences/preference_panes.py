@@ -581,6 +581,11 @@ class QueuePane(BasePreferencePane):
             core_conf['dont_count_slow_torrents'],
         )
         self.add_checked_input(
+            'announce_to_all_trackers',
+            'Announce to all trackers of the same tier',
+            core_conf['announce_to_all_trackers'],
+        )
+        self.add_checked_input(
             'auto_manage_prefer_seeds',
             'Prefer seeding torrents',
             core_conf['auto_manage_prefer_seeds'],
