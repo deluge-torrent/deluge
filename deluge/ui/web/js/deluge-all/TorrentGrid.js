@@ -67,7 +67,9 @@
     }
 
     function etaSorter(eta) {
-        return eta * -1;
+        if (eta === 0) return Number.MAX_VALUE;
+        if (eta <= -1) return Number.MAX_SAFE_INTEGER;
+        return eta;
     }
 
     function dateOrNever(date) {
@@ -75,7 +77,9 @@
     }
 
     function timeOrInf(time) {
-        return time < 0 ? '&infin;' : ftime(time);
+        if (time === 0) return '';
+        if (time <= -1) return '&infin;';
+        return ftime(time);
     }
 
     /**
