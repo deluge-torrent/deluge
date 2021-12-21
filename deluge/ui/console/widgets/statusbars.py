@@ -11,8 +11,9 @@ from __future__ import unicode_literals
 
 import deluge.common
 import deluge.component as component
-from deluge.core.preferencesmanager import DEFAULT_PREFS
 from deluge.ui.client import client
+
+DEFAULT_DAEMON_PORT = 58846
 
 
 class StatusBars(component.Component):
@@ -76,7 +77,7 @@ class StatusBars(component.Component):
                 connection_info += '{!white,blue,bold!}@{!red,blue,bold!}%s'
 
             # Port
-            if info[1] == DEFAULT_PREFS['daemon_port']:
+            if info[1] == DEFAULT_DAEMON_PORT:
                 connection_info += '{!white,blue!}:%s'
             else:
                 connection_info += '{!status!}:%s'
