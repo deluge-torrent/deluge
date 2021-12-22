@@ -77,13 +77,13 @@ def eta_column_sort(model, iter1, iter2, data):
     if v1 == v2:
         return 0
     if v1 == 0:
-        return 1
+        return -1
     if v2 == 0:
-        return -1
-    if v1 > v2:
         return 1
-    if v2 > v1:
+    if v1 > v2:
         return -1
+    if v2 > v1:
+        return 1
 
 
 def seed_peer_column_sort(model, iter1, iter2, data):
