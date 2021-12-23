@@ -4,6 +4,7 @@ _Name=Deluge
 _GenericName=BitTorrent Client
 _X-GNOME-FullName=Deluge BitTorrent Client
 _Comment=Download and share files over BitTorrent
+_Keywords=bittorrent;torrent;magnet;download;p2p;torrents;downloading;uploading;share;sharing;
 TryExec=deluge-gtk
 Exec=deluge-gtk %U
 Icon=deluge
