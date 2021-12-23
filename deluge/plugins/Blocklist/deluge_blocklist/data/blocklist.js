@@ -55,7 +55,7 @@ Deluge.ux.preferences.BlocklistPage = Ext.extend(Ext.Panel, {
         });
 
         this.checkListDays = this.SettingsFset.add({
-            fieldLabel: _('Check for new list every:'),
+            fieldLabel: _('Check for new list every (days):'),
             labelSeparator: '',
             name: 'check_list_days',
             value: 4,
