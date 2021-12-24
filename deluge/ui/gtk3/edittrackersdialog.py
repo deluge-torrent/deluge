@@ -131,6 +131,11 @@ class EditTrackersDialog:
         self.dialog.connect('response', self._on_response)
         self.treeview.connect('button_press_event', self.on_button_press_event)
 
+        self.add_tracker_dialog.connect('key-press-event', self.on_key_add_press_event)
+        self.add_tracker_dialog.connect('delete-event', self.on_delete_event_add)
+        self.edit_tracker_entry.connect('key-press-event', self.on_key_edit_press_event)
+        self.edit_tracker_entry.connect('delete-event', self.on_delete_event_edit)
+
     def run(self):
         # Make sure we have a torrent_id.. if not just return
         if self.torrent_id is None:
@@ -205,6 +210,7 @@ class EditTrackersDialog:
         # Show the add tracker dialog
         self.add_tracker_dialog.show()
         self.builder.get_object('textview_trackers').grab_focus()
+        self.dialog.set_sensitive(False)
 
     def on_button_remove_clicked(self, widget):
         log.debug('on_button_remove_clicked')
@@ -233,10 +239,26 @@ class EditTrackersDialog:
             self.edit_tracker_entry.grab_focus()
             self.dialog.set_sensitive(False)
 
-    def on_button_edit_cancel_clicked(self, widget):
-        log.debug('on_button_edit_cancel_clicked')
+    def _close_edit_dialog(self):
         self.dialog.set_sensitive(True)
         self.edit_tracker_entry.hide()
+
+    def on_button_edit_cancel_clicked(self, widget):
+        """handles the cancel button"""
+        log.debug('on_button_edit_cancel_clicked')
+        self._close_edit_dialog()
+
+    def on_key_edit_press_event(self, widget, event):
+        """handles Escape key press"""
+        if event.keyval == Gdk.KEY_Escape:
+            log.debug('on_key_edit_press_event')
+            self._close_edit_dialog()
+
+    def on_delete_event_edit(self, widget, event):
+        """handles the Top-Right X button"""
+        log.debug('on_delete_event_edit')
+        self._close_edit_dialog()
+        return True
 
     def on_button_edit_ok_clicked(self, widget):
         log.debug('on_button_edit_ok_clicked')
@@ -298,11 +320,29 @@ class EditTrackersDialog:
 
         # Clear the entry widget and hide the dialog
         textview_buf.set_text('')
+        self.dialog.set_sensitive(True)
         self.add_tracker_dialog.hide()
 
-    def on_button_add_cancel_clicked(self, widget):
-        log.debug('on_button_add_cancel_clicked')
+    def _discard_and_close_add_dialog(self):
         # Clear the entry widget and hide the dialog
         b = Gtk.TextBuffer()
         self.builder.get_object('textview_trackers').set_buffer(b)
+        self.dialog.set_sensitive(True)
         self.add_tracker_dialog.hide()
+
+    def on_button_add_cancel_clicked(self, widget):
+        """handles the cancel button"""
+        log.debug('on_button_add_cancel_clicked')
+        self._discard_and_close_add_dialog()
+
+    def on_key_add_press_event(self, widget, event):
+        """handles Escape key press"""
+        if event.keyval == Gdk.KEY_Escape:
+            log.debug('on_key_add_press_event')
+            self._discard_and_close_add_dialog()
+
+    def on_delete_event_add(self, widget, event):
+        """handles the Top-Right X button"""
+        log.debug('on_delete_event_add')
+        self._discard_and_close_add_dialog()
+        return True
