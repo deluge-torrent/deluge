@@ -7,8 +7,6 @@
 # See LICENSE for more details.
 #
 
-from __future__ import division, unicode_literals
-
 import logging
 import os.path
 from base64 import b64encode

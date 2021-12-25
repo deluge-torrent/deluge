@@ -14,11 +14,10 @@ Attributes:
 
 """
 
-from __future__ import division, unicode_literals
-
 import logging
 import os
 import socket
+from urllib.parse import urlparse
 
 from twisted.internet.defer import Deferred, DeferredList
 
@@ -33,18 +32,6 @@ from deluge.event import (
     TorrentStateChangedEvent,
     TorrentTrackerStatusEvent,
 )
-
-try:
-    from urllib.parse import urlparse
-except ImportError:
-    # PY2 fallback
-    from urlparse import urlparse  # pylint: disable=ungrouped-imports
-
-try:
-    from future_builtins import zip
-except ImportError:
-    # Ignore on Py3.
-    pass
 
 log = logging.getLogger(__name__)
 

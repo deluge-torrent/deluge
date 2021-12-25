@@ -8,14 +8,13 @@
 # See LICENSE for more details.
 #
 
-from __future__ import division, unicode_literals
-
 import logging
 import os
 import shutil
 import time
 from datetime import datetime, timedelta
 from email.utils import formatdate
+from urllib.parse import urljoin
 
 from twisted.internet import defer, threads
 from twisted.internet.task import LoopingCall
@@ -31,12 +30,6 @@ from deluge.plugins.pluginbase import CorePluginBase
 from .common import IP, BadIP
 from .detect import UnknownFormatError, create_reader, detect_compression, detect_format
 from .readers import ReaderParseError
-
-try:
-    from urllib.parse import urljoin
-except ImportError:
-    # PY2 fallback
-    from urlparse import urljoin  # pylint: disable=ungrouped-imports
 
 # TODO: check return values for deferred callbacks
 # TODO: review class attributes for redundancy

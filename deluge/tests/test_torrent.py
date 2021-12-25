@@ -5,8 +5,6 @@
 # See LICENSE for more details.
 #
 
-from __future__ import print_function, unicode_literals
-
 import os
 import time
 from base64 import b64encode

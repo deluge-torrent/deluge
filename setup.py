@@ -9,8 +9,6 @@
 # See LICENSE for more details.
 #
 
-from __future__ import print_function
-
 import glob
 import os
 import platform
@@ -18,19 +16,13 @@ import sys
 from distutils.command.build import build as _build
 from distutils.command.clean import clean as _clean
 from distutils.command.install_data import install_data as _install_data
-from shutil import rmtree
+from shutil import rmtree, which
 
 from setuptools import Command, find_packages, setup
 from setuptools.command.test import test as _test
 
 import msgfmt
 from version import get_version
-
-try:
-    from shutil import which
-except ImportError:
-    # PY2 Fallback
-    from distutils.spawn import find_executable as which
 
 try:
     from sphinx.setup_command import BuildDoc
@@ -548,7 +540,6 @@ install_requires = [
     'pyopenssl',
     'pyxdg',
     'mako',
-    'six',
     'setuptools',
     "pywin32; sys_platform == 'win32'",
     "certifi; sys_platform == 'win32'",
@@ -599,7 +590,7 @@ setup(
         'Operating System :: POSIX',
         'Topic :: Internet',
     ],
-    python_requires='>=2.7',
+    python_requires='>=3.5',
     license='GPLv3+',
     cmdclass=cmdclass,
     setup_requires=setup_requires,

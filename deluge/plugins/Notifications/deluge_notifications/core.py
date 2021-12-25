@@ -12,8 +12,6 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 import logging
 import smtplib
 from email.utils import formatdate
@@ -119,7 +117,6 @@ Date: %(date)s
         message = '\r\n'.join((headers + message).splitlines())
 
         try:
-            # Python 2.6
             server = smtplib.SMTP(
                 self.config['smtp_host'], self.config['smtp_port'], timeout=60
             )

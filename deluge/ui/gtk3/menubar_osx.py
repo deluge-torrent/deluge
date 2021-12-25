@@ -7,8 +7,6 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 from gi.repository.Gdk import ModifierType
 from gi.repository.Gtk import SeparatorMenuItem, accel_groups_from_object
 from gi.repository.Gtk.AccelFlags import VISIBLE

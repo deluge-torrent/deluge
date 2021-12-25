@@ -7,11 +7,10 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 import logging
 import os
 from socket import gaierror, gethostbyname
+from urllib.parse import urlparse
 
 from gi.repository import Gtk
 from twisted.internet import defer, reactor
@@ -25,12 +24,6 @@ from deluge.ui.hostlist import DEFAULT_PORT, LOCALHOST, HostList
 
 from .common import get_clipboard_text
 from .dialogs import AuthenticationDialog, ErrorDialog
-
-try:
-    from urllib.parse import urlparse
-except ImportError:
-    # PY2 fallback
-    from urlparse import urlparse  # pylint: disable=ungrouped-imports
 
 log = logging.getLogger(__name__)
 

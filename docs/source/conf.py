@@ -10,11 +10,11 @@
 # All configuration values have a default value; values that are commented out
 # serve to show the default value.
 
+import builtins
 import os
 import sys
 from datetime import date
 
-from six.moves import builtins
 from sphinx.ext import apidoc
 from sphinx.ext.autodoc import ClassDocumenter, bool_option
 

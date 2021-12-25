@@ -7,8 +7,7 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
+import builtins
 import ctypes
 import gettext
 import locale
@@ -16,8 +15,6 @@ import logging
 import os
 import sys
 from glob import glob
-
-from six.moves import builtins
 
 import deluge.common
 
@@ -113,10 +110,7 @@ def setup_translation():
         gettext.bindtextdomain(I18N_DOMAIN, translations_path)
         gettext.textdomain(I18N_DOMAIN)
 
-        # Workaround for Python 2 unicode gettext (keyword removed in Py3).
-        kwargs = {} if not deluge.common.PY2 else {'unicode': True}
-
-        gettext.install(I18N_DOMAIN, translations_path, names=['ngettext'], **kwargs)
+        gettext.install(I18N_DOMAIN, translations_path, names=['ngettext'])
         builtins.__dict__['_n'] = builtins.__dict__['ngettext']
 
         def load_libintl(libintls):

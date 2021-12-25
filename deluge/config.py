@@ -39,17 +39,14 @@ this can only be done for the 'config file version' and not for the 'format'
 version as this will be done internally.
 
 """
-from __future__ import unicode_literals
-
 import json
 import logging
 import os
+import pickle
 import shutil
 from codecs import getwriter
 from io import open
 from tempfile import NamedTemporaryFile
-
-import six.moves.cPickle as pickle  # noqa: N813
 
 from deluge.common import JSON_FORMAT, get_default_config_dir
 

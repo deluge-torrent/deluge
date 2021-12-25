@@ -289,7 +289,7 @@ callbacks=cb_,_cb
 
 # List of qualified module names which can have objects that can redefine
 # builtins.
-redefining-builtins-modules=six.moves,future.builtins,future_builtins
+redefining-builtins-modules=
 
 
 [TYPECHECK]
@@ -358,11 +358,6 @@ known-standard-library=
 
 # Force import order to recognize a module as part of a third party library.
 known-third-party=enchant
-
-# Analyse import fallback blocks. This can be used to support both Python 2 and
-# 3 compatible code, which means that the block might have code that exists
-# only in one or another interpreter, leading to false positives when analysed.
-analyse-fallback-blocks=no
 
 
 [DESIGN]

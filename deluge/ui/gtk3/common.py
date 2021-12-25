@@ -7,15 +7,13 @@
 # See LICENSE for more details.
 #
 """Common functions for various parts of gtkui to use."""
-from __future__ import unicode_literals
-
 import contextlib
 import logging
 import os
+import pickle
 import shutil
 import sys
 
-import six.moves.cPickle as pickle  # noqa: N813
 from gi.repository.Gdk import SELECTION_CLIPBOARD, SELECTION_PRIMARY, Display
 from gi.repository.GdkPixbuf import Colorspace, Pixbuf
 from gi.repository.GLib import GError
@@ -29,7 +27,7 @@ from gi.repository.Gtk import (
     SortType,
 )
 
-from deluge.common import PY2, get_pixmap, is_ip, osx_check, windows_check
+from deluge.common import get_pixmap, is_ip, osx_check, windows_check
 
 log = logging.getLogger(__name__)
 
@@ -232,10 +230,7 @@ def associate_magnet_links(overwrite=False):
     """
 
     if windows_check():
-        try:
-            import winreg
-        except ImportError:
-            import _winreg as winreg  # For Python 2.
+        import winreg
 
         try:
             hkey = winreg.OpenKey(winreg.HKEY_CLASSES_ROOT, 'Magnet')
@@ -356,10 +351,7 @@ def load_pickled_state_file(filename):
         log.info('Opening %s for load: %s', filename, _filepath)
         try:
             with open(_filepath, 'rb') as _file:
-                if PY2:
-                    state = pickle.load(_file)
-                else:
-                    state = pickle.load(_file, encoding='utf8')
+                state = pickle.load(_file, encoding='utf8')
         except (IOError, pickle.UnpicklingError) as ex:
             log.warning('Unable to load %s: %s', _filepath, ex)
         else:

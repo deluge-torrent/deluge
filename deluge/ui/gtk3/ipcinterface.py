@@ -7,14 +7,14 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 import logging
 import os
 import sys
 from base64 import b64encode
 from glob import glob
 from tempfile import mkstemp
+from urllib.parse import urlparse
+from urllib.request import url2pathname
 
 import rencode
 import twisted.internet.error
@@ -25,14 +25,6 @@ import deluge.component as component
 from deluge.common import decode_bytes, is_magnet, is_url, windows_check
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.ui.client import client
-
-try:
-    from urllib.parse import urlparse
-    from urllib.request import url2pathname
-except ImportError:
-    # PY2 fallback
-    from urllib import url2pathname  # pylint: disable=ungrouped-imports
-    from urlparse import urlparse  # pylint: disable=ungrouped-imports
 
 log = logging.getLogger(__name__)
 

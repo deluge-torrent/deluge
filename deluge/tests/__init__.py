@@ -1,7 +1,5 @@
 # Increase open file descriptor limit to allow tests to run
 # without getting error: what():  epoll: Too many open files
-from __future__ import print_function, unicode_literals
-
 from deluge.i18n import setup_translation
 
 try:

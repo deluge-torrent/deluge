@@ -6,9 +6,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-from __future__ import unicode_literals
-
-from six import assertCountEqual
 from twisted.trial import unittest
 
 from deluge.common import windows_check
@@ -170,4 +167,4 @@ class UICommonTestCase(unittest.TestCase):
             {'download': True, 'path': 'unicode_filenames/' + filepath1, 'size': 1771},
         ]
 
-        assertCountEqual(self, ti.files, result_files)
+        self.assertCountEqual(ti.files, result_files)

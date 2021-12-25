@@ -15,10 +15,8 @@ This should typically only be used by the Core. Plugins should utilize the
 `:mod:EventManager` for similar functionality.
 
 """
-from __future__ import unicode_literals
-
 import logging
-import types
+from types import SimpleNamespace
 
 from twisted.internet import reactor
 
@@ -27,14 +25,6 @@ from deluge._libtorrent import lt
 from deluge.common import decode_bytes
 
 log = logging.getLogger(__name__)
-
-try:
-    SimpleNamespace = types.SimpleNamespace  # Python 3.3+
-except AttributeError:
-
-    class SimpleNamespace(object):  # Python 2.7
-        def __init__(self, **attr):
-            self.__dict__.update(attr)
 
 
 class AlertManager(component.Component):

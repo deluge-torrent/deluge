@@ -7,11 +7,11 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 import logging
 import os
+from html.parser import HTMLParser
 from tempfile import mkstemp
+from urllib.parse import urljoin, urlparse
 
 from twisted.internet import defer, threads
 from twisted.web.error import PageRedirect
@@ -21,14 +21,6 @@ from deluge.component import Component
 from deluge.configmanager import get_config_dir
 from deluge.decorators import proxy
 from deluge.httpdownloader import download_file
-
-try:
-    from html.parser import HTMLParser
-    from urllib.parse import urljoin, urlparse
-except ImportError:
-    # PY2 fallback
-    from HTMLParser import HTMLParser
-    from urlparse import urljoin, urlparse  # pylint: disable=ungrouped-imports
 
 try:
     from PIL import Image

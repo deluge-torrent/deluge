@@ -8,17 +8,15 @@
 #
 
 """TorrentManager handles Torrent objects"""
-from __future__ import unicode_literals
-
 import datetime
 import logging
 import operator
 import os
+import pickle
 import time
 from collections import namedtuple
 from tempfile import gettempdir
 
-import six.moves.cPickle as pickle  # noqa: N813
 from twisted.internet import defer, error, reactor, threads
 from twisted.internet.defer import Deferred, DeferredList
 from twisted.internet.task import LoopingCall
@@ -26,7 +24,6 @@ from twisted.internet.task import LoopingCall
 import deluge.component as component
 from deluge._libtorrent import LT_VERSION, lt
 from deluge.common import (
-    PY2,
     VersionSplit,
     archive_files,
     decode_bytes,
@@ -821,10 +818,7 @@ class TorrentManager(component.Component):
 
             try:
                 with open(filepath, 'rb') as _file:
-                    if PY2:
-                        state = pickle.load(_file)
-                    else:
-                        state = pickle.load(_file, encoding='utf8')
+                    state = pickle.load(_file, encoding='utf8')
             except (IOError, EOFError, pickle.UnpicklingError) as ex:
                 message = 'Unable to load {}: {}'.format(filepath, ex)
                 log.error(message)

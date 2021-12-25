@@ -7,8 +7,6 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 import logging
 import os
 from base64 import b64encode
@@ -22,12 +20,6 @@ from deluge.ui.console.modes.torrentlist.add_torrents_popup import report_add_st
 from deluge.ui.console.utils import curses_util as util
 from deluge.ui.console.utils import format_utils
 from deluge.ui.console.widgets.popup import InputPopup, MessagePopup
-
-try:
-    from future_builtins import zip
-except ImportError:
-    # Ignore on Py3.
-    pass
 
 try:
     import curses

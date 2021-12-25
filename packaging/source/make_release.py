@@ -7,18 +7,11 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-from __future__ import print_function, unicode_literals
-
 import os.path
-import sys
 from hashlib import sha256
 from subprocess import call, check_output
 
-PY2 = sys.version_info.major == 2
-
 sdist_formats = 'xztar'
-if PY2:
-    sdist_formats = 'tar'
 
 version = check_output(['python', 'version.py']).strip().decode()
 

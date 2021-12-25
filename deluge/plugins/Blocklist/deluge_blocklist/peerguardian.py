@@ -7,8 +7,6 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 import gzip
 import logging
 import socket
@@ -64,9 +62,6 @@ class PGReader(object):
         end = socket.inet_ntoa(buf)
 
         return (start, end)
-
-    # Python 2 compatibility
-    next = __next__
 
     def close(self):
         self.fd.close()

@@ -10,8 +10,6 @@
 # See LICENSE for more details.
 #
 
-from __future__ import print_function, unicode_literals
-
 from deluge.ui.client import sclient
 
 sclient.set_core_uri()

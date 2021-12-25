@@ -7,8 +7,6 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 import logging
 import os.path
 
@@ -41,12 +39,6 @@ from .torrentview_data_funcs import (
     cell_data_speed_down,
     cell_data_speed_up,
 )
-
-try:
-    from future_builtins import zip
-except ImportError:
-    # Ignore on Py3.
-    pass
 
 log = logging.getLogger(__name__)
 

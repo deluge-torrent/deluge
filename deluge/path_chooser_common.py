@@ -8,11 +8,7 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 import os
-
-from deluge.common import PY2
 
 
 def is_hidden(filepath):
@@ -54,10 +50,7 @@ def get_completion_paths(args):
 
     def get_subdirs(dirname):
         try:
-            if PY2:
-                return os.walk(dirname).__next__[1]
-            else:
-                return next(os.walk(dirname))[1]
+            return next(os.walk(dirname))[1]
         except StopIteration:
             # Invalid dirname
             return []

@@ -5,8 +5,6 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 import os
 import shutil
 import warnings
@@ -133,8 +131,8 @@ class TorrentmanagerTestCase(BaseTestCase):
             InvalidTorrentError, self.tm.remove, 'torrentidthatdoesntexist'
         )
 
-    def test_open_state_from_python2(self):
-        """Open a Python2 state with a UTF-8 encoded torrent filename."""
+    def test_open_state(self):
+        """Open a state with a UTF-8 encoded torrent filename."""
         shutil.copy(
             common.get_test_data_file('utf8_filename_torrents.state'),
             os.path.join(self.config_dir, 'state', 'torrents.state'),

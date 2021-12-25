@@ -7,8 +7,6 @@
 # See LICENSE for more details.
 #
 
-from __future__ import division, unicode_literals
-
 import os
 from hashlib import sha1 as sha
 

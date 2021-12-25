@@ -8,8 +8,6 @@
 # See LICENSE for more details.
 #
 
-from __future__ import division, unicode_literals
-
 from os.path import sep as dirsep
 
 import deluge.component as component

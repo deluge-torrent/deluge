@@ -8,8 +8,6 @@
 #
 
 """The torrent view component that lists all torrents in the session."""
-from __future__ import unicode_literals
-
 import logging
 from locale import strcoll
 

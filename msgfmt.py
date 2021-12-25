@@ -25,8 +25,6 @@ Options:
     --version
         Display version information and exit.
 """
-from __future__ import print_function, unicode_literals
-
 import array
 import ast
 import getopt
@@ -103,10 +101,7 @@ def generate():
         0,
         0,
     )  # size and offset of hash table
-    if sys.version_info.major == 2:
-        output += array.array(b'i', offsets).tostring()
-    else:
-        output += array.array('i', offsets).tobytes()
+    output += array.array('i', offsets).tobytes()
     output += ids.encode('utf8')
     output += strs.encode('utf8')
     return output
@@ -181,9 +176,6 @@ def make(filename, outfile):
         if not line:
             continue
         line = ast.literal_eval(line)
-        # Python 2 ast.literal_eval returns bytes.
-        if isinstance(line, bytes):
-            line = line.decode('utf8')
         if section == section_id:
             msgid += line
         elif section == section_str:

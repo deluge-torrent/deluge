@@ -3,8 +3,6 @@
 # This file is public domain.
 #
 
-from __future__ import unicode_literals
-
 # ISO 3166-1 country names and codes
 COUNTRIES = {
     'AF': _('Afghanistan'),

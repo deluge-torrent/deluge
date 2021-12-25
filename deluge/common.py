@@ -8,8 +8,6 @@
 #
 
 """Common functions for various parts of Deluge to use."""
-from __future__ import division, print_function, unicode_literals
-
 import base64
 import binascii
 import functools
@@ -27,6 +25,8 @@ import time
 from contextlib import closing
 from datetime import datetime
 from io import BytesIO, open
+from urllib.parse import unquote_plus, urljoin
+from urllib.request import pathname2url
 
 import pkg_resources
 
@@ -37,14 +37,6 @@ try:
     import chardet
 except ImportError:
     chardet = None
-
-try:
-    from urllib.parse import unquote_plus, urljoin
-    from urllib.request import pathname2url
-except ImportError:
-    # PY2 fallback
-    from urllib import pathname2url, unquote_plus  # pylint: disable=ungrouped-imports
-    from urlparse import urljoin  # pylint: disable=ungrouped-imports
 
 # Windows workaround for HTTPS requests requiring certificate authority bundle.
 # see: https://twistedmatrix.com/trac/ticket/9209
@@ -84,8 +76,6 @@ JSON_FORMAT = {'indent': 4, 'sort_keys': True, 'ensure_ascii': False}
 DBUS_FM_ID = 'org.freedesktop.FileManager1'
 DBUS_FM_PATH = '/org/freedesktop/FileManager1'
 
-PY2 = sys.version_info.major == 2
-
 
 def get_version():
     """The program version from the egg metadata.
@@ -111,10 +101,8 @@ def get_default_config_dir(filename=None):
         def save_config_path(resource):
             app_data_path = os.environ.get('APPDATA')
             if not app_data_path:
-                try:
-                    import winreg
-                except ImportError:
-                    import _winreg as winreg  # For Python 2.
+                import winreg
+
                 hkey = winreg.OpenKey(
                     winreg.HKEY_CURRENT_USER,
                     'Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders',
@@ -178,8 +166,8 @@ def archive_files(arc_name, filepaths, message=None, rotate=10):
 
     from deluge.configmanager import get_config_dir
 
-    # Set archive compression to lzma with bz2 fallback.
-    arc_comp = 'xz' if not PY2 else 'bz2'
+    # Set archive compression to lzma
+    arc_comp = 'xz'
 
     archive_dir = os.path.join(get_config_dir(), 'archive')
     timestamp = datetime.now().replace(microsecond=0).isoformat().replace(':', '-')
@@ -1239,11 +1227,7 @@ def set_env_variable(name, value):
     http://sourceforge.net/p/gramps/code/HEAD/tree/branches/maintenance/gramps32/src/TransUtils.py
     """
     # Update Python's copy of the environment variables
-    try:
-        os.environ[name] = value
-    except UnicodeEncodeError:
-        # Python 2
-        os.environ[name] = value.encode('utf8')
+    os.environ[name] = value
 
     if windows_check():
         from ctypes import cdll, windll
@@ -1271,45 +1255,22 @@ def set_env_variable(name, value):
 
 def unicode_argv():
     """ Gets sys.argv as list of unicode objects on any platform."""
-    if windows_check():
-        # Versions 2.x of Python don't support Unicode in sys.argv on
-        # Windows, with the underlying Windows API instead replacing multi-byte
-        # characters with '?'.
-        from ctypes import POINTER, byref, c_int, cdll, windll
-        from ctypes.wintypes import LPCWSTR, LPWSTR
+    # On platforms other than Windows, we have to find the likely encoding of the args and decode
+    # First check if sys.stdout or stdin have encoding set
+    encoding = getattr(sys.stdout, 'encoding') or getattr(sys.stdin, 'encoding')
+    # If that fails, check what the locale is set to
+    encoding = encoding or locale.getpreferredencoding()
+    # As a last resort, just default to utf-8
+    encoding = encoding or 'utf-8'
 
-        get_cmd_linew = cdll.kernel32.GetCommandLineW
-        get_cmd_linew.argtypes = []
-        get_cmd_linew.restype = LPCWSTR
+    arg_list = []
+    for arg in sys.argv:
+        try:
+            arg_list.append(arg.decode(encoding))
+        except AttributeError:
+            arg_list.append(arg)
 
-        cmdline_to_argvw = windll.shell32.CommandLineToArgvW
-        cmdline_to_argvw.argtypes = [LPCWSTR, POINTER(c_int)]
-        cmdline_to_argvw.restype = POINTER(LPWSTR)
-
-        cmd = get_cmd_linew()
-        argc = c_int(0)
-        argv = cmdline_to_argvw(cmd, byref(argc))
-        if argc.value > 0:
-            # Remove Python executable and commands if present
-            start = argc.value - len(sys.argv)
-            return [argv[i] for i in range(start, argc.value)]
-    else:
-        # On other platforms, we have to find the likely encoding of the args and decode
-        # First check if sys.stdout or stdin have encoding set
-        encoding = getattr(sys.stdout, 'encoding') or getattr(sys.stdin, 'encoding')
-        # If that fails, check what the locale is set to
-        encoding = encoding or locale.getpreferredencoding()
-        # As a last resort, just default to utf-8
-        encoding = encoding or 'utf-8'
-
-        arg_list = []
-        for arg in sys.argv:
-            try:
-                arg_list.append(arg.decode(encoding))
-            except AttributeError:
-                arg_list.append(arg)
-
-        return arg_list
+    return arg_list
 
 
 def run_profiled(func, *args, **kwargs):

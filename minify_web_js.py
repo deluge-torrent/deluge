@@ -15,19 +15,12 @@ Usage: python minify_web_js.py deluge/ui/web/js/deluge-all
 
 """
 
-from __future__ import print_function, unicode_literals
-
 import fileinput
 import fnmatch
 import os
 import subprocess
 import sys
-
-try:
-    from shutil import which
-except ImportError:
-    # PY2 Fallback
-    from distutils.spawn import find_executable as which
+from shutil import which
 
 closure_cmd = None
 for cmd in ['closure-compiler', 'closure']:

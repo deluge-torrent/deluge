@@ -9,8 +9,6 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 import logging
 
 from deluge.ui.console.modes.basemode import add_string, mkpad, mkpanel

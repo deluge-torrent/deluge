@@ -23,7 +23,6 @@ All modules will require the [common](#common) section dependencies.
 - [rencode] _>= 1.0.2_ - Encoding library.
 - [PyXDG] - Access freedesktop.org standards for \*nix.
 - [xdg-utils] - Provides xdg-open for \*nix.
-- [six]
 - [zope.interface]
 - [chardet] - Optional: Encoding detection.
 - [setproctitle] - Optional: Renaming processes.
@@ -81,14 +80,12 @@ All modules will require the [common](#common) section dependencies.
 [distro]: https://github.com/nir0s/distro
 [pywin32]: https://github.com/mhammond/pywin32
 [certifi]: https://pypi.org/project/certifi/
-[py2-ipaddress]: https://pypi.org/project/py2-ipaddress/
 [dbus-python]: https://pypi.org/project/dbus-python/
 [setproctitle]: https://pypi.org/project/setproctitle/
 [gtkosxapplication]: https://github.com/jralls/gtk-mac-integration
 [chardet]: https://chardet.github.io/
 [rencode]: https://github.com/aresch/rencode
 [pyxdg]: https://www.freedesktop.org/wiki/Software/pyxdg/
-[six]: https://pythonhosted.org/six/
 [xdg-utils]: https://www.freedesktop.org/wiki/Software/xdg-utils/
 [gtk+]: https://www.gtk.org/
 [pycairo]: https://cairographics.org/pycairo/

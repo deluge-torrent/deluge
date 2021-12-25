@@ -7,8 +7,6 @@ python create_plugin.py --name MyPlugin2 --basepath . --author-name "Your Name" 
 
 """
 
-from __future__ import print_function, unicode_literals
-
 import os
 import sys
 from argparse import ArgumentParser

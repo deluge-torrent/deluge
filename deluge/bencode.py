@@ -9,13 +9,7 @@
 # License.
 
 # Written by Petru Paler
-# Updated by Calum Lind to support both Python 2 and Python 3.
-
-from __future__ import unicode_literals
-
-from sys import version_info
-
-PY2 = version_info.major == 2
+# Updated by Calum Lind to support Python 3.
 
 
 class BTFailure(Exception):
@@ -146,10 +140,6 @@ encode_func[dict] = encode_dict
 encode_func[bool] = encode_bool
 encode_func[str] = encode_string
 encode_func[bytes] = encode_bytes
-if PY2:
-    encode_func[long] = encode_int  # noqa: F821
-    encode_func[str] = encode_bytes
-    encode_func[unicode] = encode_string  # noqa: F821
 
 
 def bencode(x):

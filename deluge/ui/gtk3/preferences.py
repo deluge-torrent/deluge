@@ -8,11 +8,10 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 import logging
 import os
 from hashlib import sha1 as sha
+from urllib.parse import urlparse
 
 from gi import require_version
 from gi.repository import Gtk
@@ -29,12 +28,6 @@ from deluge.ui.common import DISK_CACHE_KEYS, PREFS_CATOG_TRANS
 from .common import associate_magnet_links, get_clipboard_text, get_deluge_icon
 from .dialogs import AccountDialog, ErrorDialog, InformationDialog, YesNoDialog
 from .path_chooser import PathChooser
-
-try:
-    from urllib.parse import urlparse
-except ImportError:
-    # PY2 fallback
-    from urlparse import urlparse  # pylint: disable=ungrouped-imports
 
 try:
     require_version('AppIndicator3', '0.1')
