@@ -22,12 +22,6 @@ from deluge.ui.console.utils import format_utils
 from deluge.ui.console.widgets.popup import InputPopup, MessagePopup
 
 try:
-    from future_builtins import zip
-except ImportError:
-    # Ignore on Py3.
-    pass
-
-try:
     import curses
 except ImportError:
     pass

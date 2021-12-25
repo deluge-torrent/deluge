@@ -38,12 +38,6 @@ except ImportError:
     # PY2 fallback
     from urlparse import urlparse  # pylint: disable=ungrouped-imports
 
-try:
-    from future_builtins import zip
-except ImportError:
-    # Ignore on Py3.
-    pass
-
 log = logging.getLogger(__name__)
 
 LT_TORRENT_STATE_MAP = {
