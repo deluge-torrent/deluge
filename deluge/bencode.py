@@ -11,8 +11,6 @@
 # Written by Petru Paler
 # Updated by Calum Lind to support both Python 2 and Python 3.
 
-from __future__ import unicode_literals
-
 from sys import version_info
 
 PY2 = version_info.major == 2

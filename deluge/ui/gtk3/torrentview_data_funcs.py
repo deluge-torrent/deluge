@@ -7,8 +7,6 @@
 # See LICENSE for more details.
 #
 
-from __future__ import print_function, unicode_literals
-
 import warnings
 from functools import partial
 

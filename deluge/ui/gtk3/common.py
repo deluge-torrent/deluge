@@ -7,8 +7,6 @@
 # See LICENSE for more details.
 #
 """Common functions for various parts of gtkui to use."""
-from __future__ import unicode_literals
-
 import contextlib
 import logging
 import os

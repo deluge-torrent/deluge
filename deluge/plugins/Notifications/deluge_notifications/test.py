@@ -6,8 +6,6 @@
 # License: BSD - Please view the LICENSE file for additional information.
 # ==============================================================================
 
-from __future__ import unicode_literals
-
 import logging
 
 from twisted.internet import task

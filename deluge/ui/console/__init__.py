@@ -7,8 +7,6 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 from deluge.ui.console.console import Console
 
 UI_PATH = __path__[0]

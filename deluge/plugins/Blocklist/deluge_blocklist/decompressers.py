@@ -8,8 +8,6 @@
 #
 # pylint: disable=redefined-builtin
 
-from __future__ import unicode_literals
-
 import bz2
 import gzip
 import zipfile

@@ -8,8 +8,6 @@
 #
 
 """Common functions for various parts of Deluge to use."""
-from __future__ import division, print_function, unicode_literals
-
 import base64
 import binascii
 import functools

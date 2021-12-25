@@ -5,8 +5,6 @@
 # See LICENSE for more details.
 #
 
-from __future__ import print_function, unicode_literals
-
 import pytest
 from twisted.trial import unittest
 

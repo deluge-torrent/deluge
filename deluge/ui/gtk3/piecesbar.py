@@ -7,8 +7,6 @@
 # See LICENSE for more details.
 #
 
-from __future__ import division, unicode_literals
-
 from math import pi
 
 import gi  # isort:skip (Version check required before import).

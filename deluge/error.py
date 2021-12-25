@@ -8,10 +8,6 @@
 # See LICENSE for more details.
 #
 
-
-from __future__ import unicode_literals
-
-
 class DelugeError(Exception):
     def __new__(cls, *args, **kwargs):
         inst = super(DelugeError, cls).__new__(cls, *args, **kwargs)

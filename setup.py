@@ -9,8 +9,6 @@
 # See LICENSE for more details.
 #
 
-from __future__ import print_function
-
 import glob
 import os
 import platform

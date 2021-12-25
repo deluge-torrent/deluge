@@ -5,8 +5,6 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 TORRENT_OPTIONS = {
     'max_download_speed': float,
     'max_upload_speed': float,

@@ -8,8 +8,6 @@
 #
 
 """TorrentManager handles Torrent objects"""
-from __future__ import unicode_literals
-
 import datetime
 import logging
 import operator

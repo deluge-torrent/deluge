@@ -14,8 +14,6 @@ Attributes:
 
 """
 
-from __future__ import division, unicode_literals
-
 import logging
 import os
 import socket

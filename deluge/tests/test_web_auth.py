@@ -4,8 +4,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-from __future__ import unicode_literals
-
 from mock import patch
 from twisted.trial import unittest
 

@@ -15,8 +15,6 @@ This should typically only be used by the Core. Plugins should utilize the
 `:mod:EventManager` for similar functionality.
 
 """
-from __future__ import unicode_literals
-
 import logging
 import types
 

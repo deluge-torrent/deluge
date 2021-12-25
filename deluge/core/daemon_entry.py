@@ -7,8 +7,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-from __future__ import print_function, unicode_literals
-
 import os
 import sys
 from logging import DEBUG, FileHandler, getLogger

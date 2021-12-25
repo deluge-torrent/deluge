@@ -8,8 +8,6 @@
 #
 
 
-from __future__ import unicode_literals
-
 import logging
 
 from gi.repository.Gtk import Menu, MenuItem

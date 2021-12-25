@@ -7,8 +7,6 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 import logging
 from datetime import datetime
 

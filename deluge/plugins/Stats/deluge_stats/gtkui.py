@@ -12,8 +12,6 @@
 # See LICENSE for more details.
 #
 
-from __future__ import division, unicode_literals
-
 import logging
 
 from gi.repository import Gtk

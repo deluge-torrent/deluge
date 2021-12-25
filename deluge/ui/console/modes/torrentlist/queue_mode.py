@@ -7,8 +7,6 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 from deluge.ui.client import client
 from deluge.ui.console.utils import curses_util as util
 from deluge.ui.console.widgets.popup import MessagePopup, SelectablePopup

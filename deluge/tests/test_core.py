@@ -5,8 +5,6 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 from base64 import b64encode
 from hashlib import sha1 as sha
 

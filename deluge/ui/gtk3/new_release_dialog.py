@@ -7,8 +7,6 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 from gi.repository.Gtk import IconSize
 
 import deluge.common

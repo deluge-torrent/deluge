@@ -25,13 +25,6 @@ Use [six] to assist with compatibility.
 
 [six]: https://pythonhosted.org/six/
 
-### Unicode literals
-
-Add the following to files to ensure strings and bytes separation so there
-are no surprises when running on Python 3.
-
-    from __future__ import unicode_literals
-
 ## GTK 3 addition
 
 In order to support both Deluge 1.3 and 2.0 all existing plugin GTK UI files

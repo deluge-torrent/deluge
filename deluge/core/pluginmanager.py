@@ -9,8 +9,6 @@
 
 
 """PluginManager for Core"""
-from __future__ import unicode_literals
-
 import logging
 
 from twisted.internet import defer

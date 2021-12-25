@@ -12,8 +12,6 @@
 #
 # Authour: Garett Harnish
 
-from __future__ import unicode_literals
-
 import logging
 import sys
 from optparse import OptionParser

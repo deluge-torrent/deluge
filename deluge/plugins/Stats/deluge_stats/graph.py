@@ -14,8 +14,6 @@
 port of old plugin by markybob.
 """
 
-from __future__ import division, unicode_literals
-
 import logging
 import math
 import time

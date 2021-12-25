@@ -5,8 +5,6 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 from twisted.internet import defer, threads
 from twisted.trial.unittest import SkipTest
 

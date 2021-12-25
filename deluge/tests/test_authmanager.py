@@ -5,8 +5,6 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 import deluge.component as component
 from deluge.common import get_localhost_auth
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN, AuthManager

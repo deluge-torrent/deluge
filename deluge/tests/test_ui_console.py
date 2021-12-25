@@ -5,8 +5,6 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 import argparse
 
 from deluge.ui.console.cmdline.commands.add import Command

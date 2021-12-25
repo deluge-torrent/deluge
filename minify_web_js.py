@@ -15,8 +15,6 @@ Usage: python minify_web_js.py deluge/ui/web/js/deluge-all
 
 """
 
-from __future__ import print_function, unicode_literals
-
 import fileinput
 import fnmatch
 import os

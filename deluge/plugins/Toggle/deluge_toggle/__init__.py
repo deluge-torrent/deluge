@@ -12,8 +12,6 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 from deluge.plugins.init import PluginInitBase
 
 
