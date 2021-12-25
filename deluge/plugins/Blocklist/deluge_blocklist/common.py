@@ -16,7 +16,6 @@ import os.path
 from functools import wraps
 from sys import exc_info
 
-import six
 from pkg_resources import resource_filename
 
 
@@ -45,7 +44,7 @@ def raises_errors_as(error):
                 return func(self, *args, **kwargs)
             except Exception:
                 (value, tb) = exc_info()[1:]
-                six.reraise(error, value, tb)
+                raise error(value).with_traceback(tb) from None
 
         return wrapper
 

@@ -8,6 +8,7 @@
 # See LICENSE for more details.
 #
 
+
 class DelugeError(Exception):
     def __new__(cls, *args, **kwargs):
         inst = super(DelugeError, cls).__new__(cls, *args, **kwargs)

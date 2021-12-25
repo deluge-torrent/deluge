@@ -16,7 +16,6 @@ import tempfile
 import threading
 from base64 import b64decode, b64encode
 
-from six import string_types
 from twisted.internet import defer, reactor, task
 from twisted.web.client import Agent, readBody
 
@@ -664,7 +663,7 @@ class Core(component.Component):
     def pause_torrent(self, torrent_id):
         """Pauses a torrent"""
         log.debug('Pausing: %s', torrent_id)
-        if not isinstance(torrent_id, string_types):
+        if not isinstance(torrent_id, str):
             self.pause_torrents(torrent_id)
         else:
             self.torrentmanager[torrent_id].pause()
@@ -715,7 +714,7 @@ class Core(component.Component):
     def resume_torrent(self, torrent_id):
         """Resumes a torrent"""
         log.debug('Resuming: %s', torrent_id)
-        if not isinstance(torrent_id, string_types):
+        if not isinstance(torrent_id, str):
             self.resume_torrents(torrent_id)
         else:
             self.torrentmanager[torrent_id].resume()
@@ -899,7 +898,7 @@ class Core(component.Component):
         if 'owner' in options and not self.authmanager.has_account(options['owner']):
             raise DelugeError('Username "%s" is not known.' % options['owner'])
 
-        if isinstance(torrent_ids, string_types):
+        if isinstance(torrent_ids, str):
             torrent_ids = [torrent_ids]
 
         for torrent_id in torrent_ids:

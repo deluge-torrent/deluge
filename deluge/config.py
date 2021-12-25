@@ -42,12 +42,11 @@ version as this will be done internally.
 import json
 import logging
 import os
+import pickle
 import shutil
 from codecs import getwriter
 from io import open
 from tempfile import NamedTemporaryFile
-
-import six.moves.cPickle as pickle  # noqa: N813
 
 from deluge.common import JSON_FORMAT, get_default_config_dir
 

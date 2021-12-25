@@ -9,7 +9,6 @@ from base64 import b64encode
 from hashlib import sha1 as sha
 
 import pytest
-from six import integer_types
 from twisted.internet import defer, reactor, task
 from twisted.internet.error import CannotListenError
 from twisted.python.failure import Failure
@@ -430,8 +429,7 @@ class CoreTestCase(BaseTestCase):
 
     def test_get_free_space(self):
         space = self.core.get_free_space('.')
-        # get_free_space returns long on Python 2 (32-bit).
-        self.assertTrue(isinstance(space, integer_types))
+        self.assertTrue(isinstance(space, int))
         self.assertTrue(space >= 0)
         self.assertEqual(self.core.get_free_space('/someinvalidpath'), -1)
 

@@ -11,7 +11,6 @@ import logging
 import traceback
 from collections import defaultdict
 
-from six import string_types
 from twisted.internet import reactor
 from twisted.internet.defer import DeferredList, fail, maybeDeferred, succeed
 from twisted.internet.task import LoopingCall, deferLater
@@ -323,7 +322,7 @@ class ComponentRegistry(object):
         # Start all the components if names is empty
         if not names:
             names = list(self.components)
-        elif isinstance(names, string_types):
+        elif isinstance(names, str):
             names = [names]
 
         def on_depends_started(result, name):
@@ -357,7 +356,7 @@ class ComponentRegistry(object):
         """
         if not names:
             names = list(self.components)
-        elif isinstance(names, string_types):
+        elif isinstance(names, str):
             names = [names]
 
         def on_dependents_stopped(result, name):
@@ -397,7 +396,7 @@ class ComponentRegistry(object):
         """
         if not names:
             names = list(self.components)
-        elif isinstance(names, string_types):
+        elif isinstance(names, str):
             names = [names]
 
         deferreds = []
@@ -423,7 +422,7 @@ class ComponentRegistry(object):
         """
         if not names:
             names = list(self.components)
-        elif isinstance(names, string_types):
+        elif isinstance(names, str):
             names = [names]
 
         deferreds = []

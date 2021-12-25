@@ -7,6 +7,7 @@
 # See LICENSE for more details.
 #
 
+import builtins
 import ctypes
 import gettext
 import locale
@@ -14,8 +15,6 @@ import logging
 import os
 import sys
 from glob import glob
-
-from six.moves import builtins
 
 import deluge.common
 

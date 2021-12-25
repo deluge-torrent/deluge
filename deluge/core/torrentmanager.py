@@ -12,11 +12,11 @@ import datetime
 import logging
 import operator
 import os
+import pickle
 import time
 from collections import namedtuple
 from tempfile import gettempdir
 
-import six.moves.cPickle as pickle  # noqa: N813
 from twisted.internet import defer, error, reactor, threads
 from twisted.internet.defer import Deferred, DeferredList
 from twisted.internet.task import LoopingCall

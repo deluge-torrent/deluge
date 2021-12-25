@@ -546,7 +546,6 @@ install_requires = [
     'pyopenssl',
     'pyxdg',
     'mako',
-    'six',
     'setuptools',
     "pywin32; sys_platform == 'win32'",
     "certifi; sys_platform == 'win32'",

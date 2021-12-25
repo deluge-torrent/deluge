@@ -10,10 +10,10 @@
 import contextlib
 import logging
 import os
+import pickle
 import shutil
 import sys
 
-import six.moves.cPickle as pickle  # noqa: N813
 from gi.repository.Gdk import SELECTION_CLIPBOARD, SELECTION_PRIMARY, Display
 from gi.repository.GdkPixbuf import Colorspace, Pixbuf
 from gi.repository.GLib import GError

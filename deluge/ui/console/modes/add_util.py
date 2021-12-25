@@ -14,8 +14,6 @@ import logging
 import os
 from base64 import b64encode
 
-from six import unichr as chr  # noqa: A001 shadowing
-
 import deluge.common
 from deluge.ui.client import client
 from deluge.ui.common import TorrentInfo

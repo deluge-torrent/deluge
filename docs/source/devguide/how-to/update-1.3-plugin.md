@@ -19,12 +19,6 @@ would only be loaded if the system Python also matched.
 This has change in Deluge 2.0 and it will load any Python version of plugin
 eggs so compatibility is essential for end-users not to encounter issues.
 
-### Six
-
-Use [six] to assist with compatibility.
-
-[six]: https://pythonhosted.org/six/
-
 ## GTK 3 addition
 
 In order to support both Deluge 1.3 and 2.0 all existing plugin GTK UI files

@@ -23,7 +23,6 @@ All modules will require the [common](#common) section dependencies.
 - [rencode] _>= 1.0.2_ - Encoding library.
 - [PyXDG] - Access freedesktop.org standards for \*nix.
 - [xdg-utils] - Provides xdg-open for \*nix.
-- [six]
 - [zope.interface]
 - [chardet] - Optional: Encoding detection.
 - [setproctitle] - Optional: Renaming processes.
@@ -88,7 +87,6 @@ All modules will require the [common](#common) section dependencies.
 [chardet]: https://chardet.github.io/
 [rencode]: https://github.com/aresch/rencode
 [pyxdg]: https://www.freedesktop.org/wiki/Software/pyxdg/
-[six]: https://pythonhosted.org/six/
 [xdg-utils]: https://www.freedesktop.org/wiki/Software/xdg-utils/
 [gtk+]: https://www.gtk.org/
 [pycairo]: https://cairographics.org/pycairo/
