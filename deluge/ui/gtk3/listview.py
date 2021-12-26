@@ -11,7 +11,7 @@ import logging
 
 from gi.repository import GObject, Gtk
 
-from deluge.common import PY2, decode_bytes
+from deluge.common import decode_bytes
 
 from .common import cmp, load_pickled_state_file, save_pickled_state_file
 
@@ -73,9 +73,7 @@ class ListView(object):
         """
 
         __gsignals__ = {
-            'button-press-event'
-            if not PY2
-            else b'button-press-event': (GObject.SIGNAL_RUN_LAST, None, (object,))
+            'button-press-event': (GObject.SIGNAL_RUN_LAST, None, (object,))
         }
 
         def __init__(self, title=None, cell_renderer=None, **args):

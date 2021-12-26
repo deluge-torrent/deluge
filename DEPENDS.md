@@ -80,7 +80,6 @@ All modules will require the [common](#common) section dependencies.
 [distro]: https://github.com/nir0s/distro
 [pywin32]: https://github.com/mhammond/pywin32
 [certifi]: https://pypi.org/project/certifi/
-[py2-ipaddress]: https://pypi.org/project/py2-ipaddress/
 [dbus-python]: https://pypi.org/project/dbus-python/
 [setproctitle]: https://pypi.org/project/setproctitle/
 [gtkosxapplication]: https://github.com/jralls/gtk-mac-integration

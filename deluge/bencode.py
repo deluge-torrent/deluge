@@ -13,8 +13,6 @@
 
 from sys import version_info
 
-PY2 = version_info.major == 2
-
 
 class BTFailure(Exception):
     pass
@@ -144,10 +142,6 @@ encode_func[dict] = encode_dict
 encode_func[bool] = encode_bool
 encode_func[str] = encode_string
 encode_func[bytes] = encode_bytes
-if PY2:
-    encode_func[long] = encode_int  # noqa: F821
-    encode_func[str] = encode_bytes
-    encode_func[unicode] = encode_string  # noqa: F821
 
 
 def bencode(x):

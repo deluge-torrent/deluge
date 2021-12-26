@@ -14,11 +14,7 @@ import sys
 from hashlib import sha256
 from subprocess import call, check_output
 
-PY2 = sys.version_info.major == 2
-
 sdist_formats = 'xztar'
-if PY2:
-    sdist_formats = 'tar'
 
 version = check_output(['python', 'version.py']).strip().decode()
 

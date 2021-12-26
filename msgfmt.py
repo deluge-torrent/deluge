@@ -179,9 +179,6 @@ def make(filename, outfile):
         if not line:
             continue
         line = ast.literal_eval(line)
-        # Python 2 ast.literal_eval returns bytes.
-        if isinstance(line, bytes):
-            line = line.decode('utf8')
         if section == section_id:
             msgid += line
         elif section == section_str:

@@ -21,7 +21,7 @@ import deluge.ui.console
 import deluge.ui.console.cmdline.commands.quit
 import deluge.ui.console.main
 import deluge.ui.web.server
-from deluge.common import PY2, get_localhost_auth, windows_check
+from deluge.common import get_localhost_auth, windows_check
 from deluge.ui import ui_entry
 from deluge.ui.web.server import DelugeWeb
 
@@ -49,10 +49,7 @@ class StringFileDescriptor(object):
             setattr(self, a, getattr(sys_stdout, a))
 
     def write(self, *data, **kwargs):
-        # io.StringIO requires unicode strings.
         data_string = str(*data)
-        if PY2:
-            data_string = data_string.decode()
         print(data_string, file=self.out, end='')
 
     def flush(self):
@@ -446,11 +443,7 @@ class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
         yield self.exec_command()
         std_output = fd.out.getvalue()
         self.assertTrue(
-            std_output.startswith(
-                'Setting "download_location" to: {}\'/downloads\''.format(
-                    'u' if PY2 else ''
-                )
-            )
+            std_output.startswith('Setting "download_location" to: \'/downloads\'')
         )
         self.assertTrue(
             std_output.endswith('Configuration value successfully updated.\n')

@@ -11,7 +11,7 @@ compatible with 2.0 and this guide aims to helps with that process.
 
 ### Python version matching
 
-Ensure your code is both Python 2.7 and Python >=3.5 compatible.
+Ensure your code is Python >=3.5 compatible.
 
 In `1.3-stable` the plugins that were built with a specific version of Python
 would only be loaded if the system Python also matched.

@@ -103,9 +103,7 @@ def generate_ssl_keys():
     """
     This method generates a new SSL key/cert.
     """
-    from deluge.common import PY2
-
-    digest = 'sha256' if not PY2 else b'sha256'
+    digest = 'sha256'
 
     # Generate key pair
     pkey = crypto.PKey()

@@ -35,10 +35,7 @@ if windows_check():
         'C:\\Program Files (x86)\\7-Zip\\7z.exe',
     ]
 
-    try:
-        import winreg
-    except ImportError:
-        import _winreg as winreg  # For Python 2.
+    import winreg
 
     try:
         hkey = winreg.OpenKey(winreg.HKEY_CURRENT_USER, 'Software\\7-Zip')

@@ -15,6 +15,7 @@ import shutil
 import tempfile
 import threading
 from base64 import b64decode, b64encode
+from urllib.request import URLError, urlopen
 
 from twisted.internet import defer, reactor, task
 from twisted.web.client import Agent, readBody
@@ -52,12 +53,6 @@ from deluge.event import (
     TorrentQueueChangedEvent,
 )
 from deluge.httpdownloader import download_file
-
-try:
-    from urllib.request import URLError, urlopen
-except ImportError:
-    # PY2 fallback
-    from urllib2 import URLError, urlopen
 
 log = logging.getLogger(__name__)
 

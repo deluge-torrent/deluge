@@ -63,8 +63,5 @@ class PGReader(object):
 
         return (start, end)
 
-    # Python 2 compatibility
-    next = __next__
-
     def close(self):
         self.fd.close()

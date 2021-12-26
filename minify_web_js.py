@@ -20,12 +20,7 @@ import fnmatch
 import os
 import subprocess
 import sys
-
-try:
-    from shutil import which
-except ImportError:
-    # PY2 Fallback
-    from distutils.spawn import find_executable as which
+from shutil import which
 
 closure_cmd = None
 for cmd in ['closure-compiler', 'closure']:

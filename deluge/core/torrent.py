@@ -17,6 +17,7 @@ Attributes:
 import logging
 import os
 import socket
+from urllib.parse import urlparse
 
 from twisted.internet.defer import Deferred, DeferredList
 
@@ -31,12 +32,6 @@ from deluge.event import (
     TorrentStateChangedEvent,
     TorrentTrackerStatusEvent,
 )
-
-try:
-    from urllib.parse import urlparse
-except ImportError:
-    # PY2 fallback
-    from urlparse import urlparse  # pylint: disable=ungrouped-imports
 
 log = logging.getLogger(__name__)
 

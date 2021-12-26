@@ -11,13 +11,11 @@ import gettext
 
 from mako.template import Template as MakoTemplate
 
-from deluge.common import PY2, get_version
+from deluge.common import get_version
 
 
 def _(text):
     text_local = gettext.gettext(text)
-    if PY2:
-        return text_local.decode('utf-8')
     return text_local
 
 

@@ -14,7 +14,7 @@ import warnings
 from gi.repository import Gdk, GObject, Gtk
 from gi.repository.GObject import SignalFlags
 
-from deluge.common import PY2, resource_filename
+from deluge.common import resource_filename
 from deluge.path_chooser_common import get_completion_paths
 
 # Filter the pygobject signal warning:
@@ -1104,9 +1104,7 @@ class PathAutoCompleter(object):
 class PathChooserComboBox(Gtk.Box, StoredValuesPopup, GObject.GObject):
 
     __gsignals__ = {
-        signal
-        if not PY2
-        else signal.encode(): (SignalFlags.RUN_FIRST, GObject.TYPE_NONE, (object,))
+        signal: (SignalFlags.RUN_FIRST, GObject.TYPE_NONE, (object,))
         for signal in [
             'text-changed',
             'accelerator-set',

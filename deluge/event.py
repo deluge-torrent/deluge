@@ -28,7 +28,7 @@ class DelugeEventMetaClass(type):
             known_events[name] = cls
 
 
-class DelugeEvent(object, metaclass=DelugeEventMetaClass):
+class DelugeEvent(metaclass=DelugeEventMetaClass):
     """
     The base class for all events.
 

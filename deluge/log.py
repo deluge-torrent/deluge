@@ -100,10 +100,7 @@ class Logging(LoggingLoggerClass):
                 continue
             rv = (co.co_filename, f.f_lineno, co.co_name, None)
             break
-        if common.PY2:
-            return rv[:-1]
-        else:
-            return rv
+        return rv
 
 
 levels = {
