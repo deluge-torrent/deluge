@@ -9,8 +9,8 @@
 
 import logging
 import os
-from tempfile import mkstemp
 from html.parser import HTMLParser
+from tempfile import mkstemp
 from urllib.parse import urljoin, urlparse
 
 from twisted.internet import defer, threads

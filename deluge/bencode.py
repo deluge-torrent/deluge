@@ -11,8 +11,6 @@
 # Written by Petru Paler
 # Updated by Calum Lind to support both Python 2 and Python 3.
 
-from sys import version_info
-
 
 class BTFailure(Exception):
     pass

@@ -102,6 +102,7 @@ def get_default_config_dir(filename=None):
             app_data_path = os.environ.get('APPDATA')
             if not app_data_path:
                 import winreg
+
                 hkey = winreg.OpenKey(
                     winreg.HKEY_CURRENT_USER,
                     'Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders',
