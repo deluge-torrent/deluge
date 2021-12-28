@@ -13,6 +13,8 @@ import os
 import platform
 import random
 import threading
+from urllib.parse import quote_plus
+from urllib.request import urlopen
 
 from twisted.internet.task import LoopingCall
 
@@ -26,13 +28,6 @@ try:
     import GeoIP
 except ImportError:
     GeoIP = None
-
-try:
-    from urllib.parse import quote_plus
-    from urllib.request import urlopen
-except ImportError:
-    from urllib import quote_plus
-    from urllib2 import urlopen
 
 log = logging.getLogger(__name__)
 

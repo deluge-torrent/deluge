@@ -9,7 +9,7 @@
 # License.
 
 # Written by Petru Paler
-# Updated by Calum Lind to support both Python 2 and Python 3.
+# Updated by Calum Lind to support Python 3.
 
 
 class BTFailure(Exception):

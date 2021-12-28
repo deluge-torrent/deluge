@@ -1,11 +1,5 @@
 # Changelog
 
-## 2.1.0 (WIP)
-
-### Codebase
-
-- Dropped support for Python 2
-
 ## 2.0.6 (WIP)
 
 ## 2.0.5 (2021-12-15)
