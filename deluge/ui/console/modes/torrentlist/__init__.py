@@ -1,4 +1,4 @@
-class ACTION(object):
+class ACTION:
     PAUSE = 'pause'
     RESUME = 'resume'
     REANNOUNCE = 'update_tracker'

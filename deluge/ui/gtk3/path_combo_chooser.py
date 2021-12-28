@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2013 Bro <bro.development@gmail.com>
 #
@@ -62,7 +61,7 @@ def path_without_trailing_path_sep(path):
     return path
 
 
-class ValueList(object):
+class ValueList:
 
     paths_without_trailing_path_sep = False
 
@@ -174,7 +173,7 @@ class ValueList(object):
         """
         for i, row in enumerate(self.tree_store):
             if row[0] == value:
-                self.treeview.set_cursor((i))
+                self.treeview.set_cursor(i)
                 return
         # The value was not found
         if select_first:
@@ -372,7 +371,7 @@ class StoredValuesList(ValueList):
         """
         # This is left click
         if event.button != 3:
-            super(StoredValuesList, self).on_treeview_mouse_button_press_event(
+            super().on_treeview_mouse_button_press_event(
                 treeview, event, double_click=True
             )
             return False
@@ -410,9 +409,7 @@ class StoredValuesList(ValueList):
         PathChooserPopup.popup(self)
 
     def on_stored_values_treeview_key_press_event(self, widget, event):
-        super(StoredValuesList, self).on_value_list_treeview_key_press_event(
-            widget, event
-        )
+        super().on_value_list_treeview_key_press_event(widget, event)
         # Prevent the default event handler to move the cursor in the list
         if key_is_up_or_down(event.keyval):
             return True
@@ -477,9 +474,9 @@ class CompletionList(ValueList):
         ] = self.on_completion_treeview_motion_notify_event
 
         # Add super class signal handler
-        self.signal_handlers['on_completion_treeview_mouse_button_press_event'] = super(
-            CompletionList, self
-        ).on_treeview_mouse_button_press_event
+        self.signal_handlers[
+            'on_completion_treeview_mouse_button_press_event'
+        ] = super().on_treeview_mouse_button_press_event
 
     def reduce_values(self, prefix):
         """
@@ -497,9 +494,7 @@ class CompletionList(ValueList):
         self.add_values(matching_values, clear=True)
 
     def on_completion_treeview_key_press_event(self, widget, event):
-        ret = super(CompletionList, self).on_value_list_treeview_key_press_event(
-            widget, event
-        )
+        ret = super().on_value_list_treeview_key_press_event(widget, event)
         if ret:
             return ret
         keyval = event.keyval
@@ -527,7 +522,7 @@ class CompletionList(ValueList):
             self.handle_list_scroll(path=path[0], _next=None)
 
 
-class PathChooserPopup(object):
+class PathChooserPopup:
     """This creates the popop window for the ComboEntry."""
 
     def __init__(self, min_visible_rows, max_visible_rows, popup_alignment_widget):
@@ -981,7 +976,7 @@ class PathCompletionPopup(CompletionList, PathChooserPopup):
         return True
 
 
-class PathAutoCompleter(object):
+class PathAutoCompleter:
     def __init__(self, builder, path_entry, max_visible_rows):
         self.completion_popup = PathCompletionPopup(
             builder, path_entry, max_visible_rows
@@ -1462,7 +1457,7 @@ class PathChooserComboBox(Gtk.Box, StoredValuesPopup, GObject.GObject):
                 )
                 return True
             elif is_ascii_value(keyval, 's'):
-                super(PathChooserComboBox, self).add_current_value_to_saved_list()
+                super().add_current_value_to_saved_list()
                 return True
             elif is_ascii_value(keyval, 'd'):
                 # Set the default value in the text entry
@@ -1692,7 +1687,7 @@ if __name__ == '__main__':
     box1 = Gtk.Box.new(Gtk.Orientation.VERTICAL, spacing=0)
 
     def get_resource2(filename):
-        return '%s/glade/%s' % (os.path.abspath(os.path.dirname(sys.argv[0])), filename)
+        return f'{os.path.abspath(os.path.dirname(sys.argv[0]))}/glade/{filename}'
 
     # Override get_resource which fetches from deluge install
     # get_resource = get_resource2

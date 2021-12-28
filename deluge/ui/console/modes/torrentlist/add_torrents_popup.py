@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2011 Nick Lanham <nick@afternight.org>
 #
@@ -38,7 +37,7 @@ def show_torrent_add_popup(torrentlist):
 
         def fail_cb(msg, url):
             log.debug('failed to add torrent: %s: %s', url, msg)
-            error_msg = '{!input!} * %s: {!error!}%s' % (url, msg)
+            error_msg = f'{{!input!}} * {url}: {{!error!}}{msg}'
             report_add_status(torrentlist, 0, 1, [error_msg])
 
         def success_cb(tid, url):

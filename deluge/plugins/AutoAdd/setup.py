@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 GazpachoKing <chase.sterling@gmail.com>
 # Copyright (C) 2011 Pedro Algarvio <pedro@algarvio.me>

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2011 Nick Lanham <nick@afternight.org>
 #
@@ -44,7 +43,7 @@ def action_remove(mode=None, torrent_ids=None, **kwargs):
             if errors:
                 error_msgs = ''
                 for t_id, e_msg in errors:
-                    error_msgs += 'Error removing torrent %s : %s\n' % (t_id, e_msg)
+                    error_msgs += f'Error removing torrent {t_id} : {e_msg}\n'
                 mode.report_message(
                     'Error(s) occured when trying to delete torrent(s).', error_msgs
                 )
@@ -75,7 +74,7 @@ def action_remove(mode=None, torrent_ids=None, **kwargs):
         show_max = 6
         for i, (name, state) in enumerate(status):
             color = colors.state_color[state]
-            rem_msg += '\n %s* {!input!}%s' % (color, name)
+            rem_msg += f'\n {color}* {{!input!}}{name}'
             if i == show_max - 1:
                 if i < len(status) - 1:
                     rem_msg += '\n  {!red!}And %i more' % (len(status) - show_max)

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009-2010 Damien Churchill <damoxc@gmail.com>
 #
@@ -373,7 +372,7 @@ class ScriptResource(resource.Resource, component.Component):
 
                     order_file = os.path.join(root, '.order')
                     if os.path.isfile(order_file):
-                        with open(order_file, 'r') as _file:
+                        with open(order_file) as _file:
                             for line in _file:
                                 if line.startswith('+ '):
                                     order_filename = line.split()[1]

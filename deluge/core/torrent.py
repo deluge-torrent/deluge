@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
 #
@@ -148,7 +147,7 @@ class TorrentOptions(dict):
     """
 
     def __init__(self):
-        super(TorrentOptions, self).__init__()
+        super().__init__()
         config = ConfigManager('core.conf').config
         options_conf_map = {
             'add_paused': 'add_paused',
@@ -178,14 +177,14 @@ class TorrentOptions(dict):
         self['seed_mode'] = False
 
 
-class TorrentError(object):
+class TorrentError:
     def __init__(self, error_message, was_paused=False, restart_to_resume=False):
         self.error_message = error_message
         self.was_paused = was_paused
         self.restart_to_resume = restart_to_resume
 
 
-class Torrent(object):
+class Torrent:
     """Torrent holds information about torrents added to the libtorrent session.
 
     Args:
@@ -825,7 +824,7 @@ class Torrent(object):
                     'client': client,
                     'country': country,
                     'down_speed': peer.payload_down_speed,
-                    'ip': '%s:%s' % (peer.ip[0], peer.ip[1]),
+                    'ip': f'{peer.ip[0]}:{peer.ip[1]}',
                     'progress': peer.progress,
                     'seed': peer.flags & peer.seed,
                     'up_speed': peer.payload_up_speed,
@@ -897,7 +896,7 @@ class Torrent(object):
                 # Check if hostname is an IP address and just return it if that's the case
                 try:
                     socket.inet_aton(host)
-                except socket.error:
+                except OSError:
                     pass
                 else:
                     # This is an IP address because an exception wasn't raised
@@ -1292,7 +1291,7 @@ class Torrent(object):
             try:
                 with open(filepath, 'wb') as save_file:
                     save_file.write(filedump)
-            except IOError as ex:
+            except OSError as ex:
                 log.error('Unable to save torrent file to: %s', ex)
 
         filepath = os.path.join(get_config_dir(), 'state', self.torrent_id + '.torrent')

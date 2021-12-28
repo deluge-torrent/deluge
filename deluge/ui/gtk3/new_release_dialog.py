@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008 Andrew Resch <andrewresch@gmail.com>
 #
@@ -15,7 +14,7 @@ from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
 
 
-class NewReleaseDialog(object):
+class NewReleaseDialog:
     def __init__(self):
         pass
 

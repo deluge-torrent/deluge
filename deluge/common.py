@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007,2008 Andrew Resch <andrewresch@gmail.com>
 #
@@ -24,7 +23,7 @@ import tarfile
 import time
 from contextlib import closing
 from datetime import datetime
-from io import BytesIO, open
+from io import BytesIO
 from urllib.parse import unquote_plus, urljoin
 from urllib.request import pathname2url
 
@@ -135,14 +134,14 @@ def get_default_download_dir():
 
         try:
             user_dirs_path = os.path.join(xdg_config_home, 'user-dirs.dirs')
-            with open(user_dirs_path, 'r', encoding='utf8') as _file:
+            with open(user_dirs_path, encoding='utf8') as _file:
                 for line in _file:
                     if not line.startswith('#') and line.startswith('XDG_DOWNLOAD_DIR'):
                         download_dir = os.path.expandvars(
                             line.partition('=')[2].rstrip().strip('"')
                         )
                         break
-        except IOError:
+        except OSError:
             pass
 
     if not download_dir:
@@ -540,9 +539,9 @@ def fpeer(num_peers, total_peers):
 
     """
     if total_peers > -1:
-        return '{:d} ({:d})'.format(num_peers, total_peers)
+        return f'{num_peers:d} ({total_peers:d})'
     else:
-        return '{:d}'.format(num_peers)
+        return f'{num_peers:d}'
 
 
 def ftime(secs):
@@ -568,17 +567,17 @@ def ftime(secs):
     if secs <= 0:
         time_str = ''
     elif secs < 60:
-        time_str = '{}s'.format(secs)
+        time_str = f'{secs}s'
     elif secs < 3600:
-        time_str = '{}m {}s'.format(secs // 60, secs % 60)
+        time_str = f'{secs // 60}m {secs % 60}s'
     elif secs < 86400:
-        time_str = '{}h {}m'.format(secs // 3600, secs // 60 % 60)
+        time_str = f'{secs // 3600}h {secs // 60 % 60}m'
     elif secs < 604800:
-        time_str = '{}d {}h'.format(secs // 86400, secs // 3600 % 24)
+        time_str = f'{secs // 86400}d {secs // 3600 % 24}h'
     elif secs < 31449600:
-        time_str = '{}w {}d'.format(secs // 604800, secs // 86400 % 7)
+        time_str = f'{secs // 604800}w {secs // 86400 % 7}d'
     else:
-        time_str = '{}y {}w'.format(secs // 31449600, secs // 604800 % 52)
+        time_str = f'{secs // 31449600}y {secs // 604800 % 52}w'
 
     return time_str
 
@@ -934,7 +933,7 @@ def is_ipv4(ip):
             return socket.inet_aton(ip)
         else:
             return socket.inet_pton(socket.AF_INET, ip)
-    except socket.error:
+    except OSError:
         return False
 
 
@@ -960,7 +959,7 @@ def is_ipv6(ip):
 
         try:
             return socket.inet_pton(socket.AF_INET6, ip)
-        except (socket.error, AttributeError):
+        except (OSError, AttributeError):
             if windows_check():
                 log.warning('Unable to verify IPv6 Address on Windows.')
                 return True
@@ -1048,7 +1047,7 @@ def utf8_encode_structure(data):
 
 
 @functools.total_ordering
-class VersionSplit(object):
+class VersionSplit:
     """
     Used for comparing version numbers.
 
@@ -1246,7 +1245,7 @@ def set_env_variable(name, value):
             )
 
         # Update the copy maintained by msvcrt (used by gtk+ runtime)
-        result = cdll.msvcrt._wputenv('%s=%s' % (name, value))
+        result = cdll.msvcrt._wputenv(f'{name}={value}')
         if result != 0:
             log.info("Failed to set Env Var '%s' (msvcrt._putenv)", name)
         else:

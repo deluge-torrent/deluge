@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008 Andrew Resch <andrewresch@gmail.com>
 #
@@ -82,7 +81,7 @@ def cell_progress(column, cell, model, row, data):
 
 class FilesTab(Tab):
     def __init__(self):
-        super(FilesTab, self).__init__('Files', 'files_tab', 'files_tab_label')
+        super().__init__('Files', 'files_tab', 'files_tab_label')
 
         self.listview = self.main_builder.get_object('files_listview')
         # filename, size, progress string, progress value, priority, file index, icon id

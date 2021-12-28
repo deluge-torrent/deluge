@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
 # the additional special exception to link portions of this program with the OpenSSL library.
@@ -14,7 +13,7 @@ from deluge.ui.console.widgets.fields import TextInput
 from .basetest import BaseTestCase
 
 
-class MockParent(object):
+class MockParent:
     def __init__(self):
         self.border_off_x = 1
         self.pane_width = 20

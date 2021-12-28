@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
 #
@@ -23,7 +22,7 @@ class Gtk(UI):
     cmd_description = """GTK-based graphical user interface"""
 
     def __init__(self, *args, **kwargs):
-        super(Gtk, self).__init__(
+        super().__init__(
             'gtk', *args, description='Starts the Deluge GTK+ interface', **kwargs
         )
 
@@ -40,7 +39,7 @@ class Gtk(UI):
         )
 
     def start(self):
-        super(Gtk, self).start()
+        super().start()
         import deluge.common
 
         from .gtkui import GtkUI

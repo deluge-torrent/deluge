@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2011 Nick Lanham <nick@afternight.org>
 # Copyright (C) 2008-2009 Ido Abramovich <ido.deluge@gmail.com>
@@ -22,7 +21,7 @@ except ImportError:
 log = logging.getLogger(__name__)
 
 
-class BaseWindow(object):
+class BaseWindow:
     """
     BaseWindow creates a curses screen to be used for showing panels and popup dialogs
     """

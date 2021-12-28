@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 Damien Churchill <damoxc@gmail.com>
 #
@@ -72,22 +71,20 @@ class PluginManager(PluginManagerBase, component.Component):
 
         scripts = component.get('Scripts')
         for script in info['scripts']:
-            scripts.remove_script(
-                '%s/%s' % (name.lower(), os.path.basename(script).lower())
-            )
+            scripts.remove_script(f'{name.lower()}/{os.path.basename(script).lower()}')
 
         for script in info['debug_scripts']:
             scripts.remove_script(
-                '%s/%s' % (name.lower(), os.path.basename(script).lower()), 'debug'
+                f'{name.lower()}/{os.path.basename(script).lower()}', 'debug'
             )
             scripts.remove_script(
-                '%s/%s' % (name.lower(), os.path.basename(script).lower()), 'dev'
+                f'{name.lower()}/{os.path.basename(script).lower()}', 'dev'
             )
 
-        super(PluginManager, self).disable_plugin(name)
+        super().disable_plugin(name)
 
     def enable_plugin(self, name):
-        super(PluginManager, self).enable_plugin(name)
+        super().enable_plugin(name)
 
         # Get the plugin instance
         try:
@@ -103,17 +100,15 @@ class PluginManager(PluginManagerBase, component.Component):
         scripts = component.get('Scripts')
         for script in info['scripts']:
             log.debug('adding script %s for %s', name, os.path.basename(script))
-            scripts.add_script(
-                '%s/%s' % (name.lower(), os.path.basename(script)), script
-            )
+            scripts.add_script(f'{name.lower()}/{os.path.basename(script)}', script)
 
         for script in info['debug_scripts']:
             log.debug('adding debug script %s for %s', name, os.path.basename(script))
             scripts.add_script(
-                '%s/%s' % (name.lower(), os.path.basename(script)), script, 'debug'
+                f'{name.lower()}/{os.path.basename(script)}', script, 'debug'
             )
             scripts.add_script(
-                '%s/%s' % (name.lower(), os.path.basename(script)), script, 'dev'
+                f'{name.lower()}/{os.path.basename(script)}', script, 'dev'
             )
 
     def start(self):
@@ -149,11 +144,10 @@ class PluginManager(PluginManagerBase, component.Component):
         info = gather_info(plugin)
         info['name'] = name
         info['scripts'] = [
-            'js/%s/%s' % (name.lower(), os.path.basename(s)) for s in info['scripts']
+            f'js/{name.lower()}/{os.path.basename(s)}' for s in info['scripts']
         ]
         info['debug_scripts'] = [
-            'js/%s/%s' % (name.lower(), os.path.basename(s))
-            for s in info['debug_scripts']
+            f'js/{name.lower()}/{os.path.basename(s)}' for s in info['debug_scripts']
         ]
         del info['script_directories']
         return info

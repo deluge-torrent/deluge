@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 GazpachoKing <chase.sterling@gmail.com>
 #
@@ -20,7 +19,7 @@ class CorePlugin(PluginInitBase):
         from .core import Core as _pluginCls
 
         self._plugin_cls = _pluginCls
-        super(CorePlugin, self).__init__(plugin_name)
+        super().__init__(plugin_name)
 
 
 class Gtk3UIPlugin(PluginInitBase):
@@ -28,7 +27,7 @@ class Gtk3UIPlugin(PluginInitBase):
         from .gtkui import GtkUI as _pluginCls
 
         self._plugin_cls = _pluginCls
-        super(Gtk3UIPlugin, self).__init__(plugin_name)
+        super().__init__(plugin_name)
 
 
 class WebUIPlugin(PluginInitBase):
@@ -36,4 +35,4 @@ class WebUIPlugin(PluginInitBase):
         from .webui import WebUI as _pluginCls
 
         self._plugin_cls = _pluginCls
-        super(WebUIPlugin, self).__init__(plugin_name)
+        super().__init__(plugin_name)

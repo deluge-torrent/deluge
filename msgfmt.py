@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: iso-8859-1 -*-
 # Written by Martin v. Lwis <loewis@informatik.hu-berlin.de>
 # Plural forms support added by alexander smishlajev <alex@tycobka.lv>
 """
@@ -122,11 +121,9 @@ def make(filename, outfile):
         outfile = os.path.splitext(infile)[0] + '.mo'
 
     try:
-        import io
-
-        with io.open(infile, encoding='utf8') as _file:
+        with open(infile, encoding='utf8') as _file:
             lines = _file.readlines()
-    except IOError as msg:
+    except OSError as msg:
         print(msg, file=sys.stderr)
         sys.exit(1)
 
@@ -194,7 +191,7 @@ def make(filename, outfile):
     try:
         with open(outfile, 'wb') as _file:
             _file.write(output)
-    except IOError as msg:
+    except OSError as msg:
         print(msg, file=sys.stderr)
 
 

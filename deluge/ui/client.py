@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 # Copyright (C) 2011 Pedro Algarvio <pedro@algarvio.me>
@@ -31,7 +30,7 @@ def format_kwargs(kwargs):
     return ', '.join([key + '=' + str(value) for key, value in kwargs.items()])
 
 
-class DelugeRPCRequest(object):
+class DelugeRPCRequest:
     """
     This object is created whenever there is a RPCRequest to be sent to the
     daemon.  It is generally only used by the DaemonProxy's call method.
@@ -241,7 +240,7 @@ class DelugeRPCClientFactory(ClientFactory):
             self.daemon.disconnect_callback()
 
 
-class DaemonProxy(object):
+class DaemonProxy:
     pass
 
 
@@ -524,7 +523,7 @@ class DaemonStandaloneProxy(DaemonProxy):
         self.__daemon.core.eventmanager.deregister_event_handler(event, handler)
 
 
-class DottedObject(object):
+class DottedObject:
     """
     This is used for dotted name calls to client
     """
@@ -549,7 +548,7 @@ class RemoteMethod(DottedObject):
         return self.daemon.call(self.base, *args, **kwargs)
 
 
-class Client(object):
+class Client:
     """
     This class is used to connect to a daemon process and issue RPC requests.
     """

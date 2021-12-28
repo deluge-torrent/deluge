@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
 #
@@ -18,7 +17,7 @@ from ..common import get_resource
 log = logging.getLogger(__name__)
 
 
-class LabelConfig(object):
+class LabelConfig:
     """
     there used to be some options here...
     """

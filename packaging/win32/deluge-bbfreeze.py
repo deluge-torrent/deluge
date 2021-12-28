@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2012-2015 Calum Lind <calumlind@gmail.com>
 # Copyright (C) 2010 Damien Churchill <damoxc@gmail.com>
@@ -11,7 +10,6 @@
 # See LICENSE for more details.
 #
 # isort:skip_file
-from __future__ import print_function
 
 import glob
 import os
@@ -27,7 +25,7 @@ from win32verstamp import stamp
 import deluge.common
 
 
-class VersionInfo(object):
+class VersionInfo:
     def __init__(
         self,
         version,

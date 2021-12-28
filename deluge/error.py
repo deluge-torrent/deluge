@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008 Andrew Resch <andrewresch@gmail.com>
 # Copyright (C) 2011 Pedro Algarvio <pedro@algarvio.me>
@@ -11,13 +10,13 @@
 
 class DelugeError(Exception):
     def __new__(cls, *args, **kwargs):
-        inst = super(DelugeError, cls).__new__(cls, *args, **kwargs)
+        inst = super().__new__(cls, *args, **kwargs)
         inst._args = args
         inst._kwargs = kwargs
         return inst
 
     def __init__(self, message=None):
-        super(DelugeError, self).__init__(message)
+        super().__init__(message)
         self.message = message
 
     def __str__(self):
@@ -42,12 +41,12 @@ class InvalidPathError(DelugeError):
 
 class WrappedException(DelugeError):
     def __init__(self, message, exception_type, traceback):
-        super(WrappedException, self).__init__(message)
+        super().__init__(message)
         self.type = exception_type
         self.traceback = traceback
 
     def __str__(self):
-        return '%s\n%s' % (self.message, self.traceback)
+        return f'{self.message}\n{self.traceback}'
 
 
 class _ClientSideRecreateError(DelugeError):
@@ -61,7 +60,7 @@ class IncompatibleClient(_ClientSideRecreateError):
             'Your deluge client is not compatible with the daemon. '
             'Please upgrade your client to %(daemon_version)s'
         ) % {'daemon_version': self.daemon_version}
-        super(IncompatibleClient, self).__init__(message=msg)
+        super().__init__(message=msg)
 
 
 class NotAuthorizedError(_ClientSideRecreateError):
@@ -70,14 +69,14 @@ class NotAuthorizedError(_ClientSideRecreateError):
             'current_level': current_level,
             'required_level': required_level,
         }
-        super(NotAuthorizedError, self).__init__(message=msg)
+        super().__init__(message=msg)
         self.current_level = current_level
         self.required_level = required_level
 
 
 class _UsernameBasedPasstroughError(_ClientSideRecreateError):
     def __init__(self, message, username):
-        super(_UsernameBasedPasstroughError, self).__init__(message)
+        super().__init__(message)
         self.username = username
 
 

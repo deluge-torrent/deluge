@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
 #
@@ -773,7 +772,7 @@ class AddTorrentDialog(component.Component):
             else:
                 ErrorDialog(
                     _('Invalid URL'),
-                    '%s %s' % (url, _('is not a valid URL.')),
+                    '{} {}'.format(url, _('is not a valid URL.')),
                     self.dialog,
                 ).run()
 
@@ -815,7 +814,7 @@ class AddTorrentDialog(component.Component):
             dialog.destroy()
             ErrorDialog(
                 _('Download Failed'),
-                '%s %s' % (_('Failed to download:'), url),
+                '{} {}'.format(_('Failed to download:'), url),
                 details=result.getErrorMessage(),
                 parent=self.dialog,
             ).run()

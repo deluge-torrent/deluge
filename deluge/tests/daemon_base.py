@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
 # the additional special exception to link portions of this program with the OpenSSL library.
@@ -18,7 +17,7 @@ from . import common
 
 
 @pytest.mark.usefixtures('get_pytest_basetemp')
-class DaemonBase(object):
+class DaemonBase:
     basetemp = None
 
     if windows_check():

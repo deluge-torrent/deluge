@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) Damien Churchill 2008-2009 <damoxc@gmail.com>
 # Copyright (C) Andrew Resch 2009 <andrewresch@gmail.com>
@@ -165,7 +164,7 @@ DISK_CACHE_KEYS = [
 ]
 
 
-class TorrentInfo(object):
+class TorrentInfo:
     """Collects information about a torrent file.
 
     Args:
@@ -184,7 +183,7 @@ class TorrentInfo(object):
             try:
                 with open(filename, 'rb') as _file:
                     self._filedata = _file.read()
-            except IOError as ex:
+            except OSError as ex:
                 log.warning('Unable to open %s: %s', filename, ex)
                 return
 
@@ -385,7 +384,7 @@ class TorrentInfo(object):
         return self._filedata
 
 
-class FileTree2(object):
+class FileTree2:
     """
     Converts a list of paths in to a file tree.
 
@@ -465,7 +464,7 @@ class FileTree2(object):
         return '\n'.join(lines)
 
 
-class FileTree(object):
+class FileTree:
     """
     Convert a list of paths in a file tree.
 

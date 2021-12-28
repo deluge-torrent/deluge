@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2016 bendikro <bro.devel+deluge@gmail.com>
 #
@@ -8,8 +7,8 @@
 #
 
 import json as json_lib
+from unittest.mock import MagicMock
 
-from mock import MagicMock
 from twisted.internet import defer
 from twisted.web import server
 from twisted.web.http import Request

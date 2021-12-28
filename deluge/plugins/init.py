@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
 #
@@ -15,7 +14,7 @@ import logging
 log = logging.getLogger(__name__)
 
 
-class PluginInitBase(object):
+class PluginInitBase:
     _plugin_cls = None
 
     def __init__(self, plugin_name):

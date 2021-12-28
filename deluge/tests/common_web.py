@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2016 bendikro <bro.devel+deluge@gmail.com>
 #
@@ -54,7 +53,7 @@ class WebServerTestBase(BaseTestCase, DaemonBase):
         return d
 
 
-class WebServerMockBase(object):
+class WebServerMockBase:
     """
     Class with utility functions for mocking with tests using the webserver
 

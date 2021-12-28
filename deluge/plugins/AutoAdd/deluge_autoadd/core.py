@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 GazpachoKing <chase.sterling@gmail.com>
 # Copyright (C) 2011 Pedro Algarvio <pedro@algarvio.me>
@@ -150,7 +149,7 @@ class Core(CorePluginBase):
         try:
             with open(filename, file_mode) as _file:
                 filedump = _file.read()
-        except IOError as ex:
+        except OSError as ex:
             log.warning('Unable to open %s: %s', filename, ex)
             raise ex
 
@@ -167,9 +166,9 @@ class Core(CorePluginBase):
         log.debug('Attempting to open %s for splitting magnets.', filename)
         magnets = []
         try:
-            with open(filename, 'r') as _file:
+            with open(filename) as _file:
                 magnets = list(filter(len, _file.read().splitlines()))
-        except IOError as ex:
+        except OSError as ex:
             log.warning('Unable to open %s: %s', filename, ex)
 
         if len(magnets) < 2:
@@ -194,7 +193,7 @@ class Core(CorePluginBase):
             try:
                 with open(mname, 'w') as _mfile:
                     _mfile.write(magnet)
-            except IOError as ex:
+            except OSError as ex:
                 log.warning('Unable to open %s: %s', mname, ex)
         return magnets
 
@@ -269,7 +268,7 @@ class Core(CorePluginBase):
 
             try:
                 filedump = self.load_torrent(filepath, magnet)
-            except (IOError, EOFError) as ex:
+            except (OSError, EOFError) as ex:
                 # If torrent is invalid, keep track of it so can try again on the next pass.
                 # This catches torrent files that may not be fully saved to disk at load time.
                 log.debug('Torrent is invalid: %s', ex)

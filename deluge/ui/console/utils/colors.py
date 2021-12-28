@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
@@ -269,7 +268,7 @@ def parse_color_string(string):
                     last_color_attr = color_pair
                     attrs = attrs[2:]  # Remove colors
                 except KeyError:
-                    raise BadColorString('Bad color value in tag: %s,%s' % (fg, bg))
+                    raise BadColorString(f'Bad color value in tag: {fg},{bg}')
             # Check for additional attributes and OR them to the color_pair
             color_pair = apply_attrs(color_pair, attrs)
             last_color_attr = color_pair
@@ -290,7 +289,7 @@ def parse_color_string(string):
     return ret
 
 
-class ConsoleColorFormatter(object):
+class ConsoleColorFormatter:
     """
     Format help in a way suited to deluge CmdLine mode - colors, format, indentation...
     """

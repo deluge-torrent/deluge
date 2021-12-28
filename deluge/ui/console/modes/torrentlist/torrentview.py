@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
 # the additional special exception to link portions of this program with the OpenSSL library.
@@ -88,7 +87,7 @@ for col_i, col_name in enumerate(torrentviewcolumns.column_pref_names):
 
 class TorrentView(InputKeyHandler):
     def __init__(self, torrentlist, config):
-        super(TorrentView, self).__init__()
+        super().__init__()
         self.torrentlist = torrentlist
         self.config = config
         self.filter_dict = {}
@@ -329,7 +328,7 @@ class TorrentView(InputKeyHandler):
 
             self.torrentlist.add_string(
                 currow + self.torrentlist_offset,
-                '%s%s' % (colorstr, row[0]),
+                f'{colorstr}{row[0]}',
                 trim=False,
                 scr=self.torrentlist.torrentview_panel,
             )

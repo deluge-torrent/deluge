@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
 # the additional special exception to link portions of this program with the OpenSSL library.
@@ -24,7 +23,7 @@ from .daemon_base import DaemonBase
 SECURITY_TESTS = bool(os.getenv('SECURITY_TESTS', False))
 
 
-class SecurityBaseTestCase(object):
+class SecurityBaseTestCase:
     if windows_check():
         skip = 'windows cannot run .sh files'
     elif not SECURITY_TESTS:
@@ -134,7 +133,7 @@ class DaemonSecurityTestCase(BaseTestCase, DaemonBase, SecurityBaseTestCase):
         skip = 'windows cannot start_core not enough arguments for format string'
 
     def __init__(self, testname):
-        super(DaemonSecurityTestCase, self).__init__(testname)
+        super().__init__(testname)
         DaemonBase.__init__(self)
         SecurityBaseTestCase.__init__(self)
 
@@ -145,7 +144,7 @@ class DaemonSecurityTestCase(BaseTestCase, DaemonBase, SecurityBaseTestCase):
                 self.skipTest(SecurityBaseTestCase.http_err)
                 skip = True
         if not skip:
-            super(DaemonSecurityTestCase, self).setUp()
+            super().setUp()
 
     def set_up(self):
         d = self.common_set_up()
@@ -163,7 +162,7 @@ class DaemonSecurityTestCase(BaseTestCase, DaemonBase, SecurityBaseTestCase):
 @pytest.mark.security
 class WebUISecurityTestBase(WebServerTestBase, SecurityBaseTestCase):
     def __init__(self, testname):
-        super(WebUISecurityTestBase, self).__init__(testname)
+        super().__init__(testname)
         SecurityBaseTestCase.__init__(self)
 
     def start_webapi(self, arg):

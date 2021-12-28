@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 GazpachoKing <chase.sterling@gmail.com>
 #
@@ -39,7 +38,7 @@ class IncompatibleOption(Exception):
     pass
 
 
-class OptionsDialog(object):
+class OptionsDialog:
     spin_ids = ['max_download_speed', 'max_upload_speed', 'stop_ratio']
     spin_int_ids = ['max_upload_slots', 'max_connections']
     chk_ids = [

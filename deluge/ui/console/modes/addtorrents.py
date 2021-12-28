@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2012 Arek Stefański <asmageddon@gmail.com>
 #
@@ -369,7 +368,7 @@ class AddTorrents(BaseMode):
             def fail_cb(msg, t_file, ress):
                 log.debug('failed to add torrent: %s: %s', t_file, msg)
                 ress['fail'] += 1
-                ress['fmsg'].append('{!input!} * %s: {!error!}%s' % (t_file, msg))
+                ress['fmsg'].append(f'{{!input!}} * {t_file}: {{!error!}}{msg}')
                 if (ress['succ'] + ress['fail']) >= ress['total']:
                     report_add_status(
                         component.get('TorrentList'),

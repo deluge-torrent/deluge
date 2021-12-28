@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2011 Nick Lanham <nick@afternight.org>
 #
@@ -50,7 +49,7 @@ class Command(BaseCommand):
             names.append(self.console.get_torrent_name(tid))
 
         def on_move(res):
-            msg = 'Moved "%s" to %s' % (', '.join(names), options.path)
+            msg = 'Moved "{}" to {}'.format(', '.join(names), options.path)
             self.console.write(msg)
             log.info(msg)
 

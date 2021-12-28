@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
 #
@@ -31,7 +30,7 @@ log = logging.getLogger(__name__)
 TabWidget = namedtuple('TabWidget', ('obj', 'func', 'status_keys'))
 
 
-class Tab(object):
+class Tab:
     def __init__(self, name=None, child_widget=None, tab_label=None):
         self._name = name
         self.is_visible = True

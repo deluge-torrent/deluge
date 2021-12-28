@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
 # the additional special exception to link portions of this program with the OpenSSL library.
@@ -6,8 +5,8 @@
 #
 
 import sys
+from unittest import mock
 
-import mock
 import pytest
 from twisted.trial import unittest
 

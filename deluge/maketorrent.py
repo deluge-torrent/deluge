@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
@@ -30,7 +29,7 @@ class InvalidPieceSize(Exception):
     pass
 
 
-class TorrentMetadata(object):
+class TorrentMetadata:
     """This class is used to create .torrent files.
 
     Examples:

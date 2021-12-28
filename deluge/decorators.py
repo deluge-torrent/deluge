@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2010 John Garland <johnnybg+deluge@gmail.com>
 #
@@ -125,7 +124,7 @@ def _overrides(stack, method, explicit_base_classes=None):
                         % (
                             method.__name__,
                             cls,
-                            'File: %s:%s' % (stack[1][1], stack[1][2]),
+                            f'File: {stack[1][1]}:{stack[1][2]}',
                         )
                     )
 
@@ -135,7 +134,7 @@ def _overrides(stack, method, explicit_base_classes=None):
             % (
                 method.__name__,
                 check_classes,
-                'File: %s:%s' % (stack[1][1], stack[1][2]),
+                f'File: {stack[1][1]}:{stack[1][2]}',
             )
         )
     return method
@@ -152,7 +151,7 @@ def deprecated(func):
     def depr_func(*args, **kwargs):
         warnings.simplefilter('always', DeprecationWarning)  # Turn off filter
         warnings.warn(
-            'Call to deprecated function {}.'.format(func.__name__),
+            f'Call to deprecated function {func.__name__}.',
             category=DeprecationWarning,
             stacklevel=2,
         )

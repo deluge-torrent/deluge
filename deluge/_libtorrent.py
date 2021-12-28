@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
@@ -32,5 +31,5 @@ LT_VERSION = lt.__version__
 
 if VersionSplit(LT_VERSION) < VersionSplit(REQUIRED_VERSION):
     raise LibtorrentImportError(
-        'Deluge %s requires libtorrent >= %s' % (get_version(), REQUIRED_VERSION)
+        f'Deluge {get_version()} requires libtorrent >= {REQUIRED_VERSION}'
     )

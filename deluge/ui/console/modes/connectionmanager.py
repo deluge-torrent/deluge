@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2011 Nick Lanham <nick@afternight.org>
 #
@@ -126,7 +125,7 @@ class ConnectionManager(BaseMode, PopupsHandler):
         try:
             self.hostlist.add_host(hostname, port, username, password)
         except ValueError as ex:
-            self.report_message(_('Error adding host'), '%s: %s' % (hostname, ex))
+            self.report_message(_('Error adding host'), f'{hostname}: {ex}')
         else:
             self.update_select_host_popup()
 

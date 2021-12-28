@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2011 Nick Lanham <nick@afternight.org>
 # Copyright (C) 2008-2009 Ido Abramovich <ido.deluge@gmail.com>
@@ -32,7 +31,7 @@ log = logging.getLogger(__name__)
 
 class BaseField(InputKeyHandler):
     def __init__(self, parent=None, name=None, selectable=True, **kwargs):
-        super(BaseField, self).__init__()
+        super().__init__()
         self.name = name
         self.parent = parent
         self.fmt_keys = {}
@@ -71,7 +70,7 @@ class BaseField(InputKeyHandler):
 
     def build_fmt_string(self, focused, active, value_key='msg', **kwargs):
         color_key, font_key = self.get_fmt_keys(focused, active, **kwargs)
-        return '{!%%(%s)s,%%(%s)s!}%%(%s)s{!%%(%s)s!}' % (
+        return '{{!%({})s,%({})s!}}%({})s{{!%({})s!}}'.format(
             color_key,
             font_key,
             value_key,
@@ -173,7 +172,7 @@ class InfoField(NoInputField):
         NoInputField.__init__(self, parent=parent, name=name, **kwargs)
         self.label = label
         self.value = value
-        self.txt = '%s %s' % (label, value)
+        self.txt = f'{label} {value}'
 
     @overrides(BaseField)
     def render(self, screen, row, col=0, **kwargs):
@@ -184,9 +183,9 @@ class InfoField(NoInputField):
     def set_value(self, v):
         self.value = v
         if isinstance(v, float):
-            self.txt = '%s %.2f' % (self.label, self.value)
+            self.txt = f'{self.label} {self.value:.2f}'
         else:
-            self.txt = '%s %s' % (self.label, self.value)
+            self.txt = f'{self.label} {self.value}'
 
 
 class CheckedInput(InputField):
@@ -199,7 +198,7 @@ class CheckedInput(InputField):
         checked_char='X',
         unchecked_char=' ',
         checkbox_format='[%s] ',
-        **kwargs
+        **kwargs,
     ):
         InputField.__init__(self, parent, name, message, **kwargs)
         self.set_value(checked)
@@ -228,9 +227,7 @@ class CheckedInput(InputField):
 
     @overrides(BaseField)
     def get_fmt_keys(self, focused, active, **kwargs):
-        color_key, font_key = super(CheckedInput, self).get_fmt_keys(
-            focused, active, **kwargs
-        )
+        color_key, font_key = super().get_fmt_keys(focused, active, **kwargs)
         if self.checked:
             color_key += '_checked'
             font_key += '_checked'
@@ -281,7 +278,7 @@ class CheckedPlusInput(CheckedInput):
         child_always_visible=False,
         show_usage_hints=True,
         msg_fmt='%s ',
-        **kwargs
+        **kwargs,
     ):
         CheckedInput.__init__(self, parent, name, message, **kwargs)
         self.child = child
@@ -369,7 +366,7 @@ class IntSpinInput(InputField):
         incr_large=10,
         strict_validation=False,
         fmt='%d',
-        **kwargs
+        **kwargs,
     ):
         InputField.__init__(self, parent, name, message, **kwargs)
         self.convert_func = int
@@ -615,7 +612,7 @@ class SelectInput(InputField):
         active_index,
         active_default=False,
         require_select_action=True,
-        **kwargs
+        **kwargs,
     ):
         InputField.__init__(self, parent, name, message, **kwargs)
         self.opts = opts
@@ -664,9 +661,7 @@ class SelectInput(InputField):
 
     @overrides(BaseField)
     def get_fmt_keys(self, focused, active, selected=False, **kwargs):
-        color_key, font_key = super(SelectInput, self).get_fmt_keys(
-            focused, active, **kwargs
-        )
+        color_key, font_key = super().get_fmt_keys(focused, active, **kwargs)
         if selected:
             color_key += '_selected'
             font_key += '_selected'
@@ -736,7 +731,7 @@ class TextInput(InputField):
         value,
         complete=False,
         activate_input=False,
-        **kwargs
+        **kwargs,
     ):
         InputField.__init__(self, parent, name, message, **kwargs)
         self.move_func = move_func
@@ -812,7 +807,7 @@ class TextInput(InputField):
         focused=True,
         col=0,
         cursor_offset=0,
-        **kwargs
+        **kwargs,
     ):
         if not self.value and not active and len(self.default_value) != 0:
             self.value = self.default_value
@@ -1078,7 +1073,7 @@ class ComboInput(InputField):
                     choice[1],
                     selectable=True,
                     selected=choice[0] == self.get_value(),
-                    **args
+                    **args,
                 )
             self.parent.push_popup(select_popup)
             return util.ReadState.CHANGED
@@ -1146,7 +1141,7 @@ class TextArea(TextField):
         for i, line in enumerate(lines):
             self.parent.add_string(
                 row + i,
-                '%s%s' % (color, line),
+                f'{color}{line}',
                 scr=screen,
                 col=col,
                 pad=False,
@@ -1173,7 +1168,7 @@ class DividerField(NoInputField):
         selectable=False,
         fill_width=True,
         value_fmt='%s',
-        **kwargs
+        **kwargs,
     ):
         NoInputField.__init__(
             self, parent=parent, name=name, selectable=selectable, **kwargs

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2011 Nick Lanham <nick@afternight.org>
 #
@@ -23,7 +22,7 @@ except ImportError:
 log = logging.getLogger(__name__)
 
 
-class ALIGN(object):
+class ALIGN:
     TOP_LEFT = 1
     TOP_CENTER = 2
     TOP_RIGHT = 3
@@ -36,7 +35,7 @@ class ALIGN(object):
     DEFAULT = MIDDLE_CENTER
 
 
-class PopupsHandler(object):
+class PopupsHandler:
     def __init__(self):
         self._popups = []
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009-2010 John Garland <johnnybg+deluge@gmail.com>
 #

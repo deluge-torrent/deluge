@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2013 Bro <bro.development@gmail.com>
 #
@@ -123,7 +122,7 @@ class PathChoosersHandler(component.Component):
 class PathChooser(PathChooserComboBox):
     def __init__(self, paths_config_key=None, parent=None):
         self.paths_config_key = paths_config_key
-        super(PathChooser, self).__init__(parent=parent)
+        super().__init__(parent=parent)
         self.chooser_handler = PathChoosersHandler()
         self.chooser_handler.register_chooser(self)
         self.set_auto_completer_func(self.on_completion)

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 # Authors: Douglas Creager <dcreager@dcreager.net>
 #          Calum Lind <calumlind@gmail.com>
 #
@@ -56,9 +55,9 @@ def call_git_describe(prefix='', suffix=''):
 
 def get_version(prefix='deluge-', suffix='.dev0'):
     try:
-        with open(VERSION_FILE, 'r') as f:
+        with open(VERSION_FILE) as f:
             release_version = f.readline().strip()
-    except IOError:
+    except OSError:
         release_version = None
 
     version = call_git_describe(prefix, suffix)

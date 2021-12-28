@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
 #
@@ -138,7 +137,7 @@ DEFAULT_PREFS = {
 }
 
 
-class GtkUI(object):
+class GtkUI:
     def __init__(self, args):
         # Setup gtkbuilder/glade translation
         setup_translation()

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2011 Nick Lanham <nick@afternight.org>
 #
@@ -46,7 +45,7 @@ SEARCH_FORMAT = {
 
 class SearchMode(InputKeyHandler):
     def __init__(self, torrentlist):
-        super(SearchMode, self).__init__()
+        super().__init__()
         self.torrentlist = torrentlist
         self.torrentview = torrentlist.torrentview
         self.search_state = SEARCH_EMPTY

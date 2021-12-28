@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007-2008 Andrew Resch <andrewresch@gmail.com>
 #
@@ -23,7 +22,7 @@ from .dialogs import OtherDialog
 log = logging.getLogger(__name__)
 
 
-class StatusBarItem(object):
+class StatusBarItem:
     def __init__(
         self,
         image=None,
@@ -410,7 +409,7 @@ class StatusBar(component.Component):
         if self.max_connections_global < 0:
             label_string = '%s' % self.num_connections
         else:
-            label_string = '%s <small>(%s)</small>' % (
+            label_string = '{} <small>({})</small>'.format(
                 self.num_connections,
                 self.max_connections_global,
             )

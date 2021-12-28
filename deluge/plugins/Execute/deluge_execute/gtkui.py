@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 Damien Churchill <damoxc@gmail.com>
 #
@@ -39,7 +38,7 @@ EVENT_MAP = {
 EVENTS = ['complete', 'added', 'removed']
 
 
-class ExecutePreferences(object):
+class ExecutePreferences:
     def __init__(self, plugin):
         self.plugin = plugin
 

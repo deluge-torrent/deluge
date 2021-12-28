@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008-2009 Ido Abramovich <ido.deluge@gmail.com>
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
@@ -51,7 +50,7 @@ def load_commands(command_dir):
     return dict(commands)
 
 
-class LogStream(object):
+class LogStream:
     out = sys.stdout
 
     def write(self, data):
@@ -66,9 +65,7 @@ class Console(UI):
     cmd_description = """Console or command-line user interface"""
 
     def __init__(self, *args, **kwargs):
-        super(Console, self).__init__(
-            'console', *args, log_stream=LogStream(), **kwargs
-        )
+        super().__init__('console', *args, log_stream=LogStream(), **kwargs)
 
         group = self.parser.add_argument_group(
             _('Console Options'),
@@ -148,7 +145,7 @@ class Console(UI):
         self.console_parser.subcommand = False
         self.parser.subcommand = False if i == -1 else True
 
-        super(Console, self).start(self.console_parser)
+        super().start(self.console_parser)
         from deluge.ui.console.main import ConsoleUI  # import here because (see top)
 
         def run(options):

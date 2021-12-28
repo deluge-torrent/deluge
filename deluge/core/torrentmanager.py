@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
 #
@@ -819,8 +818,8 @@ class TorrentManager(component.Component):
             try:
                 with open(filepath, 'rb') as _file:
                     state = pickle.load(_file, encoding='utf8')
-            except (IOError, EOFError, pickle.UnpicklingError) as ex:
-                message = 'Unable to load {}: {}'.format(filepath, ex)
+            except (OSError, EOFError, pickle.UnpicklingError) as ex:
+                message = f'Unable to load {filepath}: {ex}'
                 log.error(message)
                 if not filepath.endswith('.bak'):
                     self.archive_state(message)
@@ -1076,7 +1075,7 @@ class TorrentManager(component.Component):
             try:
                 with open(_filepath, 'rb') as _file:
                     resume_data = lt.bdecode(_file.read())
-            except (IOError, EOFError, RuntimeError) as ex:
+            except (OSError, EOFError, RuntimeError) as ex:
                 if self.torrents:
                     log.warning('Unable to load %s: %s', _filepath, ex)
                 resume_data = None

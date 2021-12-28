@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
 # Copyright (C) 2009 Damien Churchill <damoxc@gmail.com>
@@ -28,7 +27,7 @@ try:
     from sphinx.setup_command import BuildDoc
 except ImportError:
 
-    class BuildDoc(object):
+    class BuildDoc:
         pass
 
 
@@ -80,7 +79,7 @@ class CleanDocs(Command):
 
     def run(self):
         docs_build = 'docs/build'
-        print('Deleting {}'.format(docs_build))
+        print(f'Deleting {docs_build}')
         try:
             rmtree(docs_build)
         except OSError:
@@ -158,7 +157,7 @@ class CleanWebUI(Command):
         for js_src_dir in BuildWebUI.JS_SRC_DIRS:
             for file_type in ('.js', '-debug.js'):
                 js_file = os.path.join(js_basedir, js_src_dir + file_type)
-                print('Deleting {}'.format(js_file))
+                print(f'Deleting {js_file}')
                 try:
                     os.remove(js_file)
                 except OSError:
@@ -166,7 +165,7 @@ class CleanWebUI(Command):
 
         # Remove generated gettext.js
         js_file = os.path.join(js_basedir, 'gettext.js')
-        print('Deleting {}'.format(js_file))
+        print(f'Deleting {js_file}')
         try:
             os.remove(js_file)
         except OSError:
@@ -390,7 +389,7 @@ class Build(_build):
         try:
             from deluge._libtorrent import LT_VERSION
 
-            print('Info: Found libtorrent ({}) installed.'.format(LT_VERSION))
+            print(f'Info: Found libtorrent ({LT_VERSION}) installed.')
         except ImportError as ex:
             print('Warning: libtorrent (libtorrent-rasterbar) not found: %s' % ex)
 
@@ -455,7 +454,7 @@ if not windows_check() and not osx_check():
     for icon_path in glob.glob('deluge/ui/data/icons/hicolor/*x*'):
         size = os.path.basename(icon_path)
         icons = glob.glob(os.path.join(icon_path, 'apps', 'deluge*.png'))
-        _data_files.append(('share/icons/hicolor/{}/apps'.format(size), icons))
+        _data_files.append((f'share/icons/hicolor/{size}/apps', icons))
     _data_files.extend(
         [
             (
@@ -590,7 +589,7 @@ setup(
         'Operating System :: POSIX',
         'Topic :: Internet',
     ],
-    python_requires='>=3.5',
+    python_requires='>=3.6',
     license='GPLv3+',
     cmdclass=cmdclass,
     setup_requires=setup_requires,

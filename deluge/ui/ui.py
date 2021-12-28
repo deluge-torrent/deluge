@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
 #
@@ -25,7 +24,7 @@ except ImportError:
         return
 
 
-class UI(object):
+class UI:
     """
     Base class for UI implementations.
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
 #
@@ -45,7 +44,7 @@ git repository to have an idea of what needs to be changed.
 """
 
 
-class PluginManagerBase(object):
+class PluginManagerBase:
     """PluginManagerBase is a base class for PluginManagers to inherit"""
 
     def __init__(self, config_file, entry_name):

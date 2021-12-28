@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008-2009 Ido Abramovich <ido.deluge@gmail.com>
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
@@ -216,9 +215,9 @@ class Command(BaseCommand):
             for depth, subdir in enumerate(filepath):
                 indent = ' ' * depth * spaces_per_level
                 if depth >= len(prevpath):
-                    self.console.write('%s{!cyan!}%s' % (indent, subdir))
+                    self.console.write(f'{indent}{{!cyan!}}{subdir}')
                 elif subdir != prevpath[depth]:
-                    self.console.write('%s{!cyan!}%s' % (indent, subdir))
+                    self.console.write(f'{indent}{{!cyan!}}{subdir}')
 
             depth = len(filepath)
 
@@ -294,7 +293,7 @@ class Command(BaseCommand):
                     s += peer['ip']
                 else:
                     # IPv6
-                    s += '[%s]:%s' % (
+                    s += '[{}]:{}'.format(
                         ':'.join(peer['ip'].split(':')[:-1]),
                         peer['ip'].split(':')[-1],
                     )
@@ -306,7 +305,7 @@ class Command(BaseCommand):
                     s += '\t\t'
                 else:
                     s += '\t'
-                s += '%s%s\t%s%s' % (
+                s += '{}{}\t{}{}'.format(
                     colors.state_color['Seeding'],
                     fspeed(peer['up_speed']),
                     colors.state_color['Downloading'],
@@ -334,7 +333,7 @@ class Command(BaseCommand):
         if verbose or detailed:
             self.console.write('{!info!}Name: {!input!}%s' % (status['name']))
             self.console.write('{!info!}ID: {!input!}%s' % (torrent_id))
-            s = '{!info!}State: %s%s' % (
+            s = '{{!info!}}State: {}{}'.format(
                 colors.state_color[status['state']],
                 status['state'],
             )
@@ -352,12 +351,12 @@ class Command(BaseCommand):
             self.console.write(s)
 
             if status['state'] in ('Seeding', 'Downloading', 'Queued'):
-                s = '{!info!}Seeds: {!input!}%s (%s)' % (
+                s = '{{!info!}}Seeds: {{!input!}}{} ({})'.format(
                     status['num_seeds'],
                     status['total_seeds'],
                 )
                 s += sep
-                s += '{!info!}Peers: {!input!}%s (%s)' % (
+                s += '{{!info!}}Peers: {{!input!}}{} ({})'.format(
                     status['num_peers'],
                     status['total_peers'],
                 )
@@ -376,7 +375,7 @@ class Command(BaseCommand):
             if total_done == total_size:
                 s = '{!info!}Size: {!input!}%s' % (total_size)
             else:
-                s = '{!info!}Size: {!input!}%s/%s' % (total_done, total_size)
+                s = f'{{!info!}}Size: {{!input!}}{total_done}/{total_size}'
             s += sep
             s += '{!info!}Downloaded: {!input!}%s' % fsize(
                 status['all_time_download'], shortform=True
@@ -416,7 +415,9 @@ class Command(BaseCommand):
                 pbar = f_progressbar(
                     status['progress'], cols - (13 + len('%.2f%%' % status['progress']))
                 )
-                s = '{!info!}Progress: {!input!}%.2f%% %s' % (status['progress'], pbar)
+                s = '{{!info!}}Progress: {{!input!}}{:.2f}% {}'.format(
+                    status['progress'], pbar
+                )
                 self.console.write(s)
 
             s = '{!info!}Download Folder: {!input!}%s' % status['download_location']
@@ -431,7 +432,7 @@ class Command(BaseCommand):
             up_color = colors.state_color['Seeding']
             down_color = colors.state_color['Downloading']
 
-            s = '%s%s' % (
+            s = '{}{}'.format(
                 colors.state_color[status['state']],
                 '[' + status['state'][0] + ']',
             )
@@ -456,7 +457,7 @@ class Command(BaseCommand):
             )
 
             if status['download_payload_rate'] > 0:
-                dl_info += ' @ %s%s' % (
+                dl_info += ' @ {}{}'.format(
                     down_color,
                     fspeed(status['download_payload_rate'], shortform=True),
                 )
@@ -466,7 +467,7 @@ class Command(BaseCommand):
                 status['total_uploaded'], status['total_payload_upload']
             )
             if status['upload_payload_rate'] > 0:
-                ul_info += ' @ %s%s' % (
+                ul_info += ' @ {}{}'.format(
                     up_color,
                     fspeed(status['upload_payload_rate'], shortform=True),
                 )

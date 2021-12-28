@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2016 bendikro <bro.devel+deluge@gmail.com>
 #
@@ -53,7 +52,7 @@ def todo_test(caller):
 
     filename = os.path.basename(traceback.extract_stack(None, 2)[0][0])
     funcname = traceback.extract_stack(None, 2)[0][2]
-    raise unittest.SkipTest('TODO: %s:%s' % (filename, funcname))
+    raise unittest.SkipTest(f'TODO: {filename}:{funcname}')
 
 
 def add_watchdog(deferred, timeout=0.05, message=None):
@@ -71,7 +70,7 @@ def add_watchdog(deferred, timeout=0.05, message=None):
     return watchdog
 
 
-class ReactorOverride(object):
+class ReactorOverride:
     """Class used to patch reactor while running unit tests
     to avoid starting and stopping the twisted reactor
     """

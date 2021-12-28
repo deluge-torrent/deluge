@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007-2010 Andrew Resch <andrewresch@gmail.com>
 #
@@ -19,7 +18,7 @@ class PluginBase(component.Component):
     update_interval = 1
 
     def __init__(self, name):
-        super(PluginBase, self).__init__(name, self.update_interval)
+        super().__init__(name, self.update_interval)
 
     def enable(self):
         raise NotImplementedError('Need to define an enable method!')
@@ -30,7 +29,7 @@ class PluginBase(component.Component):
 
 class CorePluginBase(PluginBase):
     def __init__(self, plugin_name):
-        super(CorePluginBase, self).__init__('CorePlugin.' + plugin_name)
+        super().__init__('CorePlugin.' + plugin_name)
         # Register RPC methods
         component.get('RPCServer').register_object(self, plugin_name.lower())
         log.debug('CorePlugin initialized..')
@@ -39,22 +38,22 @@ class CorePluginBase(PluginBase):
         component.get('RPCServer').deregister_object(self)
 
     def enable(self):
-        super(CorePluginBase, self).enable()
+        super().enable()
 
     def disable(self):
-        super(CorePluginBase, self).disable()
+        super().disable()
 
 
 class Gtk3PluginBase(PluginBase):
     def __init__(self, plugin_name):
-        super(Gtk3PluginBase, self).__init__('Gtk3Plugin.' + plugin_name)
+        super().__init__('Gtk3Plugin.' + plugin_name)
         log.debug('Gtk3Plugin initialized..')
 
     def enable(self):
-        super(Gtk3PluginBase, self).enable()
+        super().enable()
 
     def disable(self):
-        super(Gtk3PluginBase, self).disable()
+        super().disable()
 
 
 class WebPluginBase(PluginBase):
@@ -66,7 +65,7 @@ class WebPluginBase(PluginBase):
     debug_stylesheets = []
 
     def __init__(self, plugin_name):
-        super(WebPluginBase, self).__init__('WebPlugin.' + plugin_name)
+        super().__init__('WebPlugin.' + plugin_name)
 
         # Register JSON rpc methods
         component.get('JSON').register_object(self, plugin_name.lower())

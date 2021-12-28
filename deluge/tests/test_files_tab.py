@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
 # the additional special exception to link portions of this program with the OpenSSL library.
@@ -51,7 +50,7 @@ class FilesTabTestCase(BaseTestCase):
         level = 1
 
         def p_level(s, l):
-            print('%s%s' % (' ' * l, s))
+            print('{}{}'.format(' ' * l, s))
 
         def _print_treestore_children(i, lvl):
             while i:
