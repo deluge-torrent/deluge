@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009-2010 John Garland <johnnybg+deluge@gmail.com>
 #
@@ -21,7 +20,7 @@ class ReaderParseError(Exception):
     pass
 
 
-class BaseReader(object):
+class BaseReader:
     """Base reader for blocklist files"""
 
     def __init__(self, _file):

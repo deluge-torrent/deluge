@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008 Andrew Resch <andrewresch@gmail.com>
 #
@@ -45,7 +44,6 @@ import os
 import pickle
 import shutil
 from codecs import getwriter
-from io import open
 from tempfile import NamedTemporaryFile
 
 from deluge.common import JSON_FORMAT, get_default_config_dir
@@ -102,7 +100,7 @@ def find_json_objects(text, decoder=json.JSONDecoder()):
     return objects
 
 
-class Config(object):
+class Config:
     """This class is used to access/create/modify config files.
 
     Args:
@@ -396,9 +394,9 @@ class Config(object):
             filename = self.__config_file
 
         try:
-            with open(filename, 'r', encoding='utf8') as _file:
+            with open(filename, encoding='utf8') as _file:
                 data = _file.read()
-        except IOError as ex:
+        except OSError as ex:
             log.warning('Unable to open config file %s: %s', filename, ex)
             return
 
@@ -451,7 +449,7 @@ class Config(object):
         # Check to see if the current config differs from the one on disk
         # We will only write a new config file if there is a difference
         try:
-            with open(filename, 'r', encoding='utf8') as _file:
+            with open(filename, encoding='utf8') as _file:
                 data = _file.read()
             objects = find_json_objects(data)
             start, end = objects[0]
@@ -463,7 +461,7 @@ class Config(object):
                 if self._save_timer and self._save_timer.active():
                     self._save_timer.cancel()
                 return True
-        except (IOError, IndexError) as ex:
+        except (OSError, IndexError) as ex:
             log.warning('Unable to open config file: %s because: %s', filename, ex)
 
         # Save the new config and make sure it's written to disk
@@ -477,7 +475,7 @@ class Config(object):
                 json.dump(self.__config, getwriter('utf8')(_file), **JSON_FORMAT)
                 _file.flush()
                 os.fsync(_file.fileno())
-        except IOError as ex:
+        except OSError as ex:
             log.error('Error writing new config file: %s', ex)
             return False
 
@@ -488,7 +486,7 @@ class Config(object):
         try:
             log.debug('Backing up old config file to %s.bak', filename)
             shutil.move(filename, filename + '.bak')
-        except IOError as ex:
+        except OSError as ex:
             log.warning('Unable to backup old config: %s', ex)
 
         # The new config file has been written successfully, so let's move it over
@@ -496,7 +494,7 @@ class Config(object):
         try:
             log.debug('Moving new config file %s to %s', filename_tmp, filename)
             shutil.move(filename_tmp, filename)
-        except IOError as ex:
+        except OSError as ex:
             log.error('Error moving new config file: %s', ex)
             return False
         else:

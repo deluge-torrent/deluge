@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
 #
@@ -93,7 +92,7 @@ def _get_version_detail():
     except ImportError:
         pass
     version_str += 'Python: %s\n' % platform.python_version()
-    version_str += 'OS: %s %s\n' % (platform.system(), common.get_os_version())
+    version_str += f'OS: {platform.system()} {common.get_os_version()}\n'
     return version_str
 
 
@@ -135,7 +134,7 @@ class DelugeTextHelpFormatter(argparse.RawDescriptionHelpFormatter):
                 default = action.dest.upper()
                 args_string = self._format_args(action, default)
                 opt = ', '.join(action.option_strings)
-                parts.append('%s %s' % (opt, args_string))
+                parts.append(f'{opt} {args_string}')
             return ', '.join(parts)
 
 
@@ -163,7 +162,7 @@ class ArgParserBase(argparse.ArgumentParser):
             self.log_stream = kwargs['log_stream']
             del kwargs['log_stream']
 
-        super(ArgParserBase, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         self.common_setup = False
         self.process_arg_group = False
@@ -244,7 +243,7 @@ class ArgParserBase(argparse.ArgumentParser):
             argparse.Namespace: The parsed arguments.
 
         """
-        options = super(ArgParserBase, self).parse_args(args=args)
+        options = super().parse_args(args=args)
         return self._handle_ui_options(options)
 
     def parse_known_ui_args(self, args, withhold=None):
@@ -260,7 +259,7 @@ class ArgParserBase(argparse.ArgumentParser):
         """
         if withhold:
             args = [a for a in args if a not in withhold]
-        options, remaining = super(ArgParserBase, self).parse_known_args(args=args)
+        options, remaining = super().parse_known_args(args=args)
         options.remaining = remaining
         # Handle common and process group options
         return self._handle_ui_options(options)

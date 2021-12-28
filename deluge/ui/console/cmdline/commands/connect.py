@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008-2009 Ido Abramovich <ido.deluge@gmail.com>
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
@@ -55,7 +54,7 @@ class Command(BaseCommand):
 
             def on_connect(result):
                 if self.console.interactive:
-                    self.console.write('{!success!}Connected to %s:%s!' % (host, port))
+                    self.console.write(f'{{!success!}}Connected to {host}:{port}!')
                 return component.start()
 
             def on_connect_fail(result):

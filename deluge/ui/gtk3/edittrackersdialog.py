@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007, 2008 Andrew Resch <andrewresch@gmail.com>
 #
@@ -75,7 +74,7 @@ def trackers_tiers_from_text(text_str=''):
     return trackers
 
 
-class EditTrackersDialog(object):
+class EditTrackersDialog:
     def __init__(self, torrent_id, parent=None):
         self.torrent_id = torrent_id
         self.builder = Gtk.Builder()
@@ -190,7 +189,7 @@ class EditTrackersDialog(object):
         self.old_trackers = list(status['trackers'])
         for tracker in self.old_trackers:
             self.add_tracker(tracker['tier'], tracker['url'])
-        self.treeview.set_cursor((0))
+        self.treeview.set_cursor(0)
         self.dialog.show()
 
     def add_tracker(self, tier, url):

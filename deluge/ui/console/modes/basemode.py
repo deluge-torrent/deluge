@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2011 Nick Lanham <nick@afternight.org>
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
@@ -34,7 +33,7 @@ except ImportError:
 log = logging.getLogger(__name__)
 
 
-class InputKeyHandler(object):
+class InputKeyHandler:
     def __init__(self):
         self._input_result = None
 
@@ -60,7 +59,7 @@ class InputKeyHandler(object):
         return util.ReadState.IGNORED
 
 
-class TermResizeHandler(object):
+class TermResizeHandler:
     def __init__(self):
         try:
             signal.signal(signal.SIGWINCH, self.on_terminal_size)
@@ -78,7 +77,7 @@ class TermResizeHandler(object):
         return rows, cols
 
 
-class CursesStdIO(object):
+class CursesStdIO:
     """
     fake fd to be registered as a reader with the twisted reactor.
        Curses classes needing input should extend this

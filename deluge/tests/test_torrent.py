@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
 # the additional special exception to link portions of this program with the OpenSSL library.
@@ -8,8 +7,8 @@
 import os
 import time
 from base64 import b64encode
+from unittest import mock
 
-import mock
 from twisted.internet import defer, reactor
 from twisted.internet.task import deferLater
 from twisted.trial import unittest

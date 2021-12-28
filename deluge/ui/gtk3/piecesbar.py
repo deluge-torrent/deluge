@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2011 Pedro Algarvio <pedro@algarvio.me>
 #
@@ -32,7 +31,7 @@ class PiecesBar(DrawingArea):
     __gsignals__ = {'draw': 'override'}
 
     def __init__(self):
-        super(PiecesBar, self).__init__()
+        super().__init__()
         # Get progress bar styles, in order to keep font consistency
         pb = ProgressBar()
         pb_style = pb.get_style_context()

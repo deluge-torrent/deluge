@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
 # the additional special exception to link portions of this program with the OpenSSL library.
@@ -33,7 +32,7 @@ class DecoratorsTestCase(unittest.TestCase):
         def negate(func, *args, **kwargs):
             return -func(*args, **kwargs)
 
-        class Test(object):
+        class Test:
             def __init__(self, number):
                 self.number = number
 

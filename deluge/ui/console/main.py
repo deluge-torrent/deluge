@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008-2009 Ido Abramovich <ido.deluge@gmail.com>
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
@@ -65,7 +64,7 @@ DEFAULT_CONSOLE_PREFS = {
 }
 
 
-class MockConsoleLog(object):
+class MockConsoleLog:
     def write(self, data):
         pass
 
@@ -284,7 +283,7 @@ deluge-console.exe "add -p c:\\mytorrents c:\\new.torrent"
 
     @overrides(TermResizeHandler)
     def on_terminal_size(self, *args):
-        rows, cols = super(ConsoleUI, self).on_terminal_size(args)
+        rows, cols = super().on_terminal_size(args)
         for mode in self.modes:
             self.modes[mode].on_resize(rows, cols)
 
@@ -709,7 +708,7 @@ class EventLog(component.Component):
         if not t_name:
             return
 
-        self.write('%s: {!info!}%s ({!cyan!}%s{!info!})' % (state, t_name, torrent_id))
+        self.write(f'{state}: {{!info!}}{t_name} ({{!cyan!}}{torrent_id}{{!info!}})')
 
     def on_torrent_finished_event(self, torrent_id):
         if component.get('TorrentList').config['ring_bell']:
@@ -737,7 +736,7 @@ class EventLog(component.Component):
         except KeyError:
             pass
 
-        self.write('ConfigValueChanged: {!input!}%s: %s%s' % (key, color, value))
+        self.write(f'ConfigValueChanged: {{!input!}}{key}: {color}{value}')
 
     def write(self, s):
         current_time = time.localtime()

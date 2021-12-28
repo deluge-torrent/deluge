@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2010 John Garland <johnnybg+deluge@gmail.com>
 #
@@ -30,7 +29,7 @@ except ImportError:
 log = logging.getLogger(__name__)
 
 
-class TrackerIcon(object):
+class TrackerIcon:
     """
     Represents a tracker's icon
     """
@@ -290,7 +289,7 @@ class TrackerIcons(Component):
         :returns: a Deferred which callbacks a list of available favicons (url, type)
         :rtype: Deferred
         """
-        with open(page, 'r') as _file:
+        with open(page) as _file:
             parser = FaviconParser()
             for line in _file:
                 parser.feed(line)
@@ -374,7 +373,7 @@ class TrackerIcons(Component):
             try:
                 with Image.open(icon_name):
                     pass
-            except IOError as ex:
+            except OSError as ex:
                 raise InvalidIconError(ex)
         else:
             if not os.path.getsize(icon_name):

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
@@ -22,7 +21,7 @@ class Command(BaseCommand):
 
         def on_cache_status(status):
             for key, value in sorted(status.items()):
-                self.console.write('{!info!}%s: {!input!}%s' % (key, value))
+                self.console.write(f'{{!info!}}{key}: {{!input!}}{value}')
 
         return client.core.get_session_status(DISK_CACHE_KEYS).addCallback(
             on_cache_status

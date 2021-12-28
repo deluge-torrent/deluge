@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
 # Copyright (C) 2011 Pedro Algarvio <pedro@algarvio.me>
@@ -112,7 +111,7 @@ class Core(component.Component):
         component.Component.__init__(self, 'Core')
 
         # Start the libtorrent session.
-        user_agent = 'Deluge/{} libtorrent/{}'.format(DELUGE_VER, LT_VERSION)
+        user_agent = f'Deluge/{DELUGE_VER} libtorrent/{LT_VERSION}'
         peer_id = self._create_peer_id(DELUGE_VER)
         log.debug('Starting session (peer_id: %s, user_agent: %s)', peer_id, user_agent)
         settings_pack = {
@@ -293,7 +292,7 @@ class Core(component.Component):
             if os.path.isfile(filepath):
                 log.debug('Creating backup of %s at: %s', filename, filepath_bak)
                 shutil.copy2(filepath, filepath_bak)
-        except IOError as ex:
+        except OSError as ex:
             log.error('Unable to backup %s to %s: %s', filepath, filepath_bak, ex)
         else:
             log.info('Saving the %s at: %s', filename, filepath)
@@ -303,7 +302,7 @@ class Core(component.Component):
                     _file.flush()
                     os.fsync(_file.fileno())
                 shutil.move(filepath_tmp, filepath)
-            except (IOError, EOFError) as ex:
+            except (OSError, EOFError) as ex:
                 log.error('Unable to save %s: %s', filename, ex)
                 if os.path.isfile(filepath_bak):
                     log.info('Restoring backup of %s from: %s', filename, filepath_bak)
@@ -325,7 +324,7 @@ class Core(component.Component):
             try:
                 with open(_filepath, 'rb') as _file:
                     state = lt.bdecode(_file.read())
-            except (IOError, EOFError, RuntimeError) as ex:
+            except (OSError, EOFError, RuntimeError) as ex:
                 log.warning('Unable to load %s: %s', _filepath, ex)
             else:
                 log.info('Successfully loaded %s: %s', filename, _filepath)

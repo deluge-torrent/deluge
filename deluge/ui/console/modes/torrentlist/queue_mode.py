@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2011 Nick Lanham <nick@afternight.org>
 #
@@ -36,7 +35,7 @@ Change queue position of selected torrents
 """
 
 
-class QueueMode(object):
+class QueueMode:
     def __init__(self, torrentslist, torrent_ids):
         self.torrentslist = torrentslist
         self.torrentview = torrentslist.torrentview

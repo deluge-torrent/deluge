@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2011 Nick Lanham <nick@afternight.org>
 # Copyright (C) 2008-2009 Ido Abramovich <ido.deluge@gmail.com>

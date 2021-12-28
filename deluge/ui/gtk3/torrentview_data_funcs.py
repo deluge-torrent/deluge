@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007, 2008 Andrew Resch <andrewresch@gmail.com>
 #
@@ -160,7 +159,7 @@ def cell_data_speed(cell, model, row, data):
     if speed > 0:
         speed_str = common.fspeed(speed, shortform=True)
         cell.set_property(
-            'markup', '{0} <small>{1}</small>'.format(*tuple(speed_str.split()))
+            'markup', '{} <small>{}</small>'.format(*tuple(speed_str.split()))
         )
     else:
         cell.set_property('text', '')
@@ -187,7 +186,7 @@ def cell_data_speed_limit(cell, model, row, data, cache_key):
     if speed > 0:
         speed_str = common.fspeed(speed * 1024, shortform=True)
         cell.set_property(
-            'markup', '{0} <small>{1}</small>'.format(*tuple(speed_str.split()))
+            'markup', '{} <small>{}</small>'.format(*tuple(speed_str.split()))
         )
     else:
         cell.set_property('text', '')

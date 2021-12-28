@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007,2008 Andrew Resch <andrewresch@gmail.com>
 #
@@ -77,7 +76,7 @@ def set_language(lang):
         translation = gettext.translation(
             'deluge', localedir=get_translations_path(), languages=[lang]
         )
-    except IOError:
+    except OSError:
         log.warning('Unable to find translation (.mo) to set language: %s', lang)
     else:
         translation.install()

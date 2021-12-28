@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Original file from BitTorrent-5.3-GPL.tar.gz
 # Copyright (C) Bram Cohen
@@ -42,7 +41,7 @@ def dummy(*v):
     pass
 
 
-class RemoteFileProgress(object):
+class RemoteFileProgress:
     def __init__(self, session_id):
         self.session_id = session_id
 

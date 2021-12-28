@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
 # Copyright (C) 2010 Pedro Algarvio <pedro@algarvio.me>

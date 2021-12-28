@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
@@ -23,7 +22,7 @@ class DelugeEventMetaClass(type):
     """
 
     def __init__(cls, name, bases, dct):  # pylint: disable=bad-mcs-method-argument
-        super(DelugeEventMetaClass, cls).__init__(name, bases, dct)
+        super().__init__(name, bases, dct)
         if name != 'DelugeEvent':
             known_events[name] = cls
 

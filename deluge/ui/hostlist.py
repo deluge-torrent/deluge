@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) Calum Lind 2017 <calumlind+deluge@gmail.com>
 #
@@ -85,7 +84,7 @@ def migrate_config_2_to_3(config):
     return config
 
 
-class HostList(object):
+class HostList:
     """This class contains methods for adding, removing and looking up hosts in hostlist.conf."""
 
     def __init__(self):

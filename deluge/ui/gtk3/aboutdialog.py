@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007 Marcos Mobley ('markybob') <markybob@gmail.com>
 #
@@ -16,7 +15,7 @@ from deluge.ui.client import client
 from .common import get_deluge_icon, get_pixbuf
 
 
-class AboutDialog(object):
+class AboutDialog:
     def __init__(self):
         self.about = Gtk.AboutDialog()
         self.about.set_transient_for(component.get('MainWindow').window)

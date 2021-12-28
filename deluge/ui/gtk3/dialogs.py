@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
@@ -32,7 +31,7 @@ class BaseDialog(Gtk.Dialog):
         :param parent: gtkWindow, the parent window, if None it will default to the
             MainWindow
         """
-        super(BaseDialog, self).__init__(
+        super().__init__(
             title=header,
             parent=parent if parent else component.get('MainWindow').window,
             flags=Gtk.DialogFlags.MODAL | Gtk.DialogFlags.DESTROY_WITH_PARENT,
@@ -101,7 +100,7 @@ class YesNoDialog(BaseDialog):
         :param text: see `:class:BaseDialog`
         :param parent: see `:class:BaseDialog`
         """
-        super(YesNoDialog, self).__init__(
+        super().__init__(
             header,
             text,
             'dialog-question',
@@ -125,7 +124,7 @@ class InformationDialog(BaseDialog):
         :param text: see `:class:BaseDialog`
         :param parent: see `:class:BaseDialog`
         """
-        super(InformationDialog, self).__init__(
+        super().__init__(
             header,
             text,
             'dialog-information',
@@ -152,7 +151,7 @@ class ErrorDialog(BaseDialog):
         :param traceback: show the traceback information in the details area
         :type traceback: bool
         """
-        super(ErrorDialog, self).__init__(
+        super().__init__(
             header, text, 'dialog-error', (_('_Close'), Gtk.ResponseType.CLOSE), parent
         )
 
@@ -196,7 +195,7 @@ class AuthenticationDialog(BaseDialog):
         :param err_msg: the error message we got back from the server
         :type err_msg: string
         """
-        super(AuthenticationDialog, self).__init__(
+        super().__init__(
             _('Authenticate'),
             err_msg,
             'dialog-password',
@@ -253,7 +252,7 @@ class AccountDialog(BaseDialog):
         parent=None,
     ):
         if username:
-            super(AccountDialog, self).__init__(
+            super().__init__(
                 _('Edit Account'),
                 _('Edit existing account'),
                 'dialog-information',
@@ -266,7 +265,7 @@ class AccountDialog(BaseDialog):
                 parent,
             )
         else:
-            super(AccountDialog, self).__init__(
+            super().__init__(
                 _('New Account'),
                 _('Create a new account'),
                 'dialog-information',
@@ -357,7 +356,7 @@ class OtherDialog(BaseDialog):
         if not icon:
             icon = 'dialog-information'
 
-        super(OtherDialog, self).__init__(
+        super().__init__(
             header,
             text,
             icon,
@@ -419,7 +418,7 @@ class PasswordDialog(BaseDialog):
         :param password_msg: the error message we got back from the server
         :type password_msg: string
         """
-        super(PasswordDialog, self).__init__(
+        super().__init__(
             header=_('Password Protected'),
             text=password_msg,
             icon='dialog-password',

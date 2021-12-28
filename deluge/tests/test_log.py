@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2015 Calum Lind <calumlind@gmail.com>
 # Copyright (C) 2010 Pedro Algarvio <ufs@ufsoft.org>

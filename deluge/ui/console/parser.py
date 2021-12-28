@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2016 bendikro <bro.devel+deluge@gmail.com>
 #
@@ -27,7 +26,7 @@ class ConsoleBaseParser(argparse.ArgumentParser):
         # Handle epilog manually to keep the text formatting
         epilog = self.epilog
         self.epilog = ''
-        help_str = super(ConsoleBaseParser, self).format_help()
+        help_str = super().format_help()
         if epilog is not None:
             help_str += epilog
         self.epilog = epilog
@@ -49,7 +48,7 @@ class ConsoleCommandParser(ConsoleBaseParser):
 
             for cmd_line in cmd_lines:
                 cmds = shlex.split(cmd_line)
-                cmd_options = super(ConsoleCommandParser, self).parse_args(args=cmds)
+                cmd_options = super().parse_args(args=cmds)
                 cmd_options.command = cmds[0]
                 command_options.append(cmd_options)
 
@@ -94,7 +93,7 @@ class ConsoleCommandParser(ConsoleBaseParser):
                     options = self.base_parser.parse_args(args=args)
                 options.parsed_cmds = []
             else:
-                options = super(ConsoleCommandParser, self).parse_args(args=args)
+                options = super().parse_args(args=args)
                 options.parsed_cmds = [options]
 
         if not hasattr(options, 'remaining'):
@@ -105,7 +104,7 @@ class ConsoleCommandParser(ConsoleBaseParser):
 
 class OptionParser(ConsoleBaseParser):
     def __init__(self, **kwargs):
-        super(OptionParser, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self.formatter = ConsoleColorFormatter()
 
     def exit(self, status=0, msg=None):
@@ -137,5 +136,5 @@ class OptionParser(ConsoleBaseParser):
 
     def format_help(self):
         """Return help formatted with colors."""
-        help_str = super(OptionParser, self).format_help()
+        help_str = super().format_help()
         return self.formatter.format_colors(help_str)

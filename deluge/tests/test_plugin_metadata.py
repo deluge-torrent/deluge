@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2015 Calum Lind <calumlind@gmail.com>
 #
@@ -21,7 +20,7 @@ class PluginManagerBaseTestCase(BaseTestCase):
         pm = PluginManagerBase('core.conf', 'deluge.plugin.core')
         for p in pm.get_available_plugins():
             for key, value in pm.get_plugin_info(p).items():
-                self.assertTrue(isinstance('%s: %s' % (key, value), ''.__class__))
+                self.assertTrue(isinstance(f'{key}: {value}', ''.__class__))
 
     def test_get_plugin_info_invalid_name(self):
         pm = PluginManagerBase('core.conf', 'deluge.plugin.core')

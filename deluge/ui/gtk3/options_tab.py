@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008 Andrew Resch <andrewresch@gmail.com>
 #               2017 Calum Lind <calumlind+deluge@gmail.com>
@@ -19,7 +18,7 @@ from .torrentdetails import Tab
 
 class OptionsTab(Tab):
     def __init__(self):
-        super(OptionsTab, self).__init__('Options', 'options_tab', 'options_tab_label')
+        super().__init__('Options', 'options_tab', 'options_tab_label')
 
         self.prev_torrent_ids = None
         self.prev_status = None

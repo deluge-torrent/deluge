@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009-2012 Damien Churchill <damoxc@gmail.com>
 #
@@ -117,4 +116,4 @@ if __name__ == '__main__':
         print('Possible missed text for translation markup:')
         for text, filenames in missed_markup.iteritems():
             for filename_lineno in filenames:
-                print('{0:<58}    {1}'.format(':'.join(filename_lineno), text))
+                print('{:<58}    {}'.format(':'.join(filename_lineno), text))

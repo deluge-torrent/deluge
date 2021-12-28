@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
 #
@@ -43,7 +42,7 @@ if windowing('X11'):
 log = logging.getLogger(__name__)
 
 
-class _GtkBuilderSignalsHolder(object):
+class _GtkBuilderSignalsHolder:
     def connect_signals(self, mapping_or_class):
 
         if isinstance(mapping_or_class, dict):

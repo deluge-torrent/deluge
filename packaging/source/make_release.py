@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 #
 # Copyright 2014 Calum Lind <calumlind@gmail.com>
 #
@@ -46,7 +45,7 @@ else:
 
 # Calculate shasum and add to sha256sums.txt
 with open(tarxz_path, 'rb') as _file:
-    sha256sum = '%s %s' % (
+    sha256sum = '{} {}'.format(
         sha256(_file.read()).hexdigest(),
         os.path.basename(tarxz_path),
     )

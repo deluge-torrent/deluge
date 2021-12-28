@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2011-2013 Calum Lind <calumlind@gmail.com>
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
@@ -89,7 +88,7 @@ with open(INFILES_LIST, 'w') as f:
 call(xgettext_cmd + ['--language=Python', '-j'])
 
 # Replace YEAR and PACKAGE in the copyright message
-with open(POT_FILEPATH, 'r') as f:
+with open(POT_FILEPATH) as f:
     lines = f.readlines()
 with open(POT_FILEPATH, 'w') as f:
     for line in lines:

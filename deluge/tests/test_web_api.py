@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2016 bendikro <bro.devel+deluge@gmail.com>
 #
@@ -75,9 +74,9 @@ class WebAPITestCase(WebServerTestBase):
         }
         self.deluge_web.web_api.set_config(config)
         web_config = component.get('DelugeWeb').config.config
-        self.assertNotEquals(config['pwd_salt'], web_config['pwd_salt'])
-        self.assertNotEquals(config['pwd_sha1'], web_config['pwd_sha1'])
-        self.assertNotEquals(config['sessions'], web_config['sessions'])
+        self.assertNotEqual(config['pwd_salt'], web_config['pwd_salt'])
+        self.assertNotEqual(config['pwd_sha1'], web_config['pwd_sha1'])
+        self.assertNotEqual(config['sessions'], web_config['sessions'])
 
     @defer.inlineCallbacks
     def get_host_status(self):

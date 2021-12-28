@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Basic plugin template created by:
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
@@ -71,7 +70,7 @@ class BadIP(Exception):
     _message = None
 
     def __init__(self, message):
-        super(BadIP, self).__init__(message)
+        super().__init__(message)
 
     def __set_message(self, message):
         self._message = message
@@ -83,7 +82,7 @@ class BadIP(Exception):
     del __get_message, __set_message
 
 
-class IP(object):
+class IP:
     __slots__ = ('q1', 'q2', 'q3', 'q4', '_long')
 
     def __init__(self, q1, q2, q3, q4):
@@ -106,7 +105,7 @@ class IP(object):
     @classmethod
     def parse(cls, ip):
         try:
-            q1, q2, q3, q4 = [int(q) for q in ip.split('.')]
+            q1, q2, q3, q4 = (int(q) for q in ip.split('.'))
         except ValueError:
             raise BadIP(_('The IP address "%s" is badly formed' % ip))
         if q1 < 0 or q2 < 0 or q3 < 0 or q4 < 0:
@@ -166,7 +165,7 @@ class IP(object):
         return self.long == other.long
 
     def __repr__(self):
-        return '<%s long=%s address="%s">' % (
+        return '<{} long={} address="{}">'.format(
             self.__class__.__name__,
             self.long,
             self.address,

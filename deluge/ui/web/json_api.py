@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009-2010 Damien Churchill <damoxc@gmail.com>
 #
@@ -37,7 +36,7 @@ log = logging.getLogger(__name__)
 
 class JSONComponent(component.Component):
     def __init__(self, name, interval=1, depend=None):
-        super(JSONComponent, self).__init__(name, interval, depend)
+        super().__init__(name, interval, depend)
         self._json = component.get('JSON')
         self._json.register_object(self, name)
 
@@ -144,7 +143,7 @@ class JSON(resource.Resource, component.Component):
             params = request_data['params']
             request_id = request_data['id']
         except KeyError as ex:
-            message = 'Invalid JSON request, missing param %s in %s' % (
+            message = 'Invalid JSON request, missing param {} in {}'.format(
                 ex,
                 request_data,
             )
@@ -165,7 +164,7 @@ class JSON(resource.Resource, component.Component):
         except Exception as ex:
             log.error('Error calling method `%s`: %s', method, ex)
             log.exception(ex)
-            error = {'message': '%s: %s' % (ex.__class__.__name__, str(ex)), 'code': 3}
+            error = {'message': f'{ex.__class__.__name__}: {str(ex)}', 'code': 3}
 
         return request_id, result, error
 
@@ -182,7 +181,7 @@ class JSON(resource.Resource, component.Component):
         """
         log.error(reason)
         response['error'] = {
-            'message': '%s: %s' % (reason.__class__.__name__, str(reason)),
+            'message': f'{reason.__class__.__name__}: {str(reason)}',
             'code': 4,
         }
         return self._send_response(request, response)
@@ -219,7 +218,7 @@ class JSON(resource.Resource, component.Component):
             'id': None,
             'error': {
                 'code': 5,
-                'message': '%s: %s' % (reason.__class__.__name__, str(reason)),
+                'message': f'{reason.__class__.__name__}: {str(reason)}',
             },
         }
         return self._send_response(request, response)
@@ -286,7 +285,7 @@ class JSON(resource.Resource, component.Component):
 FILES_KEYS = ['files', 'file_progress', 'file_priorities']
 
 
-class EventQueue(object):
+class EventQueue:
     """
     This class subscribes to events from the core and stores them until all
     the subscribed listeners have received the events.
@@ -379,7 +378,7 @@ class WebApi(JSONComponent):
     XSS_VULN_KEYS = ['name', 'message', 'comment', 'tracker_status', 'peers']
 
     def __init__(self):
-        super(WebApi, self).__init__('Web', depend=['SessionProxy'])
+        super().__init__('Web', depend=['SessionProxy'])
         self.hostlist = HostList()
         self.core_config = CoreConfig()
         self.event_queue = EventQueue()
@@ -1004,7 +1003,7 @@ class WebUtils(JSONComponent):
     """
 
     def __init__(self):
-        super(WebUtils, self).__init__('WebUtils')
+        super().__init__('WebUtils')
 
     @export
     def get_languages(self):

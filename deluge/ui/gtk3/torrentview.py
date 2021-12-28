@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007, 2008 Andrew Resch <andrewresch@gmail.com>
 #
@@ -105,7 +104,7 @@ def progress_sort(model, iter1, iter2, sort_column_id):
     return cmp(progress1, progress2)
 
 
-class SearchBox(object):
+class SearchBox:
     def __init__(self, torrentview):
         self.torrentview = torrentview
         mainwindow = component.get('MainWindow')

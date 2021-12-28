@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008-2010 Andrew Resch <andrewresch@gmail.com>
 #
@@ -218,7 +217,7 @@ class PreferencesManager(component.Component):
             self.config['listen_use_sys_port'],
         )
         interfaces = [
-            '%s:%s' % (interface, port)
+            f'{interface}:{port}'
             for port in range(listen_ports[0], listen_ports[1] + 1)
         ]
         self.core.apply_session_settings(
@@ -393,7 +392,7 @@ class PreferencesManager(component.Component):
                             + quote_plus(':'.join(self.config['enabled_plugins']))
                         )
                         urlopen(url)
-                    except IOError as ex:
+                    except OSError as ex:
                         log.debug('Network error while trying to send info: %s', ex)
                     else:
                         self.config['info_sent'] = now

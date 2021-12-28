@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2016 bendikro <bro.devel+deluge@gmail.com>
 #
@@ -16,7 +15,7 @@ import deluge.ui.sessionproxy
 from .basetest import BaseTestCase
 
 
-class Core(object):
+class Core:
     def __init__(self):
         self.reset()
 
@@ -89,7 +88,7 @@ class Core(object):
                 return succeed(ret)
 
 
-class Client(object):
+class Client:
     def __init__(self):
         self.core = Core()
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008 Marcos Mobley ('markybob') <markybob@gmail.com>
 #
@@ -234,7 +233,7 @@ def associate_magnet_links(overwrite=False):
 
         try:
             hkey = winreg.OpenKey(winreg.HKEY_CLASSES_ROOT, 'Magnet')
-        except WindowsError:
+        except OSError:
             overwrite = True
         else:
             winreg.CloseKey(hkey)
@@ -243,7 +242,7 @@ def associate_magnet_links(overwrite=False):
             deluge_exe = os.path.join(os.path.dirname(sys.executable), 'deluge.exe')
             try:
                 magnet_key = winreg.CreateKey(winreg.HKEY_CLASSES_ROOT, 'Magnet')
-            except WindowsError:
+            except OSError:
                 # Could not create for all users, falling back to current user
                 magnet_key = winreg.CreateKey(
                     winreg.HKEY_CURRENT_USER, 'Software\\Classes\\Magnet'
@@ -252,14 +251,12 @@ def associate_magnet_links(overwrite=False):
             winreg.SetValue(magnet_key, '', winreg.REG_SZ, 'URL:Magnet Protocol')
             winreg.SetValueEx(magnet_key, 'URL Protocol', 0, winreg.REG_SZ, '')
             winreg.SetValueEx(magnet_key, 'BrowserFlags', 0, winreg.REG_DWORD, 0x8)
-            winreg.SetValue(
-                magnet_key, 'DefaultIcon', winreg.REG_SZ, '{},0'.format(deluge_exe)
-            )
+            winreg.SetValue(magnet_key, 'DefaultIcon', winreg.REG_SZ, f'{deluge_exe},0')
             winreg.SetValue(
                 magnet_key,
                 r'shell\open\command',
                 winreg.REG_SZ,
-                '"{}" "%1"'.format(deluge_exe),
+                f'"{deluge_exe}" "%1"',
             )
             winreg.CloseKey(magnet_key)
 
@@ -315,7 +312,7 @@ def save_pickled_state_file(filename, state):
         if os.path.isfile(filepath):
             log.debug('Creating backup of %s at: %s', filename, filepath_bak)
             shutil.copy2(filepath, filepath_bak)
-    except IOError as ex:
+    except OSError as ex:
         log.error('Unable to backup %s to %s: %s', filepath, filepath_bak, ex)
     else:
         log.info('Saving the %s at: %s', filename, filepath)
@@ -326,7 +323,7 @@ def save_pickled_state_file(filename, state):
                 _file.flush()
                 os.fsync(_file.fileno())
             shutil.move(filepath_tmp, filepath)
-        except (IOError, EOFError, pickle.PicklingError) as ex:
+        except (OSError, EOFError, pickle.PicklingError) as ex:
             log.error('Unable to save %s: %s', filename, ex)
             if os.path.isfile(filepath_bak):
                 log.info('Restoring backup of %s from: %s', filename, filepath_bak)
@@ -352,7 +349,7 @@ def load_pickled_state_file(filename):
         try:
             with open(_filepath, 'rb') as _file:
                 state = pickle.load(_file, encoding='utf8')
-        except (IOError, pickle.UnpicklingError) as ex:
+        except (OSError, pickle.UnpicklingError) as ex:
             log.warning('Unable to load %s: %s', _filepath, ex)
         else:
             log.info('Successfully loaded %s: %s', filename, _filepath)

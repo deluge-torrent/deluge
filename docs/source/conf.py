@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Deluge documentation build configuration file
 #
@@ -219,7 +218,7 @@ latex_documents = [
 
 # Autodoc section
 # ---------------
-class Mock(object):
+class Mock:
 
     __all__ = []
 

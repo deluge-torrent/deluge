@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007-2010 Andrew Resch <andrewresch@gmail.com>
 #
@@ -24,13 +23,13 @@ class ComponentAlreadyRegistered(Exception):
 
 class ComponentException(Exception):
     def __init__(self, message, tb):
-        super(ComponentException, self).__init__(message)
+        super().__init__(message)
         self.message = message
         self.tb = tb
 
     def __str__(self):
-        s = super(ComponentException, self).__str__()
-        return '%s\n%s' % (s, ''.join(self.tb))
+        s = super().__str__()
+        return '{}\n{}'.format(s, ''.join(self.tb))
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):
@@ -42,7 +41,7 @@ class ComponentException(Exception):
         return not self.__eq__(other)
 
 
-class Component(object):
+class Component:
     """Component objects are singletons managed by the :class:`ComponentRegistry`.
 
     When a new Component object is instantiated, it will be automatically
@@ -247,7 +246,7 @@ class Component(object):
         pass
 
 
-class ComponentRegistry(object):
+class ComponentRegistry:
     """The ComponentRegistry holds a list of currently registered :class:`Component` objects.
 
     It is used to manage the Components by starting, stopping, pausing and shutting them down.

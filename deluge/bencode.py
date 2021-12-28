@@ -84,7 +84,7 @@ def bdecode(x):
         return r
 
 
-class Bencached(object):
+class Bencached:
 
     __slots__ = ['bencoded']
 

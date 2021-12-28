@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
 # Copyright (C) 2010 Pedro Algarvio <pedro@algarvio.me>
@@ -37,7 +36,7 @@ MAX_LOGGER_NAME_LENGTH = 10
 
 class Logging(LoggingLoggerClass):
     def __init__(self, logger_name):
-        super(Logging, self).__init__(logger_name)
+        super().__init__(logger_name)
 
         # This makes module name padding increase to the biggest module name
         # so that logs keep readability.
@@ -238,7 +237,7 @@ def tweak_logging_levels():
     log.warning(
         'logging.conf found! tweaking logging levels from %s', logging_config_file
     )
-    with open(logging_config_file, 'r') as _file:
+    with open(logging_config_file) as _file:
         for line in _file:
             if line.strip().startswith('#'):
                 continue
@@ -309,7 +308,7 @@ Triggering code:
 """
 
 
-class _BackwardsCompatibleLOG(object):
+class _BackwardsCompatibleLOG:
     def __getattribute__(self, name):
         import warnings
 

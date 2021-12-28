@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2016 bendikro <bro.devel+deluge@gmail.com>
 #
@@ -10,8 +9,8 @@
 import argparse
 import sys
 from io import StringIO
+from unittest import mock
 
-import mock
 import pytest
 from twisted.internet import defer
 
@@ -39,7 +38,7 @@ sys_stdout = sys.stdout
 # To print to terminal from the tests, use: print('Message...', file=sys_stdout)
 
 
-class StringFileDescriptor(object):
+class StringFileDescriptor:
     """File descriptor that writes to string buffer"""
 
     def __init__(self, fd):
@@ -56,7 +55,7 @@ class StringFileDescriptor(object):
         self.out.flush()
 
 
-class UIBaseTestCase(object):
+class UIBaseTestCase:
     def __init__(self):
         self.var = {}
 
@@ -170,7 +169,7 @@ class GtkUIBaseTestCase(UIBaseTestCase):
 @pytest.mark.gtkui
 class GtkUIDelugeScriptEntryTestCase(BaseTestCase, GtkUIBaseTestCase):
     def __init__(self, testname):
-        super(GtkUIDelugeScriptEntryTestCase, self).__init__(testname)
+        super().__init__(testname)
         GtkUIBaseTestCase.__init__(self)
 
         self.var['cmd_name'] = 'deluge gtk'
@@ -187,7 +186,7 @@ class GtkUIDelugeScriptEntryTestCase(BaseTestCase, GtkUIBaseTestCase):
 @pytest.mark.gtkui
 class GtkUIScriptEntryTestCase(BaseTestCase, GtkUIBaseTestCase):
     def __init__(self, testname):
-        super(GtkUIScriptEntryTestCase, self).__init__(testname)
+        super().__init__(testname)
         GtkUIBaseTestCase.__init__(self)
         from deluge.ui import gtk3
 
@@ -246,7 +245,7 @@ class WebUIScriptEntryTestCase(BaseTestCase, WebUIBaseTestCase):
         skip = 'Console ui test on Windows broken due to sys args issue'
 
     def __init__(self, testname):
-        super(WebUIScriptEntryTestCase, self).__init__(testname)
+        super().__init__(testname)
         WebUIBaseTestCase.__init__(self)
         self.var['cmd_name'] = 'deluge-web'
         self.var['start_cmd'] = deluge.ui.web.start
@@ -265,7 +264,7 @@ class WebUIDelugeScriptEntryTestCase(BaseTestCase, WebUIBaseTestCase):
         skip = 'Console ui test on Windows broken due to sys args issue'
 
     def __init__(self, testname):
-        super(WebUIDelugeScriptEntryTestCase, self).__init__(testname)
+        super().__init__(testname)
         WebUIBaseTestCase.__init__(self)
         self.var['cmd_name'] = 'deluge web'
         self.var['start_cmd'] = ui_entry.start_ui
@@ -458,7 +457,7 @@ class ConsoleScriptEntryWithDaemonTestCase(
         skip = 'Console ui test on Windows broken due to sys args issue'
 
     def __init__(self, testname):
-        super(ConsoleScriptEntryWithDaemonTestCase, self).__init__(testname)
+        super().__init__(testname)
         ConsoleUIWithDaemonBaseTestCase.__init__(self)
         self.var['cmd_name'] = 'deluge-console'
         self.var['sys_arg_cmd'] = ['./deluge-console']
@@ -484,7 +483,7 @@ class ConsoleScriptEntryTestCase(BaseTestCase, ConsoleUIBaseTestCase):
         skip = 'Console ui test on Windows broken due to sys args issue'
 
     def __init__(self, testname):
-        super(ConsoleScriptEntryTestCase, self).__init__(testname)
+        super().__init__(testname)
         ConsoleUIBaseTestCase.__init__(self)
         self.var['cmd_name'] = 'deluge-console'
         self.var['start_cmd'] = deluge.ui.console.start
@@ -503,7 +502,7 @@ class ConsoleDelugeScriptEntryTestCase(BaseTestCase, ConsoleUIBaseTestCase):
         skip = 'cannot test console ui on windows'
 
     def __init__(self, testname):
-        super(ConsoleDelugeScriptEntryTestCase, self).__init__(testname)
+        super().__init__(testname)
         ConsoleUIBaseTestCase.__init__(self)
         self.var['cmd_name'] = 'deluge console'
         self.var['start_cmd'] = ui_entry.start_ui

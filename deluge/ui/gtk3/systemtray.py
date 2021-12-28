@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007, 2008 Andrew Resch <andrewresch@gmail.com>
 #
@@ -236,13 +235,13 @@ class SystemTray(component.Component):
         if max_download_speed == -1:
             max_download_speed = _('Unlimited')
         else:
-            max_download_speed = '%s %s' % (max_download_speed, _('K/s'))
+            max_download_speed = '{} {}'.format(max_download_speed, _('K/s'))
         if max_upload_speed == -1:
             max_upload_speed = _('Unlimited')
         else:
-            max_upload_speed = '%s %s' % (max_upload_speed, _('K/s'))
+            max_upload_speed = '{} {}'.format(max_upload_speed, _('K/s'))
 
-        msg = '%s\n%s: %s (%s)\n%s: %s (%s)' % (
+        msg = '{}\n{}: {} ({})\n{}: {} ({})'.format(
             _('Deluge'),
             _('Down'),
             self.download_rate,

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2011 Nick Lanham <nick@afternight.org>
 #
@@ -96,7 +95,7 @@ def f_seedrank_dash(seed_rank, seeding_time):
 
 
 def ftotal_sized(first, second):
-    return '%s (%s)' % (
+    return '{} ({})'.format(
         deluge.common.fsize(first, shortform=True),
         deluge.common.fsize(second, shortform=True),
     )
@@ -157,7 +156,7 @@ def format_column(col, lim):
     if size >= lim - 1:
         return trim_string(col, lim, dbls > 0)
     else:
-        return '%s%s' % (col, ' ' * (lim - size))
+        return '{}{}'.format(col, ' ' * (lim - size))
 
 
 def format_row(row, column_widths):
@@ -211,7 +210,7 @@ def wrap_string(string, width, min_lines=0, strip_colors=True):
             mtc = mtchs.popleft() - offset
             clr = clrs.popleft()
             end_pos += len(clr)
-            s = '%s%s%s' % (s[:mtc], clr, s[mtc:])
+            s = f'{s[:mtc]}{clr}{s[mtc:]}'
         return s
 
     for s in s1:
@@ -288,7 +287,7 @@ def wrap_string(string, width, min_lines=0, strip_colors=True):
     last_color_string = ''
     for i, line in enumerate(ret):
         if i != 0:
-            ret[i] = '%s%s' % (last_color_string, ret[i])
+            ret[i] = f'{last_color_string}{ret[i]}'
 
         colors = re.findall('\\{![^!]+!\\}', line)
         if colors:
@@ -311,9 +310,9 @@ def pad_string(string, length, character=' ', side='right'):
     w = strwidth(string)
     diff = length - w
     if side == 'left':
-        return '%s%s' % (character * diff, string)
+        return f'{character * diff}{string}'
     elif side == 'right':
-        return '%s%s' % (string, character * diff)
+        return f'{string}{character * diff}'
 
 
 def delete_alt_backspace(input_text, input_cursor, sep_chars=' *?!._~-#$^;\'"/'):

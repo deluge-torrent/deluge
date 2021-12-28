@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
 # the additional special exception to link portions of this program with the OpenSSL library.
@@ -8,7 +7,6 @@
 import os
 import tempfile
 from email.utils import formatdate
-from io import open
 
 from twisted.internet import reactor
 from twisted.internet.error import CannotListenError
@@ -69,7 +67,7 @@ class TorrentResource(Resource):
             content_type += b'; charset=' + charset
         request.setHeader(b'Content-Type', content_type)
         request.setHeader(b'Content-Disposition', b'attachment; filename=test.torrent')
-        return 'Binary attachment ignore charset 世丕且\n'.encode('utf8')
+        return 'Binary attachment ignore charset 世丕且\n'.encode()
 
 
 class CookieResource(Resource):
@@ -160,7 +158,7 @@ class DownloadFileTestCase(unittest.TestCase):
         return self.webserver.stopListening()
 
     def assertContains(self, filename, contents):  # NOQA
-        with open(filename, 'r', encoding='utf8') as _file:
+        with open(filename, encoding='utf8') as _file:
             try:
                 self.assertEqual(_file.read(), contents)
             except Exception as ex:
@@ -168,7 +166,7 @@ class DownloadFileTestCase(unittest.TestCase):
         return filename
 
     def assertNotContains(self, filename, contents, file_mode=''):  # NOQA
-        with open(filename, 'r', encoding='utf8') as _file:
+        with open(filename, encoding='utf8') as _file:
             try:
                 self.assertNotEqual(_file.read(), contents)
             except Exception as ex:

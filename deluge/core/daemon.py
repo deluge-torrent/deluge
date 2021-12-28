@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
 #
@@ -42,8 +41,8 @@ def is_daemon_running(pid_file):
 
     try:
         with open(pid_file) as _file:
-            pid, port = [int(x) for x in _file.readline().strip().split(';')]
-    except (EnvironmentError, ValueError):
+            pid, port = (int(x) for x in _file.readline().strip().split(';'))
+    except (OSError, ValueError):
         return False
 
     if is_process_running(pid):
@@ -51,7 +50,7 @@ def is_daemon_running(pid_file):
         _socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
             _socket.connect(('127.0.0.1', port))
-        except socket.error:
+        except OSError:
             # Can't connect, so pid is not a deluged process.
             return False
         else:
@@ -60,7 +59,7 @@ def is_daemon_running(pid_file):
             return True
 
 
-class Daemon(object):
+class Daemon:
     """The Deluge Daemon class"""
 
     def __init__(
@@ -154,7 +153,7 @@ class Daemon(object):
             pid = os.getpid()
             log.debug('Storing pid %s & port %s in: %s', pid, self.port, self.pid_file)
             with open(self.pid_file, 'w') as _file:
-                _file.write('%s;%s\n' % (pid, self.port))
+                _file.write(f'{pid};{self.port}\n')
 
             component.start()
 

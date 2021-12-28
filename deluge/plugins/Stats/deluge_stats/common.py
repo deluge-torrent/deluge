@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Basic plugin template created by:
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>

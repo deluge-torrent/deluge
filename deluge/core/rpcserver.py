@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008,2009 Andrew Resch <andrewresch@gmail.com>
 #
@@ -65,7 +64,7 @@ def export(auth_level=AUTH_LEVEL_DEFAULT):
         if func.__doc__:
             if func.__doc__.endswith('    '):
                 indent = func.__doc__.split('\n')[-1]
-                func.__doc__ += '\n{}'.format(indent)
+                func.__doc__ += f'\n{indent}'
             else:
                 func.__doc__ += '\n\n'
             func.__doc__ += rpc_text
@@ -110,7 +109,7 @@ def format_request(call):
 
 class DelugeRPCProtocol(DelugeTransferProtocol):
     def __init__(self):
-        super(DelugeRPCProtocol, self).__init__()
+        super().__init__()
         # namedtuple subclass with auth_level, username for the connected session.
         self.AuthLevel = namedtuple('SessionAuthlevel', 'auth_level, username')
 
