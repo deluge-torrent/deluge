@@ -7,7 +7,7 @@ All modules will require the [common](#common) section dependencies.
 
 ## Prerequisite
 
-- [Python] _>= 3.5_
+- [Python] _>= 3.6_
 
 ## Build
 
