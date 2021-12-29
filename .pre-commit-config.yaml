@@ -3,6 +3,7 @@ default_language_version:
 exclude: >
   (?x)^(
       deluge/ui/web/docs/template/.*|
+      deluge/tests/data/.*svg|
   )$
 repos:
   - repo: https://github.com/ambv/black

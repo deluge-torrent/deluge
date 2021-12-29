@@ -609,11 +609,13 @@ MIME_MAP = {
     'image/png': 'png',
     'image/vnd.microsoft.icon': 'ico',
     'image/x-icon': 'ico',
+    'image/svg+xml': 'svg',
     'gif': 'image/gif',
     'jpg': 'image/jpeg',
     'jpeg': 'image/jpeg',
     'png': 'image/png',
     'ico': 'image/vnd.microsoft.icon',
+    'svg': 'image/svg+xml',
 }
 
 
