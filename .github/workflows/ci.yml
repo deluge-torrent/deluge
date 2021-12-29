@@ -91,7 +91,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: "3.7"
+          python-version: "3.8"
 
       - name: Cache pip
         uses: actions/cache@v2
@@ -113,4 +113,4 @@ jobs:
       - name: Test with pytest
         run: |
           python -c 'import libtorrent as lt; print(lt.__version__)';
-          pytest -m "not (todo or gtkui or security)" deluge
+          pytest -v -m "not (todo or gtkui or security)" deluge
