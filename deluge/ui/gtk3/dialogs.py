@@ -458,13 +458,14 @@ class CopyMagnetDialog(BaseDialog):
     """
     Displays a dialog with a magnet URI
     """
+
     def __init__(self, torrent_magnet='', parent=None):
         super().__init__(
             header=_('Copy Magnet URI'),
             text='',
             icon='magnet_copy.svg',
             buttons=(_('_Close'), Gtk.ResponseType.CLOSE),
-            parent=parent
+            parent=parent,
         )
         self.copied = False
 

@@ -297,6 +297,7 @@ class MenuBar(component.Component):
         log.debug('on_menuitem_copymagnet_activate')
         torrent_ids = component.get('TorrentView').get_selected_torrents()
         if torrent_ids:
+
             def _on_magnet_uri(magnet_uri):
                 def update_copied(response_id):
                     if dialog.copied:
@@ -304,6 +305,7 @@ class MenuBar(component.Component):
 
                 dialog = CopyMagnetDialog(magnet_uri)
                 dialog.run().addCallback(update_copied)
+
             client.core.get_magnet_uri(torrent_ids[0]).addCallback(_on_magnet_uri)
 
     def on_menuitem_updatetracker_activate(self, data=None):
