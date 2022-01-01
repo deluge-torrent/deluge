@@ -338,7 +338,9 @@ class MainWindow(component.Component):
                 return
             self.previous_clipboard_text = text
             if text and (
-                (is_url(text) and text.endswith('.torrent')) or is_magnet(text)
+                (is_url(text) and text.endswith('.torrent'))
+                or is_magnet(text)
+                and not component.get('MenuBar').magnet_copied()
             ):
                 component.get('AddTorrentDialog').show()
                 component.get('AddTorrentDialog').on_button_url_clicked(window)
