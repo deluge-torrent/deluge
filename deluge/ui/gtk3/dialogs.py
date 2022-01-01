@@ -244,12 +244,12 @@ class AuthenticationDialog(BaseDialog):
 
 class AccountDialog(BaseDialog):
     def __init__(
-            self,
-            username=None,
-            password=None,
-            authlevel=None,
-            levels_mapping=None,
-            parent=None,
+        self,
+        username=None,
+        password=None,
+        authlevel=None,
+        levels_mapping=None,
+        parent=None,
     ):
         if username:
             super().__init__(
@@ -347,7 +347,7 @@ class OtherDialog(BaseDialog):
     """
 
     def __init__(
-            self, header, text='', unit_text='', icon=None, default=0, parent=None
+        self, header, text='', unit_text='', icon=None, default=0, parent=None
     ):
         self.value_type = type(default)
         if self.value_type not in (int, float):
@@ -458,13 +458,7 @@ class CopyMagnetDialog(BaseDialog):
     """
     Displays a dialog with a magnet URI
     """
-
     def __init__(self, torrent_magnet='', parent=None):
-        """
-        Args:
-            torrent_magnet (str): the magnet uri to show
-            parent:
-        """
         super().__init__(
             header=_('Copy Magnet URI'),
             text='',
