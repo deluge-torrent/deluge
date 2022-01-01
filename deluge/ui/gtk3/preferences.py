@@ -940,6 +940,7 @@ class Preferences(component.Component):
 
     def hide(self):
         self.window_open = False
+        self.builder.get_object('port_spinner').stop()
         self.builder.get_object('port_img').hide()
         self.pref_dialog.hide()
 
@@ -1084,6 +1085,8 @@ class Preferences(component.Component):
         log.debug('on_test_port_clicked')
 
         def on_get_test(status):
+            self.builder.get_object('port_spinner').stop()
+            self.builder.get_object('port_spinner').hide()
             if status:
                 self.builder.get_object('port_img').set_from_icon_name(
                     'emblem-ok-symbolic', Gtk.IconSize.MENU
@@ -1096,12 +1099,8 @@ class Preferences(component.Component):
                 self.builder.get_object('port_img').show()
 
         client.core.test_listen_port().addCallback(on_get_test)
-        # XXX: Consider using gtk.Spinner() instead of the loading gif
-        #      It requires gtk.ver > 2.12
-        self.builder.get_object('port_img').set_from_file(
-            deluge.common.get_pixmap('loading.gif')
-        )
-        self.builder.get_object('port_img').show()
+        self.builder.get_object('port_spinner').start()
+        self.builder.get_object('port_spinner').show()
         client.force_call()
 
     def on_plugin_toggled(self, renderer, path):
