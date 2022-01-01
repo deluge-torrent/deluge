@@ -18,7 +18,7 @@ import deluge.component as component
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
 
-from .dialogs import ErrorDialog, OtherDialog
+from .dialogs import CopyMagnetDialog, ErrorDialog, OtherDialog
 from .path_chooser import PathChooser
 
 log = logging.getLogger(__name__)
@@ -31,6 +31,7 @@ class MenuBar(component.Component):
         self.mainwindow = component.get('MainWindow')
         self.main_builder = self.mainwindow.get_builder()
         self.config = ConfigManager('gtk3ui.conf')
+        self._magnet_copied = False
 
         self.builder = Gtk.Builder()
         # Get the torrent menu from the gtk builder file
@@ -138,6 +139,19 @@ class MenuBar(component.Component):
         self.builder.connect_signals(self)
 
         self.change_sensitivity = ['menuitem_addtorrent']
+
+    def magnet_copied(self):
+        """
+        lets the caller know whether a magnet was copied internally
+
+        the `mainwindow` checks every time the data in the clipboard,
+        so it will automatically open the AddTorrentURL dialog in case it
+        contains a valid link (URL to a torrent or a magnet URI).
+
+        """
+        val = self._magnet_copied
+        self._magnet_copied = False
+        return val
 
     def start(self):
         for widget in self.change_sensitivity:
@@ -278,6 +292,19 @@ class MenuBar(component.Component):
         client.core.resume_torrents(
             component.get('TorrentView').get_selected_torrents()
         )
+
+    def on_menuitem_copymagnet_activate(self, data=None):
+        log.debug('on_menuitem_copymagnet_activate')
+        torrent_ids = component.get('TorrentView').get_selected_torrents()
+        if torrent_ids:
+            def _on_magnet_uri(magnet_uri):
+                def update_copied(response_id):
+                    if dialog.copied:
+                        self._magnet_copied = True
+
+                dialog = CopyMagnetDialog(magnet_uri)
+                dialog.run().addCallback(update_copied)
+            client.core.get_magnet_uri(torrent_ids[0]).addCallback(_on_magnet_uri)
 
     def on_menuitem_updatetracker_activate(self, data=None):
         log.debug('on_menuitem_updatetracker_activate')

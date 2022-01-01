@@ -244,12 +244,12 @@ class AuthenticationDialog(BaseDialog):
 
 class AccountDialog(BaseDialog):
     def __init__(
-        self,
-        username=None,
-        password=None,
-        authlevel=None,
-        levels_mapping=None,
-        parent=None,
+            self,
+            username=None,
+            password=None,
+            authlevel=None,
+            levels_mapping=None,
+            parent=None,
     ):
         if username:
             super().__init__(
@@ -347,7 +347,7 @@ class OtherDialog(BaseDialog):
     """
 
     def __init__(
-        self, header, text='', unit_text='', icon=None, default=0, parent=None
+            self, header, text='', unit_text='', icon=None, default=0, parent=None
     ):
         self.value_type = type(default)
         if self.value_type not in (int, float):
@@ -452,3 +452,49 @@ class PasswordDialog(BaseDialog):
 
     def on_password_activate(self, widget):
         self.response(Gtk.ResponseType.OK)
+
+
+class CopyMagnetDialog(BaseDialog):
+    """
+    Displays a dialog with a magnet URI
+    """
+
+    def __init__(self, torrent_magnet='', parent=None):
+        """
+        Args:
+            torrent_magnet (str): the magnet uri to show
+            parent:
+        """
+        super().__init__(
+            header=_('Copy Magnet URI'),
+            text='',
+            icon='magnet_copy.svg',
+            buttons=(_('_Close'), Gtk.ResponseType.CLOSE),
+            parent=parent
+        )
+        self.copied = False
+
+        table = Gtk.Table(1, 2, False)
+        self.magnet_entry = Gtk.Entry()
+        self.magnet_entry.set_text(torrent_magnet)
+        self.magnet_entry.set_editable(False)
+        self.magnet_entry.connect('copy-clipboard', self.on_copy_emitted)
+        table.attach(self.magnet_entry, 0, 1, 0, 1)
+
+        copy_button = Gtk.Button.new_with_label(_('Copy'))
+        copy_button.connect('clicked', self.on_copy_clicked)
+        table.attach(copy_button, 1, 2, 0, 1)
+
+        self.vbox.pack_start(table, False, False, padding=5)
+        self.set_focus(self.magnet_entry)
+
+        self.show_all()
+
+    def on_copy_clicked(self, widget):
+        self.magnet_entry.select_region(0, -1)
+        self.magnet_entry.copy_clipboard()
+        self.magnet_entry.set_position(0)
+        self.copied = True
+
+    def on_copy_emitted(self, widget):
+        self.copied = True
