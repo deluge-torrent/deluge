@@ -2728,6 +2728,24 @@ used sparingly.</property>
                                               </packing>
                                             </child>
                                             <child>
+                                              <object class="GtkAlignment" id="alignment31">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">False</property>
+                                                <property name="left_padding">10</property>
+                                                <child>
+                                                  <object class="GtkSpinner" id="port_spinner">
+                                                    <property name="visible">False</property>
+                                                    <property name="can_focus">False</property>
+                                                  </object>
+                                                </child>
+                                              </object>
+                                              <packing>
+                                                <property name="expand">False</property>
+                                                <property name="fill">True</property>
+                                                <property name="position">2</property>
+                                              </packing>
+                                            </child>
+                                            <child>
                                               <object class="GtkAlignment" id="alignment48">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">False</property>
@@ -2742,7 +2760,7 @@ used sparingly.</property>
                                               <packing>
                                                 <property name="expand">False</property>
                                                 <property name="fill">True</property>
-                                                <property name="position">2</property>
+                                                <property name="position">3</property>
                                               </packing>
                                             </child>
                                           </object>
