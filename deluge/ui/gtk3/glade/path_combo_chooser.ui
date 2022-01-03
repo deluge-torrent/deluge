@@ -571,6 +571,7 @@
           <object class="GtkEntry" id="entry_text">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="hexpand">True</property>
             <property name="invisible_char">•</property>
             <signal name="changed" handler="on_entry_text_changed" swapped="no"/>
             <signal name="delete-text" handler="on_entry_text_delete_text" swapped="no"/>

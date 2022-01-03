@@ -1150,6 +1150,7 @@ and daemon (does not apply in Standalone mode).</property>
                                     <property name="top_padding">2</property>
                                     <property name="bottom_padding">2</property>
                                     <property name="left_padding">12</property>
+                                    <property name="right_padding">12</property>
                                     <child>
                                       <object class="GtkGrid" id="table9">
                                         <property name="visible">True</property>
