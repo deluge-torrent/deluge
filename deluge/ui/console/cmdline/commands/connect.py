@@ -58,13 +58,8 @@ class Command(BaseCommand):
                 return component.start()
 
             def on_connect_fail(result):
-                try:
-                    msg = result.value.exception_msg
-                except AttributeError:
-                    msg = result.value.message
                 self.console.write(
-                    '{!error!}Failed to connect to %s:%s with reason: %s'
-                    % (host, port, msg)
+                    f'{{!error!}}Failed to connect to {host}:{port} with reason: {result.value.message}'
                 )
                 return result
 
