@@ -324,7 +324,7 @@ class OptionsDialog:
             dialogs.ErrorDialog(_('Incompatible Option'), str(ex), self.dialog).run()
 
     def on_error_show(self, result):
-        d = dialogs.ErrorDialog(_('Error'), result.value.exception_msg, self.dialog)
+        d = dialogs.ErrorDialog(_('Error'), result.value.message, self.dialog)
         result.cleanFailure()
         d.run()
 
