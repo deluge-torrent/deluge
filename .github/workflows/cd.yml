@@ -1,0 +1,79 @@
+name: CD
+
+on:
+  push:
+    tags-ignore:
+      - "*.dev0"
+  pull_request:
+    branches:
+      - develop
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  Build:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        arch: [x64, x86]
+        python: [3.9]
+        libtorrent: [1.2.15]
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python}}
+          architecture: ${{ matrix.arch }}
+
+      - name: Cache pip
+        uses: actions/cache@v2
+        with:
+          path: '%LOCALAPPDATA%\pip\Cache'
+          # Look to see if there is a cache hit for the corresponding requirements file
+          key: ${{ runner.os }}-pip-${{ hashFiles('tox.ini', 'setup.py', 'requirements*.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+            ${{ runner.os }}-
+
+      - name: Install dependencies
+        run: |
+          $WebClient = New-Object System.Net.WebClient
+          $WebClient.DownloadFile("https://github.com/deluge-torrent/gvsbuild-release/releases/download/latest/gvsbuild-py${{ matrix.python }}-vs16-${{ matrix.arch }}.zip","C:\GTK.zip")
+          7z x C:\GTK.zip -oc:\GTK
+          $env:Path = "C:\GTK\release;C:\GTK\release\bin;C:\GTK\release\lib;$env:Path"
+          python -m pip install --upgrade pip wheel
+          $pycairopath = Get-Childitem –Path "C:\GTK\release\python\" -Include pycairo*.whl -File -Recurse -ErrorAction SilentlyContinue | select -expand FullName
+          $PyGObjectpath = Get-Childitem –Path "C:\GTK\release\python\" -Include PyGObject*.whl -File -Recurse -ErrorAction SilentlyContinue | select -expand FullName
+          pip install $pycairopath
+          pip install $PyGObjectpath
+          python -m pip install libtorrent==${{ matrix.libtorrent }}
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Install Deluge
+        run: |
+          pip install .
+          python setup.py install_scripts
+
+      - name: Freeze Deluge
+        run: |
+          $env:Path = "C:\GTK\release;C:\GTK\release\bin;C:\GTK\release\lib;$env:Path"
+          pyinstaller --clean $env:GITHUB_WORKSPACE\packaging\win\delugewin.spec --distpath $env:GITHUB_WORKSPACE\packaging\win\freeze
+
+      - name: Make Deluge Installer
+        working-directory: ./packaging/win
+        run: |
+          python setup_nsis.py
+          makensis /Darch=${{ matrix.arch }} deluge-win-installer.nsi
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: deluge-py${{matrix.python}}-lt${{matrix.libtorrent}}
+          path: packaging/win/*.exe

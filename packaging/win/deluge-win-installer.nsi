@@ -9,7 +9,7 @@
 #
 
 # Script version; displayed when running the installer
-!define DELUGE_INSTALLER_VERSION "1.0"
+!define DELUGE_INSTALLER_VERSION "2.0"
 
 # Deluge program information
 !define PROGRAM_NAME "Deluge"
@@ -21,10 +21,17 @@
 !define PROGRAM_WEB_SITE "http://deluge-torrent.org"
 !define LICENSE_FILEPATH "..\..\LICENSE"
 
-# Python files generated with bbfreeze
-!define BUILD_DIR "build-win32"
-!define BBFREEZE_DIR "${BUILD_DIR}\deluge-bbfreeze-${PROGRAM_VERSION}"
+!include FileFunc.nsh
+
+!ifndef arch
+!define INSTALLER_FILENAME "deluge-${PROGRAM_VERSION}-win64-setup.exe"
+!endif
+!If "${arch}" == "x64"
+!define INSTALLER_FILENAME "deluge-${PROGRAM_VERSION}-win64-setup.exe"
+!EndIf
+!If "${arch}" == "x86"
 !define INSTALLER_FILENAME "deluge-${PROGRAM_VERSION}-win32-setup.exe"
+!EndIf
 
 # Set default compressor
 SetCompressor /FINAL /SOLID lzma
@@ -69,8 +76,6 @@ Var StartMenuFolder
 !insertmacro MUI_PAGE_STARTMENU Application $StartMenuFolder
 # Run installation
 !insertmacro MUI_PAGE_INSTFILES
-# Popup Message if VC Redist missing
-Page Custom VCRedistMessage
 # Display 'finished' page
 !insertmacro MUI_PAGE_FINISH
 # Uninstaller pages
@@ -105,45 +110,6 @@ Function finishpageaction
     CreateShortCut "$DESKTOP\Deluge.lnk" "$INSTDIR\deluge.exe"
 FunctionEnd
 
-# Test if Visual Studio Redistributables 2008 SP1 installed and returns -1 if none installed
-Function CheckVCRedist2008
-    Push $R0
-    ClearErrors
-    ReadRegDword $R0 HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{FF66E9F6-83E7-3A3E-AF14-8DE9A809A6A4}" "Version"
-    IfErrors 0 +2
-        StrCpy $R0 "-1"
-
-    Push $R1
-    ClearErrors
-    ReadRegDword $R1 HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{9BE518E6-ECC6-35A9-88E4-87755C07200F}" "Version"
-    IfErrors 0 VSRedistInstalled
-        StrCpy $R1 "-1"
-
-    StrCmp $R0 "-1" +3 0
-        Exch $R0
-        Goto VSRedistInstalled
-    StrCmp $R1 "-1" +3 0
-        Exch $R1
-        Goto VSRedistInstalled
-    # else
-        Push "-1"
-    VSRedistInstalled:
-FunctionEnd
-
-Function VCRedistMessage
-    Call CheckVCRedist2008
-    Pop $R0
-    StrCmp $R0 "-1" 0 end
-    MessageBox MB_YESNO|MB_ICONEXCLAMATION "Deluge requires an MSVC package to run \
-    but the recommended package does not appear to be installed:$\r$\n$\r$\n\
-    Microsoft Visual C++ 2008 SP1 Redistributable Package (x86)$\r$\n$\r$\n\
-    Would you like to download it now?" /SD IDNO IDYES clickyes
-    Goto end
-    clickyes:
-        ExecShell open "https://www.microsoft.com/en-us/download/details.aspx?id=26368"
-    end:
-FunctionEnd
-
 # --- Installation sections ---
 !define PROGRAM_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PROGRAM_NAME}"
 !define PROGRAM_UNINST_ROOT_KEY "HKLM"
@@ -151,8 +117,17 @@ FunctionEnd
 
 BrandingText "${PROGRAM_NAME} Windows Installer v${DELUGE_INSTALLER_VERSION}"
 Name "${PROGRAM_NAME} ${PROGRAM_VERSION}"
-OutFile "${BUILD_DIR}\${INSTALLER_FILENAME}"
-InstallDir "$PROGRAMFILES\Deluge"
+OutFile "${INSTALLER_FILENAME}"
+
+!ifndef arch
+InstallDir "$PROGRAMFILES64\Deluge"
+!endif
+!If "${arch}" == "x64"
+InstallDir "$PROGRAMFILES64\Deluge"
+!endIf
+!If "${arch}" == "x86"
+InstallDir "$PROGRAMFILES32\Deluge"
+!endIf
 
 ShowInstDetails show
 ShowUnInstDetails show
