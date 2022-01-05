@@ -14,7 +14,6 @@ from . import common
 from .basetest import BaseTestCase
 
 common.set_tmp_config_dir()
-deluge.ui.tracker_icons.PIL_INSTALLED = False
 common.disable_new_release_check()
 
 
@@ -41,6 +40,15 @@ class TrackerIconsTestCase(BaseTestCase):
         # So instead we'll grab its favicon.ico
         icon = TrackerIcon(common.get_test_data_file('google.ico'))
         d = self.icons.fetch('www.google.com')
+        d.addCallback(self.assertNotIdentical, None)
+        d.addCallback(self.assertEqual, icon)
+        return d
+
+    def test_get_google_ico_hebrew(self):
+        # Google.co.il page must be read as UTF-8
+        # So we'll test whether it can be read
+        icon = TrackerIcon(common.get_test_data_file('google.ico'))
+        d = self.icons.fetch('www.google.co.il')
         d.addCallback(self.assertNotIdentical, None)
         d.addCallback(self.assertEqual, icon)
         return d

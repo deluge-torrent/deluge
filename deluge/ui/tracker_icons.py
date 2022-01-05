@@ -22,6 +22,11 @@ from deluge.decorators import proxy
 from deluge.httpdownloader import download_file
 
 try:
+    import chardet
+except ImportError:
+    chardet = None
+
+try:
     from PIL import Image
 except ImportError:
     Image = None
@@ -289,7 +294,13 @@ class TrackerIcons(Component):
         :returns: a Deferred which callbacks a list of available favicons (url, type)
         :rtype: Deferred
         """
-        with open(page) as _file:
+        encoding = 'UTF-8'
+        if chardet:
+            with open(page, 'rb') as _file:
+                result = chardet.detect(_file.read())
+                encoding = result['encoding']
+
+        with open(page, encoding=encoding) as _file:
             parser = FaviconParser()
             for line in _file:
                 parser.feed(line)
