@@ -115,17 +115,21 @@ class DelugeTransferProtocol(Protocol):
             self._message_length = 0
             self._buffer = b''
 
-    def _handle_complete_message(self, data):
+    def _handle_complete_message(self, data, decode_utf8=True):
         """
         Handles a complete message as it is transferred on the network.
 
-        :param data: a zlib compressed string encoded with rencode.
+        Args:
+            data: a zlib compressed string encoded with rencode.
+            decode_utf8: try to decode as utf8. Default: True
 
         """
         try:
             self.message_received(
-                rencode.loads(zlib.decompress(data), decode_utf8=True)
+                rencode.loads(zlib.decompress(data), decode_utf8=decode_utf8)
             )
+        except UnicodeDecodeError:
+            self._handle_complete_message(data, decode_utf8=False)
         except Exception as ex:
             log.warning(
                 'Failed to decompress (%d bytes) and load serialized data with rencode: %s',

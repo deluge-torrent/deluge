@@ -263,6 +263,7 @@ class AddTorrentDialog(component.Component):
     def _on_uri_metadata(self, result, uri, trackers):
         """Process prefetched metadata to allow file priority selection."""
         info_hash, metadata = result
+        info_hash = info_hash.decode()  # info_hash is bytes, we need it to be Unicode
         log.debug('magnet metadata for %s (%s)', uri, info_hash)
         if info_hash not in self.prefetching_magnets:
             return
