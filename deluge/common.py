@@ -699,6 +699,9 @@ def is_url(url):
     True
 
     """
+    if not url:
+        return False
+
     return url.partition('://')[0] in ('http', 'https', 'ftp', 'udp')
 
 
@@ -713,6 +716,9 @@ def is_infohash(infohash):
         bool: True if valid infohash, False otherwise.
 
     """
+    if not infohash:
+        return False
+
     return len(infohash) == 40 and infohash.isalnum()
 
 
