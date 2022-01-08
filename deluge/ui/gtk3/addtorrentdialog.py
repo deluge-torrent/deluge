@@ -8,7 +8,7 @@
 
 import logging
 import os
-from base64 import b64encode
+from base64 import b64decode, b64encode
 from xml.sax.saxutils import escape as xml_escape
 from xml.sax.saxutils import unescape as xml_unescape
 
@@ -16,6 +16,7 @@ from gi.repository import Gtk
 from gi.repository.GObject import TYPE_INT64, TYPE_UINT64
 
 import deluge.component as component
+from deluge.bencode import bdecode
 from deluge.common import (
     create_magnet_uri,
     decode_bytes,
@@ -268,6 +269,7 @@ class AddTorrentDialog(component.Component):
             return
 
         if metadata:
+            metadata = bdecode(b64decode(metadata))
             info = TorrentInfo.from_metadata(metadata, [[t] for t in trackers])
             self.files[info_hash] = info.files
             self.infos[info_hash] = info.filedata

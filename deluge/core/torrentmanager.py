@@ -13,6 +13,7 @@ import operator
 import os
 import pickle
 import time
+from base64 import b64encode
 from collections import namedtuple
 from tempfile import gettempdir
 
@@ -396,12 +397,12 @@ class TorrentManager(component.Component):
         else:
             self.session.remove_torrent(torrent_handle, 1)
 
-        metadata = None
+        metadata = b''
         if isinstance(torrent_info, lt.torrent_info):
             log.debug('prefetch metadata received')
-            metadata = lt.bdecode(torrent_info.metadata())
+            metadata = torrent_info.metadata()
 
-        return torrent_id, metadata
+        return torrent_id, b64encode(metadata)
 
     def _build_torrent_options(self, options):
         """Load default options and update if needed."""

@@ -432,12 +432,14 @@ class Core(component.Component):
 
         Used by UIs to get magnet files for selection before adding to session.
 
+        The metadata is bencoded and for transfer base64 encoded.
+
         Args:
             magnet (str): The magnet URI.
             timeout (int): Number of seconds to wait before canceling request.
 
         Returns:
-            Deferred: A tuple of (torrent_id (str), metadata (dict)) for the magnet.
+            Deferred: A tuple of (torrent_id (str), metadata (str)) for the magnet.
 
         """
 
