@@ -1,0 +1,65 @@
+name: CD-Mac
+
+on:
+  push:
+    tags-ignore:
+      - "*.dev0"
+  pull_request:
+    branches:
+      - develop
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  Build-Mac:
+    runs-on: macos-10.15
+    strategy:
+      matrix:
+        arch: [x64]
+        python: [3.9]
+        libtorrent: [1.2.15]
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python}}
+          architecture: ${{ matrix.arch }}
+
+      - name: Cache pip
+        uses: actions/cache@v2
+        with:
+          path: "~/Library/Caches/pip"
+          # Look to see if there is a cache hit for the corresponding requirements file
+          key: ${{ runner.os }}-pip-${{ hashFiles('tox.ini', 'setup.py', 'requirements*.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+            ${{ runner.os }}-
+
+      - name: Install dependencies
+        run: |
+          brew install gtk+3 adwaita-icon-theme
+          python -m pip install --upgrade pip
+          python -m pip install wheel pyinstaller PyGObject libtorrent==${{ matrix.libtorrent }}
+          pip install -r requirements.txt
+
+      - name: Install Deluge
+        run: |
+          pip install .
+          python setup.py install_scripts
+
+      - name: Freeze Deluge
+        run: |
+          pyinstaller --clean $GITHUB_WORKSPACE/packaging/osx/delugemac.spec --distpath $GITHUB_WORKSPACE/packaging/osx/freeze
+          hdiutil create -fs APFS -srcfolder $GITHUB_WORKSPACE/packaging/osx/freeze -volname Deluge $GITHUB_WORKSPACE/packaging/osx/freeze/Deluge.dmg
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: deluge-py${{matrix.python}}-lt${{matrix.libtorrent}}
+          path: packaging/osx/freeze/Deluge.dmg
