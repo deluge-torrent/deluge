@@ -67,6 +67,12 @@ jobs:
           $env:Path = "C:\GTK\release;C:\GTK\release\bin;C:\GTK\release\lib;$env:Path"
           pyinstaller --clean $env:GITHUB_WORKSPACE\packaging\win\delugewin.spec --distpath $env:GITHUB_WORKSPACE\packaging\win\freeze
 
+      - name: Fix OpenSSL For Libtorrent
+        if: ${{ matrix.arch == 'x64' }}
+        run: |
+          Copy-Item -Path $env:GITHUB_WORKSPACE\packaging\win\freeze\Deluge\libssl-1_1.dll -Destination $env:GITHUB_WORKSPACE\packaging\win\freeze\Deluge\libssl-1_1-x64.dll
+          Copy-Item -Path $env:GITHUB_WORKSPACE\packaging\win\freeze\Deluge\libcrypto-1_1.dll -Destination $env:GITHUB_WORKSPACE\packaging\win\freeze\Deluge\libcrypto-1_1-x64.dll
+
       - name: Make Deluge Installer
         working-directory: ./packaging/win
         run: |
