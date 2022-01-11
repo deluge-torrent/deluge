@@ -481,10 +481,15 @@ if not windows_check() and not osx_check():
 
 _entry_points['console_scripts'] = [
     'deluge-console = deluge.ui.console:start',
-    'deluge-web = deluge.ui.web:start',
-    'deluged = deluge.core.daemon_entry:start_daemon',
 ]
-if windows_check():
+if not windows_check():
+    _entry_points['console_scripts'].extend(
+        [
+            'deluge-web = deluge.ui.web:start',
+            'deluged = deluge.core.daemon_entry:start_daemon',
+        ]
+    )
+else:
     _entry_points['console_scripts'].extend(
         [
             'deluge-debug = deluge.ui.ui_entry:start_ui',
@@ -496,6 +501,13 @@ _entry_points['gui_scripts'] = [
     'deluge = deluge.ui.ui_entry:start_ui',
     'deluge-gtk = deluge.ui.gtk3:start',
 ]
+if windows_check():
+    _entry_points['gui_scripts'].extend(
+        [
+            'deluge-web = deluge.ui.web:start',
+            'deluged = deluge.core.daemon_entry:start_daemon',
+        ]
+    )
 _entry_points['deluge.ui'] = [
     'console = deluge.ui.console:Console',
     'web = deluge.ui.web:Web',
