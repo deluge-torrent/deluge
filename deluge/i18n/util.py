@@ -114,6 +114,7 @@ def setup_translation():
 
         def load_libintl(libintls):
             errors = []
+            libintl = None
             for library in libintls:
                 try:
                     libintl = ctypes.cdll.LoadLibrary(library)
