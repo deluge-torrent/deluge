@@ -254,28 +254,37 @@ class PluginManagerBase:
 
     def get_plugin_info(self, name):
         """Returns a dictionary of plugin info from the metadata"""
-        info = {}.fromkeys(METADATA_KEYS)
-        last_header = ''
-        cont_lines = []
-        # Missing plugin info
+
         if not self.pkg_env[name]:
             log.warning('Failed to retrieve info for plugin: %s', name)
-            for k in info:
-                info[k] = 'not available'
+            info = {}.fromkeys(METADATA_KEYS, '')
+            info['Name'] = info['Version'] = 'not available'
             return info
-        for line in self.pkg_env[name][0].get_metadata('PKG-INFO').splitlines():
+
+        pkg_info = self.pkg_env[name][0].get_metadata('PKG-INFO')
+        return self.parse_pkg_info(pkg_info)
+
+    @staticmethod
+    def parse_pkg_info(pkg_info):
+        last_header = ''
+        cont_lines = []
+        info = {}.fromkeys(METADATA_KEYS, '')
+
+        for line in pkg_info.splitlines():
             if not line:
                 continue
+
             if line[0] in ' \t' and (
                 len(line.split(':', 1)) == 1 or line.split(':', 1)[0] not in info
             ):
                 # This is a continuation
                 cont_lines.append(line.strip())
-            else:
-                if cont_lines:
-                    info[last_header] = '\n'.join(cont_lines).strip()
-                    cont_lines = []
-                if line.split(':', 1)[0] in info:
-                    last_header = line.split(':', 1)[0]
-                    info[last_header] = line.split(':', 1)[1].strip()
+                continue
+
+            if cont_lines:
+                info[last_header] = '\n'.join(cont_lines).strip()
+                cont_lines = []
+            if line.split(':', 1)[0] in info:
+                last_header = line.split(':', 1)[0]
+                info[last_header] = line.split(':', 1)[1].strip()
         return info

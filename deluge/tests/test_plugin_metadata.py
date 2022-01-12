@@ -20,9 +20,10 @@ class PluginManagerBaseTestCase(BaseTestCase):
         pm = PluginManagerBase('core.conf', 'deluge.plugin.core')
         for p in pm.get_available_plugins():
             for key, value in pm.get_plugin_info(p).items():
-                self.assertTrue(isinstance(f'{key}: {value}', ''.__class__))
+                self.assertTrue(isinstance(f'{key}: {value}', str))
 
     def test_get_plugin_info_invalid_name(self):
         pm = PluginManagerBase('core.conf', 'deluge.plugin.core')
         for key, value in pm.get_plugin_info('random').items():
-            self.assertEqual(value, 'not available')
+            result = 'not available' if key in ('Name', 'Version') else ''
+            self.assertEqual(value, result)
