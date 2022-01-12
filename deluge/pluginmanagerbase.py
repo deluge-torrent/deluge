@@ -8,6 +8,7 @@
 
 
 """PluginManagerBase"""
+import email
 import logging
 import os.path
 
@@ -266,25 +267,13 @@ class PluginManagerBase:
 
     @staticmethod
     def parse_pkg_info(pkg_info):
-        last_header = ''
-        cont_lines = []
-        info = {}.fromkeys(METADATA_KEYS, '')
+        metadata_msg = email.message_from_string(pkg_info)
+        metadata_ver = metadata_msg.get('Metadata-Version')
 
-        for line in pkg_info.splitlines():
-            if not line:
-                continue
+        info = {key: metadata_msg.get(key, '') for key in METADATA_KEYS}
 
-            if line[0] in ' \t' and (
-                len(line.split(':', 1)) == 1 or line.split(':', 1)[0] not in info
-            ):
-                # This is a continuation
-                cont_lines.append(line.strip())
-                continue
+        # Optional Description field in body (Metadata spec >=2.1)
+        if not info['Description'] and metadata_ver.startswith('2'):
+            info['Description'] = metadata_msg.get_payload().strip()
 
-            if cont_lines:
-                info[last_header] = '\n'.join(cont_lines).strip()
-                cont_lines = []
-            if line.split(':', 1)[0] in info:
-                last_header = line.split(':', 1)[0]
-                info[last_header] = line.split(':', 1)[1].strip()
         return info
