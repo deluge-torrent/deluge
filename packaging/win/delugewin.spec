@@ -18,6 +18,11 @@ datas += copy_metadata('service-identity', recursive=True)
 tmp_ret = collect_all('deluge')
 hiddenimports += tmp_ret[2]
 
+#Add Hidden Imports for Plugins
+tmp_ret2 = collect_all('twisted')
+hiddenimports += tmp_ret2[2]
+datas += copy_metadata('twisted', recursive=True)
+
 # Get build_version from installed deluge.
 build_version = deluge.common.get_version()
 
