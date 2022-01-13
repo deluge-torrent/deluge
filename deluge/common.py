@@ -75,6 +75,9 @@ JSON_FORMAT = {'indent': 4, 'sort_keys': True, 'ensure_ascii': False}
 DBUS_FM_ID = 'org.freedesktop.FileManager1'
 DBUS_FM_PATH = '/org/freedesktop/FileManager1'
 
+# Retained for plugin backward compatibility
+PY2 = False
+
 
 def get_version():
     """The program version from the egg metadata.
