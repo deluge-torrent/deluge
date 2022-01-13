@@ -2,9 +2,14 @@ name: CD
 
 on:
   push:
+    tags:
+      - "deluge-*"
     tags-ignore:
       - "*.dev0"
+    branches:
+      - develop
   pull_request:
+    types: [labeled, opened, synchronize, reopened]
     branches:
       - develop
 
@@ -14,6 +19,7 @@ on:
 jobs:
   Build:
     runs-on: windows-latest
+    if: (github.event_name != 'pull_request' || github.event.label.name == 'windows'))
     strategy:
       matrix:
         arch: [x64, x86]
