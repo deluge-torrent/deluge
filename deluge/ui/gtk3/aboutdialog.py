@@ -6,6 +6,8 @@
 # See LICENSE for more details.
 #
 
+from datetime import date
+
 from gi.repository import Gtk
 
 import deluge.component as component
@@ -35,7 +37,7 @@ class AboutDialog:
 
         self.about.set_copyright(
             _('Copyright %(year_start)s-%(year_end)s Deluge Team')
-            % {'year_start': 2007, 'year_end': 2019}
+            % {'year_start': 2007, 'year_end': date.today().year}
         )
         self.about.set_comments(
             _('A peer-to-peer file sharing program\nutilizing the BitTorrent protocol.')
