@@ -4,8 +4,7 @@ on:
   push:
     tags:
       - "deluge-*"
-    tags-ignore:
-      - "*.dev0"
+      - "!deluge*-dev*"
     branches:
       - develop
   pull_request:
