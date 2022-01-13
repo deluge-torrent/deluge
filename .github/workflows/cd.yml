@@ -18,7 +18,7 @@ on:
 jobs:
   Build:
     runs-on: windows-latest
-    if: (github.event_name != 'pull_request' || github.event.label.name == 'windows'))
+    if: (github.event_name != 'pull_request' || github.event.label.name == 'windows')
     strategy:
       matrix:
         arch: [x64, x86]
