@@ -54,12 +54,12 @@ jobs:
           python -m pip install --upgrade pip wheel
           $pycairopath = Get-Childitem –Path "C:\GTK\release\python\" -Include pycairo*.whl -File -Recurse -ErrorAction SilentlyContinue | select -expand FullName
           $PyGObjectpath = Get-Childitem –Path "C:\GTK\release\python\" -Include PyGObject*.whl -File -Recurse -ErrorAction SilentlyContinue | select -expand FullName
-          pip install $pycairopath
-          pip install $PyGObjectpath
-          pip install https://github.com/doadin/twisted/releases/download/latest/Twisted-21.7.0.post0-py3-none-any.whl
+          python -m pip install $pycairopath
+          python -m pip install $PyGObjectpath
+          python -m pip install https://github.com/doadin/twisted/releases/download/latest/Twisted-21.7.0.post0-py3-none-any.whl
           python -m pip install libtorrent==${{ matrix.libtorrent }} pygame
-          pip install -r requirements.txt
-          pip install pyinstaller
+          python -m pip install -r requirements.txt
+          python -m pip install pyinstaller
 
       - name: Install Deluge
         run: |
