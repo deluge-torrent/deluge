@@ -65,6 +65,7 @@ jobs:
           https://github.com/doadin/twisted/releases/download/latest/Twisted-21.7.0.post0-py3-none-any.whl
           libtorrent==${{ matrix.libtorrent }}
           pyinstaller
+          pygame
           -r requirements.txt
 
       - name: Install Deluge

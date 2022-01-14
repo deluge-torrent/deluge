@@ -8,7 +8,7 @@ from PyInstaller.utils.hooks import collect_all, copy_metadata
 
 datas = []
 binaries = []
-hiddenimports = []
+hiddenimports = ['pygame']
 runtime_hooks_gtk = [os.path.join(SPECPATH, 'pyi_rth_gtk_csd.py')]
 
 # Collect Meta Data
