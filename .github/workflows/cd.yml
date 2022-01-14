@@ -9,8 +9,6 @@ on:
       - develop
   pull_request:
     types: [labeled, opened, synchronize, reopened]
-    branches:
-      - develop
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
