@@ -2,9 +2,7 @@
 # -*- mode: python ; coding: utf-8 -*-
 import os
 import sys
-import deluge.common
-from PyInstaller.compat import is_win
-from PyInstaller.utils.hooks import collect_all, copy_metadata
+from PyInstaller.utils.hooks import collect_submodules, copy_metadata
 
 datas = []
 binaries = []
@@ -15,16 +13,26 @@ datas += copy_metadata('deluge', recursive=True)
 datas += copy_metadata('service-identity', recursive=True)
 
 # Add Deluge Hidden Imports
-tmp_ret = collect_all('deluge')
-hiddenimports += tmp_ret[2]
+hiddenimports += collect_submodules('deluge')
 
-#Add Hidden Imports for Plugins
-tmp_ret2 = collect_all('twisted')
-hiddenimports += tmp_ret2[2]
+# Add Hidden Imports for Plugins
+# Add stdlib as Hidden Imports.
+# This is filtered list that excludes some common examples or stuff not useful in plugins (such as tty, mailbox, tutledemo etc.).
+# It is safe to assume that 90% of that list would already be included anyway.
+if sys.version_info.major >= 3 and sys.version_info.minor < 10:
+    stdlib = [ 'string', 're', 'unicodedata', 'struct', 'codecs', 'datetime', 'zoneinfo', 'calendar', 'collections', 'array', 'weakref',
+    'types', 'copy', 'enum', 'numbers', 'math', 'cmath', 'decimal', 'fractions', 'random', 'statistics', 'itertools', 'functools',
+    'operator', 'pathlib', 'fileinput', 'stat', 'tempfile', 'glob', 'fnmatch', 'shutil', 'pickle', 'copyreg', 'shelve', 'marshal',
+    'dom', 'sqlite3', 'zlib', 'gzip', 'bz2', 'lzma', 'csv', 'hashlib', 'hmac', 'secrets', 'os', 'io', 'time', 'logging', 'platform',
+    'errno', 'queue', 'socket', 'ssl', 'email', 'json', 'mimetypes', 'base64', 'binhex', 'binascii', 'quopri', 'uu', 'html', 'xml',
+    'urllib', 'http', 'ftplib', 'smtplib', 'uuid', 'xmlrpc.client', 'ipaddress', 'locale', 'sys' ]
+    for module in stdlib:
+        hiddenimports += collect_submodules(module, filter=lambda name: 'test' not in name)
+if sys.version_info.major >= 3 and sys.version_info.minor >= 10:
+    for module in sys.stdlib_module_names:
+        hiddenimports += collect_submodules(module, filter=lambda name: 'test' not in name)
+hiddenimports += collect_submodules('twisted', filter=lambda name: 'test' not in name)
 datas += copy_metadata('twisted', recursive=True)
-
-# Get build_version from installed deluge.
-build_version = deluge.common.get_version()
 
 #Copy UI/Plugin files to where pyinstaller expects
 datas += [ ('../../deluge/ui', 'deluge/ui'),
