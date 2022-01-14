@@ -6,7 +6,7 @@ from PyInstaller.utils.hooks import collect_submodules, copy_metadata
 
 datas = []
 binaries = []
-hiddenimports = []
+hiddenimports = ['pygame']
 
 # Collect Meta Data
 datas += copy_metadata('deluge', recursive=True)

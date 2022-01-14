@@ -57,7 +57,7 @@ jobs:
           pip install $pycairopath
           pip install $PyGObjectpath
           pip install https://github.com/doadin/twisted/releases/download/latest/Twisted-21.7.0.post0-py3-none-any.whl
-          python -m pip install libtorrent==${{ matrix.libtorrent }}
+          python -m pip install libtorrent==${{ matrix.libtorrent }} pygame
           pip install -r requirements.txt
           pip install pyinstaller
 
