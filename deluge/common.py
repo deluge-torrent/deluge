@@ -938,12 +938,13 @@ def is_ipv4(ip):
     import socket
 
     try:
-        if windows_check():
-            return socket.inet_aton(ip)
-        else:
-            return socket.inet_pton(socket.AF_INET, ip)
+        for interface in ip.split(','):
+            socket.inet_pton(socket.AF_INET, interface)
+        return True
     except OSError:
-        return False
+        log.warning('Unable to verify IPv6 Address with socket.')
+
+    return False
 
 
 def is_ipv6(ip):
@@ -961,22 +962,14 @@ def is_ipv6(ip):
 
     """
 
-    try:
-        import ipaddress
-    except ImportError:
-        import socket
+    import socket
 
-        try:
-            return socket.inet_pton(socket.AF_INET6, ip)
-        except (OSError, AttributeError):
-            if windows_check():
-                log.warning('Unable to verify IPv6 Address on Windows.')
-                return True
-    else:
-        try:
-            return ipaddress.IPv6Address(decode_bytes(ip))
-        except ipaddress.AddressValueError:
-            pass
+    try:
+        for interface in ip.split(','):
+            socket.inet_pton(socket.AF_INET6, interface)
+        return True
+    except OSError:
+        log.warning('Unable to verify IPv6 Address with socket.')
 
     return False
 
