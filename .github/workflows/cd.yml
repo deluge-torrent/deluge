@@ -1,4 +1,4 @@
-name: CD
+name: Package
 
 on:
   push:
@@ -14,14 +14,14 @@ on:
   workflow_dispatch:
 
 jobs:
-  Build:
+  windows_package:
     runs-on: windows-latest
     if: (github.event_name != 'pull_request' || github.event.label.name == 'windows')
     strategy:
       matrix:
         arch: [x64, x86]
         python: [3.9]
-        libtorrent: [1.2.15]
+        libtorrent: [2.0.5, 1.2.15]
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -85,5 +85,5 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: deluge-py${{matrix.python}}-lt${{matrix.libtorrent}}
+          name: deluge-py${{ matrix.python }}-lt${{ matrix.libtorrent }}-${{ matrix.arch }}
           path: packaging/win/*.exe
