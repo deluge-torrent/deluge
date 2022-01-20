@@ -4,6 +4,7 @@ pyopenssl
 pyxdg
 pillow
 mako
+setuptools
 chardet
 setproctitle
 pywin32; sys_platform == 'win32'
