@@ -515,7 +515,7 @@ class WebApi(JSONComponent):
             return d
 
         def got_stats(stats):
-            ui_info['stats']['num_connections'] = stats['num_peers']
+            ui_info['stats']['num_connections'] = stats['peer.num_peers_connected']
             ui_info['stats']['upload_rate'] = stats['payload_upload_rate']
             ui_info['stats']['download_rate'] = stats['payload_download_rate']
             ui_info['stats']['download_protocol_rate'] = (
@@ -524,9 +524,9 @@ class WebApi(JSONComponent):
             ui_info['stats']['upload_protocol_rate'] = (
                 stats['upload_rate'] - stats['payload_upload_rate']
             )
-            ui_info['stats']['dht_nodes'] = stats['dht_nodes']
+            ui_info['stats']['dht_nodes'] = stats['dht.dht_nodes']
             ui_info['stats']['has_incoming_connections'] = stats[
-                'has_incoming_connections'
+                'net.has_incoming_connections'
             ]
 
         def got_filters(filters):
@@ -552,13 +552,13 @@ class WebApi(JSONComponent):
 
         d3 = client.core.get_session_status(
             [
-                'num_peers',
+                'peer.num_peers_connected',
                 'payload_download_rate',
                 'payload_upload_rate',
                 'download_rate',
                 'upload_rate',
-                'dht_nodes',
-                'has_incoming_connections',
+                'dht.dht_nodes',
+                'net.has_incoming_connections',
             ]
         )
         d3.addCallback(got_stats)

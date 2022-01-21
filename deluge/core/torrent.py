@@ -80,7 +80,7 @@ def convert_lt_files(files):
     """Indexes and decodes files from libtorrent get_files().
 
     Args:
-        files (list): The libtorrent torrent files.
+        files (file_storage): The libtorrent torrent files.
 
     Returns:
         list of dict: The files.
@@ -95,18 +95,18 @@ def convert_lt_files(files):
             }
     """
     filelist = []
-    for index, _file in enumerate(files):
+    for index in range(files.num_files()):
         try:
-            file_path = _file.path.decode('utf8')
+            file_path = files.file_path(index).decode('utf8')
         except AttributeError:
-            file_path = _file.path
+            file_path = files.file_path(index)
 
         filelist.append(
             {
                 'index': index,
                 'path': file_path.replace('\\', '/'),
-                'size': _file.size,
-                'offset': _file.offset,
+                'size': files.file_size(index),
+                'offset': files.file_offset(index),
             }
         )
 
@@ -236,7 +236,7 @@ class Torrent:
         self.magnet = magnet
         self.status = self.handle.status()
 
-        self.torrent_info = self.handle.get_torrent_info()
+        self.torrent_info = self.handle.torrent_file()
         self.has_metadata = self.status.has_metadata
 
         self.options = TorrentOptions()
@@ -274,6 +274,18 @@ class Torrent:
 
         if log.isEnabledFor(logging.DEBUG):
             log.debug('Torrent object created.')
+
+    def _set_handle_flags(self, flag: lt.torrent_flags, set_flag: bool):
+        """set or unset a flag to the lt handle
+
+        Args:
+            flag (lt.torrent_flags): the flag to set/unset
+            set_flag (bool): True for setting the flag, False for unsetting it
+        """
+        if set_flag:
+            self.handle.set_flags(flag)
+        else:
+            self.handle.unset_flags(flag)
 
     def on_metadata_received(self):
         """Process the metadata received alert for this torrent"""
@@ -359,7 +371,7 @@ class Torrent:
         """Sets maximum download speed for this torrent.
 
         Args:
-            m_up_speed (float): Maximum download speed in KiB/s.
+            m_down_speed (float): Maximum download speed in KiB/s.
         """
         self.options['max_download_speed'] = m_down_speed
         if m_down_speed < 0:
@@ -391,7 +403,7 @@ class Torrent:
             return
 
         # A list of priorities for each piece in the torrent
-        priorities = self.handle.piece_priorities()
+        priorities = self.handle.get_piece_priorities()
 
         def get_file_piece(idx, byte_offset):
             return self.torrent_info.map_file(idx, byte_offset, 0).piece
@@ -424,7 +436,10 @@ class Torrent:
             sequential (bool): Enable sequential downloading.
         """
         self.options['sequential_download'] = sequential
-        self.handle.set_sequential_download(sequential)
+        self._set_handle_flags(
+            flag=lt.torrent_flags.sequential_download,
+            set_flag=sequential,
+        )
 
     def set_auto_managed(self, auto_managed):
         """Set auto managed mode, i.e. will be started or queued automatically.
@@ -434,7 +449,10 @@ class Torrent:
         """
         self.options['auto_managed'] = auto_managed
         if not (self.status.paused and not self.status.auto_managed):
-            self.handle.auto_managed(auto_managed)
+            self._set_handle_flags(
+                flag=lt.torrent_flags.auto_managed,
+                set_flag=auto_managed,
+            )
             self.update_state()
 
     def set_super_seeding(self, super_seeding):
@@ -444,7 +462,10 @@ class Torrent:
             super_seeding (bool): Enable super seeding.
         """
         self.options['super_seeding'] = super_seeding
-        self.handle.super_seeding(super_seeding)
+        self._set_handle_flags(
+            flag=lt.torrent_flags.super_seeding,
+            set_flag=super_seeding,
+        )
 
     def set_stop_ratio(self, stop_ratio):
         """The seeding ratio to stop (or remove) the torrent at.
@@ -505,7 +526,7 @@ class Torrent:
             self.handle.prioritize_files(file_priorities)
         else:
             log.debug('Unable to set new file priorities.')
-            file_priorities = self.handle.file_priorities()
+            file_priorities = self.handle.get_file_priorities()
 
         if 0 in self.options['file_priorities']:
             # Previously marked a file 'skip' so check for any 0's now >0.
@@ -632,7 +653,10 @@ class Torrent:
         elif status_error:
             self.state = 'Error'
             # auto-manage status will be reverted upon resuming.
-            self.handle.auto_managed(False)
+            self._set_handle_flags(
+                flag=lt.torrent_flags.auto_managed,
+                set_flag=False,
+            )
             self.set_status_message(decode_bytes(status_error))
         elif status.moving_storage:
             self.state = 'Moving'
@@ -686,7 +710,10 @@ class Torrent:
                 session can resume.
         """
         status = self.handle.status()
-        self.handle.auto_managed(False)
+        self._set_handle_flags(
+            flag=lt.torrent_flags.auto_managed,
+            set_flag=False,
+        )
         self.forced_error = TorrentError(message, status.paused, restart_to_resume)
         if not status.paused:
             self.handle.pause()
@@ -700,7 +727,10 @@ class Torrent:
             log.error('Restart deluge to clear this torrent error')
 
         if not self.forced_error.was_paused and self.options['auto_managed']:
-            self.handle.auto_managed(True)
+            self._set_handle_flags(
+                flag=lt.torrent_flags.auto_managed,
+                set_flag=True,
+            )
         self.forced_error = None
         self.set_status_message('OK')
         if update_state:
@@ -843,7 +873,7 @@ class Torrent:
 
     def get_file_priorities(self):
         """Return the file priorities"""
-        if not self.handle.has_metadata():
+        if not self.handle.status().has_metadata:
             return []
 
         if not self.options['file_priorities']:
@@ -932,10 +962,10 @@ class Torrent:
 
         if self.has_metadata:
             # Use the top-level folder as torrent name.
-            filename = decode_bytes(self.torrent_info.file_at(0).path)
+            filename = decode_bytes(self.torrent_info.files().file_path(0))
             name = filename.replace('\\', '/', 1).split('/', 1)[0]
         else:
-            name = decode_bytes(self.handle.name())
+            name = decode_bytes(self.handle.status().name)
 
         if not name:
             name = self.torrent_id
@@ -1152,7 +1182,10 @@ class Torrent:
 
         """
         # Turn off auto-management so the torrent will not be unpaused by lt queueing
-        self.handle.auto_managed(False)
+        self._set_handle_flags(
+            flag=lt.torrent_flags.auto_managed,
+            set_flag=False,
+        )
         if self.state == 'Error':
             log.debug('Unable to pause torrent while in Error state')
         elif self.status.paused:
@@ -1187,7 +1220,10 @@ class Torrent:
         else:
             # Check if torrent was originally being auto-managed.
             if self.options['auto_managed']:
-                self.handle.auto_managed(True)
+                self._set_handle_flags(
+                    flag=lt.torrent_flags.auto_managed,
+                    set_flag=True,
+                )
             try:
                 self.handle.resume()
             except RuntimeError as ex:

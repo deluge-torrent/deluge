@@ -541,13 +541,13 @@ class TorrentDetail(BaseMode, PopupsHandler):
         # Seed/peer info
         s = '{{!info!}}{}:{{!green!}} {} {{!input!}}({})'.format(
             torrent_data_fields['seeds']['name'],
-            status['num_seeds'],
+            status['peer.num_peers_connected'],
             status['total_seeds'],
         )
         row = self.add_string(row, s)
         s = '{{!info!}}{}:{{!red!}} {} {{!input!}}({})'.format(
             torrent_data_fields['peers']['name'],
-            status['num_peers'],
+            status['peer.num_peers_connected'],
             status['total_peers'],
         )
         row = self.add_string(row, s)
