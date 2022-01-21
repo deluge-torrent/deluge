@@ -16,7 +16,7 @@ on:
 jobs:
   windows_package:
     runs-on: windows-2019
-    if: (github.event_name != 'pull_request' || github.event.label.name == 'windows')
+    if: (github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'package'))
     strategy:
       matrix:
         arch: [x64, x86]
