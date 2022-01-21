@@ -45,30 +45,35 @@ jobs:
             ${{ runner.os }}-pip-
             ${{ runner.os }}-
 
-      - name: Install dependencies
+      - name: Prepare pip
+        run: python -m pip install --upgrade pip wheel
+
+      - name: Install GTK
         run: |
           $WebClient = New-Object System.Net.WebClient
           $WebClient.DownloadFile("https://github.com/deluge-torrent/gvsbuild-release/releases/download/latest/gvsbuild-py${{ matrix.python }}-vs16-${{ matrix.arch }}.zip","C:\GTK.zip")
           7z x C:\GTK.zip -oc:\GTK
-          $env:Path = "C:\GTK\release;C:\GTK\release\bin;C:\GTK\release\lib;$env:Path"
-          python -m pip install --upgrade pip wheel
-          $pycairopath = Get-Childitem –Path "C:\GTK\release\python\" -Include pycairo*.whl -File -Recurse -ErrorAction SilentlyContinue | select -expand FullName
-          $PyGObjectpath = Get-Childitem –Path "C:\GTK\release\python\" -Include PyGObject*.whl -File -Recurse -ErrorAction SilentlyContinue | select -expand FullName
-          pip install $pycairopath
-          pip install $PyGObjectpath
-          pip install https://github.com/doadin/twisted/releases/download/latest/Twisted-21.7.0.post0-py3-none-any.whl
-          python -m pip install libtorrent==${{ matrix.libtorrent }}
-          pip install -r requirements.txt
-          pip install pyinstaller
+          echo "C:\GTK\release\lib" | Out-File -FilePath $env:GITHUB_PATH -Append
+          echo "C:\GTK\release\bin" | Out-File -FilePath $env:GITHUB_PATH -Append
+          echo "C:\GTK\release" | Out-File -FilePath $env:GITHUB_PATH -Append
+
+      - name: Install Python dependencies
+        run: >
+          python -m pip install --find-links="C:\GTK\release\python" pycairo PyGObject
+
+          python -m pip install
+          https://github.com/doadin/twisted/releases/download/latest/Twisted-21.7.0.post0-py3-none-any.whl
+          libtorrent==${{ matrix.libtorrent }}
+          pyinstaller
+          -r requirements.txt
 
       - name: Install Deluge
         run: |
-          pip install .
+          python -m pip install .
           python setup.py install_scripts
 
       - name: Freeze Deluge
         run: |
-          $env:Path = "C:\GTK\release;C:\GTK\release\bin;C:\GTK\release\lib;$env:Path"
           pyinstaller --clean $env:GITHUB_WORKSPACE\packaging\win\delugewin.spec --distpath $env:GITHUB_WORKSPACE\packaging\win\freeze
 
       - name: Fix OpenSSL For Libtorrent
