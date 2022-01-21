@@ -96,7 +96,7 @@ class TestTorrent(BaseTestCase):
         # updates and will return old value. Also need to remove a priority
         # value as one file is much smaller than piece size so doesn't show.
         time.sleep(0.6)  # Delay to wait for alert from lt
-        piece_prio = handle.piece_priorities()
+        piece_prio = handle.get_piece_priorities()
         result = all(p in piece_prio for p in [3, 2, 0, 5, 6, 7])
         assert result
 
@@ -138,9 +138,9 @@ class TestTorrent(BaseTestCase):
         handle = self.session.add_torrent(atp)
 
         self.torrent = Torrent(handle, {})
-        priorities_original = handle.piece_priorities()
+        priorities_original = handle.get_piece_priorities()
         self.torrent.set_prioritize_first_last_pieces(True)
-        priorities = handle.piece_priorities()
+        priorities = handle.get_piece_priorities()
 
         # The length of the list of new priorites is the same as the original
         assert len(priorities_original) == len(priorities)
@@ -162,7 +162,7 @@ class TestTorrent(BaseTestCase):
         self.torrent.set_prioritize_first_last_pieces(True)
         # Reset pirorities
         self.torrent.set_prioritize_first_last_pieces(False)
-        priorities = handle.piece_priorities()
+        priorities = handle.get_piece_priorities()
 
         # Test the priority of the prioritized pieces
         for i in priorities:

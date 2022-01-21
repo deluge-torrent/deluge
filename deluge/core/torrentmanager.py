@@ -359,10 +359,9 @@ class TorrentManager(component.Component):
         if torrent_id in self.prefetching_metadata:
             return self.prefetching_metadata[torrent_id].defer
 
-        add_torrent_params = {}
-        add_torrent_params['save_path'] = gettempdir()
-        add_torrent_params['url'] = magnet.strip().encode('utf8')
-        add_torrent_params['flags'] = (
+        add_torrent_params = lt.parse_magnet_uri(magnet)
+        add_torrent_params.save_path = gettempdir()
+        add_torrent_params.flags = (
             (
                 LT_DEFAULT_ADD_TORRENT_FLAGS
                 | lt.add_torrent_params_flags_t.flag_duplicate_is_error
@@ -400,7 +399,10 @@ class TorrentManager(component.Component):
         metadata = b''
         if isinstance(torrent_info, lt.torrent_info):
             log.debug('prefetch metadata received')
-            metadata = torrent_info.metadata()
+            if VersionSplit(LT_VERSION) < VersionSplit('2.0.0.0'):
+                metadata = torrent_info.metadata()
+            else:
+                metadata = torrent_info.info_section()
 
         return torrent_id, b64encode(metadata)
 
@@ -435,14 +437,10 @@ class TorrentManager(component.Component):
         elif magnet:
             magnet_info = get_magnet_info(magnet)
             if magnet_info:
-                add_torrent_params['url'] = magnet.strip().encode('utf8')
                 add_torrent_params['name'] = magnet_info['name']
                 torrent_id = magnet_info['info_hash']
                 # Workaround lt 1.2 bug for magnet resume data with no metadata
-                if resume_data and VersionSplit(LT_VERSION) >= VersionSplit('1.2.10.0'):
-                    add_torrent_params['info_hash'] = bytes(
-                        bytearray.fromhex(torrent_id)
-                    )
+                add_torrent_params['info_hash'] = bytes(bytearray.fromhex(torrent_id))
             else:
                 raise AddTorrentError(
                     'Unable to add magnet, invalid magnet info: %s' % magnet
@@ -1398,22 +1396,18 @@ class TorrentManager(component.Component):
         log.debug(
             'Tracker Error Alert: %s [%s]', decode_bytes(alert.message()), error_message
         )
-        if VersionSplit(LT_VERSION) >= VersionSplit('1.2.0.0'):
-            # libtorrent 1.2 added endpoint struct to each tracker. to prevent false updates
-            # we will need to verify that at least one endpoint to the errored tracker is working
-            for tracker in torrent.handle.trackers():
-                if tracker['url'] == alert.url:
-                    if any(
-                        endpoint['last_error']['value'] == 0
-                        for endpoint in tracker['endpoints']
-                    ):
-                        torrent.set_tracker_status('Announce OK')
-                    else:
-                        torrent.set_tracker_status('Error: ' + error_message)
-                    break
-        else:
-            # preserve old functionality for libtorrent < 1.2
-            torrent.set_tracker_status('Error: ' + error_message)
+        # libtorrent 1.2 added endpoint struct to each tracker. to prevent false updates
+        # we will need to verify that at least one endpoint to the errored tracker is working
+        for tracker in torrent.handle.trackers():
+            if tracker['url'] == alert.url:
+                if any(
+                    endpoint['last_error']['value'] == 0
+                    for endpoint in tracker['endpoints']
+                ):
+                    torrent.set_tracker_status('Announce OK')
+                else:
+                    torrent.set_tracker_status('Error: ' + error_message)
+                break
 
     def on_alert_storage_moved(self, alert):
         """Alert handler for libtorrent storage_moved_alert"""
@@ -1487,7 +1481,9 @@ class TorrentManager(component.Component):
             return
         if torrent_id in self.torrents:
             # libtorrent add_torrent expects bencoded resume_data.
-            self.resume_data[torrent_id] = lt.bencode(alert.resume_data)
+            self.resume_data[torrent_id] = lt.bencode(
+                lt.write_resume_data(alert.params)
+            )
 
         if torrent_id in self.waiting_on_resume_data:
             self.waiting_on_resume_data[torrent_id].callback(None)

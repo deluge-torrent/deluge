@@ -36,19 +36,23 @@ class StatusBars(component.Component):
         def on_get_session_status(status):
             self.upload = deluge.common.fsize(status['payload_upload_rate'])
             self.download = deluge.common.fsize(status['payload_download_rate'])
-            self.connections = status['num_peers']
+            self.connections = status['peer.num_peers_connected']
             if 'dht_nodes' in status:
-                self.dht = status['dht_nodes']
+                self.dht = status['dht.dht_nodes']
 
             self.update_statusbars()
 
         def on_get_external_ip(external_ip):
             self.external_ip = external_ip
 
-        keys = ['num_peers', 'payload_upload_rate', 'payload_download_rate']
+        keys = [
+            'peer.num_peers_connected',
+            'payload_upload_rate',
+            'payload_download_rate',
+        ]
 
         if self.config['dht']:
-            keys.append('dht_nodes')
+            keys.append('dht.dht_nodes')
 
         client.core.get_session_status(keys).addCallback(on_get_session_status)
         client.core.get_external_ip().addCallback(on_get_external_ip)
