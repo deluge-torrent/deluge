@@ -9,6 +9,7 @@ from PyInstaller.utils.hooks import collect_all, copy_metadata
 datas = []
 binaries = []
 hiddenimports = []
+runtime_hooks_gtk = [os.path.join(SPECPATH, 'pyi_rth_gtk_csd.py')]
 
 # Collect Meta Data
 datas += copy_metadata('deluge', recursive=True)
@@ -72,7 +73,7 @@ b = Analysis([os.path.abspath(os.path.join(HOMEPATH,os.pardir,os.pardir)) + '\Sc
              hiddenimports=hiddenimports,
              hookspath=[],
              hooksconfig={},
-             runtime_hooks=[],
+             runtime_hooks=runtime_hooks_gtk,
              excludes=[],
              win_no_prefer_redirects=False,
              win_private_assemblies=False,
@@ -166,7 +167,7 @@ e = Analysis([os.path.abspath(os.path.join(HOMEPATH,os.pardir,os.pardir)) + '\Sc
              hiddenimports=hiddenimports,
              hookspath=[],
              hooksconfig={},
-             runtime_hooks=[],
+             runtime_hooks=runtime_hooks_gtk,
              excludes=[],
              win_no_prefer_redirects=False,
              win_private_assemblies=False,
@@ -197,7 +198,7 @@ f = Analysis([os.path.abspath(os.path.join(HOMEPATH,os.pardir,os.pardir)) + '\Sc
              hiddenimports=hiddenimports,
              hookspath=[],
              hooksconfig={},
-             runtime_hooks=[],
+             runtime_hooks=runtime_hooks_gtk,
              excludes=[],
              win_no_prefer_redirects=False,
              win_private_assemblies=False,
