@@ -145,11 +145,14 @@ class SessionProxy(component.Component):
 
                 def on_status(result, torrent_id):
                     t = time()
-                    self.torrents[torrent_id][0] = t
-                    self.torrents[torrent_id][1].update(result)
-                    for key in keys_to_get:
-                        self.cache_times[torrent_id][key] = t
-                    return self.create_status_dict([torrent_id], keys)[torrent_id]
+                    try:
+                        self.torrents[torrent_id][0] = t
+                        self.torrents[torrent_id][1].update(result)
+                        for key in keys_to_get:
+                            self.cache_times[torrent_id][key] = t
+                        return self.create_status_dict([torrent_id], keys)[torrent_id]
+                    except KeyError:
+                        return {}
 
                 return d.addCallback(on_status, torrent_id)
         else:
