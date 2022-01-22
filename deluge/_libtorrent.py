@@ -26,7 +26,7 @@ except ImportError:
         raise LibtorrentImportError('No libtorrent library found: %s' % (ex))
 
 
-REQUIRED_VERSION = '1.1.2.0'
+REQUIRED_VERSION = '1.2.0.0'
 LT_VERSION = lt.__version__
 
 if VersionSplit(LT_VERSION) < VersionSplit(REQUIRED_VERSION):
