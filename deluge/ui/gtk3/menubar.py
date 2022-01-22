@@ -567,7 +567,7 @@ class MenuBar(component.Component):
             account_to_log = {}
             for key, value in account.copy().items():
                 if key == 'password':
-                    value = '*' * len(value)
+                    value = '*' * 10
                 account_to_log[key] = value
             known_accounts_to_log.append(account_to_log)
         log.debug('_on_known_accounts: %s', known_accounts_to_log)
