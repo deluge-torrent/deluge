@@ -763,25 +763,21 @@ class Core(component.Component):
         )
 
     @export
+    @defer.inlineCallbacks
     def get_torrents_status(self, filter_dict, keys, diff=False):
         """
         returns all torrents , optionally filtered by filter_dict.
         """
+        all_keys = not keys
         torrent_ids = self.filtermanager.filter_torrent_ids(filter_dict)
-        d = self.torrentmanager.torrents_status_update(torrent_ids, keys, diff=diff)
-
-        def add_plugin_fields(args):
-            status_dict, plugin_keys = args
-            # Ask the plugin manager to fill in the plugin keys
-            if len(plugin_keys) > 0:
-                for key in status_dict:
-                    status_dict[key].update(
-                        self.pluginmanager.get_status(key, plugin_keys)
-                    )
-            return status_dict
-
-        d.addCallback(add_plugin_fields)
-        return d
+        status_dict, plugin_keys = yield self.torrentmanager.torrents_status_update(
+            torrent_ids, keys, diff=diff
+        )
+        # Ask the plugin manager to fill in the plugin keys
+        if len(plugin_keys) > 0 or all_keys:
+            for key in status_dict:
+                status_dict[key].update(self.pluginmanager.get_status(key, plugin_keys))
+        return status_dict
 
     @export
     def get_filter_tree(self, show_zero_hits=True, hide_cat=None):
