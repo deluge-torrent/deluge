@@ -773,7 +773,7 @@ class Core(component.Component):
         def add_plugin_fields(args):
             status_dict, plugin_keys = args
             # Ask the plugin manager to fill in the plugin keys
-            if len(plugin_keys) > 0:
+            if len(plugin_keys) > 0 or not keys:
                 for key in status_dict:
                     status_dict[key].update(
                         self.pluginmanager.get_status(key, plugin_keys)
