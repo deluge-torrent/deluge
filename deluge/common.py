@@ -265,7 +265,7 @@ def get_os_version():
         os_version = list(platform.mac_ver())
         os_version[1] = ''  # versioninfo always empty.
     elif distro:
-        os_version = distro.linux_distribution()
+        os_version = (distro.name(), distro.version(), distro.codename())
     else:
         os_version = (platform.release(),)
 
