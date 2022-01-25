@@ -2573,9 +2573,9 @@ used sparingly.</property>
                                       <object class="GtkEntry" id="entry_interface">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="tooltip_text" translatable="yes">IP address or network interface name to listen for incoming BitTorrent connections. Leave empty to use system default.</property>
-                                        <property name="max_length">40</property>
-                                        <property name="width_chars">15</property>
+                                        <property name="tooltip_text" translatable="yes">Coma separated list of IP addresses / network interface names to be listened for incoming bittorrent connections. Leave this empty if you want to use the default.</property>
+                                        <property name="max_length">100</property>
+                                        <property name="width_chars">30</property>
                                         <property name="truncate_multiline">True</property>
                                         <property name="primary_icon_activatable">False</property>
                                         <property name="secondary_icon_activatable">False</property>
@@ -2587,7 +2587,7 @@ used sparingly.</property>
                                   <object class="GtkLabel" id="label110">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">Incoming Interface</property>
+                                    <property name="label" translatable="yes">Incoming Interfaces</property>
                                     <attributes>
                                       <attribute name="weight" value="bold"/>
                                     </attributes>
@@ -2811,12 +2811,10 @@ used sparingly.</property>
                                       <object class="GtkEntry" id="entry_outgoing_interface">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="tooltip_text" translatable="yes">
-                                          IP address or network interface name for outgoing BitTorrent connections. Leave empty to use system default.
-                                        </property>
-                                        <property name="max_length">40</property>
+                                        <property name="tooltip_text" translatable="yes">Coma separated list of allowed IP addresses / network interface names for outgoing bittorrent TCP connections. Leave this empty if you want to use the default.</property>
+                                        <property name="max_length">100</property>
                                         <property name="invisible_char">●</property>
-                                        <property name="width_chars">15</property>
+                                        <property name="width_chars">30</property>
                                         <property name="truncate_multiline">True</property>
                                         <property name="primary_icon_activatable">False</property>
                                         <property name="secondary_icon_activatable">False</property>

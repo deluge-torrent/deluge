@@ -6,7 +6,6 @@
 # See LICENSE for more details.
 #
 
-
 import logging
 import os
 import platform
@@ -210,24 +209,39 @@ class PreferencesManager(component.Component):
             listen_ports = self.config['listen_ports']
 
         if self.config['listen_interface']:
-            interface = self.config['listen_interface'].strip()
+            interfaces = self.config['listen_interface'].strip()
         else:
-            interface = '0.0.0.0'
+            interfaces = '0.0.0.0'
+
+        lib_interfaces = []
+        for interface in interfaces.split(','):
+            interface = interface.strip()
+            try:
+                # add square brackets to ipv6 only, as needed by lib torrent
+                lib_interfaces.append(
+                    '[' + interface + ']'
+                    if deluge.common.is_ipv6(interface)
+                    else interface
+                )
+            except ValueError:
+                # ip address format failed, assume network interface name
+                lib_interfaces.append(interface)
 
         log.debug(
             'Listen Interface: %s, Ports: %s with use_sys_port: %s',
-            interface,
+            lib_interfaces,
             listen_ports,
             self.config['listen_use_sys_port'],
         )
-        interfaces = [
-            f'{interface}:{port}'
+        interface_port_list = [
+            '%s:%s' % (lib_interface, port)
             for port in range(listen_ports[0], listen_ports[1] + 1)
+            for lib_interface in lib_interfaces
         ]
         self.core.apply_session_settings(
             {
                 'listen_system_port_fallback': self.config['listen_use_sys_port'],
-                'listen_interfaces': ','.join(interfaces),
+                'listen_interfaces': ','.join(interface_port_list),
             }
         )
 
