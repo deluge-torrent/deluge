@@ -10,7 +10,6 @@ import tempfile
 from twisted.trial import unittest
 
 from deluge import metafile
-from deluge.common import windows_check
 
 
 def check_torrent(filename):
@@ -49,17 +48,12 @@ class MetafileTestCase(unittest.TestCase):
         os.remove(tmp_file)
 
     def test_save_singlefile(self):
-        if windows_check():
-            raise unittest.SkipTest('on windows \\ != / for path names')
-        tmp_path = tempfile.mkstemp('testdata')[1]
-        with open(tmp_path, 'wb') as tmp_file:
-            tmp_file.write(b'a' * (2314 * 1024))
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            tmp_data = tmp_dir + '/testdata'
+            with open(tmp_data, 'wb') as tmp_file:
+                tmp_file.write(b'a' * (2314 * 1024))
 
-        tmp_fd, tmp_file = tempfile.mkstemp('.torrent')
-        metafile.make_meta_file(tmp_path, '', 32768, target=tmp_file)
+            tmp_torrent = tmp_dir + '/.torrent'
+            metafile.make_meta_file(tmp_data, '', 32768, target=tmp_torrent)
 
-        check_torrent(tmp_file)
-
-        os.remove(tmp_path)
-        os.close(tmp_fd)
-        os.remove(tmp_file)
+            check_torrent(tmp_torrent)
