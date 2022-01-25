@@ -21,6 +21,8 @@ from deluge.common import (
     ftime,
     get_path_size,
     is_infohash,
+    is_interface,
+    is_interface_name,
     is_ip,
     is_ipv4,
     is_ipv6,
@@ -115,6 +117,55 @@ class CommonTestCase(unittest.TestCase):
     def test_is_ipv6(self):
         self.assertTrue(is_ipv6('2001:db8::'))
         self.assertFalse(is_ipv6('2001:db8:'))
+
+    def get_windows_interface_name(self):
+        import winreg
+
+        # find a network card in the registery
+        with winreg.OpenKey(
+            winreg.HKEY_LOCAL_MACHINE,
+            r'SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkCards',
+        ) as key:
+            self.assertTrue(
+                winreg.QueryInfoKey(key)[0] > 0
+            )  # must have at least 1 network card
+            network_card = winreg.EnumKey(key, 0)
+        # get GUID of network card
+        with winreg.OpenKey(
+            winreg.HKEY_LOCAL_MACHINE,
+            fr'SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkCards\{network_card}',
+        ) as key:
+            for i in range(1):
+                value = winreg.EnumValue(key, i)
+                if value[0] == 'ServiceName':
+                    interface_name = value[1]
+        return interface_name
+
+    def test_is_interface_name(self):
+        if windows_check():
+            interface_name = self.get_windows_interface_name()
+            self.assertFalse(is_interface_name('2001:db8:'))
+            self.assertFalse(
+                is_interface_name('{THIS0000-IS00-ONLY-FOR0-TESTING00000}')
+            )
+            self.assertTrue(is_interface_name(interface_name))
+        else:
+            self.assertTrue(is_interface_name('lo'))
+            self.assertFalse(is_interface_name('127.0.0.1'))
+            self.assertFalse(is_interface_name('eth01101'))
+
+    def test_is_interface(self):
+        if windows_check():
+            interface_name = self.get_windows_interface_name()
+            self.assertTrue(is_interface('127.0.0.1'))
+            self.assertTrue(is_interface(interface_name))
+            self.assertFalse(is_interface('127'))
+            self.assertFalse(is_interface('{THIS0000-IS00-ONLY-FOR0-TESTING00000}'))
+        else:
+            self.assertTrue(is_interface('lo'))
+            self.assertTrue(is_interface('127.0.0.1'))
+            self.assertFalse(is_interface('127.'))
+            self.assertFalse(is_interface('eth01101'))
 
     def test_version_split(self):
         self.assertTrue(VersionSplit('1.2.2') == VersionSplit('1.2.2'))
