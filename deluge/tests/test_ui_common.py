@@ -7,7 +7,6 @@
 #
 from twisted.trial import unittest
 
-from deluge.common import windows_check
 from deluge.ui.common import TorrentInfo
 
 from . import common
@@ -122,8 +121,6 @@ class UICommonTestCase(unittest.TestCase):
         self.assertTrue('azcvsupdater_2.6.2.jar' in ti.files_tree)
 
     def test_utf8_encoded_paths2(self):
-        if windows_check():
-            raise unittest.SkipTest('on windows KeyError: unicode_filenames')
         filename = common.get_test_data_file('unicode_filenames.torrent')
         filepath1 = '\u30c6\u30af\u30b9\u30fb\u30c6\u30af\u30b5\u30f3.mkv'
         filepath2 = (
