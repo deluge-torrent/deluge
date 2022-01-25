@@ -119,7 +119,7 @@ def setup_translation():
                 try:
                     libintl = ctypes.cdll.LoadLibrary(library)
                 except OSError as ex:
-                    errors.append(ex)
+                    errors.append(str(ex))
                 else:
                     break
 
