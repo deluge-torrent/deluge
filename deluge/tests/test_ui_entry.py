@@ -92,10 +92,6 @@ class UIWithDaemonBaseTestCase(UIBaseTestCase, DaemonBase):
 
 
 class DelugeEntryTestCase(BaseTestCase):
-
-    if windows_check():
-        skip = 'Console ui test on Windows broken due to sys args issue'
-
     def set_up(self):
         common.set_tmp_config_dir()
         return component.start()
@@ -156,6 +152,11 @@ class DelugeEntryTestCase(BaseTestCase):
 
 class GtkUIBaseTestCase(UIBaseTestCase):
     """Implement all GtkUI tests here"""
+
+    if windows_check():
+        skip = (
+            'Gtk tests on Windows have some issue with the mutex already being created'
+        )
 
     def test_start_gtk3ui(self):
         self.patch(sys, 'argv', self.var['sys_arg_cmd'])
@@ -240,16 +241,14 @@ class WebUIBaseTestCase(UIBaseTestCase):
 
 
 class WebUIScriptEntryTestCase(BaseTestCase, WebUIBaseTestCase):
-
-    if windows_check():
-        skip = 'Console ui test on Windows broken due to sys args issue'
-
     def __init__(self, testname):
         super().__init__(testname)
         WebUIBaseTestCase.__init__(self)
         self.var['cmd_name'] = 'deluge-web'
         self.var['start_cmd'] = deluge.ui.web.start
-        self.var['sys_arg_cmd'] = ['./deluge-web', '--do-not-daemonize']
+        self.var['sys_arg_cmd'] = ['./deluge-web']
+        if not windows_check():
+            self.var['sys_arg_cmd'].append('--do-not-daemonize')
 
     def set_up(self):
         return WebUIBaseTestCase.set_up(self)
@@ -259,16 +258,14 @@ class WebUIScriptEntryTestCase(BaseTestCase, WebUIBaseTestCase):
 
 
 class WebUIDelugeScriptEntryTestCase(BaseTestCase, WebUIBaseTestCase):
-
-    if windows_check():
-        skip = 'Console ui test on Windows broken due to sys args issue'
-
     def __init__(self, testname):
         super().__init__(testname)
         WebUIBaseTestCase.__init__(self)
         self.var['cmd_name'] = 'deluge web'
         self.var['start_cmd'] = ui_entry.start_ui
-        self.var['sys_arg_cmd'] = ['./deluge', 'web', '--do-not-daemonize']
+        self.var['sys_arg_cmd'] = ['./deluge', 'web']
+        if not windows_check():
+            self.var['sys_arg_cmd'].append('--do-not-daemonize')
 
     def set_up(self):
         return WebUIBaseTestCase.set_up(self)
@@ -387,7 +384,7 @@ class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
     @defer.inlineCallbacks
     def test_console_command_add(self):
         filename = common.get_test_data_file('test.torrent')
-        self.patch_arg_command(['add ' + filename])
+        self.patch_arg_command([f'add "{filename}"'])
         fd = StringFileDescriptor(sys.stdout)
         self.patch(sys, 'stdout', fd)
 
@@ -401,9 +398,10 @@ class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
     @defer.inlineCallbacks
     def test_console_command_add_move_completed(self):
         filename = common.get_test_data_file('test.torrent')
+        tmp_path = 'c:\\tmp' if windows_check() else '/tmp'
         self.patch_arg_command(
             [
-                'add --move-path /tmp ' + filename + ' ; status'
+                f'add --move-path "{tmp_path}" "{filename}" ; status'
                 ' ; manage'
                 ' ab570cdd5a17ea1b61e970bb72047de141bce173'
                 ' move_completed'
@@ -417,8 +415,12 @@ class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
 
         std_output = fd.out.getvalue()
         self.assertTrue(
-            std_output.endswith('move_completed: True\nmove_completed_path: /tmp\n')
-            or std_output.endswith('move_completed_path: /tmp\nmove_completed: True\n')
+            std_output.endswith(
+                f'move_completed: True\nmove_completed_path: {tmp_path}\n'
+            )
+            or std_output.endswith(
+                f'move_completed_path: {tmp_path}\nmove_completed: True\n'
+            )
         )
 
     @defer.inlineCallbacks
@@ -452,10 +454,6 @@ class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
 class ConsoleScriptEntryWithDaemonTestCase(
     BaseTestCase, ConsoleUIWithDaemonBaseTestCase
 ):
-
-    if windows_check():
-        skip = 'Console ui test on Windows broken due to sys args issue'
-
     def __init__(self, testname):
         super().__init__(testname)
         ConsoleUIWithDaemonBaseTestCase.__init__(self)
@@ -478,10 +476,6 @@ class ConsoleScriptEntryWithDaemonTestCase(
 
 
 class ConsoleScriptEntryTestCase(BaseTestCase, ConsoleUIBaseTestCase):
-
-    if windows_check():
-        skip = 'Console ui test on Windows broken due to sys args issue'
-
     def __init__(self, testname):
         super().__init__(testname)
         ConsoleUIBaseTestCase.__init__(self)
@@ -497,10 +491,6 @@ class ConsoleScriptEntryTestCase(BaseTestCase, ConsoleUIBaseTestCase):
 
 
 class ConsoleDelugeScriptEntryTestCase(BaseTestCase, ConsoleUIBaseTestCase):
-
-    if windows_check():
-        skip = 'cannot test console ui on windows'
-
     def __init__(self, testname):
         super().__init__(testname)
         ConsoleUIBaseTestCase.__init__(self)
