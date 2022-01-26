@@ -21,7 +21,7 @@ import deluge.core.preferencesmanager
 import deluge.log
 from deluge.common import get_localhost_auth
 from deluge.error import DelugeError
-from deluge.ui.client import client
+from deluge.ui.client import Client
 
 # This sets log level to critical, so use log.critical() to debug while running unit tests
 deluge.log.setup_logger('none')
@@ -156,7 +156,8 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
             yield shutdown
         except Exception:
             self.transport.signalProcess('TERM')
-        yield self.quit_d
+        result = yield self.quit_d
+        return result
 
     def _kill_watchdogs(self):
         """"Cancel all watchdogs"""
@@ -305,6 +306,7 @@ except Exception:
     @defer.inlineCallbacks
     def shutdown_daemon():
         username, password = get_localhost_auth()
+        client = Client()
         yield client.connect(
             'localhost', listen_port, username=username, password=password
         )
