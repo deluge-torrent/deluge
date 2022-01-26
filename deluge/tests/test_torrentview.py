@@ -63,6 +63,7 @@ class TorrentviewTestCase(BaseTestCase):
         'Added',
         'Completed',
         'Complete Seen',
+        'Last Transfer',
         'Tracker',
         'Download Folder',
         'Owner',
@@ -93,6 +94,7 @@ class TorrentviewTestCase(BaseTestCase):
         int,
         float,
         float,  # ETA, Ratio, Avail
+        int,
         int,
         int,
         int,
@@ -128,7 +130,7 @@ class TorrentviewTestCase(BaseTestCase):
             TorrentviewTestCase.default_liststore_columns,
         )
         self.assertEqual(
-            self.torrentview.columns['Download Folder'].column_indices, [29]
+            self.torrentview.columns['Download Folder'].column_indices, [30]
         )
 
     def test_add_column(self):
@@ -145,7 +147,7 @@ class TorrentviewTestCase(BaseTestCase):
             len(TorrentviewTestCase.default_column_index) + 1,
         )
         self.assertEqual(self.torrentview.column_index[-1], test_col)
-        self.assertEqual(self.torrentview.columns[test_col].column_indices, [32])
+        self.assertEqual(self.torrentview.columns[test_col].column_indices, [33])
 
     def test_add_columns(self):
 
@@ -167,11 +169,11 @@ class TorrentviewTestCase(BaseTestCase):
         )
         # test_col
         self.assertEqual(self.torrentview.column_index[-2], test_col)
-        self.assertEqual(self.torrentview.columns[test_col].column_indices, [32])
+        self.assertEqual(self.torrentview.columns[test_col].column_indices, [33])
 
         # test_col2
         self.assertEqual(self.torrentview.column_index[-1], test_col2)
-        self.assertEqual(self.torrentview.columns[test_col2].column_indices, [33])
+        self.assertEqual(self.torrentview.columns[test_col2].column_indices, [34])
 
     def test_remove_column(self):
 
@@ -196,7 +198,7 @@ class TorrentviewTestCase(BaseTestCase):
             self.torrentview.columns[
                 TorrentviewTestCase.default_column_index[-1]
             ].column_indices,
-            [31],
+            [32],
         )
 
     def test_remove_columns(self):
@@ -218,7 +220,7 @@ class TorrentviewTestCase(BaseTestCase):
             len(TorrentviewTestCase.default_column_index) + 1,
         )
         self.assertEqual(self.torrentview.column_index[-1], test_col2)
-        self.assertEqual(self.torrentview.columns[test_col2].column_indices, [32])
+        self.assertEqual(self.torrentview.columns[test_col2].column_indices, [33])
 
         # Remove test_col2
         self.torrentview.remove_column(test_col2)
@@ -238,7 +240,7 @@ class TorrentviewTestCase(BaseTestCase):
             self.torrentview.columns[
                 TorrentviewTestCase.default_column_index[-1]
             ].column_indices,
-            [31],
+            [32],
         )
 
     def test_add_remove_column_multiple_types(self):
@@ -257,7 +259,7 @@ class TorrentviewTestCase(BaseTestCase):
             len(TorrentviewTestCase.default_column_index) + 1,
         )
         self.assertEqual(self.torrentview.column_index[-1], test_col3)
-        self.assertEqual(self.torrentview.columns[test_col3].column_indices, [32, 33])
+        self.assertEqual(self.torrentview.columns[test_col3].column_indices, [33, 34])
 
         # Remove multiple column-types column
         self.torrentview.remove_column(test_col3)
@@ -278,5 +280,5 @@ class TorrentviewTestCase(BaseTestCase):
             self.torrentview.columns[
                 TorrentviewTestCase.default_column_index[-1]
             ].column_indices,
-            [31],
+            [32],
         )
