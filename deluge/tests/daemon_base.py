@@ -11,7 +11,6 @@ from twisted.internet import defer
 from twisted.internet.error import CannotListenError
 
 import deluge.component as component
-from deluge.common import windows_check
 
 from . import common
 
@@ -19,9 +18,6 @@ from . import common
 @pytest.mark.usefixtures('get_pytest_basetemp')
 class DaemonBase:
     basetemp = None
-
-    if windows_check():
-        skip = 'windows cant start_core not enough arguments for format string'
 
     @pytest.fixture
     def get_pytest_basetemp(self, request):

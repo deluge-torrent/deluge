@@ -17,7 +17,7 @@ import deluge.component as component
 import deluge.core.torrent
 import deluge.tests.common as common
 from deluge._libtorrent import lt
-from deluge.common import VersionSplit, utf8_encode_structure, windows_check
+from deluge.common import VersionSplit, utf8_encode_structure
 from deluge.core.core import Core
 from deluge.core.rpcserver import RPCServer
 from deluge.core.torrent import Torrent
@@ -173,8 +173,6 @@ class TorrentTestCase(BaseTestCase):
         # self.print_priority_list(priorities)
 
     def test_torrent_error_data_missing(self):
-        if windows_check():
-            raise unittest.SkipTest('unexpected end of file in bencoded string')
         options = {'seed_mode': True}
         filename = common.get_test_data_file('test_torrent.file.torrent')
         with open(filename, 'rb') as _file:
@@ -191,8 +189,6 @@ class TorrentTestCase(BaseTestCase):
         self.assert_state(torrent, 'Error')
 
     def test_torrent_error_resume_original_state(self):
-        if windows_check():
-            raise unittest.SkipTest('unexpected end of file in bencoded string')
         options = {'seed_mode': True, 'add_paused': True}
         filename = common.get_test_data_file('test_torrent.file.torrent')
         with open(filename, 'rb') as _file:
@@ -212,8 +208,6 @@ class TorrentTestCase(BaseTestCase):
         torrent.force_recheck()
 
     def test_torrent_error_resume_data_unaltered(self):
-        if windows_check():
-            raise unittest.SkipTest('unexpected end of file in bencoded string')
         if VersionSplit(lt.__version__) >= VersionSplit('1.2.0.0'):
             raise unittest.SkipTest('Test not working as expected on lt 1.2 or greater')
 
