@@ -34,7 +34,8 @@ class WebServerTestCase(WebServerTestBase, WebServerMockBase):
         # UnicodeDecodeError: 'utf8' codec can't decode byte 0xe5 in position 0: invalid continuation byte
         filename = get_test_data_file('filehash_field.torrent')
         input_file = (
-            '{"params": ["%s"], "method": "web.get_torrent_info", "id": 22}' % filename
+            '{"params": ["%s"], "method": "web.get_torrent_info", "id": 22}'
+            % filename.replace('\\', '\\\\')
         )
         headers = {
             b'User-Agent': ['Twisted Web Client Example'],
