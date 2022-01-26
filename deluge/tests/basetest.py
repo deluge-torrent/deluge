@@ -40,8 +40,7 @@ class BaseTestCase(unittest.TestCase):
         d = maybeDeferred(self.tear_down)
 
         def on_teardown_failed(error):
-            warnings.warn('Error caught in test teardown!\n%s' % error.getTraceback())
-            self.fail()
+            self.fail('Error caught in test teardown!\n%s' % error.getTraceback())
 
         def on_teardown_complete(result):
             component._ComponentRegistry.components.clear()
