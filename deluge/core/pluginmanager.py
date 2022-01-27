@@ -52,31 +52,25 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase, component.Compon
                 except Exception as ex:
                     log.exception(ex)
 
+    @defer.inlineCallbacks
     def enable_plugin(self, name):
-        d = defer.succeed(True)
-        if name not in self.plugins:
-            d = deluge.pluginmanagerbase.PluginManagerBase.enable_plugin(self, name)
-
-            def on_enable_plugin(result):
-                if result is True and name in self.plugins:
-                    component.get('EventManager').emit(PluginEnabledEvent(name))
-                return result
-
-            d.addBoth(on_enable_plugin)
-        return d
-
-    def disable_plugin(self, name):
-        d = defer.succeed(True)
         if name in self.plugins:
-            d = deluge.pluginmanagerbase.PluginManagerBase.disable_plugin(self, name)
+            return True
 
-            def on_disable_plugin(result):
-                if name not in self.plugins:
-                    component.get('EventManager').emit(PluginDisabledEvent(name))
-                return result
+        result = yield super().enable_plugin(name)
+        if name in self.plugins:
+            component.get('EventManager').emit(PluginEnabledEvent(name))
+        return result
 
-            d.addBoth(on_disable_plugin)
-        return d
+    @defer.inlineCallbacks
+    def disable_plugin(self, name):
+        if name not in self.plugins:
+            return True
+
+        result = yield super().disable_plugin(name)
+        if name not in self.plugins:
+            component.get('EventManager').emit(PluginDisabledEvent(name))
+        return result
 
     def get_status(self, torrent_id, fields):
         """Return the value of status fields for the selected torrent_id."""
