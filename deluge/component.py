@@ -305,7 +305,7 @@ class ComponentRegistry:
         else:
             return succeed(None)
 
-    def start(self, names=None):
+    async def start(self, names=None):
         """Start Components, and their dependencies, that are currently in a Stopped state.
 
         Note:
@@ -324,21 +324,11 @@ class ComponentRegistry:
         elif isinstance(names, str):
             names = [names]
 
-        def on_depends_started(result, name):
-            return self.components[name]._component_start()
-
-        deferreds = []
-
         for name in names:
             if self.components[name]._component_depend:
                 # This component has depends, so we need to start them first.
-                d = self.start(self.components[name]._component_depend)
-                d.addCallback(on_depends_started, name)
-                deferreds.append(d)
-            else:
-                deferreds.append(self.components[name]._component_start())
-
-        return DeferredList(deferreds)
+                await self.start(self.components[name]._component_depend)
+            await self.components[name]._component_start()
 
     def stop(self, names=None):
         """Stop Components that are currently not in a Stopped state.
