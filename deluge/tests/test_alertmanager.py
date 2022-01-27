@@ -3,8 +3,9 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
+from types import SimpleNamespace
 
-from twisted.internet.defer import Deferred
+import pytest_twisted
 
 import deluge.component as component
 from deluge.conftest import BaseTestCase
@@ -25,7 +26,7 @@ class SessionMock:
     def __init__(self):
         self.alerts = []
 
-    def set_alerts(self, value):
+    def set_alerts(self):
         self.alerts = [DummyAlert1(), DummyAlert2()]
 
     def wait_for_alert(self, timeout):
@@ -55,33 +56,23 @@ class TestAlertManager(BaseTestCase):
         self.am.register_handler('dummy_alert', handler)
         assert self.am.handlers['dummy_alert'] == [handler]
 
-    def test_pop_alert(self):
-        def dummy_alert_1_handler(alert):
-            d.addCallback(self.assertEqual, alert.message, '1')
-            d.callback(None)
-
-        self.am.register_handler('DummyAlert1', dummy_alert_1_handler)
+    @pytest_twisted.ensureDeferred
+    async def test_pop_alert(self, mock_callback):
+        mock_callback.reset_mock()
+        self.am.register_handler('DummyAlert1', mock_callback)
         self.am.session.set_alerts()
+        await mock_callback.deferred
+        mock_callback.assert_called_once_with(SimpleNamespace(message='1'))
 
-        d = Deferred()
-        return d
-
-    def test_pause_not_pop_alert(self):
-        def on_pause(value):
-            self.am.register_handler('DummyAlert1', dummy_alert_1_handler)
-            d.addCallback(check_alert)
-
-        def check_alert(value):
-            event = self.am._event.isSet()
-            self.assertFalse(event)
-
-        def dummy_alert_1_handler(alert):
-            self.fail()
-
-        d = component.pause(['AlertManager'])
-        d.addCallback(self.am.session.set_alerts)
-        d.addCallback(on_pause)
-        return d
+    @pytest_twisted.ensureDeferred
+    async def test_pause_not_pop_alert(self, mock_callback):
+        await component.pause(['AlertManager'])
+        self.am.register_handler('DummyAlert1', mock_callback)
+        self.am.session.set_alerts()
+        await mock_callback.deferred
+        mock_callback.assert_not_called()
+        assert not self.am._event.isSet()
+        assert len(self.am.session.alerts) == 2
 
     def test_deregister_handler(self):
         def handler(alert):
