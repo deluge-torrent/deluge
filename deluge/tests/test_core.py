@@ -83,7 +83,7 @@ class CoreTestCase(BaseTestCase):
         self.core = Core()
         self.core.config.config['lsd'] = False
         self.clock = task.Clock()
-        self.core.torrentmanager.callLater = self.clock.callLater
+        self.core.torrentmanager.clock = self.clock
         self.listen_port = 51242
         return component.start().addCallback(self.start_web_server)
 

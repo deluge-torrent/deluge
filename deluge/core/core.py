@@ -442,17 +442,7 @@ class Core(component.Component):
             Deferred: A tuple of (torrent_id (str), metadata (str)) for the magnet.
 
         """
-
-        def on_metadata(result, result_d):
-            """Return result of torrent_id and metadata"""
-            result_d.callback(result)
-            return result
-
-        d = self.torrentmanager.prefetch_metadata(magnet, timeout)
-        # Use a separate callback chain to handle existing prefetching magnet.
-        result_d = defer.Deferred()
-        d.addBoth(on_metadata, result_d)
-        return result_d
+        return self.torrentmanager.prefetch_metadata(magnet, timeout)
 
     @export
     def add_torrent_file(self, filename, filedump, options):
