@@ -1186,6 +1186,7 @@ class Core(component.Component):
         return glob.glob(path)
 
     @export
+    @defer.inlineCallbacks
     def test_listen_port(self):
         """
         Checks if the active port is open
@@ -1197,18 +1198,14 @@ class Core(component.Component):
         port = self.get_listen_port()
         url = 'https://deluge-torrent.org/test_port.php?port=%s' % port
         agent = Agent(reactor, connectTimeout=30)
-        d = agent.request(b'GET', url.encode())
-
-        def on_get_page(body):
+        try:
+            response = yield agent.request(b'GET', url.encode())
+            body = yield readBody(response)
+        except Exception as exc:
+            log.warning('Error testing listen port: %s', exc)
+            return False
+        else:
             return bool(int(body))
-
-        def on_error(failure):
-            log.warning('Error testing listen port: %s', failure)
-
-        d.addCallback(readBody).addCallback(on_get_page)
-        d.addErrback(on_error)
-
-        return d
 
     @export
     def get_free_space(self, path=None):

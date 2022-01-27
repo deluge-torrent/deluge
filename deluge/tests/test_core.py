@@ -433,14 +433,10 @@ class CoreTestCase(BaseTestCase):
         self.assertEqual(self.core.get_free_space('/someinvalidpath'), -1)
 
     @pytest.mark.slow
+    @defer.inlineCallbacks
     def test_test_listen_port(self):
-        d = self.core.test_listen_port()
-
-        def result(r):
-            self.assertTrue(r in (True, False))
-
-        d.addCallback(result)
-        return d
+        result = yield self.core.test_listen_port()
+        self.assertTrue(result in (True, False))
 
     def test_sanitize_filepath(self):
         pathlist = {
