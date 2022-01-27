@@ -59,6 +59,7 @@ See the [Thinclient guide] to connect to the daemon from another computer.
 - [User guide][user guide]
 - [Forum](https://forum.deluge-torrent.org)
 - [IRC Libera.Chat #deluge](irc://irc.libera.chat/deluge)
+- [Discord](https://discord.gg/BC9NspHU)
 
 [user guide]: https://dev.deluge-torrent.org/wiki/UserGuide
 [thinclient guide]: https://dev.deluge-torrent.org/wiki/UserGuide/ThinClient
