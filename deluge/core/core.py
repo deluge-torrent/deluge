@@ -499,6 +499,7 @@ class Core(component.Component):
         return task.deferLater(reactor, 0, add_torrents)
 
     @export
+    @defer.inlineCallbacks
     def add_torrent_url(self, url, options, headers=None):
         """
         Adds a torrent from a URL. Deluge will attempt to fetch the torrent
@@ -514,27 +515,20 @@ class Core(component.Component):
         :returns: a Deferred which returns the torrent_id as a str or None
         """
         log.info('Attempting to add URL %s', url)
-
-        def on_download_success(filename):
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            tmp_file = os.path.join(tmp_dir, 'deluge_url.torrent')
+            try:
+                filename = yield download_file(
+                    url, tmp_file, headers=headers, force_filename=True
+                )
+            except Exception:
+                # Log the error and pass the failure onto the client
+                log.error('Failed to add torrent from URL %s', url)
+                raise
             # We got the file, so add it to the session
             with open(filename, 'rb') as _file:
                 data = _file.read()
-            try:
-                os.remove(filename)
-            except OSError as ex:
-                log.warning('Could not remove temp file: %s', ex)
-            return self.add_torrent_file(filename, b64encode(data), options)
-
-        def on_download_fail(failure):
-            # Log the error and pass the failure onto the client
-            log.error('Failed to add torrent from URL %s', url)
-            return failure
-
-        tmp_fd, tmp_file = tempfile.mkstemp(prefix='deluge_url.', suffix='.torrent')
-        os.close(tmp_fd)
-        d = download_file(url, tmp_file, headers=headers, force_filename=True)
-        d.addCallbacks(on_download_success, on_download_fail)
-        return d
+        return self.add_torrent_file(filename, b64encode(data), options)
 
     @export
     def add_torrent_magnet(self, uri, options):
