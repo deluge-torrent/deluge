@@ -11,6 +11,8 @@ import re
 import warnings
 from functools import wraps
 
+from twisted.internet import defer
+
 
 def proxy(proxy_func):
     """
@@ -159,3 +161,14 @@ def deprecated(func):
         return func(*args, **kwargs)
 
     return depr_func
+
+
+def ensure_deferred(f):
+    """Wraps an async function to make it usable as a normal function that returns a Deferred."""
+
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        result = f(*args, **kwargs)
+        return defer.ensureDeferred(result)
+
+    return wrapper

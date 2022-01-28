@@ -14,6 +14,8 @@ from twisted.internet import reactor
 from twisted.internet.defer import DeferredList, fail, maybeDeferred, succeed
 from twisted.internet.task import LoopingCall, deferLater
 
+from deluge.decorators import ensure_deferred
+
 log = logging.getLogger(__name__)
 
 
@@ -305,6 +307,7 @@ class ComponentRegistry:
         else:
             return succeed(None)
 
+    @ensure_deferred
     async def start(self, names=None):
         """Start Components, and their dependencies, that are currently in a Stopped state.
 

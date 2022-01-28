@@ -12,7 +12,6 @@ import os
 import socket
 
 from twisted.internet import reactor
-from twisted.internet.defer import ensureDeferred
 
 import deluge.component as component
 from deluge.common import get_version, is_ip, is_process_running, windows_check
@@ -146,7 +145,7 @@ class Daemon:
         self.rpcserver.register_object(self)
 
         # Make sure we start the PreferencesManager first
-        ensureDeferred(component.start('PreferencesManager'))
+        component.start('PreferencesManager')
 
         if not self.standalone:
             log.info('Deluge daemon starting...')
@@ -156,7 +155,7 @@ class Daemon:
             with open(self.pid_file, 'w') as _file:
                 _file.write(f'{pid};{self.port}\n')
 
-            ensureDeferred(component.start())
+            component.start()
 
             try:
                 reactor.run()
