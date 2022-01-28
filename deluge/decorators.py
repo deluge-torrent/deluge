@@ -11,7 +11,7 @@ import re
 import warnings
 from functools import wraps
 
-from twisted.internet import defer
+from twisted.internet import defer, reactor
 
 
 def proxy(proxy_func):
@@ -163,12 +163,34 @@ def deprecated(func):
     return depr_func
 
 
+class CoroDeferred(defer.Deferred):
+    """Deferred that will dynamically act like a coroutine instead of a Deferred if it's awaited."""
+
+    def __init__(self, coro):
+        super().__init__()
+        self.coro = coro
+        self.awaited = None
+        self.activate_deferred = reactor.callLater(0, self.activate)
+
+    def __await__(self):
+        if self.awaited in [None, True]:
+            self.awaited = True
+            return self.coro.__await__()
+        return self.__iter__()
+
+    def activate(self):
+        """If the result wasn't awaited before the next context switch, we turn it into a deferred."""
+        if self.awaited is None:
+            self.awaited = False
+            d = defer.Deferred.fromCoroutine(self.coro)
+            d.chainDeferred(self)
+
+
 def ensure_deferred(f):
     """Wraps an async function to make it usable as a normal function that returns a Deferred."""
 
     @wraps(f)
     def wrapper(*args, **kwargs):
-        result = f(*args, **kwargs)
-        return defer.ensureDeferred(result)
+        return CoroDeferred(f(*args, **kwargs))
 
     return wrapper
