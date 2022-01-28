@@ -13,7 +13,6 @@ from urllib.parse import urlparse
 
 from gi.repository import Gtk
 from twisted.internet import defer, reactor
-from twisted.internet.defer import ensureDeferred
 
 import deluge.component as component
 from deluge.common import resource_filename, windows_check
@@ -306,7 +305,7 @@ class ConnectionManager(component.Component):
             # running), so, self.connection_manager will be deleted.
             # If that's not the case, close the dialog.
             self.connection_manager.response(Gtk.ResponseType.OK)
-        ensureDeferred(component.start())
+        component.start()
 
     def _on_connect_fail(self, reason, host_id, try_counter):
         log.debug('Failed to connect: %s', reason.value)

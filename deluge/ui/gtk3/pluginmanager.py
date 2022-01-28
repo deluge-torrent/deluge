@@ -8,8 +8,6 @@
 
 import logging
 
-from twisted.internet.defer import ensureDeferred
-
 import deluge.component as component
 import deluge.pluginmanagerbase
 from deluge.configmanager import ConfigManager
@@ -54,7 +52,7 @@ class PluginManager(deluge.pluginmanagerbase.PluginManagerBase, component.Compon
         # Update the enabled_plugins from the core
         client.core.get_enabled_plugins().addCallback(self._on_get_enabled_plugins)
         for instance in self.plugins.values():
-            ensureDeferred(component.start([instance.plugin._component_name]))
+            component.start([instance.plugin._component_name])
 
     def stop(self):
         # Disable the plugins

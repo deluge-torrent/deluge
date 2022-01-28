@@ -22,7 +22,6 @@ gi.require_version('Gdk', '3.0')  # NOQA: E402
 from gi.repository.GLib import set_prgname
 from gi.repository.Gtk import Builder, ResponseType
 from twisted.internet import defer, gtk3reactor
-from twisted.internet.defer import ensureDeferred
 from twisted.internet.error import ReactorAlreadyInstalledError
 from twisted.internet.task import LoopingCall
 
@@ -340,7 +339,7 @@ class GtkUI:
                 'To use Standalone mode, please see logs for error details.'
             )
         else:
-            ensureDeferred(component.start())
+            component.start()
             return
 
         def on_dialog_response(response):
