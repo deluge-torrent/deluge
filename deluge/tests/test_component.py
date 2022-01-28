@@ -4,6 +4,7 @@
 # See LICENSE for more details.
 #
 
+import pytest
 from twisted.internet import defer, threads
 from twisted.trial.unittest import SkipTest
 
@@ -231,21 +232,27 @@ class ComponentTestClass(BaseTestCase):
         # Prevent failure by ignoring the exception
         self._observer._ignoreErrors(component.ComponentException)
 
-        result = yield component.start()
-        self.assertEqual(
-            [(result[0][0], result[0][1].value)],
-            [
-                (
-                    defer.FAILURE,
-                    component.ComponentException(
-                        'Trying to start component "%s" but it is '
-                        'not in a stopped state. Current state: %s'
-                        % ('test_pause_c1', 'Paused'),
-                        '',
-                    ),
-                )
-            ],
-        )
+        # TODO: right now component.start() changed from returning a list of success and failures to raising failures
+        # if there is an issue starting a component. Consider whether that is better or worse. Should it be continuing
+        # if some components fail to start?
+        message = 'Trying to start component "test_pause_c1" but it is not in a stopped state. Current state: Paused'
+        with pytest.raises(component.ComponentException, match=message):
+            yield component.start()
+        # result = yield component.start()
+        # self.assertEqual(
+        #     [(result[0][0], result[0][1].value)],
+        #     [
+        #         (
+        #             defer.FAILURE,
+        #             component.ComponentException(
+        #                 'Trying to start component "%s" but it is '
+        #                 'not in a stopped state. Current state: %s'
+        #                 % ('test_pause_c1', 'Paused'),
+        #                 '',
+        #             ),
+        #         )
+        #     ],
+        # )
 
     def test_shutdown(self):
         def on_shutdown(result, c1):
