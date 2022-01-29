@@ -10,12 +10,11 @@
 import logging
 import warnings
 
+from deluge.conftest import BaseTestCase
 from deluge.log import setup_logger
 
-from .basetest import BaseTestCase
 
-
-class LogTestCase(BaseTestCase):
+class TestLog(BaseTestCase):
     def set_up(self):
         setup_logger(logging.DEBUG)
 
@@ -29,7 +28,7 @@ class LogTestCase(BaseTestCase):
             # Cause all warnings to always be triggered.
             warnings.simplefilter('always')
             LOG.debug('foo')
-            self.assertEqual(w[-1].category, DeprecationWarning)
+            assert w[-1].category == DeprecationWarning
 
     # def test_twisted_error_log(self):
     #    from twisted.internet import defer

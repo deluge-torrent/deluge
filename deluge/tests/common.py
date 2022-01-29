@@ -8,13 +8,12 @@
 
 import os
 import sys
-import tempfile
 import traceback
 
+import pytest
 from twisted.internet import defer, protocol, reactor
 from twisted.internet.defer import Deferred
 from twisted.internet.error import CannotListenError
-from twisted.trial import unittest
 
 import deluge.configmanager
 import deluge.core.preferencesmanager
@@ -29,12 +28,6 @@ deluge.log.setup_logger('none')
 
 def disable_new_release_check():
     deluge.core.preferencesmanager.DEFAULT_PREFS['new_release_check'] = False
-
-
-def set_tmp_config_dir():
-    config_directory = tempfile.mkdtemp()
-    deluge.configmanager.set_config_dir(config_directory)
-    return config_directory
 
 
 def setup_test_logger(level='info', prefix='deluge'):
@@ -54,7 +47,7 @@ def todo_test(caller):
 
     filename = os.path.basename(traceback.extract_stack(None, 2)[0][0])
     funcname = traceback.extract_stack(None, 2)[0][2]
-    raise unittest.SkipTest(f'TODO: {filename}:{funcname}')
+    pytest.skip(f'TODO: {filename}:{funcname}')
 
 
 def add_watchdog(deferred, timeout=0.05, message=None):
@@ -219,7 +212,7 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
 
 
 def start_core(
-    listen_port=58846,
+    listen_port=58900,
     logfile=None,
     timeout=10,
     timeout_msg=None,
@@ -227,6 +220,7 @@ def start_core(
     print_stdout=True,
     print_stderr=True,
     extra_callbacks=None,
+    config_directory='',
 ):
     """Start the deluge core as a daemon.
 
@@ -248,7 +242,6 @@ def start_core(
         or upon timeout expiry. The ProcessOutputHandler is the handler for the deluged process.
 
     """
-    config_directory = set_tmp_config_dir()
     daemon_script = """
 import sys
 import deluge.core.daemon_entry
@@ -268,7 +261,7 @@ except Exception:
     import traceback
     sys.stderr.write('Exception raised:\\n %%s' %% traceback.format_exc())
 """ % {
-        'dir': config_directory.replace('\\', '\\\\'),
+        'dir': config_directory.as_posix(),
         'port': listen_port,
         'script': custom_script,
     }

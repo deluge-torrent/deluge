@@ -8,9 +8,9 @@ from base64 import b64encode
 from hashlib import sha1 as sha
 
 import pytest
+import pytest_twisted
 from twisted.internet import defer, reactor, task
 from twisted.internet.error import CannotListenError
-from twisted.python.failure import Failure
 from twisted.web.http import FORBIDDEN
 from twisted.web.resource import EncodingResourceWrapper, Resource
 from twisted.web.server import GzipEncoderFactory, Site
@@ -20,12 +20,12 @@ import deluge.common
 import deluge.component as component
 import deluge.core.torrent
 from deluge._libtorrent import lt
+from deluge.conftest import BaseTestCase
 from deluge.core.core import Core
 from deluge.core.rpcserver import RPCServer
 from deluge.error import AddTorrentError, InvalidTorrentError
 
 from . import common
-from .basetest import BaseTestCase
 
 common.disable_new_release_check()
 
@@ -76,9 +76,8 @@ class TopLevelResource(Resource):
         )
 
 
-class CoreTestCase(BaseTestCase):
+class TestCore(BaseTestCase):
     def set_up(self):
-        common.set_tmp_config_dir()
         self.rpcserver = RPCServer(listen=False)
         self.core = Core()
         self.core.config.config['lsd'] = False
@@ -127,7 +126,7 @@ class CoreTestCase(BaseTestCase):
         torrent_id = self.core.add_torrent_file(filename, filedump, options)
         return torrent_id
 
-    @defer.inlineCallbacks
+    @pytest_twisted.inlineCallbacks
     def test_add_torrent_files(self):
         options = {}
         filenames = ['test.torrent', 'test_torrent.file.torrent']
@@ -138,9 +137,9 @@ class CoreTestCase(BaseTestCase):
                 filedump = b64encode(_file.read())
             files_to_add.append((filename, filedump, options))
         errors = yield self.core.add_torrent_files(files_to_add)
-        self.assertEqual(len(errors), 0)
+        assert len(errors) == 0
 
-    @defer.inlineCallbacks
+    @pytest_twisted.inlineCallbacks
     def test_add_torrent_files_error_duplicate(self):
         options = {}
         filenames = ['test.torrent', 'test.torrent']
@@ -151,10 +150,10 @@ class CoreTestCase(BaseTestCase):
                 filedump = b64encode(_file.read())
             files_to_add.append((filename, filedump, options))
         errors = yield self.core.add_torrent_files(files_to_add)
-        self.assertEqual(len(errors), 1)
-        self.assertTrue(str(errors[0]).startswith('Torrent already in session'))
+        assert len(errors) == 1
+        assert str(errors[0]).startswith('Torrent already in session')
 
-    @defer.inlineCallbacks
+    @pytest_twisted.inlineCallbacks
     def test_add_torrent_file(self):
         options = {}
         filename = common.get_test_data_file('test.torrent')
@@ -167,16 +166,15 @@ class CoreTestCase(BaseTestCase):
 
         with open(filename, 'rb') as _file:
             info_hash = sha(bencode(bdecode(_file.read())[b'info'])).hexdigest()
-        self.assertEqual(torrent_id, info_hash)
+        assert torrent_id == info_hash
 
     def test_add_torrent_file_invalid_filedump(self):
         options = {}
         filename = common.get_test_data_file('test.torrent')
-        self.assertRaises(
-            AddTorrentError, self.core.add_torrent_file, filename, False, options
-        )
+        with pytest.raises(AddTorrentError):
+            self.core.add_torrent_file(filename, False, options)
 
-    @defer.inlineCallbacks
+    @pytest_twisted.inlineCallbacks
     def test_add_torrent_url(self):
         url = (
             'http://localhost:%d/ubuntu-9.04-desktop-i386.iso.torrent'
@@ -186,78 +184,77 @@ class CoreTestCase(BaseTestCase):
         info_hash = '60d5d82328b4547511fdeac9bf4d0112daa0ce00'
 
         torrent_id = yield self.core.add_torrent_url(url, options)
-        self.assertEqual(torrent_id, info_hash)
+        assert torrent_id == info_hash
 
-    def test_add_torrent_url_with_cookie(self):
+    @pytest_twisted.ensureDeferred
+    async def test_add_torrent_url_with_cookie(self):
         url = 'http://localhost:%d/cookie' % self.listen_port
         options = {}
         headers = {'Cookie': 'password=deluge'}
         info_hash = '60d5d82328b4547511fdeac9bf4d0112daa0ce00'
 
-        d = self.core.add_torrent_url(url, options)
-        d.addCallbacks(self.fail, self.assertIsInstance, errbackArgs=(Failure,))
+        with pytest.raises(Exception):
+            await self.core.add_torrent_url(url, options)
 
-        d = self.core.add_torrent_url(url, options, headers)
-        d.addCallbacks(self.assertEqual, self.fail, callbackArgs=(info_hash,))
+        result = await self.core.add_torrent_url(url, options, headers)
+        assert result == info_hash
 
-        return d
-
-    def test_add_torrent_url_with_redirect(self):
+    @pytest_twisted.ensureDeferred
+    async def test_add_torrent_url_with_redirect(self):
         url = 'http://localhost:%d/redirect' % self.listen_port
         options = {}
         info_hash = '60d5d82328b4547511fdeac9bf4d0112daa0ce00'
 
-        d = self.core.add_torrent_url(url, options)
-        d.addCallback(self.assertEqual, info_hash)
-        return d
+        result = await self.core.add_torrent_url(url, options)
+        assert result == info_hash
 
-    def test_add_torrent_url_with_partial_download(self):
+    @pytest_twisted.ensureDeferred
+    async def test_add_torrent_url_with_partial_download(self):
         url = 'http://localhost:%d/partial' % self.listen_port
         options = {}
         info_hash = '60d5d82328b4547511fdeac9bf4d0112daa0ce00'
 
-        d = self.core.add_torrent_url(url, options)
-        d.addCallback(self.assertEqual, info_hash)
-        return d
+        result = await self.core.add_torrent_url(url, options)
+        assert result == info_hash
 
-    @defer.inlineCallbacks
+    @pytest_twisted.inlineCallbacks
     def test_add_torrent_magnet(self):
         info_hash = '60d5d82328b4547511fdeac9bf4d0112daa0ce00'
         uri = deluge.common.create_magnet_uri(info_hash)
         options = {}
         torrent_id = yield self.core.add_torrent_magnet(uri, options)
-        self.assertEqual(torrent_id, info_hash)
+        assert torrent_id == info_hash
 
     def test_resume_torrent(self):
         tid1 = self.add_torrent('test.torrent', paused=True)
         tid2 = self.add_torrent('test_torrent.file.torrent', paused=True)
         # Assert paused
         r1 = self.core.get_torrent_status(tid1, ['paused'])
-        self.assertTrue(r1['paused'])
+        assert r1['paused']
         r2 = self.core.get_torrent_status(tid2, ['paused'])
-        self.assertTrue(r2['paused'])
+        assert r2['paused']
 
         self.core.resume_torrent(tid2)
         r1 = self.core.get_torrent_status(tid1, ['paused'])
-        self.assertTrue(r1['paused'])
+        assert r1['paused']
         r2 = self.core.get_torrent_status(tid2, ['paused'])
-        self.assertFalse(r2['paused'])
+        assert not r2['paused']
 
     def test_resume_torrent_list(self):
         """Backward compatibility for list of torrent_ids."""
         torrent_id = self.add_torrent('test.torrent', paused=True)
         self.core.resume_torrent([torrent_id])
         result = self.core.get_torrent_status(torrent_id, ['paused'])
-        self.assertFalse(result['paused'])
+        assert not result['paused']
 
     def test_resume_torrents(self):
         tid1 = self.add_torrent('test.torrent', paused=True)
         tid2 = self.add_torrent('test_torrent.file.torrent', paused=True)
         self.core.resume_torrents([tid1, tid2])
         r1 = self.core.get_torrent_status(tid1, ['paused'])
-        self.assertFalse(r1['paused'])
+        assert not r1['paused']
         r2 = self.core.get_torrent_status(tid2, ['paused'])
-        self.assertFalse(r2['paused'])
+        assert not r2['paused']
 
     def test_resume_torrents_all(self):
         """With no torrent_ids param, resume all torrents"""
@@ -265,33 +262,33 @@ class CoreTestCase(BaseTestCase):
         tid2 = self.add_torrent('test_torrent.file.torrent', paused=True)
         self.core.resume_torrents()
         r1 = self.core.get_torrent_status(tid1, ['paused'])
-        self.assertFalse(r1['paused'])
+        assert not r1['paused']
         r2 = self.core.get_torrent_status(tid2, ['paused'])
-        self.assertFalse(r2['paused'])
+        assert not r2['paused']
 
     def test_pause_torrent(self):
         tid1 = self.add_torrent('test.torrent')
         tid2 = self.add_torrent('test_torrent.file.torrent')
         # Assert not paused
         r1 = self.core.get_torrent_status(tid1, ['paused'])
-        self.assertFalse(r1['paused'])
+        assert not r1['paused']
         r2 = self.core.get_torrent_status(tid2, ['paused'])
-        self.assertFalse(r2['paused'])
+        assert not r2['paused']
 
         self.core.pause_torrent(tid2)
         r1 = self.core.get_torrent_status(tid1, ['paused'])
-        self.assertFalse(r1['paused'])
+        assert not r1['paused']
         r2 = self.core.get_torrent_status(tid2, ['paused'])
-        self.assertTrue(r2['paused'])
+        assert r2['paused']
 
     def test_pause_torrent_list(self):
         """Backward compatibility for list of torrent_ids."""
         torrent_id = self.add_torrent('test.torrent')
         result = self.core.get_torrent_status(torrent_id, ['paused'])
-        self.assertFalse(result['paused'])
+        assert not result['paused']
         self.core.pause_torrent([torrent_id])
         result = self.core.get_torrent_status(torrent_id, ['paused'])
-        self.assertTrue(result['paused'])
+        assert result['paused']
 
     def test_pause_torrents(self):
         tid1 = self.add_torrent('test.torrent')
@@ -299,9 +296,9 @@ class CoreTestCase(BaseTestCase):
 
         self.core.pause_torrents([tid1, tid2])
         r1 = self.core.get_torrent_status(tid1, ['paused'])
-        self.assertTrue(r1['paused'])
+        assert r1['paused']
         r2 = self.core.get_torrent_status(tid2, ['paused'])
-        self.assertTrue(r2['paused'])
+        assert r2['paused']
 
     def test_pause_torrents_all(self):
         """With no torrent_ids param, pause all torrents"""
@@ -310,9 +307,9 @@ class CoreTestCase(BaseTestCase):
 
         self.core.pause_torrents()
         r1 = self.core.get_torrent_status(tid1, ['paused'])
-        self.assertTrue(r1['paused'])
+        assert r1['paused']
         r2 = self.core.get_torrent_status(tid2, ['paused'])
-        self.assertTrue(r2['paused'])
+        assert r2['paused']
 
     def test_prefetch_metadata_existing(self):
         """Check another call with same magnet returns existing deferred."""
@@ -320,7 +317,7 @@ class CoreTestCase(BaseTestCase):
         expected = ('ab570cdd5a17ea1b61e970bb72047de141bce173', b'')
 
         def on_result(result):
-            self.assertEqual(result, expected)
+            assert result == expected
 
         d = self.core.prefetch_magnet_metadata(magnet)
         d.addCallback(on_result)
@@ -329,7 +326,7 @@ class CoreTestCase(BaseTestCase):
         self.clock.advance(30)
         return defer.DeferredList([d, d2])
 
-    @defer.inlineCallbacks
+    @pytest_twisted.inlineCallbacks
     def test_remove_torrent(self):
         options = {}
         filename = common.get_test_data_file('test.torrent')
@@ -337,18 +334,17 @@ class CoreTestCase(BaseTestCase):
             filedump = b64encode(_file.read())
         torrent_id = yield self.core.add_torrent_file_async(filename, filedump, options)
         removed = self.core.remove_torrent(torrent_id, True)
-        self.assertTrue(removed)
-        self.assertEqual(len(self.core.get_session_state()), 0)
+        assert removed
+        assert len(self.core.get_session_state()) == 0
 
     def test_remove_torrent_invalid(self):
-        self.assertRaises(
-            InvalidTorrentError,
-            self.core.remove_torrent,
-            'torrentidthatdoesntexist',
-            True,
-        )
+        with pytest.raises(InvalidTorrentError):
+            self.core.remove_torrent(
+                'torrentidthatdoesntexist',
+                True,
+            )
 
-    @defer.inlineCallbacks
+    @pytest_twisted.inlineCallbacks
     def test_remove_torrents(self):
         options = {}
         filename = common.get_test_data_file('test.torrent')
@@ -365,17 +361,17 @@ class CoreTestCase(BaseTestCase):
         d = self.core.remove_torrents([torrent_id, torrent_id2], True)
 
         def test_ret(val):
-            self.assertTrue(val == [])
+            assert val == []
 
         d.addCallback(test_ret)
 
         def test_session_state(val):
-            self.assertEqual(len(self.core.get_session_state()), 0)
+            assert len(self.core.get_session_state()) == 0
 
         d.addCallback(test_session_state)
         yield d
 
-    @defer.inlineCallbacks
+    @pytest_twisted.inlineCallbacks
     def test_remove_torrents_invalid(self):
         options = {}
         filename = common.get_test_data_file('test.torrent')
@@ -387,57 +383,53 @@ class CoreTestCase(BaseTestCase):
         val = yield self.core.remove_torrents(
             ['invalidid1', 'invalidid2', torrent_id], False
         )
-        self.assertEqual(len(val), 2)
-        self.assertEqual(
-            val[0], ('invalidid1', 'torrent_id invalidid1 not in session.')
-        )
-        self.assertEqual(
-            val[1], ('invalidid2', 'torrent_id invalidid2 not in session.')
-        )
+        assert len(val) == 2
+        assert val[0] == ('invalidid1', 'torrent_id invalidid1 not in session.')
+        assert val[1] == ('invalidid2', 'torrent_id invalidid2 not in session.')
 
     def test_get_session_status(self):
         status = self.core.get_session_status(
             ['net.recv_tracker_bytes', 'net.sent_tracker_bytes']
         )
-        self.assertIsInstance(status, dict)
-        self.assertEqual(status['net.recv_tracker_bytes'], 0)
-        self.assertEqual(status['net.sent_tracker_bytes'], 0)
+        assert isinstance(status, dict)
+        assert status['net.recv_tracker_bytes'] == 0
+        assert status['net.sent_tracker_bytes'] == 0
 
     def test_get_session_status_all(self):
         status = self.core.get_session_status([])
-        self.assertIsInstance(status, dict)
-        self.assertIn('upload_rate', status)
-        self.assertIn('net.recv_bytes', status)
+        assert isinstance(status, dict)
+        assert 'upload_rate' in status
+        assert 'net.recv_bytes' in status
 
     def test_get_session_status_depr(self):
         status = self.core.get_session_status(['num_peers', 'num_unchoked'])
-        self.assertIsInstance(status, dict)
-        self.assertEqual(status['num_peers'], 0)
-        self.assertEqual(status['num_unchoked'], 0)
+        assert isinstance(status, dict)
+        assert status['num_peers'] == 0
+        assert status['num_unchoked'] == 0
 
     def test_get_session_status_rates(self):
         status = self.core.get_session_status(['upload_rate', 'download_rate'])
-        self.assertIsInstance(status, dict)
-        self.assertEqual(status['upload_rate'], 0)
+        assert isinstance(status, dict)
+        assert status['upload_rate'] == 0
 
     def test_get_session_status_ratio(self):
         status = self.core.get_session_status(['write_hit_ratio', 'read_hit_ratio'])
-        self.assertIsInstance(status, dict)
-        self.assertEqual(status['write_hit_ratio'], 0.0)
-        self.assertEqual(status['read_hit_ratio'], 0.0)
+        assert isinstance(status, dict)
+        assert status['write_hit_ratio'] == 0.0
+        assert status['read_hit_ratio'] == 0.0
 
     def test_get_free_space(self):
         space = self.core.get_free_space('.')
-        self.assertTrue(isinstance(space, int))
-        self.assertTrue(space >= 0)
-        self.assertEqual(self.core.get_free_space('/someinvalidpath'), -1)
+        assert isinstance(space, int)
+        assert space >= 0
+        assert self.core.get_free_space('/someinvalidpath') == -1
 
     @pytest.mark.slow
     def test_test_listen_port(self):
         d = self.core.test_listen_port()
 
         def result(r):
-            self.assertTrue(r in (True, False))
+            assert r in (True, False)
 
         d.addCallback(result)
         return d
@@ -455,24 +447,22 @@ class CoreTestCase(BaseTestCase):
         }
 
         for key in pathlist:
-            self.assertEqual(
-                deluge.core.torrent.sanitize_filepath(key, folder=False), pathlist[key]
+            assert (
+                deluge.core.torrent.sanitize_filepath(key, folder=False)
+                == pathlist[key]
             )
-            self.assertEqual(
-                deluge.core.torrent.sanitize_filepath(key, folder=True),
-                pathlist[key] + '/',
+
+            assert (
+                deluge.core.torrent.sanitize_filepath(key, folder=True)
+                == pathlist[key] + '/'
             )
 
     def test_get_set_config_values(self):
-        self.assertEqual(
-            self.core.get_config_values(['abc', 'foo']), {'foo': None, 'abc': None}
-        )
-        self.assertEqual(self.core.get_config_value('foobar'), None)
+        assert self.core.get_config_values(['abc', 'foo']) == {'foo': None, 'abc': None}
+        assert self.core.get_config_value('foobar') is None
         self.core.set_config({'abc': 'def', 'foo': 10, 'foobar': 'barfoo'})
-        self.assertEqual(
-            self.core.get_config_values(['foo', 'abc']), {'foo': 10, 'abc': 'def'}
-        )
-        self.assertEqual(self.core.get_config_value('foobar'), 'barfoo')
+        assert self.core.get_config_values(['foo', 'abc']) == {'foo': 10, 'abc': 'def'}
+        assert self.core.get_config_value('foobar') == 'barfoo'
 
     def test_read_only_config_keys(self):
         key = 'max_upload_speed'
@@ -481,13 +471,13 @@ class CoreTestCase(BaseTestCase):
         old_value = self.core.get_config_value(key)
         self.core.set_config({key: old_value + 10})
         new_value = self.core.get_config_value(key)
-        self.assertEqual(old_value, new_value)
+        assert old_value == new_value
 
         self.core.read_only_config_keys = None
 
     def test__create_peer_id(self):
-        self.assertEqual(self.core._create_peer_id('2.0.0'), '-DE200s-')
-        self.assertEqual(self.core._create_peer_id('2.0.0.dev15'), '-DE200D-')
-        self.assertEqual(self.core._create_peer_id('2.0.1rc1'), '-DE201r-')
-        self.assertEqual(self.core._create_peer_id('2.11.0b2'), '-DE2B0b-')
-        self.assertEqual(self.core._create_peer_id('2.4.12b2.dev3'), '-DE24CD-')
+        assert self.core._create_peer_id('2.0.0') == '-DE200s-'
+        assert self.core._create_peer_id('2.0.0.dev15') == '-DE200D-'
+        assert self.core._create_peer_id('2.0.1rc1') == '-DE201r-'
+        assert self.core._create_peer_id('2.11.0b2') == '-DE2B0b-'
+        assert self.core._create_peer_id('2.4.12b2.dev3') == '-DE24CD-'

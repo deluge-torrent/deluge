@@ -9,8 +9,9 @@
 import json as json_lib
 from io import BytesIO
 
+import pytest_twisted
 import twisted.web.client
-from twisted.internet import defer, reactor
+from twisted.internet import reactor
 from twisted.web.client import Agent, FileBodyProducer
 from twisted.web.http_headers import Headers
 
@@ -21,8 +22,8 @@ from .common_web import WebServerMockBase, WebServerTestBase
 common.disable_new_release_check()
 
 
-class WebServerTestCase(WebServerTestBase, WebServerMockBase):
-    @defer.inlineCallbacks
+class TestWebServer(WebServerTestBase, WebServerMockBase):
+    @pytest_twisted.inlineCallbacks
     def test_get_torrent_info(self):
 
         agent = Agent(reactor)
@@ -49,9 +50,11 @@ class WebServerTestCase(WebServerTestBase, WebServerMockBase):
             Headers(headers),
             FileBodyProducer(BytesIO(input_file.encode('utf-8'))),
         )
-
         body = yield twisted.web.client.readBody(d)
 
-        json = json_lib.loads(body.decode())
-        self.assertEqual(None, json['error'])
-        self.assertEqual('torrent_filehash', json['result']['name'])
+        try:
+            json = json_lib.loads(body.decode())
+        except Exception:
+            print('aoeu')
+        assert json['error'] is None
+        assert 'torrent_filehash' == json['result']['name']

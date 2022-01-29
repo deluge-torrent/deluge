@@ -5,26 +5,19 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-from twisted.trial import unittest
 
 from deluge.ui.common import TorrentInfo
 
 from . import common
 
 
-class UICommonTestCase(unittest.TestCase):
-    def setUp(self):  # NOQA: N803
-        pass
-
-    def tearDown(self):  # NOQA: N803
-        pass
-
+class TestUICommon:
     def test_hash_optional_single_file(self):
         """Ensure single file with `ed2k` and `sha1` keys are not in filetree output."""
         filename = common.get_test_data_file('test.torrent')
         files_tree = {'azcvsupdater_2.6.2.jar': (0, 307949, True)}
         ti = TorrentInfo(filename, filetree=1)
-        self.assertEqual(ti.files_tree, files_tree)
+        assert ti.files_tree == files_tree
 
         files_tree2 = {
             'contents': {
@@ -37,7 +30,7 @@ class UICommonTestCase(unittest.TestCase):
             }
         }
         ti = TorrentInfo(filename, filetree=2)
-        self.assertEqual(ti.files_tree, files_tree2)
+        assert ti.files_tree == files_tree2
 
     def test_hash_optional_multi_file(self):
         """Ensure multi-file with `filehash` and `ed2k` are keys not in filetree output."""
@@ -49,7 +42,7 @@ class UICommonTestCase(unittest.TestCase):
             }
         }
         ti = TorrentInfo(filename, filetree=1)
-        self.assertEqual(ti.files_tree, files_tree)
+        assert ti.files_tree == files_tree
 
         filestree2 = {
             'contents': {
@@ -78,14 +71,14 @@ class UICommonTestCase(unittest.TestCase):
             'type': 'dir',
         }
         ti = TorrentInfo(filename, filetree=2)
-        self.assertEqual(ti.files_tree, filestree2)
+        assert ti.files_tree == filestree2
 
     def test_hash_optional_md5sum(self):
         # Ensure `md5sum` key is not included in filetree output
         filename = common.get_test_data_file('md5sum.torrent')
         files_tree = {'test': {'lol': (0, 4, True), 'rofl': (1, 5, True)}}
         ti = TorrentInfo(filename, filetree=1)
-        self.assertEqual(ti.files_tree, files_tree)
+        assert ti.files_tree == files_tree
         ti = TorrentInfo(filename, filetree=2)
         files_tree2 = {
             'contents': {
@@ -113,12 +106,12 @@ class UICommonTestCase(unittest.TestCase):
             },
             'type': 'dir',
         }
-        self.assertEqual(ti.files_tree, files_tree2)
+        assert ti.files_tree == files_tree2
 
     def test_utf8_encoded_paths(self):
         filename = common.get_test_data_file('test.torrent')
         ti = TorrentInfo(filename)
-        self.assertTrue('azcvsupdater_2.6.2.jar' in ti.files_tree)
+        assert 'azcvsupdater_2.6.2.jar' in ti.files_tree
 
     def test_utf8_encoded_paths2(self):
         filename = common.get_test_data_file('unicode_filenames.torrent')
@@ -133,11 +126,11 @@ class UICommonTestCase(unittest.TestCase):
 
         ti = TorrentInfo(filename)
         files_tree = ti.files_tree['unicode_filenames']
-        self.assertIn(filepath1, files_tree)
-        self.assertIn(filepath2, files_tree)
-        self.assertIn(filepath3, files_tree)
-        self.assertIn(filepath4, files_tree)
-        self.assertIn(filepath5, files_tree)
+        assert filepath1 in files_tree
+        assert filepath2 in files_tree
+        assert filepath3 in files_tree
+        assert filepath4 in files_tree
+        assert filepath5 in files_tree
 
         result_files = [
             {
@@ -163,4 +156,4 @@ class UICommonTestCase(unittest.TestCase):
             {'download': True, 'path': 'unicode_filenames/' + filepath1, 'size': 1771},
         ]
 
-        self.assertCountEqual(ti.files, result_files)
+        assert len(ti.files) == len(result_files)

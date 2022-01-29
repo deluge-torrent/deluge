@@ -8,14 +8,11 @@
 #
 
 import pytest
-from twisted.trial import unittest
 
 import deluge.component as component
 from deluge.configmanager import ConfigManager
+from deluge.conftest import BaseTestCase
 from deluge.i18n import setup_translation
-
-from . import common
-from .basetest import BaseTestCase
 
 # Allow running other tests without GTKUI dependencies available
 try:
@@ -37,7 +34,7 @@ setup_translation()
 
 
 @pytest.mark.gtkui
-class TorrentviewTestCase(BaseTestCase):
+class TestTorrentview(BaseTestCase):
 
     default_column_index = [
         'filter',
@@ -107,9 +104,8 @@ class TorrentviewTestCase(BaseTestCase):
 
     def set_up(self):
         if libs_available is False:
-            raise unittest.SkipTest('GTKUI dependencies not available')
+            pytest.skip('GTKUI dependencies not available')
 
-        common.set_tmp_config_dir()
         # MainWindow loads this config file, so lets make sure it contains the defaults
         ConfigManager('gtk3ui.conf', defaults=DEFAULT_PREFS)
         self.mainwindow = MainWindow()
@@ -121,36 +117,23 @@ class TorrentviewTestCase(BaseTestCase):
         return component.shutdown()
 
     def test_torrentview_columns(self):
-
-        self.assertEqual(
-            self.torrentview.column_index, TorrentviewTestCase.default_column_index
-        )
-        self.assertEqual(
-            self.torrentview.liststore_columns,
-            TorrentviewTestCase.default_liststore_columns,
-        )
-        self.assertEqual(
-            self.torrentview.columns['Download Folder'].column_indices, [30]
-        )
+        assert self.torrentview.column_index == self.default_column_index
+        assert self.torrentview.liststore_columns == self.default_liststore_columns
+        assert self.torrentview.columns['Download Folder'].column_indices == [30]
 
     def test_add_column(self):
-
         # Add a text column
         test_col = 'Test column'
         self.torrentview.add_text_column(test_col, status_field=['label'])
-        self.assertEqual(
-            len(self.torrentview.liststore_columns),
-            len(TorrentviewTestCase.default_liststore_columns) + 1,
+        assert (
+            len(self.torrentview.liststore_columns)
+            == len(self.default_liststore_columns) + 1
         )
-        self.assertEqual(
-            len(self.torrentview.column_index),
-            len(TorrentviewTestCase.default_column_index) + 1,
-        )
-        self.assertEqual(self.torrentview.column_index[-1], test_col)
-        self.assertEqual(self.torrentview.columns[test_col].column_indices, [33])
+        assert len(self.torrentview.column_index) == len(self.default_column_index) + 1
+        assert self.torrentview.column_index[-1] == test_col
+        assert self.torrentview.columns[test_col].column_indices == [33]
 
     def test_add_columns(self):
-
         # Add a text column
         test_col = 'Test column'
         self.torrentview.add_text_column(test_col, status_field=['label'])
@@ -159,50 +142,35 @@ class TorrentviewTestCase(BaseTestCase):
         test_col2 = 'Test column2'
         self.torrentview.add_text_column(test_col2, status_field=['label2'])
 
-        self.assertEqual(
-            len(self.torrentview.liststore_columns),
-            len(TorrentviewTestCase.default_liststore_columns) + 2,
+        assert (
+            len(self.torrentview.liststore_columns)
+            == len(self.default_liststore_columns) + 2
         )
-        self.assertEqual(
-            len(self.torrentview.column_index),
-            len(TorrentviewTestCase.default_column_index) + 2,
-        )
+        assert len(self.torrentview.column_index) == len(self.default_column_index) + 2
         # test_col
-        self.assertEqual(self.torrentview.column_index[-2], test_col)
-        self.assertEqual(self.torrentview.columns[test_col].column_indices, [33])
+        assert self.torrentview.column_index[-2] == test_col
+        assert self.torrentview.columns[test_col].column_indices == [33]
 
         # test_col2
-        self.assertEqual(self.torrentview.column_index[-1], test_col2)
-        self.assertEqual(self.torrentview.columns[test_col2].column_indices, [34])
+        assert self.torrentview.column_index[-1] == test_col2
+        assert self.torrentview.columns[test_col2].column_indices == [34]
 
     def test_remove_column(self):
-
         # Add and remove text column
         test_col = 'Test column'
         self.torrentview.add_text_column(test_col, status_field=['label'])
         self.torrentview.remove_column(test_col)
 
-        self.assertEqual(
-            len(self.torrentview.liststore_columns),
-            len(TorrentviewTestCase.default_liststore_columns),
+        assert len(self.torrentview.liststore_columns) == len(
+            self.default_liststore_columns
         )
-        self.assertEqual(
-            len(self.torrentview.column_index),
-            len(TorrentviewTestCase.default_column_index),
-        )
-        self.assertEqual(
-            self.torrentview.column_index[-1],
-            TorrentviewTestCase.default_column_index[-1],
-        )
-        self.assertEqual(
-            self.torrentview.columns[
-                TorrentviewTestCase.default_column_index[-1]
-            ].column_indices,
-            [32],
-        )
+        assert len(self.torrentview.column_index) == len(self.default_column_index)
+        assert self.torrentview.column_index[-1] == self.default_column_index[-1]
+        assert self.torrentview.columns[
+            self.default_column_index[-1]
+        ].column_indices == [32]
 
     def test_remove_columns(self):
-
         # Add two columns
         test_col = 'Test column'
         self.torrentview.add_text_column(test_col, status_field=['label'])
@@ -211,74 +179,47 @@ class TorrentviewTestCase(BaseTestCase):
 
         # Remove test_col
         self.torrentview.remove_column(test_col)
-        self.assertEqual(
-            len(self.torrentview.liststore_columns),
-            len(TorrentviewTestCase.default_liststore_columns) + 1,
+        assert (
+            len(self.torrentview.liststore_columns)
+            == len(self.default_liststore_columns) + 1
         )
-        self.assertEqual(
-            len(self.torrentview.column_index),
-            len(TorrentviewTestCase.default_column_index) + 1,
-        )
-        self.assertEqual(self.torrentview.column_index[-1], test_col2)
-        self.assertEqual(self.torrentview.columns[test_col2].column_indices, [33])
+        assert len(self.torrentview.column_index) == len(self.default_column_index) + 1
+        assert self.torrentview.column_index[-1] == test_col2
+        assert self.torrentview.columns[test_col2].column_indices == [33]
 
         # Remove test_col2
         self.torrentview.remove_column(test_col2)
-        self.assertEqual(
-            len(self.torrentview.liststore_columns),
-            len(TorrentviewTestCase.default_liststore_columns),
+        assert len(self.torrentview.liststore_columns) == len(
+            self.default_liststore_columns
         )
-        self.assertEqual(
-            len(self.torrentview.column_index),
-            len(TorrentviewTestCase.default_column_index),
-        )
-        self.assertEqual(
-            self.torrentview.column_index[-1],
-            TorrentviewTestCase.default_column_index[-1],
-        )
-        self.assertEqual(
-            self.torrentview.columns[
-                TorrentviewTestCase.default_column_index[-1]
-            ].column_indices,
-            [32],
-        )
+        assert len(self.torrentview.column_index) == len(self.default_column_index)
+        assert self.torrentview.column_index[-1] == self.default_column_index[-1]
+        assert self.torrentview.columns[
+            self.default_column_index[-1]
+        ].column_indices == [32]
 
     def test_add_remove_column_multiple_types(self):
-
         # Add a column with multiple column types
         test_col3 = 'Test column3'
         self.torrentview.add_progress_column(
             test_col3, status_field=['progress', 'label3'], col_types=[float, str]
         )
-        self.assertEqual(
-            len(self.torrentview.liststore_columns),
-            len(TorrentviewTestCase.default_liststore_columns) + 2,
+        assert (
+            len(self.torrentview.liststore_columns)
+            == len(self.default_liststore_columns) + 2
         )
-        self.assertEqual(
-            len(self.torrentview.column_index),
-            len(TorrentviewTestCase.default_column_index) + 1,
-        )
-        self.assertEqual(self.torrentview.column_index[-1], test_col3)
-        self.assertEqual(self.torrentview.columns[test_col3].column_indices, [33, 34])
+        assert len(self.torrentview.column_index) == len(self.default_column_index) + 1
+        assert self.torrentview.column_index[-1] == test_col3
+        assert self.torrentview.columns[test_col3].column_indices == [33, 34]
 
         # Remove multiple column-types column
         self.torrentview.remove_column(test_col3)
 
-        self.assertEqual(
-            len(self.torrentview.liststore_columns),
-            len(TorrentviewTestCase.default_liststore_columns),
+        assert len(self.torrentview.liststore_columns) == len(
+            self.default_liststore_columns
         )
-        self.assertEqual(
-            len(self.torrentview.column_index),
-            len(TorrentviewTestCase.default_column_index),
-        )
-        self.assertEqual(
-            self.torrentview.column_index[-1],
-            TorrentviewTestCase.default_column_index[-1],
-        )
-        self.assertEqual(
-            self.torrentview.columns[
-                TorrentviewTestCase.default_column_index[-1]
-            ].column_indices,
-            [32],
-        )
+        assert len(self.torrentview.column_index) == len(self.default_column_index)
+        assert self.torrentview.column_index[-1] == self.default_column_index[-1]
+        assert self.torrentview.columns[
+            self.default_column_index[-1]
+        ].column_indices == [32]

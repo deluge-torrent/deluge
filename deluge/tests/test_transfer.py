@@ -8,8 +8,8 @@
 
 import base64
 
+import pytest
 import rencode
-from twisted.trial import unittest
 
 import deluge.log
 from deluge.transfer import DelugeTransferProtocol
@@ -109,8 +109,9 @@ class TransferTestClass(DelugeTransferProtocol):
             self.message_received(request)
 
 
-class DelugeTransferProtocolTestCase(unittest.TestCase):
-    def setUp(self):  # NOQA: N803
+class TestDelugeTransferProtocol:
+    @pytest.fixture(autouse=True)
+    def set_up(self):
         """
         The expected messages corresponds to the test messages (msg1, msg2) after they've been processed
         by DelugeTransferProtocol.send, which means that they've first been encoded with rencode,
@@ -157,7 +158,7 @@ class DelugeTransferProtocolTestCase(unittest.TestCase):
         # Get the data as sent by DelugeTransferProtocol
         messages = self.transfer.get_messages_out_joined()
         base64_encoded = base64.b64encode(messages)
-        self.assertEqual(base64_encoded, self.msg1_expected_compressed_base64)
+        assert base64_encoded == self.msg1_expected_compressed_base64
 
     def test_receive_one_message(self):
         """
@@ -170,7 +171,7 @@ class DelugeTransferProtocolTestCase(unittest.TestCase):
         )
         # Get the data as sent by DelugeTransferProtocol
         messages = self.transfer.get_messages_in().pop(0)
-        self.assertEqual(rencode.dumps(self.msg1), rencode.dumps(messages))
+        assert rencode.dumps(self.msg1) == rencode.dumps(messages)
 
     def test_receive_old_message(self):
         """
@@ -178,9 +179,9 @@ class DelugeTransferProtocolTestCase(unittest.TestCase):
 
         """
         self.transfer.dataReceived(rencode.dumps(self.msg1))
-        self.assertEqual(len(self.transfer.get_messages_in()), 0)
-        self.assertEqual(self.transfer._message_length, 0)
-        self.assertEqual(len(self.transfer._buffer), 0)
+        assert len(self.transfer.get_messages_in()) == 0
+        assert self.transfer._message_length == 0
+        assert len(self.transfer._buffer) == 0
 
     def test_receive_two_concatenated_messages(self):
         """
@@ -195,9 +196,9 @@ class DelugeTransferProtocolTestCase(unittest.TestCase):
 
         # Get the data as sent by DelugeTransferProtocol
         message1 = self.transfer.get_messages_in().pop(0)
-        self.assertEqual(rencode.dumps(self.msg1), rencode.dumps(message1))
+        assert rencode.dumps(self.msg1) == rencode.dumps(message1)
         message2 = self.transfer.get_messages_in().pop(0)
-        self.assertEqual(rencode.dumps(self.msg2), rencode.dumps(message2))
+        assert rencode.dumps(self.msg2) == rencode.dumps(message2)
 
     def test_receive_three_messages_in_parts(self):
         """
@@ -234,17 +235,15 @@ class DelugeTransferProtocolTestCase(unittest.TestCase):
             else:
                 expected_msgs_received_count = 0
             # Verify that the expected number of complete messages has arrived
-            self.assertEqual(
-                expected_msgs_received_count, len(self.transfer.get_messages_in())
-            )
+            assert expected_msgs_received_count == len(self.transfer.get_messages_in())
 
         # Get the data as received by DelugeTransferProtocol
         message1 = self.transfer.get_messages_in().pop(0)
-        self.assertEqual(rencode.dumps(self.msg1), rencode.dumps(message1))
+        assert rencode.dumps(self.msg1) == rencode.dumps(message1)
         message2 = self.transfer.get_messages_in().pop(0)
-        self.assertEqual(rencode.dumps(self.msg2), rencode.dumps(message2))
+        assert rencode.dumps(self.msg2) == rencode.dumps(message2)
         message3 = self.transfer.get_messages_in().pop(0)
-        self.assertEqual(rencode.dumps(self.msg1), rencode.dumps(message3))
+        assert rencode.dumps(self.msg1) == rencode.dumps(message3)
 
     # Remove underscore to enable test, or run the test directly:
     # tests $ trial test_transfer.DelugeTransferProtocolTestCase._test_rencode_fail_protocol
@@ -314,11 +313,11 @@ class DelugeTransferProtocolTestCase(unittest.TestCase):
 
         # Get the data as received by DelugeTransferProtocol
         message1 = self.transfer.get_messages_in().pop(0)
-        self.assertEqual(rencode.dumps(self.msg1), rencode.dumps(message1))
+        assert rencode.dumps(self.msg1) == rencode.dumps(message1)
         message2 = self.transfer.get_messages_in().pop(0)
-        self.assertEqual(rencode.dumps(self.msg2), rencode.dumps(message2))
+        assert rencode.dumps(self.msg2) == rencode.dumps(message2)
         message3 = self.transfer.get_messages_in().pop(0)
-        self.assertEqual(rencode.dumps(self.msg1), rencode.dumps(message3))
+        assert rencode.dumps(self.msg1) == rencode.dumps(message3)
 
     def test_receive_middle_of_header(self):
         """
@@ -341,19 +340,19 @@ class DelugeTransferProtocolTestCase(unittest.TestCase):
         self.transfer.dataReceived(two_concatenated[: first_len + 2])
 
         # Should be 1 message in the list
-        self.assertEqual(1, len(self.transfer.get_messages_in()))
+        assert 1 == len(self.transfer.get_messages_in())
 
         # Send the rest
         self.transfer.dataReceived(two_concatenated[first_len + 2 :])
 
         # Should be 2 messages in the list
-        self.assertEqual(2, len(self.transfer.get_messages_in()))
+        assert 2 == len(self.transfer.get_messages_in())
 
         # Get the data as sent by DelugeTransferProtocol
         message1 = self.transfer.get_messages_in().pop(0)
-        self.assertEqual(rencode.dumps(self.msg1), rencode.dumps(message1))
+        assert rencode.dumps(self.msg1) == rencode.dumps(message1)
         message2 = self.transfer.get_messages_in().pop(0)
-        self.assertEqual(rencode.dumps(self.msg2), rencode.dumps(message2))
+        assert rencode.dumps(self.msg2) == rencode.dumps(message2)
 
     # Needs file containing big data structure e.g. like thetorrent list as it is transfered by the daemon
     # def test_simulate_big_transfer(self):
