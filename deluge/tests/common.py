@@ -280,7 +280,10 @@ except Exception:
 
     # Specify the triggers for daemon log output
     default_core_cb['triggers'] = [
-        {'expr': 'Finished loading ', 'value': lambda reader, data, data_all: reader},
+        {
+            'expr': 'All components have started',
+            'value': lambda reader, data, data_all: reader,
+        },
         {
             'expr': 'Cannot start deluged, listen port in use.',
             'type': 'errback',

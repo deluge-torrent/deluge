@@ -155,7 +155,9 @@ class Daemon:
             with open(self.pid_file, 'w') as _file:
                 _file.write(f'{pid};{self.port}\n')
 
-            component.start()
+            d = component.start()
+            # This message is used in test suite to determine when daemon has finished loading
+            d.addCallback(lambda r: log.info('All components have started'))
 
             try:
                 reactor.run()
