@@ -15,16 +15,9 @@ import deluge.component as component
 from . import common
 
 
-@pytest.mark.usefixtures('get_pytest_basetemp')
+@pytest.mark.usefixtures('config_dir')
 class DaemonBase:
-    basetemp = None
-
-    @pytest.fixture
-    def get_pytest_basetemp(self, request):
-        self.basetemp = request.config.option.basetemp
-
     def common_set_up(self):
-        common.set_tmp_config_dir()
         self.listen_port = 58900
         self.core = None
         return component.start()
@@ -71,6 +64,7 @@ class DaemonBase:
                     print_stdout=print_stdout,
                     print_stderr=print_stderr,
                     extra_callbacks=extra_callbacks,
+                    config_directory=self.config_dir,
                 )
                 yield d
             except CannotListenError as ex:

@@ -6,19 +6,20 @@
 # See LICENSE for more details.
 #
 
+import pytest
+
 import deluge.common
-import deluge.component as component
 import deluge.ui.web.auth
 import deluge.ui.web.server
 from deluge import configmanager
+from deluge.conftest import BaseTestCase
 from deluge.ui.web.server import DelugeWeb
 
-from .basetest import BaseTestCase
 from .common import ReactorOverride
-from .daemon_base import DaemonBase
 
 
-class WebServerTestBase(BaseTestCase, DaemonBase):
+@pytest.mark.usefixtures('daemon', 'component')
+class WebServerTestBase(BaseTestCase):
     """
     Base class for tests that need a running webapi
 
@@ -27,10 +28,7 @@ class WebServerTestBase(BaseTestCase, DaemonBase):
     def set_up(self):
         self.host_id = None
         deluge.ui.web.server.reactor = ReactorOverride()
-        d = self.common_set_up()
-        d.addCallback(self.start_core)
-        d.addCallback(self.start_webapi)
-        return d
+        return self.start_webapi(None)
 
     def start_webapi(self, arg):
         self.webserver_listen_port = 8999
@@ -46,11 +44,6 @@ class WebServerTestBase(BaseTestCase, DaemonBase):
         self.deluge_web.web_api.hostlist.config['hosts'][0] = tuple(host)
         self.host_id = host[0]
         self.deluge_web.start()
-
-    def tear_down(self):
-        d = component.shutdown()
-        d.addCallback(self.terminate_core)
-        return d
 
 
 class WebServerMockBase:

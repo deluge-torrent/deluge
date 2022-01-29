@@ -4,13 +4,12 @@
 # See LICENSE for more details.
 #
 import pytest
+import pytest_twisted
 from twisted.internet import defer
 from twisted.trial import unittest
 
 import deluge.component as component
 from deluge.common import fsize, fspeed
-from deluge.tests import common as tests_common
-from deluge.tests.basetest import BaseTestCase
 from deluge.ui.client import client
 
 
@@ -23,17 +22,17 @@ def print_totals(totals):
     print('down:', fsize(totals['total_download'] - totals['total_payload_download']))
 
 
-class StatsTestCase(BaseTestCase):
-    def set_up(self):
+@pytest.mark.usefixtures('component')
+class TestStatsPlugin:
+    @pytest_twisted.async_yield_fixture(autouse=True)
+    async def set_up(self):
         defer.setDebugging(True)
-        tests_common.set_tmp_config_dir()
         client.start_standalone()
         client.core.enable_plugin('Stats')
-        return component.start()
-
-    def tear_down(self):
+        await component.start()
+        yield
         client.stop_standalone()
-        return component.shutdown()
+        await component.shutdown()
 
     @defer.inlineCallbacks
     def test_client_totals(self):
@@ -42,10 +41,10 @@ class StatsTestCase(BaseTestCase):
             raise unittest.SkipTest('WebUi plugin not available for testing')
 
         totals = yield client.stats.get_totals()
-        self.assertEqual(totals['total_upload'], 0)
-        self.assertEqual(totals['total_payload_upload'], 0)
-        self.assertEqual(totals['total_payload_download'], 0)
-        self.assertEqual(totals['total_download'], 0)
+        assert totals['total_upload'] == 0
+        assert totals['total_payload_upload'] == 0
+        assert totals['total_payload_download'] == 0
+        assert totals['total_download'] == 0
         # print_totals(totals)
 
     @defer.inlineCallbacks
@@ -55,10 +54,10 @@ class StatsTestCase(BaseTestCase):
             raise unittest.SkipTest('WebUi plugin not available for testing')
 
         totals = yield client.stats.get_session_totals()
-        self.assertEqual(totals['total_upload'], 0)
-        self.assertEqual(totals['total_payload_upload'], 0)
-        self.assertEqual(totals['total_payload_download'], 0)
-        self.assertEqual(totals['total_download'], 0)
+        assert totals['total_upload'] == 0
+        assert totals['total_payload_upload'] == 0
+        assert totals['total_payload_download'] == 0
+        assert totals['total_download'] == 0
         # print_totals(totals)
 
     @pytest.mark.gtkui

@@ -3,9 +3,8 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-from unittest.mock import patch
 
-from twisted.trial import unittest
+from unittest.mock import patch
 
 from deluge.ui.web import auth
 
@@ -21,7 +20,7 @@ class MockConfig:
         self.config[key] = value
 
 
-class WebAuthTestCase(unittest.TestCase):
+class TestWebAuth:
     @patch('deluge.ui.web.auth.JSONComponent.__init__', return_value=None)
     def test_change_password(self, mock_json):
         config = MockConfig(
@@ -31,4 +30,4 @@ class WebAuthTestCase(unittest.TestCase):
             }
         )
         webauth = auth.Auth(config)
-        self.assertTrue(webauth.change_password('deluge', 'deluge_new'))
+        assert webauth.change_password('deluge', 'deluge_new')

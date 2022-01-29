@@ -7,8 +7,6 @@
 import os
 import tempfile
 
-from twisted.trial import unittest
-
 from deluge import maketorrent
 
 
@@ -24,7 +22,7 @@ def check_torrent(filename):
     TorrentInfo(filename)
 
 
-class MakeTorrentTestCase(unittest.TestCase):
+class TestMakeTorrent:
     def test_save_multifile(self):
         # Create a temporary folder for torrent creation
         tmp_path = tempfile.mkdtemp()

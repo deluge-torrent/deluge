@@ -13,9 +13,9 @@ import deluge.component as component
 import deluge.ui.web.server
 from deluge import configmanager
 from deluge.common import windows_check
+from deluge.conftest import BaseTestCase
 from deluge.ui.web.server import DelugeWeb
 
-from .basetest import BaseTestCase
 from .common import get_test_data_file
 from .common_web import WebServerTestBase
 from .daemon_base import DaemonBase
@@ -23,15 +23,10 @@ from .daemon_base import DaemonBase
 SECURITY_TESTS = bool(os.getenv('SECURITY_TESTS', False))
 
 
+# TODO: This whole module has not been tested since migrating tests fully to pytest
 class SecurityBaseTestCase:
-    if windows_check():
-        skip = 'windows cannot run .sh files'
-    elif not SECURITY_TESTS:
-        skip = 'Skipping security tests'
-
-    http_err = 'cannot run http tests on daemon'
-
-    def __init__(self):
+    @pytest.fixture(autouse=True)
+    def setvars(self):
         self.home_dir = os.path.expanduser('~')
         self.port = 8112
 
@@ -54,10 +49,10 @@ class SecurityBaseTestCase:
 
             if test == '-e':
                 results = results[0].split(b'\n')[7:-6]
-                self.assertTrue(len(results) > 3)
+                assert len(results) > 3
             else:
-                self.assertIn(b'OK', results[0])
-                self.assertNotIn(b'NOT ok', results[0])
+                assert b'OK' in results[0]
+                assert b'NOT ok' not in results[0]
 
         d.addCallback(on_result)
         return d
@@ -74,17 +69,11 @@ class SecurityBaseTestCase:
     def test_secured_webserver_css_injection_vulnerability(self):
         return self._run_test('-I')
 
-    def test_secured_webserver_ticketbleed_vulnerability(self):
-        return self._run_test('-T')
-
     def test_secured_webserver_renegotiation_vulnerabilities(self):
         return self._run_test('-R')
 
     def test_secured_webserver_crime_vulnerability(self):
         return self._run_test('-C')
-
-    def test_secured_webserver_breach_vulnerability(self):
-        return self._run_test('-B')
 
     def test_secured_webserver_poodle_vulnerability(self):
         return self._run_test('-O')
@@ -119,33 +108,14 @@ class SecurityBaseTestCase:
     def test_secured_webserver_preference(self):
         return self._run_test('-P')
 
-    def test_secured_webserver_headers(self):
-        return self._run_test('-h')
-
     def test_secured_webserver_ciphers(self):
         return self._run_test('-e')
 
 
+@pytest.mark.skipif(windows_check(), reason='windows cannot run .sh files')
+@pytest.mark.skipif(not SECURITY_TESTS, reason='skipping security tests')
 @pytest.mark.security
-class DaemonSecurityTestCase(BaseTestCase, DaemonBase, SecurityBaseTestCase):
-
-    if windows_check():
-        skip = 'windows cannot start_core not enough arguments for format string'
-
-    def __init__(self, testname):
-        super().__init__(testname)
-        DaemonBase.__init__(self)
-        SecurityBaseTestCase.__init__(self)
-
-    def setUp(self):
-        skip = False
-        for not_http_test in ('breach', 'headers', 'ticketbleed'):
-            if not_http_test in self.id().split('.')[-1]:
-                self.skipTest(SecurityBaseTestCase.http_err)
-                skip = True
-        if not skip:
-            super().setUp()
-
+class TestDaemonSecurity(BaseTestCase, DaemonBase, SecurityBaseTestCase):
     def set_up(self):
         d = self.common_set_up()
         self.port = self.listen_port
@@ -159,12 +129,10 @@ class DaemonSecurityTestCase(BaseTestCase, DaemonBase, SecurityBaseTestCase):
         return d
 
 
+@pytest.mark.skipif(windows_check(), reason='windows cannot run .sh files')
+@pytest.mark.skipif(not SECURITY_TESTS, reason='skipping security tests')
 @pytest.mark.security
-class WebUISecurityTestBase(WebServerTestBase, SecurityBaseTestCase):
-    def __init__(self, testname):
-        super().__init__(testname)
-        SecurityBaseTestCase.__init__(self)
-
+class TestWebUISecurity(WebServerTestBase, SecurityBaseTestCase):
     def start_webapi(self, arg):
         self.port = self.webserver_listen_port = 8999
 
@@ -180,3 +148,12 @@ class WebUISecurityTestBase(WebServerTestBase, SecurityBaseTestCase):
         self.deluge_web.web_api.hostlist.config['hosts'][0] = tuple(host)
         self.host_id = host[0]
         self.deluge_web.start()
+
+    def test_secured_webserver_headers(self):
+        return self._run_test('-h')
+
+    def test_secured_webserver_breach_vulnerability(self):
+        return self._run_test('-B')
+
+    def test_secured_webserver_ticketbleed_vulnerability(self):
+        return self._run_test('-T')

@@ -612,7 +612,7 @@ class Client:
             d.addErrback(on_authenticate_fail)
             return d
 
-        d.addCallback(on_connected)
+        d.addCallbacks(on_connected)
         d.addErrback(on_connect_fail)
         if not skip_authentication:
             d.addCallback(authenticate, username, password)

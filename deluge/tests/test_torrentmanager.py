@@ -11,24 +11,24 @@ from base64 import b64encode
 from unittest import mock
 
 import pytest
-from twisted.internet import defer, task
+import pytest_twisted
+from twisted.internet import task
 
 from deluge import component
 from deluge.bencode import bencode
+from deluge.conftest import BaseTestCase
 from deluge.core.core import Core
 from deluge.core.rpcserver import RPCServer
 from deluge.error import InvalidTorrentError
 
 from . import common
-from .basetest import BaseTestCase
 
 warnings.filterwarnings('ignore', category=RuntimeWarning)
 warnings.resetwarnings()
 
 
-class TorrentmanagerTestCase(BaseTestCase):
+class TestTorrentmanager(BaseTestCase):
     def set_up(self):
-        self.config_dir = common.set_tmp_config_dir()
         self.rpcserver = RPCServer(listen=False)
         self.core = Core()
         self.core.config.config['lsd'] = False
@@ -44,7 +44,7 @@ class TorrentmanagerTestCase(BaseTestCase):
 
         return component.shutdown().addCallback(on_shutdown)
 
-    @defer.inlineCallbacks
+    @pytest_twisted.inlineCallbacks
     def test_remove_torrent(self):
         filename = common.get_test_data_file('test.torrent')
         with open(filename, 'rb') as _file:
@@ -52,9 +52,9 @@ class TorrentmanagerTestCase(BaseTestCase):
         torrent_id = yield self.core.add_torrent_file_async(
             filename, b64encode(filedump), {}
         )
-        self.assertTrue(self.tm.remove(torrent_id, False))
+        assert self.tm.remove(torrent_id, False)
 
-    @defer.inlineCallbacks
+    @pytest_twisted.inlineCallbacks
     def test_remove_magnet(self):
         """Test remove magnet before received metadata and delete_copies is True"""
         magnet = 'magnet:?xt=urn:btih:ab570cdd5a17ea1b61e970bb72047de141bce173'
@@ -62,9 +62,10 @@ class TorrentmanagerTestCase(BaseTestCase):
         self.core.config.config['copy_torrent_file'] = True
         self.core.config.config['del_copy_torrent_file'] = True
         torrent_id = yield self.core.add_torrent_magnet(magnet, options)
-        self.assertTrue(self.tm.remove(torrent_id, False))
+        assert self.tm.remove(torrent_id, False)
 
-    def test_prefetch_metadata(self):
+    @pytest_twisted.ensureDeferred
+    async def test_prefetch_metadata(self):
         from deluge._libtorrent import lt
 
         with open(common.get_test_data_file('test.torrent'), 'rb') as _file:
@@ -114,14 +115,16 @@ class TorrentmanagerTestCase(BaseTestCase):
                 )
             ),
         )
-        self.assertEqual(expected, self.successResultOf(d))
+        assert expected == await d
 
-    def test_prefetch_metadata_timeout(self):
+    @pytest_twisted.ensureDeferred
+    async def test_prefetch_metadata_timeout(self):
         magnet = 'magnet:?xt=urn:btih:ab570cdd5a17ea1b61e970bb72047de141bce173'
         d = self.tm.prefetch_metadata(magnet, 30)
         self.clock.advance(30)
+        result = await d
         expected = ('ab570cdd5a17ea1b61e970bb72047de141bce173', b'')
-        return d.addCallback(self.assertEqual, expected)
+        assert result == expected
 
     @pytest.mark.todo
     def test_remove_torrent_false(self):
@@ -129,9 +132,8 @@ class TorrentmanagerTestCase(BaseTestCase):
         common.todo_test(self)
 
     def test_remove_invalid_torrent(self):
-        self.assertRaises(
-            InvalidTorrentError, self.tm.remove, 'torrentidthatdoesntexist'
-        )
+        with pytest.raises(InvalidTorrentError):
+            self.tm.remove('torrentidthatdoesntexist')
 
     def test_open_state(self):
         """Open a state with a UTF-8 encoded torrent filename."""
@@ -141,4 +143,4 @@ class TorrentmanagerTestCase(BaseTestCase):
         )
 
         state = self.tm.open_state()
-        self.assertEqual(len(state.torrents), 1)
+        assert len(state.torrents) == 1

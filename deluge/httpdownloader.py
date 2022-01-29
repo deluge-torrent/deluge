@@ -16,7 +16,7 @@ from twisted.internet.defer import Deferred
 from twisted.python.failure import Failure
 from twisted.web import client, http
 from twisted.web._newclient import HTTPClientParser
-from twisted.web.error import PageRedirect
+from twisted.web.error import Error, PageRedirect
 from twisted.web.http_headers import Headers
 from twisted.web.iweb import IAgent
 from zope.interface import implementer
@@ -121,6 +121,9 @@ class HTTPDownloaderAgent:
         ):
             location = response.headers.getRawHeaders(b'location')[0]
             error = PageRedirect(response.code, location=location)
+            finished.errback(Failure(error))
+        elif response.code >= 400:
+            error = Error(response.code)
             finished.errback(Failure(error))
         else:
             headers = response.headers

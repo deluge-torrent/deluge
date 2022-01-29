@@ -7,14 +7,12 @@
 import os
 from codecs import getwriter
 
+import pytest
 from twisted.internet import task
-from twisted.trial import unittest
 
 import deluge.config
 from deluge.common import JSON_FORMAT
 from deluge.config import Config
-
-from .common import set_tmp_config_dir
 
 DEFAULTS = {
     'string': 'foobar',
@@ -26,34 +24,32 @@ DEFAULTS = {
 }
 
 
-class ConfigTestCase(unittest.TestCase):
-    def setUp(self):  # NOQA: N803
-        self.config_dir = set_tmp_config_dir()
-
+class TestConfig:
     def test_init(self):
         config = Config('test.conf', defaults=DEFAULTS, config_dir=self.config_dir)
-        self.assertEqual(DEFAULTS, config.config)
+        assert DEFAULTS == config.config
 
         config = Config('test.conf', config_dir=self.config_dir)
-        self.assertEqual({}, config.config)
+        assert {} == config.config
 
     def test_set_get_item(self):
         config = Config('test.conf', config_dir=self.config_dir)
         config['foo'] = 1
-        self.assertEqual(config['foo'], 1)
-        self.assertRaises(ValueError, config.set_item, 'foo', 'bar')
+        assert config['foo'] == 1
+        with pytest.raises(ValueError):
+            config.set_item('foo', 'bar')
 
         config['foo'] = 2
-        self.assertEqual(config.get_item('foo'), 2)
+        assert config.get_item('foo') == 2
 
         config['foo'] = '3'
-        self.assertEqual(config.get_item('foo'), 3)
+        assert config.get_item('foo') == 3
 
         config['unicode'] = 'ВИДЕОФИЛЬМЫ'
-        self.assertEqual(config['unicode'], 'ВИДЕОФИЛЬМЫ')
+        assert config['unicode'] == 'ВИДЕОФИЛЬМЫ'
 
         config['unicode'] = b'foostring'
-        self.assertFalse(isinstance(config.get_item('unicode'), bytes))
+        assert not isinstance(config.get_item('unicode'), bytes)
 
         config._save_timer.cancel()
 
@@ -61,39 +57,39 @@ class ConfigTestCase(unittest.TestCase):
         config = Config('test.conf', config_dir=self.config_dir)
 
         config['foo'] = None
-        self.assertIsNone(config['foo'])
-        self.assertIsInstance(config['foo'], type(None))
+        assert config['foo'] is None
+        assert isinstance(config['foo'], type(None))
 
         config['foo'] = 1
-        self.assertEqual(config.get('foo'), 1)
+        assert config.get('foo') == 1
 
         config['foo'] = None
-        self.assertIsNone(config['foo'])
+        assert config['foo'] is None
 
         config['bar'] = None
-        self.assertIsNone(config['bar'])
+        assert config['bar'] is None
 
         config['bar'] = None
-        self.assertIsNone(config['bar'])
+        assert config['bar'] is None
 
         config._save_timer.cancel()
 
     def test_get(self):
         config = Config('test.conf', config_dir=self.config_dir)
         config['foo'] = 1
-        self.assertEqual(config.get('foo'), 1)
-        self.assertEqual(config.get('foobar'), None)
-        self.assertEqual(config.get('foobar', 2), 2)
+        assert config.get('foo') == 1
+        assert config.get('foobar') is None
+        assert config.get('foobar', 2) == 2
         config['foobar'] = 5
-        self.assertEqual(config.get('foobar', 2), 5)
+        assert config.get('foobar', 2) == 5
 
     def test_load(self):
         def check_config():
             config = Config('test.conf', config_dir=self.config_dir)
 
-            self.assertEqual(config['string'], 'foobar')
-            self.assertEqual(config['float'], 0.435)
-            self.assertEqual(config['password'], 'abc123*\\[!]?/<>#{@}=|"+$%(^)~')
+            assert config['string'] == 'foobar'
+            assert config['float'] == 0.435
+            assert config['password'] == 'abc123*\\[!]?/<>#{@}=|"+$%(^)~'
 
         # Test opening a previous 1.2 config file of just a json object
         import json
@@ -125,19 +121,19 @@ class ConfigTestCase(unittest.TestCase):
         # We do this twice because the first time we need to save the file to disk
         # and the second time we do a compare and we should not write
         ret = config.save()
-        self.assertTrue(ret)
+        assert ret
         ret = config.save()
-        self.assertTrue(ret)
+        assert ret
 
         config['string'] = 'baz'
         config['int'] = 2
         ret = config.save()
-        self.assertTrue(ret)
+        assert ret
         del config
 
         config = Config('test.conf', defaults=DEFAULTS, config_dir=self.config_dir)
-        self.assertEqual(config['string'], 'baz')
-        self.assertEqual(config['int'], 2)
+        assert config['string'] == 'baz'
+        assert config['int'] == 2
 
     def test_save_timer(self):
         self.clock = task.Clock()
@@ -146,17 +142,17 @@ class ConfigTestCase(unittest.TestCase):
         config = Config('test.conf', defaults=DEFAULTS, config_dir=self.config_dir)
         config['string'] = 'baz'
         config['int'] = 2
-        self.assertTrue(config._save_timer.active())
+        assert config._save_timer.active()
 
         # Timeout set for 5 seconds in config, so lets move clock by 5 seconds
         self.clock.advance(5)
 
         def check_config(config):
-            self.assertTrue(not config._save_timer.active())
+            assert not config._save_timer.active()
             del config
             config = Config('test.conf', defaults=DEFAULTS, config_dir=self.config_dir)
-            self.assertEqual(config['string'], 'baz')
-            self.assertEqual(config['int'], 2)
+            assert config['string'] == 'baz'
+            assert config['int'] == 2
 
         check_config(config)
 
@@ -173,7 +169,7 @@ class ConfigTestCase(unittest.TestCase):
         from deluge.config import find_json_objects
 
         objects = find_json_objects(s)
-        self.assertEqual(len(objects), 2)
+        assert len(objects) == 2
 
     def test_find_json_objects_curly_brace(self):
         """Test with string containing curly brace"""
@@ -190,7 +186,7 @@ class ConfigTestCase(unittest.TestCase):
         from deluge.config import find_json_objects
 
         objects = find_json_objects(s)
-        self.assertEqual(len(objects), 2)
+        assert len(objects) == 2
 
     def test_find_json_objects_double_quote(self):
         """Test with string containing double quote"""
@@ -208,4 +204,4 @@ class ConfigTestCase(unittest.TestCase):
         from deluge.config import find_json_objects
 
         objects = find_json_objects(s)
-        self.assertEqual(len(objects), 2)
+        assert len(objects) == 2

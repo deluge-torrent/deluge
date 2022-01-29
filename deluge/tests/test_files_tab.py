@@ -5,14 +5,11 @@
 #
 
 import pytest
-from twisted.trial import unittest
 
 import deluge.component as component
 from deluge.configmanager import ConfigManager
+from deluge.conftest import BaseTestCase
 from deluge.i18n import setup_translation
-
-from . import common
-from .basetest import BaseTestCase
 
 libs_available = True
 # Allow running other tests without GTKUI dependencies available
@@ -28,12 +25,11 @@ setup_translation()
 
 
 @pytest.mark.gtkui
-class FilesTabTestCase(BaseTestCase):
+class TestFilesTab(BaseTestCase):
     def set_up(self):
         if libs_available is False:
-            raise unittest.SkipTest('GTKUI dependencies not available')
+            pytest.skip('GTKUI dependencies not available')
 
-        common.set_tmp_config_dir()
         ConfigManager('gtk3ui.conf', defaults=DEFAULT_PREFS)
         self.mainwindow = MainWindow()
         self.filestab = FilesTab()
@@ -94,7 +90,7 @@ class FilesTabTestCase(BaseTestCase):
         )
         if not ret:
             self.print_treestore('Treestore not expected:', self.filestab.treestore)
-        self.assertTrue(ret)
+        assert ret
 
     def test_files_tab2(self):
         self.filestab.files_list[self.t_id] = (
@@ -112,7 +108,7 @@ class FilesTabTestCase(BaseTestCase):
         )
         if not ret:
             self.print_treestore('Treestore not expected:', self.filestab.treestore)
-        self.assertTrue(ret)
+        assert ret
 
     def test_files_tab3(self):
         self.filestab.files_list[self.t_id] = (
@@ -129,7 +125,7 @@ class FilesTabTestCase(BaseTestCase):
         )
         if not ret:
             self.print_treestore('Treestore not expected:', self.filestab.treestore)
-        self.assertTrue(ret)
+        assert ret
 
     def test_files_tab4(self):
         self.filestab.files_list[self.t_id] = (
@@ -147,7 +143,7 @@ class FilesTabTestCase(BaseTestCase):
         )
         if not ret:
             self.print_treestore('Treestore not expected:', self.filestab.treestore)
-        self.assertTrue(ret)
+        assert ret
 
     def test_files_tab5(self):
         self.filestab.files_list[self.t_id] = (
@@ -164,4 +160,4 @@ class FilesTabTestCase(BaseTestCase):
         )
         if not ret:
             self.print_treestore('Treestore not expected:', self.filestab.treestore)
-        self.assertTrue(ret)
+        assert ret

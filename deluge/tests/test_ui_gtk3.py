@@ -8,11 +8,10 @@ import sys
 from unittest import mock
 
 import pytest
-from twisted.trial import unittest
 
 
 @pytest.mark.gtkui
-class GTK3CommonTestCase(unittest.TestCase):
+class TestGTK3Common:
     def setUp(self):
         sys.modules['gi.repository'] = mock.MagicMock()
 
@@ -22,10 +21,10 @@ class GTK3CommonTestCase(unittest.TestCase):
     def test_cmp(self):
         from deluge.ui.gtk3.common import cmp
 
-        self.assertEqual(cmp(None, None), 0)
-        self.assertEqual(cmp(1, None), 1)
-        self.assertEqual(cmp(0, None), 1)
-        self.assertEqual(cmp(None, 7), -1)
-        self.assertEqual(cmp(None, 'bar'), -1)
-        self.assertEqual(cmp('foo', None), 1)
-        self.assertEqual(cmp('', None), 1)
+        assert cmp(None, None) == 0
+        assert cmp(1, None) == 1
+        assert cmp(0, None) == 1
+        assert cmp(None, 7) == -1
+        assert cmp(None, 'bar') == -1
+        assert cmp('foo', None) == 1
+        assert cmp('', None) == 1

@@ -8,26 +8,20 @@
 
 from deluge.pluginmanagerbase import PluginManagerBase
 
-from . import common
-from .basetest import BaseTestCase
 
-
-class PluginManagerBaseTestCase(BaseTestCase):
-    def set_up(self):
-        common.set_tmp_config_dir()
-
+class TestPluginManagerBase:
     def test_get_plugin_info(self):
         pm = PluginManagerBase('core.conf', 'deluge.plugin.core')
         for p in pm.get_available_plugins():
             for key, value in pm.get_plugin_info(p).items():
-                self.assertIsInstance(key, str)
-                self.assertIsInstance(value, str)
+                assert isinstance(key, str)
+                assert isinstance(value, str)
 
     def test_get_plugin_info_invalid_name(self):
         pm = PluginManagerBase('core.conf', 'deluge.plugin.core')
         for key, value in pm.get_plugin_info('random').items():
             result = 'not available' if key in ('Name', 'Version') else ''
-            self.assertEqual(value, result)
+            assert value == result
 
     def test_parse_pkg_info_metadata_2_1(self):
         pkg_info = """Metadata-Version: 2.1
@@ -44,6 +38,6 @@ Monitors folders for .torrent files.
         """
         plugin_info = PluginManagerBase.parse_pkg_info(pkg_info)
         for value in plugin_info.values():
-            self.assertNotEqual(value, '')
+            assert value != ''
         result = 'Monitors folders for .torrent files.'
-        self.assertEqual(plugin_info['Description'], result)
+        assert plugin_info['Description'] == result
