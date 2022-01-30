@@ -171,6 +171,12 @@ class Config:
         """
         if key not in self.__config:
             self.__config[key] = value
+            if key == 'hosts' and value:
+                try:
+                    # Scrub host password
+                    value = [host[:-1] + ('**********',) for host in value]
+                except IndexError:
+                    value = ''
             log.debug('Setting key "%s" to: %s (of type: %s)', key, value, type(value))
             return
 
@@ -426,12 +432,21 @@ class Config:
                 log.exception(ex)
                 log.warning('Unable to load config file: %s', filename)
 
+        # Scrub host password
+        if 'hosts' in self.__config:
+            try:
+                value = [host[:-1] + ['**********'] for host in self.__config['hosts']]
+            except IndexError:
+                value = ''
+        else:
+            value = self.__config
+
         log.debug(
             'Config %s version: %s.%s loaded: %s',
             filename,
             self.__version['format'],
             self.__version['file'],
-            self.__config,
+            value,
         )
 
     def save(self, filename=None):
