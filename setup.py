@@ -481,6 +481,10 @@ if not windows_check() and not osx_check():
 
 _entry_points['console_scripts'] = [
     'deluge-console = deluge.ui.console:start',
+]
+# On Windows use gui_scripts to hide cmd popup
+script_type = 'gui_scripts' if windows_check() else 'console_scripts'
+_entry_points[script_type] = [
     'deluge-web = deluge.ui.web:start',
     'deluged = deluge.core.daemon_entry:start_daemon',
 ]
