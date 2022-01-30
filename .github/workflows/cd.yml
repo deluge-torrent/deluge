@@ -12,6 +12,10 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+    inputs:
+      ref:
+        description: "Enter a tag or commit to package"
+        default: ""
 
 jobs:
   windows_package:
@@ -28,6 +32,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
+          ref: ${{ github.event.inputs.ref }}
 
       - name: Set up Python
         uses: actions/setup-python@v2
