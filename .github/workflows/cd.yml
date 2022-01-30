@@ -32,7 +32,13 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
+
+      # Checkout Deluge source to subdir to enable packaging any tag/commit
+      - name: Checkout Deluge source
+        uses: actions/checkout@v2
+        with:
           ref: ${{ github.event.inputs.ref }}
+          path: deluge_src
 
       - name: Set up Python
         uses: actions/setup-python@v2
@@ -74,6 +80,7 @@ jobs:
           -r requirements.txt
 
       - name: Install Deluge
+        working-directory: deluge_src
         run: |
           python -m pip install .
           python setup.py install_scripts
