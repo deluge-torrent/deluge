@@ -33,6 +33,7 @@ from deluge.common import (
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
 from deluge.core.torrent import Torrent, TorrentOptions, sanitize_filepath
+from deluge.decorators import maybe_coroutine
 from deluge.error import AddTorrentError, InvalidTorrentError
 from deluge.event import (
     ExternalIPEvent,
@@ -247,8 +248,8 @@ class TorrentManager(component.Component):
         self.save_resume_data_timer.start(190, False)
         self.prev_status_cleanup_loop.start(10)
 
-    @defer.inlineCallbacks
-    def stop(self):
+    @maybe_coroutine
+    async def stop(self):
         # Stop timers
         if self.save_state_timer.running:
             self.save_state_timer.stop()
@@ -260,11 +261,11 @@ class TorrentManager(component.Component):
             self.prev_status_cleanup_loop.stop()
 
         # Save state on shutdown
-        yield self.save_state()
+        await self.save_state()
 
         self.session.pause()
 
-        result = yield self.save_resume_data(flush_disk_cache=True)
+        result = await self.save_resume_data(flush_disk_cache=True)
         # Remove the temp_file to signify successfully saved state
         if result and os.path.isfile(self.temp_file):
             os.remove(self.temp_file)
