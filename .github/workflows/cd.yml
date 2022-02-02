@@ -85,6 +85,7 @@ jobs:
         run: |
           python -m pip install .
           python setup.py install_scripts
+          python setup.py build_trans
 
       - name: Freeze Deluge
         run: |

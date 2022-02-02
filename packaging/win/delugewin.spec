@@ -101,7 +101,7 @@ hiddenimports += collect_submodules('twisted', filter=lambda name: 'test' not in
 datas += copy_metadata('twisted', recursive=True)
 
 # Copy UI/Plugin files to where pyinstaller expects
-datas += [('../../deluge/ui', 'deluge/ui'), ('../../deluge/plugins', 'deluge/plugins')]
+datas += [('../../deluge/ui', 'deluge/ui'), ('../../deluge/plugins', 'deluge/plugins'), ('../../deluge_src/build/lib/deluge/i18n', 'deluge/i18n')]
 
 # List of executables to produce
 executables = {
