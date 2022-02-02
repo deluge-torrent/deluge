@@ -155,7 +155,12 @@ def setup_logger(
             handler_cls = getattr(
                 logging.handlers, 'WatchedFileHandler', logging.FileHandler
             )
-        handler = handler_cls(filename, mode=filemode, encoding='utf-8')
+        try:
+            handler = handler_cls(filename, mode=filemode, encoding='utf-8')
+        except FileNotFoundError:
+            handler = logging.StreamHandler(stream=output_stream)
+            log = logging.getLogger(__name__)
+            log.error(f'Unable to write to log file `{filename}`')
     else:
         handler = logging.StreamHandler(stream=output_stream)
 
