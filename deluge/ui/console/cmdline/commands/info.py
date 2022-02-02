@@ -67,6 +67,7 @@ STATUS_KEYS = [
     'total_payload_download',
     'total_payload_upload',
     'time_added',
+    'label',
 ]
 
 # Add filter specific state to torrent states
@@ -421,10 +422,14 @@ class Command(BaseCommand):
                 self.console.write(s)
 
             s = '{!info!}Download Folder: {!input!}%s' % status['download_location']
-            self.console.write(s + '\n')
+            self.console.write(s)
+
+            if 'label' in status:
+                s = '{!info!}Label: {!input!}%s' % status['label']
+                self.console.write(s)
 
             if detailed:
-                self.console.write('{!info!}Files in torrent')
+                self.console.write('\n{!info!}Files in torrent')
                 self.show_file_info(torrent_id, status)
                 self.console.write('{!info!}Connected peers')
                 self.show_peer_info(torrent_id, status)
