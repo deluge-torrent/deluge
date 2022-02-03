@@ -11,7 +11,6 @@ import base64
 import binascii
 import functools
 import glob
-import locale
 import logging
 import numbers
 import os
@@ -1313,26 +1312,6 @@ def set_env_variable(name, value):
             log.info("Failed to set Env Var '%s' (msvcrt._putenv)", name)
         else:
             log.debug("Set Env Var '%s' to '%s' (msvcrt._putenv)", name, value)
-
-
-def unicode_argv():
-    """ Gets sys.argv as list of unicode objects on any platform."""
-    # On platforms other than Windows, we have to find the likely encoding of the args and decode
-    # First check if sys.stdout or stdin have encoding set
-    encoding = getattr(sys.stdout, 'encoding') or getattr(sys.stdin, 'encoding')
-    # If that fails, check what the locale is set to
-    encoding = encoding or locale.getpreferredencoding()
-    # As a last resort, just default to utf-8
-    encoding = encoding or 'utf-8'
-
-    arg_list = []
-    for arg in sys.argv:
-        try:
-            arg_list.append(arg.decode(encoding))
-        except AttributeError:
-            arg_list.append(arg)
-
-    return arg_list
 
 
 def run_profiled(func, *args, **kwargs):
