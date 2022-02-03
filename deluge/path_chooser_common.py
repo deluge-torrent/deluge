@@ -40,7 +40,7 @@ def get_completion_paths(args):
     :param args: options
     :type args: dict
     :returns: the args argument containing the available completions for the completion_text
-    :rtype: list
+    :rtype: dict
 
     """
     args['paths'] = []
