@@ -1317,22 +1317,45 @@ def set_env_variable(name, value):
 
 def unicode_argv():
     """ Gets sys.argv as list of unicode objects on any platform."""
-    # On platforms other than Windows, we have to find the likely encoding of the args and decode
-    # First check if sys.stdout or stdin have encoding set
-    encoding = getattr(sys.stdout, 'encoding') or getattr(sys.stdin, 'encoding')
-    # If that fails, check what the locale is set to
-    encoding = encoding or locale.getpreferredencoding()
-    # As a last resort, just default to utf-8
-    encoding = encoding or 'utf-8'
+    if windows_check():
+        # Versions 2.x of Python don't support Unicode in sys.argv on
+        # Windows, with the underlying Windows API instead replacing multi-byte
+        # characters with '?'.
+        from ctypes import POINTER, byref, c_int, cdll, windll
+        from ctypes.wintypes import LPCWSTR, LPWSTR
 
-    arg_list = []
-    for arg in sys.argv:
-        try:
-            arg_list.append(arg.decode(encoding))
-        except AttributeError:
-            arg_list.append(arg)
+        get_cmd_linew = cdll.kernel32.GetCommandLineW
+        get_cmd_linew.argtypes = []
+        get_cmd_linew.restype = LPCWSTR
 
-    return arg_list
+        cmdline_to_argvw = windll.shell32.CommandLineToArgvW
+        cmdline_to_argvw.argtypes = [LPCWSTR, POINTER(c_int)]
+        cmdline_to_argvw.restype = POINTER(LPWSTR)
+
+        cmd = get_cmd_linew()
+        argc = c_int(0)
+        argv = cmdline_to_argvw(cmd, byref(argc))
+        if argc.value > 0:
+            # Remove Python executable and commands if present
+            start = argc.value - len(sys.argv)
+            return [argv[i] for i in range(start, argc.value)]
+    else:
+        # On platforms other than Windows, we have to find the likely encoding of the args and decode
+        # First check if sys.stdout or stdin have encoding set
+        encoding = getattr(sys.stdout, 'encoding') or getattr(sys.stdin, 'encoding')
+        # If that fails, check what the locale is set to
+        encoding = encoding or locale.getpreferredencoding()
+        # As a last resort, just default to utf-8
+        encoding = encoding or 'utf-8'
+
+        arg_list = []
+        for arg in sys.argv:
+            try:
+                arg_list.append(arg.decode(encoding))
+            except AttributeError:
+                arg_list.append(arg)
+
+        return arg_list
 
 
 def run_profiled(func, *args, **kwargs):
