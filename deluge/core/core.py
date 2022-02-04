@@ -40,7 +40,7 @@ from deluge.core.pluginmanager import PluginManager
 from deluge.core.preferencesmanager import PreferencesManager
 from deluge.core.rpcserver import export
 from deluge.core.torrentmanager import TorrentManager
-from deluge.decorators import deprecated
+from deluge.decorators import deprecated, maybe_coroutine
 from deluge.error import (
     AddTorrentError,
     DelugeError,
@@ -502,13 +502,13 @@ class Core(component.Component):
             A list of errors (if there were any)
         """
 
-        @defer.inlineCallbacks
-        def add_torrents():
+        @maybe_coroutine
+        async def add_torrents():
             errors = []
             last_index = len(torrent_files) - 1
             for idx, torrent in enumerate(torrent_files):
                 try:
-                    yield self.add_torrent_file_async(
+                    await self.add_torrent_file_async(
                         torrent[0], torrent[1], torrent[2], save_state=idx == last_index
                     )
                 except AddTorrentError as ex:
@@ -516,7 +516,7 @@ class Core(component.Component):
                     errors.append(ex)
             defer.returnValue(errors)
 
-        return task.deferLater(reactor, 0, add_torrents)  # type: ignore
+        return task.deferLater(reactor, 0, add_torrents)
 
     @export
     def add_torrent_url(
@@ -771,15 +771,15 @@ class Core(component.Component):
             all_keys=not keys,
         )
 
-    @export  # type: ignore
-    @defer.inlineCallbacks
-    def get_torrents_status(  # type: ignore
+    @export
+    @maybe_coroutine
+    async def get_torrents_status(
         self, filter_dict: dict, keys: List[str], diff: bool = False
     ) -> dict:
         """returns all torrents , optionally filtered by filter_dict."""
         all_keys = not keys
         torrent_ids = self.filtermanager.filter_torrent_ids(filter_dict)
-        status_dict, plugin_keys = yield self.torrentmanager.torrents_status_update(
+        status_dict, plugin_keys = await self.torrentmanager.torrents_status_update(
             torrent_ids, keys, diff=diff
         )
         # Ask the plugin manager to fill in the plugin keys

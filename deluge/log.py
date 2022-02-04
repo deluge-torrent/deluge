@@ -20,6 +20,7 @@ from twisted.internet import defer
 from twisted.python.log import PythonLoggingObserver
 
 from deluge import common
+from deluge.decorators import maybe_coroutine
 
 __all__ = ('setup_logger', 'set_logger_level', 'get_plugin_logger', 'LOG')
 
@@ -51,39 +52,39 @@ class Logging(LoggingLoggerClass):
                     )
                 )
 
-    @defer.inlineCallbacks
-    def garbage(self, msg, *args, **kwargs):
-        yield LoggingLoggerClass.log(self, 1, msg, *args, **kwargs)
+    @maybe_coroutine
+    async def garbage(self, msg, *args, **kwargs):
+        LoggingLoggerClass.log(self, 1, msg, *args, **kwargs)
 
-    @defer.inlineCallbacks
-    def trace(self, msg, *args, **kwargs):
-        yield LoggingLoggerClass.log(self, 5, msg, *args, **kwargs)
+    @maybe_coroutine
+    async def trace(self, msg, *args, **kwargs):
+        LoggingLoggerClass.log(self, 5, msg, *args, **kwargs)
 
-    @defer.inlineCallbacks
-    def debug(self, msg, *args, **kwargs):
-        yield LoggingLoggerClass.debug(self, msg, *args, **kwargs)
+    @maybe_coroutine
+    async def debug(self, msg, *args, **kwargs):
+        LoggingLoggerClass.debug(self, msg, *args, **kwargs)
 
-    @defer.inlineCallbacks
-    def info(self, msg, *args, **kwargs):
-        yield LoggingLoggerClass.info(self, msg, *args, **kwargs)
+    @maybe_coroutine
+    async def info(self, msg, *args, **kwargs):
+        LoggingLoggerClass.info(self, msg, *args, **kwargs)
 
-    @defer.inlineCallbacks
-    def warning(self, msg, *args, **kwargs):
-        yield LoggingLoggerClass.warning(self, msg, *args, **kwargs)
+    @maybe_coroutine
+    async def warning(self, msg, *args, **kwargs):
+        LoggingLoggerClass.warning(self, msg, *args, **kwargs)
 
     warn = warning
 
-    @defer.inlineCallbacks
-    def error(self, msg, *args, **kwargs):
-        yield LoggingLoggerClass.error(self, msg, *args, **kwargs)
+    @maybe_coroutine
+    async def error(self, msg, *args, **kwargs):
+        LoggingLoggerClass.error(self, msg, *args, **kwargs)
 
-    @defer.inlineCallbacks
-    def critical(self, msg, *args, **kwargs):
-        yield LoggingLoggerClass.critical(self, msg, *args, **kwargs)
+    @maybe_coroutine
+    async def critical(self, msg, *args, **kwargs):
+        LoggingLoggerClass.critical(self, msg, *args, **kwargs)
 
-    @defer.inlineCallbacks
-    def exception(self, msg, *args, **kwargs):
-        yield LoggingLoggerClass.exception(self, msg, *args, **kwargs)
+    @maybe_coroutine
+    async def exception(self, msg, *args, **kwargs):
+        LoggingLoggerClass.exception(self, msg, *args, **kwargs)
 
     def findCaller(self, *args, **kwargs):  # NOQA: N802
         f = logging.currentframe().f_back

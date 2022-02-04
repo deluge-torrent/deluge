@@ -10,6 +10,9 @@ import inspect
 import re
 import warnings
 from functools import wraps
+from typing import Any, Callable, Coroutine, TypeVar
+
+from twisted.internet import defer
 
 
 def proxy(proxy_func):
@@ -159,3 +162,54 @@ def deprecated(func):
         return func(*args, **kwargs)
 
     return depr_func
+
+
+class CoroutineDeferred(defer.Deferred):
+    """Wraps a coroutine in a Deferred.
+    It will dynamically pass through the underlying coroutine without wrapping where apporpriate."""
+
+    def __init__(self, coro: Coroutine):
+        # Delay this import to make sure a reactor was installed first
+        from twisted.internet import reactor
+
+        super().__init__()
+        self.coro = coro
+        self.awaited = None
+        self.activate_deferred = reactor.callLater(0, self.activate)
+
+    def __await__(self):
+        if self.awaited in [None, True]:
+            self.awaited = True
+            return self.coro.__await__()
+        # Already in deferred mode
+        return super().__await__()
+
+    def activate(self):
+        """If the result wasn't awaited before the next context switch, we turn it into a deferred."""
+        if self.awaited is None:
+            self.awaited = False
+            d = defer.Deferred.fromCoroutine(self.coro)
+            d.chainDeferred(self)
+
+    def addCallbacks(self, *args, **kwargs):  # noqa: N802
+        assert not self.awaited, 'Cannot add callbacks to an already awaited coroutine.'
+        self.activate()
+        return super().addCallbacks(*args, **kwargs)
+
+
+_RetT = TypeVar('_RetT')
+
+
+def maybe_coroutine(
+    f: Callable[..., Coroutine[Any, Any, _RetT]]
+) -> Callable[..., defer.Deferred[_RetT]]:
+    """Wraps a coroutine function to make it usable as a normal function that returns a Deferred."""
+
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        # Uncomment for quick testing to make sure CoroutineDeferred magic isn't at fault
+        # from twisted.internet.defer import ensureDeferred
+        # return ensureDeferred(f(*args, **kwargs))
+        return CoroutineDeferred(f(*args, **kwargs))
+
+    return wrapper
