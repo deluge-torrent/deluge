@@ -9,3 +9,9 @@ skip-string-normalization = true
 
 [tool.isort]
 profile = "black"
+
+[tool.mypy]
+python_version = 3.6
+namespace_packages = true
+plugins = ["mypy_zope:plugin"]
+allow_redefinition = true

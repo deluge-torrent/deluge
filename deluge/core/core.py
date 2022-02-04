@@ -13,11 +13,15 @@ import os
 import shutil
 import tempfile
 import threading
+import typing
 from base64 import b64decode, b64encode
 from typing import Any, Dict, List, Optional, Tuple, Union
-from urllib.request import URLError, urlopen
+from urllib.error import URLError
+from urllib.request import urlopen
 
-from twisted.internet import defer, reactor, task
+import twisted.internet.reactor
+from twisted.internet import defer, task
+from twisted.internet.base import ReactorBase
 from twisted.web.client import Agent, readBody
 
 import deluge.common
@@ -53,6 +57,8 @@ from deluge.event import (
     TorrentQueueChangedEvent,
 )
 from deluge.httpdownloader import download_file
+
+reactor = typing.cast(ReactorBase, twisted.internet.reactor)
 
 log = logging.getLogger(__name__)
 
@@ -313,12 +319,8 @@ class Core(component.Component):
                     log.info('Restoring backup of %s from: %s', filename, filepath_bak)
                     shutil.move(filepath_bak, filepath)
 
-    def _load_session_state(self) -> dict:
-        """Loads the libtorrent session state
-
-        Returns:
-            A libtorrent sesion state, empty dict if unable to load it.
-        """
+    def _load_session_state(self):
+        """Loads the libtorrent session state"""
         filename = 'session.state'
         filepath = get_config_dir(filename)
         filepath_bak = filepath + '.bak'
@@ -400,7 +402,11 @@ class Core(component.Component):
     # Exported Methods
     @export
     def add_torrent_file_async(
-        self, filename: str, filedump: str, options: dict, save_state: bool = True
+        self,
+        filename: str,
+        filedump: Union[str, bytes],
+        options: dict,
+        save_state: bool = True,
     ) -> defer.Deferred[Optional[str]]:
         """Adds a torrent file to the session asynchronously.
 
@@ -456,7 +462,7 @@ class Core(component.Component):
 
         d = self.torrentmanager.prefetch_metadata(magnet, timeout)
         # Use a separate callback chain to handle existing prefetching magnet.
-        result_d = defer.Deferred()
+        result_d: defer.Deferred = defer.Deferred()
         d.addBoth(on_metadata, result_d)
         return result_d
 
@@ -515,7 +521,7 @@ class Core(component.Component):
                     errors.append(ex)
             defer.returnValue(errors)
 
-        return task.deferLater(reactor, 0, add_torrents)
+        return task.deferLater(reactor, 0, add_torrents)  # type: ignore
 
     @export
     def add_torrent_url(
@@ -673,7 +679,7 @@ class Core(component.Component):
     @export
     def pause_torrents(self, torrent_ids: List[str] = None) -> None:
         """Pauses a list of torrents"""
-        if not torrent_ids:
+        if torrent_ids is None:
             torrent_ids = self.torrentmanager.get_torrent_list()
         for torrent_id in torrent_ids:
             self.pause_torrent(torrent_id)
@@ -724,7 +730,7 @@ class Core(component.Component):
     @export
     def resume_torrents(self, torrent_ids: List[str] = None) -> None:
         """Resumes a list of torrents"""
-        if not torrent_ids:
+        if torrent_ids is None:
             torrent_ids = self.torrentmanager.get_torrent_list()
         for torrent_id in torrent_ids:
             self.resume_torrent(torrent_id)
@@ -770,9 +776,9 @@ class Core(component.Component):
             all_keys=not keys,
         )
 
-    @export
+    @export  # type: ignore
     @defer.inlineCallbacks
-    def get_torrents_status(
+    def get_torrents_status(  # type: ignore
         self, filter_dict: dict, keys: List[str], diff: bool = False
     ) -> dict:
         """returns all torrents , optionally filtered by filter_dict."""
