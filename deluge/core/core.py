@@ -241,13 +241,12 @@ class Core(component.Component):
         """Apply libtorrent session settings.
 
         Args:
-            settings (dict): A dict of lt session settings to apply.
-
+            settings: A dict of lt session settings to apply.
         """
         self.session.apply_settings(settings)
 
     @staticmethod
-    def _create_peer_id(version):
+    def _create_peer_id(version: str) -> str:
         """Create a peer_id fingerprint.
 
         This creates the peer_id and modifies the release char to identify
@@ -262,11 +261,10 @@ class Core(component.Component):
             ``--DE201b--`` (beta pre-release of v2.0.1)
 
         Args:
-            version (str): The version string in PEP440 dotted notation.
+            version: The version string in PEP440 dotted notation.
 
         Returns:
-            str: The formatted peer_id with Deluge prefix e.g. '--DE200s--'
-
+            The formatted peer_id with Deluge prefix e.g. '--DE200s--'
         """
         split = deluge.common.VersionSplit(version)
         # Fill list with zeros to length of 4 and use lt to create fingerprint.
@@ -315,12 +313,11 @@ class Core(component.Component):
                     log.info('Restoring backup of %s from: %s', filename, filepath_bak)
                     shutil.move(filepath_bak, filepath)
 
-    def _load_session_state(self):
+    def _load_session_state(self) -> dict:
         """Loads the libtorrent session state
 
         Returns:
-            dict: A libtorrent sesion state, empty dict if unable to load it.
-
+            A libtorrent sesion state, empty dict if unable to load it.
         """
         filename = 'session.state'
         filepath = get_config_dir(filename)
@@ -408,14 +405,13 @@ class Core(component.Component):
         """Adds a torrent file to the session asynchronously.
 
         Args:
-            filename (str): The filename of the torrent.
-            filedump (str): A base64 encoded string of torrent file contents.
-            options (dict): The options to apply to the torrent upon adding.
-            save_state (bool): If the state should be saved after adding the file.
+            filename: The filename of the torrent.
+            filedump: A base64 encoded string of torrent file contents.
+            options: The options to apply to the torrent upon adding.
+            save_state: If the state should be saved after adding the file.
 
         Returns:
-            Deferred: The torrent ID or None.
-
+            The torrent ID or None.
         """
         try:
             filedump = b64decode(filedump)
@@ -446,12 +442,11 @@ class Core(component.Component):
         The metadata is bencoded and for transfer base64 encoded.
 
         Args:
-            magnet (str): The magnet URI.
-            timeout (int): Number of seconds to wait before canceling request.
+            magnet: The magnet URI.
+            timeout: Number of seconds to wait before canceling request.
 
         Returns:
-            Deferred: A tuple of (torrent_id (str), metadata (str)) for the magnet.
-
+            A tuple of (torrent_id (str), metadata (str)) for the magnet.
         """
 
         def on_metadata(result, result_d):
@@ -472,12 +467,12 @@ class Core(component.Component):
         """Adds a torrent file to the session.
 
         Args:
-            filename (str): The filename of the torrent.
-            filedump (str): A base64 encoded string of the torrent file contents.
-            options (dict): The options to apply to the torrent upon adding.
+            filename: The filename of the torrent.
+            filedump: A base64 encoded string of the torrent file contents.
+            options: The options to apply to the torrent upon adding.
 
         Returns:
-            str: The torrent_id or None.
+            The torrent_id or None.
         """
         try:
             filedump = b64decode(filedump)
@@ -499,12 +494,11 @@ class Core(component.Component):
         """Adds multiple torrent files to the session asynchronously.
 
         Args:
-            torrent_files (list of tuples): Torrent files as tuple of
-            ``(filename, filedump, options)``.
+            torrent_files: Torrent files as tuple of
+                ``(filename, filedump, options)``.
 
         Returns:
-            Deferred
-
+            A list of errors (if there were any)
         """
 
         @defer.inlineCallbacks
@@ -527,18 +521,16 @@ class Core(component.Component):
     def add_torrent_url(
         self, url: str, options: dict, headers: dict = None
     ) -> defer.Deferred[Optional[str]]:
-        """
-        Adds a torrent from a URL. Deluge will attempt to fetch the torrent
+        """Adds a torrent from a URL. Deluge will attempt to fetch the torrent
         from the URL prior to adding it to the session.
 
-        :param url: the URL pointing to the torrent file
-        :type url: string
-        :param options: the options to apply to the torrent on add
-        :type options: dict
-        :param headers: any optional headers to send
-        :type headers: dict
+        Args:
+            url: the URL pointing to the torrent file
+            options: the options to apply to the torrent on add
+            headers: any optional headers to send
 
-        :returns: a Deferred which returns the torrent_id as a str or None
+        Returns:
+            a Deferred which returns the torrent_id as a str or None
         """
         log.info('Attempting to add URL %s', url)
 
@@ -565,17 +557,14 @@ class Core(component.Component):
 
     @export
     def add_torrent_magnet(self, uri: str, options: dict) -> str:
-        """
-        Adds a torrent from a magnet link.
+        """Adds a torrent from a magnet link.
 
-        :param uri: the magnet link
-        :type uri: string
-        :param options: the options to apply to the torrent on add
-        :type options: dict
+        Args:
+            uri: the magnet link
+            options: the options to apply to the torrent on add
 
-        :returns: the torrent_id
-        :rtype: string
-
+        Returns:
+            the torrent_id
         """
         log.debug('Attempting to add by magnet URI: %s', uri)
 
@@ -586,15 +575,14 @@ class Core(component.Component):
         """Removes a single torrent from the session.
 
         Args:
-            torrent_id (str): The torrent ID to remove.
-            remove_data (bool): If True, also remove the downloaded data.
+            torrent_id: The torrent ID to remove.
+            remove_data: If True, also remove the downloaded data.
 
         Returns:
-            bool: True if removed successfully.
+            True if removed successfully.
 
         Raises:
              InvalidTorrentError: If the torrent ID does not exist in the session.
-
         """
         log.debug('Removing torrent %s from the core.', torrent_id)
         return self.torrentmanager.remove(torrent_id, remove_data)
@@ -606,15 +594,14 @@ class Core(component.Component):
         """Remove multiple torrents from the session.
 
         Args:
-            torrent_ids (list): The torrent IDs to remove.
-            remove_data (bool): If True, also remove the downloaded data.
+            torrent_ids: The torrent IDs to remove.
+            remove_data: If True, also remove the downloaded data.
 
         Returns:
-            list: An empty list if no errors occurred otherwise the list contains
-                tuples of strings, a torrent ID and an error message. For example:
+            An empty list if no errors occurred otherwise the list contains
+            tuples of strings, a torrent ID and an error message. For example:
 
-                [('<torrent_id>', 'Error removing torrent')]
-
+            [('<torrent_id>', 'Error removing torrent')]
         """
         log.info('Removing %d torrents from core.', len(torrent_ids))
 
@@ -644,11 +631,11 @@ class Core(component.Component):
 
         See: http://www.rasterbar.com/products/libtorrent/manual.html#status
 
-        :param keys: the keys for which we want values
-        :type keys: list
-        :returns: a dictionary of {key: value, ...}
-        :rtype: dict
+        Args:
+            keys: the keys for which we want values
 
+        Returns:
+            a dictionary of {key: value, ...}
         """
         if not keys:
             return self.session_status
@@ -788,9 +775,7 @@ class Core(component.Component):
     def get_torrents_status(
         self, filter_dict: dict, keys: List[str], diff: bool = False
     ) -> dict:
-        """
-        returns all torrents , optionally filtered by filter_dict.
-        """
+        """returns all torrents , optionally filtered by filter_dict."""
         all_keys = not keys
         torrent_ids = self.filtermanager.filter_torrent_ids(filter_dict)
         status_dict, plugin_keys = yield self.torrentmanager.torrents_status_update(
@@ -803,9 +788,10 @@ class Core(component.Component):
         return status_dict
 
     @export
-    def get_filter_tree(self, show_zero_hits: bool = True, hide_cat: List[str] = None):
-        """
-        returns {field: [(value,count)] }
+    def get_filter_tree(
+        self, show_zero_hits: bool = True, hide_cat: List[str] = None
+    ) -> Dict:
+        """returns {field: [(value,count)] }
         for use in sidebar(s)
         """
         return self.filtermanager.get_filter_tree(show_zero_hits, hide_cat)
@@ -850,12 +836,11 @@ class Core(component.Component):
         """Returns the proxy settings
 
         Returns:
-            dict: Contains proxy settings.
+            Proxy settings.
 
         Notes:
             Proxy type names:
                 0: None, 1: Socks4, 2: Socks5, 3: Socks5 w Auth, 4: HTTP, 5: HTTP w Auth, 6: I2P
-
         """
 
         settings = self.session.get_settings()
@@ -908,8 +893,8 @@ class Core(component.Component):
         """Sets the torrent options for torrent_ids
 
         Args:
-            torrent_ids (list): A list of torrent_ids to set the options for.
-            options (dict): A dict of torrent options to set. See
+            torrent_ids: A list of torrent_ids to set the options for.
+            options: A dict of torrent options to set. See
                 ``torrent.TorrentOptions`` class for valid keys.
         """
         if 'owner' in options and not self.authmanager.has_account(options['owner']):
@@ -1096,27 +1081,23 @@ class Core(component.Component):
 
     @export
     def rescan_plugins(self) -> None:
-        """
-        Re-scans the plugin folders for new plugins
-        """
+        """Re-scans the plugin folders for new plugins"""
         component.get('CorePluginManager').scan_for_plugins()
 
     @export
     def rename_files(
         self, torrent_id: str, filenames: List[Tuple[int, str]]
     ) -> defer.Deferred:
-        """
-        Rename files in ``torrent_id``.  Since this is an asynchronous operation by
+        """Rename files in ``torrent_id``.  Since this is an asynchronous operation by
         libtorrent, watch for the TorrentFileRenamedEvent to know when the
         files have been renamed.
 
-        :param torrent_id: the torrent_id to rename files
-        :type torrent_id: string
-        :param filenames: a list of index, filename pairs
-        :type filenames: ((index, filename), ...)
+        Args:
+            torrent_id: the torrent_id to rename files
+            filenames: a list of index, filename pairs
 
-        :raises InvalidTorrentError: if torrent_id is invalid
-
+        Raises:
+            InvalidTorrentError: if torrent_id is invalid
         """
         if torrent_id not in self.torrentmanager.torrents:
             raise InvalidTorrentError('torrent_id is not in session')
@@ -1130,20 +1111,17 @@ class Core(component.Component):
     def rename_folder(
         self, torrent_id: str, folder: str, new_folder: str
     ) -> defer.Deferred:
-        """
-        Renames the 'folder' to 'new_folder' in 'torrent_id'.  Watch for the
+        """Renames the 'folder' to 'new_folder' in 'torrent_id'.  Watch for the
         TorrentFolderRenamedEvent which is emitted when the folder has been
         renamed successfully.
 
-        :param torrent_id: the torrent to rename folder in
-        :type torrent_id: string
-        :param folder: the folder to rename
-        :type folder: string
-        :param new_folder: the new folder name
-        :type new_folder: string
+        Args:
+            torrent_id: the torrent to rename folder in
+            folder: the folder to rename
+            new_folder: the new folder name
 
-        :raises InvalidTorrentError: if the torrent_id is invalid
-
+        Raises:
+            InvalidTorrentError: if the torrent_id is invalid
         """
         if torrent_id not in self.torrentmanager.torrents:
             raise InvalidTorrentError('torrent_id is not in session')
@@ -1234,12 +1212,10 @@ class Core(component.Component):
 
     @export
     def test_listen_port(self) -> defer.Deferred[Optional[bool]]:
-        """
-        Checks if the active port is open
+        """Checks if the active port is open
 
-        :returns: True if the port is open, False if not
-        :rtype: bool
-
+        Returns:
+            True if the port is open, False if not
         """
         port = self.get_listen_port()
         url = 'https://deluge-torrent.org/test_port.php?port=%s' % port
@@ -1259,17 +1235,16 @@ class Core(component.Component):
 
     @export
     def get_free_space(self, path: str = None) -> int:
-        """
-        Returns the number of free bytes at path
+        """Returns the number of free bytes at path
 
-        :param path: the path to check free space at, if None, use the default download location
-        :type path: string
+        Args:
+            path: the path to check free space at, if None, use the default download location
 
-        :returns: the number of free bytes at path
-        :rtype: int
+        Returns:
+            the number of free bytes at path
 
-        :raises InvalidPathError: if the path is invalid
-
+        Raises:
+            InvalidPathError: if the path is invalid
         """
         if not path:
             path = self.config['download_location']
@@ -1283,27 +1258,21 @@ class Core(component.Component):
 
     @export
     def get_external_ip(self) -> str:
-        """
-        Returns the external IP address received from libtorrent.
-        """
+        """Returns the external IP address received from libtorrent."""
         return self.external_ip
 
     @export
     def get_libtorrent_version(self) -> str:
-        """
-        Returns the libtorrent version.
+        """Returns the libtorrent version.
 
-        :returns: the version
-        :rtype: string
-
+        Returns:
+            the version
         """
         return LT_VERSION
 
     @export
     def get_completion_paths(self, args: Dict[str, Any]) -> Dict[str, Any]:
-        """
-        Returns the available path completions for the input value.
-        """
+        """Returns the available path completions for the input value."""
         return path_chooser_common.get_completion_paths(args)
 
     @export(AUTH_LEVEL_ADMIN)
