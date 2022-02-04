@@ -13,15 +13,12 @@ import os
 import shutil
 import tempfile
 import threading
-import typing
 from base64 import b64decode, b64encode
 from typing import Any, Dict, List, Optional, Tuple, Union
 from urllib.error import URLError
 from urllib.request import urlopen
 
-import twisted.internet.reactor
-from twisted.internet import defer, task
-from twisted.internet.base import ReactorBase
+from twisted.internet import defer, reactor, task
 from twisted.web.client import Agent, readBody
 
 import deluge.common
@@ -57,8 +54,6 @@ from deluge.event import (
     TorrentQueueChangedEvent,
 )
 from deluge.httpdownloader import download_file
-
-reactor = typing.cast(ReactorBase, twisted.internet.reactor)
 
 log = logging.getLogger(__name__)
 
