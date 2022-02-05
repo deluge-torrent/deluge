@@ -133,13 +133,13 @@ class Core(component.Component):
         self.session.add_extension('smart_ban')
 
         # Create the components
-        self.eventmanager = EventManager()
-        self.preferencesmanager = PreferencesManager()
-        self.alertmanager = AlertManager()
-        self.pluginmanager = PluginManager(self)
-        self.torrentmanager = TorrentManager()
-        self.filtermanager = FilterManager(self)
-        self.authmanager = AuthManager()
+        self.eventmanager: EventManager = EventManager()
+        self.preferencesmanager: PreferencesManager = PreferencesManager()
+        self.alertmanager: AlertManager = AlertManager()
+        self.pluginmanager: PluginManager = PluginManager(self)
+        self.torrentmanager: TorrentManager = TorrentManager()
+        self.filtermanager: FilterManager = FilterManager(self)
+        self.authmanager: AuthManager = AuthManager()
 
         # New release check information
         self.new_release = None
@@ -489,9 +489,10 @@ class Core(component.Component):
             raise
 
     @export
-    def add_torrent_files(
+    @maybe_coroutine
+    async def add_torrent_files(
         self, torrent_files: List[Tuple[str, Union[str, bytes], dict]]
-    ) -> defer.Deferred[List[AddTorrentError]]:
+    ) -> List[AddTorrentError]:
         """Adds multiple torrent files to the session asynchronously.
 
         Args:
@@ -501,22 +502,17 @@ class Core(component.Component):
         Returns:
             A list of errors (if there were any)
         """
-
-        @maybe_coroutine
-        async def add_torrents():
-            errors = []
-            last_index = len(torrent_files) - 1
-            for idx, torrent in enumerate(torrent_files):
-                try:
-                    await self.add_torrent_file_async(
-                        torrent[0], torrent[1], torrent[2], save_state=idx == last_index
-                    )
-                except AddTorrentError as ex:
-                    log.warning('Error when adding torrent: %s', ex)
-                    errors.append(ex)
-            defer.returnValue(errors)
-
-        return task.deferLater(reactor, 0, add_torrents)
+        errors = []
+        last_index = len(torrent_files) - 1
+        for idx, torrent in enumerate(torrent_files):
+            try:
+                await self.add_torrent_file_async(
+                    torrent[0], torrent[1], torrent[2], save_state=idx == last_index
+                )
+            except AddTorrentError as ex:
+                log.warning('Error when adding torrent: %s', ex)
+                errors.append(ex)
+        return errors
 
     @export
     def add_torrent_url(
@@ -674,7 +670,7 @@ class Core(component.Component):
     @export
     def pause_torrents(self, torrent_ids: List[str] = None) -> None:
         """Pauses a list of torrents"""
-        if torrent_ids is None:
+        if not torrent_ids:
             torrent_ids = self.torrentmanager.get_torrent_list()
         for torrent_id in torrent_ids:
             self.pause_torrent(torrent_id)
@@ -725,7 +721,7 @@ class Core(component.Component):
     @export
     def resume_torrents(self, torrent_ids: List[str] = None) -> None:
         """Resumes a list of torrents"""
-        if torrent_ids is None:
+        if not torrent_ids:
             torrent_ids = self.torrentmanager.get_torrent_list()
         for torrent_id in torrent_ids:
             self.resume_torrent(torrent_id)

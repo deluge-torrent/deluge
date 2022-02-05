@@ -16,6 +16,7 @@ import time
 from base64 import b64encode
 from collections import namedtuple
 from tempfile import gettempdir
+from typing import List
 
 from twisted.internet import defer, error, reactor, threads
 from twisted.internet.defer import Deferred, DeferredList
@@ -306,7 +307,7 @@ class TorrentManager(component.Component):
         """
         return self.torrents[torrent_id]
 
-    def get_torrent_list(self):
+    def get_torrent_list(self) -> List[str]:
         """Creates a list of torrent_ids, owned by current user and any marked shared.
 
         Returns:
