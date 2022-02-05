@@ -401,7 +401,7 @@ class Core(component.Component):
     @export
     def add_torrent_file_async(
         self, filename: str, filedump: str, options: dict, save_state: bool = True
-    ) -> defer.Deferred[Optional[str]]:
+    ) -> 'defer.Deferred[Optional[str]]':
         """Adds a torrent file to the session asynchronously.
 
         Args:
@@ -434,7 +434,7 @@ class Core(component.Component):
     @export
     def prefetch_magnet_metadata(
         self, magnet: str, timeout: int = 30
-    ) -> defer.Deferred[Tuple[str, bytes]]:
+    ) -> 'defer.Deferred[Tuple[str, bytes]]':
         """Download magnet metadata without adding to Deluge session.
 
         Used by UIs to get magnet files for selection before adding to session.
@@ -490,7 +490,7 @@ class Core(component.Component):
     @export
     def add_torrent_files(
         self, torrent_files: List[Tuple[str, Union[str, bytes], dict]]
-    ) -> defer.Deferred[List[AddTorrentError]]:
+    ) -> 'defer.Deferred[List[AddTorrentError]]':
         """Adds multiple torrent files to the session asynchronously.
 
         Args:
@@ -520,7 +520,7 @@ class Core(component.Component):
     @export
     def add_torrent_url(
         self, url: str, options: dict, headers: dict = None
-    ) -> defer.Deferred[Optional[str]]:
+    ) -> 'defer.Deferred[Optional[str]]':
         """Adds a torrent from a URL. Deluge will attempt to fetch the torrent
         from the URL prior to adding it to the session.
 
@@ -590,7 +590,7 @@ class Core(component.Component):
     @export
     def remove_torrents(
         self, torrent_ids: List[str], remove_data: bool
-    ) -> defer.Deferred[List[Tuple[str, str]]]:
+    ) -> 'defer.Deferred[List[Tuple[str, str]]]':
         """Remove multiple torrents from the session.
 
         Args:
@@ -873,11 +873,11 @@ class Core(component.Component):
         return self.pluginmanager.get_enabled_plugins()
 
     @export
-    def enable_plugin(self, plugin: str) -> defer.Deferred[bool]:
+    def enable_plugin(self, plugin: str) -> 'defer.Deferred[bool]':
         return self.pluginmanager.enable_plugin(plugin)
 
     @export
-    def disable_plugin(self, plugin: str) -> defer.Deferred[bool]:
+    def disable_plugin(self, plugin: str) -> 'defer.Deferred[bool]':
         return self.pluginmanager.disable_plugin(plugin)
 
     @export
@@ -1211,7 +1211,7 @@ class Core(component.Component):
         return glob.glob(path)
 
     @export
-    def test_listen_port(self) -> defer.Deferred[Optional[bool]]:
+    def test_listen_port(self) -> 'defer.Deferred[Optional[bool]]':
         """Checks if the active port is open
 
         Returns:
