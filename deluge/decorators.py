@@ -202,7 +202,7 @@ _RetT = TypeVar('_RetT')
 
 def maybe_coroutine(
     f: Callable[..., Coroutine[Any, Any, _RetT]]
-) -> Callable[..., defer.Deferred[_RetT]]:
+) -> 'Callable[..., defer.Deferred[_RetT]]':
     """Wraps a coroutine function to make it usable as a normal function that returns a Deferred."""
 
     @wraps(f)
