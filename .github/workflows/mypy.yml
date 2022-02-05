@@ -23,14 +23,10 @@ jobs:
           python-version: "3.10"
           cache: "pip"
 
-      #      - name: Add libtorrent deb repository
-      #        uses: myci-actions/add-deb-repo@8
-      #        with:
-      #          repo: deb http://ppa.launchpad.net/libtorrent.org/1.2-daily/ubuntu focal main
-      #          repo-name: libtorrent
-      #          keys: 58E5430D9667FAEFFCA0B93F32309D6B9E009EDB
-      #          key-server: keyserver.ubuntu.com
-      #          install: python3-libtorrent-dbg
+      # This is needed for pygobject-stubs
+      - name: Install system packages
+        run: |
+          sudo apt install libgirepository1.0-dev
 
       - name: Install dependencies
         run: |
