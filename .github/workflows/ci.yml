@@ -10,6 +10,9 @@ on:
 jobs:
   test-linux:
     runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        python-version: ["3.7", "3.10"]
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -20,7 +23,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: "3.8"
+          python-version: ${{ matrix.python-version }}
 
       - name: Cache pip
         uses: actions/cache@v2
@@ -81,6 +84,9 @@ jobs:
 
   test-windows:
     runs-on: windows-latest
+    strategy:
+      matrix:
+        python-version: ["3.7", "3.10"]
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -91,7 +97,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: "3.8"
+          python-version: ${{ matrix.python-version }}
 
       - name: Cache pip
         uses: actions/cache@v2
