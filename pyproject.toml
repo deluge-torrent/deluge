@@ -16,3 +16,16 @@ namespace_packages = true
 plugins = ["mypy_zope:plugin"]
 allow_redefinition = true
 mypy_path = ["$MYPY_CONFIG_FILE_DIR/stubs"]
+
+[[tool.mypy.overrides]]
+module = "win32con"
+ignore_missing_imports = true
+[[tool.mypy.overrides]]
+module = "win32api"
+ignore_missing_imports = true
+[[tool.mypy.overrides]]
+module = "GeoIP"
+ignore_missing_imports = true
+[[tool.mypy.overrides]]
+module = "pygeoip"
+ignore_missing_imports = true
