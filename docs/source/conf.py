@@ -48,7 +48,6 @@ extensions = [
     'sphinx.ext.coverage',
     'sphinxcontrib.spelling',
     'myst_parser',
-    'sphinx_autodoc_typehints',
 ]
 
 napoleon_include_init_with_doc = True
