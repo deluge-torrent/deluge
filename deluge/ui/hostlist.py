@@ -84,6 +84,14 @@ def migrate_config_2_to_3(config):
     return config
 
 
+def mask_hosts_password(hosts):
+    """Replace passwords in hosts list with *'s for log output"""
+    if not hosts:
+        return hosts
+
+    return [list(host)[:-1] + ['*' * 10] for host in hosts]
+
+
 class HostList:
     """This class contains methods for adding, removing and looking up hosts in hostlist.conf."""
 
@@ -94,6 +102,7 @@ class HostList:
             default_hostlist(),
             config_dir=get_config_dir(),
             file_version=3,
+            log_mask_funcs={'hosts': mask_hosts_password},
         )
         self.config.run_converter((1, 2), 3, migrate_config_2_to_3)
         self.config.save()

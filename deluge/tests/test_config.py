@@ -4,6 +4,8 @@
 # See LICENSE for more details.
 #
 
+import json
+import logging
 import os
 from codecs import getwriter
 
@@ -12,6 +14,7 @@ from twisted.internet import task
 
 from deluge.common import JSON_FORMAT
 from deluge.config import Config
+from deluge.ui.hostlist import mask_hosts_password
 
 DEFAULTS = {
     'string': 'foobar',
@@ -20,7 +23,14 @@ DEFAULTS = {
     'bool': True,
     'unicode': 'foobar',
     'password': 'abc123*\\[!]?/<>#{@}=|"+$%(^)~',
+    'hosts': [
+        ('host1', 'port', '', 'password1234'),
+        ('host2', 'port', '', 'password5678'),
+    ],
 }
+
+
+LOGGER = logging.getLogger(__name__)
 
 
 class TestConfig:
@@ -82,6 +92,41 @@ class TestConfig:
         config['foobar'] = 5
         assert config.get('foobar', 2) == 5
 
+    def test_set_log_mask_funcs(self, caplog):
+        """Test mask func masks key in log"""
+        caplog.set_level(logging.DEBUG)
+        config = Config(
+            'test.conf',
+            config_dir=self.config_dir,
+            log_mask_funcs={'hosts': mask_hosts_password},
+        )
+        config['hosts'] = DEFAULTS['hosts']
+        assert isinstance(config['hosts'], list)
+        assert 'host1' in caplog.text
+        assert 'host2' in caplog.text
+        assert 'password1234' not in caplog.text
+        assert 'password5678' not in caplog.text
+        assert '*' * 10 in caplog.text
+
+    def test_load_log_mask_funcs(self, caplog):
+        """Test mask func masks key in log"""
+        with open(os.path.join(self.config_dir, 'test.conf'), 'wb') as _file:
+            json.dump(DEFAULTS, getwriter('utf8')(_file), **JSON_FORMAT)
+
+        config = Config(
+            'test.conf',
+            config_dir=self.config_dir,
+            log_mask_funcs={'hosts': mask_hosts_password},
+        )
+        with caplog.at_level(logging.DEBUG):
+            config.load(os.path.join(self.config_dir, 'test.conf'))
+        assert 'host1' in caplog.text
+        assert 'host2' in caplog.text
+        assert 'foobar' in caplog.text
+        assert 'password1234' not in caplog.text
+        assert 'password5678' not in caplog.text
+        assert '*' * 10 in caplog.text
+
     def test_load(self):
         def check_config():
             config = Config('test.conf', config_dir=self.config_dir)
@@ -91,8 +136,6 @@ class TestConfig:
             assert config['password'] == 'abc123*\\[!]?/<>#{@}=|"+$%(^)~'
 
         # Test opening a previous 1.2 config file of just a json object
-        import json
-
         with open(os.path.join(self.config_dir, 'test.conf'), 'wb') as _file:
             json.dump(DEFAULTS, getwriter('utf8')(_file), **JSON_FORMAT)
 

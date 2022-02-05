@@ -107,13 +107,23 @@ class Config:
         file_version (int): The file format for the default config values when creating
             a fresh config. This value should be increased whenever a new migration function is
             setup to convert old config files. (default: 1)
+        log_mask_funcs (dict): A dict of key:function, used to mask sensitive
+            key values (e.g. passwords) when logging is enabled.
 
     """
 
-    def __init__(self, filename, defaults=None, config_dir=None, file_version=1):
+    def __init__(
+        self,
+        filename,
+        defaults=None,
+        config_dir=None,
+        file_version=1,
+        log_mask_funcs=None,
+    ):
         self.__config = {}
         self.__set_functions = {}
         self.__change_callbacks = []
+        self.__log_mask_funcs = log_mask_funcs if log_mask_funcs else {}
 
         # These hold the version numbers and they will be set when loaded
         self.__version = {'format': 1, 'file': file_version}
@@ -187,7 +197,15 @@ class Config:
                 if self.__config[key] == value:
                     return
 
-        log.debug('Setting key "%s" to: %s (of type: %s)', key, value, type(value))
+        if log.isEnabledFor(logging.DEBUG):
+            if key in self.__log_mask_funcs:
+                value = self.__log_mask_funcs[key](value)
+            log.debug(
+                'Setting key "%s" to: %s (of type: %s)',
+                key,
+                value,
+                type(value),
+            )
         self.__config[key] = value
 
         # Skip save or func callbacks if setting default value for keys
@@ -334,7 +352,6 @@ class Config:
         # Run the function now if apply_now is set
         if apply_now:
             function(key, self.__config[key])
-        return
 
     def apply_all(self):
         """Calls all set functions.
@@ -409,12 +426,24 @@ class Config:
                 log.exception(ex)
                 log.warning('Unable to load config file: %s', filename)
 
+        if not log.isEnabledFor(logging.DEBUG):
+            return
+
+        config = self.__config
+        if self.__log_mask_funcs:
+            config = {
+                key: self.__log_mask_funcs[key](config[key])
+                if key in self.__log_mask_funcs
+                else config[key]
+                for key in config
+            }
+
         log.debug(
             'Config %s version: %s.%s loaded: %s',
             filename,
             self.__version['format'],
             self.__version['file'],
-            self.__config,
+            config,
         )
 
     def save(self, filename=None):
