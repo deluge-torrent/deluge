@@ -49,7 +49,6 @@ from tempfile import NamedTemporaryFile
 from deluge.common import JSON_FORMAT, get_default_config_dir
 
 log = logging.getLogger(__name__)
-callLater = None  # noqa: N816 Necessary for the config tests
 
 
 def prop(func):
@@ -100,6 +99,21 @@ def find_json_objects(text, decoder=json.JSONDecoder()):
     return objects
 
 
+def cast_to_existing_type(value, old_value):
+    """Attempt to convert new value type to match old value type"""
+    types_match = isinstance(old_value, (type(None), type(value)))
+    if value is not None and not types_match:
+        old_type = type(old_value)
+        # Skip convert to bytes since requires knowledge of encoding and value should
+        # be unicode anyway.
+        if old_type is bytes:
+            return value
+
+        return old_type(value)
+
+    return value
+
+
 class Config:
     """This class is used to access/create/modify config files.
 
@@ -127,7 +141,7 @@ class Config:
 
         if defaults:
             for key, value in defaults.items():
-                self.set_item(key, value)
+                self.set_item(key, value, default=True)
 
         # Load the config from file in the config_dir
         if config_dir:
@@ -137,6 +151,12 @@ class Config:
 
         self.load()
 
+    def callLater(self, period, func):  # noqa: N802 ignore camelCase
+        """Wrapper around reactor.callLater for test purpose."""
+        from twisted.internet import reactor
+
+        return reactor.callLater(period, func)
+
     def __contains__(self, item):
         return item in self.__config
 
@@ -145,7 +165,7 @@ class Config:
 
         return self.set_item(key, value)
 
-    def set_item(self, key, value):
+    def set_item(self, key, value, default=False):
         """Sets item 'key' to 'value' in the config dictionary.
 
         Does not allow changing the item's type unless it is None.
@@ -157,6 +177,8 @@ class Config:
             key (str): Item to change to change.
             value (any): The value to change item to, must be same type as what is
                 currently in the config.
+            default (optional, bool): When setting a default value skip func or save
+                callbacks.
 
         Raises:
             ValueError: Raised when the type of value is not the same as what is
@@ -169,58 +191,43 @@ class Config:
             5
 
         """
-        if key not in self.__config:
-            self.__config[key] = value
-            log.debug('Setting key "%s" to: %s (of type: %s)', key, value, type(value))
-            return
+        if isinstance(value, bytes):
+            value = value.decode()
 
-        if self.__config[key] == value:
-            return
-
-        # Change the value type if it is not None and does not match.
-        type_match = isinstance(self.__config[key], (type(None), type(value)))
-        if value is not None and not type_match:
+        if key in self.__config:
             try:
-                oldtype = type(self.__config[key])
-                # Don't convert to bytes as requires encoding and value will
-                # be decoded anyway.
-                if oldtype is not bytes:
-                    value = oldtype(value)
+                value = cast_to_existing_type(value, self.__config[key])
             except ValueError:
                 log.warning('Value Type "%s" invalid for key: %s', type(value), key)
                 raise
-
-        if isinstance(value, bytes):
-            value = value.decode('utf8')
+            else:
+                if self.__config[key] == value:
+                    return
 
         log.debug('Setting key "%s" to: %s (of type: %s)', key, value, type(value))
         self.__config[key] = value
 
-        global callLater
-        if callLater is None:
-            # Must import here and not at the top or it will throw ReactorAlreadyInstalledError
-            from twisted.internet.reactor import (  # pylint: disable=redefined-outer-name
-                callLater,
-            )
+        # Skip save or func callbacks if setting default value for keys
+        if default:
+            return
+
         # Run the set_function for this key if any
-        try:
-            for func in self.__set_functions[key]:
-                callLater(0, func, key, value)
-        except KeyError:
-            pass
+        for func in self.__set_functions.get(key, []):
+            self.callLater(0, func, key, value)
+
         try:
 
             def do_change_callbacks(key, value):
                 for func in self.__change_callbacks:
                     func(key, value)
 
-            callLater(0, do_change_callbacks, key, value)
+            self.callLater(0, do_change_callbacks, key, value)
         except Exception:
             pass
 
         # We set the save_timer for 5 seconds if not already set
         if not self._save_timer or not self._save_timer.active():
-            self._save_timer = callLater(5, self.save)
+            self._save_timer = self.callLater(5, self.save)
 
     def __getitem__(self, key):
         """See get_item """
@@ -296,16 +303,9 @@ class Config:
 
         del self.__config[key]
 
-        global callLater
-        if callLater is None:
-            # Must import here and not at the top or it will throw ReactorAlreadyInstalledError
-            from twisted.internet.reactor import (  # pylint: disable=redefined-outer-name
-                callLater,
-            )
-
         # We set the save_timer for 5 seconds if not already set
         if not self._save_timer or not self._save_timer.active():
-            self._save_timer = callLater(5, self.save)
+            self._save_timer = self.callLater(5, self.save)
 
     def register_change_callback(self, callback):
         """Registers a callback function for any changed value.

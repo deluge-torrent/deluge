@@ -10,7 +10,6 @@ from codecs import getwriter
 import pytest
 from twisted.internet import task
 
-import deluge.config
 from deluge.common import JSON_FORMAT
 from deluge.config import Config
 
@@ -136,16 +135,16 @@ class TestConfig:
         assert config['int'] == 2
 
     def test_save_timer(self):
-        self.clock = task.Clock()
-        deluge.config.callLater = self.clock.callLater
+        clock = task.Clock()
 
         config = Config('test.conf', defaults=DEFAULTS, config_dir=self.config_dir)
+        config.callLater = clock.callLater
         config['string'] = 'baz'
         config['int'] = 2
         assert config._save_timer.active()
 
         # Timeout set for 5 seconds in config, so lets move clock by 5 seconds
-        self.clock.advance(5)
+        clock.advance(5)
 
         def check_config(config):
             assert not config._save_timer.active()
