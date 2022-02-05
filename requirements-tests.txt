@@ -13,3 +13,7 @@ pylint
 mypy
 mypy-zope
 pygobject-stubs
+types-certifi
+types-chardet
+types-pyOpenSSL
+types-setuptools
