@@ -18,7 +18,7 @@ allow_redefinition = true
 mypy_path = ["$MYPY_CONFIG_FILE_DIR/stubs"]
 
 [[tool.mypy.overrides]]
-module = ["win32con", "win32api"]
+module = ["win32con", "win32api", "win32file", "win32process", "win32event", "winerror"]
 ignore_missing_imports = true
 [[tool.mypy.overrides]]
 module = ["GeoIP", "pygeoip"]
