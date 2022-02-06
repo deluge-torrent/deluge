@@ -77,6 +77,24 @@ icon_checking = get_pixbuf('checking16.png')
 
 
 def get_pixbuf_at_size(filename, size):
+    # see ticket 3501 convert image to avoid crash
+    if (
+        filename.endswith('.ico')
+        or filename.endswith('.gif')
+        or filename.endswith('.bmp')
+    ):
+        log.warning(
+            'Converting tracker icon to avoid crash in gdkpixbuf: {}'.format(filename)
+        )
+        try:
+            from PIL import Image
+
+            img = Image.open(filename)
+            img.save(filename + '.png', 'png', sizes=[size])
+            filename = filename + '.png'
+        except (OSError, ValueError, UnidentifiedImageError):  # noqa: F821 # fmt: off
+            return create_blank_pixbuf(size)
+
     if not os.path.isabs(filename):
         filename = get_pixmap(filename)
     try:
