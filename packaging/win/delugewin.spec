@@ -125,7 +125,7 @@ executables = {
         'console': True,
         'gtk': False,
     },
-    'deluged-script.py': {
+    'deluged-script.pyw': {
         'name': 'deluged',
         'console': False,
         'gtk': False,
@@ -137,12 +137,12 @@ executables = {
     },
     'deluge-web-debug-script.py': {
         'name': 'deluge-web-debug',
-        'console': False,
+        'console': True,
         'gtk': False,
     },
-    'deluge-web-script.py': {
+    'deluge-web-script.pyw': {
         'name': 'deluge-web',
-        'console': True,
+        'console': False,
         'gtk': False,
     },
 }
