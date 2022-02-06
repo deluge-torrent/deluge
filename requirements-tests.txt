@@ -9,3 +9,11 @@ flake8-isort
 pep8-naming
 mccabe
 pylint
+# Type checking stuff
+mypy
+mypy-zope
+pygobject-stubs
+types-certifi
+types-chardet
+types-pyOpenSSL
+types-setuptools

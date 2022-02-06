@@ -23,14 +23,13 @@ import deluge.configmanager
 from deluge._libtorrent import lt
 from deluge.event import ConfigValueChangedEvent
 
-GeoIP = None
 try:
     from GeoIP import GeoIP
 except ImportError:
     try:
         from pygeoip import GeoIP
     except ImportError:
-        pass
+        GeoIP = None
 
 log = logging.getLogger(__name__)
 

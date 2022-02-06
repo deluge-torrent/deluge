@@ -2,3 +2,4 @@ sphinx==4.*
 myst-parser
 sphinx_rtd_theme
 sphinxcontrib-spelling==7.3.0
+sphinx-autodoc-typehints

@@ -16,6 +16,7 @@ import time
 from base64 import b64encode
 from collections import namedtuple
 from tempfile import gettempdir
+from typing import Any, Dict, List, Optional
 
 from twisted.internet import defer, error, reactor, threads
 from twisted.internet.defer import Deferred, DeferredList
@@ -33,6 +34,7 @@ from deluge.common import (
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
 from deluge.core.torrent import Torrent, TorrentOptions, sanitize_filepath
+from deluge.decorators import maybe_coroutine
 from deluge.error import AddTorrentError, InvalidTorrentError
 from deluge.event import (
     ExternalIPEvent,
@@ -247,8 +249,8 @@ class TorrentManager(component.Component):
         self.save_resume_data_timer.start(190, False)
         self.prev_status_cleanup_loop.start(10)
 
-    @defer.inlineCallbacks
-    def stop(self):
+    @maybe_coroutine
+    async def stop(self):
         # Stop timers
         if self.save_state_timer.running:
             self.save_state_timer.stop()
@@ -260,11 +262,11 @@ class TorrentManager(component.Component):
             self.prev_status_cleanup_loop.stop()
 
         # Save state on shutdown
-        yield self.save_state()
+        await self.save_state()
 
         self.session.pause()
 
-        result = yield self.save_resume_data(flush_disk_cache=True)
+        result = await self.save_resume_data(flush_disk_cache=True)
         # Remove the temp_file to signify successfully saved state
         if result and os.path.isfile(self.temp_file):
             os.remove(self.temp_file)
@@ -293,7 +295,7 @@ class TorrentManager(component.Component):
                     if not torrent.handle.status().paused:
                         torrent.pause()
 
-    def __getitem__(self, torrent_id):
+    def __getitem__(self, torrent_id: str) -> Torrent:
         """Return the Torrent with torrent_id.
 
         Args:
@@ -305,11 +307,11 @@ class TorrentManager(component.Component):
         """
         return self.torrents[torrent_id]
 
-    def get_torrent_list(self):
+    def get_torrent_list(self) -> List[str]:
         """Creates a list of torrent_ids, owned by current user and any marked shared.
 
         Returns:
-            list: A list of torrent_ids.
+            A list of torrent_ids.
 
         """
         torrent_ids = list(self.torrents)
@@ -323,11 +325,11 @@ class TorrentManager(component.Component):
                 torrent_ids.pop(torrent_ids.index(torrent_id))
         return torrent_ids
 
-    def get_torrent_info_from_file(self, filepath):
+    def get_torrent_info_from_file(self, filepath: str) -> Optional[Dict[str, Any]]:
         """Retrieves torrent_info from the file specified.
 
         Args:
-            filepath (str): The filepath to extract torrent info from.
+            filepath: The filepath to extract torrent info from.
 
         Returns:
             lt.torrent_info: A libtorrent torrent_info dict or None if invalid file or data.
@@ -340,15 +342,16 @@ class TorrentManager(component.Component):
             torrent_info = lt.torrent_info(filepath)
         except RuntimeError as ex:
             log.warning('Unable to open torrent file %s: %s', filepath, ex)
+            return None
         else:
             return torrent_info
 
-    def prefetch_metadata(self, magnet, timeout):
+    def prefetch_metadata(self, magnet: str, timeout: int) -> Deferred:
         """Download the metadata for a magnet URI.
 
         Args:
-            magnet (str): A magnet URI to download the metadata for.
-            timeout (int): Number of seconds to wait before canceling.
+            magnet: A magnet URI to download the metadata for.
+            timeout: Number of seconds to wait before canceling.
 
         Returns:
             Deferred: A tuple of (torrent_id (str), metadata (dict))
@@ -359,7 +362,7 @@ class TorrentManager(component.Component):
         if torrent_id in self.prefetching_metadata:
             return self.prefetching_metadata[torrent_id].defer
 
-        add_torrent_params = {}
+        add_torrent_params: Dict[str, Any] = {}
         add_torrent_params['save_path'] = gettempdir()
         add_torrent_params['url'] = magnet.strip().encode('utf8')
         add_torrent_params['flags'] = (
@@ -374,9 +377,9 @@ class TorrentManager(component.Component):
 
         torrent_handle = self.session.add_torrent(add_torrent_params)
 
-        d = Deferred()
+        d: Deferred = Deferred()
         # Cancel the defer if timeout reached.
-        defer_timeout = self.callLater(timeout, d.cancel)
+        defer_timeout = TorrentManager.callLater(timeout, d.cancel)
         d.addBoth(self.on_prefetch_metadata, torrent_id, defer_timeout)
         Prefetch = namedtuple('Prefetch', 'defer handle')
         self.prefetching_metadata[torrent_id] = Prefetch(defer=d, handle=torrent_handle)
