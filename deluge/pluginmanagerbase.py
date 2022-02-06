@@ -35,7 +35,7 @@ METADATA_KEYS = [
 ]
 
 DEPRECATION_WARNING = """
-The plugin %s is not using the "deluge.plugins" namespace.
+The plugin %s is not using the "deluge_" namespace.
 In order to avoid package name clashes between regular python packages and
 deluge plugins, the way deluge plugins should be created has changed.
 If you're seeing this message and you're not the developer of the plugin which
@@ -162,7 +162,7 @@ class PluginManagerBase:
                 log.exception(ex)
                 return_d = defer.fail(False)
 
-            if not instance.__module__.startswith('deluge.plugins.'):
+            if not instance.__module__.startswith('deluge_'):
                 import warnings
 
                 warnings.warn_explicit(
