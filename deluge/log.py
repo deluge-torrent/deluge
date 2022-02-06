@@ -20,7 +20,6 @@ from twisted.internet import defer
 from twisted.python.log import PythonLoggingObserver
 
 from deluge import common
-from deluge.decorators import maybe_coroutine
 
 __all__ = ('setup_logger', 'set_logger_level', 'get_plugin_logger', 'LOG')
 
@@ -52,38 +51,30 @@ class Logging(LoggingLoggerClass):
                     )
                 )
 
-    @maybe_coroutine
-    async def garbage(self, msg, *args, **kwargs):
+    def garbage(self, msg, *args, **kwargs):
         LoggingLoggerClass.log(self, 1, msg, *args, **kwargs)
 
-    @maybe_coroutine
-    async def trace(self, msg, *args, **kwargs):
+    def trace(self, msg, *args, **kwargs):
         LoggingLoggerClass.log(self, 5, msg, *args, **kwargs)
 
-    @maybe_coroutine
-    async def debug(self, msg, *args, **kwargs):
+    def debug(self, msg, *args, **kwargs):
         LoggingLoggerClass.debug(self, msg, *args, **kwargs)
 
-    @maybe_coroutine
-    async def info(self, msg, *args, **kwargs):
+    def info(self, msg, *args, **kwargs):
         LoggingLoggerClass.info(self, msg, *args, **kwargs)
 
-    @maybe_coroutine
-    async def warning(self, msg, *args, **kwargs):
+    def warning(self, msg, *args, **kwargs):
         LoggingLoggerClass.warning(self, msg, *args, **kwargs)
 
     warn = warning
 
-    @maybe_coroutine
-    async def error(self, msg, *args, **kwargs):
+    def error(self, msg, *args, **kwargs):
         LoggingLoggerClass.error(self, msg, *args, **kwargs)
 
-    @maybe_coroutine
-    async def critical(self, msg, *args, **kwargs):
+    def critical(self, msg, *args, **kwargs):
         LoggingLoggerClass.critical(self, msg, *args, **kwargs)
 
-    @maybe_coroutine
-    async def exception(self, msg, *args, **kwargs):
+    def exception(self, msg, *args, **kwargs):
         LoggingLoggerClass.exception(self, msg, *args, **kwargs)
 
     def findCaller(self, *args, **kwargs):  # NOQA: N802
