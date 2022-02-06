@@ -11,6 +11,7 @@ jobs:
   test-linux:
     runs-on: ubuntu-20.04
     strategy:
+      fail-fast: false
       matrix:
         python-version: ["3.7", "3.10"]
 
@@ -34,15 +35,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
             ${{ runner.os }}-
-
-      - name: Add libtorrent deb repository
-        uses: myci-actions/add-deb-repo@8
-        with:
-          repo: deb http://ppa.launchpad.net/libtorrent.org/1.2-daily/ubuntu focal main
-          repo-name: libtorrent
-          keys: 58E5430D9667FAEFFCA0B93F32309D6B9E009EDB
-          key-server: keyserver.ubuntu.com
-          install: python3-libtorrent-dbg
 
       - name: Sets env var for security
         if: (github.event_name == 'pull_request' && contains(github.event.pull_request.body, 'security_test')) || (github.event_name == 'push' && contains(github.event.head_commit.message, 'security_test'))
@@ -71,7 +63,6 @@ jobs:
       - name: Test with pytest
         run: |
           ulimit -c unlimited  # Enable core dumps to be captured
-          cp /usr/lib/python3/dist-packages/libtorrent*.so $GITHUB_WORKSPACE/deluge
           python -c 'from deluge._libtorrent import lt; print(lt.__version__)';
           catchsegv python -X dev -m pytest -v -m "not (todo or gtkui)" deluge
 
@@ -85,6 +76,7 @@ jobs:
   test-windows:
     runs-on: windows-latest
     strategy:
+      fail-fast: false
       matrix:
         python-version: ["3.7", "3.10"]
 
@@ -111,8 +103,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip wheel
-          python -m pip install libtorrent==1.2.*
+          pip install --upgrade pip wheel
           pip install -r requirements.txt -r requirements-tests.txt
           pip install -e .
 
