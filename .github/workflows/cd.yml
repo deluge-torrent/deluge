@@ -87,14 +87,16 @@ jobs:
           python setup.py install_scripts
 
       - name: Freeze Deluge
+        working-directory: packaging/win
         run: |
-          pyinstaller --clean $env:GITHUB_WORKSPACE\packaging\win\delugewin.spec --distpath $env:GITHUB_WORKSPACE\packaging\win\freeze
+          pyinstaller --clean delugewin.spec --distpath freeze
 
-      - name: Fix OpenSSL For Libtorrent
+      - name: Fix OpenSSL for libtorrent x64
         if: ${{ matrix.arch == 'x64' }}
+        working-directory: packaging/win/freeze/Deluge
         run: |
-          Copy-Item -Path $env:GITHUB_WORKSPACE\packaging\win\freeze\Deluge\libssl-1_1.dll -Destination $env:GITHUB_WORKSPACE\packaging\win\freeze\Deluge\libssl-1_1-x64.dll
-          Copy-Item -Path $env:GITHUB_WORKSPACE\packaging\win\freeze\Deluge\libcrypto-1_1.dll -Destination $env:GITHUB_WORKSPACE\packaging\win\freeze\Deluge\libcrypto-1_1-x64.dll
+          cp libssl-1_1.dll libssl-1_1-x64.dll
+          cp libcrypto-1_1.dll libcrypto-1_1-x64.dll
 
       - name: Make Deluge Installer
         working-directory: ./packaging/win
