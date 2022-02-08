@@ -14,6 +14,7 @@ import shutil
 import tempfile
 import threading
 from base64 import b64decode, b64encode
+from typing import Tuple
 from urllib.request import URLError, urlopen
 
 from twisted.internet import defer, reactor, task
@@ -433,7 +434,10 @@ class Core(component.Component):
             return d
 
     @export
-    def prefetch_magnet_metadata(self, magnet, timeout=30):
+    @maybe_coroutine
+    async def prefetch_magnet_metadata(
+        self, magnet: str, timeout: int = 30
+    ) -> Tuple[str, bytes]:
         """Download magnet metadata without adding to Deluge session.
 
         Used by UIs to get magnet files for selection before adding to session.
@@ -441,24 +445,15 @@ class Core(component.Component):
         The metadata is bencoded and for transfer base64 encoded.
 
         Args:
-            magnet (str): The magnet URI.
-            timeout (int): Number of seconds to wait before canceling request.
+            magnet: The magnet URI.
+            timeout: Number of seconds to wait before canceling request.
 
         Returns:
-            Deferred: A tuple of (torrent_id (str), metadata (str)) for the magnet.
+            A tuple of (torrent_id, metadata) for the magnet.
 
         """
 
-        def on_metadata(result, result_d):
-            """Return result of torrent_id and metadata"""
-            result_d.callback(result)
-            return result
-
-        d = self.torrentmanager.prefetch_metadata(magnet, timeout)
-        # Use a separate callback chain to handle existing prefetching magnet.
-        result_d = defer.Deferred()
-        d.addBoth(on_metadata, result_d)
-        return result_d
+        return await self.torrentmanager.prefetch_metadata(magnet, timeout)
 
     @export
     def add_torrent_file(self, filename, filedump, options):

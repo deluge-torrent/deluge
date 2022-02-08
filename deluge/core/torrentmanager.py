@@ -14,10 +14,10 @@ import os
 import pickle
 import time
 from base64 import b64encode
-from collections import namedtuple
 from tempfile import gettempdir
+from typing import Dict, List, NamedTuple, Tuple
 
-from twisted.internet import defer, error, reactor, threads
+from twisted.internet import defer, reactor, threads
 from twisted.internet.defer import Deferred, DeferredList
 from twisted.internet.task import LoopingCall
 
@@ -55,6 +55,11 @@ LT_DEFAULT_ADD_TORRENT_FLAGS = (
     | lt.add_torrent_params_flags_t.flag_update_subscribe
     | lt.add_torrent_params_flags_t.flag_apply_ip_filter
 )
+
+
+class PrefetchQueueItem(NamedTuple):
+    alert_deferred: Deferred
+    result_queue: List[Deferred]
 
 
 class TorrentState:  # pylint: disable=old-style-class
@@ -134,7 +139,8 @@ class TorrentManager(component.Component):
 
     """
 
-    callLater = reactor.callLater  # noqa: N815
+    # This is used in the test to mock out timeouts
+    clock = reactor
 
     def __init__(self):
         component.Component.__init__(
@@ -163,7 +169,7 @@ class TorrentManager(component.Component):
         self.is_saving_state = False
         self.save_resume_data_file_lock = defer.DeferredLock()
         self.torrents_loading = {}
-        self.prefetching_metadata = {}
+        self.prefetching_metadata: Dict[str, PrefetchQueueItem] = {}
 
         # This is a map of torrent_ids to Deferreds used to track needed resume data.
         # The Deferreds will be completed when resume data has been saved.
@@ -344,21 +350,24 @@ class TorrentManager(component.Component):
         else:
             return torrent_info
 
-    def prefetch_metadata(self, magnet, timeout):
+    @maybe_coroutine
+    async def prefetch_metadata(self, magnet: str, timeout: int) -> Tuple[str, bytes]:
         """Download the metadata for a magnet URI.
 
         Args:
-            magnet (str): A magnet URI to download the metadata for.
-            timeout (int): Number of seconds to wait before canceling.
+            magnet: A magnet URI to download the metadata for.
+            timeout: Number of seconds to wait before canceling.
 
         Returns:
-            Deferred: A tuple of (torrent_id (str), metadata (dict))
+            A tuple of (torrent_id, metadata)
 
         """
 
         torrent_id = get_magnet_info(magnet)['info_hash']
         if torrent_id in self.prefetching_metadata:
-            return self.prefetching_metadata[torrent_id].defer
+            d = Deferred()
+            self.prefetching_metadata[torrent_id].result_queue.append(d)
+            return await d
 
         add_torrent_params = {}
         add_torrent_params['save_path'] = gettempdir()
@@ -377,33 +386,26 @@ class TorrentManager(component.Component):
 
         d = Deferred()
         # Cancel the defer if timeout reached.
-        defer_timeout = self.callLater(timeout, d.cancel)
-        d.addBoth(self.on_prefetch_metadata, torrent_id, defer_timeout)
-        Prefetch = namedtuple('Prefetch', 'defer handle')
-        self.prefetching_metadata[torrent_id] = Prefetch(defer=d, handle=torrent_handle)
-        return d
+        d.addTimeout(timeout, self.clock)
+        self.prefetching_metadata[torrent_id] = PrefetchQueueItem(d, [])
 
-    def on_prefetch_metadata(self, torrent_info, torrent_id, defer_timeout):
-        # Cancel reactor.callLater.
         try:
-            defer_timeout.cancel()
-        except error.AlreadyCalled:
-            pass
-
-        log.debug('remove prefetch magnet from session')
-        try:
-            torrent_handle = self.prefetching_metadata.pop(torrent_id).handle
-        except KeyError:
-            pass
+            torrent_info = await d
+        except (defer.TimeoutError, defer.CancelledError):
+            log.debug(f'Prefetching metadata for {torrent_id} timed out or cancelled.')
+            metadata = b''
         else:
-            self.session.remove_torrent(torrent_handle, 1)
-
-        metadata = b''
-        if isinstance(torrent_info, lt.torrent_info):
             log.debug('prefetch metadata received')
             metadata = torrent_info.metadata()
 
-        return torrent_id, b64encode(metadata)
+        log.debug('remove prefetch magnet from session')
+        result_queue = self.prefetching_metadata.pop(torrent_id).result_queue
+        self.session.remove_torrent(torrent_handle, 1)
+        result = torrent_id, b64encode(metadata)
+
+        for d in result_queue:
+            d.callback(result)
+        return result
 
     def _build_torrent_options(self, options):
         """Load default options and update if needed."""
@@ -458,7 +460,7 @@ class TorrentManager(component.Component):
             raise AddTorrentError('Torrent already being added (%s).' % torrent_id)
         elif torrent_id in self.prefetching_metadata:
             # Cancel and remove metadata fetching torrent.
-            self.prefetching_metadata[torrent_id].defer.cancel()
+            self.prefetching_metadata[torrent_id].alert_deferred.cancel()
 
         # Check for renamed files and if so, rename them in the torrent_info before adding.
         if options['mapped_files'] and torrent_info:
@@ -1570,7 +1572,7 @@ class TorrentManager(component.Component):
 
         # Try callback to prefetch_metadata method.
         try:
-            d = self.prefetching_metadata[torrent_id].defer
+            d = self.prefetching_metadata[torrent_id].alert_deferred
         except KeyError:
             pass
         else:

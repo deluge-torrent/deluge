@@ -79,10 +79,10 @@ class TopLevelResource(Resource):
 class TestCore(BaseTestCase):
     def set_up(self):
         self.rpcserver = RPCServer(listen=False)
-        self.core = Core()
+        self.core: Core = Core()
         self.core.config.config['lsd'] = False
         self.clock = task.Clock()
-        self.core.torrentmanager.callLater = self.clock.callLater
+        self.core.torrentmanager.clock = self.clock
         self.listen_port = 51242
         return component.start().addCallback(self.start_web_server)
 
@@ -319,12 +319,13 @@ class TestCore(BaseTestCase):
         def on_result(result):
             assert result == expected
 
-        d = self.core.prefetch_magnet_metadata(magnet)
-        d.addCallback(on_result)
-        d2 = self.core.prefetch_magnet_metadata(magnet)
-        d2.addCallback(on_result)
+        deferreds = []
+        for x in range(3):
+            d = self.core.prefetch_magnet_metadata(magnet)
+            d.addCallback(on_result)
+            deferreds.append(d)
         self.clock.advance(30)
-        return defer.DeferredList([d, d2])
+        return defer.DeferredList(deferreds, fireOnOneErrback=True)
 
     @pytest_twisted.inlineCallbacks
     def test_remove_torrent(self):
