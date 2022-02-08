@@ -2,7 +2,7 @@
 import os
 import sys
 import deluge.common
-from PyInstaller.utils.hooks import collect_all, collect_submodules, copy_metadata
+from PyInstaller.utils.hooks import collect_data_files, collect_submodules, copy_metadata
 
 datas = []
 binaries = []
@@ -100,8 +100,11 @@ for module in stdlib:
 hiddenimports += collect_submodules('twisted', filter=lambda name: 'test' not in name)
 datas += copy_metadata('twisted', recursive=True)
 
-# Copy UI/Plugin files to where pyinstaller expects
-datas += [('../../deluge/ui', 'deluge/ui'), ('../../deluge/plugins', 'deluge/plugins')]
+# Copy UI/Plugin and translation files to where pyinstaller expects
+package_data = collect_data_files('deluge')
+datas += package_data
+
+icon = [src for src, dest in package_data if src.endswith('deluge.ico')][0]
 
 # List of executables to produce
 executables = {
@@ -185,7 +188,7 @@ for e, d in executables.items():
         bootloader_ignore_signals=False,
         strip=False,
         upx=True,
-        icon='../../deluge/ui/data/pixmaps/deluge.ico',
+        icon=icon,
         console=d['console'],
         disable_windowed_traceback=False,
         target_arch=None,
