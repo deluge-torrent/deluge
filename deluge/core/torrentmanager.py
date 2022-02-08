@@ -279,11 +279,6 @@ class TorrentManager(component.Component):
                 'Paused',
                 'Queued',
             ):
-                # If the global setting is set, but the per-torrent isn't...
-                # Just skip to the next torrent.
-                # This is so that a user can turn-off the stop at ratio option on a per-torrent basis
-                if not torrent.options['stop_at_ratio']:
-                    continue
                 if (
                     torrent.get_ratio() >= torrent.options['stop_ratio']
                     and torrent.is_finished
@@ -291,7 +286,7 @@ class TorrentManager(component.Component):
                     if torrent.options['remove_at_ratio']:
                         self.remove(torrent_id)
                         break
-                    if not torrent.handle.status().paused:
+                    if not torrent.status.paused:
                         torrent.pause()
 
     def __getitem__(self, torrent_id):
@@ -1359,10 +1354,8 @@ class TorrentManager(component.Component):
         torrent.set_tracker_status('Announce OK')
 
         # Check for peer information from the tracker, if none then send a scrape request.
-        if (
-            alert.handle.status().num_complete == -1
-            or alert.handle.status().num_incomplete == -1
-        ):
+        torrent.update_status()
+        if torrent.status.num_complete == -1 or torrent.status.num_incomplete == -1:
             torrent.scrape_tracker()
 
     def on_alert_tracker_announce(self, alert):
@@ -1612,7 +1605,7 @@ class TorrentManager(component.Component):
             except RuntimeError:
                 continue
             if torrent_id in self.torrents:
-                self.torrents[torrent_id].update_status(t_status)
+                self.torrents[torrent_id].status = t_status
 
         self.handle_torrents_status_callback(self.torrents_status_requests.pop())
 

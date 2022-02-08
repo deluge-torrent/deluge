@@ -16,6 +16,7 @@ Attributes:
 import logging
 import os
 import socket
+import time
 from urllib.parse import urlparse
 
 from twisted.internet.defer import Deferred, DeferredList
@@ -234,7 +235,8 @@ class Torrent:
         self.handle = handle
 
         self.magnet = magnet
-        self.status = self.handle.status()
+        self._status = None
+        self._status_last_update = 0
 
         self.torrent_info = self.handle.torrent_file()
         self.has_metadata = self.status.has_metadata
@@ -267,7 +269,6 @@ class Torrent:
         self.prev_status = {}
         self.waiting_on_folder_rename = []
 
-        self.update_status(self.handle.status())
         self._create_status_funcs()
         self.set_options(self.options)
         self.update_state()
@@ -641,7 +642,7 @@ class Torrent:
 
     def update_state(self):
         """Updates the state, based on libtorrent's torrent state"""
-        status = self.handle.status()
+        status = self.update_status()
         session_paused = component.get('Core').session.is_paused()
         old_state = self.state
         self.set_status_message()
@@ -709,7 +710,7 @@ class Torrent:
             restart_to_resume (bool, optional): Prevent resuming clearing the error, only restarting
                 session can resume.
         """
-        status = self.handle.status()
+        status = self.update_status()
         self._set_handle_flags(
             flag=lt.torrent_flags.auto_managed,
             set_flag=False,
@@ -1024,7 +1025,7 @@ class Torrent:
             dict: a dictionary of the status keys and their values
         """
         if update:
-            self.update_status(self.handle.status())
+            self.update_status()
 
         if all_keys:
             keys = list(self.status_funcs)
@@ -1054,13 +1055,35 @@ class Torrent:
 
         return status_dict
 
-    def update_status(self, status):
+    def update_status(self):
+        """Get the torrent status fresh, not from cache.
+
+        This should be used when a guaranteed fresh status is needed rather than
+        `torrent.handle.status()` because it will update the cache as well.
+        """
+        self.status = self.handle.status()
+        return self.status
+
+    @property
+    def status(self):
+        """Cached copy of the libtorrent status for this torrent.
+
+        If it has not been updated within the last five seconds, it will be
+        automatically refreshed.
+        """
+        if self._status_last_update < (time.time() - 5):
+            self.status = self.handle.status()
+        return self._status
+
+    @status.setter
+    def status(self, status):
         """Updates the cached status.
 
         Args:
             status (libtorrent.torrent_status): a libtorrent torrent status
         """
-        self.status = status
+        self._status = status
+        self._status_last_update = time.time()
 
     def _create_status_funcs(self):
         """Creates the functions for getting torrent status"""
