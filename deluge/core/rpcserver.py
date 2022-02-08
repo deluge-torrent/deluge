@@ -13,6 +13,7 @@ import sys
 import traceback
 from collections import namedtuple
 from types import FunctionType
+from typing import Callable, TypeVar, overload
 
 from twisted.internet import defer, reactor
 from twisted.internet.protocol import Factory, connectionDone
@@ -40,6 +41,18 @@ RPC_ERROR = 2
 RPC_EVENT = 3
 
 log = logging.getLogger(__name__)
+
+TCallable = TypeVar('TCallable', bound=Callable)
+
+
+@overload
+def export(func: TCallable) -> TCallable:
+    ...
+
+
+@overload
+def export(auth_level: int) -> Callable[[TCallable], TCallable]:
+    ...
 
 
 def export(auth_level=AUTH_LEVEL_DEFAULT):

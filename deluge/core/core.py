@@ -432,9 +432,10 @@ class Core(component.Component):
             return d
 
     @export
-    def prefetch_magnet_metadata(
+    @maybe_coroutine
+    async def prefetch_magnet_metadata(
         self, magnet: str, timeout: int = 30
-    ) -> 'defer.Deferred[Tuple[str, bytes]]':
+    ) -> Tuple[str, bytes]:
         """Download magnet metadata without adding to Deluge session.
 
         Used by UIs to get magnet files for selection before adding to session.
@@ -446,19 +447,10 @@ class Core(component.Component):
             timeout: Number of seconds to wait before canceling request.
 
         Returns:
-            A tuple of (torrent_id (str), metadata (str)) for the magnet.
+            A tuple of (torrent_id, metadata) for the magnet.
+
         """
-
-        def on_metadata(result, result_d):
-            """Return result of torrent_id and metadata"""
-            result_d.callback(result)
-            return result
-
-        d = self.torrentmanager.prefetch_metadata(magnet, timeout)
-        # Use a separate callback chain to handle existing prefetching magnet.
-        result_d = defer.Deferred()
-        d.addBoth(on_metadata, result_d)
-        return result_d
+        return await self.torrentmanager.prefetch_metadata(magnet, timeout)
 
     @export
     def add_torrent_file(

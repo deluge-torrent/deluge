@@ -80,10 +80,10 @@ class TopLevelResource(Resource):
 class TestCore(BaseTestCase):
     def set_up(self):
         self.rpcserver = RPCServer(listen=False)
-        self.core = Core()
+        self.core: Core = Core()
         self.core.config.config['lsd'] = False
         self.clock = task.Clock()
-        self.core.torrentmanager.callLater = self.clock.callLater
+        self.core.torrentmanager.clock = self.clock
         self.listen_port = 51242
         return component.start().addCallback(self.start_web_server)
 
@@ -313,20 +313,18 @@ class TestCore(BaseTestCase):
         r2 = self.core.get_torrent_status(tid2, ['paused'])
         assert r2['paused']
 
+    @pytest_twisted.inlineCallbacks
     def test_prefetch_metadata_existing(self):
         """Check another call with same magnet returns existing deferred."""
         magnet = 'magnet:?xt=urn:btih:ab570cdd5a17ea1b61e970bb72047de141bce173'
         expected = ('ab570cdd5a17ea1b61e970bb72047de141bce173', b'')
 
-        def on_result(result):
-            assert result == expected
-
-        d = self.core.prefetch_magnet_metadata(magnet)
-        d.addCallback(on_result)
+        d1 = self.core.prefetch_magnet_metadata(magnet)
         d2 = self.core.prefetch_magnet_metadata(magnet)
-        d2.addCallback(on_result)
+        dg = defer.gatherResults([d1, d2], consumeErrors=True)
         self.clock.advance(30)
-        return defer.DeferredList([d, d2])
+        result = yield dg
+        assert result == [expected] * 2
 
     @pytest_twisted.inlineCallbacks
     def test_remove_torrent(self):

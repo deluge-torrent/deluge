@@ -12,7 +12,7 @@ from unittest import mock
 
 import pytest
 import pytest_twisted
-from twisted.internet import task
+from twisted.internet import reactor, task
 
 from deluge import component
 from deluge.bencode import bencode
@@ -78,7 +78,9 @@ class TestTorrentmanager(BaseTestCase):
 
         magnet = 'magnet:?xt=urn:btih:ab570cdd5a17ea1b61e970bb72047de141bce173'
         d = self.tm.prefetch_metadata(magnet, 30)
-        self.tm.on_alert_metadata_received(mock_alert)
+        # Make sure to use calllater, because the above prefetch call won't
+        # actually start running until we await it.
+        reactor.callLater(0, self.tm.on_alert_metadata_received, mock_alert)
 
         expected = (
             'ab570cdd5a17ea1b61e970bb72047de141bce173',
