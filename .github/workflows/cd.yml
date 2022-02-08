@@ -74,7 +74,7 @@ jobs:
           python -m pip install --find-links="C:\GTK\release\python" pycairo PyGObject
 
           python -m pip install
-          https://github.com/doadin/twisted/releases/download/latest/Twisted-21.7.0.post0-py3-none-any.whl
+          twisted==22.2.0rc1  # Windows simulate fix
           libtorrent==${{ matrix.libtorrent }}
           pyinstaller
           pygame
