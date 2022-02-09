@@ -74,7 +74,7 @@ jobs:
           python -m pip install --find-links="C:\GTK\release\python" pycairo PyGObject
 
           python -m pip install
-          twisted==22.2.0rc1  # Windows simulate fix
+          twisted[tls]==22.2.0rc1
           libtorrent==${{ matrix.libtorrent }}
           pyinstaller
           pygame
