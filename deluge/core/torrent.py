@@ -17,6 +17,7 @@ import logging
 import os
 import socket
 import time
+from typing import Optional
 from urllib.parse import urlparse
 
 from twisted.internet.defer import Deferred, DeferredList
@@ -235,8 +236,8 @@ class Torrent:
         self.handle = handle
 
         self.magnet = magnet
-        self._status = None
-        self._status_last_update = 0
+        self._status: 'Optional[lt.torrent_status]' = None
+        self._status_last_update: float = 0.0
 
         self.torrent_info = self.handle.torrent_file()
         self.has_metadata = self.status.has_metadata
@@ -1055,7 +1056,7 @@ class Torrent:
 
         return status_dict
 
-    def update_status(self):
+    def update_status(self) -> 'lt.torrent_status':
         """Get the torrent status fresh, not from cache.
 
         This should be used when a guaranteed fresh status is needed rather than
@@ -1065,7 +1066,7 @@ class Torrent:
         return self.status
 
     @property
-    def status(self):
+    def status(self) -> 'lt.torrent_status':
         """Cached copy of the libtorrent status for this torrent.
 
         If it has not been updated within the last five seconds, it will be
@@ -1076,11 +1077,11 @@ class Torrent:
         return self._status
 
     @status.setter
-    def status(self, status):
+    def status(self, status: 'lt.torrent_status') -> None:
         """Updates the cached status.
 
         Args:
-            status (libtorrent.torrent_status): a libtorrent torrent status
+            status: a libtorrent torrent status
         """
         self._status = status
         self._status_last_update = time.time()
