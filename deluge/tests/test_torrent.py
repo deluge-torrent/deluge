@@ -3,7 +3,7 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
+import itertools
 import os
 import time
 from base64 import b64encode
@@ -356,3 +356,20 @@ class TestTorrent(BaseTestCase):
         self.torrent = Torrent(handle, {})
         assert not self.torrent.connect_peer('127.0.0.1', 'text')
         assert self.torrent.connect_peer('127.0.0.1', '1234')
+
+    def test_status_cache(self):
+        atp = self.get_torrent_atp('test_torrent.file.torrent')
+        handle = self.session.add_torrent(atp)
+        mock_time = mock.Mock(return_value=time.time())
+        with mock.patch('time.time', mock_time):
+            torrent = Torrent(handle, {})
+            counter = itertools.count()
+            handle.status = mock.Mock(side_effect=counter.__next__)
+            first_status = torrent.update_status()
+            assert first_status == 0, 'sanity check'
+            assert first_status == torrent.status, 'cached status should be used'
+            assert torrent.update_status() == 1, 'status should update'
+            assert torrent.status == 1
+            # Advance time and verify cache expires and updates
+            mock_time.return_value += 10
+            assert torrent.status == 2
