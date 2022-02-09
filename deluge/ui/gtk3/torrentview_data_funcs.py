@@ -14,7 +14,7 @@ import deluge.component as component
 
 from .common import (
     create_blank_pixbuf,
-    get_pixbuf_at_size,
+    get_pixbuf,
     icon_alert,
     icon_checking,
     icon_downloading,
@@ -83,7 +83,7 @@ def set_tracker_icon(tracker_icon, cell):
     if tracker_icon:
         pixbuf = tracker_icon.get_cached_icon()
         if pixbuf is None:
-            pixbuf = get_pixbuf_at_size(tracker_icon.get_filename(), 16)
+            pixbuf = get_pixbuf(tracker_icon.get_filename(), 16)
             tracker_icon.set_cached_icon(pixbuf)
     else:
         pixbuf = create_blank_pixbuf()

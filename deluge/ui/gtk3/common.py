@@ -59,12 +59,31 @@ def create_blank_pixbuf(size=16):
     return pix
 
 
-def get_pixbuf(filename):
+def get_pixbuf(filename: str, size: int = 0) -> Pixbuf:
+    """Creates a new pixbuf by loading an image from file
+
+    Args:
+        filename: An image file to load
+        size: Specify a size constraint (equal aspect ratio)
+
+    Returns:
+        A newly created pixbuf
+
+    """
+    if not os.path.isabs(filename):
+        filename = get_pixmap(filename)
+
+    pixbuf = None
     try:
-        return Pixbuf.new_from_file(get_pixmap(filename))
+        if size:
+            pixbuf = Pixbuf.new_from_file_at_size(filename, size, size)
+        else:
+            pixbuf = Pixbuf.new_from_file(filename)
     except GError as ex:
+        # Failed to load the pixbuf (Bad image file), so return a blank pixbuf.
         log.warning(ex)
-        return create_blank_pixbuf()
+
+    return pixbuf or create_blank_pixbuf(size or 16)
 
 
 # Status icons.. Create them from file only once to avoid constantly re-creating them.
@@ -74,17 +93,6 @@ icon_inactive = get_pixbuf('inactive16.png')
 icon_alert = get_pixbuf('alert16.png')
 icon_queued = get_pixbuf('queued16.png')
 icon_checking = get_pixbuf('checking16.png')
-
-
-def get_pixbuf_at_size(filename, size):
-    if not os.path.isabs(filename):
-        filename = get_pixmap(filename)
-    try:
-        return Pixbuf.new_from_file_at_size(filename, size, size)
-    except GError as ex:
-        # Failed to load the pixbuf (Bad image file), so return a blank pixbuf.
-        log.warning(ex)
-        return create_blank_pixbuf(size)
 
 
 def get_logo(size):
@@ -99,7 +107,7 @@ def get_logo(size):
     filename = 'deluge.svg'
     if windows_check():
         filename = 'deluge.png'
-    return get_pixbuf_at_size(filename, size)
+    return get_pixbuf(filename, size)
 
 
 def build_menu_radio_list(

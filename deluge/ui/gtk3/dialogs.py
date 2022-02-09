@@ -14,7 +14,7 @@ from twisted.internet import defer
 import deluge.component as component
 from deluge.common import windows_check
 
-from .common import get_deluge_icon, get_pixbuf_at_size
+from .common import get_deluge_icon, get_pixbuf
 
 
 class BaseDialog(Gtk.Dialog):
@@ -52,7 +52,7 @@ class BaseDialog(Gtk.Dialog):
             # Hack for Windows since it doesn't support svg
             if icon.endswith('.svg') and windows_check():
                 icon = icon.rpartition('.svg')[0] + '16.png'
-            image.set_from_pixbuf(get_pixbuf_at_size(icon, 24))
+            image.set_from_pixbuf(get_pixbuf(icon, 24))
         else:
             image.set_from_icon_name(icon, Gtk.IconSize.LARGE_TOOLBAR)
         image.set_alignment(0.5, 0.0)
