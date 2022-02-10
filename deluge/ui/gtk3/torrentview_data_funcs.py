@@ -39,7 +39,6 @@ ICON_STATE = {
 # renderer. This is much cheaper than fetch the current value and test if
 # it's equal.
 func_last_value = {
-    'cell_data_time': None,
     'cell_data_ratio_seeds_peers': None,
     'cell_data_ratio_ratio': None,
     'cell_data_ratio_avail': None,
@@ -219,10 +218,6 @@ def cell_data_peer(column, cell, model, row, data):
 def cell_data_time(column, cell, model, row, data):
     """Display value as time, eg 1m10s"""
     time = model.get_value(row, data)
-    if func_last_value['cell_data_time'] == time:
-        return
-    func_last_value['cell_data_time'] = time
-
     if time <= 0:
         time_str = ''
     else:
