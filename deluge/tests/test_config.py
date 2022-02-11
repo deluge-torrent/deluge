@@ -10,6 +10,7 @@ import os
 from codecs import getwriter
 
 import pytest
+import pytest_twisted
 from twisted.internet import task
 
 from deluge.common import JSON_FORMAT
@@ -82,6 +83,33 @@ class TestConfig:
         assert config['bar'] is None
 
         config._save_timer.cancel()
+
+    @pytest_twisted.ensureDeferred
+    async def test_on_changed_callback(self, mock_callback):
+        config = Config('test.conf', config_dir=self.config_dir)
+        config.register_change_callback(mock_callback)
+        config['foo'] = 1
+        assert config['foo'] == 1
+        await mock_callback.deferred
+        mock_callback.assert_called_once_with('foo', 1)
+
+    @pytest_twisted.ensureDeferred
+    async def test_key_function_callback(self, mock_callback):
+        config = Config(
+            'test.conf', defaults={'foo': 1, 'bar': 1}, config_dir=self.config_dir
+        )
+
+        assert config['foo'] == 1
+        config.register_set_function('foo', mock_callback)
+        await mock_callback.deferred
+        mock_callback.assert_called_once_with('foo', 1)
+
+        mock_callback.reset_mock()
+        config.register_set_function('bar', mock_callback, apply_now=False)
+        mock_callback.assert_not_called()
+        config['bar'] = 2
+        await mock_callback.deferred
+        mock_callback.assert_called_once_with('bar', 2)
 
     def test_get(self):
         config = Config('test.conf', config_dir=self.config_dir)

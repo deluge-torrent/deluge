@@ -144,11 +144,11 @@ class Config:
 
         self.load()
 
-    def callLater(self, period, func):  # noqa: N802 ignore camelCase
+    def callLater(self, period, func, *args, **kwargs):  # noqa: N802 ignore camelCase
         """Wrapper around reactor.callLater for test purpose."""
         from twisted.internet import reactor
 
-        return reactor.callLater(period, func)
+        return reactor.callLater(period, func, *args, **kwargs)
 
     def __contains__(self, item):
         return item in self.__config
