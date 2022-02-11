@@ -10,6 +10,7 @@ from base64 import b64encode
 from unittest import mock
 
 import pytest
+import pytest_twisted
 from twisted.internet import defer, reactor
 from twisted.internet.task import deferLater
 
@@ -80,7 +81,19 @@ class TestTorrent(BaseTestCase):
         }
         return atp
 
-    def test_set_file_priorities(self):
+    @pytest_twisted.ensureDeferred
+    async def test_set_file_priorities(self):
+        if getattr(lt, 'file_prio_alert', None):
+            # Libtorrent 2.0.3 and later has a file_prio_alert
+            prios_set = defer.Deferred()
+            prios_set.addTimeout(1.5, reactor)
+            component.get('AlertManager').register_handler(
+                'file_prio_alert', lambda a: prios_set.callback(True)
+            )
+        else:
+            # On older libtorrent, we just wait a while
+            prios_set = deferLater(reactor, 0.8)
+
         atp = self.get_torrent_atp('dir_with_6_files.torrent')
         handle = self.session.add_torrent(atp)
         torrent = Torrent(handle, {})
@@ -95,7 +108,7 @@ class TestTorrent(BaseTestCase):
         # Test with handle.piece_priorities as handle.file_priorities async
         # updates and will return old value. Also need to remove a priority
         # value as one file is much smaller than piece size so doesn't show.
-        time.sleep(0.6)  # Delay to wait for alert from lt
+        await prios_set  # Delay to wait for alert from lt
         piece_prio = handle.piece_priorities()
         result = all(p in piece_prio for p in [3, 2, 0, 5, 6, 7])
         assert result
