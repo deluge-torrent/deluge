@@ -4,11 +4,13 @@
 # See LICENSE for more details.
 #
 
+import unittest.mock
 import warnings
 
 import pytest
 import pytest_twisted
-from twisted.internet.defer import maybeDeferred
+from twisted.internet import reactor
+from twisted.internet.defer import Deferred, maybeDeferred
 from twisted.internet.error import CannotListenError
 from twisted.python.failure import Failure
 
@@ -29,6 +31,29 @@ def listen_port(request):
         except Exception:
             pass
     return DEFAULT_LISTEN_PORT
+
+
+@pytest.fixture
+def mock_callback():
+    """Returns a `Mock` object which can be registered as a callback to test against.
+
+    If callback was not called within `timeout` seconds, it will raise a TimeoutError.
+    The returned Mock instance will have a `deferred` attribute which will complete when the callback has been called.
+    """
+
+    def reset():
+        if mock.called:
+            original_reset_mock()
+        deferred = Deferred()
+        deferred.addTimeout(0.5, reactor)
+        mock.side_effect = lambda *args, **kw: deferred.callback((args, kw))
+        mock.deferred = deferred
+
+    mock = unittest.mock.Mock()
+    original_reset_mock = mock.reset_mock
+    mock.reset_mock = reset
+    mock.reset_mock()
+    return mock
 
 
 @pytest.fixture
