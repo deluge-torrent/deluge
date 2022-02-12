@@ -8,6 +8,8 @@
 
 # pylint: disable=super-on-old-class
 
+from collections import namedtuple
+
 from gi.repository import Gtk
 from twisted.internet import defer
 
@@ -15,6 +17,8 @@ import deluge.component as component
 from deluge.common import windows_check
 
 from .common import get_deluge_icon, get_pixbuf
+
+Account = namedtuple('Account', 'username password authlevel')
 
 
 class BaseDialog(Gtk.Dialog):
@@ -273,21 +277,21 @@ class AccountDialog(BaseDialog):
                 parent,
             )
 
-        self.levels_mapping = levels_mapping
+        self.account = None
 
         table = Gtk.Table(2, 3, False)
-        self.username_label = Gtk.Label()
-        self.username_label.set_markup('<b>' + _('Username:') + '</b>')
-        self.username_label.set_alignment(1.0, 0.5)
-        self.username_label.set_padding(5, 5)
+        username_label = Gtk.Label()
+        username_label.set_markup('<b>' + _('Username:') + '</b>')
+        username_label.set_alignment(1.0, 0.5)
+        username_label.set_padding(5, 5)
         self.username_entry = Gtk.Entry()
-        table.attach(self.username_label, 0, 1, 0, 1)
+        table.attach(username_label, 0, 1, 0, 1)
         table.attach(self.username_entry, 1, 2, 0, 1)
 
-        self.authlevel_label = Gtk.Label()
-        self.authlevel_label.set_markup('<b>' + _('Authentication Level:') + '</b>')
-        self.authlevel_label.set_alignment(1.0, 0.5)
-        self.authlevel_label.set_padding(5, 5)
+        authlevel_label = Gtk.Label()
+        authlevel_label.set_markup('<b>' + _('Authentication Level:') + '</b>')
+        authlevel_label.set_alignment(1.0, 0.5)
+        authlevel_label.set_padding(5, 5)
 
         # combo_box_new_text is deprecated but no other pygtk alternative.
         self.authlevel_combo = Gtk.ComboBoxText()
@@ -302,16 +306,16 @@ class AccountDialog(BaseDialog):
         if active_idx is not None:
             self.authlevel_combo.set_active(active_idx)
 
-        table.attach(self.authlevel_label, 0, 1, 1, 2)
+        table.attach(authlevel_label, 0, 1, 1, 2)
         table.attach(self.authlevel_combo, 1, 2, 1, 2)
 
-        self.password_label = Gtk.Label()
-        self.password_label.set_markup('<b>' + _('Password:') + '</b>')
-        self.password_label.set_alignment(1.0, 0.5)
-        self.password_label.set_padding(5, 5)
+        password_label = Gtk.Label()
+        password_label.set_markup('<b>' + _('Password:') + '</b>')
+        password_label.set_alignment(1.0, 0.5)
+        password_label.set_padding(5, 5)
         self.password_entry = Gtk.Entry()
         self.password_entry.set_visibility(False)
-        table.attach(self.password_label, 0, 1, 2, 3)
+        table.attach(password_label, 0, 1, 2, 3)
         table.attach(self.password_entry, 1, 2, 2, 3)
 
         self.vbox.pack_start(table, False, False, padding=5)
@@ -324,18 +328,17 @@ class AccountDialog(BaseDialog):
         if password:
             self.password_entry.set_text(username)
 
-        self.show_all()
+        self.vbox.show_all()
 
-    def get_username(self):
-        return self.username_entry.get_text()
-
-    def get_password(self):
-        return self.password_entry.get_text()
-
-    def get_authlevel(self):
-        combobox = self.authlevel_combo
-        level = combobox.get_model()[combobox.get_active()][0]
-        return level
+    def _on_response(self, widget, response):
+        if response == Gtk.ResponseType.OK:
+            self.account = Account(
+                self.username_entry.get_text(),
+                self.password_entry.get_text(),
+                self.authlevel_combo.get_active_text(),
+            )
+        self.destroy()
+        self.deferred.callback(response)
 
 
 class OtherDialog(BaseDialog):

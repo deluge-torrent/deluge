@@ -1329,58 +1329,48 @@ class Preferences(component.Component):
         (model, itr) = treeselection.get_selected()
         if not itr:
             return
-        username = model[itr][0]
-        if username:
+        level = model[itr][1]
+        if level:
             self.builder.get_object('accounts_edit').set_sensitive(True)
             self.builder.get_object('accounts_delete').set_sensitive(True)
         else:
             self.builder.get_object('accounts_edit').set_sensitive(False)
             self.builder.get_object('accounts_delete').set_sensitive(False)
 
-    def on_accounts_add_clicked(self, widget):
+    from deluge.decorators import maybe_coroutine
+
+    @maybe_coroutine
+    async def on_accounts_add_clicked(self, widget):
         dialog = AccountDialog(
             levels_mapping=client.auth_levels_mapping, parent=self.pref_dialog
         )
+        response = await dialog.run()
+        if response != Gtk.ResponseType.OK:
+            return
 
-        def dialog_finished(response_id):
-            username = dialog.get_username()
-            password = dialog.get_password()
-            authlevel = dialog.get_authlevel()
+        account = dialog.account
+        try:
+            await client.core.create_account(*account)
+        except AuthManagerError as ex:
+            return ErrorDialog(
+                _('Error Adding Account'),
+                _('Authentication failed'),
+                parent=self.pref_dialog,
+                details=ex,
+            ).run()
+        except Exception as ex:
+            return ErrorDialog(
+                _('Error Adding Account'),
+                _(f'An error occurred while adding account: {account}'),
+                parent=self.pref_dialog,
+                details=ex,
+            ).run()
 
-            def add_ok(rv):
-                accounts_iter = self.accounts_liststore.append()
-                self.accounts_liststore.set_value(
-                    accounts_iter, ACCOUNTS_USERNAME, username
-                )
-                self.accounts_liststore.set_value(
-                    accounts_iter, ACCOUNTS_LEVEL, authlevel
-                )
-                self.accounts_liststore.set_value(
-                    accounts_iter, ACCOUNTS_PASSWORD, password
-                )
-
-            def add_fail(failure):
-                if failure.type == AuthManagerError:
-                    ErrorDialog(
-                        _('Error Adding Account'),
-                        _('Authentication failed'),
-                        parent=self.pref_dialog,
-                        details=failure.getErrorMessage(),
-                    ).run()
-                else:
-                    ErrorDialog(
-                        _('Error Adding Account'),
-                        _('An error occurred while adding account'),
-                        parent=self.pref_dialog,
-                        details=failure.getErrorMessage(),
-                    ).run()
-
-            if response_id == Gtk.ResponseType.OK:
-                client.core.create_account(username, password, authlevel).addCallback(
-                    add_ok
-                ).addErrback(add_fail)
-
-        dialog.run().addCallback(dialog_finished)
+        self.accounts_liststore.set(
+            self.accounts_liststore.append(),
+            [ACCOUNTS_USERNAME, ACCOUNTS_LEVEL, ACCOUNTS_PASSWORD],
+            [account.username, account.authlevel, account.password],
+        )
 
     def on_accounts_edit_clicked(self, widget):
         (model, itr) = self.accounts_listview.get_selection().get_selected()
