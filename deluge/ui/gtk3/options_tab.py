@@ -188,7 +188,7 @@ class OptionsTab(Tab):
             ):
                 options[status_key] = widget_value
 
-        if options.get('move_completed', False):
+        if options.get('move_completed', True):
             options['move_completed_path'] = self.move_completed_path_chooser.get_text()
 
         client.core.set_torrent_options(self.prev_torrent_ids, options)
