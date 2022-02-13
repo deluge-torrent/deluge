@@ -30,7 +30,7 @@
     <property name="modal">True</property>
     <property name="window_position">center-on-parent</property>
     <property name="default_width">300</property>
-    <property name="default_height">250</property>
+    <property name="default_height">285</property>
     <property name="destroy_with_parent">True</property>
     <property name="type_hint">dialog</property>
     <child>
