@@ -19,6 +19,7 @@ from gi.repository.Gdk import Color
 import deluge.common
 import deluge.component as component
 from deluge.configmanager import ConfigManager, get_config_dir
+from deluge.decorators import maybe_coroutine
 from deluge.error import AuthManagerError, NotAuthorizedError
 from deluge.i18n import get_languages
 from deluge.ui.client import client
@@ -1336,8 +1337,6 @@ class Preferences(component.Component):
         else:
             self.builder.get_object('accounts_edit').set_sensitive(False)
             self.builder.get_object('accounts_delete').set_sensitive(False)
-
-    from deluge.decorators import maybe_coroutine
 
     @maybe_coroutine
     async def on_accounts_add_clicked(self, widget):

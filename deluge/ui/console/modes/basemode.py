@@ -84,7 +84,7 @@ class CursesStdIO:
     """
 
     def fileno(self):
-        """ We want to select on FD 0 """
+        """We want to select on FD 0"""
         return 0
 
     def doRead(self):  # NOQA: N802

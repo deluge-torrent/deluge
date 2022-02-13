@@ -10,9 +10,9 @@ from math import pi
 
 import gi  # isort:skip (Version check required before import).
 
-gi.require_version('PangoCairo', '1.0')  # NOQA: E402
-gi.require_foreign('cairo')  # NOQA: E402
-gi.require_version('cairo', '1.0')  # NOQA: E402
+gi.require_version('PangoCairo', '1.0')
+gi.require_foreign('cairo')
+gi.require_version('cairo', '1.0')
 
 # isort:imports-thirdparty
 import cairo  # Backward compat cairo <= 1.15

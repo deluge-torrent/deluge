@@ -175,7 +175,7 @@ class Command(BaseCommand):
                 sort_key = 'name'
                 sort_reverse = False
             for key, value in sorted(
-                list(status.items()),
+                status.items(),
                 key=lambda x: x[1].get(sort_key),
                 reverse=sort_reverse,
             ):

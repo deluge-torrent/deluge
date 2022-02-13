@@ -12,7 +12,7 @@ import os.path
 
 import gi  # isort:skip (Required before Gtk import).
 
-gi.require_version('Gtk', '3.0')  # NOQA: E402
+gi.require_version('Gtk', '3.0')
 
 # isort:imports-thirdparty
 from gi.repository import Gio, Gtk

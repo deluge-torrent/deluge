@@ -436,22 +436,22 @@ def fsize(fsize_b, precision=1, shortform=False):
 
     """
 
-    if fsize_b >= 1024 ** 4:
+    if fsize_b >= 1024**4:
         return '%.*f %s' % (
             precision,
-            fsize_b / 1024 ** 4,
+            fsize_b / 1024**4,
             tib_txt_short if shortform else tib_txt,
         )
-    elif fsize_b >= 1024 ** 3:
+    elif fsize_b >= 1024**3:
         return '%.*f %s' % (
             precision,
-            fsize_b / 1024 ** 3,
+            fsize_b / 1024**3,
             gib_txt_short if shortform else gib_txt,
         )
-    elif fsize_b >= 1024 ** 2:
+    elif fsize_b >= 1024**2:
         return '%.*f %s' % (
             precision,
-            fsize_b / 1024 ** 2,
+            fsize_b / 1024**2,
             mib_txt_short if shortform else mib_txt,
         )
     elif fsize_b >= 1024:
@@ -503,28 +503,28 @@ def fspeed(bps, precision=1, shortform=False):
 
     """
 
-    if bps < 1024 ** 2:
+    if bps < 1024**2:
         return '%.*f %s' % (
             precision,
             bps / 1024,
             _('K/s') if shortform else _('KiB/s'),
         )
-    elif bps < 1024 ** 3:
+    elif bps < 1024**3:
         return '%.*f %s' % (
             precision,
-            bps / 1024 ** 2,
+            bps / 1024**2,
             _('M/s') if shortform else _('MiB/s'),
         )
-    elif bps < 1024 ** 4:
+    elif bps < 1024**4:
         return '%.*f %s' % (
             precision,
-            bps / 1024 ** 3,
+            bps / 1024**3,
             _('G/s') if shortform else _('GiB/s'),
         )
     else:
         return '%.*f %s' % (
             precision,
-            bps / 1024 ** 4,
+            bps / 1024**4,
             _('T/s') if shortform else _('TiB/s'),
         )
 
@@ -639,17 +639,17 @@ def tokenize(text):
 
 size_units = [
     {'prefix': 'b', 'divider': 1, 'singular': 'byte', 'plural': 'bytes'},
-    {'prefix': 'KiB', 'divider': 1024 ** 1},
-    {'prefix': 'MiB', 'divider': 1024 ** 2},
-    {'prefix': 'GiB', 'divider': 1024 ** 3},
-    {'prefix': 'TiB', 'divider': 1024 ** 4},
-    {'prefix': 'PiB', 'divider': 1024 ** 5},
-    {'prefix': 'KB', 'divider': 1000 ** 1},
-    {'prefix': 'MB', 'divider': 1000 ** 2},
-    {'prefix': 'GB', 'divider': 1000 ** 3},
-    {'prefix': 'TB', 'divider': 1000 ** 4},
-    {'prefix': 'PB', 'divider': 1000 ** 5},
-    {'prefix': 'm', 'divider': 1000 ** 2},
+    {'prefix': 'KiB', 'divider': 1024**1},
+    {'prefix': 'MiB', 'divider': 1024**2},
+    {'prefix': 'GiB', 'divider': 1024**3},
+    {'prefix': 'TiB', 'divider': 1024**4},
+    {'prefix': 'PiB', 'divider': 1024**5},
+    {'prefix': 'KB', 'divider': 1000**1},
+    {'prefix': 'MB', 'divider': 1000**2},
+    {'prefix': 'GB', 'divider': 1000**3},
+    {'prefix': 'TB', 'divider': 1000**4},
+    {'prefix': 'PB', 'divider': 1000**5},
+    {'prefix': 'm', 'divider': 1000**2},
 ]
 
 

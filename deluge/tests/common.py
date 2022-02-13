@@ -153,7 +153,7 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
         return result
 
     def _kill_watchdogs(self):
-        """"Cancel all watchdogs"""
+        """Cancel all watchdogs"""
         for w in self.watchdogs:
             if not w.called and not w.cancelled:
                 w.cancel()

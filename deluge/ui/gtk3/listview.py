@@ -76,7 +76,7 @@ class ListView:
         }
 
         def __init__(self, title=None, cell_renderer=None, **args):
-            """ Constructor, see Gtk.TreeViewColumn """
+            """Constructor, see Gtk.TreeViewColumn"""
             Gtk.TreeViewColumn.__init__(self, title, cell_renderer, **args)
             label = Gtk.Label(label=title)
             self.set_widget(label)

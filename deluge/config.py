@@ -231,7 +231,7 @@ class Config:
             self._save_timer = self.callLater(5, self.save)
 
     def __getitem__(self, key):
-        """See get_item """
+        """See get_item"""
         return self.get_item(key)
 
     def get_item(self, key):

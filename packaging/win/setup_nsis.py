@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2012-2015 Calum Lind <calumlind@gmail.com>
 # Copyright (C) 2010 Damien Churchill <damoxc@gmail.com>

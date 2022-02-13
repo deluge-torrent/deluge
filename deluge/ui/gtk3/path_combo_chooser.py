@@ -1405,7 +1405,7 @@ class PathChooserComboBox(Gtk.Box, StoredValuesPopup, GObject.GObject):
         self.set_text(self.get_text())
 
     def _on_entry_combobox_hbox_realize(self, widget):
-        """ Must do this when the widget is realized """
+        """Must do this when the widget is realized"""
         self.set_filechooser_button_visible(self.filechooser_visible)
         self.set_path_entry_visible(self.path_entry_visible)
 

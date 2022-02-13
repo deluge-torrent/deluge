@@ -44,8 +44,8 @@ class TestFilesTab(BaseTestCase):
         root = treestore.get_iter_first()
         level = 1
 
-        def p_level(s, l):
-            print('{}{}'.format(' ' * l, s))
+        def p_level(s, lvl):
+            print('{}{}'.format(' ' * lvl, s))
 
         def _print_treestore_children(i, lvl):
             while i:

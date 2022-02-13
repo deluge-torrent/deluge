@@ -106,8 +106,8 @@ class DelugeTextHelpFormatter(argparse.RawDescriptionHelpFormatter):
         line instead. This way list formatting is not mangled by textwrap.wrap.
         """
         wrapped_lines = []
-        for l in text.splitlines():
-            wrapped_lines.extend(textwrap.wrap(l, width, subsequent_indent='  '))
+        for line in text.splitlines():
+            wrapped_lines.extend(textwrap.wrap(line, width, subsequent_indent='  '))
         return wrapped_lines
 
     def _format_action_invocation(self, action):
@@ -199,7 +199,7 @@ class ArgParserBase(argparse.ArgumentParser):
         self.group.add_argument(
             '-L',
             '--loglevel',
-            choices=[l for k in deluge.log.levels for l in (k, k.upper())],
+            choices=[level for k in deluge.log.levels for level in (k, k.upper())],
             help=_('Set the log level (none, error, warning, info, debug)'),
             metavar='<level>',
         )

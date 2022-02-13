@@ -117,8 +117,7 @@ Deluge.preferences.Bandwidth = Ext.extend(Ext.form.FormPanel, {
             border: false,
             title: '',
             defaultType: 'checkbox',
-            style:
-                'padding-top: 0px; padding-bottom: 5px; margin-top: 0px; margin-bottom: 0px;',
+            style: 'padding-top: 0px; padding-bottom: 5px; margin-top: 0px; margin-bottom: 0px;',
             autoHeight: true,
         });
         om.bind(

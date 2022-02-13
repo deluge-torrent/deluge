@@ -235,11 +235,11 @@ def wrap_string(string, width, min_lines=0, strip_colors=True):
         else:
             cstr = s
 
-        def append_indent(l, string, offset):
+        def append_indent(line, string, offset):
             """Prepends indent to string if specified"""
             if indent and offset != 0:
                 string = indent + string
-            l.append(string)
+            line.append(string)
 
         while cstr:
             # max with for a line. If indent is specified, we account for this

@@ -10,7 +10,8 @@
 Ext.ns('Deluge');
 
 // Custom VType validator for tracker urls
-var trackerUrlTest = /(((^https?)|(^udp)):\/\/([\-\w]+\.)+\w{2,3}(\/[%\-\w]+(\.\w{2,})?)*(([\w\-\.\?\\\/+@&#;`~=%!]*)(\.\w{2,})?)*\/?)/i;
+var trackerUrlTest =
+    /(((^https?)|(^udp)):\/\/([\-\w]+\.)+\w{2,3}(\/[%\-\w]+(\.\w{2,})?)*(([\w\-\.\?\\\/+@&#;`~=%!]*)(\.\w{2,})?)*\/?)/i;
 Ext.apply(Ext.form.VTypes, {
     trackerUrl: function (val, field) {
         return trackerUrlTest.test(val);

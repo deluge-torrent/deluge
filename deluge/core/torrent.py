@@ -576,7 +576,7 @@ class Torrent:
             trackers (list of dicts): A list of trackers.
         """
         if trackers is None:
-            self.trackers = [tracker for tracker in self.handle.trackers()]
+            self.trackers = list(self.handle.trackers())
             self.tracker_host = None
             return
 

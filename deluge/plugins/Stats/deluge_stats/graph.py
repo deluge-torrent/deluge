@@ -19,7 +19,7 @@ import time
 
 import gi
 
-gi.require_foreign('cairo')  # NOQA: E402
+gi.require_foreign('cairo')
 
 import cairo  # isort:skip (gi checks required before import).
 

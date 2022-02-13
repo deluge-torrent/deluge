@@ -42,22 +42,21 @@ Deluge.ux.preferences.AutoAddPage = Ext.extend(Ext.Panel, {
                     dataIndex: 'enabled',
                     tpl: new Ext.XTemplate('{enabled:this.getCheckbox}', {
                         getCheckbox: function (checked, selected) {
-                            Deluge.ux.AutoAdd.onClickFunctions[
-                                selected.id
-                            ] = function () {
-                                if (selected.enabled) {
-                                    deluge.client.autoadd.disable_watchdir(
-                                        selected.id
-                                    );
-                                    checked = false;
-                                } else {
-                                    deluge.client.autoadd.enable_watchdir(
-                                        selected.id
-                                    );
-                                    checked = true;
-                                }
-                                autoAdd.updateWatchDirs();
-                            };
+                            Deluge.ux.AutoAdd.onClickFunctions[selected.id] =
+                                function () {
+                                    if (selected.enabled) {
+                                        deluge.client.autoadd.disable_watchdir(
+                                            selected.id
+                                        );
+                                        checked = false;
+                                    } else {
+                                        deluge.client.autoadd.enable_watchdir(
+                                            selected.id
+                                        );
+                                        checked = true;
+                                    }
+                                    autoAdd.updateWatchDirs();
+                                };
                             return (
                                 '<input id="enabled-' +
                                 selected.id +

@@ -15,8 +15,8 @@ import time
 
 import gi  # isort:skip (Required before Gtk import).
 
-gi.require_version('Gtk', '3.0')  # NOQA: E402
-gi.require_version('Gdk', '3.0')  # NOQA: E402
+gi.require_version('Gtk', '3.0')
+gi.require_version('Gdk', '3.0')
 
 # isort:imports-thirdparty
 from gi.repository.GLib import set_prgname

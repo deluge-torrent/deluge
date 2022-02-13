@@ -1,12 +1,15 @@
-# -*- mode: python ; coding: utf-8 -*-
+# -*- mode: python -*-
 import os
-import sys
-import deluge.common
-from PyInstaller.utils.hooks import collect_data_files, collect_submodules, copy_metadata
+
+from PyInstaller.utils.hooks import (
+    collect_data_files,
+    collect_submodules,
+    copy_metadata,
+)
 
 datas = []
 binaries = []
-hiddenimports = ['pygame','ifaddr']
+hiddenimports = ['pygame', 'ifaddr']
 
 # Collect Meta Data
 datas += copy_metadata('deluge', recursive=True)
@@ -16,7 +19,8 @@ datas += copy_metadata('service-identity', recursive=True)
 hiddenimports += collect_submodules('deluge')
 
 # Add stdlib as Hidden Imports.
-# This is filtered list that excludes some common examples or stuff not useful in plugins (such as tty, mailbox, turtledemo etc.).
+# This is filtered list that excludes some common examples or stuff not useful in
+# plugins (such as tty, mailbox, turtledemo etc.).
 # It is safe to assume that 90% of that list would already be included anyway.
 stdlib = [
     'string',
@@ -108,46 +112,22 @@ icon = [src for src, dest in package_data if src.endswith('deluge.ico')][0]
 
 # List of executables to produce
 executables = {
-    'deluge-script.pyw': {
-        'name': 'deluge',
-        'console': False,
-        'gtk': True,
-    },
-    'deluge-gtk-script.pyw': {
-        'name': 'deluge-gtk',
-        'console': False,
-        'gtk': True,
-    },
-    'deluge-debug-script.py': {
-        'name': 'deluge-debug',
-        'console': True,
-        'gtk': True,
-    },
+    'deluge-script.pyw': {'name': 'deluge', 'console': False, 'gtk': True},
+    'deluge-gtk-script.pyw': {'name': 'deluge-gtk', 'console': False, 'gtk': True},
+    'deluge-debug-script.py': {'name': 'deluge-debug', 'console': True, 'gtk': True},
     'deluge-console-script.py': {
         'name': 'deluge-console',
         'console': True,
         'gtk': False,
     },
-    'deluged-script.pyw': {
-        'name': 'deluged',
-        'console': False,
-        'gtk': False,
-    },
-    'deluged-debug-script.py': {
-        'name': 'deluged-debug',
-        'console': True,
-        'gtk': False,
-    },
+    'deluged-script.pyw': {'name': 'deluged', 'console': False, 'gtk': False},
+    'deluged-debug-script.py': {'name': 'deluged-debug', 'console': True, 'gtk': False},
     'deluge-web-debug-script.py': {
         'name': 'deluge-web-debug',
         'console': True,
         'gtk': False,
     },
-    'deluge-web-script.pyw': {
-        'name': 'deluge-web',
-        'console': False,
-        'gtk': False,
-    },
+    'deluge-web-script.pyw': {'name': 'deluge-web', 'console': False, 'gtk': False},
 }
 
 analysis = {}
