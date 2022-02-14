@@ -64,20 +64,6 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
         this.addButton(_('Cancel'), this.onCancelClick, this);
         this.addButton(_('Add'), this.onAddClick, this);
 
-        function torrentRenderer(value, p, r) {
-            if (r.data['info_hash']) {
-                return String.format(
-                    '<div class="x-deluge-add-torrent-name">{0}</div>',
-                    value
-                );
-            } else {
-                return String.format(
-                    '<div class="x-deluge-add-torrent-name-loading">{0}</div>',
-                    value
-                );
-            }
-        }
-
         this.list = new Ext.list.ListView({
             store: new Ext.data.SimpleStore({
                 fields: [
@@ -91,7 +77,6 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
                     id: 'torrent',
                     width: 150,
                     sortable: true,
-                    renderer: torrentRenderer,
                     dataIndex: 'text',
                     tpl: new Ext.XTemplate(
                         '<div class="x-deluge-add-torrent-name">{text:htmlEncode}</div>'

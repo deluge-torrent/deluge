@@ -25,11 +25,6 @@ Ext.state.Manager.setProvider(
 // Add some additional functions to ext and setup some of the
 // configurable parameters
 Ext.apply(Ext, {
-    escapeHTML: function (text) {
-        text = String(text).replace('<', '&lt;').replace('>', '&gt;');
-        return text.replace('&', '&amp;');
-    },
-
     isObjectEmpty: function (obj) {
         for (var i in obj) {
             return false;
