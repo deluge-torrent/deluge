@@ -73,7 +73,7 @@
                             header: _('Client'),
                             width: 125,
                             sortable: true,
-                            renderer: fplain,
+                            renderer: 'htmlEncode',
                             dataIndex: 'client',
                         },
                         {

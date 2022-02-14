@@ -17,7 +17,7 @@
         return String.format(
             '<div class="torrent-name x-deluge-{0}">{1}</div>',
             r.data['state'].toLowerCase(),
-            value
+            Ext.util.Format.htmlEncode(value)
         );
     }
     function torrentSpeedRenderer(value) {
@@ -62,7 +62,7 @@
             '<div style="background: url(' +
                 deluge.config.base +
                 'tracker/{0}) no-repeat; padding-left: 20px;">{0}</div>',
-            value
+            Ext.util.Format.htmlEncode(value)
         );
     }
 

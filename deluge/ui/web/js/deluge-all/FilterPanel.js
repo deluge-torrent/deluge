@@ -171,5 +171,5 @@ Deluge.FilterPanel.templates = {
     tracker_host:
         '<div class="x-deluge-filter" style="background-image: url(' +
         deluge.config.base +
-        'tracker/{filter});">{filter} ({count})</div>',
+        'tracker/{filter});">{filter:htmlEncode} ({count})</div>',
 };

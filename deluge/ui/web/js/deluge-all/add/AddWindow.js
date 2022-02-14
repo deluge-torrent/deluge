@@ -93,6 +93,9 @@ Deluge.add.AddWindow = Ext.extend(Deluge.add.Window, {
                     sortable: true,
                     renderer: torrentRenderer,
                     dataIndex: 'text',
+                    tpl: new Ext.XTemplate(
+                        '<div class="x-deluge-add-torrent-name">{text:htmlEncode}</div>'
+                    ),
                 },
             ],
             stripeRows: true,
