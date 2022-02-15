@@ -365,10 +365,10 @@ class TestTorrent(BaseTestCase):
             torrent = Torrent(handle, {})
             counter = itertools.count()
             handle.status = mock.Mock(side_effect=counter.__next__)
-            first_status = torrent.update_status()
+            first_status = torrent.get_lt_status()
             assert first_status == 0, 'sanity check'
             assert first_status == torrent.status, 'cached status should be used'
-            assert torrent.update_status() == 1, 'status should update'
+            assert torrent.get_lt_status() == 1, 'status should update'
             assert torrent.status == 1
             # Advance time and verify cache expires and updates
             mock_time.return_value += 10

@@ -1354,7 +1354,7 @@ class TorrentManager(component.Component):
         torrent.set_tracker_status('Announce OK')
 
         # Check for peer information from the tracker, if none then send a scrape request.
-        torrent.update_status()
+        torrent.get_lt_status()
         if torrent.status.num_complete == -1 or torrent.status.num_incomplete == -1:
             torrent.scrape_tracker()
 

@@ -643,7 +643,7 @@ class Torrent:
 
     def update_state(self):
         """Updates the state, based on libtorrent's torrent state"""
-        status = self.update_status()
+        status = self.get_lt_status()
         session_paused = component.get('Core').session.is_paused()
         old_state = self.state
         self.set_status_message()
@@ -711,7 +711,7 @@ class Torrent:
             restart_to_resume (bool, optional): Prevent resuming clearing the error, only restarting
                 session can resume.
         """
-        status = self.update_status()
+        status = self.get_lt_status()
         self._set_handle_flags(
             flag=lt.torrent_flags.auto_managed,
             set_flag=False,
@@ -1026,7 +1026,7 @@ class Torrent:
             dict: a dictionary of the status keys and their values
         """
         if update:
-            self.update_status()
+            self.get_lt_status()
 
         if all_keys:
             keys = list(self.status_funcs)
@@ -1056,7 +1056,7 @@ class Torrent:
 
         return status_dict
 
-    def update_status(self) -> 'lt.torrent_status':
+    def get_lt_status(self) -> 'lt.torrent_status':
         """Get the torrent status fresh, not from cache.
 
         This should be used when a guaranteed fresh status is needed rather than
