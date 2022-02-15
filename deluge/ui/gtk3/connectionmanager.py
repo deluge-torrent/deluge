@@ -8,7 +8,7 @@
 
 import logging
 import os
-from socket import gaierror, gethostbyname
+from socket import gaierror, getaddrinfo
 from urllib.parse import urlparse
 
 from gi.repository import Gtk
@@ -222,7 +222,7 @@ class ConnectionManager(component.Component):
         __, host, port, __, __, status, __, __ = model[row]
 
         try:
-            gethostbyname(host)
+            getaddrinfo(host, None)
         except gaierror as ex:
             log.error(
                 'Error resolving host %s to ip: %s', row[HOSTLIST_COL_HOST], ex.args[1]

@@ -9,7 +9,7 @@
 import logging
 import os
 import uuid
-from socket import gaierror, gethostbyname
+from socket import gaierror, getaddrinfo
 
 from twisted.internet import defer
 
@@ -22,7 +22,7 @@ log = logging.getLogger(__name__)
 
 DEFAULT_HOST = '127.0.0.1'
 DEFAULT_PORT = 58846
-LOCALHOST = ('127.0.0.1', 'localhost')
+LOCALHOST = ('127.0.0.1', 'localhost', '::1')
 
 
 def default_hostlist():
@@ -44,7 +44,7 @@ def validate_host_info(hostname, port):
     """
 
     try:
-        gethostbyname(hostname)
+        getaddrinfo(hostname, None)
     except gaierror as ex:
         raise ValueError('Host %s: %s', hostname, ex.args[1])
 
@@ -216,30 +216,35 @@ class HostList:
             return defer.succeed(status_offline)
 
         try:
-            ip = gethostbyname(host)
-        except gaierror as ex:
+            ips = list({addrinfo[4][0] for addrinfo in getaddrinfo(host, None)})
+        except (gaierror, IndexError) as ex:
             log.warning('Unable to resolve host %s to IP: %s', host, ex.args[1])
             return defer.succeed(status_offline)
 
-        host_conn_info = (
-            ip,
-            port,
-            'localclient' if not user and host in LOCALHOST else user,
-        )
-        if client.connected() and host_conn_info == client.connection_info():
-            # Currently connected to host_id daemon.
-            def on_info(info, host_id):
-                log.debug('Client connected, query info: %s', info)
-                return host_id, 'Connected', info
+        host_conn_list = [
+            (
+                host_ip,
+                port,
+                'localclient' if not user and host_ip in LOCALHOST else user,
+            )
+            for host_ip in ips
+        ]
 
-            return client.daemon.info().addCallback(on_info, host_id)
-        else:
-            # Attempt to connect to daemon with host_id details.
-            c = Client()
-            d = c.connect(host, port, skip_authentication=True)
-            d.addCallback(on_connect, c, host_id)
-            d.addErrback(on_connect_failed, host_id)
-            return d
+        for host_conn_info in host_conn_list:
+            if client.connected() and host_conn_info == client.connection_info():
+                # Currently connected to host_id daemon.
+                def on_info(info, host_id):
+                    log.debug('Client connected, query info: %s', info)
+                    return host_id, 'Connected', info
+
+                return client.daemon.info().addCallback(on_info, host_id)
+            else:
+                # Attempt to connect to daemon with host_id details.
+                c = Client()
+                d = c.connect(host, port, skip_authentication=True)
+                d.addCallback(on_connect, c, host_id)
+                d.addErrback(on_connect_failed, host_id)
+                return d
 
     def update_host(self, host_id, hostname, port, username, password):
         """Update the supplied host id with new connection details.
