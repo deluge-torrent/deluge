@@ -188,7 +188,11 @@ class CoroutineDeferred(defer.Deferred):
         """If the result wasn't awaited before the next context switch, we turn it into a deferred."""
         if self.awaited is None:
             self.awaited = False
-            d = defer.Deferred.fromCoroutine(self.coro)
+            try:
+                d = defer.Deferred.fromCoroutine(self.coro)
+            except AttributeError:
+                # Fallback for Twisted <= 21.2 without fromCoroutine
+                d = defer.ensureDeferred(self.coro)
             d.chainDeferred(self)
 
     def addCallbacks(self, *args, **kwargs):  # noqa: N802
@@ -208,8 +212,7 @@ def maybe_coroutine(
     @wraps(f)
     def wrapper(*args, **kwargs):
         # Uncomment for quick testing to make sure CoroutineDeferred magic isn't at fault
-        # from twisted.internet.defer import ensureDeferred
-        # return ensureDeferred(f(*args, **kwargs))
+        # return defer.ensureDeferred(f(*args, **kwargs))
         return CoroutineDeferred(f(*args, **kwargs))
 
     return wrapper
