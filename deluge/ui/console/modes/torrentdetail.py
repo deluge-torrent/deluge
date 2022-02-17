@@ -541,13 +541,13 @@ class TorrentDetail(BaseMode, PopupsHandler):
         # Seed/peer info
         s = '{{!info!}}{}:{{!green!}} {} {{!input!}}({})'.format(
             torrent_data_fields['seeds']['name'],
-            status['peer.num_peers_connected'],
+            status['num_seeds'],
             status['total_seeds'],
         )
         row = self.add_string(row, s)
         s = '{{!info!}}{}:{{!red!}} {} {{!input!}}({})'.format(
             torrent_data_fields['peers']['name'],
-            status['peer.num_peers_connected'],
+            status['num_peers'],
             status['total_peers'],
         )
         row = self.add_string(row, s)
@@ -1016,8 +1016,8 @@ class TorrentDetail(BaseMode, PopupsHandler):
         elif c == ord('h'):
             self.push_popup(MessagePopup(self, 'Help', HELP_STR, width_req=0.75))
         elif c == ord('j'):
-            self.file_list_up()
-        elif c == ord('k'):
             self.file_list_down()
+        elif c == ord('k'):
+            self.file_list_up()
 
         self.refresh()
