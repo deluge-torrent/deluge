@@ -1016,8 +1016,8 @@ class TorrentDetail(BaseMode, PopupsHandler):
         elif c == ord('h'):
             self.push_popup(MessagePopup(self, 'Help', HELP_STR, width_req=0.75))
         elif c == ord('j'):
-            self.file_list_up()
-        elif c == ord('k'):
             self.file_list_down()
+        elif c == ord('k'):
+            self.file_list_up()
 
         self.refresh()
