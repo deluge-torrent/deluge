@@ -11,6 +11,7 @@ from unittest.mock import MagicMock
 
 import pytest
 import pytest_twisted
+from twisted.internet.defer import Deferred
 from twisted.web import server
 from twisted.web.http import Request
 
@@ -195,7 +196,6 @@ class TestJSONRequestFailed(WebServerMockBase):
     test = TestClass()
     daemon.rpcserver.register_object(test)
 """
-        from twisted.internet.defer import Deferred
 
         extra_callback = {
             'deferred': Deferred(),
@@ -210,18 +210,19 @@ class TestJSONRequestFailed(WebServerMockBase):
         }
 
         def on_test_raise(*args):
-            assert 'Unhandled error in Deferred:' in self.core.stderr_out
-            assert 'in test_raise_error' in self.core.stderr_out
+            assert 'Unhandled error in Deferred:' in daemon.stderr_out
+            assert 'in test_raise_error' in daemon.stderr_out
 
-        extra_callback['deferred'].addCallback(on_test_raise)
         d, daemon = common.start_core(
             custom_script=custom_script,
-            print_stdout=False,
+            print_stdout=True,
             print_stderr=False,
             timeout=5,
             extra_callbacks=[extra_callback],
             config_directory=config_dir,
         )
+        extra_callback['deferred'].addCallback(on_test_raise, daemon)
+
         await d
         yield
         await daemon.kill()
