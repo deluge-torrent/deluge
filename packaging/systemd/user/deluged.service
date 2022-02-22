@@ -1,0 +1,13 @@
+[Unit]
+Description=Deluge Bittorrent Client Daemon
+Documentation=man:deluged
+
+[Service]
+UMask=007
+ExecStart=/usr/bin/deluged -d
+Restart=on-failure
+TimeoutStopSec=300
+Slice=background.slice
+
+[Install]
+WantedBy=default.target

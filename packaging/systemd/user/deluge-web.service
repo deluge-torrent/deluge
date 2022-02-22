@@ -5,12 +5,12 @@ After=deluged.service
 Wants=deluged.service
 
 [Service]
-Type=simple
 UMask=027
 
 ExecStart=/usr/bin/deluge-web -d
 
 Restart=on-failure
+Slice=background.slice
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target
