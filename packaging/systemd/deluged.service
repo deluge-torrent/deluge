@@ -1,6 +1,6 @@
 [Unit]
 Description=Deluge Bittorrent Client Daemon
-Documentation=man:deluged
+Documentation=man:deluged(1)
 After=network-online.target
 
 [Service]
