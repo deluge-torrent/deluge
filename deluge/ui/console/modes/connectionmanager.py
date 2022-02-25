@@ -102,7 +102,6 @@ class ConnectionManager(BaseMode, PopupsHandler):
         if not result or kwargs.get('close', False):
             self.pop_popup()
         else:
-            assert isinstance(result['port']['value'], int)
             self.add_host(
                 result['hostname']['value'],
                 result['port']['value'],
