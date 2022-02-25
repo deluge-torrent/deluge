@@ -464,9 +464,9 @@ class TorrentView(InputKeyHandler):
             )
             self.torrentlist.refresh()
         elif c == ord('j'):
-            affected_lines = self._scroll_up(1)
-        elif c == ord('k'):
             affected_lines = self._scroll_down(1)
+        elif c == ord('k'):
+            affected_lines = self._scroll_up(1)
         elif c == ord('m'):
             self.mark_unmark(self.cursel)
             affected_lines = [self.cursel]
