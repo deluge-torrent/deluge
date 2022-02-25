@@ -517,9 +517,9 @@ class AddTorrents(BaseMode):
 
                     self.last_mark = self.cursel
                 elif chr(c) == 'j':
-                    self.scroll_list_up(1)
-                elif chr(c) == 'k':
                     self.scroll_list_down(1)
+                elif chr(c) == 'k':
+                    self.scroll_list_up(1)
                 elif chr(c) == 'M':
                     if self.last_mark != -1:
                         if self.last_mark > self.cursel:
