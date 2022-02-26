@@ -21,6 +21,7 @@ Deluge.details.DetailsPanel = Ext.extend(Ext.TabPanel, {
         this.add(new Deluge.details.StatusTab());
         this.add(new Deluge.details.DetailsTab());
         this.add(new Deluge.details.FilesTab());
+        this.add(new Deluge.details.TrackersTab());
         this.add(new Deluge.details.PeersTab());
         this.add(new Deluge.details.OptionsTab());
     },

@@ -396,3 +396,23 @@ deluge.menus.filePriorities = new Ext.menu.Menu({
         },
     ],
 });
+
+deluge.menus.trackers = new Ext.menu.Menu({
+    id: 'trackersMenu',
+    items: [
+        {
+            torrentAction: 'force_reannounce',
+            text: _('Update Tracker'),
+            iconCls: 'icon-update-tracker',
+            handler: deluge.menus.onTorrentActionMethod,
+            scope: deluge.menus,
+        },
+        {
+            torrentAction: 'edit_trackers',
+            text: _('Edit Trackers'),
+            iconCls: 'icon-edit-trackers',
+            handler: deluge.menus.onTorrentActionShow,
+            scope: deluge.menus,
+        },
+    ],
+});
