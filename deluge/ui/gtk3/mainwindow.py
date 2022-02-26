@@ -101,6 +101,7 @@ class MainWindow(component.Component):
             'main_window.tabs.ui',
             'main_window.tabs.menu_file.ui',
             'main_window.tabs.menu_peer.ui',
+            'main_window.tabs.menu_trackers.ui',
         ]
         for filename in ui_filenames:
             self.main_builder.add_from_file(
