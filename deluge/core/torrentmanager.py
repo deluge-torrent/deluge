@@ -1348,7 +1348,9 @@ class TorrentManager(component.Component):
             return
 
         # Set the tracker status for the torrent
-        torrent.set_tracker_status('Announce OK')
+        torrent.set_tracker_status('Announce OK', alert.url)
+        # Set the amount of peers of the tracker
+        torrent.set_tracker_peers(alert.num_peers, alert.url)
 
         # Check for peer information from the tracker, if none then send a scrape request.
         torrent.get_lt_status()
@@ -1363,7 +1365,7 @@ class TorrentManager(component.Component):
             return
 
         # Set the tracker status for the torrent
-        torrent.set_tracker_status('Announce Sent')
+        torrent.set_tracker_status('Announce Sent', alert.url)
 
     def on_alert_tracker_warning(self, alert):
         """Alert handler for libtorrent tracker_warning_alert"""
@@ -1372,7 +1374,11 @@ class TorrentManager(component.Component):
         except (RuntimeError, KeyError):
             return
         # Set the tracker status for the torrent
-        torrent.set_tracker_status('Warning: %s' % decode_bytes(alert.message()))
+        torrent.set_tracker_status(
+            'Warning',
+            alert.url,
+            decode_bytes(alert.warning_message()),
+        )
 
     def on_alert_tracker_error(self, alert):
         """Alert handler for libtorrent tracker_error_alert"""
@@ -1385,7 +1391,7 @@ class TorrentManager(component.Component):
         if not error_message:
             error_message = decode_bytes(alert.error.message())
         log.debug(
-            'Tracker Error Alert: %s [%s]', decode_bytes(alert.message()), error_message
+            f'Tracker Error Alert: {decode_bytes(alert.message())} [{error_message}]'
         )
         # libtorrent 1.2 added endpoint struct to each tracker. to prevent false updates
         # we will need to verify that at least one endpoint to the errored tracker is working
@@ -1395,9 +1401,9 @@ class TorrentManager(component.Component):
                     endpoint['last_error']['value'] == 0
                     for endpoint in tracker['endpoints']
                 ):
-                    torrent.set_tracker_status('Announce OK')
+                    torrent.set_tracker_status('Announce OK', alert.url)
                 else:
-                    torrent.set_tracker_status('Error: ' + error_message)
+                    torrent.set_tracker_status('Error', alert.url, error_message)
                 break
 
     def on_alert_storage_moved(self, alert):

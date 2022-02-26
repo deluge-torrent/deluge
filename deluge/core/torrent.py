@@ -17,7 +17,7 @@ import logging
 import os
 import socket
 import time
-from typing import Optional, List
+from typing import List, Optional
 from urllib.parse import urlparse
 
 from twisted.internet.defer import Deferred, DeferredList
@@ -265,6 +265,8 @@ class Torrent:
         self.state = None
         self.moving_storage_dest_path = None
         self.tracker_status = ''
+        self.trackers_status = {}
+        self.trackers_peers = {}
         self.tracker_host = None
         self.forcing_recheck = False
         self.forcing_recheck_paused = False
@@ -648,11 +650,13 @@ class Torrent:
         self._trackers = trackers
         self._trackers_last_update = time.time()
 
-    def set_tracker_status(self, status):
+    def set_tracker_status(self, status: str, tracker_url: str, message: str = ''):
         """Sets the tracker status.
 
         Args:
-            status (str): The tracker status.
+            status: The tracker status.
+            tracker_url: The tracker url.
+            message: The message from tracker error/warning alerts
 
         Emits:
             TorrentTrackerStatusEvent upon tracker status change.
@@ -661,11 +665,34 @@ class Torrent:
 
         self.tracker_host = None
 
-        if self.tracker_status != status:
-            self.tracker_status = status
+        if self.state == 'Paused':
+            return
+
+        if self.trackers_status.get(tracker_url, {}).get('status') != status:
+            self.trackers_status[tracker_url] = {
+                'status': status,
+                'message': message,
+            }
+            self.tracker_status = f'{status}{f": {message}" if message else ""}'
             component.get('EventManager').emit(
-                TorrentTrackerStatusEvent(self.torrent_id, self.tracker_status)
+                TorrentTrackerStatusEvent(
+                    self.torrent_id,
+                    self.trackers_status[tracker_url],
+                )
             )
+
+    def set_tracker_peers(self, peers: int, tracker_url: str):
+        """Sets the tracker peers amount
+
+        Args:
+            peers: The number of peers the tracker has.
+            tracker_url: The tracker url.
+        """
+        if self.state == 'Paused':
+            return
+
+        if self.trackers_peers.get(tracker_url) != peers:
+            self.trackers_peers[tracker_url] = peers
 
     def merge_trackers(self, torrent_info):
         """Merges new trackers in torrent_info into torrent"""
@@ -709,6 +736,8 @@ class Torrent:
             self.state = 'Queued'
         elif session_paused or status.paused:
             self.state = 'Paused'
+            self.trackers_peers = {}
+            self.trackers_status = {}
         else:
             self.state = LT_TORRENT_STATE_MAP.get(str(status.state), str(status.state))
 
@@ -1200,7 +1229,10 @@ class Torrent:
             'tracker': lambda: self.status.current_tracker,
             'tracker_host': self.get_tracker_host,
             'trackers': lambda: self.trackers,
+            # Deprecated: Use trackers_status
             'tracker_status': lambda: self.tracker_status,
+            'trackers_status': lambda: self.trackers_status,
+            'trackers_peers': lambda: self.trackers_peers,
             'upload_payload_rate': lambda: self.status.upload_payload_rate,
             'comment': lambda: decode_bytes(self.torrent_info.comment())
             if self.has_metadata
