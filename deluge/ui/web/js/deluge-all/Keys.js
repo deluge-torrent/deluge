@@ -95,6 +95,18 @@ Deluge.Keys = {
     Peers: ['peers'],
 
     /**
+     * Keys used in the trackers tab of the statistics panel.
+     * <pre>['trackers', 'trackers_status', 'trackers_peers']</pre>
+     */
+    Trackers: ['trackers', 'trackers_status', 'trackers_peers'],
+
+    /**
+     * Keys used in the trackers tab of the statistics panel for Deluge version <2.1.1.
+     * <pre>['tracker_host', 'tracker_status']</pre>
+     */
+    TrackersRedundant: ['tracker_host', 'tracker_status'],
+
+    /**
      * Keys used in the details tab of the statistics panel.
      */
     Details: [

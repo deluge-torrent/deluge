@@ -52,6 +52,7 @@ deluge.ui = {
         deluge.sidebar = new Deluge.Sidebar();
         deluge.statusbar = new Deluge.Statusbar();
         deluge.toolbar = new Deluge.Toolbar();
+        deluge.server_version = '';
 
         this.detailsPanel = new Ext.Panel({
             id: 'detailsPanel',
@@ -223,6 +224,11 @@ deluge.ui = {
             this.running = setTimeout(this.update, 2000);
             this.update();
         }
+        deluge.client.daemon.get_version({
+            success: function (server_version) {
+                deluge.server_version = server_version;
+            },
+        });
         deluge.client.web.get_plugins({
             success: this.onGotPlugins,
             scope: this,
@@ -234,6 +240,7 @@ deluge.ui = {
      * @private
      */
     onDisconnect: function () {
+        deluge.server_version = '';
         this.stop();
     },
 
