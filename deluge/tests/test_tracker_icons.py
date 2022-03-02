@@ -56,6 +56,7 @@ class TestTrackerIcons(BaseTestCase):
         result = await self.icons.fetch('google.com')
         assert result == icon
 
+    @pytest.mark.skip(reason='Site removed favicon, new SNI test will be needed')
     @pytest_twisted.ensureDeferred
     async def test_get_seo_svg_with_sni(self):
         # seo using certificates with SNI support only
