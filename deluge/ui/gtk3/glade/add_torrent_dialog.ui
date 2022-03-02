@@ -727,8 +727,6 @@ used sparingly.</property>
                                           <object class="GtkSpinButton" id="spin_maxup">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
-                                            <property name="primary_icon_activatable">False</property>
-                                            <property name="secondary_icon_activatable">False</property>
                                             <property name="adjustment">adjustment2</property>
                                             <property name="update_policy">if-valid</property>
                                           </object>
@@ -741,8 +739,6 @@ used sparingly.</property>
                                           <object class="GtkSpinButton" id="spin_maxconnections">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
-                                            <property name="primary_icon_activatable">False</property>
-                                            <property name="secondary_icon_activatable">False</property>
                                             <property name="adjustment">adjustment3</property>
                                           </object>
                                           <packing>
@@ -754,8 +750,6 @@ used sparingly.</property>
                                           <object class="GtkSpinButton" id="spin_maxupslots">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
-                                            <property name="primary_icon_activatable">False</property>
-                                            <property name="secondary_icon_activatable">False</property>
                                             <property name="adjustment">adjustment4</property>
                                           </object>
                                           <packing>
@@ -767,8 +761,6 @@ used sparingly.</property>
                                           <object class="GtkSpinButton" id="spin_maxdown">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
-                                            <property name="primary_icon_activatable">False</property>
-                                            <property name="secondary_icon_activatable">False</property>
                                             <property name="adjustment">adjustment1</property>
                                           </object>
                                           <packing>

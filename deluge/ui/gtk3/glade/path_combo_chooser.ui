@@ -98,8 +98,6 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="max_length">2</property>
-                        <property name="primary_icon_activatable">False</property>
-                        <property name="secondary_icon_activatable">False</property>
                         <property name="adjustment">adjustment3</property>
                         <property name="climb_rate">1</property>
                         <property name="numeric">True</property>

@@ -128,8 +128,6 @@
                 <property name="width_chars">39</property>
                 <property name="text" translatable="yes">hostname:port</property>
                 <property name="truncate_multiline">True</property>
-                <property name="primary_icon_activatable">False</property>
-                <property name="secondary_icon_activatable">False</property>
               </object>
               <packing>
                 <property name="expand">True</property>
