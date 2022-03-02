@@ -113,7 +113,7 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
         self.shutdown_func = shutdown_func
         self.log_output = ''
         self.stderr_out = ''
-        self.logfile = logfile.replace('/', '_') if logfile else None
+        self.logfile = logfile
         self.print_stdout = print_stdout
         self.print_stderr = print_stderr
         self.quit_d = None

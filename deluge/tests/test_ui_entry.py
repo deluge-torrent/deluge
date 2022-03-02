@@ -58,7 +58,7 @@ class StringFileDescriptor:
 
 class UIBaseTestCase:
     def set_up(self):
-        common.setup_test_logger(level='info', prefix=self.id())
+        common.setup_test_logger(level='info', prefix=self.config_dir / self.id())
         return component.start()
 
     def tear_down(self):
@@ -75,7 +75,7 @@ class UIWithDaemonBaseTestCase(UIBaseTestCase, DaemonBase):
 
     def set_up(self):
         d = self.common_set_up()
-        common.setup_test_logger(level='info', prefix=self.id())
+        common.setup_test_logger(level='info', prefix=self.config_dir / self.id())
         return d
 
 

@@ -59,8 +59,9 @@ def mock_callback():
 
 @pytest.fixture
 def config_dir(tmp_path):
-    deluge.configmanager.set_config_dir(tmp_path)
-    yield tmp_path
+    config_dir = tmp_path / 'config'
+    deluge.configmanager.set_config_dir(config_dir)
+    yield config_dir
 
 
 @pytest_twisted.async_yield_fixture()
@@ -84,9 +85,10 @@ async def client(request, config_dir, monkeypatch, listen_port):
 
 
 @pytest_twisted.async_yield_fixture
-async def daemon(request, config_dir):
+async def daemon(request, config_dir, tmp_path):
     listen_port = DEFAULT_LISTEN_PORT
-    logfile = f'daemon_{request.node.name}.log'
+    logfile = tmp_path / 'daemon.log'
+
     if hasattr(request.cls, 'daemon_custom_script'):
         custom_script = request.cls.daemon_custom_script
     else:
