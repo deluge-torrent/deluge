@@ -1,26 +1,12 @@
 # Running tests
 
-Deluge testing is implemented using Trial which is Twisted's testing framework
-and an extension of Python's unittest.
-
-See Twisted website for documentation on [Twisted Trial](http://twistedmatrix.com/trac/wiki/TwistedTrial)
-and [Writing tests using Trial](http://twistedmatrix.com/documents/current/core/howto/testing.html).
+Testing uses [PyTest] framework and [PyTest-Twisted] to handle Twisted framework.
 
 ## Testing
 
 The tests are located in the source folder under `deluge/tests`.
 The tests are run from the project root directory.
 View the unit test coverage at: [deluge-torrent.github.io](http://deluge-torrent.github.io)
-
-### Trial
-
-Here are some examples that show running all the tests through to selecting an
-individual test.
-
-    trial deluge
-    trial deluge.tests.test_client
-    trial deluge.tests.test_client.ClientTestCase
-    trial deluge.tests.test_client.ClientTestCase.test_connect_localclient
 
 ### Pytest
 
@@ -41,7 +27,6 @@ All the tests for Deluge can be run using [Tox](https://pypi.python.org/pypi/tox
 ### See available targets:
 
     tox -l
-    py27
     py3
     lint
     docs
@@ -54,11 +39,12 @@ All the tests for Deluge can be run using [Tox](https://pypi.python.org/pypi/tox
 
     tox -e lint
 
-## Travis CI
+## CI
 
-Deluge develop branch is tested automatically by [Travis].
-When creating a pull request (PR) on [github], Travis will automatically run
-the unit tests with the code in the PR.
+Deluge develop branch is tested automatically by GitHub actions.
 
-[travis]: https://travis-ci.org/deluge-torrent/deluge
+When creating a pull request (PR) on [github], units tests will be automatically be run.
+
 [github]: https://github.com/deluge-torrent/deluge/pulls
+[pytest]: https://docs.pytest.org/en/
+[pytest-twisted]: https://github.com/pytest-dev/pytest-twisted

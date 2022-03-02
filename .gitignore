@@ -10,7 +10,6 @@ docs/source/modules/deluge*.rst
 __pycache__/
 *.py[cod]
 *.tar.*
-_trial_temp
 .tox/
 deluge/i18n/*/
 deluge.pot

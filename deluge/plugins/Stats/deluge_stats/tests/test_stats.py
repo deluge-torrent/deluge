@@ -6,7 +6,6 @@
 import pytest
 import pytest_twisted
 from twisted.internet import defer
-from twisted.trial import unittest
 
 import deluge.component as component
 from deluge.common import fsize, fspeed
@@ -38,7 +37,7 @@ class TestStatsPlugin:
     def test_client_totals(self):
         plugins = yield client.core.get_available_plugins()
         if 'Stats' not in plugins:
-            raise unittest.SkipTest('WebUi plugin not available for testing')
+            pytest.skip('Stats plugin not available for testing')
 
         totals = yield client.stats.get_totals()
         assert totals['total_upload'] == 0
@@ -51,7 +50,7 @@ class TestStatsPlugin:
     def test_session_totals(self):
         plugins = yield client.core.get_available_plugins()
         if 'Stats' not in plugins:
-            raise unittest.SkipTest('WebUi plugin not available for testing')
+            pytest.skip('Stats plugin not available for testing')
 
         totals = yield client.stats.get_session_totals()
         assert totals['total_upload'] == 0

@@ -7,7 +7,6 @@
 #
 import pytest
 import pytest_twisted
-from twisted.trial import unittest
 
 import deluge.component as component
 from deluge.core.core import Core
@@ -36,7 +35,7 @@ class TestWebUIPlugin:
 
     def test_enable_webui(self):
         if 'WebUi' not in self.core.get_available_plugins():
-            raise unittest.SkipTest('WebUi plugin not available for testing')
+            pytest.skip('WebUi plugin not available for testing')
 
         d = self.core.enable_plugin('WebUi')
 

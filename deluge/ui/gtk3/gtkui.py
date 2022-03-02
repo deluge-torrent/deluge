@@ -29,7 +29,7 @@ try:
     # Install twisted reactor, before any other modules import reactor.
     reactor = gtk3reactor.install()
 except ReactorAlreadyInstalledError:
-    # Running unit tests so trial already installed a rector
+    # Running unit tests so already installed a rector
     from twisted.internet import reactor
 
 # isort:imports-firstparty

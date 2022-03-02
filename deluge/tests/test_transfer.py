@@ -246,7 +246,6 @@ class TestDelugeTransferProtocol:
         assert rencode.dumps(self.msg1) == rencode.dumps(message3)
 
     # Remove underscore to enable test, or run the test directly:
-    # tests $ trial test_transfer.DelugeTransferProtocolTestCase._test_rencode_fail_protocol
     def _test_rencode_fail_protocol(self):
         """
         This test tries to test the protocol that relies on errors from rencode.
