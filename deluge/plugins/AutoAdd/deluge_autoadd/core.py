@@ -27,7 +27,7 @@ import deluge.configmanager
 from deluge._libtorrent import lt
 from deluge.common import AUTH_LEVEL_ADMIN, is_magnet
 from deluge.core.rpcserver import export
-from deluge.error import AddTorrentError
+from deluge.error import AddTorrentError, InvalidTorrentError
 from deluge.event import DelugeEvent
 from deluge.plugins.pluginbase import CorePluginBase
 
@@ -158,7 +158,10 @@ class Core(CorePluginBase):
 
         # Get the info to see if any exceptions are raised
         if not magnet:
-            lt.torrent_info(lt.bdecode(filedump))
+            decoded_torrent = lt.bdecode(filedump)
+            if decoded_torrent is None:
+                raise InvalidTorrentError('Torrent file failed decoding.')
+            lt.torrent_info(decoded_torrent)
 
         return filedump
 
@@ -268,7 +271,7 @@ class Core(CorePluginBase):
 
             try:
                 filedump = self.load_torrent(filepath, magnet)
-            except (OSError, EOFError) as ex:
+            except (OSError, EOFError, InvalidTorrentError) as ex:
                 # If torrent is invalid, keep track of it so can try again on the next pass.
                 # This catches torrent files that may not be fully saved to disk at load time.
                 log.debug('Torrent is invalid: %s', ex)
