@@ -72,6 +72,7 @@ class AutoaddOptionsChangedEvent(DelugeEvent):
     def __init__(self):
         pass
 
+    
 def check_input(cond, message):
     if not cond:
         raise Exception(message)
@@ -158,7 +159,7 @@ class Core(CorePluginBase):
         # Get the info to see if any exceptions are raised
         if not magnet:
             decoded_torrent = lt.bdecode(filedump)
-            if decoded_torrent == None:
+            if decoded_torrent is None:
                 raise InvalidTorrentError('Torrent file failed decoding.')
             lt.torrent_info(decoded_torrent)
 
