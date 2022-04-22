@@ -72,7 +72,7 @@ class AutoaddOptionsChangedEvent(DelugeEvent):
     def __init__(self):
         pass
 
-    
+
 def check_input(cond, message):
     if not cond:
         raise Exception(message)
