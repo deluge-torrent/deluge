@@ -1389,7 +1389,7 @@ class TorrentManager(component.Component):
         )
         # libtorrent 1.2 added endpoint struct to each tracker. to prevent false updates
         # we will need to verify that at least one endpoint to the errored tracker is working
-        for tracker in torrent.handle.trackers():
+        for tracker in torrent.get_lt_trackers():
             if tracker['url'] == alert.url:
                 if any(
                     endpoint['last_error']['value'] == 0
