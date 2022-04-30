@@ -13,7 +13,7 @@ from tempfile import mkstemp
 from urllib.parse import urljoin, urlparse
 
 from twisted.internet import defer, threads
-from twisted.web.error import PageRedirect
+from twisted.python.failure import Failure
 from twisted.web.resource import ForbiddenResource, NoResource
 
 from deluge.component import Component
@@ -208,7 +208,6 @@ class TrackerIcons(Component):
             d.addCallbacks(
                 self.on_download_page_complete,
                 self.on_download_page_fail,
-                errbackArgs=(host,),
             )
             d.addCallback(self.parse_html_page)
             d.addCallbacks(
@@ -242,7 +241,7 @@ class TrackerIcons(Component):
         log.debug('Downloading %s %s', host, url)
         tmp_fd, tmp_file = mkstemp(prefix='deluge_ticon.')
         os.close(tmp_fd)
-        return download_file(url, tmp_file, force_filename=True, handle_redirects=False)
+        return download_file(url, tmp_file, force_filename=True)
 
     def on_download_page_complete(self, page):
         """
@@ -256,33 +255,18 @@ class TrackerIcons(Component):
         log.debug('Finished downloading %s', page)
         return page
 
-    def on_download_page_fail(self, f, host):
-        """
-        Recovers from download error
+    def on_download_page_fail(self, failure: 'Failure') -> 'Failure':
+        """Runs any download failure clean-up functions
 
-        :param f: the failure that occurred
-        :type f: Failure
-        :param host: the name of the host whose page failed to download
-        :type host: string
-        :returns: a Deferred if recovery was possible
-                  else the original failure
-        :rtype: Deferred or Failure
-        """
-        error_msg = f.getErrorMessage()
-        log.debug('Error downloading page: %s', error_msg)
-        d = f
-        if f.check(PageRedirect):
-            # Handle redirect errors
-            location = urljoin(self.host_to_url(host), error_msg.split(' to ')[1])
-            self.redirects[host] = url_to_host(location)
-            d = self.download_page(host, url=location)
-            d.addCallbacks(
-                self.on_download_page_complete,
-                self.on_download_page_fail,
-                errbackArgs=(host,),
-            )
+        Args:
+            failure: The failure that occurred.
 
-        return d
+        Returns:
+            The original failure.
+
+        """
+        log.debug(f'Error downloading page: {failure.getErrorMessage()}')
+        return failure
 
     @proxy(threads.deferToThread)
     def parse_html_page(self, page):
@@ -425,22 +409,7 @@ class TrackerIcons(Component):
         error_msg = f.getErrorMessage()
         log.debug('Error downloading icon from %s: %s', host, error_msg)
         d = f
-        if f.check(PageRedirect):
-            # Handle redirect errors
-            location = urljoin(self.host_to_url(host), error_msg.split(' to ')[1])
-            d = self.download_icon(
-                [(location, extension_to_mimetype(location.rpartition('.')[2]))]
-                + icons,
-                host,
-            )
-            if not icons:
-                d.addCallbacks(
-                    self.on_download_icon_complete,
-                    self.on_download_icon_fail,
-                    callbackArgs=(host,),
-                    errbackArgs=(host,),
-                )
-        elif f.check(NoResource, ForbiddenResource) and icons:
+        if f.check(NoResource, ForbiddenResource) and icons:
             d = self.download_icon(icons, host)
         elif f.check(NoIconsError):
             # No icons, try favicon.ico as an act of desperation
