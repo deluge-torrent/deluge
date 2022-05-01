@@ -108,33 +108,10 @@ class TestCommon:
         assert is_ipv6('2001:db8::')
         assert not is_ipv6('2001:db8:')
 
-    def get_windows_interface_name(self):
-        import winreg
-
-        # find a network card in the registery
-        with winreg.OpenKey(
-            winreg.HKEY_LOCAL_MACHINE,
-            r'SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkCards',
-        ) as key:
-            assert winreg.QueryInfoKey(key)[0] > 0  # must have at least 1 network card
-            network_card = winreg.EnumKey(key, 0)
-        # get GUID of network card
-        with winreg.OpenKey(
-            winreg.HKEY_LOCAL_MACHINE,
-            fr'SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkCards\{network_card}',
-        ) as key:
-            for i in range(1):
-                value = winreg.EnumValue(key, i)
-                if value[0] == 'ServiceName':
-                    interface_name = value[1]
-        return interface_name
-
     def test_is_interface_name(self):
         if windows_check():
-            interface_name = self.get_windows_interface_name()
             assert not is_interface_name('2001:db8:')
             assert not is_interface_name('{THIS0000-IS00-ONLY-FOR0-TESTING00000}')
-            assert is_interface_name(interface_name)
         else:
             assert is_interface_name('lo')
             assert not is_interface_name('127.0.0.1')
@@ -142,9 +119,7 @@ class TestCommon:
 
     def test_is_interface(self):
         if windows_check():
-            interface_name = self.get_windows_interface_name()
             assert is_interface('127.0.0.1')
-            assert is_interface(interface_name)
             assert not is_interface('127')
             assert not is_interface('{THIS0000-IS00-ONLY-FOR0-TESTING00000}')
         else:
