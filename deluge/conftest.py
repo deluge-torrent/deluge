@@ -4,8 +4,9 @@
 # See LICENSE for more details.
 #
 
-import unittest.mock
+import tempfile
 import warnings
+from unittest.mock import Mock, patch
 
 import pytest
 import pytest_twisted
@@ -49,7 +50,7 @@ def mock_callback():
         mock.side_effect = lambda *args, **kw: deferred.callback((args, kw))
         mock.deferred = deferred
 
-    mock = unittest.mock.Mock()
+    mock = Mock()
     original_reset_mock = mock.reset_mock
     mock.reset_mock = reset
     mock.reset_mock()
@@ -181,3 +182,11 @@ class BaseTestCase:
     have finished.
 
     """
+
+
+@pytest.fixture
+def mock_mkstemp(tmp_path):
+    """Return known tempfile location to verify file deleted"""
+    tmp_file = tempfile.mkstemp(dir=tmp_path)
+    with patch('tempfile.mkstemp', return_value=tmp_file):
+        yield tmp_file

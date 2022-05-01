@@ -8,8 +8,8 @@
 
 import logging
 import os
+import tempfile
 from html.parser import HTMLParser
-from tempfile import mkstemp
 from urllib.parse import urljoin, urlparse
 
 from twisted.internet import defer, threads
@@ -203,8 +203,10 @@ class TrackerIcons(Component):
         else:
             # We need to fetch it
             self.pending[host] = []
+            tmp_file = tempfile.mkstemp(prefix='deluge_trackericon_html.')
+            filename = tmp_file[1]
             # Start callback chain
-            d = self.download_page(host)
+            d = self.download_page(host, filename)
             d.addCallbacks(
                 self.on_download_page_complete,
                 self.on_download_page_fail,
@@ -213,6 +215,7 @@ class TrackerIcons(Component):
             d.addCallbacks(
                 self.on_parse_complete, self.on_parse_fail, callbackArgs=(host,)
             )
+            d.addBoth(self.del_tmp_file, tmp_file)
             d.addCallback(self.download_icon, host)
             d.addCallbacks(
                 self.on_download_icon_complete,
@@ -224,24 +227,38 @@ class TrackerIcons(Component):
             d.addCallback(self.store_icon, host)
         return d
 
-    def download_page(self, host, url=None):
-        """
-        Downloads a tracker host's page
+    @staticmethod
+    def del_tmp_file(result, tmp_file):
+        """Remove tmp_file created when downloading tracker page"""
+        fd, filename = tmp_file
+        try:
+            os.close(fd)
+            os.remove(filename)
+        except OSError:
+            log.debug(f'Unable to delete temporary file: {filename}')
+
+        return result
+
+    def download_page(
+        self, host: str, filename: str, url: str = None
+    ) -> 'defer.Deferred[str]':
+        """Downloads a tracker host's page
+
         If no url is provided, it bases the url on the host
 
-        :param host: the tracker host
-        :type host: string
-        :param url: the (optional) url of the host
-        :type url: string
-        :returns: the filename of the tracker host's page
-        :rtype: Deferred
+        Args:
+            host: The tracker host
+            filename: Location to download page
+            url: The url of the host
+
+        Returns:
+            The filename of the tracker host's page
         """
         if not url:
             url = self.host_to_url(host)
-        log.debug('Downloading %s %s', host, url)
-        tmp_fd, tmp_file = mkstemp(prefix='deluge_ticon.')
-        os.close(tmp_fd)
-        return download_file(url, tmp_file, force_filename=True)
+
+        log.debug(f'Downloading {host} {url} to {filename}')
+        return download_file(url, filename, force_filename=True)
 
     def on_download_page_complete(self, page):
         """
@@ -291,10 +308,6 @@ class TrackerIcons(Component):
                 if parser.left_head:
                     break
             parser.close()
-        try:
-            os.remove(page)
-        except OSError as ex:
-            log.warning('Could not remove temp file: %s', ex)
 
         return parser.get_icons()
 

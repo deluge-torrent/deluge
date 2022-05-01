@@ -3,6 +3,7 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
+import os.path
 
 import pytest
 import pytest_twisted
@@ -28,11 +29,12 @@ class TestTrackerIcons(BaseTestCase):
         return component.shutdown()
 
     @pytest_twisted.ensureDeferred
-    async def test_get_deluge_png(self):
+    async def test_get_deluge_png(self, mock_mkstemp):
         # Deluge has a png favicon link
         icon = TrackerIcon(common.get_test_data_file('deluge.png'))
         result = await self.icons.fetch('deluge-torrent.org')
         assert result == icon
+        assert not os.path.isfile(mock_mkstemp[1])
 
     @pytest_twisted.ensureDeferred
     async def test_get_google_ico(self):
@@ -68,3 +70,10 @@ class TestTrackerIcons(BaseTestCase):
     async def test_get_empty_string_tracker(self):
         result = await self.icons.fetch('')
         assert result is None
+
+    @pytest_twisted.ensureDeferred
+    async def test_invalid_host(self, mock_mkstemp):
+        """Test that TrackerIcon can handle invalid hostname"""
+        result = await self.icons.fetch('deluge.example.com')
+        assert not result
+        assert not os.path.isfile(mock_mkstemp[1])
