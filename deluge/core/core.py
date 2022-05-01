@@ -518,7 +518,8 @@ class Core(component.Component):
         return task.deferLater(reactor, 0, add_torrents)
 
     @export
-    def add_torrent_url(
+    @maybe_coroutine
+    async def add_torrent_url(
         self, url: str, options: dict, headers: dict = None
     ) -> 'defer.Deferred[Optional[str]]':
         """Adds a torrent from a URL. Deluge will attempt to fetch the torrent
@@ -534,26 +535,24 @@ class Core(component.Component):
         """
         log.info('Attempting to add URL %s', url)
 
-        def on_download_success(filename):
-            # We got the file, so add it to the session
+        tmp_fd, tmp_file = tempfile.mkstemp(prefix='deluge_url.', suffix='.torrent')
+        try:
+            filename = await download_file(
+                url, tmp_file, headers=headers, force_filename=True
+            )
+        except Exception:
+            log.error('Failed to add torrent from URL %s', url)
+            raise
+        else:
             with open(filename, 'rb') as _file:
                 data = _file.read()
-            try:
-                os.remove(filename)
-            except OSError as ex:
-                log.warning('Could not remove temp file: %s', ex)
             return self.add_torrent_file(filename, b64encode(data), options)
-
-        def on_download_fail(failure):
-            # Log the error and pass the failure onto the client
-            log.error('Failed to add torrent from URL %s', url)
-            return failure
-
-        tmp_fd, tmp_file = tempfile.mkstemp(prefix='deluge_url.', suffix='.torrent')
-        os.close(tmp_fd)
-        d = download_file(url, tmp_file, headers=headers, force_filename=True)
-        d.addCallbacks(on_download_success, on_download_fail)
-        return d
+        finally:
+            try:
+                os.close(tmp_fd)
+                os.remove(tmp_file)
+            except OSError as ex:
+                log.warning(f'Unable to delete temp file {tmp_file}: , {ex}')
 
     @export
     def add_torrent_magnet(self, uri: str, options: dict) -> str:

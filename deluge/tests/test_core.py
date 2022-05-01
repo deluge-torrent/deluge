@@ -4,6 +4,7 @@
 # See LICENSE for more details.
 #
 
+import os
 from base64 import b64encode
 from hashlib import sha1 as sha
 
@@ -175,7 +176,7 @@ class TestCore(BaseTestCase):
             self.core.add_torrent_file(filename, False, options)
 
     @pytest_twisted.inlineCallbacks
-    def test_add_torrent_url(self):
+    def test_add_torrent_url(self, mock_mkstemp):
         url = (
             'http://localhost:%d/ubuntu-9.04-desktop-i386.iso.torrent'
             % self.listen_port
@@ -185,6 +186,7 @@ class TestCore(BaseTestCase):
 
         torrent_id = yield self.core.add_torrent_url(url, options)
         assert torrent_id == info_hash
+        assert not os.path.isfile(mock_mkstemp[1])
 
     @pytest_twisted.ensureDeferred
     async def test_add_torrent_url_with_cookie(self):
