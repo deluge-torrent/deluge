@@ -88,8 +88,8 @@ def init_colors():
             curses.init_pair(counter, fg, bg)
             color_pairs[(fg_name, bg_name)] = counter
             counter += 1
-        except curses.error as ex:
-            log.warning('Error: %s', ex)
+        except (curses.error, ValueError) as ex:
+            log.debug(f'Color pair {fg_name} {bg_name} not available: {ex}')
         return counter
 
     # Create the color_pairs dict
