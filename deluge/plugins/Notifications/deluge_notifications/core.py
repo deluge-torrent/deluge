@@ -148,7 +148,7 @@ Date: %(date)s
 
         try:
             try:
-                server.sendmail(self.config['smtp_from'], to_addrs, message)
+                server.sendmail(self.config['smtp_from'], to_addrs, message.encode())
             except smtplib.SMTPException as ex:
                 err_msg = (
                     _('There was an error sending the notification email: %s') % ex
