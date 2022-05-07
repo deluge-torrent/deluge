@@ -324,6 +324,8 @@
                 { name: 'ratio', type: 'float' },
                 { name: 'distributed_copies', type: 'float' },
                 { name: 'time_added', type: 'int' },
+                { name: 'last_seen_complete', type: 'int' },
+                { name: 'completed_time', type: 'int' },
                 { name: 'tracker_host' },
                 { name: 'download_location' },
                 { name: 'total_done', type: 'int' },
