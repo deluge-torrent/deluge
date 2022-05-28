@@ -98,6 +98,24 @@ class TestJSON:
         with pytest.raises(JSONException):
             json._on_json_request(request)
 
+    def test_on_json_request_valid_content_type(self):
+        """Ensure content-type application/json is accepted"""
+        json = JSON()
+        request = MagicMock()
+        request.getHeader.return_value = b'application/json'
+        json_data = {'method': 'some.method', 'id': 0, 'params': []}
+        request.json = json_lib.dumps(json_data).encode()
+        json._on_json_request(request)
+
+    def test_on_json_request_valid_content_type_with_charset(self):
+        """Ensure content-type parameters such as charset are ignored"""
+        json = JSON()
+        request = MagicMock()
+        request.getHeader.return_value = b'application/json;charset=utf-8'
+        json_data = {'method': 'some.method', 'id': 0, 'params': []}
+        request.json = json_lib.dumps(json_data).encode()
+        json._on_json_request(request)
+
 
 @pytest.mark.usefixtures('daemon', 'client', 'component')
 class TestJSONCustomUserTestCase:
