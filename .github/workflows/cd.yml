@@ -71,12 +71,12 @@ jobs:
 
       - name: Install Python dependencies
         run: >
-          python -m pip install --find-links="C:\GTK\release\python" pycairo PyGObject
+          python -m pip install --no-index --find-links="C:\GTK\release\python" pycairo PyGObject
 
           python -m pip install
           twisted[tls]==22.2.0rc1
           libtorrent==${{ matrix.libtorrent }}
-          pyinstaller
+          pyinstaller==4.10
           pygame
           -r requirements.txt
 

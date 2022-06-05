@@ -11,13 +11,15 @@ Instructions for building the Deluge NSIS Installer for Windows Vista/7/8/8.1/10
 == Build Steps ==
 
 1.  Build and Install Deluge on Windows.
-2.  Run the pyinstaller from the deluge\packaging\win directory.spec:
+2.  Run pyinstaller from the deluge\packaging\win directory:
 
-    `pyinstaller --clean delugewin.spec --distpath .\packaging\win\freeze`
+    `pyinstaller --clean delugewin.spec --distpath freeze`
 
     The result is a PyInstaller version of Deluge in `packaging\win\freeze`.
 
-3.  Run the NSIS script:
+3.  Run the NSIS scripts:
+
+    `python setup_nsis.py`
 
     64-bit python:
 
