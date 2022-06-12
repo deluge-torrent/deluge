@@ -24,31 +24,31 @@ jobs:
     strategy:
       matrix:
         arch: [x64, x86]
-        python: [3.9]
-        libtorrent: [2.0.5, 1.2.15]
+        python: ["3.9"]
+        libtorrent: [2.0.6, 1.2.15]
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
       # Checkout Deluge source to subdir to enable packaging any tag/commit
       - name: Checkout Deluge source
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: ${{ github.event.inputs.ref }}
           fetch-depth: 0
           path: deluge_src
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python}}
           architecture: ${{ matrix.arch }}
 
       - name: Cache pip
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: '%LOCALAPPDATA%\pip\Cache'
           # Look to see if there is a cache hit for the corresponding requirements file
@@ -74,7 +74,7 @@ jobs:
           python -m pip install --find-links="C:\GTK\release\python" pycairo PyGObject
 
           python -m pip install
-          twisted[tls]==22.2.0rc1
+          twisted[tls]==22.4.0
           libtorrent==${{ matrix.libtorrent }}
           pyinstaller
           pygame
