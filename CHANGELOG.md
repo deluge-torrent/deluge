@@ -1,11 +1,14 @@
 # Changelog
 
-## 2.1.0 (WIP)
+## 2.1.0 (2022-06-28)
+
+### Breaking changes
+
+- Python 2 support removed (Python >= 3.6)
+- libtorrent minimum requirement increased (>= 1.2).
 
 ### Core
 
-- Drop Python 2 support for Python 3 only.
-- Set libtorrent minimum required version to 1.2.
 - Add support for SVG tracker icons.
 - Fix tracker icon error handling.
 - Fix cleaning-up tracker icon temp files.
