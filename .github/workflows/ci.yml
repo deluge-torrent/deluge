@@ -65,7 +65,7 @@ jobs:
           path: /cores
 
   test-windows:
-    runs-on: windows-latest
+    runs-on: windows-2019
     strategy:
       matrix:
         python-version: ["3.7", "3.10"]
