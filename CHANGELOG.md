@@ -2,6 +2,11 @@
 
 ## unreleased
 
+### Core
+
+- Fix missing trackers added via magnet
+- Fix handling magnets with tracker tiers
+
 ## 2.1.0 (2022-06-28)
 
 ### Breaking changes

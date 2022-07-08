@@ -48,9 +48,9 @@ One-click [**Install**](https://dl.flathub.org/repo/appstream/org.deluge_torrent
 
 ## <i class="fa fa-windows"></i> Windows
 
-Unfortunately no official installer package currently available.
+Download [installer](https://ftp.osuosl.org/pub/deluge/windows/?C=M;O=D)
 
-See [Alternative Installs](#alternative-installs)
+Availble for Windows 7, 8 & 10 for both 32-bit and 64-bit OSes.
 
 ## <i class="fa fa-apple"></i> macOS
 
@@ -96,15 +96,6 @@ The [development PPA] contains daily builds from the `develop` branch.
     sudo add-apt-repository -u ppa:deluge-team/develop
     sudo apt install deluge
 
-### Windows Community
-
-Due to move to GTK3 and Python 3 and problems with pyinstaller there are only community
-created installers available.
-
-Check sticky topics in [Windows Forum] for latest updates.
-
-For reference [issue #3201] is tracking progress on an official installer.
-
 ### macOS Community
 
 #### Unofficial `.app` packages
@@ -138,7 +129,5 @@ sudo port install deluge
 [development ppa]: https://launchpad.net/~deluge-team/+archive/ubuntu/develop/
 [stable ppa]: https://launchpad.net/~deluge-team/+archive/ubuntu/stable/
 [homebrew]: https://brew.sh/
-[issue #3201]: https://dev.deluge-torrent.org/ticket/3201
-[windows forum]: https://forum.deluge-torrent.org/viewforum.php?f=12
 [macos forum]: https://forum.deluge-torrent.org/viewforum.php?f=13
 [depends]: ../depends.md
