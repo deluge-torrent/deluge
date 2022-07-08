@@ -7,6 +7,7 @@
 import os
 import sys
 import tarfile
+from urllib.parse import quote_plus
 
 import pytest
 
@@ -19,6 +20,7 @@ from deluge.common import (
     fsize,
     fspeed,
     ftime,
+    get_magnet_info,
     get_path_size,
     is_infohash,
     is_interface,
@@ -209,3 +211,16 @@ class TestCommon:
                 if tar_info.name == 'archive_message.txt':
                     result = tar.extractfile(tar_info).read().decode()
                     assert result == 'test'
+
+    def test_get_magnet_info_tiers(self):
+        tracker1 = 'udp://tracker1.example.com'
+        tracker2 = 'udp://tracker2.example.com'
+        magnet = (
+            'magnet:?xt=urn:btih:SU5225URMTUEQLDXQWRB2EQWN6KLTYKN'
+            f'&tr.1={quote_plus(tracker1)}'
+            f'&tr.2={quote_plus(tracker2)}'
+        )
+        result = get_magnet_info(magnet)
+        assert result['info_hash'] == '953bad769164e8482c7785a21d12166f94b9e14d'
+        assert result['trackers'][tracker1] == 1
+        assert result['trackers'][tracker2] == 2

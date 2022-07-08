@@ -734,6 +734,8 @@ MAGNET_SCHEME = 'magnet:?'
 XT_BTIH_PARAM = 'xt=urn:btih:'
 DN_PARAM = 'dn='
 TR_PARAM = 'tr='
+TR_TIER_PARAM = 'tr.'
+TR_TIER_REGEX = re.compile(r'^tr.(\d+)=(\S+)')
 
 
 def is_magnet(uri):
@@ -776,8 +778,6 @@ def get_magnet_info(uri):
 
     """
 
-    tr0_param = 'tr.'
-    tr0_param_regex = re.compile(r'^tr.(\d+)=(\S+)')
     if not uri.startswith(MAGNET_SCHEME):
         return {}
 
@@ -805,12 +805,14 @@ def get_magnet_info(uri):
             tracker = unquote_plus(param[len(TR_PARAM) :])
             trackers[tracker] = tier
             tier += 1
-        elif param.startswith(tr0_param):
-            try:
-                tier, tracker = re.match(tr0_param_regex, param).groups()
-                trackers[tracker] = tier
-            except AttributeError:
-                pass
+        elif param.startswith(TR_TIER_PARAM):
+            tracker_match = re.match(TR_TIER_REGEX, param)
+            if not tracker_match:
+                continue
+
+            tier, tracker = tracker_match.groups()
+            tracker = unquote_plus(tracker)
+            trackers[tracker] = int(tier)
 
     if info_hash:
         if not name:
