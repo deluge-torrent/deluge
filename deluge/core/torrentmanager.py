@@ -436,8 +436,8 @@ class TorrentManager(component.Component):
             magnet_info = get_magnet_info(magnet)
             if magnet_info:
                 add_torrent_params['name'] = magnet_info['name']
+                add_torrent_params['trackers'] = list(magnet_info['trackers'])
                 torrent_id = magnet_info['info_hash']
-                # Workaround lt 1.2 bug for magnet resume data with no metadata
                 add_torrent_params['info_hash'] = bytes(bytearray.fromhex(torrent_id))
             else:
                 raise AddTorrentError(

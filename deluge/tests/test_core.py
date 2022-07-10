@@ -222,10 +222,15 @@ class TestCore(BaseTestCase):
     @pytest_twisted.inlineCallbacks
     def test_add_torrent_magnet(self):
         info_hash = '60d5d82328b4547511fdeac9bf4d0112daa0ce00'
-        uri = deluge.common.create_magnet_uri(info_hash)
+        tracker = 'udp://tracker.example.com'
+        name = 'test magnet'
+        uri = deluge.common.create_magnet_uri(info_hash, name=name, trackers=[tracker])
         options = {}
         torrent_id = yield self.core.add_torrent_magnet(uri, options)
         assert torrent_id == info_hash
+        torrent_status = self.core.get_torrent_status(torrent_id, ['name', 'trackers'])
+        assert torrent_status['trackers'][0]['url'] == tracker
+        assert torrent_status['name'] == name
 
     def test_resume_torrent(self):
         tid1 = self.add_torrent('test.torrent', paused=True)
