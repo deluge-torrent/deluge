@@ -453,8 +453,14 @@ class TopLevel(resource.Resource):
         'css/deluge.css',
     ]
 
-    def __init__(self):
+    def __init__(self, children: dict = None):
         resource.Resource.__init__(self)
+
+        if children is not None:
+            for path, child in children.items():
+                self.putChild(path, child)
+            self.js = children[b'js']
+            return
 
         self.putChild(b'css', LookupResource('Css', rpath('css')))
         if os.path.isfile(rpath('js', 'gettext.js')):
@@ -681,7 +687,8 @@ class DelugeWeb(component.Component):
 
         if self.base != '/':
             # Strip away slashes and serve on the base path as well as root path
-            self.top_level.putChild(self.base.strip('/').encode(), self.top_level)
+            base = TopLevel(self.top_level.children)
+            self.top_level.putChild(self.base.strip('/').encode(), base)
 
         setup_translation()
 
