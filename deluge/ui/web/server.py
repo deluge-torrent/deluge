@@ -528,13 +528,18 @@ class TopLevel(resource.Resource):
         self.putChild(b'tracker', Tracker())
 
         theme = component.get('DelugeWeb').config['theme']
-        if not os.path.isfile(rpath('themes', 'css', 'xtheme-%s.css' % theme)):
+        if not os.path.isfile(rpath('themes', 'css', f'xtheme-{theme}.css')):
             theme = CONFIG_DEFAULTS.get('theme')
-        self.__stylesheets.insert(1, 'themes/css/xtheme-%s.css' % theme)
+        self.__stylesheets.insert(1, f'themes/css/xtheme-{theme}.css')
 
     @property
     def stylesheets(self):
         return self.__stylesheets
+
+    def change_theme(self, theme: str):
+        if not os.path.isfile(rpath('themes', 'css', f'xtheme-{theme}.css')):
+            theme = CONFIG_DEFAULTS.get('theme')
+        self.__stylesheets[1] = f'themes/css/xtheme-{theme}.css'
 
     def add_script(self, script):
         """
@@ -684,6 +689,9 @@ class DelugeWeb(component.Component):
             # Strip away slashes and serve on the base path as well as root path
             self.top_level.putChild(self.base.strip('/'), self.top_level)
 
+        if self.base[0] != '/':
+            self.base = f'/{self.base}'
+
         setup_translation()
 
         # Remove twisted version number from 'server' http-header for security reasons
@@ -742,8 +750,8 @@ class DelugeWeb(component.Component):
     def start_normal(self):
         self.socket = reactor.listenTCP(self.port, self.site, interface=self.interface)
         ip = self.socket.getHost().host
-        ip = '[%s]' % ip if is_ipv6(ip) else ip
-        log.info('Serving at http://%s:%s%s', ip, self.port, self.base)
+        ip = f'[{ip}]' if is_ipv6(ip) else ip
+        log.info(f'Serving at http://{ip}:{self.port}{self.base}')
 
     def start_ssl(self):
         check_ssl_keys()
@@ -759,8 +767,8 @@ class DelugeWeb(component.Component):
             interface=self.interface,
         )
         ip = self.socket.getHost().host
-        ip = '[%s]' % ip if is_ipv6(ip) else ip
-        log.info('Serving at https://%s:%s%s', ip, self.port, self.base)
+        ip = f'[{ip}]' if is_ipv6(ip) else ip
+        log.info(f'Serving at https://{ip}:{self.port}{self.base}')
 
     def stop(self):
         log.info('Shutting down webserver')
@@ -789,6 +797,15 @@ class DelugeWeb(component.Component):
     def _migrate_config_1_to_2(self, config):
         config['language'] = CONFIG_DEFAULTS['language']
         return config
+
+    def get_themes_list(self):
+        return [
+            (file[7:-4], _(file[7:-4].capitalize()))
+            for file in os.listdir(rpath('themes', 'css'))
+        ]
+
+    def set_theme(self, theme: str):
+        self.top_level.change_theme(theme)
 
 
 if __name__ == '__builtin__':

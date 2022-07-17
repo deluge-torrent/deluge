@@ -979,6 +979,16 @@ class WebApi(JSONComponent):
         """
         return self.event_queue.get_events(__request__.session_id)
 
+    @export
+    def set_theme(self, theme):
+        """
+        Sets a new Theme to the WebUI
+
+        Args:
+            theme (str): the theme to apply
+        """
+        component.get('DelugeWeb').set_theme(theme)
+
 
 class WebUtils(JSONComponent):
     """
@@ -997,3 +1007,13 @@ class WebUtils(JSONComponent):
              list: of tuples ``[(lang-id, language-name), ...]``
         """
         return get_languages()
+
+    @export
+    def get_themes(self):
+        """
+        Get the available themes
+
+        Returns:
+            list: of themes ``[theme1, theme2, ...]``
+        """
+        return component.get('DelugeWeb').get_themes_list()
