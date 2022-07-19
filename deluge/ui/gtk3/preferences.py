@@ -13,7 +13,7 @@ from hashlib import sha1 as sha
 from urllib.parse import urlparse
 
 from gi import require_version
-from gi.repository import Gtk
+from gi.repository import GObject, Gtk
 from gi.repository.Gdk import Color
 
 import deluge.common
@@ -170,6 +170,14 @@ class Preferences(component.Component):
 
         # Radio buttons to choose between systray and appindicator
         self.builder.get_object('alignment_tray_type').set_visible(appindicator)
+
+        # Initialize a binding for dark theme
+        Gtk.Settings.get_default().bind_property(
+            'gtk-application-prefer-dark-theme',
+            self.builder.get_object('radio_theme_dark'),
+            'active',
+            GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE,
+        )
 
         from .gtkui import DEFAULT_PREFS
 
@@ -557,6 +565,9 @@ class Preferences(component.Component):
         self.builder.get_object('radio_thinclient').set_active(
             not self.gtkui_config['standalone']
         )
+        self.builder.get_object('radio_theme_dark').set_active(
+            self.gtkui_config['dark_theme']
+        )
         self.builder.get_object('chk_show_rate_in_title').set_active(
             self.gtkui_config['show_rate_in_title']
         )
@@ -741,6 +752,9 @@ class Preferences(component.Component):
         ).get_active()
 
         # Interface tab #
+        new_gtkui_config['dark_theme'] = self.builder.get_object(
+            'radio_theme_dark'
+        ).get_active()
         new_gtkui_config['enable_system_tray'] = self.builder.get_object(
             'chk_use_tray'
         ).get_active()
@@ -1074,6 +1088,10 @@ class Preferences(component.Component):
 
     def on_button_cancel_clicked(self, data):
         log.debug('on_button_cancel_clicked')
+        Gtk.Settings.get_default().set_property(
+            'gtk-application-prefer-dark-theme',
+            self.gtkui_config['dark_theme'],
+        )
         self.hide()
         return True
 

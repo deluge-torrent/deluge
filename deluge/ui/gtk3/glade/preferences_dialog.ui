@@ -430,6 +430,77 @@
                               </packing>
                             </child>
                             <child>
+                              <object class="GtkFrame" id="frame_theme">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="label_xalign">0</property>
+                                <property name="shadow_type">none</property>
+                                <child>
+                                  <object class="GtkAlignment" id="alignment_theme">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="top_padding">3</property>
+                                    <property name="left_padding">10</property>
+                                    <child>
+                                      <object class="GtkBox" id="hbox_theme">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">False</property>
+                                        <child>
+                                          <object class="GtkRadioButton" id="radio_theme_light">
+                                            <property name="label" translatable="yes">Light</property>
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">False</property>
+                                            <property name="tooltip_text" translatable="yes">The light theme</property>
+                                            <property name="active">True</property>
+                                            <property name="draw_indicator">True</property>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="position">0</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <object class="GtkRadioButton" id="radio_theme_dark">
+                                            <property name="label" translatable="yes">Dark</property>
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="receives_default">False</property>
+                                            <property name="tooltip_text" translatable="yes">The dark theme</property>
+                                            <property name="draw_indicator">True</property>
+                                            <property name="group">radio_theme_light</property>
+                                          </object>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">True</property>
+                                            <property name="padding">7</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
+                                <child type="label">
+                                  <object class="GtkLabel" id="label_theme">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">Theme</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
+                                  </object>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="padding">5</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
                               <object class="GtkFrame" id="frame29">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
@@ -736,7 +807,7 @@ and daemon (does not apply in Standalone mode).</property>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
                                 <property name="padding">5</property>
-                                <property name="position">1</property>
+                                <property name="position">2</property>
                               </packing>
                             </child>
                             <child>
@@ -964,7 +1035,7 @@ and daemon (does not apply in Standalone mode).</property>
                                 <property name="expand">False</property>
                                 <property name="fill">True</property>
                                 <property name="padding">5</property>
-                                <property name="position">2</property>
+                                <property name="position">3</property>
                               </packing>
                             </child>
                             <child>
@@ -1024,7 +1095,7 @@ and daemon (does not apply in Standalone mode).</property>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
                                 <property name="padding">5</property>
-                                <property name="position">3</property>
+                                <property name="position">4</property>
                               </packing>
                             </child>
                             <child>
@@ -1101,7 +1172,7 @@ and daemon (does not apply in Standalone mode).</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">True</property>
-                                <property name="position">4</property>
+                                <property name="position">5</property>
                               </packing>
                             </child>
                           </object>
