@@ -84,6 +84,7 @@ except ImportError:
 
 DEFAULT_PREFS = {
     'standalone': True,
+    'dark_theme': False,
     'interactive_add': True,
     'focus_add_dialog': True,
     'enable_system_tray': True,

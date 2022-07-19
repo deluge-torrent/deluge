@@ -73,6 +73,12 @@ class MainWindow(component.Component):
         self.config = ConfigManager('gtk3ui.conf')
         self.main_builder = Gtk.Builder()
 
+        # Set theme
+        Gtk.Settings.get_default().set_property(
+            'gtk-application-prefer-dark-theme',
+            self.config['dark_theme'],
+        )
+
         # Patch this GtkBuilder to avoid connecting signals from elsewhere
         #
         # Think about splitting up  mainwindow gtkbuilder file into the necessary parts
