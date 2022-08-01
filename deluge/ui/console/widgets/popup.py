@@ -251,7 +251,7 @@ class SelectablePopup(BaseInputPane, Popup):
 
     def set_selection(self, index):
         """Set a selected index"""
-        self.active_input = index
+        self.active_input = min(index, len(self.inputs) - 1)
 
     def add_line(
         self,

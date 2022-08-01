@@ -197,7 +197,8 @@ class ConnectionManager(BaseMode, PopupsHandler):
                 if chr(c) == 'q':
                     return
                 elif chr(c) == 'D':
-                    host_id = self.popup.current_selection()[1]
+                    host_index = self.popup.current_selection()
+                    host_id = self.popup.inputs[host_index].name
                     self.delete_host(host_id)
                     return
                 elif chr(c) == 'a':
