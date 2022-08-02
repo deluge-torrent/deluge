@@ -35,7 +35,7 @@ Deluge.preferences.Network = Ext.extend(Ext.form.FormPanel, {
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
-            title: _('Incoming Address'),
+            title: _('Incoming Interface'),
             style: 'margin-bottom: 5px; padding-bottom: 0px;',
             autoHeight: true,
             labelWidth: 1,

@@ -818,6 +818,11 @@ class Core(component.Component):
             self.config[key] = config[key]
 
     @export
+    def is_valid_interface(self, interface: str) -> bool:
+        """Returns True is valid interface"""
+        return deluge.common.is_interface(interface)
+
+    @export
     def get_listen_port(self) -> int:
         """Returns the active listen port"""
         return self.session.listen_port()
