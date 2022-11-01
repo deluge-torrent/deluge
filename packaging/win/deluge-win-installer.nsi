@@ -187,6 +187,7 @@ LangString DESC_Section3 ${LANG_ENGLISH} "Select this option to let Deluge handl
 Section -Uninstaller
     WriteUninstaller ${PROGRAM_UNINST_FILENAME}
     WriteRegStr ${PROGRAM_UNINST_ROOT_KEY} "${PROGRAM_UNINST_KEY}" "DisplayName" "$(^Name)"
+    WriteRegStr ${PROGRAM_UNINST_ROOT_KEY} "${PROGRAM_UNINST_KEY}" "DisplayVersion" ${PROGRAM_VERSION}
     WriteRegStr ${PROGRAM_UNINST_ROOT_KEY} "${PROGRAM_UNINST_KEY}" "UninstallString" ${PROGRAM_UNINST_FILENAME}
 SectionEnd
 
