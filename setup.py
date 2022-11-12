@@ -12,13 +12,13 @@ import glob
 import os
 import platform
 import sys
-from distutils.command.build import build as _build
-from distutils.command.clean import clean as _clean
-from distutils.command.install_data import install_data as _install_data
 from shutil import rmtree, which
 
 from setuptools import Command, find_packages, setup
 from setuptools.command.test import test as _test
+from distutils.command.build import build as _build
+from distutils.command.clean import clean as _clean
+from distutils.command.install_data import install_data as _install_data
 
 import msgfmt
 from version import get_version
