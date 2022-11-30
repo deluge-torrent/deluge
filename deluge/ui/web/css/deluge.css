@@ -283,7 +283,7 @@ dl.singleline dd {
 }
 
 .x-progress-renderered .x-progress-bar .x-progress-text {
-    margin-top: -1px;
+    margin-top: -2px;
     height: 18px;
 }
 
