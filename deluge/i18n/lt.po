@@ -4467,16 +4467,16 @@ msgstr ""
 msgid "_High"
 msgstr ""
 
-#: deluge/ui/data/share/appdata/deluge.appdata.xml.in.h:1
+#: deluge/ui/data/share/metainfo/deluge.metainfo.xml.in.h:1
 msgid "Deluge Team"
 msgstr ""
 
-#: deluge/ui/data/share/appdata/deluge.appdata.xml.in.h:2
+#: deluge/ui/data/share/metainfo/deluge.metainfo.xml.in.h:2
 msgid ""
 "Deluge is a lightweight, Free Software, cross-platform BitTorrent client."
 msgstr ""
 
-#: deluge/ui/data/share/appdata/deluge.appdata.xml.in.h:3
+#: deluge/ui/data/share/metainfo/deluge.metainfo.xml.in.h:3
 msgid ""
 "Deluge contains the common features to BitTorrent clients such as Protocol "
 "Encryption, DHT, Local Peer Discovery (LSD), Peer Exchange (PEX), UPnP, NAT-"
@@ -4485,7 +4485,7 @@ msgid ""
 "of the features provided."
 msgstr ""
 
-#: deluge/ui/data/share/appdata/deluge.appdata.xml.in.h:4
+#: deluge/ui/data/share/metainfo/deluge.metainfo.xml.in.h:4
 msgid ""
 "Deluge has been designed to run as both a normal standalone desktop "
 "application and as a client-server. In Thinclient mode a Deluge daemon "
