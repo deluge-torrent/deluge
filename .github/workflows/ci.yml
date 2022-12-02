@@ -7,9 +7,6 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-env:
-  SETUPTOOLS_ENABLE_FEATURES: "legacy-editable"
-
 jobs:
   test-linux:
     runs-on: ubuntu-20.04

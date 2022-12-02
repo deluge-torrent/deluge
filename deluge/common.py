@@ -27,8 +27,6 @@ from io import BytesIO
 from urllib.parse import unquote_plus, urljoin
 from urllib.request import pathname2url
 
-import pkg_resources
-
 from deluge.decorators import deprecated
 from deluge.error import InvalidPathError
 
@@ -36,6 +34,15 @@ try:
     import chardet
 except ImportError:
     chardet = None
+
+try:
+    import importlib.metadata as pkg_metadata
+except ImportError:
+    import importlib_metadata as pkg_metadata
+try:
+    import importlib.resources as pkg_resources
+except ImportError:
+    import importlib_resources as pkg_resources
 
 # Windows workaround for HTTPS requests requiring certificate authority bundle.
 # see: https://twistedmatrix.com/trac/ticket/9209
@@ -90,7 +97,7 @@ def get_version():
     Returns:
         str: The version of Deluge.
     """
-    return pkg_resources.get_distribution('Deluge').version
+    return pkg_metadata.distribution('Deluge').version
 
 
 def get_default_config_dir(filename=None):
@@ -293,17 +300,23 @@ def get_pixmap(fname):
 def resource_filename(module, path):
     """Get filesystem path for a resource.
 
-    This function contains a work-around for pkg_resources.resource_filename
-    not returning the correct path with multiple packages installed.
-
-    So if there's a second deluge package, installed globally and another in
-    develop mode somewhere else, while pkg_resources.get_distribution('Deluge')
-    returns the proper deluge instance, pkg_resources.resource_filename
-    does not, it returns the first found on the python path, which is wrong.
+    This function contains everything needed to get the path of
+    a resource.
     """
-    return pkg_resources.get_distribution('Deluge').get_resource_filename(
-        pkg_resources._manager, os.path.join(*(module.split('.') + [path]))
-    )
+    path = path.split(os.path.sep)
+    if sys.version_info < (3, 9):
+        with pkg_resources.path(module, path[0]) as path_obj:
+            if len(path) > 1:
+                path_obj /= os.path.join(*path[1:])
+            resource_path = path_obj
+    else:
+        ref = pkg_resources.files(module) / path[0]
+        if len(path) > 1:
+            ref /= os.path.join(*path[1:])
+        with pkg_resources.as_file(ref) as path_obj:
+            resource_path = path_obj
+
+    return str(resource_path)
 
 
 def open_file(path, timestamp=None):

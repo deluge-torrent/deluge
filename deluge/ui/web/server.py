@@ -475,7 +475,8 @@ class TopLevel(resource.Resource):
         self.putChild(
             b'ui_images',
             LookupResource(
-                'UI_Images', common.resource_filename('deluge.ui.data', 'pixmaps')
+                'UI_Images',
+                common.resource_filename('deluge.ui', os.path.join('data', 'pixmaps')),
             ),
         )
 
