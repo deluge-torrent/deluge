@@ -44,7 +44,7 @@ class TestUICommon:
         ti = TorrentInfo(filename, filetree=1)
         assert ti.files_tree == files_tree
 
-        filestree2 = {
+        files_tree2 = {
             'contents': {
                 'torrent_filehash': {
                     'type': 'dir',
@@ -71,7 +71,7 @@ class TestUICommon:
             'type': 'dir',
         }
         ti = TorrentInfo(filename, filetree=2)
-        assert ti.files_tree == filestree2
+        assert ti.files_tree == files_tree2
 
     def test_hash_optional_md5sum(self):
         # Ensure `md5sum` key is not included in filetree output
@@ -173,3 +173,118 @@ class TestUICommon:
             }
         ]
         assert ti.files == result_files
+
+    def test_bittorrent_v2_path(self):
+        filename = common.get_test_data_file('v2_test.torrent')
+        files_tree = {
+            'torrent_test': {
+                'small.txt': (0, 22, True),
+                '還在一個人無聊嗎~還不趕緊上來聊天美.txt': (1, 32, True),
+            }
+        }
+        ti = TorrentInfo(filename, filetree=1)
+        assert ti.files_tree == files_tree
+
+        files_tree2 = {
+            'contents': {
+                'torrent_test': {
+                    'type': 'dir',
+                    'contents': {
+                        'small.txt': {
+                            'type': 'file',
+                            'path': 'torrent_test/small.txt',
+                            'length': 22,
+                            'index': 0,
+                            'download': True,
+                        },
+                        '還在一個人無聊嗎~還不趕緊上來聊天美.txt': {
+                            'type': 'file',
+                            'path': 'torrent_test/還在一個人無聊嗎~還不趕緊上來聊天美.txt',
+                            'length': 32,
+                            'index': 1,
+                            'download': True,
+                        },
+                    },
+                    'length': 54,
+                    'download': True,
+                }
+            },
+            'type': 'dir',
+        }
+        ti = TorrentInfo(filename, filetree=2)
+        assert ti.files_tree == files_tree2
+
+    def test_bittorrent_v2_hybrid_path(self):
+        filename = common.get_test_data_file('v2_hybrid.torrent')
+        files_tree = {
+            'torrent_test': {
+                'small.txt': (0, 22, True),
+                '還在一個人無聊嗎~還不趕緊上來聊天美.txt': (2, 32, True),
+                '.pad': {
+                    '16362': (1, 16362, True),
+                    '16352': (3, 16352, True),
+                },
+            }
+        }
+        ti = TorrentInfo(filename, filetree=1, force_bt_version=1)
+        assert ti.files_tree == files_tree
+        del files_tree['torrent_test']['.pad']
+        files_tree['torrent_test']['還在一個人無聊嗎~還不趕緊上來聊天美.txt'] = (1, 32, True)
+        ti = TorrentInfo(filename, filetree=1, force_bt_version=2)
+        assert ti.files_tree == files_tree
+
+        files_tree2 = {
+            'contents': {
+                'torrent_test': {
+                    'type': 'dir',
+                    'contents': {
+                        'small.txt': {
+                            'type': 'file',
+                            'path': 'torrent_test/small.txt',
+                            'length': 22,
+                            'index': 0,
+                            'download': True,
+                        },
+                        '還在一個人無聊嗎~還不趕緊上來聊天美.txt': {
+                            'type': 'file',
+                            'path': 'torrent_test/還在一個人無聊嗎~還不趕緊上來聊天美.txt',
+                            'length': 32,
+                            'index': 2,
+                            'download': True,
+                        },
+                        '.pad': {
+                            'type': 'dir',
+                            'contents': {
+                                '16362': {
+                                    'type': 'file',
+                                    'path': 'torrent_test/.pad/16362',
+                                    'length': 16362,
+                                    'index': 1,
+                                    'download': True,
+                                },
+                                '16352': {
+                                    'type': 'file',
+                                    'path': 'torrent_test/.pad/16352',
+                                    'length': 16352,
+                                    'index': 3,
+                                    'download': True,
+                                },
+                            },
+                            'length': 32714,
+                            'download': True,
+                        },
+                    },
+                    'length': 32768,
+                    'download': True,
+                }
+            },
+            'type': 'dir',
+        }
+        ti = TorrentInfo(filename, filetree=2, force_bt_version=1)
+        assert ti.files_tree == files_tree2
+        torrent_test = files_tree2['contents']['torrent_test']
+        torrent_test['length'] -= torrent_test['contents']['.pad']['length']
+        del torrent_test['contents']['.pad']
+        torrent_test['contents']['還在一個人無聊嗎~還不趕緊上來聊天美.txt']['index'] = 1
+        ti = TorrentInfo(filename, filetree=2, force_bt_version=2)
+        assert ti.files_tree == files_tree2
