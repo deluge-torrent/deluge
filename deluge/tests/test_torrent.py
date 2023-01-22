@@ -74,9 +74,8 @@ class TestTorrent(BaseTestCase):
             'save_path': os.getcwd(),
             'storage_mode': lt.storage_mode_t.storage_mode_sparse,
             'flags': (
-                lt.add_torrent_params_flags_t.flag_auto_managed
-                | lt.add_torrent_params_flags_t.flag_duplicate_is_error
-                & ~lt.add_torrent_params_flags_t.flag_paused
+                lt.torrent_flags.auto_managed
+                | lt.torrent_flags.duplicate_is_error & ~lt.torrent_flags.paused
             ),
         }
         return atp
