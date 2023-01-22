@@ -416,7 +416,7 @@ class TestConsoleScriptEntryWithDaemon(BaseTestCase, ConsoleUIWithDaemonBaseTest
     def set_var(self, request):
         request.cls.var = {
             'cmd_name': 'deluge-console',
-            'start_cmd': deluge.ui.console.start,
+            'start_cmd': deluge.ui.console.test_start,
             'sys_arg_cmd': ['./deluge-console'],
         }
 
