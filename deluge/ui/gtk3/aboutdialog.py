@@ -40,7 +40,7 @@ class AboutDialog:
             % {'year_start': 2007, 'year_end': date.today().year}
         )
         self.about.set_comments(
-            _('A peer-to-peer file sharing program\nutilizing the BitTorrent protocol.')
+            _('A peer-to-peer file sharing program\nusing the BitTorrent protocol.')
             + '\n\n'
             + _('Client:')
             + ' %s\n' % version
