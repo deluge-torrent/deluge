@@ -12,5 +12,4 @@ UI_PATH = __path__[0]
 
 
 def start():
-
-    return Console().start()
+    Console().start()
