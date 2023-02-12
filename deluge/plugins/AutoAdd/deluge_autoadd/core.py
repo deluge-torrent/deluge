@@ -271,7 +271,7 @@ class Core(CorePluginBase):
 
             try:
                 filedump = self.load_torrent(filepath, magnet)
-            except (OSError, EOFError, InvalidTorrentError) as ex:
+            except (OSError, EOFError, RuntimeError, InvalidTorrentError) as ex:
                 # If torrent is invalid, keep track of it so can try again on the next pass.
                 # This catches torrent files that may not be fully saved to disk at load time.
                 log.debug('Torrent is invalid: %s', ex)
