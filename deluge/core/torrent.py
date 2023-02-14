@@ -821,6 +821,9 @@ class Torrent:
                     "progress": float,
                     "seed": bool,
                     "up_speed": int
+                    "pid": str
+                    "i2p_socket": bool
+
                 }
         """
         ret = []
@@ -838,9 +841,14 @@ class Torrent:
                 client = 'unknown'
 
             try:
-                country = component.get('Core').geoip_instance.country_code_by_addr(
-                    peer.ip[0]
-                )
+                #if it's an I2P peer use I2P logo as flag
+                #added ip.png to ui/data/pixmaps/flags
+                if peer.flags & peer.i2p_socket:
+                    country = 'ip'
+                else:
+                    country = component.get('Core').geoip_instance.country_code_by_addr(
+                        peer.ip[0]
+                    )
             except AttributeError:
                 country = ''
             else:
@@ -860,6 +868,8 @@ class Torrent:
                     'progress': peer.progress,
                     'seed': peer.flags & peer.seed,
                     'up_speed': peer.payload_up_speed,
+                    'pid': str(peer.pid),
+                    'i2p': peer.flags & peer.i2p_socket
                 }
             )
 

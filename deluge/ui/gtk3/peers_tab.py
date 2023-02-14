@@ -65,7 +65,7 @@ class PeersTab(Tab):
 
         # key is ip address, item is row iter
         self.peers = {}
-
+        self.ip_int = 0
         # Country column
         column = TreeViewColumn()
         render = CellRendererPixbuf()
@@ -253,13 +253,13 @@ class PeersTab(Tab):
     def _on_get_torrent_status(self, status):
         new_ips = set()
         for peer in status['peers']:
-            new_ips.add(peer['ip'])
-            if peer['ip'] in self.peers:
+            new_ips.add(peer['pid'])
+            if peer['pid'] in self.peers:
                 # We already have this peer in our list, so lets just update it
-                row = self.peers[peer['ip']]
+                row = self.peers[peer['pid']]
                 if not self.liststore.iter_is_valid(row):
                     # This iter is invalid, delete it and continue to next iteration
-                    del self.peers[peer['ip']]
+                    del self.peers[peer['pid']]
                     continue
                 values = self.liststore.get(row, 3, 4, 5, 7, 8)
                 if peer['down_speed'] != values[0]:
@@ -282,30 +282,17 @@ class PeersTab(Tab):
                 if peer['progress'] != values[4]:
                     self.liststore.set_value(row, 8, peer['progress'])
             else:
-                # Peer is not in list so we need to add it
-
-                # Create an int IP address for sorting purposes
-                if peer['ip'].count(':') == 1:
-                    # This is an IPv4 address
-                    ip_int = sum(
-                        int(byte) << shift
-                        for byte, shift in zip(
-                            peer['ip'].split(':')[0].split('.'), (24, 16, 8, 0)
-                        )
-                    )
-                    peer_ip = peer['ip']
+                #requires:
+                #https://github.com/arvidn/libtorrent/commit/02884d367b5641136cf9938d27fdb8d685b32c6d
+                if peer['i2p']:
+                    #converting peer-id to int for sorting purposes:
+                    ip_int = int(peer['pid'],16)
+                    #show peer id in place of an useless "0.0.0.0:0"
+                    peer_ip = str(peer['pid']).lstrip('0')
                 else:
-                    # This is an IPv6 address
-                    import binascii
-                    import socket
-
-                    # Split out the :port
-                    ip = ':'.join(peer['ip'].split(':')[:-1])
-                    ip_int = int(
-                        binascii.hexlify(socket.inet_pton(socket.AF_INET6, ip)), 16
-                    )
-                    peer_ip = '[{}]:{}'.format(ip, peer['ip'].split(':')[-1])
-
+                    ip_int = int(peer['pid'],16)
+                    peer_ip = peer['ip']
+                    
                 if peer['seed']:
                     icon = self.seed_pixbuf
                 else:
@@ -325,12 +312,12 @@ class PeersTab(Tab):
                     ]
                 )
 
-                self.peers[peer['ip']] = row
+                self.peers[peer['pid']] = row
 
         # Now we need to remove any ips that were not in status["peers"] list
-        for ip in set(self.peers).difference(new_ips):
-            self.liststore.remove(self.peers[ip])
-            del self.peers[ip]
+        for pid in set(self.peers).difference(new_ips):
+            self.liststore.remove(self.peers[pid])
+            del self.peers[pid]
 
     def clear(self):
         self.liststore.clear()
