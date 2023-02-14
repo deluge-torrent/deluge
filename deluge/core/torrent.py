@@ -869,7 +869,7 @@ class Torrent:
                     'seed': peer.flags & peer.seed,
                     'up_speed': peer.payload_up_speed,
                     'pid': str(peer.pid),
-                    'i2p': peer.flags & peer.i2p_socket
+                    'i2p': peer.flags & peer.i2p_socket,
                 }
             )
 
