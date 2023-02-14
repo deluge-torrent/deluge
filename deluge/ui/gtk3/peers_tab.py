@@ -65,7 +65,6 @@ class PeersTab(Tab):
 
         # key is ip address, item is row iter
         self.peers = {}
-        self.ip_int = 0
         # Country column
         column = TreeViewColumn()
         render = CellRendererPixbuf()
