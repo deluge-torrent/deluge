@@ -1000,7 +1000,6 @@ class Core(component.Component):
         trackers,
         add_to_session,
     ):
-
         log.debug('creating torrent..')
         threading.Thread(
             target=self._create_torrent_thread,

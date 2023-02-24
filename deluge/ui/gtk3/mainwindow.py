@@ -44,7 +44,6 @@ log = logging.getLogger(__name__)
 
 class _GtkBuilderSignalsHolder:
     def connect_signals(self, mapping_or_class):
-
         if isinstance(mapping_or_class, dict):
             for name, handler in mapping_or_class.items():
                 if hasattr(self, name):

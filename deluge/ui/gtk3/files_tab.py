@@ -245,7 +245,7 @@ class FilesTab(Tab):
         if state['sort_id'] is not None and state['sort_order'] is not None:
             self.treestore.set_sort_column_id(state['sort_id'], state['sort_order'])
 
-        for (index, column) in enumerate(self.listview.get_columns()):
+        for index, column in enumerate(self.listview.get_columns()):
             cname = column.get_title()
             if cname in state['columns']:
                 cstate = state['columns'][cname]
@@ -759,7 +759,6 @@ class FilesTab(Tab):
                 fd['path'] = fd['path'].replace(old_folder, new_folder, 1)
 
         if torrent_id == self.torrent_id:
-
             old_split = old_folder.split('/')
             try:
                 old_split.remove('')

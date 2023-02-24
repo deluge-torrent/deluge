@@ -130,7 +130,6 @@ class Popup(BaseWindow, InputKeyHandler):
         BaseWindow.refresh(self)
 
     def calculate_size(self):
-
         if isinstance(self.height_req, float) and 0.0 < self.height_req <= 1.0:
             height = int((self.parent.rows - 2) * self.height_req)
         else:

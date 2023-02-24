@@ -25,7 +25,6 @@ common.disable_new_release_check()
 class TestWebServer(WebServerTestBase, WebServerMockBase):
     @pytest_twisted.inlineCallbacks
     def test_get_torrent_info(self):
-
         agent = Agent(reactor)
 
         self.mock_authentication_ignore(self.deluge_web.auth)

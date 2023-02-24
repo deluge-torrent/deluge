@@ -144,7 +144,6 @@ class SystemTray(component.Component):
 
     def __start(self):
         if self.config['enable_system_tray']:
-
             if self.config['standalone']:
                 try:
                     self.hide_widget_list.remove('menuitem_quitdaemon')
