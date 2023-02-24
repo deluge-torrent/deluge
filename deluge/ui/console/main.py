@@ -18,8 +18,7 @@ from twisted.internet import defer, error, reactor
 import deluge.common
 import deluge.component as component
 from deluge.configmanager import ConfigManager
-from deluge.decorators import overrides
-from deluge.error import DelugeError
+from deluge.decorators import maybe_coroutine, overrides
 from deluge.ui.client import client
 from deluge.ui.console.modes.addtorrents import AddTorrents
 from deluge.ui.console.modes.basemode import TermResizeHandler
@@ -160,82 +159,54 @@ deluge-console.exe "add -p c:\\mytorrents c:\\new.torrent"
 
         wrapper(self.run)
 
-    def quit(self):
+    @maybe_coroutine
+    async def quit(self):
         if client.connected():
+            await client.disconnect()
 
-            def on_disconnect(result):
-                reactor.stop()
+        try:
+            reactor.stop()
+        except error.ReactorNotRunning:
+            pass
 
-            return client.disconnect().addCallback(on_disconnect)
-        else:
-            try:
-                reactor.stop()
-            except error.ReactorNotRunning:
-                pass
-
-    def exec_args(self, options):
+    @maybe_coroutine
+    async def exec_args(self, options):
         """Execute console commands from command line."""
         from deluge.ui.console.cmdline.command import Commander
 
         commander = Commander(self._commands)
-
-        def on_connect(result):
-            def on_components_started(result):
-                def on_started(result):
-                    def do_command(result, cmd):
-                        return commander.do_command(cmd)
-
-                    def exec_command(result, cmd):
-                        return commander.exec_command(cmd)
-
-                    d = defer.succeed(None)
-                    for command in options.parsed_cmds:
-                        if command.command in ('quit', 'exit'):
-                            break
-                        d.addCallback(exec_command, command)
-                    d.addCallback(do_command, 'quit')
-                    return d
-
-                # We need to wait for the rpcs in start() to finish before processing
-                # any of the commands.
-                self.started_deferred.addCallback(on_started)
-                return self.started_deferred
-
-            d = self.start_console()
-            d.addCallback(on_components_started)
-            return d
-
-        def on_connect_fail(reason):
-            if reason.check(DelugeError):
-                rm = reason.getErrorMessage()
+        try:
+            if not self.interactive and options.parsed_cmds[0].command == 'connect':
+                await commander.exec_command(options.parsed_cmds.pop(0))
             else:
-                rm = reason.value.message
+                daemon_options = (
+                    options.daemon_addr,
+                    options.daemon_port,
+                    options.daemon_user,
+                    options.daemon_pass,
+                )
+                log.info(
+                    'Connect: host=%s, port=%s, username=%s',
+                    *daemon_options[0:3],
+                )
+                await client.connect(*daemon_options)
+        except Exception as reason:
             print(
                 'Could not connect to daemon: %s:%s\n %s'
-                % (options.daemon_addr, options.daemon_port, rm)
+                % (options.daemon_addr, options.daemon_port, reason)
             )
             commander.do_command('quit')
 
-        d = None
-        if not self.interactive and options.parsed_cmds[0].command == 'connect':
-            d = commander.exec_command(options.parsed_cmds.pop(0))
-        else:
-            log.info(
-                'connect: host=%s, port=%s, username=%s, password=%s',
-                options.daemon_addr,
-                options.daemon_port,
-                options.daemon_user,
-                options.daemon_pass,
-            )
-            d = client.connect(
-                options.daemon_addr,
-                options.daemon_port,
-                options.daemon_user,
-                options.daemon_pass,
-            )
-        d.addCallback(on_connect)
-        d.addErrback(on_connect_fail)
-        return d
+        await self.start_console()
+        # Wait for RPCs in start() to finish before processing commands.
+        await self.started_deferred
+
+        for cmd in options.parsed_cmds:
+            if cmd.command in ('quit', 'exit'):
+                break
+            await commander.exec_command(cmd)
+
+        commander.do_command('quit')
 
     def run(self, stdscr):
         """This method is called by the curses.wrapper to start the mainloop and screen.
@@ -353,61 +324,51 @@ deluge-console.exe "add -p c:\\mytorrents c:\\new.torrent"
     def is_active_mode(self, mode):
         return mode == self.active_mode
 
-    def start_components(self):
-        def on_started(result):
-            component.pause(
-                [
-                    'TorrentList',
-                    'EventView',
-                    'AddTorrents',
-                    'TorrentDetail',
-                    'Preferences',
-                ]
-            )
+    @maybe_coroutine
+    async def start_components(self):
+        if not self.interactive:
+            return await component.start(['SessionProxy', 'ConsoleUI', 'CoreConfig'])
 
-        if self.interactive:
-            d = component.start().addCallback(on_started)
-        else:
-            d = component.start(['SessionProxy', 'ConsoleUI', 'CoreConfig'])
-        return d
+        await component.start()
+        component.pause(
+            [
+                'TorrentList',
+                'EventView',
+                'AddTorrents',
+                'TorrentDetail',
+                'Preferences',
+            ]
+        )
 
-    def start_console(self):
-        # Maintain a list of (torrent_id, name) for use in tab completion
+    @maybe_coroutine
+    async def start_console(self):
         self.started_deferred = defer.Deferred()
 
-        if not self.initialized:
-            self.initialized = True
-            d = self.start_components()
+        if self.initialized:
+            await component.stop(['SessionProxy'])
+            await component.start(['SessionProxy'])
         else:
+            self.initialized = True
+            await self.start_components()
 
-            def on_stopped(result):
-                return component.start(['SessionProxy'])
+    @maybe_coroutine
+    async def start(self):
+        result = await client.core.get_session_state()
+        # Maintain a list of (torrent_id, name) for use in tab completion
+        self.torrents = []
+        self.events = []
 
-            d = component.stop(['SessionProxy']).addCallback(on_stopped)
-        return d
+        torrents = await client.core.get_torrents_status({'id': result}, ['name'])
+        for torrent_id, status in torrents.items():
+            self.torrents.append((torrent_id, status['name']))
 
-    def start(self):
-        def on_session_state(result):
-            self.torrents = []
-            self.events = []
-
-            def on_torrents_status(torrents):
-                for torrent_id, status in torrents.items():
-                    self.torrents.append((torrent_id, status['name']))
-                self.started_deferred.callback(True)
-
-            client.core.get_torrents_status({'id': result}, ['name']).addCallback(
-                on_torrents_status
-            )
-
-        d = client.core.get_session_state().addCallback(on_session_state)
+        self.started_deferred.callback(True)
 
         # Register event handlers to keep the torrent list up-to-date
         client.register_event_handler('TorrentAddedEvent', self.on_torrent_added_event)
         client.register_event_handler(
             'TorrentRemovedEvent', self.on_torrent_removed_event
         )
-        return d
 
     def on_torrent_added_event(self, event, from_state=False):
         def on_torrent_status(status):
