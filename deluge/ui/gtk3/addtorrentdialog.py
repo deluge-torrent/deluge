@@ -136,6 +136,7 @@ class AddTorrentDialog(component.Component):
         self.torrent_liststore.connect('row-deleted', self.update_dialog_title_count)
 
         self.setup_move_completed_path_chooser()
+        self.setup_hardlink_media_path_chooser()
         self.setup_download_location_path_chooser()
 
         # Get default config values from the core
@@ -153,6 +154,8 @@ class AddTorrentDialog(component.Component):
             'move_completed',
             'move_completed_path',
             'move_completed_paths_list',
+            'hardlink_media',
+            'hardlink_media_path',
             'super_seeding',
         ]
         # self.core_keys += self.move_completed_path_chooser.get_config_keys()
@@ -452,6 +455,12 @@ class AddTorrentDialog(component.Component):
         self.move_completed_path_chooser.set_sensitive(
             self.core_config['move_completed']
         )
+        self.builder.get_object('chk_hardlink_media').set_active(
+            self.core_config['hardlink_media']
+        )
+        self.hardlink_media_path_chooser.set_sensitive(
+            self.core_config['hardlink_media']
+        )
 
     def setup_move_completed_path_chooser(self):
         self.move_completed_hbox = self.builder.get_object(
@@ -462,6 +471,16 @@ class AddTorrentDialog(component.Component):
         )
         self.move_completed_hbox.add(self.move_completed_path_chooser)
         self.move_completed_hbox.show_all()
+
+    def setup_hardlink_media_path_chooser(self):
+        self.hardlink_media_hbox = self.builder.get_object(
+            'hbox_hardlink_media_chooser'
+        )
+        self.hardlink_media_path_chooser = PathChooser(
+            'hardlink_media_paths_list', parent=self.dialog
+        )
+        self.hardlink_media_hbox.add(self.hardlink_media_path_chooser)
+        self.hardlink_media_hbox.show_all()
 
     def setup_download_location_path_chooser(self):
         self.download_location_hbox = self.builder.get_object(
@@ -487,6 +506,10 @@ class AddTorrentDialog(component.Component):
             options['move_completed_path'], cursor_end=True
         )
 
+        self.hardlink_media_path_chooser.set_text(
+            options['hardlink_media_path'], cursor_end=True
+        )
+
         self.builder.get_object('spin_maxdown').set_value(options['max_download_speed'])
         self.builder.get_object('spin_maxup').set_value(options['max_upload_speed'])
         self.builder.get_object('spin_maxconnections').set_value(
@@ -507,6 +530,9 @@ class AddTorrentDialog(component.Component):
         )
         self.builder.get_object('chk_move_completed').set_active(
             options['move_completed']
+        )
+        self.builder.get_object('chk_hardlink_media').set_active(
+            options['hardlink_media']
         )
         self.builder.get_object('chk_super_seeding').set_active(
             options['super_seeding']
@@ -536,11 +562,17 @@ class AddTorrentDialog(component.Component):
         options['move_completed_path'] = decode_bytes(
             self.move_completed_path_chooser.get_text()
         )
+        options['hardlink_media_path'] = decode_bytes(
+            self.hardlink_media_path_chooser.get_text()
+        )
         options['pre_allocate_storage'] = self.builder.get_object(
             'chk_pre_alloc'
         ).get_active()
         options['move_completed'] = self.builder.get_object(
             'chk_move_completed'
+        ).get_active()
+        options['hardlink_media'] = self.builder.get_object(
+            'chk_hardlink_media'
         ).get_active()
         options['max_download_speed'] = self.builder.get_object(
             'spin_maxdown'
@@ -561,6 +593,9 @@ class AddTorrentDialog(component.Component):
         )
         options['move_completed'] = self.builder.get_object(
             'chk_move_completed'
+        ).get_active()
+        options['hardlink_media'] = self.builder.get_object(
+            'chk_hardlink_media'
         ).get_active()
         options['seed_mode'] = self.builder.get_object('chk_seed_mode').get_active()
         options['super_seeding'] = self.builder.get_object(
@@ -623,6 +658,9 @@ class AddTorrentDialog(component.Component):
         )
         self.builder.get_object('chk_move_completed').set_active(
             self.core_config['move_completed']
+        )
+        self.builder.get_object('chk_hardlink_media').set_active(
+            self.core_config['hardlink_media']
         )
         self.builder.get_object('chk_seed_mode').set_active(False)
         self.builder.get_object('chk_super_seeding').set_active(
@@ -970,6 +1008,10 @@ class AddTorrentDialog(component.Component):
     def on_chk_move_completed_toggled(self, widget):
         value = widget.get_active()
         self.move_completed_path_chooser.set_sensitive(value)
+
+    def on_chk_hardlink_media_toggled(self, widget):
+        value = widget.get_active()
+        self.hardlink_media_path_chooser.set_sensitive(value)
 
     def _on_delete_event(self, widget, event):
         self.hide()

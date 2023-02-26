@@ -16,5 +16,7 @@ TORRENT_OPTIONS = {
     'remove_at_ratio': bool,
     'move_completed': bool,
     'move_completed_path': str,
+    'hardlink_media': bool,
+    'hardlink_media_path': str,
     'super_seeding': bool,
 }
