@@ -39,6 +39,10 @@ class InvalidPathError(DelugeError):
     pass
 
 
+class HardLinkNotOnTheSameDeviceError(DelugeError):
+    pass
+
+
 class WrappedException(DelugeError):
     def __init__(self, message, exception_type, traceback):
         super().__init__(message)

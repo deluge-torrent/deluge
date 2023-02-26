@@ -97,6 +97,8 @@ DEFAULT_PREFS = {
     'move_completed_path': deluge.common.get_default_download_dir(),
     'move_completed_paths_list': [],
     'download_location_paths_list': [],
+    'hardlink_media': False,
+    'hardlink_media_path': deluge.common.get_default_download_dir(),
     'path_chooser_show_chooser_button_on_localhost': True,
     'path_chooser_auto_complete_enabled': True,
     'path_chooser_accelerator_string': 'Tab',

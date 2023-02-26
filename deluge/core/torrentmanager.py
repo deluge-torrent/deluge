@@ -93,6 +93,8 @@ class TorrentState:  # pylint: disable=old-style-class
         remove_at_ratio=False,
         move_completed=False,
         move_completed_path=None,
+        hardlink_media=False,
+        hardlink_media_path=None,
         magnet=None,
         owner=None,
         shared=False,
@@ -177,6 +179,9 @@ class TorrentManager(component.Component):
 
         # Keep track of torrents finished but moving storage
         self.waiting_on_finish_moving = []
+
+        # Keep track of torrents finished but hard-linking storage
+        self.waiting_on_finish_hard_linking = []
 
         # Keeps track of resume data
         self.resume_data = {}
@@ -934,6 +939,8 @@ class TorrentManager(component.Component):
                 torrent.options['remove_at_ratio'],
                 torrent.options['move_completed'],
                 torrent.options['move_completed_path'],
+                torrent.options['hardlink_media'],
+                torrent.options['hardlink_media_path'],
                 torrent.magnet,
                 torrent.options['owner'],
                 torrent.options['shared'],

@@ -28,6 +28,7 @@ from deluge.common import decode_bytes
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
 from deluge.decorators import deprecated
+from deluge.error import HardLinkNotOnTheSameDeviceError
 from deluge.event import (
     TorrentFolderRenamedEvent,
     TorrentStateChangedEvent,
@@ -169,6 +170,8 @@ class TorrentOptions(dict):
             'stop_at_ratio': 'stop_seed_at_ratio',
             'stop_ratio': 'stop_seed_ratio',
             'super_seeding': 'super_seeding',
+            'hardlink_media': 'hardlink_media',
+            'hardlink_media_path': 'hardlink_media_path',
         }
         for opt_k, conf_k in options_conf_map.items():
             self[opt_k] = config[conf_k]
@@ -509,6 +512,25 @@ class Torrent:
             move_completed_path (str): The move path.
         """
         self.options['move_completed_path'] = move_completed_path
+
+    def set_hardlink_media(self, hardlink_media):
+        """Set whether to hardline the media files in the torrent
+        when downloading has finished.
+
+        Args:
+            hardlink_media (bool): Hardlink media files of the torrent.
+
+        """
+        self.options['hardlink_media'] = hardlink_media
+
+    def set_hardlink_media_path(self, hardlink_media_path):
+        """Set the path to move torrent to when downloading has finished.
+
+        Args:
+            hardlink_media_path (str):
+             The parent folder path of the hard-linked torrent.
+        """
+        self.options['hardlink_media_path'] = hardlink_media_path
 
     def set_file_priorities(self, file_priorities):
         """Sets the file priotities.
@@ -1116,6 +1138,8 @@ class Torrent:
             ],  # Deprecated: Use move_completed
             'move_completed_path': lambda: self.options['move_completed_path'],
             'move_completed': lambda: self.options['move_completed'],
+            'hardlink_media_path': lambda: self.options['hardlink_media_path'],
+            'hardlink_media': lambda: self.options['hardlink_media'],
             'next_announce': lambda: self.status.next_announce.seconds,
             'num_peers': lambda: self.status.num_peers - self.status.num_seeds,
             'num_seeds': lambda: self.status.num_seeds,
@@ -1276,6 +1300,31 @@ class Torrent:
             return False
         return True
 
+    def add_hardlink(self, dest):
+        pass
+
+    def check_storage_move_valid_for_hardlink(self, dest, raise_error=False):
+        """Check if the dest folder is on the same folder of the current
+        hardlink
+
+        Args:
+            dest (str): The destination folder for the torrent data
+            raise_error: Whether raise error if they are not on the same device
+
+        Returns:
+            bool: True if yes, otherwise False
+        """
+        hardlink_dev = os.stat(self.options['hardlink_media_path']).st_dev
+        dest_dev = os.stat(dest).st_dev
+
+        ret = hardlink_dev == dest_dev
+
+        if not raise_error:
+            return ret
+
+        raise HardLinkNotOnTheSameDeviceError(
+            "Target locate on a different device with the existing hardlink")
+
     def move_storage(self, dest):
         """Move a torrent's storage location
 
@@ -1300,6 +1349,10 @@ class Torrent:
                     ex,
                 )
                 return False
+
+        # todo: we need to check if the dest and current download_location were
+        #  on the same device. If not, existing hardlinks will fail and result in
+        #  a copy? If yes, skip this check
 
         try:
             # lt needs utf8 byte-string. Otherwise if wstrings enabled, unicode string.
