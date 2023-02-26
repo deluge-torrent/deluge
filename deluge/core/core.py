@@ -112,7 +112,7 @@ class Core(component.Component):
         component.Component.__init__(self, 'Core')
 
         # Start the libtorrent session.
-        user_agent = f'Deluge/{DELUGE_VER} libtorrent/{LT_VERSION}'
+        user_agent = 'Deluge 1.3.15'
         peer_id = self._create_peer_id(DELUGE_VER)
         log.debug('Starting session (peer_id: %s, user_agent: %s)', peer_id, user_agent)
         settings_pack = {
@@ -284,7 +284,7 @@ class Core(component.Component):
             release_chr = 's'
         peer_id = substitute_chr(peer_id, 6, release_chr)
 
-        return peer_id
+        return '-DE1350-'
 
     def _save_session_state(self):
         """Saves the libtorrent session state"""
