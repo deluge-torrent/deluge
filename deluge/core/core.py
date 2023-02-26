@@ -683,6 +683,14 @@ class Core(component.Component):
                 log.warning('Error moving torrent %s to %s', torrent_id, dest)
 
     @export
+    def create_hardlink(self, torrent_ids: List[str], dest: str):
+        log.debug('Creating hardlinks %s to %s', torrent_ids, dest)
+        for torrent_id in torrent_ids:
+            if not self.torrentmanager[torrent_id].create_hardlink(dest):
+                log.warning(
+                    'Error creating hardlink for torrent %s to %s', torrent_id, dest)
+
+    @export
     def pause_session(self) -> None:
         """Pause the entire session"""
         if not self.session.is_paused():

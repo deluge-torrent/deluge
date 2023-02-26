@@ -15,3 +15,4 @@ class ACTION:
     QUEUE_DOWN = 'queue_down'
     QUEUE_BOTTOM = 'queue_bottom'
     TORRENT_OPTIONS = 'torrent_options'
+    CREATE_HARDLINK = "create_hardlink"

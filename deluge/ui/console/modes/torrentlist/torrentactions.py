@@ -217,6 +217,36 @@ def torrent_action(action, *args, **kwargs):
         )
         popup.add_text_input('path', 'Enter path to move to:', complete=True)
         mode.push_popup(popup)
+
+    elif action == ACTION.CREATE_HARDLINK:
+
+        def do_create_hardlink(res, **kwargs):
+            if res is None or kwargs.get('close', False):
+                mode.pop_popup()
+                return True
+
+            # todo: this currently did nothing
+            if os.path.exists(res['path']['value']) and not os.path.isdir(
+                res['path']['value']
+            ):
+                mode.report_message(
+                    'Cannot Create Hard Link',
+                    '{!error!}%s exists and is not a directory' % res['path']['value'],
+                )
+            else:
+                log.debug('Moving %s to: %s', torrent_ids, res['path']['value'])
+                client.core.create_hardlink(
+                    torrent_ids, res['path']['value']).addErrback(
+                    action_error, mode
+                )
+
+        popup = InputPopup(
+            mode, 'Create Hard Link', close_cb=do_create_hardlink, border_off_east=1
+        )
+        popup.add_text_input(
+            'path', 'Enter path to create hardlink to:', complete=True)
+        mode.push_popup(popup)
+
     elif action == ACTION.RECHECK:
         log.debug('Rechecking torrents: %s', torrent_ids)
         client.core.force_recheck(torrent_ids).addErrback(action_error, mode)

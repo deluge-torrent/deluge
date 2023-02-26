@@ -46,6 +46,8 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
                 remove_at_ratio: false,
                 move_completed: false,
                 move_completed_path: '',
+                hardlink_media: false,
+                hardlink_media_path: '',
                 private: false,
                 prioritize_first_last: false,
                 super_seeding: false,
@@ -255,6 +257,25 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
             disabled: true,
         });
 
+        this.fields.hardlink_media = this.fieldsets.queue.add({
+            fieldLabel: '',
+            labelSeparator: '',
+            id: 'hardlink_media',
+            boxLabel: _('Hardlink Media:'),
+            colspan: 2,
+            handler: this.onHardlinkMediaChecked,
+            scope: this,
+        });
+
+        this.fields.hardlink_media_path = this.fieldsets.queue.add({
+            xtype: 'textfield',
+            fieldLabel: '',
+            id: 'hardlink_media_path',
+            colspan: 3,
+            bodyStyle: 'margin-left: 20px',
+            width: 180,
+            disabled: true,
+        });
         /*
          * General Options
          */
@@ -394,6 +415,13 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
         this.fields.move_completed_path.focus();
     },
 
+    onHardlinkMediaChecked: function (checkbox, checked) {
+        this.fields.hardlink_media_path.setDisabled(!checked);
+
+        if (!checked) return;
+        this.fields.hardlink_media_path.focus();
+    },
+
     onStopRatioChecked: function (checkbox, checked) {
         this.fields.remove_at_ratio.setDisabled(!checked);
         this.fields.stop_ratio.setDisabled(!checked);
@@ -412,6 +440,9 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
         this.fields.stop_ratio.setDisabled(!stop_at_ratio);
         this.fields.move_completed_path.setDisabled(
             !this.optionsManager.get('move_completed')
+        );
+        this.fields.hardlink_media_path.setDisabled(
+            !this.optionsManager.get('hardlink_media')
         );
     },
 });

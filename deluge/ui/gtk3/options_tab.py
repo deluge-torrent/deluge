@@ -42,6 +42,7 @@ class OptionsTab(Tab):
         self.add_tab_widget('chk_remove_at_ratio', 'active', ['remove_at_ratio'])
         self.add_tab_widget('spin_stop_ratio', 'value', ['stop_ratio'])
         self.add_tab_widget('chk_move_completed', 'active', ['move_completed'])
+        self.add_tab_widget('chk_hardlink_media', 'active', ['hardlink_media'])
         self.add_tab_widget('chk_shared', 'active', ['shared'])
         self.add_tab_widget('summary_owner', 'text', ['owner'])
         self.add_tab_widget('chk_super_seeding', 'active', ['super_seeding'])
@@ -71,6 +72,23 @@ class OptionsTab(Tab):
         )
         self.move_completed_hbox.add(self.move_completed_path_chooser)
         self.move_completed_hbox.show_all()
+
+        self.hardlink_media_path_chooser = PathChooser(
+            'hardlink_media_paths_list', parent=component.get('MainWindow').window
+        )
+        self.hardlink_media_path_chooser.set_sensitive(
+            self.tab_widgets['chk_hardlink_media'].obj.get_active()
+        )
+        self.hardlink_media_path_chooser.connect(
+            'text-changed', self.on_path_chooser_text_changed_event
+        )
+        self.status_keys.append('hardlink_media_path')
+
+        self.hardlink_media_hbox = self.main_builder.get_object(
+            'hbox_hardlink_media_path_chooser'
+        )
+        self.hardlink_media_hbox.add(self.hardlink_media_path_chooser)
+        self.hardlink_media_hbox.show_all()
 
         component.get('MainWindow').connect_signals(self)
 
@@ -161,6 +179,15 @@ class OptionsTab(Tab):
                     text, cursor_end=False, default_text=True
                 )
 
+            if (
+                new_status['hardlink_media_path']
+                != self.prev_status['hardlink_media_path']
+            ):
+                text = new_status['hardlink_media_path']
+                self.hardlink_media_path_chooser.set_text(
+                    text, cursor_end=False, default_text=True
+                )
+
             # Update sensitivity of widgets.
             self.tab_widgets['spin_stop_ratio'].obj.set_sensitive(
                 new_status['stop_at_ratio']
@@ -192,11 +219,19 @@ class OptionsTab(Tab):
         if move_completed_path != self.prev_status['move_completed_path']:
             options['move_completed_path'] = move_completed_path
 
+        hardlink_media_path = self.hardlink_media_path_chooser.get_text()
+        if hardlink_media_path != self.prev_status['hardlink_media_path']:
+            options['hardlink_media_path'] = hardlink_media_path
+
         client.core.set_torrent_options(self.prev_torrent_ids, options)
         self.button_apply.set_sensitive(False)
 
     def on_chk_move_completed_toggled(self, widget):
         self.move_completed_path_chooser.set_sensitive(widget.get_active())
+        self.on_chk_toggled(widget)
+
+    def on_chk_hardlink_media_toggled(self, widget):
+        self.hardlink_media_path_chooser.set_sensitive(widget.get_active())
         self.on_chk_toggled(widget)
 
     def on_chk_stop_at_ratio_toggled(self, widget):

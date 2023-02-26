@@ -1368,6 +1368,54 @@ class Torrent:
         self.update_state()
         return True
 
+    def create_hardlink(self, dest):
+        """Create hardlink to a torrent's storage location
+
+        Args:
+            dest (str): The destination folder for the torrent data
+
+        Returns:
+            bool: True if successful, otherwise False
+
+        """
+        dest = decode_bytes(dest)
+
+        if not os.path.exists(dest):
+            try:
+                os.makedirs(dest)
+            except OSError as ex:
+                log.error(
+                    'Could not move storage for torrent %s since %s does '
+                    'not exist and could not create the directory: %s',
+                    self.torrent_id,
+                    dest,
+                    ex,
+                )
+                return False
+
+        # todo: we need to check if the dest and current download_location were
+        #  on the same device. If not, existing hardlinks will fail and result in
+        #  a copy? If yes, skip this check
+
+        # try:
+        #     # lt needs utf8 byte-string. Otherwise if wstrings enabled, unicode string.
+        #     # Keyword argument flags=2 (dont_replace) dont overwrite target files but delete source.
+        #     try:
+        #         self.handle.move_storage(dest.encode('utf8'), flags=2)
+        #     except TypeError:
+        #         self.handle.move_storage(dest, flags=2)
+        # except RuntimeError as ex:
+        #     log.error('Error calling libtorrent move_storage: %s', ex)
+        #     return False
+        # self.moving_storage_dest_path = dest
+
+        # todo: implement the logic
+
+        log.info("------------This is where create_hardlink should do something")
+
+        self.update_state()
+        return True
+
     def save_resume_data(self, flush_disk_cache=False):
         """Signals libtorrent to build resume data for this torrent.
 

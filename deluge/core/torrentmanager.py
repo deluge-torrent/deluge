@@ -105,6 +105,12 @@ class TorrentState:  # pylint: disable=old-style-class
         for key, value in locals().items():
             if key == 'self':
                 continue
+            elif key == "hardlink_media":
+                log.info(
+                    '---------------hardlink_media: %s---------------' % value)
+            elif key == "hardlink_media_path":
+                log.info(
+                    '---------------hardlink_media_path: %s---------------' % value)
             setattr(self, key, value)
 
     def __eq__(self, other):
@@ -1428,6 +1434,8 @@ class TorrentManager(component.Component):
             self.waiting_on_finish_moving.remove(torrent_id)
             torrent.is_finished = True
             component.get('EventManager').emit(TorrentFinishedEvent(torrent_id))
+
+    # todo: hardlink media need the same actions
 
     def on_alert_storage_moved_failed(self, alert):
         """Alert handler for libtorrent storage_moved_failed_alert"""
