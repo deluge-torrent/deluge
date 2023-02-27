@@ -717,6 +717,27 @@ class TorrentManager(component.Component):
 
         d.callback(torrent.torrent_id)
 
+    @staticmethod
+    def remove_empty_folder(folder_full_path):
+        try:
+            if not os.listdir(folder_full_path):
+                os.removedirs(folder_full_path)
+                log.debug('Removed Empty Folder %s', folder_full_path)
+            else:
+                for root, dirs, dummy_files in os.walk(
+                        folder_full_path, topdown=False):
+                    for name in dirs:
+                        try:
+                            os.removedirs(os.path.join(root, name))
+                            log.debug(
+                                'Removed Empty Folder %s', os.path.join(root, name)
+                            )
+                        except OSError as ex:
+                            log.debug(ex)
+
+        except OSError as ex:
+            log.debug('Cannot Remove Folder: %s', ex)
+
     def remove(self, torrent_id, remove_data=False,
                save_state=True, remove_hard_links=False):
         """Remove a torrent from the session.
@@ -752,6 +773,13 @@ class TorrentManager(component.Component):
         if remove_hard_links:
             hard_links = torrent.find_hard_linked_path()
 
+        hard_link_folder = None
+        if hard_links:
+            hard_link_parent = os.path.join(
+                torrent.options["hardlink_media_path"], torrent.get_name())
+            if os.path.isdir(hard_link_parent):
+                hard_link_folder = hard_link_parent
+
         try:
             self.session.remove_torrent(torrent.handle, 1 if remove_data else 0)
         except RuntimeError as ex:
@@ -764,6 +792,11 @@ class TorrentManager(component.Component):
                 log.info('Hardlink file %s removed.', _path)
             except OSError as ex:
                 log.warning('Hardlink file %s does not exist.', _path)
+
+        if hard_link_folder:
+            # we can not use torrent.remove_empty_folders because
+            # the torrent does not exist any longer
+            self.remove_empty_folder(hard_link_folder)
 
         # Remove fastresume data if it is exists
         self.resume_data.pop(torrent_id, None)

@@ -1371,8 +1371,10 @@ class Torrent:
         return True
 
     def find_hard_linked_path(self):
-        hardlink_media_path = self.options['hardlink_media_path']
+        if not self.options["has_hardlinks"]:
+            return []
 
+        hardlink_media_path = self.options['hardlink_media_path']
         log.info("hardlink_media_path is %s", hardlink_media_path)
 
         if not hardlink_media_path:
@@ -1383,10 +1385,7 @@ class Torrent:
 
         download_location = self.options['download_location']
 
-        log.info("download_location is %s", download_location)
-
         source = os.path.join(download_location, self.get_name())
-
         log.info("source is %s", source)
 
         if os.path.isfile(source):
@@ -1394,7 +1393,6 @@ class Torrent:
                 return []
 
             inode_number = os.stat(source).st_ino
-
             log.info("inode_number is %s", inode_number)
 
             _files = [
