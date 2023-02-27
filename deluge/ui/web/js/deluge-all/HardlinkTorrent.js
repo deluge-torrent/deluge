@@ -45,7 +45,7 @@ Deluge.HardlinkMedia = Ext.extend(Ext.Window, {
         });
 
         this.moveLocation = this.form.add({
-            fieldLabel: _('Download Folder'),
+            fieldLabel: _('Hardlink To Folder'),
             name: 'location',
             width: 240,
         });

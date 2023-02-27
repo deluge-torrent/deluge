@@ -171,6 +171,7 @@ class TorrentOptions(dict):
             'stop_at_ratio': 'stop_seed_at_ratio',
             'stop_ratio': 'stop_seed_ratio',
             'super_seeding': 'super_seeding',
+            'has_hardlinks': 'has_hardlinks',
             'hardlink_media': 'hardlink_media',
             'hardlink_media_path': 'hardlink_media_path',
         }
@@ -1139,8 +1140,6 @@ class Torrent:
             ],  # Deprecated: Use move_completed
             'move_completed_path': lambda: self.options['move_completed_path'],
             'move_completed': lambda: self.options['move_completed'],
-            'hardlink_media_path': lambda: self.options['hardlink_media_path'],
-            'hardlink_media': lambda: self.options['hardlink_media'],
             'next_announce': lambda: self.status.next_announce.seconds,
             'num_peers': lambda: self.status.num_peers - self.status.num_seeds,
             'num_seeds': lambda: self.status.num_seeds,
@@ -1149,6 +1148,11 @@ class Torrent:
             'prioritize_first_last': lambda: self.options[
                 'prioritize_first_last_pieces'
             ],
+            # Added options
+            'hardlink_media_path': lambda: self.options['hardlink_media_path'],
+            'hardlink_media': lambda: self.options['hardlink_media'],
+            'has_hardlinks': lambda: self.options['has_hardlinks'],
+
             # Deprecated: Use prioritize_first_last_pieces
             'prioritize_first_last_pieces': lambda: self.options[
                 'prioritize_first_last_pieces'
@@ -1430,7 +1434,7 @@ class Torrent:
                 if (_inode in inodes_dict
                         and os.path.abspath(file_path)
                         != os.path.abspath(inodes_dict[_inode])):
-                    hardlink_media_path.append(file_path)
+                    hard_linked_files.append(file_path)
 
         return hard_linked_files
 
@@ -1444,6 +1448,28 @@ class Torrent:
             bool: True if successful, otherwise False
 
         """
+
+        if not self.status.is_finished:
+            update_state_kwargs = {}
+
+            if dest != self.options["hardlink_media_path"]:
+                update_state_kwargs["hardlink_media"] = True
+                update_state_kwargs["hardlink_media_path"] = dest
+
+            assert not self.options["has_hardlinks"], "---%s-should not has hardlinks" % self.torrent_id  # noqa
+
+            if update_state_kwargs:
+                self.set_options(update_state_kwargs)
+
+            log.error(
+                'Could not create hardlinks for torrent %s since %s is '
+                'not finished',
+                self.torrent_id,
+                dest,
+            )
+
+            return False
+
         dest = decode_bytes(dest)
 
         if not os.path.exists(dest):
@@ -1486,6 +1512,11 @@ class Torrent:
             except RuntimeError as ex:
                 log.error('Error create_hardlink of a folder: %s', ex)
                 return False
+
+        self.set_options(
+            {"has_hardlinks": True,
+             "hardlink_media": True,
+             "hardlink_media_path": dest})
 
         self.update_state()
         return True

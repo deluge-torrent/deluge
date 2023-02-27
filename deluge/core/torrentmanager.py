@@ -187,6 +187,7 @@ class TorrentManager(component.Component):
         self.waiting_on_finish_moving = []
 
         # Keep track of torrents finished but hard-linking storage
+        # todo: do we need to wait for this?
         self.waiting_on_finish_hard_linking = []
 
         # Keeps track of resume data
@@ -1328,6 +1329,12 @@ class TorrentManager(component.Component):
         else:
             torrent.is_finished = True
 
+        if torrent.is_finished:
+            if (not torrent.options["has_hardlinks"]
+                    and (torrent.options["hardlink_media"]
+                         and torrent.options["hardlink_media_path"])):
+                torrent.create_hardlink(torrent.options["hardlink_media_path"])
+
         # Torrent is no longer part of the queue
         try:
             self.queued_torrents.remove(torrent_id)
@@ -1448,7 +1455,10 @@ class TorrentManager(component.Component):
             torrent.is_finished = True
             component.get('EventManager').emit(TorrentFinishedEvent(torrent_id))
 
-    # todo: hardlink media need the same actions
+            # post move action: create hardlinks
+            if (torrent.options["hardlink_media"]
+                    and torrent.options["hardlink_media_path"]):
+                torrent.create_hardlink(torrent.options["hardlink_media_path"])
 
     def on_alert_storage_moved_failed(self, alert):
         """Alert handler for libtorrent storage_moved_failed_alert"""

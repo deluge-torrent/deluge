@@ -225,7 +225,6 @@ def torrent_action(action, *args, **kwargs):
                 mode.pop_popup()
                 return True
 
-            # todo: this currently did nothing
             if os.path.exists(res['path']['value']) and not os.path.isdir(
                 res['path']['value']
             ):
@@ -234,7 +233,8 @@ def torrent_action(action, *args, **kwargs):
                     '{!error!}%s exists and is not a directory' % res['path']['value'],
                 )
             else:
-                log.debug('Moving %s to: %s', torrent_ids, res['path']['value'])
+                log.debug('Creatng Hard Link: %s to: %s',
+                          torrent_ids, res['path']['value'])
                 client.core.create_hardlink(
                     torrent_ids, res['path']['value']).addErrback(
                     action_error, mode
