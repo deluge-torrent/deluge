@@ -365,27 +365,23 @@ deluge-console.exe "add -p c:\\mytorrents c:\\new.torrent"
         self.started_deferred.callback(True)
 
         # Register event handlers to keep the torrent list up-to-date
-        client.register_event_handler('TorrentAddedEvent', self.on_torrent_added_event)
-        client.register_event_handler(
-            'TorrentRemovedEvent', self.on_torrent_removed_event
-        )
+        client.register_event_handler('TorrentAddedEvent', self.on_torrent_added)
+        client.register_event_handler('TorrentRemovedEvent', self.on_torrent_removed)
 
-    def on_torrent_added_event(self, event, from_state=False):
-        def on_torrent_status(status):
-            self.torrents.append((event, status['name']))
+    @defer.inlineCallbacks
+    def on_torrent_added(self, event, from_state=False):
+        status = yield client.core.get_torrent_status(event, ['name'])
+        self.torrents.append((event, status['name']))
 
-        client.core.get_torrent_status(event, ['name']).addCallback(on_torrent_status)
-
-    def on_torrent_removed_event(self, event):
+    def on_torrent_removed(self, event):
         for index, (tid, name) in enumerate(self.torrents):
             if event == tid:
                 del self.torrents[index]
 
     def match_torrents(self, strings):
-        torrent_ids = []
-        for s in strings:
-            torrent_ids.extend(self.match_torrent(s))
-        return list(set(torrent_ids))
+        return list(
+            {torrent for string in strings for torrent in self.match_torrent(string)}
+        )
 
     def match_torrent(self, string):
         """
