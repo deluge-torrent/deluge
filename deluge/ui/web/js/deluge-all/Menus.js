@@ -43,6 +43,9 @@ deluge.menus = {
             case 'move':
                 deluge.moveStorage.show(ids);
                 break;
+            case 'hardlink':
+                deluge.hardlinkMedia.show(ids);
+                break;
         }
     },
 };
@@ -358,6 +361,14 @@ deluge.menus.torrent = new Ext.menu.Menu({
             handler: deluge.menus.onTorrentActionShow,
             scope: deluge.menus,
         },
+        {
+            torrentAction: 'hardlink',
+            text: _('Hardlink Torrent'),
+            iconCls: 'icon-move',
+            handler: deluge.menus.onTorrentActionShow,
+            scope: deluge.menus,
+        },
+
     ],
 });
 

@@ -398,6 +398,55 @@ class MenuBar(component.Component):
         self.move_storage_dialog.connect('response', on_dialog_response_event)
         self.move_storage_dialog.show()
 
+    def on_menuitem_hardlink_activate(self, data=None):
+        log.debug('on_menuitem_hardlink_activate')
+        component.get('SessionProxy').get_torrent_status(
+            component.get('TorrentView').get_selected_torrent(),
+            ['hardlink_media_path']
+        ).addCallback(self.show_hardlink_media_dialog)
+
+    def show_hardlink_media_dialog(self, status):
+        log.debug('show_hardlink_media_dialog')
+        builder = Gtk.Builder()
+        builder.add_from_file(
+            deluge.common.resource_filename(
+                __package__, os.path.join('glade', 'hardlink_media_dialog.ui')
+            )
+        )
+        # Keep it referenced:
+        #  https://bugzilla.gnome.org/show_bug.cgi?id=546802
+        self.hardlink_media_dialog = builder.get_object('hardlink_media_dialog')
+        self.hardlink_media_dialog.set_transient_for(self.mainwindow.window)
+        self.hardlink_media_dialog_hbox = builder.get_object('hbox_entry')
+        self.hardlink_media_path_chooser = PathChooser(
+            'hardlink_media_paths_list', self.hardlink_media_dialog
+        )
+        self.hardlink_media_dialog_hbox.add(self.hardlink_media_path_chooser)
+        self.hardlink_media_dialog_hbox.show_all()
+        self.hardlink_media_path_chooser.set_text(status['hardlink_media_path'])
+
+        def on_dialog_response_event(widget, response_id):
+            def on_core_result(result):
+                # Delete references
+                self.hardlink_media_dialog.hide()
+                del self.hardlink_media_dialog
+                del self.hardlink_media_dialog_hbox
+
+            if response_id == Gtk.ResponseType.CANCEL:
+                on_core_result(None)
+
+            if response_id == Gtk.ResponseType.OK:
+                log.debug(
+                    'Moving torrents to %s', self.hardlink_media_path_chooser.get_text()
+                )
+                path = self.hardlink_media_path_chooser.get_text()
+                client.core.hardlink_media(
+                    component.get('TorrentView').get_selected_torrents(), path
+                ).addCallback(on_core_result)
+
+        self.hardlink_media_dialog.connect('response', on_dialog_response_event)
+        self.hardlink_media_dialog.show()
+
     def on_menuitem_queue_top_activate(self, value):
         log.debug('on_menuitem_queue_top_activate')
         client.core.queue_top(component.get('TorrentView').get_selected_torrents())
