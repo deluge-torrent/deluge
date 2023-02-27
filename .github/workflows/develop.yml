@@ -1,0 +1,34 @@
+name: BUILD REMOTE DEVELOP DOCKER
+
+on:
+  push:
+    branches:
+      - devel
+    paths:
+      - '!README.md'
+      - '**/**'
+  pull_request:
+    paths:
+      - '!README.md'
+      - '**/**'
+  workflow_dispatch:
+
+
+jobs:
+  trigger-remote-build-image:
+    runs-on: ubuntu-latest
+
+    steps:
+      # ref: https://github.com/orgs/community/discussions/26323#discussioncomment-3343871
+      - uses: actions/github-script@v6
+        name: Trigger remote actions
+        if: github.ref == 'refs/heads/devel'
+        with:
+          github-token: ${{ secrets.MY_TOKEN }}
+          script: |
+            await github.rest.actions.createWorkflowDispatch({
+              owner: 'dzhuang',
+              repo: 'deluge-alpine-build',
+              workflow_id: 'develop.yml',
+              ref: 'devel'
+            })
