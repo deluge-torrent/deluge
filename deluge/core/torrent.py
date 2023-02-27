@@ -15,6 +15,7 @@ Attributes:
 
 import logging
 import os
+import shutil
 import socket
 import time
 from typing import Optional
@@ -1397,19 +1398,14 @@ class Torrent:
         #  on the same device. If not, existing hardlinks will fail and result in
         #  a copy? If yes, skip this check
 
-        # try:
-        #     # lt needs utf8 byte-string. Otherwise if wstrings enabled, unicode string.
-        #     # Keyword argument flags=2 (dont_replace) dont overwrite target files but delete source.
-        #     try:
-        #         self.handle.move_storage(dest.encode('utf8'), flags=2)
-        #     except TypeError:
-        #         self.handle.move_storage(dest, flags=2)
-        # except RuntimeError as ex:
-        #     log.error('Error calling libtorrent move_storage: %s', ex)
-        #     return False
-        # self.moving_storage_dest_path = dest
-
-        # todo: implement the logic
+        try:
+            shutil.copytree(
+                self.options['download_location'],
+                dest, copy_function=os.link)
+        except RuntimeError as ex:
+            log.error('Error create_hardlink: %s', ex)
+            return False
+        self.moving_storage_dest_path = dest
 
         log.info("------------This is where create_hardlink should do something")
 
