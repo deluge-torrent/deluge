@@ -1398,16 +1398,29 @@ class Torrent:
         #  on the same device. If not, existing hardlinks will fail and result in
         #  a copy? If yes, skip this check
 
-        try:
-            shutil.copytree(
-                self.options['download_location'],
-                dest, copy_function=os.link)
-        except RuntimeError as ex:
-            log.error('Error create_hardlink: %s', ex)
-            return False
-        self.moving_storage_dest_path = dest
+        download_location = self.options['download_location']
+        source = os.path.join(download_location, self.get_name())
 
-        log.info("------------This is where create_hardlink should do something")
+        log.info('create_hardlink: from %s to %s', source, dest)
+
+        target = os.path.join(dest, os.path.split(source)[1])
+
+        if os.path.isfile(source):
+            try:
+                os.link(source, target)
+            except RuntimeError as ex:
+                log.error('Error create_hardlink of a file: %s', ex)
+                return False
+            finally:
+                log.info('ino number of source and target: %s, %s',
+                         os.stat(source).st_ino, os.stat(target).st_ino)
+
+        else:
+            try:
+                shutil.copytree(source, target, copy_function=os.link)
+            except RuntimeError as ex:
+                log.error('Error create_hardlink of a folder: %s', ex)
+                return False
 
         self.update_state()
         return True
