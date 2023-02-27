@@ -113,8 +113,12 @@ TORRENT_DATA_FIELD = {
         'status': ['hardlink_media'],
     },
     'hardlink_media_path': {
-        'name': _('hardlink Media To Path'),
+        'name': _('Hardlink Media To Path'),
         'status': ['hardlink_media_path'],
+    },
+    'hardlink_video_files_only': {
+        'name': _('Hardlink Video Files Only'),
+        'status': ['hardlink_video_files_only'],
     },
     'owner': {'name': _('Owner'), 'status': ['owner']},
     'pieces': {'name': _('Pieces'), 'status': ['num_pieces', 'piece_length']},

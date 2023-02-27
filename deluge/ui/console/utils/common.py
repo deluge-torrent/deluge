@@ -18,5 +18,6 @@ TORRENT_OPTIONS = {
     'move_completed_path': str,
     'hardlink_media': bool,
     'hardlink_media_path': str,
+    'hardlink_video_files_only': bool,
     'super_seeding': bool,
 }
