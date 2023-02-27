@@ -562,12 +562,14 @@ class Core(component.Component):
         return self.torrentmanager.add(magnet=uri, options=options)
 
     @export
-    def remove_torrent(self, torrent_id: str, remove_data: bool) -> bool:
+    def remove_torrent(self, torrent_id: str, remove_data: bool,
+                       remove_hard_links: bool = False) -> bool:
         """Removes a single torrent from the session.
 
         Args:
             torrent_id: The torrent ID to remove.
             remove_data: If True, also remove the downloaded data.
+            remove_hard_links: If True, also remove hardlinks.
 
         Returns:
             True if removed successfully.
@@ -576,17 +578,19 @@ class Core(component.Component):
              InvalidTorrentError: If the torrent ID does not exist in the session.
         """
         log.debug('Removing torrent %s from the core.', torrent_id)
-        return self.torrentmanager.remove(torrent_id, remove_data)
+        return self.torrentmanager.remove(torrent_id, remove_data, remove_hard_links)
 
     @export
     def remove_torrents(
-        self, torrent_ids: List[str], remove_data: bool
+        self, torrent_ids: List[str], remove_data: bool,
+            remove_hard_links: bool = False
     ) -> 'defer.Deferred[List[Tuple[str, str]]]':
         """Remove multiple torrents from the session.
 
         Args:
             torrent_ids: The torrent IDs to remove.
             remove_data: If True, also remove the downloaded data.
+            remove_hard_links: If True, also remove the hardlink data.
 
         Returns:
             An empty list if no errors occurred otherwise the list contains
@@ -601,7 +605,8 @@ class Core(component.Component):
             for torrent_id in torrent_ids:
                 try:
                     self.torrentmanager.remove(
-                        torrent_id, remove_data=remove_data, save_state=False
+                        torrent_id, remove_data=remove_data, save_state=False,
+                        remove_hard_links=remove_hard_links
                     )
                 except InvalidTorrentError as ex:
                     errors.append((torrent_id, str(ex)))

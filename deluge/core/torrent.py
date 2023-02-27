@@ -1301,9 +1301,6 @@ class Torrent:
             return False
         return True
 
-    def add_hardlink(self, dest):
-        pass
-
     def check_storage_move_valid_for_hardlink(self, dest, raise_error=False):
         """Check if the dest folder is on the same folder of the current
         hardlink
@@ -1368,6 +1365,74 @@ class Torrent:
         self.moving_storage_dest_path = dest
         self.update_state()
         return True
+
+    def find_hard_linked_path(self):
+        hardlink_media_path = self.options['hardlink_media_path']
+
+        log.info("hardlink_media_path is %s", hardlink_media_path)
+
+        if not hardlink_media_path:
+            return []
+
+        if not os.path.isdir(hardlink_media_path):
+            return []
+
+        download_location = self.options['download_location']
+
+        log.info("download_location is %s", download_location)
+
+        source = os.path.join(download_location, self.get_name())
+
+        log.info("source is %s", source)
+
+        if os.path.isfile(source):
+            if os.stat(source).st_nlink == 1:
+                return []
+
+            inode_number = os.stat(source).st_ino
+
+            log.info("inode_number is %s", inode_number)
+
+            _files = [
+                os.path.join(hardlink_media_path, f)
+                for f in os.listdir(hardlink_media_path)
+                if os.path.isfile(os.path.join(hardlink_media_path, f))]
+
+            log.info("_files are %s", ",".join(_files))
+
+            for _f in _files:
+                # This include the source file it self
+                log.info("inode number of %s is %s", _f, os.stat(_f).st_ino)
+                if os.stat(_f).st_ino == inode_number:
+                    return [_f]
+
+            return []
+
+        hardlink_media_folder = os.path.join(hardlink_media_path, self.get_name())
+
+        if not os.path.isdir(hardlink_media_folder):
+            return []
+
+        inodes_dict = {}
+
+        hard_linked_files = []
+
+        for root, dirs, files in os.walk(source):
+            for filename in files:
+                file_path = os.path.join(root, filename)
+                if os.stat(file_path).st_nlink > 1:
+                    inodes_dict[os.stat(file_path).st_ino] = file_path
+
+        for root, dirs, files in os.walk(hardlink_media_folder):
+            for filename in files:
+                file_path = os.path.join(root, filename)
+                _inode = os.stat(file_path).st_ino
+                if (_inode in inodes_dict
+                        and os.path.abspath(file_path)
+                        != os.path.abspath(inodes_dict[_inode])):
+                    hardlink_media_path.append(file_path)
+
+        return hard_linked_files
 
     def create_hardlink(self, dest):
         """Create hardlink to a torrent's storage location

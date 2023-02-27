@@ -30,12 +30,13 @@ Deluge.RemoveWindow = Ext.extend(Ext.Window, {
     initComponent: function () {
         Deluge.RemoveWindow.superclass.initComponent.call(this);
         this.addButton(_('Cancel'), this.onCancel, this);
-        this.addButton(_('Remove With Data'), this.onRemoveData, this);
+        this.addButton(_('Remove With Data While Keep Hardlinks'), this.onRemoveData, this);
+        this.addButton(_('Remove All'), this.onRemoveAll, this);
         this.addButton(_('Remove Torrent'), this.onRemove, this);
     },
 
-    remove: function (removeData) {
-        deluge.client.core.remove_torrents(this.torrentIds, removeData, {
+    remove: function (removeData, removeHardLinks) {
+        deluge.client.core.remove_torrents(this.torrentIds, removeData, removeHardLinks, {
             success: function (result) {
                 if (result == true) {
                     console.log(
@@ -60,11 +61,15 @@ Deluge.RemoveWindow = Ext.extend(Ext.Window, {
     },
 
     onRemove: function () {
-        this.remove(false);
+        this.remove(false, false);
     },
 
     onRemoveData: function () {
-        this.remove(true);
+        this.remove(true, false);
+    },
+
+    onRemoveAll: function () {
+        this.remove(true, true);
     },
 
     onRemoved: function (torrentIds) {

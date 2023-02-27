@@ -716,13 +716,15 @@ class TorrentManager(component.Component):
 
         d.callback(torrent.torrent_id)
 
-    def remove(self, torrent_id, remove_data=False, save_state=True):
+    def remove(self, torrent_id, remove_data=False,
+               save_state=True, remove_hard_links=False):
         """Remove a torrent from the session.
 
         Args:
             torrent_id (str): The torrent ID to remove.
             remove_data (bool, optional): If True, remove the downloaded data, defaults to False.
             save_state (bool, optional): If True, save the session state after removal, defaults to True.
+            remove_hard_links(bool, optional): If True, remove the hard-linked assets.
 
         Returns:
             bool: True if removed successfully, False if not.
@@ -745,11 +747,22 @@ class TorrentManager(component.Component):
         # Emit the signal to the clients
         component.get('EventManager').emit(PreTorrentRemovedEvent(torrent_id))
 
+        hard_links = []
+        if remove_hard_links:
+            hard_links = torrent.find_hard_linked_path()
+
         try:
             self.session.remove_torrent(torrent.handle, 1 if remove_data else 0)
         except RuntimeError as ex:
             log.warning('Error removing torrent: %s', ex)
             return False
+
+        for _path in hard_links:
+            try:
+                os.remove(_path)
+                log.info('Hardlink file %s removed.', _path)
+            except OSError as ex:
+                log.warning('Hardlink file %s does not exist.', _path)
 
         # Remove fastresume data if it is exists
         self.resume_data.pop(torrent_id, None)
