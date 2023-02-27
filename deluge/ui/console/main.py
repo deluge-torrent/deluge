@@ -28,6 +28,7 @@ from deluge.ui.console.modes.preferences import Preferences
 from deluge.ui.console.modes.torrentdetail import TorrentDetail
 from deluge.ui.console.modes.torrentlist.torrentlist import TorrentList
 from deluge.ui.console.utils import colors
+from deluge.ui.console.utils.config import migrate_1_to_2
 from deluge.ui.console.widgets import StatusBars
 from deluge.ui.coreconfig import CoreConfig
 from deluge.ui.sessionproxy import SessionProxy
@@ -222,7 +223,7 @@ deluge-console.exe "add -p c:\\mytorrents c:\\new.torrent"
         self.config = ConfigManager(
             'console.conf', defaults=DEFAULT_CONSOLE_PREFS, file_version=2
         )
-        self.config.run_converter((0, 1), 2, self._migrate_config_1_to_2)
+        self.config.run_converter((0, 1), 2, migrate_1_to_2)
 
         self.statusbars = StatusBars()
         from deluge.ui.console.modes.connectionmanager import ConnectionManager
@@ -467,121 +468,3 @@ deluge-console.exe "add -p c:\\mytorrents c:\\new.torrent"
                 self.events.append(s)
         else:
             print(colors.strip_colors(s))
-
-    def _migrate_config_1_to_2(self, config):
-        """Create better structure by moving most settings out of dict root
-        and into sub categories. Some keys are also renamed to be consistent
-        with other UIs.
-        """
-
-        def move_key(source, dest, source_key, dest_key=None):
-            if dest_key is None:
-                dest_key = source_key
-            dest[dest_key] = source[source_key]
-            del source[source_key]
-
-        # These are moved to 'torrentview' sub dict
-        for k in [
-            'sort_primary',
-            'sort_secondary',
-            'move_selection',
-            'separate_complete',
-        ]:
-            move_key(config, config['torrentview'], k)
-
-        # These are moved to 'addtorrents' sub dict
-        for k in [
-            'show_misc_files',
-            'show_hidden_folders',
-            'sort_column',
-            'reverse_sort',
-            'last_path',
-        ]:
-            move_key(config, config['addtorrents'], 'addtorrents_%s' % k, dest_key=k)
-
-        # These are moved to 'cmdline' sub dict
-        for k in [
-            'ignore_duplicate_lines',
-            'torrents_per_tab_press',
-            'third_tab_lists_all',
-        ]:
-            move_key(config, config['cmdline'], k)
-
-        move_key(
-            config,
-            config['cmdline'],
-            'save_legacy_history',
-            dest_key='save_command_history',
-        )
-
-        # Add key for localization
-        config['language'] = DEFAULT_CONSOLE_PREFS['language']
-
-        # Migrate column settings
-        columns = [
-            'queue',
-            'size',
-            'state',
-            'progress',
-            'seeds',
-            'peers',
-            'downspeed',
-            'upspeed',
-            'eta',
-            'ratio',
-            'avail',
-            'added',
-            'tracker',
-            'savepath',
-            'downloaded',
-            'uploaded',
-            'remaining',
-            'owner',
-            'downloading_time',
-            'seeding_time',
-            'completed',
-            'seeds_peers_ratio',
-            'complete_seen',
-            'down_limit',
-            'up_limit',
-            'shared',
-            'name',
-        ]
-        column_name_mapping = {
-            'downspeed': 'download_speed',
-            'upspeed': 'upload_speed',
-            'added': 'time_added',
-            'savepath': 'download_location',
-            'completed': 'completed_time',
-            'complete_seen': 'last_seen_complete',
-            'down_limit': 'max_download_speed',
-            'up_limit': 'max_upload_speed',
-            'downloading_time': 'active_time',
-        }
-
-        from deluge.ui.console.modes.torrentlist.torrentview import default_columns
-
-        # These are moved to 'torrentview.columns' sub dict
-        for k in columns:
-            column_name = column_name_mapping.get(k, k)
-            config['torrentview']['columns'][column_name] = {}
-            if k == 'name':
-                config['torrentview']['columns'][column_name]['visible'] = True
-            else:
-                move_key(
-                    config,
-                    config['torrentview']['columns'][column_name],
-                    'show_%s' % k,
-                    dest_key='visible',
-                )
-            move_key(
-                config,
-                config['torrentview']['columns'][column_name],
-                '%s_width' % k,
-                dest_key='width',
-            )
-            config['torrentview']['columns'][column_name]['order'] = default_columns[
-                column_name
-            ]['order']
-
-        return config
