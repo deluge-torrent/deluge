@@ -15,7 +15,7 @@ Ext.ns('Deluge.add');
  */
 Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
     title: _('Options'),
-    height: 190,
+    height: 170,
     border: false,
     bodyStyle: 'padding: 5px',
     disabled: true,

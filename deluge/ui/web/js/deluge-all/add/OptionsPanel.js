@@ -16,7 +16,7 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
     region: 'south',
     border: false,
     activeTab: 0,
-    height: 265,
+    height: 305,
 
     initComponent: function () {
         Deluge.add.OptionsPanel.superclass.initComponent.call(this);
