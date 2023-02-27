@@ -66,6 +66,15 @@ Deluge.preferences.Downloads = Ext.extend(Ext.FormPanel, {
         optMan.bind('move_completed_path', field.input);
 
         field = fieldset.add({
+            name: 'hardlink_media_path',
+            fieldLabel: _('Hardlink media to:'),
+            labelSeparator: '',
+            width: 280,
+        });
+        optMan.bind('hardlink_media', field.toggle);
+        optMan.bind('hardlink_media_path', field.input);
+
+        field = fieldset.add({
             name: 'torrentfiles_location',
             fieldLabel: _('Copy of .torrent files to:'),
             labelSeparator: '',

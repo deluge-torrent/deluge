@@ -15,7 +15,7 @@ Ext.ns('Deluge.add');
  */
 Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
     title: _('Options'),
-    height: 170,
+    height: 190,
     border: false,
     bodyStyle: 'padding: 5px',
     disabled: true,
@@ -62,6 +62,24 @@ Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
         });
         this.optionsManager.bind('move_completed', field.toggle);
         this.optionsManager.bind('move_completed_path', field.input);
+
+        var fieldset = this.add({
+            xtype: 'fieldset',
+            title: _('Hardlink Media Folder'),
+            border: false,
+            autoHeight: true,
+            defaultType: 'togglefield',
+            labelWidth: 1,
+            fieldLabel: '',
+            style: 'padding: 5px 0; margin-bottom: 0;',
+        });
+        var field = fieldset.add({
+            fieldLabel: '',
+            name: 'hardlink_media_path',
+            anchor: '98%',
+        });
+        this.optionsManager.bind('hardlink_media', field.toggle);
+        this.optionsManager.bind('hardlink_media_path', field.input);
 
         var panel = this.add({
             border: false,
@@ -183,6 +201,8 @@ Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
             'max_download_speed_per_torrent',
             'move_completed',
             'move_completed_path',
+            'hardlink_media',
+            'hardlink_media_path',
             'max_upload_slots_per_torrent',
             'max_upload_speed_per_torrent',
             'prioritize_first_last_pieces',
@@ -199,6 +219,8 @@ Deluge.add.OptionsTab = Ext.extend(Ext.form.FormPanel, {
                     download_location: config.download_location,
                     move_completed: config.move_completed,
                     move_completed_path: config.move_completed_path,
+                    hardlink_media: config.hardlink_media,
+                    hardlink_media_path: config.hardlink_media_path,
                     max_connections: config.max_connections_per_torrent,
                     max_download_speed: config.max_download_speed_per_torrent,
                     max_upload_slots: config.max_upload_slots_per_torrent,

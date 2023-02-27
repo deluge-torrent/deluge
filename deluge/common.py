@@ -157,6 +157,33 @@ def get_default_download_dir():
     return download_dir
 
 
+def get_default_hardlink_dir():
+    """
+    :returns: the default hardlink directory
+    :rtype: string
+
+    """
+    hardlink_dir = ''
+    if not windows_check():
+        from xdg.BaseDirectory import xdg_config_home
+
+        try:
+            user_dirs_path = os.path.join(xdg_config_home, 'user-dirs.dirs')
+            with open(user_dirs_path, encoding='utf8') as _file:
+                for line in _file:
+                    if not line.startswith('#') and line.startswith('XDG_HARDLINK_DIR'):
+                        hardlink_dir = os.path.expandvars(
+                            line.partition('=')[2].rstrip().strip('"')
+                        )
+                        break
+        except OSError:
+            pass
+
+    if not hardlink_dir:
+        hardlink_dir = os.path.join(os.path.expanduser('~'), 'Hardlinks')
+    return hardlink_dir
+
+
 def archive_files(arc_name, filepaths, message=None, rotate=10):
     """Compress a list of filepaths into timestamped tarball in config dir.
 

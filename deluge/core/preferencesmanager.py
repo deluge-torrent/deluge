@@ -99,7 +99,7 @@ DEFAULT_PREFS = {
     'download_location_paths_list': [],
     'has_hardlinks': False,  # serve as a variable to memorize if hard link exists
     'hardlink_media': False,
-    'hardlink_media_path': deluge.common.get_default_download_dir(),
+    'hardlink_media_path': deluge.common.get_default_hardlink_dir(),
     'path_chooser_show_chooser_button_on_localhost': True,
     'path_chooser_auto_complete_enabled': True,
     'path_chooser_accelerator_string': 'Tab',
