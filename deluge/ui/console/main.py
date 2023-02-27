@@ -253,8 +253,8 @@ deluge-console.exe "add -p c:\\mytorrents c:\\new.torrent"
         reactor.run()
 
     @overrides(TermResizeHandler)
-    def on_terminal_size(self, *args):
-        rows, cols = super().on_terminal_size(args)
+    def on_resize(self, *args):
+        rows, cols = super().on_resize(*args)
         for mode in self.modes:
             self.modes[mode].on_resize(rows, cols)
 
