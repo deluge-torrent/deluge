@@ -1511,9 +1511,11 @@ class Torrent:
                 log.error('Error create_hardlink of a folder: %s', ex)
                 return False
 
+        # "hardlink_media" should be set to False or else each time start up
+        # it will create hardlinks with that option on. But why?
         self.set_options(
             {"has_hardlinks": True,
-             "hardlink_media": True,
+             "hardlink_media": False,
              "hardlink_media_path": dest})
 
         self.update_state()
