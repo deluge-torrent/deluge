@@ -987,6 +987,7 @@ class TorrentManager(component.Component):
                 torrent.options['remove_at_ratio'],
                 torrent.options['move_completed'],
                 torrent.options['move_completed_path'],
+                torrent.options['has_hardlinks'],
                 torrent.options['hardlink_media'],
                 torrent.options['hardlink_media_path'],
                 torrent.magnet,

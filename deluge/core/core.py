@@ -690,10 +690,17 @@ class Core(component.Component):
     @export
     def create_hardlink(self, torrent_ids: List[str], dest: str):
         log.debug('Creating hardlinks %s to %s', torrent_ids, dest)
+
+        need_save_state = False
         for torrent_id in torrent_ids:
             if not self.torrentmanager[torrent_id].create_hardlink(dest):
                 log.warning(
                     'Error creating hardlink for torrent %s to %s', torrent_id, dest)
+            else:
+                need_save_state = True
+
+        if need_save_state:
+            self.torrentmanager.save_state()
 
     @export
     def pause_session(self) -> None:
