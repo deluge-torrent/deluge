@@ -78,9 +78,6 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
     },
 
     onRequestComplete: function (torrent, request, response, options) {
-        console.log(options);
-        console.log(typeof options);
-        console.log(options.options);
         var data = {
             torrent_name: torrent.name,
             hash: options.options.torrentId,

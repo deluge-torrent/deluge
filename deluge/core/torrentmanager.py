@@ -93,6 +93,7 @@ class TorrentState:  # pylint: disable=old-style-class
         remove_at_ratio=False,
         move_completed=False,
         move_completed_path=None,
+        has_hardlinks=False,
         hardlink_media=False,
         hardlink_media_path=None,
         magnet=None,
@@ -105,12 +106,6 @@ class TorrentState:  # pylint: disable=old-style-class
         for key, value in locals().items():
             if key == 'self':
                 continue
-            elif key == "hardlink_media":
-                log.info(
-                    '---------------hardlink_media: %s---------------' % value)
-            elif key == "hardlink_media_path":
-                log.info(
-                    '---------------hardlink_media_path: %s---------------' % value)
             setattr(self, key, value)
 
     def __eq__(self, other):
