@@ -7,7 +7,6 @@ import pytest
 import pytest_twisted
 from twisted.internet import defer
 
-import deluge.component as component
 from deluge.common import fsize, fspeed
 from deluge.ui.client import client
 
@@ -21,17 +20,15 @@ def print_totals(totals):
     print('down:', fsize(totals['total_download'] - totals['total_payload_download']))
 
 
-@pytest.mark.usefixtures('component')
 class TestStatsPlugin:
     @pytest_twisted.async_yield_fixture(autouse=True)
-    async def set_up(self):
+    async def set_up(self, component):
         defer.setDebugging(True)
         client.start_standalone()
         client.core.enable_plugin('Stats')
         await component.start()
         yield
         client.stop_standalone()
-        await component.shutdown()
 
     @defer.inlineCallbacks
     def test_client_totals(self):

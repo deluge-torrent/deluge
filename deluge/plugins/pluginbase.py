@@ -34,7 +34,10 @@ class CorePluginBase(PluginBase):
         log.debug('CorePlugin initialized..')
 
     def __del__(self):
-        component.get('RPCServer').deregister_object(self)
+        try:
+            component.get('RPCServer').deregister_object(self)
+        except KeyError:
+            log.debug('RPCServer already deregistered')
 
     def enable(self):
         super().enable()

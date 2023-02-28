@@ -23,6 +23,8 @@ markers = [
 ]
 filterwarnings = [
     "ignore::DeprecationWarning:gi",
-    "ignore::DeprecationWarning:twisted.internet.gireactor:43",
+    "ignore::DeprecationWarning:twisted.internet.gireactor",
     "ignore:twisted.web.resource.*:DeprecationWarning",
+    "ignore:Using readBody.*:DeprecationWarning",
+    "ignore:resume_data is deprecated.*:DeprecationWarning:deluge.core.alertmanager",
 ]
