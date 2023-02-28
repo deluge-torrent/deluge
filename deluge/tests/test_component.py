@@ -68,9 +68,6 @@ class ComponentTesterShutdown(component.Component):
 
 @pytest.mark.usefixtures('component')
 class TestComponent:
-    def tear_down(self):
-        return component.shutdown()
-
     def test_start_component(self):
         def on_start(result, c):
             assert c._component_state == 'Started'
