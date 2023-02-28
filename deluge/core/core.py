@@ -109,11 +109,14 @@ class Core(component.Component):
     def __init__(
         self, listen_interface=None, outgoing_interface=None, read_only_config_keys=None
     ):
+
+        self.eventmanager = EventManager()
+        self.preferencesmanager = PreferencesManager()
         component.Component.__init__(self, 'Core')
 
         # Start the libtorrent session.
-        user_agent = 'Deluge 1.3.15'
-        peer_id = self._create_peer_id(DELUGE_VER)
+        user_agent = self.preferencesmanager.config["deluge_agent"]
+        peer_id = self.preferencesmanager.config["deluge_peer_id"]
         log.debug('Starting session (peer_id: %s, user_agent: %s)', peer_id, user_agent)
         settings_pack = {
             'peer_fingerprint': peer_id,
@@ -132,8 +135,6 @@ class Core(component.Component):
         self.session.add_extension('smart_ban')
 
         # Create the components
-        self.eventmanager = EventManager()
-        self.preferencesmanager = PreferencesManager()
         self.alertmanager = AlertManager()
         self.pluginmanager = PluginManager(self)
         self.torrentmanager = TorrentManager()

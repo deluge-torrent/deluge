@@ -96,5 +96,32 @@ Deluge.preferences.Other = Ext.extend(Ext.form.FormPanel, {
                 width: 200,
             })
         );
+
+        fieldset = this.add({
+            xtype: 'fieldset',
+            border: false,
+            title: _('Custom Deluge Agent:'),
+            autoHeight: true,
+            labelWidth: 80,
+            defaultType: 'textfield',
+        });
+        optMan.bind(
+            'deluge_agent',
+            fieldset.add({
+                name: 'deluge_agent',
+                fieldLabel: _('Agent:'),
+                labelSeparator: '',
+                width: 200,
+            })
+        );
+        optMan.bind(
+            'deluge_peer_id',
+            fieldset.add({
+                name: 'deluge_peer_id',
+                fieldLabel: _('Peer Id:'),
+                labelSeparator: '',
+                width: 200,
+            })
+        );
     },
 });

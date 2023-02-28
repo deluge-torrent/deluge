@@ -20,7 +20,7 @@ from twisted.internet.task import LoopingCall
 import deluge.common
 import deluge.component as component
 import deluge.configmanager
-from deluge._libtorrent import lt
+from deluge._libtorrent import LT_VERSION, lt
 from deluge.event import ConfigValueChangedEvent
 
 GeoIP = None
@@ -33,6 +33,56 @@ except ImportError:
         pass
 
 log = logging.getLogger(__name__)
+
+
+def create_peer_id(version: str) -> str:
+    """Create a peer_id fingerprint.
+
+    This creates the peer_id and modifies the release char to identify
+    pre-release and development version. Using ``D`` for dev, daily or
+    nightly builds, ``a, b, r`` for pre-releases and ``s`` for
+    stable releases.
+
+    Examples:
+        ``--<client><client><major><minor><micro><release>--``
+        ``--DE200D--`` (development version of 2.0.0)
+        ``--DE200s--`` (stable release of v2.0.0)
+        ``--DE201b--`` (beta pre-release of v2.0.1)
+
+    Args:
+        version: The version string in PEP440 dotted notation.
+
+    Returns:
+        The formatted peer_id with Deluge prefix e.g. '--DE200s--'
+    """
+    split = deluge.common.VersionSplit(version)
+    # Fill list with zeros to length of 4 and use lt to create fingerprint.
+    version_list = split.version + [0] * (4 - len(split.version))
+    peer_id = lt.generate_fingerprint('DE', *version_list)
+
+    def substitute_chr(string, idx, char):
+        """Fast substitute single char in string."""
+        return string[:idx] + char + string[idx + 1:]
+
+    if split.dev:
+        release_chr = 'D'
+    elif split.suffix:
+        # a (alpha), b (beta) or r (release candidate).
+        release_chr = split.suffix[0].lower()
+    else:
+        release_chr = 's'
+    peer_id = substitute_chr(peer_id, 6, release_chr)
+
+    return peer_id
+
+    # return '-DE1350-'
+
+
+DELUGE_VER = deluge.common.get_version()
+
+default_deluge_agent = f'Deluge/{DELUGE_VER} libtorrent/{LT_VERSION}'
+default_deluge_peer_id = create_peer_id(DELUGE_VER)
+
 
 DEFAULT_PREFS = {
     'send_info': False,
@@ -126,6 +176,10 @@ DEFAULT_PREFS = {
     'auto_manage_prefer_seeds': False,
     'shared': False,
     'super_seeding': False,
+
+    # hack version
+    'deluge_agent': default_deluge_agent,
+    'deluge_peer_id': default_deluge_peer_id
 }
 
 
@@ -477,3 +531,13 @@ class PreferencesManager(component.Component):
 
     def _on_auto_manage_prefer_seeds(self, key, value):
         self.core.apply_session_setting('auto_manage_prefer_seeds', value)
+
+    def _on_set_deluge_agent(self, key, value):
+        if not value:
+            value = default_deluge_agent
+        self.core.apply_session_setting('deluge_agent', value)
+
+    def _on_set_deluge_peer_id(self, key, value):
+        if not value:
+            value = default_deluge_peer_id
+        self.core.apply_session_setting('deluge_peer_id', value)
