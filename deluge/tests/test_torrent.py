@@ -25,6 +25,11 @@ from deluge.core.rpcserver import RPCServer
 from deluge.core.torrent import Torrent
 from deluge.core.torrentmanager import TorrentManager, TorrentState
 
+try:
+    from unittest.mock import AsyncMock
+except ImportError:
+    from mock import AsyncMock
+
 
 class TestTorrent(BaseTestCase):
     def setup_config(self):
@@ -340,7 +345,7 @@ class TestTorrent(BaseTestCase):
         handle = self.session.add_torrent(atp)
         self.torrent = Torrent(handle, {})
         # Ignore TorrentManager method call
-        TorrentManager.save_resume_data = mock.MagicMock
+        TorrentManager.save_resume_data = AsyncMock()
 
         result = self.torrent.rename_folder('unicode_filenames', 'Горбачёв')
         assert isinstance(result, defer.DeferredList)
