@@ -23,6 +23,8 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
         this.addItem('torrent_name', _('Name:'));
         this.addItem('hash', _('Hash:'));
         this.addItem('path', _('Download Folder:'));
+        this.addItem('has_hardlinks', _('Has Hardlinks:'));
+        this.addItem('hardlink', _('Hardlink To Folder:'));
         this.addItem('size', _('Total Size:'));
         this.addItem('files', _('Total Files:'));
         this.addItem('comment', _('Comment:'));
@@ -76,10 +78,15 @@ Deluge.details.DetailsTab = Ext.extend(Ext.Panel, {
     },
 
     onRequestComplete: function (torrent, request, response, options) {
+        console.log(options);
+        console.log(typeof options);
+        console.log(options.options);
         var data = {
             torrent_name: torrent.name,
             hash: options.options.torrentId,
             path: torrent.download_location,
+            has_hardlinks: torrent.has_hardlinks,
+            hardlink: torrent.has_hardlinks ? torrent.hardlink_media_path: "",
             size: fsize(torrent.total_size),
             files: torrent.num_files,
             status: torrent.message,

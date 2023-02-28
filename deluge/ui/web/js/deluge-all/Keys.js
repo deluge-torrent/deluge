@@ -100,6 +100,8 @@ Deluge.Keys = {
     Details: [
         'name',
         'download_location',
+        'has_hardlinks',
+        'hardlink_media_path',
         'total_size',
         'num_files',
         'message',
