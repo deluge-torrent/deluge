@@ -23,6 +23,5 @@ FORMAT_LIST = [
 
 
 class WebUI(WebPluginBase):
-
     scripts = [get_resource('blocklist.js')]
     debug_scripts = scripts

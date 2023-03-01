@@ -61,7 +61,6 @@ class LogStream:
 
 
 class Console(UI):
-
     cmd_description = """Console or command-line user interface"""
 
     def __init__(self, *args, **kwargs):

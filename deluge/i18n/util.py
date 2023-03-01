@@ -51,7 +51,7 @@ def get_languages():
             name = LANGUAGES[lang_code]
         lang.append([lang_code, _(name)])
 
-    lang = sorted(lang, key=lambda l: l[1])
+    lang = sorted(lang, key=lambda k: k[1])
     return lang
 
 

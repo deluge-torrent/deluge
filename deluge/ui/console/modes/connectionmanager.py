@@ -127,12 +127,14 @@ class ConnectionManager(BaseMode, PopupsHandler):
 
     def add_host(self, hostname, port, username, password):
         log.info('Adding host: %s', hostname)
+        if port.isdecimal():
+            port = int(port)
         try:
             self.hostlist.add_host(hostname, port, username, password)
         except ValueError as ex:
             self.report_message(_('Error adding host'), f'{hostname}: {ex}')
         else:
-            self.update_select_host_popup()
+            self.pop_popup()
 
     def delete_host(self, host_id):
         log.info('Deleting host: %s', host_id)
@@ -195,7 +197,8 @@ class ConnectionManager(BaseMode, PopupsHandler):
                 if chr(c) == 'q':
                     return
                 elif chr(c) == 'D':
-                    host_id = self.popup.current_selection()[1]
+                    host_index = self.popup.current_selection()
+                    host_id = self.popup.inputs[host_index].name
                     self.delete_host(host_id)
                     return
                 elif chr(c) == 'a':

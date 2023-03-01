@@ -240,7 +240,6 @@ def torrent_action(action, *args, **kwargs):
 
 # Creates the popup.  mode is the calling mode, tids is a list of torrents to take action upon
 def torrent_actions_popup(mode, torrent_ids, details=False, action=None, close_cb=None):
-
     if action is not None:
         torrent_action(action, mode=mode, torrent_ids=torrent_ids)
         return

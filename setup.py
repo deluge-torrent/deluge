@@ -40,7 +40,7 @@ def osx_check():
 
 
 desktop_data = 'deluge/ui/data/share/applications/deluge.desktop'
-appdata_data = 'deluge/ui/data/share/appdata/deluge.appdata.xml'
+metainfo_data = 'deluge/ui/data/share/metainfo/deluge.metainfo.xml'
 
 # Variables for setuptools.setup
 _package_data = {}
@@ -199,7 +199,7 @@ class BuildTranslations(Command):
         intltool_merge = 'intltool-merge'
         if not windows_check() and which(intltool_merge):
             intltool_merge_opts = '--utf8 --quiet'
-            for data_file in (desktop_data, appdata_data):
+            for data_file in (desktop_data, metainfo_data):
                 # creates the translated file from .in file.
                 in_file = data_file + '.in'
                 if 'xml' in data_file:
@@ -259,7 +259,7 @@ class CleanTranslations(Command):
         self.set_undefined_options('clean', ('all', 'all'))
 
     def run(self):
-        for path in (desktop_data, appdata_data):
+        for path in (desktop_data, metainfo_data):
             if os.path.isfile(path):
                 print('Deleting %s' % path)
                 os.remove(path)
@@ -476,8 +476,8 @@ if not windows_check() and not osx_check():
     )
     if os.path.isfile(desktop_data):
         _data_files.append(('share/applications', [desktop_data]))
-    if os.path.isfile(appdata_data):
-        _data_files.append(('share/appdata', [appdata_data]))
+    if os.path.isfile(metainfo_data):
+        _data_files.append(('share/metainfo', [metainfo_data]))
 
 
 # Entry Points

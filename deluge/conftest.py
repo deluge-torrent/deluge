@@ -137,7 +137,7 @@ def common_fixture(config_dir, request, monkeypatch, listen_port):
 
 
 @pytest_twisted.async_yield_fixture(scope='function')
-async def component(request):
+async def component():
     """Verify component registry is clean, and clean up after test."""
     if len(_component._ComponentRegistry.components) != 0:
         warnings.warn(

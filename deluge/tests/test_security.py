@@ -46,7 +46,6 @@ class SecurityBaseTestCase:
         )
 
         def on_result(results):
-
             if test == '-e':
                 results = results[0].split(b'\n')[7:-6]
                 assert len(results) > 3

@@ -18,7 +18,6 @@ environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 
 # Keep this class in __init__.py to avoid the console having to import everything in gtkui.py
 class Gtk(UI):
-
     cmd_description = """GTK-based graphical user interface"""
 
     def __init__(self, *args, **kwargs):

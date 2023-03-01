@@ -35,7 +35,6 @@ setup_translation()
 
 @pytest.mark.gtkui
 class TestTorrentview(BaseTestCase):
-
     default_column_index = [
         'filter',
         'torrent_id',

@@ -4534,16 +4534,16 @@ msgstr "_Звичайний"
 msgid "_High"
 msgstr "_Високий"
 
-#: deluge/ui/data/share/appdata/deluge.appdata.xml.in.h:1
+#: deluge/ui/data/share/metainfo/deluge.metainfo.xml.in.h:1
 msgid "Deluge Team"
 msgstr "Команда Deluge"
 
-#: deluge/ui/data/share/appdata/deluge.appdata.xml.in.h:2
+#: deluge/ui/data/share/metainfo/deluge.metainfo.xml.in.h:2
 msgid ""
 "Deluge is a lightweight, Free Software, cross-platform BitTorrent client."
 msgstr "Deluge - легкий, вільний, багатоплатформовий BitTorrent клієнт."
 
-#: deluge/ui/data/share/appdata/deluge.appdata.xml.in.h:3
+#: deluge/ui/data/share/metainfo/deluge.metainfo.xml.in.h:3
 msgid ""
 "Deluge contains the common features to BitTorrent clients such as Protocol "
 "Encryption, DHT, Local Peer Discovery (LSD), Peer Exchange (PEX), UPnP, NAT-"
@@ -4557,7 +4557,7 @@ msgstr ""
 "швидкості потоку. Оскільки Deluge активно використовує бібліотеку "
 "libtorrent, він має вичерпний перелік наданих функцій."
 
-#: deluge/ui/data/share/appdata/deluge.appdata.xml.in.h:4
+#: deluge/ui/data/share/metainfo/deluge.metainfo.xml.in.h:4
 msgid ""
 "Deluge has been designed to run as both a normal standalone desktop "
 "application and as a client-server. In Thinclient mode a Deluge daemon "

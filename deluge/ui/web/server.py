@@ -447,7 +447,6 @@ class Themes(static.File):
 
 
 class TopLevel(resource.Resource):
-
     __stylesheets = [
         'css/ext-all-notheme.css',
         'css/ext-extensions.css',
