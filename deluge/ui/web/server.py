@@ -569,17 +569,19 @@ class TopLevel(resource.Resource):
         self.__scripts.remove(script)
         self.__debug_scripts.remove(script)
 
-    def getChild(self, path, request):  # NOQA: N802
-        if not path:
-            return self
-        else:
-            return super().getChild(path, request)
-
     def getChildWithDefault(self, path, request):  # NOQA: N802
         # Calculate the request base
         header = request.getHeader('x-deluge-base')
-        base = header if header else component.get('DelugeWeb').base
+        config_base = component.get('DelugeWeb').base
+        base = header if header else config_base
+
+        first_request = not hasattr(request, 'base')
         request.base = absolute_base_url(base).encode()
+
+        base_resource = first_request and path.decode() == config_base.strip('/')
+
+        if not path or base_resource:
+            return self
 
         return super().getChildWithDefault(path, request)
 
@@ -679,10 +681,6 @@ class DelugeWeb(component.Component):
                 self.https = True
             elif options.no_ssl:
                 self.https = False
-
-        if self.base != '/':
-            # Strip away slashes and serve on the base path as well as root path
-            self.top_level.putChild(self.base.strip('/').encode(), self.top_level)
 
         setup_translation()
 
