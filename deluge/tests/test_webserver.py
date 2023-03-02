@@ -23,8 +23,8 @@ common.disable_new_release_check()
 
 
 class TestWebServer(WebServerTestBase, WebServerMockBase):
-    @pytest_twisted.inlineCallbacks
-    def test_get_torrent_info(self):
+    @pytest_twisted.ensureDeferred
+    async def test_get_torrent_info(self):
         agent = Agent(reactor)
 
         self.mock_authentication_ignore(self.deluge_web.auth)
@@ -41,15 +41,15 @@ class TestWebServer(WebServerTestBase, WebServerMockBase):
             b'User-Agent': ['Twisted Web Client Example'],
             b'Content-Type': ['application/json'],
         }
-        url = 'http://127.0.0.1:%s/json' % self.webserver_listen_port
+        url = 'http://127.0.0.1:%s/json' % self.deluge_web.port
 
-        d = yield agent.request(
+        response = await agent.request(
             b'POST',
-            url.encode('utf-8'),
+            url.encode(),
             Headers(headers),
-            FileBodyProducer(BytesIO(input_file.encode('utf-8'))),
+            FileBodyProducer(BytesIO(input_file.encode())),
         )
-        body = yield twisted.web.client.readBody(d)
+        body = await twisted.web.client.readBody(response)
 
         try:
             json = json_lib.loads(body.decode())

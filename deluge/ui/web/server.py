@@ -73,6 +73,20 @@ def rpath(*paths):
     return common.resource_filename('deluge.ui.web', os.path.join(*paths))
 
 
+def absolute_base_url(base):
+    """Returns base as absolute URL for links"""
+    if not base:
+        base = '/'
+
+    if not base.startswith('/'):
+        base = '/' + base
+
+    if not base.endswith('/'):
+        base += '/'
+
+    return base
+
+
 class GetText(resource.Resource):
     def render(self, request):
         request.setHeader(b'content-type', b'text/javascript; encoding=utf-8')
@@ -127,14 +141,12 @@ class Upload(resource.Resource):
 
         request.setHeader(b'content-type', b'text/html')
         request.setResponseCode(http.OK)
-        return json.dumps({'success': bool(filenames), 'files': filenames}).encode(
-            'utf8'
-        )
+        return json.dumps({'success': bool(filenames), 'files': filenames}).encode()
 
 
 class Render(resource.Resource):
     def __init__(self):
-        resource.Resource.__init__(self)
+        super().__init__()
         # Make a list of all the template files to check requests against.
         self.template_files = fnmatch.filter(os.listdir(rpath('render')), '*.html')
 
@@ -163,7 +175,7 @@ class Render(resource.Resource):
 
 class Tracker(resource.Resource):
     def __init__(self):
-        resource.Resource.__init__(self)
+        super().__init__()
         try:
             self.tracker_icons = component.get('TrackerIcons')
         except KeyError:
@@ -178,7 +190,7 @@ class Tracker(resource.Resource):
             request.setHeader(
                 b'cache-control', b'public, must-revalidate, max-age=86400'
             )
-            request.setHeader(b'content-type', icon.get_mimetype().encode('utf8'))
+            request.setHeader(b'content-type', icon.get_mimetype().encode())
             request.setResponseCode(http.OK)
             request.write(icon.get_data())
             request.finish()
@@ -198,7 +210,7 @@ class Flag(resource.Resource):
         return self
 
     def render(self, request):
-        flag = request.country.decode('utf-8').lower() + '.png'
+        flag = request.country.decode().lower() + '.png'
         path = ('ui', 'data', 'pixmaps', 'flags', flag)
         filename = common.resource_filename('deluge', os.path.join(*path))
         if os.path.exists(filename):
@@ -454,7 +466,7 @@ class TopLevel(resource.Resource):
     ]
 
     def __init__(self):
-        resource.Resource.__init__(self)
+        super().__init__()
 
         self.putChild(b'css', LookupResource('Css', rpath('css')))
         if os.path.isfile(rpath('js', 'gettext.js')):
@@ -561,26 +573,15 @@ class TopLevel(resource.Resource):
         if not path:
             return self
         else:
-            return resource.Resource.getChild(self, path, request)
+            return super().getChild(path, request)
 
     def getChildWithDefault(self, path, request):  # NOQA: N802
         # Calculate the request base
-        header = request.getHeader(b'x-deluge-base')
-        base = header.decode('utf-8') if header else component.get('DelugeWeb').base
+        header = request.getHeader('x-deluge-base')
+        base = header if header else component.get('DelugeWeb').base
+        request.base = absolute_base_url(base).encode()
 
-        # validate the base parameter
-        if not base:
-            base = '/'
-
-        if base[0] != '/':
-            base = '/' + base
-
-        if base[-1] != '/':
-            base += '/'
-
-        request.base = base.encode('utf-8')
-
-        return resource.Resource.getChildWithDefault(self, path, request)
+        return super().getChildWithDefault(path, request)
 
     def render(self, request):
         uri_true = ('true', 'yes', 'on', '1')
@@ -652,7 +653,7 @@ class DelugeWeb(component.Component):
                 reactor). If False shares the process and twisted reactor from WebUI plugin or tests.
 
         """
-        component.Component.__init__(self, 'DelugeWeb', depend=['Web'])
+        super().__init__('DelugeWeb', depend=['Web'])
         self.config = configmanager.ConfigManager(
             'web.conf', defaults=CONFIG_DEFAULTS, file_version=2
         )
