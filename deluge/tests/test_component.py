@@ -17,7 +17,7 @@ import deluge.component as component
 class ComponentTester(component.Component):
     def __init__(self, name, depend=None):
         super().__init__(name, depend=depend)
-        event_methods = ('start', 'update', 'stop', 'shutdown')
+        event_methods = ('start', 'update', 'pause', 'resume', 'stop', 'shutdown')
         for event_method in event_methods:
             setattr(self, event_method, Mock())
 
@@ -145,8 +145,26 @@ class TestComponent:
         await component.pause(['test_pause'])
 
         assert c._component_state == 'Paused'
+        assert c.pause.call_count == 1
         assert c.update.call_count != init_update_count
         assert not c._component_timer.running
+
+    async def test_resume(self):
+        c = ComponentTester('test_resume')
+
+        await component.start(['test_resume'])
+
+        assert c._component_state == 'Started'
+
+        await component.pause(['test_resume'])
+
+        assert c._component_state == 'Paused'
+
+        await component.resume(['test_resume'])
+
+        assert c._component_state == 'Started'
+        assert c.resume.call_count == 1
+        assert c._component_timer.running
 
     async def test_component_start_error(self):
         ComponentTester('test_start_error')

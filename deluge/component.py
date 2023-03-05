@@ -64,6 +64,11 @@ class Component:
                    paused by instructing the :class:`ComponentRegistry` to pause
                    this Component.
 
+        **pause()** - This method is called when the component is being paused.
+
+        **resume()** - This method is called when the component resumes from a Paused
+                    state.
+
         **shutdown()** - This method is called when the client is exiting.  If the
                      Component is in a "Started" state when this is called, a
                      call to stop() will be issued prior to shutdown().
@@ -175,13 +180,12 @@ class Component:
     def _component_pause(self):
         def on_pause(result):
             self._component_state = 'Paused'
+            if self._component_timer and self._component_timer.running:
+                self._component_timer.stop()
 
         if self._component_state == 'Started':
-            if self._component_timer and self._component_timer.running:
-                d = maybeDeferred(self._component_timer.stop)
-                d.addCallback(on_pause)
-            else:
-                d = succeed(None)
+            d = maybeDeferred(self.pause)
+            d.addCallback(on_pause)
         elif self._component_state == 'Paused':
             d = succeed(None)
         else:
@@ -198,9 +202,10 @@ class Component:
     def _component_resume(self):
         def on_resume(result):
             self._component_state = 'Started'
+            self._component_start_timer()
 
         if self._component_state == 'Paused':
-            d = maybeDeferred(self._component_start_timer)
+            d = maybeDeferred(self.resume)
             d.addCallback(on_resume)
         else:
             d = fail(
@@ -234,6 +239,12 @@ class Component:
         pass
 
     def shutdown(self):
+        pass
+
+    def pause(self):
+        pass
+
+    def resume(self):
         pass
 
 
