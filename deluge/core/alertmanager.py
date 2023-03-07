@@ -14,8 +14,11 @@ This should typically only be used by the Core. Plugins should utilize the
 `:mod:EventManager` for similar functionality.
 
 """
+import contextlib
 import logging
+from collections import defaultdict
 from types import SimpleNamespace
+from typing import Any, Callable
 
 from twisted.internet import reactor
 
@@ -52,7 +55,7 @@ class AlertManager(component.Component):
         self.session.apply_settings({'alert_mask': alert_mask})
 
         # handlers is a dictionary of lists {"alert_type": [handler1,h2,..]}
-        self.handlers = {}
+        self.handlers = defaultdict(list)
         self.delayed_calls = []
 
     def update(self):
@@ -65,35 +68,30 @@ class AlertManager(component.Component):
                 delayed_call.cancel()
         self.delayed_calls = []
 
-    def register_handler(self, alert_type, handler):
+    def register_handler(self, alert_type: str, handler: Callable[[Any], None]) -> None:
         """
         Registers a function that will be called when 'alert_type' is pop'd
         in handle_alerts.  The handler function should look like: handler(alert)
         Where 'alert' is the actual alert object from libtorrent.
 
-        :param alert_type: str, this is string representation of the alert name
-        :param handler: func(alert), the function to be called when the alert is raised
+        Args:
+            alert_type: String representation of the libtorrent alert name.
+                Can be supplied with or without `_alert` suffix.
+            handler: Callback function when the alert is raised.
         """
-        if alert_type not in self.handlers:
-            # There is no entry for this alert type yet, so lets make it with an
-            # empty list.
-            self.handlers[alert_type] = []
-
-        # Append the handler to the list in the handlers dictionary
         self.handlers[alert_type].append(handler)
         log.debug('Registered handler for alert %s', alert_type)
 
-    def deregister_handler(self, handler):
+    def deregister_handler(self, handler: Callable[[Any], None]):
         """
-        De-registers the `:param:handler` function from all alert types.
+        De-registers the `handler` function from all alert types.
 
-        :param handler: func, the handler function to deregister
+        Args:
+            handler: The handler function to deregister.
         """
-        # Iterate through all handlers and remove 'handler' where found
-        for dummy_key, value in self.handlers.items():
-            if handler in value:
-                # Handler is in this alert type list
-                value.remove(handler)
+        for alert_type_handlers in self.handlers.values():
+            with contextlib.suppress(ValueError):
+                alert_type_handlers.remove(handler)
 
     def handle_alerts(self):
         """
@@ -112,26 +110,35 @@ class AlertManager(component.Component):
                 num_alerts,
             )
 
-        # Loop through all alerts in the queue
         for alert in alerts:
             alert_type = type(alert).__name__
             # Display the alert message
             if log.isEnabledFor(logging.DEBUG):
                 log.debug('%s: %s', alert_type, decode_bytes(alert.message()))
+
+            if alert_type not in self.handlers:
+                continue
+
             # Call any handlers for this alert type
-            if alert_type in self.handlers:
-                for handler in self.handlers[alert_type]:
-                    if log.isEnabledFor(logging.DEBUG):
-                        log.debug('Handling alert: %s', alert_type)
-                    # Copy alert attributes
-                    alert_copy = SimpleNamespace(
-                        **{
-                            attr: getattr(alert, attr)
-                            for attr in dir(alert)
-                            if not attr.startswith('__')
-                        }
-                    )
-                    self.delayed_calls.append(reactor.callLater(0, handler, alert_copy))
+            for handler in self.handlers[alert_type]:
+                if log.isEnabledFor(logging.DEBUG):
+                    log.debug('Handling alert: %s', alert_type)
+
+                alert_copy = self.create_alert_copy(alert)
+                self.delayed_calls.append(reactor.callLater(0, handler, alert_copy))
+
+    @staticmethod
+    def create_alert_copy(alert):
+        """Create a Python copy of libtorrent alert
+
+        Avoid segfault if an alert is handled after next pop_alert call"""
+        return SimpleNamespace(
+            **{
+                attr: getattr(alert, attr)
+                for attr in dir(alert)
+                if not attr.startswith('__')
+            }
+        )
 
     def set_alert_queue_size(self, queue_size):
         """Sets the maximum size of the libtorrent alert queue"""
