@@ -26,7 +26,6 @@ common.disable_new_release_check()
 
 class TestWebAPI(WebServerTestBase):
     @pytest.mark.xfail(reason='This just logs an error at the moment.')
-    @pytest_twisted.ensureDeferred
     async def test_connect_invalid_host(self):
         with pytest.raises(Exception):
             await self.deluge_web.web_api.connect('id')

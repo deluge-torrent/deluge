@@ -30,7 +30,6 @@ common.disable_new_release_check()
 
 @pytest.mark.usefixtures('daemon', 'client', 'component')
 class TestJSON:
-    @pytest_twisted.ensureDeferred
     async def test_get_remote_methods(self):
         json = JSON()
         methods = await json.get_remote_methods()
@@ -151,7 +150,6 @@ class TestRPCRaiseDelugeErrorJSON:
     daemon.rpcserver.register_object(test)
 """
 
-    @pytest_twisted.ensureDeferred
     async def test_handle_request_method_raise_delugeerror(self):
         json = JSON()
 

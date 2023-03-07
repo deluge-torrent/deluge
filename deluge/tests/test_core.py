@@ -188,7 +188,6 @@ class TestCore(BaseTestCase):
         assert torrent_id == info_hash
         assert not os.path.isfile(mock_mkstemp[1])
 
-    @pytest_twisted.ensureDeferred
     async def test_add_torrent_url_with_cookie(self):
         url = 'http://localhost:%d/cookie' % self.listen_port
         options = {}
@@ -201,7 +200,6 @@ class TestCore(BaseTestCase):
         result = await self.core.add_torrent_url(url, options, headers)
         assert result == info_hash
 
-    @pytest_twisted.ensureDeferred
     async def test_add_torrent_url_with_redirect(self):
         url = 'http://localhost:%d/redirect' % self.listen_port
         options = {}
@@ -210,7 +208,6 @@ class TestCore(BaseTestCase):
         result = await self.core.add_torrent_url(url, options)
         assert result == info_hash
 
-    @pytest_twisted.ensureDeferred
     async def test_add_torrent_url_with_partial_download(self):
         url = 'http://localhost:%d/partial' % self.listen_port
         options = {}

@@ -3,7 +3,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-import inspect
 import time
 from unittest.mock import Mock
 
@@ -32,15 +31,6 @@ class ComponentTesterDelayStart(ComponentTester):
         yield threads.deferToThread(time.sleep, 0.5)
 
 
-def pytest_twisted_ensuredeferred_for_class(cls):
-    """Applies ensureDeferred to all async test_ methods in class"""
-    for name, method in inspect.getmembers(cls, inspect.iscoroutinefunction):
-        if name.startswith('test'):
-            setattr(cls, name, pytest_twisted.ensureDeferred(method))
-    return cls
-
-
-@pytest_twisted_ensuredeferred_for_class
 @pytest.mark.usefixtures('component')
 class TestComponent:
     async def test_start_component(self):

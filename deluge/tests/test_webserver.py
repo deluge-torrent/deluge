@@ -10,7 +10,6 @@ import json as json_lib
 from io import BytesIO
 
 import pytest
-import pytest_twisted
 import twisted.web.client
 from twisted.internet import reactor
 from twisted.web.client import Agent, FileBodyProducer
@@ -24,7 +23,6 @@ common.disable_new_release_check()
 
 
 class TestWebServer(WebServerTestBase, WebServerMockBase):
-    @pytest_twisted.ensureDeferred
     async def test_get_torrent_info(self):
         agent = Agent(reactor)
 
@@ -60,7 +58,6 @@ class TestWebServer(WebServerTestBase, WebServerMockBase):
         assert 'torrent_filehash' == json['result']['name']
 
     @pytest.mark.parametrize('base', ['', '/', 'deluge'])
-    @pytest_twisted.ensureDeferred
     async def test_base_with_config(self, base):
         agent = Agent(reactor)
         root_url = f'http://127.0.0.1:{self.deluge_web.port}'
@@ -77,7 +74,6 @@ class TestWebServer(WebServerTestBase, WebServerMockBase):
         assert response.code == 200
 
     @pytest.mark.parametrize('base', ['/', 'deluge'])
-    @pytest_twisted.ensureDeferred
     async def test_base_with_config_recurring_basepath(self, base):
         agent = Agent(reactor)
         base_url = f'http://127.0.0.1:{self.deluge_web.port}/{base}'
@@ -95,7 +91,6 @@ class TestWebServer(WebServerTestBase, WebServerMockBase):
         response = await agent.request(b'GET', recursive_url.encode())
         assert response.code == 404 if base.strip('/') else 200
 
-    @pytest_twisted.ensureDeferred
     async def test_base_with_deluge_header(self):
         """Ensure base path is set and HTML contains path"""
         agent = Agent(reactor)
