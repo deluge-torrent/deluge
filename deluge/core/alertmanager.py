@@ -79,6 +79,9 @@ class AlertManager(component.Component):
                 Can be supplied with or without `_alert` suffix.
             handler: Callback function when the alert is raised.
         """
+        if alert_type and alert_type.endswith('_alert'):
+            alert_type = alert_type[: -len('_alert')]
+
         self.handlers[alert_type].append(handler)
         log.debug('Registered handler for alert %s', alert_type)
 
@@ -111,7 +114,8 @@ class AlertManager(component.Component):
             )
 
         for alert in alerts:
-            alert_type = type(alert).__name__
+            alert_type = alert.what()
+
             # Display the alert message
             if log.isEnabledFor(logging.DEBUG):
                 log.debug('%s: %s', alert_type, decode_bytes(alert.message()))

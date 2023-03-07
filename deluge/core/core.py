@@ -199,7 +199,7 @@ class Core(component.Component):
         self.session_status_timer_interval = 0.5
         self.session_status_timer = task.LoopingCall(self.session.post_session_stats)
         self.alertmanager.register_handler(
-            'session_stats_alert', self._on_alert_session_stats
+            'session_stats', self._on_alert_session_stats
         )
         self.session_rates_timer_interval = 2
         self.session_rates_timer = task.LoopingCall(self._update_session_rates)
