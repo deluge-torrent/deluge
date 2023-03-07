@@ -3,7 +3,7 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
+import asyncio
 import tempfile
 import warnings
 from unittest.mock import Mock, patch
@@ -192,3 +192,18 @@ def mock_mkstemp(tmp_path):
     tmp_file = tempfile.mkstemp(dir=tmp_path)
     with patch('tempfile.mkstemp', return_value=tmp_file):
         yield tmp_file
+
+
+def pytest_collection_modifyitems(session, config, items) -> None:
+    """
+    Automatically runs async tests with pytest_twisted.ensureDeferred
+    """
+    function_items = (item for item in items if isinstance(item, pytest.Function))
+    for function_item in function_items:
+        function = function_item.obj
+        if hasattr(function, '__func__'):
+            # methods need to be unwrapped.
+            function = function.__func__
+        if asyncio.iscoroutinefunction(function):
+            # This is how pytest_twisted marks ensureDeferred tests
+            setattr(function, '_pytest_twisted_mark', 'async_test')

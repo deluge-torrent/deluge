@@ -386,7 +386,6 @@ class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
             f'move_completed_path: {tmp_path}\nmove_completed: True\n'
         )
 
-    @pytest_twisted.ensureDeferred
     async def test_console_command_status(self):
         fd = StringFileDescriptor(sys.stdout)
         self.patch_arg_command(['status'])
