@@ -117,7 +117,7 @@ class TorrentMetadata:
             files = []
             padding_count = 0
             # Collect a list of file paths and add padding files if necessary
-            for (dirpath, dirnames, filenames) in os.walk(self.data_path):
+            for dirpath, dirnames, filenames in os.walk(self.data_path):
                 for index, filename in enumerate(filenames):
                     size = get_path_size(
                         os.path.join(self.data_path, dirpath, filename)

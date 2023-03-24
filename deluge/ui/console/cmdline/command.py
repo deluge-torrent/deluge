@@ -142,7 +142,6 @@ class Commander:
 
 
 class BaseCommand:
-
     usage = None
     interactive_only = False
     aliases = []

@@ -139,7 +139,6 @@ def test_error_from_inline(function):
         inline_func_from_coro,
     ],
 )
-@pytest_twisted.ensureDeferred
 async def test_from_coro(function):
     """Test our coroutines wrapped with maybe_coroutine work from another coroutine."""
     result = await function()
@@ -156,14 +155,12 @@ async def test_from_coro(function):
         inline_error_from_coro,
     ],
 )
-@pytest_twisted.ensureDeferred
 async def test_error_from_coro(function):
     """Test our coroutines wrapped with maybe_coroutine work from another coroutine with errors."""
     with pytest.raises(Exception, match='function_error'):
         await function()
 
 
-@pytest_twisted.ensureDeferred
 async def test_tracebacks_preserved():
     with pytest.raises(Exception) as exc:
         await coro_error_from_coro()
@@ -178,13 +175,11 @@ async def test_tracebacks_preserved():
         assert expected in str(actual)
 
 
-@pytest_twisted.ensureDeferred
 async def test_maybe_deferred_coroutine():
     result = await maybeDeferred(coro_func)
     assert result == 'function_result'
 
 
-@pytest_twisted.ensureDeferred
 async def test_callback_before_await():
     def cb(res):
         assert res == 'function_result'
@@ -196,7 +191,6 @@ async def test_callback_before_await():
     assert result == 'function_result'
 
 
-@pytest_twisted.ensureDeferred
 async def test_callback_after_await():
     """If it has already been used as a coroutine, can't be retroactively turned into a Deferred.
     This limitation could be fixed, but the extra complication doesn't feel worth it.

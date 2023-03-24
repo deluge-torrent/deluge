@@ -21,15 +21,19 @@ class TestAlertManager(BaseTestCase):
 
     def test_register_handler(self):
         def handler(alert):
-            return
+            ...
 
-        self.am.register_handler('dummy_alert', handler)
-        assert self.am.handlers['dummy_alert'] == [handler]
+        self.am.register_handler('dummy1', handler)
+        self.am.register_handler('dummy2_alert', handler)
+        assert self.am.handlers['dummy1'] == [handler]
+        assert self.am.handlers['dummy2'] == [handler]
 
     def test_deregister_handler(self):
         def handler(alert):
-            return
+            ...
 
-        self.am.register_handler('dummy_alert', handler)
+        self.am.register_handler('dummy1', handler)
+        self.am.register_handler('dummy2_alert', handler)
         self.am.deregister_handler(handler)
-        assert self.am.handlers['dummy_alert'] == []
+        assert self.am.handlers['dummy1'] == []
+        assert self.am.handlers['dummy2'] == []

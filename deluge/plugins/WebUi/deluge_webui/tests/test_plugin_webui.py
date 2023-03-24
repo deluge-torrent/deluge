@@ -8,7 +8,6 @@
 import pytest
 import pytest_twisted
 
-import deluge.component as component
 from deluge.core.core import Core
 from deluge.core.rpcserver import RPCServer
 from deluge.tests import common
@@ -16,10 +15,9 @@ from deluge.tests import common
 common.disable_new_release_check()
 
 
-@pytest.mark.usefixtures('component')
 class TestWebUIPlugin:
     @pytest_twisted.async_yield_fixture(autouse=True)
-    async def set_up(self, request):
+    async def set_up(self, request, component):
         self = request.instance
         self.rpcserver = RPCServer(listen=False)
         self.core = Core()
@@ -27,11 +25,9 @@ class TestWebUIPlugin:
 
         yield
 
-        def on_shutdown(result):
-            del self.rpcserver
-            del self.core
-
-        await component.shutdown().addCallback(on_shutdown)
+        await component.shutdown()
+        del self.rpcserver
+        del self.core
 
     def test_enable_webui(self):
         if 'WebUi' not in self.core.get_available_plugins():

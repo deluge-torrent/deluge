@@ -31,7 +31,6 @@ NO_LABEL = 'No Label'
 # menu
 class LabelSidebarMenu:
     def __init__(self):
-
         self.treeview = component.get('FilterTreeView')
         self.menu = self.treeview.menu
         self.items = []

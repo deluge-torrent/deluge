@@ -72,7 +72,7 @@ class ListView:
         """
 
         __gsignals__ = {
-            'button-press-event': (GObject.SIGNAL_RUN_LAST, None, (object,))
+            'button-press-event': (GObject.SignalFlags.RUN_LAST, None, (object,))
         }
 
         def __init__(self, title=None, cell_renderer=None, **args):

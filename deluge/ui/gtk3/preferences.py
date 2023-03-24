@@ -295,7 +295,7 @@ class Preferences(component.Component):
         'Bandwidth'"""
         self.window_open = True
         if page is not None:
-            for (index, string, __) in self.liststore:
+            for index, string, __ in self.liststore:
                 if page == string:
                     self.treeview.get_selection().select_path(index)
                     break

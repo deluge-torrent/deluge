@@ -36,7 +36,7 @@ jobs:
         run: |
           pip install --upgrade pip wheel
           pip install tox
-          sudo apt-get install enchant
+          sudo apt-get install enchant-2
 
       - name: Test with tox
         env:

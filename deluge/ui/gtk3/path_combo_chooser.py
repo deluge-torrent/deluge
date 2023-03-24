@@ -62,7 +62,6 @@ def path_without_trailing_path_sep(path):
 
 
 class ValueList:
-
     paths_without_trailing_path_sep = False
 
     def get_values_count(self):
@@ -1097,7 +1096,6 @@ class PathAutoCompleter:
 
 
 class PathChooserComboBox(Gtk.Box, StoredValuesPopup, GObject.GObject):
-
     __gsignals__ = {
         signal: (SignalFlags.RUN_FIRST, GObject.TYPE_NONE, (object,))
         for signal in [

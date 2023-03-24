@@ -186,7 +186,7 @@ class PeersTab(Tab):
         if state['sort_id'] and state['sort_order'] is not None:
             self.liststore.set_sort_column_id(state['sort_id'], state['sort_order'])
 
-        for (index, column) in enumerate(self.listview.get_columns()):
+        for index, column in enumerate(self.listview.get_columns()):
             cname = column.get_title()
             if cname in state['columns']:
                 cstate = state['columns'][cname]

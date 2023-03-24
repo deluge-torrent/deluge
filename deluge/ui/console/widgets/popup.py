@@ -130,7 +130,6 @@ class Popup(BaseWindow, InputKeyHandler):
         BaseWindow.refresh(self)
 
     def calculate_size(self):
-
         if isinstance(self.height_req, float) and 0.0 < self.height_req <= 1.0:
             height = int((self.parent.rows - 2) * self.height_req)
         else:
@@ -252,7 +251,7 @@ class SelectablePopup(BaseInputPane, Popup):
 
     def set_selection(self, index):
         """Set a selected index"""
-        self.active_input = index
+        self.active_input = min(index, len(self.inputs) - 1)
 
     def add_line(
         self,

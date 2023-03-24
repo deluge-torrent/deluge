@@ -1,8 +1,86 @@
 # Changelog
 
-## 2.1.0 (WIP)
+## 2.1.1 (2022-07-10)
 
-- Removed Python 2 support.
+### Core
+
+- Fix missing trackers added via magnet
+- Fix handling magnets with tracker tiers
+
+## 2.1.0 (2022-06-28)
+
+### Breaking changes
+
+- Python 2 support removed (Python >= 3.6)
+- libtorrent minimum requirement increased (>= 1.2).
+
+### Core
+
+- Add support for SVG tracker icons.
+- Fix tracker icon error handling.
+- Fix cleaning-up tracker icon temp files.
+- Fix Plugin manager to handle new metadata 2.1.
+- Hide passwords in config logs.
+- Fix cleaning-up temp files in add_torrent_url.
+- Fix KeyError in sessionproxy after torrent delete.
+- Remove libtorrent deprecated functions.
+- Fix file_completed_alert handling.
+- Add plugin keys to get_torrents_status.
+- Add support for pygeoip dependency.
+- Fix crash logging to Windows protected folder.
+- Add is_interface and is_interface_name to validate network interfaces.
+- Fix is_url and is_infohash error with None value.
+- Fix load_libintl error.
+- Add support for IPv6 in host lists.
+- Add systemd user services.
+- Fix refresh and expire the torrent status cache.
+- Fix crash when logging errors initializing gettext.
+
+### Web UI
+
+- Fix ETA column sorting in correct order (#3413).
+- Fix defining foreground and background colors.
+- Accept charset in content-type for json messages.
+- Fix 'Complete Seen' and 'Completed' sorting.
+- Fix encoding HTML entities for torrent attributes to prevent XSS.
+
+### Gtk UI
+
+- Fix download location textbox width.
+- Fix obscured port number in Connection Manager.
+- Increase connection manager default height.
+- Fix bug with setting move completed in Options tab.
+- Fix adding daemon accounts.
+- Add workaround for crash on Windows with ico or gif icons.
+- Hide account password length in log.
+- Added a torrent menu option for magnet copy.
+- Fix unable to prefetch magnet in thinclient mode.
+- Use GtkSpinner when testing open port.
+- Update About Dialog year.
+- Fix Edit Torrents dialogs close issues.
+- Fix ETA being copied to neighboring empty cells.
+- Disable GTK CSD by default on Windows.
+
+### Console UI
+
+- Fix curses.init_pair raise ValueError on Py3.10.
+- Swap j and k key's behavior to fit vim mode.
+- Fix torrent details status error.
+- Fix incorrect test for when a host is online.
+- Add the torrent label to info command.
+
+### AutoAdd
+
+- Fix handling torrent decode errors.
+- Fix error dialog not being shown on error.
+
+### Blocklist
+
+- Add frequency unit to interval label.
+
+### Notifications
+
+- Fix UnicodeEncodeError upon non-ascii torrent name.
 
 ## 2.0.5 (2021-12-15)
 

@@ -17,7 +17,6 @@ log = logging.getLogger(__name__)
 
 
 class Web(UI):
-
     cmd_description = """Web-based user interface (http://localhost:8112)"""
 
     def __init__(self, *args, **kwargs):

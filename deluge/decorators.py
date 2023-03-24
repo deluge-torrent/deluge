@@ -166,7 +166,8 @@ def deprecated(func):
 
 class CoroutineDeferred(defer.Deferred):
     """Wraps a coroutine in a Deferred.
-    It will dynamically pass through the underlying coroutine without wrapping where apporpriate."""
+    It will dynamically pass through the underlying coroutine without wrapping where apporpriate.
+    """
 
     def __init__(self, coro: Coroutine):
         # Delay this import to make sure a reactor was installed first

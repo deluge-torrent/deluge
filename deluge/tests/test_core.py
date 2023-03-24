@@ -116,9 +116,9 @@ class TestCore(BaseTestCase):
             self.patch(
                 deluge.core.torrentmanager,
                 'LT_DEFAULT_ADD_TORRENT_FLAGS',
-                lt.add_torrent_params_flags_t.flag_auto_managed
-                | lt.add_torrent_params_flags_t.flag_update_subscribe
-                | lt.add_torrent_params_flags_t.flag_apply_ip_filter,
+                lt.torrent_flags.auto_managed
+                | lt.torrent_flags.update_subscribe
+                | lt.torrent_flags.apply_ip_filter,
             )
         options = {'add_paused': paused, 'auto_managed': False}
         filepath = common.get_test_data_file(filename)
@@ -188,7 +188,6 @@ class TestCore(BaseTestCase):
         assert torrent_id == info_hash
         assert not os.path.isfile(mock_mkstemp[1])
 
-    @pytest_twisted.ensureDeferred
     async def test_add_torrent_url_with_cookie(self):
         url = 'http://localhost:%d/cookie' % self.listen_port
         options = {}
@@ -201,7 +200,6 @@ class TestCore(BaseTestCase):
         result = await self.core.add_torrent_url(url, options, headers)
         assert result == info_hash
 
-    @pytest_twisted.ensureDeferred
     async def test_add_torrent_url_with_redirect(self):
         url = 'http://localhost:%d/redirect' % self.listen_port
         options = {}
@@ -210,7 +208,6 @@ class TestCore(BaseTestCase):
         result = await self.core.add_torrent_url(url, options)
         assert result == info_hash
 
-    @pytest_twisted.ensureDeferred
     async def test_add_torrent_url_with_partial_download(self):
         url = 'http://localhost:%d/partial' % self.listen_port
         options = {}
@@ -222,10 +219,15 @@ class TestCore(BaseTestCase):
     @pytest_twisted.inlineCallbacks
     def test_add_torrent_magnet(self):
         info_hash = '60d5d82328b4547511fdeac9bf4d0112daa0ce00'
-        uri = deluge.common.create_magnet_uri(info_hash)
+        tracker = 'udp://tracker.example.com'
+        name = 'test magnet'
+        uri = deluge.common.create_magnet_uri(info_hash, name=name, trackers=[tracker])
         options = {}
         torrent_id = yield self.core.add_torrent_magnet(uri, options)
         assert torrent_id == info_hash
+        torrent_status = self.core.get_torrent_status(torrent_id, ['name', 'trackers'])
+        assert torrent_status['trackers'][0]['url'] == tracker
+        assert torrent_status['name'] == name
 
     def test_resume_torrent(self):
         tid1 = self.add_torrent('test.torrent', paused=True)

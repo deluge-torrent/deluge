@@ -19,7 +19,6 @@ setup_logger('none')
 
 
 class DelugeRPCProtocolTester(DelugeRPCProtocol):
-
     messages = []
 
     def transfer_message(self, data):

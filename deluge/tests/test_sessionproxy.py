@@ -5,7 +5,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-import pytest_twisted
 from twisted.internet.defer import maybeDeferred, succeed
 from twisted.internet.task import Clock
 
@@ -125,25 +124,21 @@ class TestSessionProxy(BaseTestCase):
     def test_startup(self):
         assert client.core.torrents['a'] == self.sp.torrents['a'][1]
 
-    @pytest_twisted.ensureDeferred
     async def test_get_torrent_status_no_change(self):
         result = await self.sp.get_torrent_status('a', [])
         assert result == client.core.torrents['a']
 
-    @pytest_twisted.ensureDeferred
     async def test_get_torrent_status_change_with_cache(self):
         client.core.torrents['a']['key1'] = 2
         result = await self.sp.get_torrent_status('a', ['key1'])
         assert result == {'key1': 1}
 
-    @pytest_twisted.ensureDeferred
     async def test_get_torrent_status_change_without_cache(self):
         client.core.torrents['a']['key1'] = 2
         self.clock.advance(self.sp.cache_time + 0.1)
         result = await self.sp.get_torrent_status('a', [])
         assert result == client.core.torrents['a']
 
-    @pytest_twisted.ensureDeferred
     async def test_get_torrent_status_key_not_updated(self):
         self.clock.advance(self.sp.cache_time + 0.1)
         self.sp.get_torrent_status('a', ['key1'])
@@ -151,7 +146,6 @@ class TestSessionProxy(BaseTestCase):
         result = await self.sp.get_torrent_status('a', ['key2'])
         assert result == {'key2': 99}
 
-    @pytest_twisted.ensureDeferred
     async def test_get_torrents_status_key_not_updated(self):
         self.clock.advance(self.sp.cache_time + 0.1)
         self.sp.get_torrents_status({'id': ['a']}, ['key1'])

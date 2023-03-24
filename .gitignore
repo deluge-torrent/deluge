@@ -16,7 +16,7 @@ deluge.pot
 deluge/ui/web/js/*.js
 deluge/ui/web/js/extjs/ext-extensions*.js
 *.desktop
-*.appdata.xml
+*.metainfo.xml
 .build_data*
 osx/app
 RELEASE-VERSION
