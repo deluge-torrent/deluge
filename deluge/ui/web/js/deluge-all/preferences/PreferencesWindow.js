@@ -46,7 +46,6 @@ Deluge.preferences.PreferencesWindow = Ext.extend(Ext.Window, {
             columns: [
                 {
                     id: 'name',
-                    renderer: fplain,
                     dataIndex: 'name',
                 },
             ],

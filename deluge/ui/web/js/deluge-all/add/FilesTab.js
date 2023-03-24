@@ -28,6 +28,7 @@ Deluge.add.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
             header: _('Filename'),
             width: 295,
             dataIndex: 'filename',
+            tpl: new Ext.XTemplate('{filename:htmlEncode}'),
         },
         {
             header: _('Size'),

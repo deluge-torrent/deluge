@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2014 Calum Lind <calumlind@gmail.com>
 # Copyright (C) 2010 Damien Churchill <damoxc@gmail.com>
@@ -15,19 +14,12 @@ Usage: python minify_web_js.py deluge/ui/web/js/deluge-all
 
 """
 
-from __future__ import print_function, unicode_literals
-
 import fileinput
 import fnmatch
 import os
 import subprocess
 import sys
-
-try:
-    from shutil import which
-except ImportError:
-    # PY2 Fallback
-    from distutils.spawn import find_executable as which
+from shutil import which
 
 closure_cmd = None
 for cmd in ['closure-compiler', 'closure']:
@@ -77,7 +69,7 @@ def source_files_list(source_dir):
 
         order_file = os.path.join(root, '.order')
         if os.path.isfile(order_file):
-            with open(order_file, 'r') as _file:
+            with open(order_file) as _file:
                 for line in _file:
                     if line.startswith('+ '):
                         order_filename = line.split()[1]
@@ -104,7 +96,7 @@ def minify_file(file_debug, file_minified):
         return minify_closure(file_debug, file_minified)
     elif minify:
         with open(file_minified, 'w') as file_out:
-            with open(file_debug, 'r') as file_in:
+            with open(file_debug) as file_in:
                 file_out.write(minify(file_in.read()))
                 return True
 

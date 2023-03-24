@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008-2009 Ido Abramovich <ido.deluge@gmail.com>
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
@@ -8,16 +7,12 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 import logging
 import os
 import re
-from io import open
 
 import deluge.component as component
 import deluge.configmanager
-from deluge.common import PY2
 from deluge.decorators import overrides
 from deluge.ui.console.cmdline.command import Commander
 from deluge.ui.console.modes.basemode import BaseMode, move_cursor
@@ -139,18 +134,18 @@ class CmdLine(BaseMode, Commander):
         self._hf_lines = [0, 0]
         if self.console_config['cmdline']['save_command_history']:
             try:
-                with open(self.history_file[0], 'r', encoding='utf8') as _file:
+                with open(self.history_file[0], encoding='utf8') as _file:
                     lines1 = _file.read().splitlines()
                 self._hf_lines[0] = len(lines1)
-            except IOError:
+            except OSError:
                 lines1 = []
                 self._hf_lines[0] = 0
 
             try:
-                with open(self.history_file[1], 'r', encoding='utf8') as _file:
+                with open(self.history_file[1], encoding='utf8') as _file:
                     lines2 = _file.read().splitlines()
                 self._hf_lines[1] = len(lines2)
-            except IOError:
+            except OSError:
                 lines2 = []
                 self._hf_lines[1] = 0
 
@@ -332,10 +327,10 @@ class CmdLine(BaseMode, Commander):
 
         # A key to add to the input string
         else:
-            if c > 31 and c < 256:
+            if 31 < c < 256:
                 # Emulate getwch
                 stroke = chr(c)
-                uchar = '' if PY2 else stroke
+                uchar = stroke
                 while not uchar:
                     try:
                         uchar = stroke.decode(self.encoding)
@@ -826,21 +821,21 @@ class CmdLine(BaseMode, Commander):
                 # Let's avoid listing all torrents twice if there's no pattern
                 if not empty and torrent_id.startswith(line):
                     # Highlight the matching part
-                    text = '{!info!}%s{!input!}%s - "%s"' % (
+                    text = '{{!info!}}{}{{!input!}}{} - "{}"'.format(
                         torrent_id[:line_len],
                         torrent_id[line_len:],
                         torrent_name,
                     )
                     possible_matches.append(text)
                 if torrent_name.startswith(line):
-                    text = '{!info!}%s{!input!}%s ({!cyan!}%s{!input!})' % (
+                    text = '{{!info!}}{}{{!input!}}{} ({{!cyan!}}{}{{!input!}})'.format(
                         escaped_name[:line_len],
                         escaped_name[line_len:],
                         torrent_id,
                     )
                     possible_matches.append(text)
                 elif torrent_name.lower().startswith(line.lower()):
-                    text = '{!info!}%s{!input!}%s ({!cyan!}%s{!input!})' % (
+                    text = '{{!info!}}{}{{!input!}}{} ({{!cyan!}}{}{{!input!}})'.format(
                         escaped_name[:line_len],
                         escaped_name[line_len:],
                         torrent_id,

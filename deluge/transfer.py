@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2012 Bro <bro.development@gmail.com>
 # Copyright (C) 2018 Andrew Resch <andrewresch@gmail.com>
@@ -7,8 +6,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import unicode_literals
 
 import logging
 import struct
@@ -24,7 +21,7 @@ MESSAGE_HEADER_FORMAT = '!BI'
 MESSAGE_HEADER_SIZE = struct.calcsize(MESSAGE_HEADER_FORMAT)
 
 
-class DelugeTransferProtocol(Protocol, object):
+class DelugeTransferProtocol(Protocol):
     """
     Deluge RPC wire protocol.
 
@@ -56,7 +53,7 @@ class DelugeTransferProtocol(Protocol, object):
         body = zlib.compress(rencode.dumps(data))
         body_len = len(body)
         message = struct.pack(
-            '{}{}s'.format(MESSAGE_HEADER_FORMAT, body_len),
+            f'{MESSAGE_HEADER_FORMAT}{body_len}s',
             PROTOCOL_VERSION,
             body_len,
             body,

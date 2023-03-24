@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2012 Arek Stefański <asmageddon@gmail.com>
 #
@@ -6,8 +5,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import unicode_literals
 
 import logging
 import os
@@ -22,12 +19,6 @@ from deluge.ui.console.modes.torrentlist.add_torrents_popup import report_add_st
 from deluge.ui.console.utils import curses_util as util
 from deluge.ui.console.utils import format_utils
 from deluge.ui.console.widgets.popup import InputPopup, MessagePopup
-
-try:
-    from future_builtins import zip
-except ImportError:
-    # Ignore on Py3.
-    pass
 
 try:
     import curses
@@ -377,7 +368,7 @@ class AddTorrents(BaseMode):
             def fail_cb(msg, t_file, ress):
                 log.debug('failed to add torrent: %s: %s', t_file, msg)
                 ress['fail'] += 1
-                ress['fmsg'].append('{!input!} * %s: {!error!}%s' % (t_file, msg))
+                ress['fmsg'].append(f'{{!input!}} * {t_file}: {{!error!}}{msg}')
                 if (ress['succ'] + ress['fail']) >= ress['total']:
                     report_add_status(
                         component.get('TorrentList'),
@@ -526,9 +517,9 @@ class AddTorrents(BaseMode):
 
                     self.last_mark = self.cursel
                 elif chr(c) == 'j':
-                    self.scroll_list_up(1)
-                elif chr(c) == 'k':
                     self.scroll_list_down(1)
+                elif chr(c) == 'k':
+                    self.scroll_list_up(1)
                 elif chr(c) == 'M':
                     if self.last_mark != -1:
                         if self.last_mark > self.cursel:

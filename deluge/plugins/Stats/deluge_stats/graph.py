@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 Ian Martin <ianmartin@cantab.net>
 # Copyright (C) 2008 Damien Churchill <damoxc@gmail.com>
@@ -14,15 +13,13 @@
 port of old plugin by markybob.
 """
 
-from __future__ import division, unicode_literals
-
 import logging
 import math
 import time
 
 import gi
 
-gi.require_foreign('cairo')  # NOQA: E402
+gi.require_foreign('cairo')
 
 import cairo  # isort:skip (gi checks required before import).
 
@@ -62,7 +59,7 @@ def change_opacity(color, opactiy):
     return tuple(color)
 
 
-class Graph(object):
+class Graph:
     def __init__(self):
         self.width = 100
         self.height = 100
@@ -178,7 +175,7 @@ class Graph(object):
             te = self.ctx.text_extents(text)
             return math.ceil(te[4] - te[0])
 
-        y_tick_width = max((space_required(text) for text in y_tick_text))
+        y_tick_width = max(space_required(text) for text in y_tick_text)
 
         top = font_extents[2] / 2
         # bounds(left, top, right, bottom)

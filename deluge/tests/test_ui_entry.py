@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2016 bendikro <bro.devel+deluge@gmail.com>
 #
@@ -7,14 +6,13 @@
 # See LICENSE for more details.
 #
 
-from __future__ import print_function, unicode_literals
-
 import argparse
 import sys
 from io import StringIO
+from unittest import mock
 
-import mock
 import pytest
+import pytest_twisted
 from twisted.internet import defer
 
 import deluge
@@ -23,12 +21,12 @@ import deluge.ui.console
 import deluge.ui.console.cmdline.commands.quit
 import deluge.ui.console.main
 import deluge.ui.web.server
-from deluge.common import PY2, get_localhost_auth, windows_check
+from deluge.common import get_localhost_auth, windows_check
+from deluge.conftest import BaseTestCase
 from deluge.ui import ui_entry
 from deluge.ui.web.server import DelugeWeb
 
 from . import common
-from .basetest import BaseTestCase
 from .daemon_base import DaemonBase
 
 DEBUG_COMMAND = False
@@ -41,7 +39,7 @@ sys_stdout = sys.stdout
 # To print to terminal from the tests, use: print('Message...', file=sys_stdout)
 
 
-class StringFileDescriptor(object):
+class StringFileDescriptor:
     """File descriptor that writes to string buffer"""
 
     def __init__(self, fd):
@@ -51,23 +49,16 @@ class StringFileDescriptor(object):
             setattr(self, a, getattr(sys_stdout, a))
 
     def write(self, *data, **kwargs):
-        # io.StringIO requires unicode strings.
         data_string = str(*data)
-        if PY2:
-            data_string = data_string.decode()
         print(data_string, file=self.out, end='')
 
     def flush(self):
         self.out.flush()
 
 
-class UIBaseTestCase(object):
-    def __init__(self):
-        self.var = {}
-
+class UIBaseTestCase:
     def set_up(self):
-        common.set_tmp_config_dir()
-        common.setup_test_logger(level='info', prefix=self.id())
+        common.setup_test_logger(level='info', prefix=self.config_dir / self.id())
         return component.start()
 
     def tear_down(self):
@@ -82,28 +73,14 @@ class UIBaseTestCase(object):
 class UIWithDaemonBaseTestCase(UIBaseTestCase, DaemonBase):
     """Subclass for test that require a deluged daemon"""
 
-    def __init__(self):
-        UIBaseTestCase.__init__(self)
-
     def set_up(self):
         d = self.common_set_up()
-        common.setup_test_logger(level='info', prefix=self.id())
-        d.addCallback(self.start_core)
-        return d
-
-    def tear_down(self):
-        d = UIBaseTestCase.tear_down(self)
-        d.addCallback(self.terminate_core)
+        common.setup_test_logger(level='info', prefix=self.config_dir / self.id())
         return d
 
 
-class DelugeEntryTestCase(BaseTestCase):
-
-    if windows_check():
-        skip = 'Console ui test on Windows broken due to sys args issue'
-
+class TestDelugeEntry(BaseTestCase):
     def set_up(self):
-        common.set_tmp_config_dir()
         return component.start()
 
     def tear_down(self):
@@ -119,10 +96,11 @@ class DelugeEntryTestCase(BaseTestCase):
         self.patch(argparse._sys, 'stdout', fd)
 
         with mock.patch('deluge.ui.console.main.ConsoleUI'):
-            self.assertRaises(SystemExit, ui_entry.start_ui)
-            self.assertTrue('usage: deluge' in fd.out.getvalue())
-            self.assertTrue('UI Options:' in fd.out.getvalue())
-            self.assertTrue('* console' in fd.out.getvalue())
+            with pytest.raises(SystemExit):
+                ui_entry.start_ui()
+            assert 'usage: deluge' in fd.out.getvalue()
+            assert 'UI Options:' in fd.out.getvalue()
+            assert '* console' in fd.out.getvalue()
 
     def test_start_default(self):
         self.patch(sys, 'argv', ['./deluge'])
@@ -157,7 +135,7 @@ class DelugeEntryTestCase(BaseTestCase):
             # Just test that no exception is raised
             ui_entry.start_ui()
 
-        self.assertEqual(_level[0], 'info')
+        assert _level[0] == 'info'
 
 
 class GtkUIBaseTestCase(UIBaseTestCase):
@@ -173,38 +151,27 @@ class GtkUIBaseTestCase(UIBaseTestCase):
 
 
 @pytest.mark.gtkui
-class GtkUIDelugeScriptEntryTestCase(BaseTestCase, GtkUIBaseTestCase):
-    def __init__(self, testname):
-        super(GtkUIDelugeScriptEntryTestCase, self).__init__(testname)
-        GtkUIBaseTestCase.__init__(self)
-
-        self.var['cmd_name'] = 'deluge gtk'
-        self.var['start_cmd'] = ui_entry.start_ui
-        self.var['sys_arg_cmd'] = ['./deluge', 'gtk']
-
-    def set_up(self):
-        return GtkUIBaseTestCase.set_up(self)
-
-    def tear_down(self):
-        return GtkUIBaseTestCase.tear_down(self)
+class TestGtkUIDelugeScriptEntry(BaseTestCase, GtkUIBaseTestCase):
+    @pytest.fixture(autouse=True)
+    def set_var(self, request):
+        request.cls.var = {
+            'cmd_name': 'deluge gtk',
+            'start_cmd': ui_entry.start_ui,
+            'sys_arg_cmd': ['./deluge', 'gtk'],
+        }
 
 
 @pytest.mark.gtkui
-class GtkUIScriptEntryTestCase(BaseTestCase, GtkUIBaseTestCase):
-    def __init__(self, testname):
-        super(GtkUIScriptEntryTestCase, self).__init__(testname)
-        GtkUIBaseTestCase.__init__(self)
+class TestGtkUIScriptEntry(BaseTestCase, GtkUIBaseTestCase):
+    @pytest.fixture(autouse=True)
+    def set_var(self, request):
         from deluge.ui import gtk3
 
-        self.var['cmd_name'] = 'deluge-gtk'
-        self.var['start_cmd'] = gtk3.start
-        self.var['sys_arg_cmd'] = ['./deluge-gtk']
-
-    def set_up(self):
-        return GtkUIBaseTestCase.set_up(self)
-
-    def tear_down(self):
-        return GtkUIBaseTestCase.tear_down(self)
+        request.cls.var = {
+            'cmd_name': 'deluge-gtk',
+            'start_cmd': gtk3.start,
+            'sys_arg_cmd': ['./deluge-gtk'],
+        }
 
 
 class DelugeWebMock(DelugeWeb):
@@ -242,45 +209,31 @@ class WebUIBaseTestCase(UIBaseTestCase):
 
         self.patch(deluge.ui.web.server, 'DelugeWeb', DelugeWebMock)
         self.exec_command()
-        self.assertEqual(_level[0], 'info')
+        assert _level[0] == 'info'
 
 
-class WebUIScriptEntryTestCase(BaseTestCase, WebUIBaseTestCase):
-
-    if windows_check():
-        skip = 'Console ui test on Windows broken due to sys args issue'
-
-    def __init__(self, testname):
-        super(WebUIScriptEntryTestCase, self).__init__(testname)
-        WebUIBaseTestCase.__init__(self)
-        self.var['cmd_name'] = 'deluge-web'
-        self.var['start_cmd'] = deluge.ui.web.start
-        self.var['sys_arg_cmd'] = ['./deluge-web', '--do-not-daemonize']
-
-    def set_up(self):
-        return WebUIBaseTestCase.set_up(self)
-
-    def tear_down(self):
-        return WebUIBaseTestCase.tear_down(self)
+class TestWebUIScriptEntry(BaseTestCase, WebUIBaseTestCase):
+    @pytest.fixture(autouse=True)
+    def set_var(self, request):
+        request.cls.var = {
+            'cmd_name': 'deluge-web',
+            'start_cmd': deluge.ui.web.start,
+            'sys_arg_cmd': ['./deluge-web'],
+        }
+        if not windows_check():
+            request.cls.var['sys_arg_cmd'].append('--do-not-daemonize')
 
 
-class WebUIDelugeScriptEntryTestCase(BaseTestCase, WebUIBaseTestCase):
-
-    if windows_check():
-        skip = 'Console ui test on Windows broken due to sys args issue'
-
-    def __init__(self, testname):
-        super(WebUIDelugeScriptEntryTestCase, self).__init__(testname)
-        WebUIBaseTestCase.__init__(self)
-        self.var['cmd_name'] = 'deluge web'
-        self.var['start_cmd'] = ui_entry.start_ui
-        self.var['sys_arg_cmd'] = ['./deluge', 'web', '--do-not-daemonize']
-
-    def set_up(self):
-        return WebUIBaseTestCase.set_up(self)
-
-    def tear_down(self):
-        return WebUIBaseTestCase.tear_down(self)
+class TestWebUIDelugeScriptEntry(BaseTestCase, WebUIBaseTestCase):
+    @pytest.fixture(autouse=True)
+    def set_var(self, request):
+        request.cls.var = {
+            'cmd_name': 'deluge web',
+            'start_cmd': ui_entry.start_ui,
+            'sys_arg_cmd': ['./deluge', 'web'],
+        }
+        if not windows_check():
+            request.cls.var['sys_arg_cmd'].append('--do-not-daemonize')
 
 
 class ConsoleUIBaseTestCase(UIBaseTestCase):
@@ -291,7 +244,7 @@ class ConsoleUIBaseTestCase(UIBaseTestCase):
         with mock.patch('deluge.ui.console.main.ConsoleUI'):
             self.exec_command()
 
-    def test_start_console_with_log_level(self):
+    def test_start_console_with_log_level(self, request):
         _level = []
 
         def setup_logger(
@@ -314,7 +267,7 @@ class ConsoleUIBaseTestCase(UIBaseTestCase):
             # Just test that no exception is raised
             self.exec_command()
 
-        self.assertEqual(_level[0], 'info')
+        assert _level[0] == 'info'
 
     def test_console_help(self):
         self.patch(sys, 'argv', self.var['sys_arg_cmd'] + ['-h'])
@@ -322,18 +275,19 @@ class ConsoleUIBaseTestCase(UIBaseTestCase):
         self.patch(argparse._sys, 'stdout', fd)
 
         with mock.patch('deluge.ui.console.main.ConsoleUI'):
-            self.assertRaises(SystemExit, self.exec_command)
+            with pytest.raises(SystemExit):
+                self.exec_command()
             std_output = fd.out.getvalue()
-            self.assertTrue(
-                ('usage: %s' % self.var['cmd_name']) in std_output
-            )  # Check command name
-            self.assertTrue('Common Options:' in std_output)
-            self.assertTrue('Console Options:' in std_output)
-            self.assertIn(
-                'Console Commands:\n  The following console commands are available:',
-                std_output,
+            assert (
+                'usage: %s' % self.var['cmd_name']
+            ) in std_output  # Check command name
+            assert 'Common Options:' in std_output
+            assert 'Console Options:' in std_output
+            assert (
+                'Console Commands:\n  The following console commands are available:'
+                in std_output
             )
-            self.assertIn('The following console commands are available:', std_output)
+            assert 'The following console commands are available:' in std_output
 
     def test_console_command_info(self):
         self.patch(sys, 'argv', self.var['sys_arg_cmd'] + ['info'])
@@ -349,10 +303,11 @@ class ConsoleUIBaseTestCase(UIBaseTestCase):
         self.patch(argparse._sys, 'stdout', fd)
 
         with mock.patch('deluge.ui.console.main.ConsoleUI'):
-            self.assertRaises(SystemExit, self.exec_command)
+            with pytest.raises(SystemExit):
+                self.exec_command()
             std_output = fd.out.getvalue()
-            self.assertIn('usage: info', std_output)
-            self.assertIn('Show information about the torrents', std_output)
+            assert 'usage: info' in std_output
+            assert 'Show information about the torrents' in std_output
 
     def test_console_unrecognized_arguments(self):
         self.patch(
@@ -361,8 +316,9 @@ class ConsoleUIBaseTestCase(UIBaseTestCase):
         fd = StringFileDescriptor(sys.stdout)
         self.patch(argparse._sys, 'stderr', fd)
         with mock.patch('deluge.ui.console.main.ConsoleUI'):
-            self.assertRaises(SystemExit, self.exec_command)
-            self.assertIn('unrecognized arguments: --ui', fd.out.getvalue())
+            with pytest.raises(SystemExit):
+                self.exec_command()
+            assert 'unrecognized arguments: --ui' in fd.out.getvalue()
 
 
 class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
@@ -390,26 +346,28 @@ class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
             + command,
         )
 
-    @defer.inlineCallbacks
+    @pytest_twisted.inlineCallbacks
     def test_console_command_add(self):
         filename = common.get_test_data_file('test.torrent')
-        self.patch_arg_command(['add ' + filename])
+        self.patch_arg_command([f'add "{filename}"'])
         fd = StringFileDescriptor(sys.stdout)
         self.patch(sys, 'stdout', fd)
 
         yield self.exec_command()
 
         std_output = fd.out.getvalue()
-        self.assertEqual(
-            std_output, 'Attempting to add torrent: ' + filename + '\nTorrent added!\n'
+        assert (
+            std_output
+            == 'Attempting to add torrent: ' + filename + '\nTorrent added!\n'
         )
 
-    @defer.inlineCallbacks
+    @pytest_twisted.inlineCallbacks
     def test_console_command_add_move_completed(self):
         filename = common.get_test_data_file('test.torrent')
+        tmp_path = 'c:\\tmp' if windows_check() else '/tmp'
         self.patch_arg_command(
             [
-                'add --move-path /tmp ' + filename + ' ; status'
+                f'add --move-path "{tmp_path}" "{filename}" ; status'
                 ' ; manage'
                 ' ab570cdd5a17ea1b61e970bb72047de141bce173'
                 ' move_completed'
@@ -422,22 +380,22 @@ class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
         yield self.exec_command()
 
         std_output = fd.out.getvalue()
-        self.assertTrue(
-            std_output.endswith('move_completed: True\nmove_completed_path: /tmp\n')
-            or std_output.endswith('move_completed_path: /tmp\nmove_completed: True\n')
+        assert std_output.endswith(
+            f'move_completed: True\nmove_completed_path: {tmp_path}\n'
+        ) or std_output.endswith(
+            f'move_completed_path: {tmp_path}\nmove_completed: True\n'
         )
 
-    @defer.inlineCallbacks
-    def test_console_command_status(self):
+    async def test_console_command_status(self):
         fd = StringFileDescriptor(sys.stdout)
         self.patch_arg_command(['status'])
         self.patch(sys, 'stdout', fd)
 
-        yield self.exec_command()
+        await self.exec_command()
 
         std_output = fd.out.getvalue()
-        self.assertTrue(std_output.startswith('Total upload: '))
-        self.assertTrue(std_output.endswith(' Moving: 0\n'))
+        assert std_output.startswith('Total upload: ')
+        assert std_output.endswith(' Moving: 0\n')
 
     @defer.inlineCallbacks
     def test_console_command_config_set_download_location(self):
@@ -447,79 +405,36 @@ class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
 
         yield self.exec_command()
         std_output = fd.out.getvalue()
-        self.assertTrue(
-            std_output.startswith(
-                'Setting "download_location" to: {}\'/downloads\''.format(
-                    'u' if PY2 else ''
-                )
-            )
-        )
-        self.assertTrue(
-            std_output.endswith('Configuration value successfully updated.\n')
-        )
+        assert std_output.startswith('Setting "download_location" to: \'/downloads\'')
+        assert std_output.endswith('Configuration value successfully updated.\n')
 
 
-class ConsoleScriptEntryWithDaemonTestCase(
-    BaseTestCase, ConsoleUIWithDaemonBaseTestCase
-):
-
-    if windows_check():
-        skip = 'Console ui test on Windows broken due to sys args issue'
-
-    def __init__(self, testname):
-        super(ConsoleScriptEntryWithDaemonTestCase, self).__init__(testname)
-        ConsoleUIWithDaemonBaseTestCase.__init__(self)
-        self.var['cmd_name'] = 'deluge-console'
-        self.var['sys_arg_cmd'] = ['./deluge-console']
-
-    def set_up(self):
-        from deluge.ui.console.console import Console
-
-        def start_console():
-            return Console().start()
-
-        self.patch(deluge.ui.console, 'start', start_console)
-        self.var['start_cmd'] = deluge.ui.console.start
-
-        return ConsoleUIWithDaemonBaseTestCase.set_up(self)
-
-    def tear_down(self):
-        return ConsoleUIWithDaemonBaseTestCase.tear_down(self)
+@pytest.mark.usefixtures('daemon', 'client')
+class TestConsoleScriptEntryWithDaemon(BaseTestCase, ConsoleUIWithDaemonBaseTestCase):
+    @pytest.fixture(autouse=True)
+    def set_var(self, request):
+        request.cls.var = {
+            'cmd_name': 'deluge-console',
+            'start_cmd': deluge.ui.console.test_start,
+            'sys_arg_cmd': ['./deluge-console'],
+        }
 
 
-class ConsoleScriptEntryTestCase(BaseTestCase, ConsoleUIBaseTestCase):
-
-    if windows_check():
-        skip = 'Console ui test on Windows broken due to sys args issue'
-
-    def __init__(self, testname):
-        super(ConsoleScriptEntryTestCase, self).__init__(testname)
-        ConsoleUIBaseTestCase.__init__(self)
-        self.var['cmd_name'] = 'deluge-console'
-        self.var['start_cmd'] = deluge.ui.console.start
-        self.var['sys_arg_cmd'] = ['./deluge-console']
-
-    def set_up(self):
-        return ConsoleUIBaseTestCase.set_up(self)
-
-    def tear_down(self):
-        return ConsoleUIBaseTestCase.tear_down(self)
+class TestConsoleScriptEntry(BaseTestCase, ConsoleUIBaseTestCase):
+    @pytest.fixture(autouse=True)
+    def set_var(self, request):
+        request.cls.var = {
+            'cmd_name': 'deluge-console',
+            'start_cmd': deluge.ui.console.start,
+            'sys_arg_cmd': ['./deluge-console'],
+        }
 
 
-class ConsoleDelugeScriptEntryTestCase(BaseTestCase, ConsoleUIBaseTestCase):
-
-    if windows_check():
-        skip = 'cannot test console ui on windows'
-
-    def __init__(self, testname):
-        super(ConsoleDelugeScriptEntryTestCase, self).__init__(testname)
-        ConsoleUIBaseTestCase.__init__(self)
-        self.var['cmd_name'] = 'deluge console'
-        self.var['start_cmd'] = ui_entry.start_ui
-        self.var['sys_arg_cmd'] = ['./deluge', 'console']
-
-    def set_up(self):
-        return ConsoleUIBaseTestCase.set_up(self)
-
-    def tear_down(self):
-        return ConsoleUIBaseTestCase.tear_down(self)
+class TestConsoleDelugeScriptEntry(BaseTestCase, ConsoleUIBaseTestCase):
+    @pytest.fixture(autouse=True)
+    def set_var(self, request):
+        request.cls.var = {
+            'cmd_name': 'deluge console',
+            'start_cmd': ui_entry.start_ui,
+            'sys_arg_cmd': ['./deluge', 'console'],
+        }

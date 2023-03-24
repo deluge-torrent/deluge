@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
 #
@@ -6,8 +5,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import unicode_literals
 
 import logging
 import os.path
@@ -45,9 +42,8 @@ if windowing('X11'):
 log = logging.getLogger(__name__)
 
 
-class _GtkBuilderSignalsHolder(object):
+class _GtkBuilderSignalsHolder:
     def connect_signals(self, mapping_or_class):
-
         if isinstance(mapping_or_class, dict):
             for name, handler in mapping_or_class.items():
                 if hasattr(self, name):
@@ -341,7 +337,9 @@ class MainWindow(component.Component):
                 return
             self.previous_clipboard_text = text
             if text and (
-                (is_url(text) and text.endswith('.torrent')) or is_magnet(text)
+                (is_url(text) and text.endswith('.torrent'))
+                or is_magnet(text)
+                and not component.get('MenuBar').magnet_copied()
             ):
                 component.get('AddTorrentDialog').show()
                 component.get('AddTorrentDialog').on_button_url_clicked(window)

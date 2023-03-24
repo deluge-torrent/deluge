@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 GazpachoKing <chase.sterling@gmail.com>
 # Copyright (C) 2011 Pedro Algarvio <pedro@algarvio.me>
@@ -12,8 +11,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import unicode_literals
 
 import logging
 import os
@@ -30,7 +27,7 @@ import deluge.configmanager
 from deluge._libtorrent import lt
 from deluge.common import AUTH_LEVEL_ADMIN, is_magnet
 from deluge.core.rpcserver import export
-from deluge.error import AddTorrentError
+from deluge.error import AddTorrentError, InvalidTorrentError
 from deluge.event import DelugeEvent
 from deluge.plugins.pluginbase import CorePluginBase
 
@@ -83,7 +80,6 @@ def check_input(cond, message):
 
 class Core(CorePluginBase):
     def enable(self):
-
         # reduce typing, assigning some values to self...
         self.config = deluge.configmanager.ConfigManager('autoadd.conf', DEFAULT_PREFS)
         self.config.run_converter((0, 1), 2, self.__migrate_config_1_to_2)
@@ -152,7 +148,7 @@ class Core(CorePluginBase):
         try:
             with open(filename, file_mode) as _file:
                 filedump = _file.read()
-        except IOError as ex:
+        except OSError as ex:
             log.warning('Unable to open %s: %s', filename, ex)
             raise ex
 
@@ -161,7 +157,10 @@ class Core(CorePluginBase):
 
         # Get the info to see if any exceptions are raised
         if not magnet:
-            lt.torrent_info(lt.bdecode(filedump))
+            decoded_torrent = lt.bdecode(filedump)
+            if decoded_torrent is None:
+                raise InvalidTorrentError('Torrent file failed decoding.')
+            lt.torrent_info(decoded_torrent)
 
         return filedump
 
@@ -169,9 +168,9 @@ class Core(CorePluginBase):
         log.debug('Attempting to open %s for splitting magnets.', filename)
         magnets = []
         try:
-            with open(filename, 'r') as _file:
+            with open(filename) as _file:
                 magnets = list(filter(len, _file.read().splitlines()))
-        except IOError as ex:
+        except OSError as ex:
             log.warning('Unable to open %s: %s', filename, ex)
 
         if len(magnets) < 2:
@@ -196,7 +195,7 @@ class Core(CorePluginBase):
             try:
                 with open(mname, 'w') as _mfile:
                     _mfile.write(magnet)
-            except IOError as ex:
+            except OSError as ex:
                 log.warning('Unable to open %s: %s', mname, ex)
         return magnets
 
@@ -271,7 +270,7 @@ class Core(CorePluginBase):
 
             try:
                 filedump = self.load_torrent(filepath, magnet)
-            except (IOError, EOFError) as ex:
+            except (OSError, EOFError, RuntimeError, InvalidTorrentError) as ex:
                 # If torrent is invalid, keep track of it so can try again on the next pass.
                 # This catches torrent files that may not be fully saved to disk at load time.
                 log.debug('Torrent is invalid: %s', ex)

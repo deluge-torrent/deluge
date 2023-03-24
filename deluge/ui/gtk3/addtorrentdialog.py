@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
 #
@@ -7,11 +6,9 @@
 # See LICENSE for more details.
 #
 
-from __future__ import division, unicode_literals
-
 import logging
 import os
-from base64 import b64encode
+from base64 import b64decode, b64encode
 from xml.sax.saxutils import escape as xml_escape
 from xml.sax.saxutils import unescape as xml_unescape
 
@@ -19,6 +16,7 @@ from gi.repository import Gtk
 from gi.repository.GObject import TYPE_INT64, TYPE_UINT64
 
 import deluge.component as component
+from deluge.bencode import bdecode
 from deluge.common import (
     create_magnet_uri,
     decode_bytes,
@@ -271,6 +269,7 @@ class AddTorrentDialog(component.Component):
             return
 
         if metadata:
+            metadata = bdecode(b64decode(metadata))
             info = TorrentInfo.from_metadata(metadata, [[t] for t in trackers])
             self.files[info_hash] = info.files
             self.infos[info_hash] = info.filedata
@@ -380,7 +379,7 @@ class AddTorrentDialog(component.Component):
         self.listview_files.expand_row(root, False)
 
     def prepare_file(self, _file, file_name, file_num, download, files_storage):
-        first_slash_index = file_name.find(os.path.sep)
+        first_slash_index = file_name.find('/')
         if first_slash_index == -1:
             files_storage[file_name] = (file_num, _file, download)
         else:
@@ -398,7 +397,7 @@ class AddTorrentDialog(component.Component):
     def add_files(self, parent_iter, split_files):
         ret = 0
         for key, value in split_files.items():
-            if key.endswith(os.path.sep):
+            if key.endswith('/'):
                 chunk_iter = self.files_treestore.append(
                     parent_iter, [True, key, 0, -1, False, 'folder-symbolic']
                 )
@@ -585,7 +584,7 @@ class AddTorrentDialog(component.Component):
                 self.build_priorities(
                     self.files_treestore.iter_children(_iter), priorities
                 )
-            elif not self.files_treestore.get_value(_iter, 1).endswith(os.path.sep):
+            elif not self.files_treestore.get_value(_iter, 1).endswith('/'):
                 priorities[
                     self.files_treestore.get_value(_iter, 3)
                 ] = self.files_treestore.get_value(_iter, 0)
@@ -775,7 +774,7 @@ class AddTorrentDialog(component.Component):
             else:
                 ErrorDialog(
                     _('Invalid URL'),
-                    '%s %s' % (url, _('is not a valid URL.')),
+                    '{} {}'.format(url, _('is not a valid URL.')),
                     self.dialog,
                 ).run()
 
@@ -817,7 +816,7 @@ class AddTorrentDialog(component.Component):
             dialog.destroy()
             ErrorDialog(
                 _('Download Failed'),
-                '%s %s' % (_('Failed to download:'), url),
+                '{} {}'.format(_('Failed to download:'), url),
                 details=result.getErrorMessage(),
                 parent=self.dialog,
             ).run()
@@ -986,7 +985,10 @@ class AddTorrentDialog(component.Component):
     def _on_filename_edited(self, renderer, path, new_text):
         index = self.files_treestore[path][3]
 
-        new_text = new_text.strip(os.path.sep).strip()
+        # Ensure agnostic path separator
+        new_text = new_text.replace('\\', '/')
+
+        new_text = new_text.strip('/').strip()
 
         # Return if the text hasn't changed
         if new_text == self.files_treestore[path][1]:
@@ -1013,10 +1015,10 @@ class AddTorrentDialog(component.Component):
                 for row in self.files_treestore[parent].iterchildren():
                     if new_text == row[1]:
                         return
-            if os.path.sep in new_text:
+            if '/' in new_text:
                 # There are folders in this path, so we need to create them
                 # and then move the file iter to top
-                split_text = new_text.split(os.path.sep)
+                split_text = new_text.split('/')
                 for s in split_text[:-1]:
                     parent = self.files_treestore.append(
                         parent, [True, s, 0, -1, False, 'folder-symbolic']
@@ -1069,19 +1071,19 @@ class AddTorrentDialog(component.Component):
             # we can construct the new proper paths
 
             # We need to check if this folder has been split
-            if os.path.sep in new_text:
+            if '/' in new_text:
                 # It's been split, so we need to add new folders and then re-parent
                 # itr.
                 parent = self.files_treestore.iter_parent(itr)
-                split_text = new_text.split(os.path.sep)
+                split_text = new_text.split('/')
                 for s in split_text[:-1]:
                     # We don't iterate over the last item because we'll just use
                     # the existing itr and change the text
                     parent = self.files_treestore.append(
-                        parent, [True, s + os.path.sep, 0, -1, False, 'folder-symbolic']
+                        parent, [True, s + '/', 0, -1, False, 'folder-symbolic']
                     )
 
-                self.files_treestore[itr][1] = split_text[-1] + os.path.sep
+                self.files_treestore[itr][1] = split_text[-1] + '/'
 
                 # Now re-parent itr to parent
                 reparent_iter(self.files_treestore, itr, parent)
@@ -1094,7 +1096,7 @@ class AddTorrentDialog(component.Component):
             else:
                 # This was a simple folder rename without any splits, so just
                 # change the path for itr
-                self.files_treestore[itr][1] = new_text + os.path.sep
+                self.files_treestore[itr][1] = new_text + '/'
 
             # Walk through the tree from 'itr' and add all the new file paths
             # to the 'mapped_files' option

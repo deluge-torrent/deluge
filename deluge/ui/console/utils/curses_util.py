@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2016 bendikro <bro.devel+deluge@gmail.com>
 #
@@ -6,8 +5,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import unicode_literals
 
 try:
     import curses
@@ -39,7 +36,7 @@ def is_int_chr(c):
     return c > 47 and c < 58
 
 
-class Curser(object):
+class Curser:
     INVISIBLE = 0
     NORMAL = 1
     VERY_VISIBLE = 2
@@ -59,7 +56,7 @@ def safe_curs_set(visibility):
         pass
 
 
-class ReadState(object):
+class ReadState:
     IGNORED = 0
     READ = 1
     CHANGED = 2

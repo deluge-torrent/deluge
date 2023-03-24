@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Original file from BitTorrent-5.3-GPL.tar.gz
 # Copyright (C) Bram Cohen
@@ -10,8 +9,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import division, unicode_literals
 
 import logging
 import os.path
@@ -44,7 +41,7 @@ def dummy(*v):
     pass
 
 
-class RemoteFileProgress(object):
+class RemoteFileProgress:
     def __init__(self, session_id):
         self.session_id = session_id
 

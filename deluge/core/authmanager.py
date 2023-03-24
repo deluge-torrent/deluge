@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 # Copyright (C) 2011 Pedro Algarvio <pedro@algarvio.me>
@@ -8,12 +7,9 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 import logging
 import os
 import shutil
-from io import open
 
 import deluge.component as component
 import deluge.configmanager as configmanager
@@ -32,14 +28,14 @@ log = logging.getLogger(__name__)
 AUTH_LEVELS_MAPPING = {
     'NONE': AUTH_LEVEL_NONE,
     'READONLY': AUTH_LEVEL_READONLY,
-    'DEFAULT': AUTH_LEVEL_NORMAL,
-    'NORMAL': AUTH_LEVEL_DEFAULT,
+    'DEFAULT': AUTH_LEVEL_DEFAULT,
+    'NORMAL': AUTH_LEVEL_NORMAL,
     'ADMIN': AUTH_LEVEL_ADMIN,
 }
 AUTH_LEVELS_MAPPING_REVERSE = {v: k for k, v in AUTH_LEVELS_MAPPING.items()}
 
 
-class Account(object):
+class Account:
     __slots__ = ('username', 'password', 'authlevel')
 
     def __init__(self, username, password, authlevel):
@@ -56,10 +52,10 @@ class Account(object):
         }
 
     def __repr__(self):
-        return '<Account username="%(username)s" authlevel=%(authlevel)s>' % {
-            'username': self.username,
-            'authlevel': self.authlevel,
-        }
+        return '<Account username="{username}" authlevel={authlevel}>'.format(
+            username=self.username,
+            authlevel=self.authlevel,
+        )
 
 
 class AuthManager(component.Component):
@@ -184,7 +180,7 @@ class AuthManager(component.Component):
             if os.path.isfile(filepath):
                 log.debug('Creating backup of %s at: %s', filename, filepath_bak)
                 shutil.copy2(filepath, filepath_bak)
-        except IOError as ex:
+        except OSError as ex:
             log.error('Unable to backup %s to %s: %s', filepath, filepath_bak, ex)
         else:
             log.info('Saving the %s at: %s', filename, filepath)
@@ -198,7 +194,7 @@ class AuthManager(component.Component):
                     _file.flush()
                     os.fsync(_file.fileno())
                 shutil.move(filepath_tmp, filepath)
-            except IOError as ex:
+            except OSError as ex:
                 log.error('Unable to save %s: %s', filename, ex)
                 if os.path.isfile(filepath_bak):
                     log.info('Restoring backup of %s from: %s', filename, filepath_bak)
@@ -227,9 +223,9 @@ class AuthManager(component.Component):
         for _filepath in (auth_file, auth_file_bak):
             log.info('Opening %s for load: %s', filename, _filepath)
             try:
-                with open(_filepath, 'r', encoding='utf8') as _file:
+                with open(_filepath, encoding='utf8') as _file:
                     file_data = _file.readlines()
-            except IOError as ex:
+            except OSError as ex:
                 log.warning('Unable to load %s: %s', _filepath, ex)
                 file_data = []
             else:

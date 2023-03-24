@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
 # Copyright (C) 2010 Pedro Algarvio <pedro@algarvio.me>
@@ -9,8 +8,6 @@
 #
 
 """Logging functions"""
-from __future__ import unicode_literals
-
 import inspect
 import logging
 import logging.handlers
@@ -39,7 +36,7 @@ MAX_LOGGER_NAME_LENGTH = 10
 
 class Logging(LoggingLoggerClass):
     def __init__(self, logger_name):
-        super(Logging, self).__init__(logger_name)
+        super().__init__(logger_name)
 
         # This makes module name padding increase to the biggest module name
         # so that logs keep readability.
@@ -54,39 +51,31 @@ class Logging(LoggingLoggerClass):
                     )
                 )
 
-    @defer.inlineCallbacks
     def garbage(self, msg, *args, **kwargs):
-        yield LoggingLoggerClass.log(self, 1, msg, *args, **kwargs)
+        LoggingLoggerClass.log(self, 1, msg, *args, **kwargs)
 
-    @defer.inlineCallbacks
     def trace(self, msg, *args, **kwargs):
-        yield LoggingLoggerClass.log(self, 5, msg, *args, **kwargs)
+        LoggingLoggerClass.log(self, 5, msg, *args, **kwargs)
 
-    @defer.inlineCallbacks
     def debug(self, msg, *args, **kwargs):
-        yield LoggingLoggerClass.debug(self, msg, *args, **kwargs)
+        LoggingLoggerClass.debug(self, msg, *args, **kwargs)
 
-    @defer.inlineCallbacks
     def info(self, msg, *args, **kwargs):
-        yield LoggingLoggerClass.info(self, msg, *args, **kwargs)
+        LoggingLoggerClass.info(self, msg, *args, **kwargs)
 
-    @defer.inlineCallbacks
     def warning(self, msg, *args, **kwargs):
-        yield LoggingLoggerClass.warning(self, msg, *args, **kwargs)
+        LoggingLoggerClass.warning(self, msg, *args, **kwargs)
 
     warn = warning
 
-    @defer.inlineCallbacks
     def error(self, msg, *args, **kwargs):
-        yield LoggingLoggerClass.error(self, msg, *args, **kwargs)
+        LoggingLoggerClass.error(self, msg, *args, **kwargs)
 
-    @defer.inlineCallbacks
     def critical(self, msg, *args, **kwargs):
-        yield LoggingLoggerClass.critical(self, msg, *args, **kwargs)
+        LoggingLoggerClass.critical(self, msg, *args, **kwargs)
 
-    @defer.inlineCallbacks
     def exception(self, msg, *args, **kwargs):
-        yield LoggingLoggerClass.exception(self, msg, *args, **kwargs)
+        LoggingLoggerClass.exception(self, msg, *args, **kwargs)
 
     def findCaller(self, *args, **kwargs):  # NOQA: N802
         f = logging.currentframe().f_back
@@ -102,10 +91,7 @@ class Logging(LoggingLoggerClass):
                 continue
             rv = (co.co_filename, f.f_lineno, co.co_name, None)
             break
-        if common.PY2:
-            return rv[:-1]
-        else:
-            return rv
+        return rv
 
 
 levels = {
@@ -161,7 +147,12 @@ def setup_logger(
             handler_cls = getattr(
                 logging.handlers, 'WatchedFileHandler', logging.FileHandler
             )
-        handler = handler_cls(filename, mode=filemode, encoding='utf-8')
+        try:
+            handler = handler_cls(filename, mode=filemode, encoding='utf-8')
+        except FileNotFoundError:
+            handler = logging.StreamHandler(stream=output_stream)
+            log = logging.getLogger(__name__)
+            log.error(f'Unable to write to log file `{filename}`')
     else:
         handler = logging.StreamHandler(stream=output_stream)
 
@@ -243,7 +234,7 @@ def tweak_logging_levels():
     log.warning(
         'logging.conf found! tweaking logging levels from %s', logging_config_file
     )
-    with open(logging_config_file, 'r') as _file:
+    with open(logging_config_file) as _file:
         for line in _file:
             if line.strip().startswith('#'):
                 continue
@@ -314,7 +305,7 @@ Triggering code:
 """
 
 
-class _BackwardsCompatibleLOG(object):
+class _BackwardsCompatibleLOG:
     def __getattribute__(self, name):
         import warnings
 

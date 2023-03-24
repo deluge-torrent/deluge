@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007, 2008 Andrew Resch <andrewresch@gmail.com>
 #
@@ -6,8 +5,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import print_function, unicode_literals
 
 import warnings
 from functools import partial
@@ -17,7 +14,7 @@ import deluge.component as component
 
 from .common import (
     create_blank_pixbuf,
-    get_pixbuf_at_size,
+    get_pixbuf,
     icon_alert,
     icon_checking,
     icon_downloading,
@@ -42,7 +39,6 @@ ICON_STATE = {
 # renderer. This is much cheaper than fetch the current value and test if
 # it's equal.
 func_last_value = {
-    'cell_data_time': None,
     'cell_data_ratio_seeds_peers': None,
     'cell_data_ratio_ratio': None,
     'cell_data_ratio_avail': None,
@@ -86,7 +82,7 @@ def set_tracker_icon(tracker_icon, cell):
     if tracker_icon:
         pixbuf = tracker_icon.get_cached_icon()
         if pixbuf is None:
-            pixbuf = get_pixbuf_at_size(tracker_icon.get_filename(), 16)
+            pixbuf = get_pixbuf(tracker_icon.get_filename(), 16)
             tracker_icon.set_cached_icon(pixbuf)
     else:
         pixbuf = create_blank_pixbuf()
@@ -162,7 +158,7 @@ def cell_data_speed(cell, model, row, data):
     if speed > 0:
         speed_str = common.fspeed(speed, shortform=True)
         cell.set_property(
-            'markup', '{0} <small>{1}</small>'.format(*tuple(speed_str.split()))
+            'markup', '{} <small>{}</small>'.format(*tuple(speed_str.split()))
         )
     else:
         cell.set_property('text', '')
@@ -189,7 +185,7 @@ def cell_data_speed_limit(cell, model, row, data, cache_key):
     if speed > 0:
         speed_str = common.fspeed(speed * 1024, shortform=True)
         cell.set_property(
-            'markup', '{0} <small>{1}</small>'.format(*tuple(speed_str.split()))
+            'markup', '{} <small>{}</small>'.format(*tuple(speed_str.split()))
         )
     else:
         cell.set_property('text', '')
@@ -222,10 +218,6 @@ def cell_data_peer(column, cell, model, row, data):
 def cell_data_time(column, cell, model, row, data):
     """Display value as time, eg 1m10s"""
     time = model.get_value(row, data)
-    if func_last_value['cell_data_time'] == time:
-        return
-    func_last_value['cell_data_time'] = time
-
     if time <= 0:
         time_str = ''
     else:

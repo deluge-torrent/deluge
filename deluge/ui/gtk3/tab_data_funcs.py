@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007, 2008 Andrew Resch <andrewresch@gmail.com>
 #
@@ -7,14 +6,12 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 from deluge.common import fdate, fsize, fspeed, ftime
 from deluge.ui.common import TRACKER_STATUS_TRANSLATION
 
 
 def ftotal_sized(first, second):
-    return '%s (%s)' % (fsize(first, shortform=True), fsize(second, shortform=True))
+    return f'{fsize(first, shortform=True)} ({fsize(second, shortform=True)})'
 
 
 def fratio(value):
@@ -24,7 +21,7 @@ def fratio(value):
 def fpcnt(value, state, message):
     state_i18n = _(state)
     if state not in ('Error', 'Seeding') and value < 100:
-        percent = '{:.2f}'.format(value).rstrip('0').rstrip('.')
+        percent = f'{value:.2f}'.rstrip('0').rstrip('.')
         return _('{state} {percent}%').format(state=state_i18n, percent=percent)
     elif state == 'Error':
         return _('{state}: {err_msg}').format(state=state_i18n, err_msg=message)
@@ -34,7 +31,7 @@ def fpcnt(value, state, message):
 
 def fspeed_max(value, max_value=-1):
     value = fspeed(value, shortform=True)
-    return '%s (%s %s)' % (value, max_value, _('K/s')) if max_value > -1 else value
+    return '{} ({} {})'.format(value, max_value, _('K/s')) if max_value > -1 else value
 
 
 def fdate_or_never(value):
@@ -73,7 +70,7 @@ def fseed_rank_or_dash(seed_rank, seeding_time):
 
 
 def fpieces_num_size(num_pieces, piece_size):
-    return '%s (%s)' % (num_pieces, fsize(piece_size, precision=0))
+    return f'{num_pieces} ({fsize(piece_size, precision=0)})'
 
 
 def fcount(value):

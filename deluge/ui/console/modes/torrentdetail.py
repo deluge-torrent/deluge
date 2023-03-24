@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2011 Nick Lanham <nick@afternight.org>
 #
@@ -6,8 +5,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import division, unicode_literals
 
 import logging
 
@@ -184,7 +181,6 @@ class TorrentDetail(BaseMode, PopupsHandler):
         self.refresh()
 
     def set_state(self, state):
-
         if state.get('files'):
             self.full_names = {x['index']: x['path'] for x in state['files']}
 
@@ -366,7 +362,6 @@ class TorrentDetail(BaseMode, PopupsHandler):
             ).addCallback(self.set_state)
 
     def draw_files(self, files, depth, off, idx):
-
         color_selected = 'blue'
         color_partially_selected = 'magenta'
         color_highlighted = 'white'
@@ -425,9 +420,9 @@ class TorrentDetail(BaseMode, PopupsHandler):
                         attr = 'bold'
 
                 if attr:
-                    color_string = '{!%s,%s,%s!}' % (fg, bg, attr)
+                    color_string = f'{{!{fg},{bg},{attr}!}}'
                 else:
-                    color_string = '{!%s,%s!}' % (fg, bg)
+                    color_string = f'{{!{fg},{bg}!}}'
 
                 # actually draw the dir/file string
                 if fl[3] and fl[4]:  # this is an expanded directory
@@ -439,7 +434,7 @@ class TorrentDetail(BaseMode, PopupsHandler):
 
                 r = format_row(
                     [
-                        '%s%s %s' % (' ' * depth, xchar, fl[0]),
+                        '{}{} {}'.format(' ' * depth, xchar, fl[0]),
                         fsize(fl[2]),
                         fl[5],
                         format_priority(fl[6]),
@@ -447,7 +442,7 @@ class TorrentDetail(BaseMode, PopupsHandler):
                     self.column_widths,
                 )
 
-                self.add_string(off, '%s%s' % (color_string, r), trim=False)
+                self.add_string(off, f'{color_string}{r}', trim=False)
                 off += 1
 
             if fl[3] and fl[4]:
@@ -502,7 +497,7 @@ class TorrentDetail(BaseMode, PopupsHandler):
             download_color = colors.state_color['Downloading']
 
         def add_field(name, row, pre_color='{!info!}', post_color='{!input!}'):
-            s = '%s%s: %s%s' % (
+            s = '{}{}: {}{}'.format(
                 pre_color,
                 torrent_data_fields[name]['name'],
                 post_color,
@@ -523,7 +518,7 @@ class TorrentDetail(BaseMode, PopupsHandler):
         if status['progress'] != 100.0:
             s += '/%s' % fsize(status['total_wanted'])
         if status['download_payload_rate'] > 0:
-            s += ' {!yellow!}@ %s%s' % (
+            s += ' {{!yellow!}}@ {}{}'.format(
                 download_color,
                 fsize(status['download_payload_rate']),
             )
@@ -534,7 +529,7 @@ class TorrentDetail(BaseMode, PopupsHandler):
         # Print UL info and ratio
         s = add_field('uploaded', 0, download_color)
         if status['upload_payload_rate'] > 0:
-            s += ' {!yellow!}@ %s%s' % (
+            s += ' {{!yellow!}}@ {}{}'.format(
                 colors.state_color['Seeding'],
                 fsize(status['upload_payload_rate']),
             )
@@ -542,13 +537,13 @@ class TorrentDetail(BaseMode, PopupsHandler):
         row = self.add_string(row, s)
 
         # Seed/peer info
-        s = '{!info!}%s:{!green!} %s {!input!}(%s)' % (
+        s = '{{!info!}}{}:{{!green!}} {} {{!input!}}({})'.format(
             torrent_data_fields['seeds']['name'],
             status['num_seeds'],
             status['total_seeds'],
         )
         row = self.add_string(row, s)
-        s = '{!info!}%s:{!red!} %s {!input!}(%s)' % (
+        s = '{{!info!}}{}:{{!red!}} {} {{!input!}}({})'.format(
             torrent_data_fields['peers']['name'],
             status['num_peers'],
             status['total_peers'],
@@ -557,7 +552,7 @@ class TorrentDetail(BaseMode, PopupsHandler):
 
         # Tracker
         tracker_color = '{!green!}' if status['message'] == 'OK' else '{!red!}'
-        s = '{!info!}%s: {!magenta!}%s{!input!} says "%s%s{!input!}"' % (
+        s = '{{!info!}}{}: {{!magenta!}}{}{{!input!}} says "{}{}{{!input!}}"'.format(
             torrent_data_fields['tracker']['name'],
             status['tracker_host'],
             tracker_color,
@@ -566,13 +561,13 @@ class TorrentDetail(BaseMode, PopupsHandler):
         row = self.add_string(row, s)
 
         # Pieces and availability
-        s = '{!info!}%s: {!yellow!}%s {!input!}x {!yellow!}%s' % (
+        s = '{{!info!}}{}: {{!yellow!}}{} {{!input!}}x {{!yellow!}}{}'.format(
             torrent_data_fields['pieces']['name'],
             status['num_pieces'],
             fsize(status['piece_length']),
         )
         if status['distributed_copies']:
-            s += '{!info!}%s: {!input!}%s' % (
+            s += '{{!info!}}{}: {{!input!}}{}'.format(
                 torrent_data_fields['seed_rank']['name'],
                 status['seed_rank'],
             )
@@ -878,7 +873,7 @@ class TorrentDetail(BaseMode, PopupsHandler):
                 idx += 1
                 continue
             if num == idx:
-                return '%s%s/' % (path, element[0])
+                return f'{path}{element[0]}/'
             if element[4]:
                 i = self._get_full_folder_path(
                     num, element[3], path + element[0] + '/', idx + 1
@@ -923,7 +918,7 @@ class TorrentDetail(BaseMode, PopupsHandler):
                         self.popup.close(None, call_cb=False)
                         return
                     old_fname = self._get_full_folder_path(self.current_file_idx)
-                    new_fname = '%s/%s/' % (
+                    new_fname = '{}/{}/'.format(
                         old_fname.strip('/').rpartition('/')[0],
                         result['new_foldername']['value'],
                     )
@@ -949,7 +944,7 @@ class TorrentDetail(BaseMode, PopupsHandler):
                     ):
                         self.popup.close(None, call_cb=False)
                         return
-                    fname = '%s/%s' % (
+                    fname = '{}/{}'.format(
                         self.full_names[idx].rpartition('/')[0],
                         result['new_filename']['value'],
                     )
@@ -1019,8 +1014,8 @@ class TorrentDetail(BaseMode, PopupsHandler):
         elif c == ord('h'):
             self.push_popup(MessagePopup(self, 'Help', HELP_STR, width_req=0.75))
         elif c == ord('j'):
-            self.file_list_up()
-        elif c == ord('k'):
             self.file_list_down()
+        elif c == ord('k'):
+            self.file_list_up()
 
         self.refresh()

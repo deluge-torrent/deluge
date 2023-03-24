@@ -1,22 +1,16 @@
-# -*- coding: utf-8 -*-
 #
 # This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import unicode_literals
-
+import pytest
+import pytest_twisted
 from twisted.internet import defer
 
-import deluge.component as component
 from deluge import error
 from deluge.common import AUTH_LEVEL_NORMAL, get_localhost_auth
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
 from deluge.ui.client import Client, DaemonSSLProxy, client
-
-from .basetest import BaseTestCase
-from .daemon_base import DaemonBase
 
 
 class NoVersionSendingDaemonSSLProxy(DaemonSSLProxy):
@@ -78,24 +72,13 @@ class NoVersionSendingClient(Client):
             self.disconnect_callback()
 
 
-class ClientTestCase(BaseTestCase, DaemonBase):
-    def set_up(self):
-        d = self.common_set_up()
-        d.addCallback(self.start_core)
-        d.addErrback(self.terminate_core)
-        return d
-
-    def tear_down(self):
-        d = component.shutdown()
-        d.addCallback(self.terminate_core)
-        return d
-
+@pytest.mark.usefixtures('daemon', 'client')
+class TestClient:
     def test_connect_no_credentials(self):
         d = client.connect('localhost', self.listen_port, username='', password='')
 
         def on_connect(result):
-            self.assertEqual(client.get_auth_level(), AUTH_LEVEL_ADMIN)
-            self.addCleanup(client.disconnect)
+            assert client.get_auth_level() == AUTH_LEVEL_ADMIN
             return result
 
         d.addCallbacks(on_connect, self.fail)
@@ -108,8 +91,7 @@ class ClientTestCase(BaseTestCase, DaemonBase):
         )
 
         def on_connect(result):
-            self.assertEqual(client.get_auth_level(), AUTH_LEVEL_ADMIN)
-            self.addCleanup(client.disconnect)
+            assert client.get_auth_level() == AUTH_LEVEL_ADMIN
             return result
 
         d.addCallbacks(on_connect, self.fail)
@@ -122,21 +104,18 @@ class ClientTestCase(BaseTestCase, DaemonBase):
         )
 
         def on_failure(failure):
-            self.assertEqual(failure.trap(error.BadLoginError), error.BadLoginError)
-            self.assertEqual(failure.value.message, 'Password does not match')
-            self.addCleanup(client.disconnect)
+            assert failure.trap(error.BadLoginError) == error.BadLoginError
+            assert failure.value.message == 'Password does not match'
 
         d.addCallbacks(self.fail, on_failure)
         return d
 
     def test_connect_invalid_user(self):
-        username, password = get_localhost_auth()
         d = client.connect('localhost', self.listen_port, username='invalid-user')
 
         def on_failure(failure):
-            self.assertEqual(failure.trap(error.BadLoginError), error.BadLoginError)
-            self.assertEqual(failure.value.message, 'Username does not exist')
-            self.addCleanup(client.disconnect)
+            assert failure.trap(error.BadLoginError) == error.BadLoginError
+            assert failure.value.message == 'Username does not exist'
 
         d.addCallbacks(self.fail, on_failure)
         return d
@@ -146,16 +125,16 @@ class ClientTestCase(BaseTestCase, DaemonBase):
         d = client.connect('localhost', self.listen_port, username=username)
 
         def on_failure(failure):
-            self.assertEqual(
-                failure.trap(error.AuthenticationRequired), error.AuthenticationRequired
+            assert (
+                failure.trap(error.AuthenticationRequired)
+                == error.AuthenticationRequired
             )
-            self.assertEqual(failure.value.username, username)
-            self.addCleanup(client.disconnect)
+            assert failure.value.username == username
 
         d.addCallbacks(self.fail, on_failure)
         return d
 
-    @defer.inlineCallbacks
+    @pytest_twisted.inlineCallbacks
     def test_connect_with_password(self):
         username, password = get_localhost_auth()
         yield client.connect(
@@ -166,19 +145,15 @@ class ClientTestCase(BaseTestCase, DaemonBase):
         ret = yield client.connect(
             'localhost', self.listen_port, username='testuser', password='testpw'
         )
-        self.assertEqual(ret, AUTH_LEVEL_NORMAL)
-        yield
+        assert ret == AUTH_LEVEL_NORMAL
 
-    @defer.inlineCallbacks
+    @pytest_twisted.inlineCallbacks
     def test_invalid_rpc_method_call(self):
         yield client.connect('localhost', self.listen_port, username='', password='')
         d = client.core.invalid_method()
 
         def on_failure(failure):
-            self.assertEqual(
-                failure.trap(error.WrappedException), error.WrappedException
-            )
-            self.addCleanup(client.disconnect)
+            assert failure.trap(error.WrappedException) == error.WrappedException
 
         d.addCallbacks(self.fail, on_failure)
         yield d
@@ -191,10 +166,7 @@ class ClientTestCase(BaseTestCase, DaemonBase):
         )
 
         def on_failure(failure):
-            self.assertEqual(
-                failure.trap(error.IncompatibleClient), error.IncompatibleClient
-            )
-            self.addCleanup(no_version_sending_client.disconnect)
+            assert failure.trap(error.IncompatibleClient) == error.IncompatibleClient
 
         d.addCallbacks(self.fail, on_failure)
         return d

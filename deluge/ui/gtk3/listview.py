@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007, 2008 Andrew Resch <andrewresch@gmail.com>
 #
@@ -7,20 +6,18 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 import logging
 
 from gi.repository import GObject, Gtk
 
-from deluge.common import PY2, decode_bytes
+from deluge.common import decode_bytes
 
 from .common import cmp, load_pickled_state_file, save_pickled_state_file
 
 log = logging.getLogger(__name__)
 
 
-class ListViewColumnState(object):
+class ListViewColumnState:
     """Class used for saving/loading column state."""
 
     def __init__(self, name, position, width, visible, sort, sort_order):
@@ -32,13 +29,13 @@ class ListViewColumnState(object):
         self.sort_order = sort_order
 
 
-class ListView(object):
+class ListView:
     """ListView is used to make custom GtkTreeViews.  It supports the adding
     and removing of columns, creating a menu for a column toggle list and
     support for 'status_field's which are used while updating the columns data.
     """
 
-    class ListViewColumn(object):
+    class ListViewColumn:
         """Holds information regarding a column in the ListView"""
 
         def __init__(self, name, column_indices):
@@ -66,7 +63,7 @@ class ListView(object):
             self.pixbuf_index = 0
             self.data_func = None
 
-    class TreeviewColumn(Gtk.TreeViewColumn, object):
+    class TreeviewColumn(Gtk.TreeViewColumn):
         """
         TreeViewColumn does not signal right-click events, and we need them
         This subclass is equivalent to TreeViewColumn, but it signals these events
@@ -75,13 +72,11 @@ class ListView(object):
         """
 
         __gsignals__ = {
-            'button-press-event'
-            if not PY2
-            else b'button-press-event': (GObject.SIGNAL_RUN_LAST, None, (object,))
+            'button-press-event': (GObject.SignalFlags.RUN_LAST, None, (object,))
         }
 
         def __init__(self, title=None, cell_renderer=None, **args):
-            """ Constructor, see Gtk.TreeViewColumn """
+            """Constructor, see Gtk.TreeViewColumn"""
             Gtk.TreeViewColumn.__init__(self, title, cell_renderer, **args)
             label = Gtk.Label(label=title)
             self.set_widget(label)

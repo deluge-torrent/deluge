@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) Calum Lind 2017 <calumlind+deluge@gmail.com>
 #
@@ -7,12 +6,10 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 import logging
 import os
 import uuid
-from socket import gaierror, gethostbyname
+from socket import gaierror, getaddrinfo
 
 from twisted.internet import defer
 
@@ -25,7 +22,7 @@ log = logging.getLogger(__name__)
 
 DEFAULT_HOST = '127.0.0.1'
 DEFAULT_PORT = 58846
-LOCALHOST = ('127.0.0.1', 'localhost')
+LOCALHOST = ('127.0.0.1', 'localhost', '::1')
 
 
 def default_hostlist():
@@ -47,12 +44,14 @@ def validate_host_info(hostname, port):
     """
 
     try:
-        gethostbyname(hostname)
+        getaddrinfo(hostname, None)
     except gaierror as ex:
         raise ValueError('Host %s: %s', hostname, ex.args[1])
 
     if not isinstance(port, int):
         raise ValueError('Invalid port. Must be an integer')
+    if not 0 <= port <= 65535:
+        raise ValueError('Invalid port. Must be between 0-65535')
 
 
 def migrate_hostlist(old_filename, new_filename):
@@ -87,7 +86,15 @@ def migrate_config_2_to_3(config):
     return config
 
 
-class HostList(object):
+def mask_hosts_password(hosts):
+    """Replace passwords in hosts list with *'s for log output"""
+    if not hosts:
+        return hosts
+
+    return [list(host)[:-1] + ['*' * 10] for host in hosts]
+
+
+class HostList:
     """This class contains methods for adding, removing and looking up hosts in hostlist.conf."""
 
     def __init__(self):
@@ -97,6 +104,7 @@ class HostList(object):
             default_hostlist(),
             config_dir=get_config_dir(),
             file_version=3,
+            log_mask_funcs={'hosts': mask_hosts_password},
         )
         self.config.run_converter((1, 2), 3, migrate_config_2_to_3)
         self.config.save()
@@ -210,30 +218,35 @@ class HostList(object):
             return defer.succeed(status_offline)
 
         try:
-            ip = gethostbyname(host)
-        except gaierror as ex:
-            log.error('Error resolving host %s to ip: %s', host, ex.args[1])
+            ips = list({addrinfo[4][0] for addrinfo in getaddrinfo(host, None)})
+        except (gaierror, IndexError) as ex:
+            log.warning('Unable to resolve host %s to IP: %s', host, ex.args[1])
             return defer.succeed(status_offline)
 
-        host_conn_info = (
-            ip,
-            port,
-            'localclient' if not user and host in LOCALHOST else user,
-        )
-        if client.connected() and host_conn_info == client.connection_info():
-            # Currently connected to host_id daemon.
-            def on_info(info, host_id):
-                log.debug('Client connected, query info: %s', info)
-                return host_id, 'Connected', info
+        host_conn_list = [
+            (
+                host_ip,
+                port,
+                'localclient' if not user and host_ip in LOCALHOST else user,
+            )
+            for host_ip in ips
+        ]
 
-            return client.daemon.info().addCallback(on_info, host_id)
-        else:
-            # Attempt to connect to daemon with host_id details.
-            c = Client()
-            d = c.connect(host, port, skip_authentication=True)
-            d.addCallback(on_connect, c, host_id)
-            d.addErrback(on_connect_failed, host_id)
-            return d
+        for host_conn_info in host_conn_list:
+            if client.connected() and host_conn_info == client.connection_info():
+                # Currently connected to host_id daemon.
+                def on_info(info, host_id):
+                    log.debug('Client connected, query info: %s', info)
+                    return host_id, 'Connected', info
+
+                return client.daemon.info().addCallback(on_info, host_id)
+            else:
+                # Attempt to connect to daemon with host_id details.
+                c = Client()
+                d = c.connect(host, port, skip_authentication=True)
+                d.addCallback(on_connect, c, host_id)
+                d.addErrback(on_connect_failed, host_id)
+                return d
 
     def update_host(self, host_id, hostname, port, username, password):
         """Update the supplied host id with new connection details.

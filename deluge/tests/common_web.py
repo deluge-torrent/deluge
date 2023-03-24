@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2016 bendikro <bro.devel+deluge@gmail.com>
 #
@@ -7,21 +6,20 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
+import pytest
 
 import deluge.common
-import deluge.component as component
 import deluge.ui.web.auth
 import deluge.ui.web.server
 from deluge import configmanager
+from deluge.conftest import BaseTestCase
 from deluge.ui.web.server import DelugeWeb
 
-from .basetest import BaseTestCase
 from .common import ReactorOverride
-from .daemon_base import DaemonBase
 
 
-class WebServerTestBase(BaseTestCase, DaemonBase):
+@pytest.mark.usefixtures('daemon', 'component')
+class WebServerTestBase(BaseTestCase):
     """
     Base class for tests that need a running webapi
 
@@ -30,16 +28,11 @@ class WebServerTestBase(BaseTestCase, DaemonBase):
     def set_up(self):
         self.host_id = None
         deluge.ui.web.server.reactor = ReactorOverride()
-        d = self.common_set_up()
-        d.addCallback(self.start_core)
-        d.addCallback(self.start_webapi)
-        return d
+        return self.start_webapi(None)
 
     def start_webapi(self, arg):
-        self.webserver_listen_port = 8999
-
         config_defaults = deluge.ui.web.server.CONFIG_DEFAULTS.copy()
-        config_defaults['port'] = self.webserver_listen_port
+        config_defaults['port'] = 8999
         self.config = configmanager.ConfigManager('web.conf', config_defaults)
 
         self.deluge_web = DelugeWeb(daemon=False)
@@ -50,13 +43,8 @@ class WebServerTestBase(BaseTestCase, DaemonBase):
         self.host_id = host[0]
         self.deluge_web.start()
 
-    def tear_down(self):
-        d = component.shutdown()
-        d.addCallback(self.terminate_core)
-        return d
 
-
-class WebServerMockBase(object):
+class WebServerMockBase:
     """
     Class with utility functions for mocking with tests using the webserver
 

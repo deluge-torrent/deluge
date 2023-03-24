@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009-2010 Pedro Algarvio <pedro@algarvio.me>
 #
@@ -11,8 +10,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import unicode_literals
 
 import logging
 import os.path
@@ -30,7 +27,7 @@ def get_resource(filename):
     return resource_filename(__package__, os.path.join('data', filename))
 
 
-class CustomNotifications(object):
+class CustomNotifications:
     def __init__(self, plugin_name=None):
         self.custom_notifications = {'email': {}, 'popup': {}, 'blink': {}, 'sound': {}}
 

@@ -57,6 +57,7 @@ Deluge.EditTrackersWindow = Ext.extend(Ext.Window, {
                     header: _('Tracker'),
                     width: 0.9,
                     dataIndex: 'url',
+                    tpl: new Ext.XTemplate('{url:htmlEncode}'),
                 },
             ],
             columnSort: {

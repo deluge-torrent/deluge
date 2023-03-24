@@ -1,7 +1,7 @@
 [Unit]
 Description=Deluge Bittorrent Client Web Interface
 Documentation=man:deluge-web
-After=network-online.target deluged.service
+After=deluged.service
 Wants=deluged.service
 
 [Service]

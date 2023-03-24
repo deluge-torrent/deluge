@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 # Copyright (C) 2011 Pedro Algarvio <pedro@algarvio.me>
@@ -7,8 +6,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import unicode_literals
 
 import logging
 import subprocess
@@ -33,7 +30,7 @@ def format_kwargs(kwargs):
     return ', '.join([key + '=' + str(value) for key, value in kwargs.items()])
 
 
-class DelugeRPCRequest(object):
+class DelugeRPCRequest:
     """
     This object is created whenever there is a RPCRequest to be sent to the
     daemon.  It is generally only used by the DaemonProxy's call method.
@@ -243,7 +240,7 @@ class DelugeRPCClientFactory(ClientFactory):
             self.daemon.disconnect_callback()
 
 
-class DaemonProxy(object):
+class DaemonProxy:
     pass
 
 
@@ -526,7 +523,7 @@ class DaemonStandaloneProxy(DaemonProxy):
         self.__daemon.core.eventmanager.deregister_event_handler(event, handler)
 
 
-class DottedObject(object):
+class DottedObject:
     """
     This is used for dotted name calls to client
     """
@@ -551,7 +548,7 @@ class RemoteMethod(DottedObject):
         return self.daemon.call(self.base, *args, **kwargs)
 
 
-class Client(object):
+class Client:
     """
     This class is used to connect to a daemon process and issue RPC requests.
     """
@@ -615,7 +612,7 @@ class Client(object):
             d.addErrback(on_authenticate_fail)
             return d
 
-        d.addCallback(on_connected)
+        d.addCallbacks(on_connected)
         d.addErrback(on_connect_fail)
         if not skip_authentication:
             d.addCallback(authenticate, username, password)

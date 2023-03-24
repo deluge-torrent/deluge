@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
 #
@@ -11,8 +10,6 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 import logging
 
 from deluge.plugins.pluginbase import WebPluginBase
@@ -23,7 +20,6 @@ log = logging.getLogger(__name__)
 
 
 class WebUI(WebPluginBase):
-
     scripts = [get_resource('stats.js')]
 
     # The enable and disable methods are not scrictly required on the WebUI

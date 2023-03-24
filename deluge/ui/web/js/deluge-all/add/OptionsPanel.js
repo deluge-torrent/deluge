@@ -134,9 +134,8 @@ Deluge.add.OptionsPanel = Ext.extend(Ext.TabPanel, {
             nodes,
             function (node) {
                 if (node.attributes.fileindex < 0) return;
-                var priorities = this.form.optionsManager.get(
-                    'file_priorities'
-                );
+                var priorities =
+                    this.form.optionsManager.get('file_priorities');
                 priorities[node.attributes.fileindex] = newValue;
                 this.form.optionsManager.update('file_priorities', priorities);
             },

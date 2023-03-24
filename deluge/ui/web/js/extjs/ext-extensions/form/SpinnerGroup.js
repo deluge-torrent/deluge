@@ -80,9 +80,8 @@ Ext.ux.form.SpinnerGroup = Ext.extend(Ext.form.CheckboxGroup, {
                 // Generate the column configs with the correct width setting
                 for (var i = 0; i < numCols; i++) {
                     var cc = Ext.apply({ items: [] }, colCfg);
-                    cc[
-                        this.columns[i] <= 1 ? 'columnWidth' : 'width'
-                    ] = this.columns[i];
+                    cc[this.columns[i] <= 1 ? 'columnWidth' : 'width'] =
+                        this.columns[i];
                     if (this.defaults) {
                         cc.defaults = Ext.apply(
                             cc.defaults || {},

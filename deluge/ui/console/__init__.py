@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008-2009 Ido Abramovich <ido.deluge@gmail.com>
 #
@@ -7,13 +6,19 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 from deluge.ui.console.console import Console
 
 UI_PATH = __path__[0]
 
 
 def start():
-
     Console().start()
+
+
+def test_start():
+    """Entry point for tests
+
+    A workaround for unit tests which require a deferred object to be
+    returned to run properly due to mocking the Twisted reactor.
+    """
+    return Console().start()

@@ -98,8 +98,6 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="max_length">2</property>
-                        <property name="primary_icon_activatable">False</property>
-                        <property name="secondary_icon_activatable">False</property>
                         <property name="adjustment">adjustment3</property>
                         <property name="climb_rate">1</property>
                         <property name="numeric">True</property>
@@ -571,6 +569,7 @@
           <object class="GtkEntry" id="entry_text">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="hexpand">True</property>
             <property name="invisible_char">•</property>
             <signal name="changed" handler="on_entry_text_changed" swapped="no"/>
             <signal name="delete-text" handler="on_entry_text_delete_text" swapped="no"/>

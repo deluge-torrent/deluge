@@ -209,8 +209,6 @@
                           <object class="GtkSpinButton" id="max_upload_speed">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
                             <property name="adjustment">adjustment1</property>
                           </object>
                           <packing>
@@ -239,8 +237,6 @@
                           <object class="GtkSpinButton" id="max_download_speed">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
                             <property name="adjustment">adjustment2</property>
                           </object>
                           <packing>
@@ -310,8 +306,6 @@
                           <object class="GtkSpinButton" id="max_upload_slots">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
                             <property name="adjustment">adjustment3</property>
                             <property name="numeric">True</property>
                           </object>
@@ -342,8 +336,6 @@
                           <object class="GtkSpinButton" id="max_connections">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
                             <property name="adjustment">adjustment4</property>
                             <property name="numeric">True</property>
                           </object>
@@ -483,8 +475,6 @@
                           <object class="GtkSpinButton" id="stop_ratio">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
                             <property name="adjustment">adjustment5</property>
                             <property name="digits">2</property>
                           </object>
@@ -599,8 +589,6 @@
                         <child>
                           <object class="GtkEntry" id="move_completed_path_entry">
                             <property name="can_focus">True</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008-2009 Ido Abramovich <ido.deluge@gmail.com>
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
@@ -7,8 +6,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import unicode_literals
 
 from twisted.internet import defer
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
 #
@@ -15,8 +14,6 @@
 torrent-label core plugin.
 adds a status field for tracker.
 """
-from __future__ import unicode_literals
-
 import logging
 import re
 
@@ -140,6 +137,7 @@ class Core(CorePluginBase):
         log.debug('post_torrent_remove')
         if torrent_id in self.torrent_labels:
             del self.torrent_labels[torrent_id]
+            self.config.save()
 
     # Utils #
     def clean_config(self):
@@ -194,8 +192,7 @@ class Core(CorePluginBase):
         """remove a label"""
         check_input(label_id in self.labels, _('Unknown Label'))
         del self.labels[label_id]
-        self.clean_config()
-        self.config.save()
+        self.save_config()
 
     def _set_torrent_options(self, torrent_id, label_id):
         options = self.labels[label_id]

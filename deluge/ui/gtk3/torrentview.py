@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007, 2008 Andrew Resch <andrewresch@gmail.com>
 #
@@ -8,8 +7,6 @@
 #
 
 """The torrent view component that lists all torrents in the session."""
-from __future__ import unicode_literals
-
 import logging
 from locale import strcoll
 
@@ -77,13 +74,13 @@ def eta_column_sort(model, iter1, iter2, data):
     if v1 == v2:
         return 0
     if v1 == 0:
-        return 1
+        return -1
     if v2 == 0:
-        return -1
-    if v1 > v2:
         return 1
-    if v2 > v1:
+    if v1 > v2:
         return -1
+    if v2 > v1:
+        return 1
 
 
 def seed_peer_column_sort(model, iter1, iter2, data):
@@ -107,7 +104,7 @@ def progress_sort(model, iter1, iter2, sort_column_id):
     return cmp(progress1, progress2)
 
 
-class SearchBox(object):
+class SearchBox:
     def __init__(self, torrentview):
         self.torrentview = torrentview
         mainwindow = component.get('MainWindow')

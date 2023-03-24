@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
@@ -6,8 +5,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import division, unicode_literals
 
 import os
 from hashlib import sha1 as sha
@@ -32,7 +29,7 @@ class InvalidPieceSize(Exception):
     pass
 
 
-class TorrentMetadata(object):
+class TorrentMetadata:
     """This class is used to create .torrent files.
 
     Examples:
@@ -120,7 +117,7 @@ class TorrentMetadata(object):
             files = []
             padding_count = 0
             # Collect a list of file paths and add padding files if necessary
-            for (dirpath, dirnames, filenames) in os.walk(self.data_path):
+            for dirpath, dirnames, filenames in os.walk(self.data_path):
                 for index, filename in enumerate(filenames):
                     size = get_path_size(
                         os.path.join(self.data_path, dirpath, filename)

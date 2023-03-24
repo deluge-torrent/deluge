@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2011 Nick Lanham <nick@afternight.org>
 #
@@ -6,8 +5,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import unicode_literals
 
 import logging
 
@@ -100,9 +97,9 @@ class EventView(BaseMode):
         elif c == curses.KEY_END:
             self.offset += num_events
         elif c == ord('j'):
-            self.offset -= 1
-        elif c == ord('k'):
             self.offset += 1
+        elif c == ord('k'):
+            self.offset -= 1
 
         if self.offset <= 0:
             self.offset = 0

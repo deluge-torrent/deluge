@@ -17,7 +17,7 @@
         return String.format(
             '<div class="torrent-name x-deluge-{0}">{1}</div>',
             r.data['state'].toLowerCase(),
-            value
+            Ext.util.Format.htmlEncode(value)
         );
     }
     function torrentSpeedRenderer(value) {
@@ -62,12 +62,14 @@
             '<div style="background: url(' +
                 deluge.config.base +
                 'tracker/{0}) no-repeat; padding-left: 20px;">{0}</div>',
-            value
+            Ext.util.Format.htmlEncode(value)
         );
     }
 
     function etaSorter(eta) {
-        return eta * -1;
+        if (eta === 0) return Number.MAX_VALUE;
+        if (eta <= -1) return Number.MAX_SAFE_INTEGER;
+        return eta;
     }
 
     function dateOrNever(date) {
@@ -75,7 +77,9 @@
     }
 
     function timeOrInf(time) {
-        return time < 0 ? '&infin;' : ftime(time);
+        if (time === 0) return '';
+        if (time <= -1) return '&infin;';
+        return ftime(time);
     }
 
     /**
@@ -320,6 +324,8 @@
                 { name: 'ratio', type: 'float' },
                 { name: 'distributed_copies', type: 'float' },
                 { name: 'time_added', type: 'int' },
+                { name: 'last_seen_complete', type: 'int' },
+                { name: 'completed_time', type: 'int' },
                 { name: 'tracker_host' },
                 { name: 'download_location' },
                 { name: 'total_done', type: 'int' },

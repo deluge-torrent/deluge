@@ -148,8 +148,7 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
                                     xtype: 'fieldset',
                                     border: false,
                                     labelWidth: 1,
-                                    style:
-                                        'margin-bottom: 0px; padding-bottom: 0px;',
+                                    style: 'margin-bottom: 0px; padding-bottom: 0px;',
                                     items: [
                                         {
                                             xtype: 'checkbox',
@@ -218,8 +217,7 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
                                     xtype: 'fieldset',
                                     border: false,
                                     labelWidth: 1,
-                                    style:
-                                        'margin-bottom: 0px; padding-bottom: 0px;',
+                                    style: 'margin-bottom: 0px; padding-bottom: 0px;',
                                     items: [
                                         {
                                             xtype: 'checkbox',
@@ -260,8 +258,7 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
                                             width: 60,
                                             decimalPrecision: 2,
                                             incrementValue: 0.1,
-                                            style:
-                                                'position: relative; left: 100px',
+                                            style: 'position: relative; left: 100px',
                                             disabled: true,
                                         },
                                         {
@@ -285,8 +282,7 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
                                     xtype: 'fieldset',
                                     border: false,
                                     labelWidth: 1,
-                                    style:
-                                        'margin-bottom: 0px; padding-bottom: 0px;',
+                                    style: 'margin-bottom: 0px; padding-bottom: 0px;',
                                     items: [
                                         {
                                             xtype: 'checkbox',
@@ -339,8 +335,7 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
                                     xtype: 'fieldset',
                                     border: false,
                                     labelWidth: 1,
-                                    style:
-                                        'margin-bottom: 0px; padding-bottom: 0px;',
+                                    style: 'margin-bottom: 0px; padding-bottom: 0px;',
                                     items: [
                                         {
                                             xtype: 'checkbox',
@@ -408,9 +403,8 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
     onOkClick: function () {
         var values = this.form.getForm().getFieldValues();
         if (values['auto_add_trackers']) {
-            values['auto_add_trackers'] = values['auto_add_trackers'].split(
-                '\n'
-            );
+            values['auto_add_trackers'] =
+                values['auto_add_trackers'].split('\n');
         }
         deluge.client.label.set_options(this.label, values);
         this.hide();

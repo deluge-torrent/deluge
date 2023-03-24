@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
 #
@@ -7,8 +6,6 @@
 # See LICENSE for more details.
 #
 
-
-from __future__ import unicode_literals
 
 import logging
 
@@ -54,7 +51,7 @@ class LabelMenu(MenuItem):
             if label == NO_LABEL:
                 item = MenuItem(_(NO_LABEL))  # noqa: F821
             else:
-                item = MenuItem(label.replace('_', '__'))
+                item = MenuItem(label)
             item.connect('activate', self.on_select_label, label)
             self.sub_menu.append(item)
         self.show_all()

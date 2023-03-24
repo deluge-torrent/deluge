@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
 # Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
@@ -8,13 +7,11 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 import logging
 
 import gi  # isort:skip (Required before Gtk import).
 
-gi.require_version('Gtk', '3.0')  # NOQA: E402
+gi.require_version('Gtk', '3.0')
 
 # isort:imports-thirdparty
 from gi.repository import Gtk
@@ -32,9 +29,8 @@ NO_LABEL = 'No Label'
 
 
 # menu
-class LabelSidebarMenu(object):
+class LabelSidebarMenu:
     def __init__(self):
-
         self.treeview = component.get('FilterTreeView')
         self.menu = self.treeview.menu
         self.items = []
@@ -107,7 +103,7 @@ class LabelSidebarMenu(object):
 
 
 # dialogs:
-class AddDialog(object):
+class AddDialog:
     def __init__(self):
         pass
 
@@ -129,7 +125,7 @@ class AddDialog(object):
         self.dialog.destroy()
 
 
-class OptionsDialog(object):
+class OptionsDialog:
     spin_ids = ['max_download_speed', 'max_upload_speed', 'stop_ratio']
     spin_int_ids = ['max_upload_slots', 'max_connections']
     chk_ids = [
@@ -174,7 +170,7 @@ class OptionsDialog(object):
         self.builder.connect_signals(self)
         # Show the label name in the header label
         self.builder.get_object('label_header').set_markup(
-            '<b>%s:</b> %s' % (_('Label Options'), self.label)
+            '<b>{}:</b> {}'.format(_('Label Options'), self.label)
         )
 
         for chk_id, group in self.sensitive_groups:

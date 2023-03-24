@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009-2010 John Garland <johnnybg+deluge@gmail.com>
 #
@@ -6,8 +5,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import unicode_literals
 
 from .decompressers import BZipped2, GZipped, Zipped
 from .readers import EmuleReader, PeerGuardianReader, SafePeerReader

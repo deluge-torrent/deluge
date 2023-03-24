@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008 Andrew Resch <andrewresch@gmail.com>
 #
@@ -6,8 +5,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import unicode_literals
 
 import logging
 import os.path
@@ -42,18 +39,12 @@ from .torrentview_data_funcs import (
     cell_data_speed_up,
 )
 
-try:
-    from future_builtins import zip
-except ImportError:
-    # Ignore on Py3.
-    pass
-
 log = logging.getLogger(__name__)
 
 
 class PeersTab(Tab):
     def __init__(self):
-        super(PeersTab, self).__init__('Peers', 'peers_tab', 'peers_tab_label')
+        super().__init__('Peers', 'peers_tab', 'peers_tab_label')
 
         self.peer_menu = self.main_builder.get_object('menu_peer_tab')
         component.get('MainWindow').connect_signals(self)
@@ -195,7 +186,7 @@ class PeersTab(Tab):
         if state['sort_id'] and state['sort_order'] is not None:
             self.liststore.set_sort_column_id(state['sort_id'], state['sort_order'])
 
-        for (index, column) in enumerate(self.listview.get_columns()):
+        for index, column in enumerate(self.listview.get_columns()):
             cname = column.get_title()
             if cname in state['columns']:
                 cstate = state['columns'][cname]
@@ -313,7 +304,7 @@ class PeersTab(Tab):
                     ip_int = int(
                         binascii.hexlify(socket.inet_pton(socket.AF_INET6, ip)), 16
                     )
-                    peer_ip = '[%s]:%s' % (ip, peer['ip'].split(':')[-1])
+                    peer_ip = '[{}]:{}'.format(ip, peer['ip'].split(':')[-1])
 
                 if peer['seed']:
                     icon = self.seed_pixbuf

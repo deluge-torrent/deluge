@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2011 Nick Lanham <nick@afternight.org>
 #
@@ -6,8 +5,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import unicode_literals
 
 import logging
 from collections import deque
@@ -179,7 +176,7 @@ class TorrentList(BaseMode, PopupsHandler):
 
     @overrides(BaseMode)
     def resume(self):
-        super(TorrentList, self).resume()
+        super().resume()
 
     @overrides(BaseMode)
     def on_resize(self, rows, cols):
@@ -222,7 +219,9 @@ class TorrentList(BaseMode, PopupsHandler):
         # Update the status bars
         statusbar_args = {'scr': self.stdscr, 'bottombar_help': True}
         if self.torrentview.curr_filter is not None:
-            statusbar_args['topbar'] = '%s    {!filterstatus!}Current filter: %s' % (
+            statusbar_args[
+                'topbar'
+            ] = '{}    {{!filterstatus!}}Current filter: {}'.format(
                 self.statusbars.topbar,
                 self.torrentview.curr_filter,
             )

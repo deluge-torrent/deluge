@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007-2008 Andrew Resch <andrewresch@gmail.com>
 #
@@ -6,8 +5,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import division, unicode_literals
 
 import logging
 
@@ -25,7 +22,7 @@ from .dialogs import OtherDialog
 log = logging.getLogger(__name__)
 
 
-class StatusBarItem(object):
+class StatusBarItem:
     def __init__(
         self,
         image=None,
@@ -320,18 +317,22 @@ class StatusBar(component.Component):
     def send_status_request(self):
         # Sends an async request for data from the core
         keys = [
-            'num_peers',
+            'peer.num_peers_connected',
             'upload_rate',
             'download_rate',
             'payload_upload_rate',
             'payload_download_rate',
+            'net.sent_bytes',
+            'net.recv_bytes',
+            'net.sent_payload_bytes',
+            'net.recv_payload_bytes',
         ]
 
         if self.dht_status:
-            keys.append('dht_nodes')
+            keys.append('dht.dht_nodes')
 
         if not self.health:
-            keys.append('has_incoming_connections')
+            keys.append('net.has_incoming_connections')
 
         client.core.get_session_status(keys).addCallback(self._on_get_session_status)
         client.core.get_free_space().addCallback(self._on_get_free_space)
@@ -370,18 +371,18 @@ class StatusBar(component.Component):
         self.upload_protocol_rate = (
             status['upload_rate'] - status['payload_upload_rate']
         ) // 1024
-        self.num_connections = status['num_peers']
+        self.num_connections = status['peer.num_peers_connected']
         self.update_download_label()
         self.update_upload_label()
         self.update_traffic_label()
         self.update_connections_label()
 
-        if 'dht_nodes' in status:
-            self.dht_nodes = status['dht_nodes']
+        if 'dht.dht_nodes' in status:
+            self.dht_nodes = status['dht.dht_nodes']
             self.update_dht_label()
 
-        if 'has_incoming_connections' in status:
-            self.health = status['has_incoming_connections']
+        if 'net.has_incoming_connections' in status:
+            self.health = status['net.has_incoming_connections']
             if self.health:
                 self.remove_item(self.health_item)
 
@@ -412,7 +413,7 @@ class StatusBar(component.Component):
         if self.max_connections_global < 0:
             label_string = '%s' % self.num_connections
         else:
-            label_string = '%s <small>(%s)</small>' % (
+            label_string = '{} <small>({})</small>'.format(
                 self.num_connections,
                 self.max_connections_global,
             )

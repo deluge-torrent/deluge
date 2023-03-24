@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
 #
@@ -6,8 +5,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import unicode_literals
 
 import logging
 from os import environ
@@ -21,11 +18,10 @@ environ['PYGAME_HIDE_SUPPORT_PROMPT'] = '1'
 
 # Keep this class in __init__.py to avoid the console having to import everything in gtkui.py
 class Gtk(UI):
-
     cmd_description = """GTK-based graphical user interface"""
 
     def __init__(self, *args, **kwargs):
-        super(Gtk, self).__init__(
+        super().__init__(
             'gtk', *args, description='Starts the Deluge GTK+ interface', **kwargs
         )
 
@@ -42,7 +38,7 @@ class Gtk(UI):
         )
 
     def start(self):
-        super(Gtk, self).start()
+        super().start()
         import deluge.common
 
         from .gtkui import GtkUI

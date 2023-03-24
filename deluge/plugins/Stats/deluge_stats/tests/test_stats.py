@@ -1,19 +1,13 @@
-# -*- coding: utf-8 -*-
 #
 # This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-from __future__ import print_function, unicode_literals
-
 import pytest
+import pytest_twisted
 from twisted.internet import defer
-from twisted.trial import unittest
 
-import deluge.component as component
 from deluge.common import fsize, fspeed
-from deluge.tests import common as tests_common
-from deluge.tests.basetest import BaseTestCase
 from deluge.ui.client import client
 
 
@@ -26,42 +20,40 @@ def print_totals(totals):
     print('down:', fsize(totals['total_download'] - totals['total_payload_download']))
 
 
-class StatsTestCase(BaseTestCase):
-    def set_up(self):
+class TestStatsPlugin:
+    @pytest_twisted.async_yield_fixture(autouse=True)
+    async def set_up(self, component):
         defer.setDebugging(True)
-        tests_common.set_tmp_config_dir()
         client.start_standalone()
         client.core.enable_plugin('Stats')
-        return component.start()
-
-    def tear_down(self):
+        await component.start()
+        yield
         client.stop_standalone()
-        return component.shutdown()
 
     @defer.inlineCallbacks
     def test_client_totals(self):
         plugins = yield client.core.get_available_plugins()
         if 'Stats' not in plugins:
-            raise unittest.SkipTest('WebUi plugin not available for testing')
+            pytest.skip('Stats plugin not available for testing')
 
         totals = yield client.stats.get_totals()
-        self.assertEqual(totals['total_upload'], 0)
-        self.assertEqual(totals['total_payload_upload'], 0)
-        self.assertEqual(totals['total_payload_download'], 0)
-        self.assertEqual(totals['total_download'], 0)
+        assert totals['total_upload'] == 0
+        assert totals['total_payload_upload'] == 0
+        assert totals['total_payload_download'] == 0
+        assert totals['total_download'] == 0
         # print_totals(totals)
 
     @defer.inlineCallbacks
     def test_session_totals(self):
         plugins = yield client.core.get_available_plugins()
         if 'Stats' not in plugins:
-            raise unittest.SkipTest('WebUi plugin not available for testing')
+            pytest.skip('Stats plugin not available for testing')
 
         totals = yield client.stats.get_session_totals()
-        self.assertEqual(totals['total_upload'], 0)
-        self.assertEqual(totals['total_payload_upload'], 0)
-        self.assertEqual(totals['total_payload_download'], 0)
-        self.assertEqual(totals['total_download'], 0)
+        assert totals['total_upload'] == 0
+        assert totals['total_payload_upload'] == 0
+        assert totals['total_payload_download'] == 0
+        assert totals['total_download'] == 0
         # print_totals(totals)
 
     @pytest.mark.gtkui
@@ -90,7 +82,7 @@ class StatsTestCase(BaseTestCase):
         TorrentDetails()
         Preferences()
 
-        class FakeFile(object):
+        class FakeFile:
             def __init__(self):
                 self.data = []
 

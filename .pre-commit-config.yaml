@@ -3,32 +3,35 @@ default_language_version:
 exclude: >
   (?x)^(
       deluge/ui/web/docs/template/.*|
+      deluge/tests/data/.*svg|
   )$
 repos:
-  - repo: https://github.com/ambv/black
-    rev: 20.8b1
+  - repo: https://github.com/psf/black
+    rev: 23.1.0
     hooks:
       - id: black
         name: Fmt Black
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v2.2.1
+    rev: v2.7.1
     hooks:
       - id: prettier
         name: Fmt Prettier
         # Workaround to list modified files only.
         args: [--list-different]
-  - repo: https://gitlab.com/pycqa/flake8
-    # v3.7.9 due to E402 issue: https://gitlab.com/pycqa/flake8/-/issues/638
-    rev: 3.7.9
+  - repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+        name: Fmt isort
+  - repo: https://github.com/pycqa/flake8
+    rev: 6.0.0
     hooks:
       - id: flake8
         name: Chk Flake8
         additional_dependencies:
-          - flake8-isort==4.0.0
-          - pep8-naming==0.11.1
-        args: [--isort-show-traceback]
+          - pep8-naming==0.12.1
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v3.4.0
+    rev: v4.4.0
     hooks:
       - id: double-quote-string-fixer
         name: Fix Double-quotes
@@ -40,3 +43,9 @@ repos:
         args: [--fix=auto]
       - id: trailing-whitespace
         name: Fix Trailing whitespace
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.3.1
+    hooks:
+      - id: pyupgrade
+        args: [--py36-plus]
+        stages: [manual]

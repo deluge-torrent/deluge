@@ -1,19 +1,13 @@
-# -*- coding: utf-8 -*-
 #
 # This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 import os
 import tempfile
 
-from twisted.trial import unittest
-
 from deluge import maketorrent
-from deluge.common import windows_check
 
 
 def check_torrent(filename):
@@ -28,7 +22,7 @@ def check_torrent(filename):
     TorrentInfo(filename)
 
 
-class MakeTorrentTestCase(unittest.TestCase):
+class TestMakeTorrent:
     def test_save_multifile(self):
         # Create a temporary folder for torrent creation
         tmp_path = tempfile.mkdtemp()
@@ -54,21 +48,16 @@ class MakeTorrentTestCase(unittest.TestCase):
         os.remove(tmp_file)
 
     def test_save_singlefile(self):
-        if windows_check():
-            raise unittest.SkipTest('on windows file not released')
-        tmp_data = tempfile.mkstemp('testdata')[1]
-        with open(tmp_data, 'wb') as _file:
-            _file.write(b'a' * (2314 * 1024))
-        t = maketorrent.TorrentMetadata()
-        t.data_path = tmp_data
-        tmp_fd, tmp_file = tempfile.mkstemp('.torrent')
-        t.save(tmp_file)
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            tmp_data = tmp_dir + '/data'
+            with open(tmp_data, 'wb') as _file:
+                _file.write(b'a' * (2314 * 1024))
+            t = maketorrent.TorrentMetadata()
+            t.data_path = tmp_data
+            tmp_file = tmp_dir + '/.torrent'
+            t.save(tmp_file)
 
-        check_torrent(tmp_file)
-
-        os.remove(tmp_data)
-        os.close(tmp_fd)
-        os.remove(tmp_file)
+            check_torrent(tmp_file)
 
     def test_save_multifile_padded(self):
         # Create a temporary folder for torrent creation

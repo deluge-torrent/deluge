@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008-2009 Ido Abramovich <ido.deluge@gmail.com>
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
@@ -7,8 +6,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import unicode_literals
 
 import json
 import logging
@@ -97,10 +94,10 @@ class Command(BaseCommand):
                     value = pprint.pformat(value, 2, 80)
                     new_value = []
                     for line in value.splitlines():
-                        new_value.append('%s%s' % (color, line))
+                        new_value.append(f'{color}{line}')
                     value = '\n'.join(new_value)
 
-                string += '%s: %s%s\n' % (key, color, value)
+                string += f'{key}: {color}{value}\n'
             self.console.write(string.strip())
 
         return client.core.get_config().addCallback(_on_get_config)
@@ -132,7 +129,7 @@ class Command(BaseCommand):
         def on_set_config(result):
             self.console.write('{!success!}Configuration value successfully updated.')
 
-        self.console.write('Setting "%s" to: %r' % (key, val))
+        self.console.write(f'Setting "{key}" to: {val!r}')
         return client.core.set_config({key: val}).addCallback(on_set_config)
 
     def complete(self, text):

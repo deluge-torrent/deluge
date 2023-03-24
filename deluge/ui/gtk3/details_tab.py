@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008 Andrew Resch <andrewresch@gmail.com>
 #
@@ -6,8 +5,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import unicode_literals
 
 import logging
 from xml.sax.saxutils import escape as xml_escape
@@ -23,7 +20,7 @@ log = logging.getLogger(__name__)
 
 class DetailsTab(Tab):
     def __init__(self):
-        super(DetailsTab, self).__init__('Details', 'details_tab', 'details_tab_label')
+        super().__init__('Details', 'details_tab', 'details_tab_label')
 
         self.add_tab_widget('summary_name', None, ('name',))
         self.add_tab_widget('summary_total_size', fsize, ('total_size',))
@@ -65,7 +62,7 @@ class DetailsTab(Tab):
             txt = xml_escape(self.widget_status_as_fstr(widget, status))
             if decode_bytes(widget.obj.get_text()) != txt:
                 if 'comment' in widget.status_keys and is_url(txt):
-                    widget.obj.set_markup('<a href="%s">%s</a>' % (txt, txt))
+                    widget.obj.set_markup(f'<a href="{txt}">{txt}</a>')
                 else:
                     widget.obj.set_markup(txt)
 

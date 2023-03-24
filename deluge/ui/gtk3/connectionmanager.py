@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
 #
@@ -7,11 +6,10 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 import logging
 import os
-from socket import gaierror, gethostbyname
+from socket import gaierror, getaddrinfo
+from urllib.parse import urlparse
 
 from gi.repository import Gtk
 from twisted.internet import defer, reactor
@@ -25,12 +23,6 @@ from deluge.ui.hostlist import DEFAULT_PORT, LOCALHOST, HostList
 
 from .common import get_clipboard_text
 from .dialogs import AuthenticationDialog, ErrorDialog
-
-try:
-    from urllib.parse import urlparse
-except ImportError:
-    # PY2 fallback
-    from urlparse import urlparse  # pylint: disable=ungrouped-imports
 
 log = logging.getLogger(__name__)
 
@@ -230,7 +222,7 @@ class ConnectionManager(component.Component):
         __, host, port, __, __, status, __, __ = model[row]
 
         try:
-            gethostbyname(host)
+            getaddrinfo(host, None)
         except gaierror as ex:
             log.error(
                 'Error resolving host %s to ip: %s', row[HOSTLIST_COL_HOST], ex.args[1]

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Deluge documentation build configuration file
 #
@@ -10,11 +9,11 @@
 # All configuration values have a default value; values that are commented out
 # serve to show the default value.
 
+import builtins
 import os
 import sys
 from datetime import date
 
-from six.moves import builtins
 from sphinx.ext import apidoc
 from sphinx.ext.autodoc import ClassDocumenter, bool_option
 
@@ -49,6 +48,7 @@ extensions = [
     'sphinx.ext.coverage',
     'sphinxcontrib.spelling',
     'myst_parser',
+    'sphinx_autodoc_typehints',
 ]
 
 napoleon_include_init_with_doc = True
@@ -219,45 +219,13 @@ latex_documents = [
 
 # Autodoc section
 # ---------------
-class Mock(object):
-
-    __all__ = []
-
-    def __init__(self, *args, **kwargs):
-        pass
-
-    def __call__(self, *args, **kwargs):
-        return ''
-
-    @classmethod
-    def __getattr__(cls, name):
-        if name in ('__file__', '__path__', 'xdg_config_home'):
-            return '/dev/null'
-        elif name[0] == name[0].upper():
-            mock_type = type(name, (), {})
-            mock_type.__module__ = __name__
-            return mock_type
-        else:
-            return Mock()
-
-    def __add__(self, other):
-        return other
-
-    def __or__(self, __):
-        return Mock()
-
-
-# Use custom mock as autodoc_mock_imports fails to handle these modules.
-MOCK_MODULES = ['deluge._libtorrent', 'xdg', 'xdg.BaseDirectory']
-
-for mod_name in MOCK_MODULES:
-    sys.modules[mod_name] = Mock()
 
 # Must add these for autodoc to import packages successfully
 builtins.__dict__['_'] = lambda x: x
 builtins.__dict__['_n'] = lambda s, p, n: s if n == 1 else p
 
 autodoc_mock_imports = [
+    'deluge._libtorrent',
     'twisted',
     'rencode',
     'OpenSSL',

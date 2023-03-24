@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
@@ -7,12 +6,11 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 import deluge.common
 import deluge.component as component
-from deluge.core.preferencesmanager import DEFAULT_PREFS
 from deluge.ui.client import client
+
+DEFAULT_DAEMON_PORT = 58846
 
 
 class StatusBars(component.Component):
@@ -38,19 +36,23 @@ class StatusBars(component.Component):
         def on_get_session_status(status):
             self.upload = deluge.common.fsize(status['payload_upload_rate'])
             self.download = deluge.common.fsize(status['payload_download_rate'])
-            self.connections = status['num_peers']
+            self.connections = status['peer.num_peers_connected']
             if 'dht_nodes' in status:
-                self.dht = status['dht_nodes']
+                self.dht = status['dht.dht_nodes']
 
             self.update_statusbars()
 
         def on_get_external_ip(external_ip):
             self.external_ip = external_ip
 
-        keys = ['num_peers', 'payload_upload_rate', 'payload_download_rate']
+        keys = [
+            'peer.num_peers_connected',
+            'payload_upload_rate',
+            'payload_download_rate',
+        ]
 
         if self.config['dht']:
-            keys.append('dht_nodes')
+            keys.append('dht.dht_nodes')
 
         client.core.get_session_status(keys).addCallback(on_get_session_status)
         client.core.get_external_ip().addCallback(on_get_external_ip)
@@ -76,7 +78,7 @@ class StatusBars(component.Component):
                 connection_info += '{!white,blue,bold!}@{!red,blue,bold!}%s'
 
             # Port
-            if info[1] == DEFAULT_PREFS['daemon_port']:
+            if info[1] == DEFAULT_DAEMON_PORT:
                 connection_info += '{!white,blue!}:%s'
             else:
                 connection_info += '{!status!}:%s'

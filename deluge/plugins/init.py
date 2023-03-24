@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
 #
@@ -10,14 +9,12 @@
 """
 This base class is used in plugin's __init__ for the plugin entry points.
 """
-from __future__ import unicode_literals
-
 import logging
 
 log = logging.getLogger(__name__)
 
 
-class PluginInitBase(object):
+class PluginInitBase:
     _plugin_cls = None
 
     def __init__(self, plugin_name):

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007,2008 Andrew Resch <andrewresch@gmail.com>
 #
@@ -7,8 +6,7 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
+import builtins
 import ctypes
 import gettext
 import locale
@@ -16,8 +14,6 @@ import logging
 import os
 import sys
 from glob import glob
-
-from six.moves import builtins
 
 import deluge.common
 
@@ -55,7 +51,7 @@ def get_languages():
             name = LANGUAGES[lang_code]
         lang.append([lang_code, _(name)])
 
-    lang = sorted(lang, key=lambda l: l[1])
+    lang = sorted(lang, key=lambda k: k[1])
     return lang
 
 
@@ -80,7 +76,7 @@ def set_language(lang):
         translation = gettext.translation(
             'deluge', localedir=get_translations_path(), languages=[lang]
         )
-    except IOError:
+    except OSError:
         log.warning('Unable to find translation (.mo) to set language: %s', lang)
     else:
         translation.install()
@@ -113,19 +109,17 @@ def setup_translation():
         gettext.bindtextdomain(I18N_DOMAIN, translations_path)
         gettext.textdomain(I18N_DOMAIN)
 
-        # Workaround for Python 2 unicode gettext (keyword removed in Py3).
-        kwargs = {} if not deluge.common.PY2 else {'unicode': True}
-
-        gettext.install(I18N_DOMAIN, translations_path, names=['ngettext'], **kwargs)
+        gettext.install(I18N_DOMAIN, translations_path, names=['ngettext'])
         builtins.__dict__['_n'] = builtins.__dict__['ngettext']
 
         def load_libintl(libintls):
             errors = []
+            libintl = None
             for library in libintls:
                 try:
                     libintl = ctypes.cdll.LoadLibrary(library)
                 except OSError as ex:
-                    errors.append(ex)
+                    errors.append(str(ex))
                 else:
                     break
 

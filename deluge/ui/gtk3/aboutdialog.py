@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007 Marcos Mobley ('markybob') <markybob@gmail.com>
 #
@@ -7,7 +6,7 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
+from datetime import date
 
 from gi.repository import Gtk
 
@@ -18,7 +17,7 @@ from deluge.ui.client import client
 from .common import get_deluge_icon, get_pixbuf
 
 
-class AboutDialog(object):
+class AboutDialog:
     def __init__(self):
         self.about = Gtk.AboutDialog()
         self.about.set_transient_for(component.get('MainWindow').window)
@@ -38,7 +37,7 @@ class AboutDialog(object):
 
         self.about.set_copyright(
             _('Copyright %(year_start)s-%(year_end)s Deluge Team')
-            % {'year_start': 2007, 'year_end': 2019}
+            % {'year_start': 2007, 'year_end': date.today().year}
         )
         self.about.set_comments(
             _('A peer-to-peer file sharing program\nutilizing the BitTorrent protocol.')

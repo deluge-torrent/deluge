@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007-2009 Andrew Resch <andrewresch@gmail.com>
 #
@@ -6,50 +5,36 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import unicode_literals
-
-from gi.repository.Gdk import ModifierType
-from gi.repository.Gtk import SeparatorMenuItem, accel_groups_from_object
-from gi.repository.Gtk.AccelFlags import VISIBLE
+from gi.repository import Gtk
 
 from deluge.configmanager import ConfigManager
 
-
-def accel_swap(item, group, skey, smod, dkey, dmod):
-    # Accel map hack broken, see ticket #3078
-    # item.remove_accelerator(group, ord(skey), smod)
-    item.add_accelerator('activate', group, ord(dkey), dmod, VISIBLE)
-
-
-def accel_meta(item, group, key):
-    accel_swap(item, group, key, ModifierType.CONTROL_MASK, key, ModifierType.META_MASK)
+macos_main_window_accelmap = {
+    '<Deluge-MainWindow>/File/Add Torrent': '<Meta>o',
+    '<Deluge-MainWindow>/File/Create Torrent': '<Meta>n',
+    '<Deluge-MainWindow>/File/Quit & Shutdown Daemon': '<Meta><Shift>q',
+    '<Deluge-MainWindow>/File/Quit': '<Meta>q',
+    '<Deluge-MainWindow>/Edit/Preferences': '<Meta>comma',
+    '<Deluge-MainWindow>/Edit/Connection Manager': '<Meta>m',
+    '<Deluge-MainWindow>/View/Find ...': '<Meta>f',
+    '<Deluge-MainWindow>/Help/FAQ': '<Meta>question',
+}
 
 
 def menubar_osx(gtkui, osxapp):
+    # Change key shortcuts
+    for accel_path, accelerator in macos_main_window_accelmap.items():
+        accel_key, accel_mods = Gtk.accelerator_parse(accelerator)
+        Gtk.AccelMap.change_entry(accel_path, accel_key, accel_mods, True)
+
     main_builder = gtkui.mainwindow.get_builder()
     menubar = main_builder.get_object('menubar')
-    group = accel_groups_from_object(gtkui.mainwindow.window)[0]
 
     config = ConfigManager('gtk3ui.conf')
-
-    # NOTE: accel maps doesn't work with glade file format
-    # because of libglade not setting MenuItem accel groups
-    # That's why we remove / set accelerators by hand... (dirty)
-    # Clean solution: migrate glades files to gtkbuilder format
     file_menu = main_builder.get_object('menu_file').get_submenu()
     file_items = file_menu.get_children()
-    accel_meta(file_items[0], group, 'o')
-    accel_meta(file_items[1], group, 'n')
     quit_all_item = file_items[3]
-    accel_swap(
-        quit_all_item,
-        group,
-        'q',
-        ModifierType.SHIFT_MASK | ModifierType.CONTROL_MASK,
-        'q',
-        ModifierType.SHIFT_MASK | ModifierType.META_MASK,
-    )
+
     for item in range(2, len(file_items)):  # remove quits
         file_menu.remove(file_items[item])
 
@@ -57,13 +42,9 @@ def menubar_osx(gtkui, osxapp):
     edit_menu = menu_widget.get_submenu()
     edit_items = edit_menu.get_children()
     pref_item = edit_items[0]
-    accel_swap(
-        pref_item, group, 'p', ModifierType.CONTROL_MASK, ',', ModifierType.META_MASK
-    )
     edit_menu.remove(pref_item)
 
     conn_item = edit_items[1]
-    accel_meta(conn_item, group, 'm')
     edit_menu.remove(conn_item)
 
     menubar.remove(menu_widget)
@@ -78,10 +59,10 @@ def menubar_osx(gtkui, osxapp):
     osxapp.set_menu_bar(menubar)
     # populate app menu
     osxapp.insert_app_menu_item(about_item, 0)
-    osxapp.insert_app_menu_item(SeparatorMenuItem(), 1)
+    osxapp.insert_app_menu_item(Gtk.SeparatorMenuItem(), 1)
     osxapp.insert_app_menu_item(pref_item, 2)
     if not config['standalone']:
         osxapp.insert_app_menu_item(conn_item, 3)
     if quit_all_item.get_visible():
-        osxapp.insert_app_menu_item(SeparatorMenuItem(), 4)
+        osxapp.insert_app_menu_item(Gtk.SeparatorMenuItem(), 4)
         osxapp.insert_app_menu_item(quit_all_item, 5)

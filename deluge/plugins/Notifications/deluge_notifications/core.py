@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009-2010 Pedro Algarvio <pedro@algarvio.me>
 #
@@ -11,8 +10,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import unicode_literals
 
 import logging
 import smtplib
@@ -119,7 +116,6 @@ Date: %(date)s
         message = '\r\n'.join((headers + message).splitlines())
 
         try:
-            # Python 2.6
             server = smtplib.SMTP(
                 self.config['smtp_host'], self.config['smtp_port'], timeout=60
             )
@@ -152,7 +148,7 @@ Date: %(date)s
 
         try:
             try:
-                server.sendmail(self.config['smtp_from'], to_addrs, message)
+                server.sendmail(self.config['smtp_from'], to_addrs, message.encode())
             except smtplib.SMTPException as ex:
                 err_msg = (
                     _('There was an error sending the notification email: %s') % ex

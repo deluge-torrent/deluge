@@ -1,23 +1,20 @@
-# -*- coding: utf-8 -*-
 #
 # This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
+import json
+import logging
 import os
 from codecs import getwriter
 
+import pytest
 from twisted.internet import task
-from twisted.trial import unittest
 
-import deluge.config
 from deluge.common import JSON_FORMAT
 from deluge.config import Config
-
-from .common import set_tmp_config_dir
+from deluge.ui.hostlist import mask_hosts_password
 
 DEFAULTS = {
     'string': 'foobar',
@@ -26,37 +23,42 @@ DEFAULTS = {
     'bool': True,
     'unicode': 'foobar',
     'password': 'abc123*\\[!]?/<>#{@}=|"+$%(^)~',
+    'hosts': [
+        ('host1', 'port', '', 'password1234'),
+        ('host2', 'port', '', 'password5678'),
+    ],
 }
 
 
-class ConfigTestCase(unittest.TestCase):
-    def setUp(self):  # NOQA: N803
-        self.config_dir = set_tmp_config_dir()
+LOGGER = logging.getLogger(__name__)
 
+
+class TestConfig:
     def test_init(self):
         config = Config('test.conf', defaults=DEFAULTS, config_dir=self.config_dir)
-        self.assertEqual(DEFAULTS, config.config)
+        assert DEFAULTS == config.config
 
         config = Config('test.conf', config_dir=self.config_dir)
-        self.assertEqual({}, config.config)
+        assert {} == config.config
 
     def test_set_get_item(self):
         config = Config('test.conf', config_dir=self.config_dir)
         config['foo'] = 1
-        self.assertEqual(config['foo'], 1)
-        self.assertRaises(ValueError, config.set_item, 'foo', 'bar')
+        assert config['foo'] == 1
+        with pytest.raises(ValueError):
+            config.set_item('foo', 'bar')
 
         config['foo'] = 2
-        self.assertEqual(config.get_item('foo'), 2)
+        assert config.get_item('foo') == 2
 
         config['foo'] = '3'
-        self.assertEqual(config.get_item('foo'), 3)
+        assert config.get_item('foo') == 3
 
         config['unicode'] = 'ВИДЕОФИЛЬМЫ'
-        self.assertEqual(config['unicode'], 'ВИДЕОФИЛЬМЫ')
+        assert config['unicode'] == 'ВИДЕОФИЛЬМЫ'
 
         config['unicode'] = b'foostring'
-        self.assertFalse(isinstance(config.get_item('unicode'), bytes))
+        assert not isinstance(config.get_item('unicode'), bytes)
 
         config._save_timer.cancel()
 
@@ -64,43 +66,101 @@ class ConfigTestCase(unittest.TestCase):
         config = Config('test.conf', config_dir=self.config_dir)
 
         config['foo'] = None
-        self.assertIsNone(config['foo'])
-        self.assertIsInstance(config['foo'], type(None))
+        assert config['foo'] is None
+        assert isinstance(config['foo'], type(None))
 
         config['foo'] = 1
-        self.assertEqual(config.get('foo'), 1)
+        assert config.get('foo') == 1
 
         config['foo'] = None
-        self.assertIsNone(config['foo'])
+        assert config['foo'] is None
 
         config['bar'] = None
-        self.assertIsNone(config['bar'])
+        assert config['bar'] is None
 
         config['bar'] = None
-        self.assertIsNone(config['bar'])
+        assert config['bar'] is None
 
         config._save_timer.cancel()
+
+    async def test_on_changed_callback(self, mock_callback):
+        config = Config('test.conf', config_dir=self.config_dir)
+        config.register_change_callback(mock_callback)
+        config['foo'] = 1
+        assert config['foo'] == 1
+        await mock_callback.deferred
+        mock_callback.assert_called_once_with('foo', 1)
+
+    async def test_key_function_callback(self, mock_callback):
+        config = Config(
+            'test.conf', defaults={'foo': 1, 'bar': 1}, config_dir=self.config_dir
+        )
+
+        assert config['foo'] == 1
+        config.register_set_function('foo', mock_callback)
+        await mock_callback.deferred
+        mock_callback.assert_called_once_with('foo', 1)
+
+        mock_callback.reset_mock()
+        config.register_set_function('bar', mock_callback, apply_now=False)
+        mock_callback.assert_not_called()
+        config['bar'] = 2
+        await mock_callback.deferred
+        mock_callback.assert_called_once_with('bar', 2)
 
     def test_get(self):
         config = Config('test.conf', config_dir=self.config_dir)
         config['foo'] = 1
-        self.assertEqual(config.get('foo'), 1)
-        self.assertEqual(config.get('foobar'), None)
-        self.assertEqual(config.get('foobar', 2), 2)
+        assert config.get('foo') == 1
+        assert config.get('foobar') is None
+        assert config.get('foobar', 2) == 2
         config['foobar'] = 5
-        self.assertEqual(config.get('foobar', 2), 5)
+        assert config.get('foobar', 2) == 5
+
+    def test_set_log_mask_funcs(self, caplog):
+        """Test mask func masks key in log"""
+        caplog.set_level(logging.DEBUG)
+        config = Config(
+            'test.conf',
+            config_dir=self.config_dir,
+            log_mask_funcs={'hosts': mask_hosts_password},
+        )
+        config['hosts'] = DEFAULTS['hosts']
+        assert isinstance(config['hosts'], list)
+        assert 'host1' in caplog.text
+        assert 'host2' in caplog.text
+        assert 'password1234' not in caplog.text
+        assert 'password5678' not in caplog.text
+        assert '*' * 10 in caplog.text
+
+    def test_load_log_mask_funcs(self, caplog):
+        """Test mask func masks key in log"""
+        with open(os.path.join(self.config_dir, 'test.conf'), 'wb') as _file:
+            json.dump(DEFAULTS, getwriter('utf8')(_file), **JSON_FORMAT)
+
+        config = Config(
+            'test.conf',
+            config_dir=self.config_dir,
+            log_mask_funcs={'hosts': mask_hosts_password},
+        )
+        with caplog.at_level(logging.DEBUG):
+            config.load(os.path.join(self.config_dir, 'test.conf'))
+        assert 'host1' in caplog.text
+        assert 'host2' in caplog.text
+        assert 'foobar' in caplog.text
+        assert 'password1234' not in caplog.text
+        assert 'password5678' not in caplog.text
+        assert '*' * 10 in caplog.text
 
     def test_load(self):
         def check_config():
             config = Config('test.conf', config_dir=self.config_dir)
 
-            self.assertEqual(config['string'], 'foobar')
-            self.assertEqual(config['float'], 0.435)
-            self.assertEqual(config['password'], 'abc123*\\[!]?/<>#{@}=|"+$%(^)~')
+            assert config['string'] == 'foobar'
+            assert config['float'] == 0.435
+            assert config['password'] == 'abc123*\\[!]?/<>#{@}=|"+$%(^)~'
 
         # Test opening a previous 1.2 config file of just a json object
-        import json
-
         with open(os.path.join(self.config_dir, 'test.conf'), 'wb') as _file:
             json.dump(DEFAULTS, getwriter('utf8')(_file), **JSON_FORMAT)
 
@@ -128,38 +188,38 @@ class ConfigTestCase(unittest.TestCase):
         # We do this twice because the first time we need to save the file to disk
         # and the second time we do a compare and we should not write
         ret = config.save()
-        self.assertTrue(ret)
+        assert ret
         ret = config.save()
-        self.assertTrue(ret)
+        assert ret
 
         config['string'] = 'baz'
         config['int'] = 2
         ret = config.save()
-        self.assertTrue(ret)
+        assert ret
         del config
 
         config = Config('test.conf', defaults=DEFAULTS, config_dir=self.config_dir)
-        self.assertEqual(config['string'], 'baz')
-        self.assertEqual(config['int'], 2)
+        assert config['string'] == 'baz'
+        assert config['int'] == 2
 
     def test_save_timer(self):
-        self.clock = task.Clock()
-        deluge.config.callLater = self.clock.callLater
+        clock = task.Clock()
 
         config = Config('test.conf', defaults=DEFAULTS, config_dir=self.config_dir)
+        config.callLater = clock.callLater
         config['string'] = 'baz'
         config['int'] = 2
-        self.assertTrue(config._save_timer.active())
+        assert config._save_timer.active()
 
         # Timeout set for 5 seconds in config, so lets move clock by 5 seconds
-        self.clock.advance(5)
+        clock.advance(5)
 
         def check_config(config):
-            self.assertTrue(not config._save_timer.active())
+            assert not config._save_timer.active()
             del config
             config = Config('test.conf', defaults=DEFAULTS, config_dir=self.config_dir)
-            self.assertEqual(config['string'], 'baz')
-            self.assertEqual(config['int'], 2)
+            assert config['string'] == 'baz'
+            assert config['int'] == 2
 
         check_config(config)
 
@@ -176,7 +236,7 @@ class ConfigTestCase(unittest.TestCase):
         from deluge.config import find_json_objects
 
         objects = find_json_objects(s)
-        self.assertEqual(len(objects), 2)
+        assert len(objects) == 2
 
     def test_find_json_objects_curly_brace(self):
         """Test with string containing curly brace"""
@@ -193,7 +253,7 @@ class ConfigTestCase(unittest.TestCase):
         from deluge.config import find_json_objects
 
         objects = find_json_objects(s)
-        self.assertEqual(len(objects), 2)
+        assert len(objects) == 2
 
     def test_find_json_objects_double_quote(self):
         """Test with string containing double quote"""
@@ -211,4 +271,4 @@ class ConfigTestCase(unittest.TestCase):
         from deluge.config import find_json_objects
 
         objects = find_json_objects(s)
-        self.assertEqual(len(objects), 2)
+        assert len(objects) == 2

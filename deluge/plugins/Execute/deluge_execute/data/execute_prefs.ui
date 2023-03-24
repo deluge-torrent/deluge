@@ -71,8 +71,6 @@
                         <property name="can_focus">True</property>
                         <property name="can_default">True</property>
                         <property name="has_default">True</property>
-                        <property name="primary_icon_activatable">False</property>
-                        <property name="secondary_icon_activatable">False</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
@@ -11,8 +10,6 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 import logging
 
 from deluge.plugins.pluginbase import WebPluginBase
@@ -23,6 +20,5 @@ log = logging.getLogger(__name__)
 
 
 class WebUI(WebPluginBase):
-
     scripts = [get_resource('extractor.js')]
     debug_scripts = scripts

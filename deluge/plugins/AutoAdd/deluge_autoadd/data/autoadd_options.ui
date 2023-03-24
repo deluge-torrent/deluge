@@ -150,8 +150,6 @@
                                         <property name="tooltip_text" translatable="yes">If a .torrent file is added to this directory,
 it will be added to the session.</property>
                                         <property name="invisible_char">●</property>
-                                        <property name="primary_icon_activatable">False</property>
-                                        <property name="secondary_icon_activatable">False</property>
                                       </object>
                                       <packing>
                                         <property name="expand">True</property>
@@ -284,8 +282,6 @@ and it will remain in the same directory.</property>
                                             <property name="can_focus">True</property>
                                             <property name="invisible_char">•</property>
                                             <property name="text" translatable="yes">.added</property>
-                                            <property name="primary_icon_activatable">False</property>
-                                            <property name="secondary_icon_activatable">False</property>
                                           </object>
                                           <packing>
                                             <property name="expand">True</property>
@@ -329,8 +325,6 @@ and deleted from the watch folder.</property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
                                                 <property name="invisible_char">•</property>
-                                                <property name="primary_icon_activatable">False</property>
-                                                <property name="secondary_icon_activatable">False</property>
                                               </object>
                                               <packing>
                                                 <property name="expand">True</property>
@@ -445,8 +439,6 @@ also delete the .torrent file used to add it.</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="invisible_char">●</property>
-                                        <property name="primary_icon_activatable">False</property>
-                                        <property name="secondary_icon_activatable">False</property>
                                       </object>
                                       <packing>
                                         <property name="expand">True</property>
@@ -534,8 +526,6 @@ also delete the .torrent file used to add it.</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="invisible_char">●</property>
-                                        <property name="primary_icon_activatable">False</property>
-                                        <property name="secondary_icon_activatable">False</property>
                                       </object>
                                       <packing>
                                         <property name="expand">True</property>
@@ -799,8 +789,6 @@ also delete the .torrent file used to add it.</property>
                                   <object class="GtkSpinButton" id="max_download_speed">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="primary_icon_activatable">False</property>
-                                    <property name="secondary_icon_activatable">False</property>
                                     <property name="adjustment">adjustment1</property>
                                     <property name="climb_rate">1</property>
                                     <property name="digits">1</property>
@@ -815,8 +803,6 @@ also delete the .torrent file used to add it.</property>
                                   <object class="GtkSpinButton" id="max_upload_speed">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="primary_icon_activatable">False</property>
-                                    <property name="secondary_icon_activatable">False</property>
                                     <property name="adjustment">adjustment2</property>
                                     <property name="climb_rate">1</property>
                                     <property name="digits">1</property>
@@ -833,8 +819,6 @@ also delete the .torrent file used to add it.</property>
                                   <object class="GtkSpinButton" id="max_connections">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="primary_icon_activatable">False</property>
-                                    <property name="secondary_icon_activatable">False</property>
                                     <property name="adjustment">adjustment3</property>
                                     <property name="climb_rate">1</property>
                                   </object>
@@ -850,8 +834,6 @@ also delete the .torrent file used to add it.</property>
                                   <object class="GtkSpinButton" id="max_upload_slots">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="primary_icon_activatable">False</property>
-                                    <property name="secondary_icon_activatable">False</property>
                                     <property name="adjustment">adjustment4</property>
                                     <property name="climb_rate">1</property>
                                   </object>
@@ -1063,8 +1045,6 @@ also delete the .torrent file used to add it.</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="invisible_char">●</property>
-                                    <property name="primary_icon_activatable">False</property>
-                                    <property name="secondary_icon_activatable">False</property>
                                     <property name="adjustment">adjustment5</property>
                                     <property name="climb_rate">1</property>
                                     <property name="digits">1</property>

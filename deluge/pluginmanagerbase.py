@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
 #
@@ -9,8 +8,7 @@
 
 
 """PluginManagerBase"""
-from __future__ import unicode_literals
-
+import email
 import logging
 import os.path
 
@@ -37,7 +35,7 @@ METADATA_KEYS = [
 ]
 
 DEPRECATION_WARNING = """
-The plugin %s is not using the "deluge.plugins" namespace.
+The plugin %s is not using the "deluge_" namespace.
 In order to avoid package name clashes between regular python packages and
 deluge plugins, the way deluge plugins should be created has changed.
 If you're seeing this message and you're not the developer of the plugin which
@@ -47,7 +45,7 @@ git repository to have an idea of what needs to be changed.
 """
 
 
-class PluginManagerBase(object):
+class PluginManagerBase:
     """PluginManagerBase is a base class for PluginManagers to inherit"""
 
     def __init__(self, config_file, entry_name):
@@ -164,7 +162,7 @@ class PluginManagerBase(object):
                 log.exception(ex)
                 return_d = defer.fail(False)
 
-            if not instance.__module__.startswith('deluge.plugins.'):
+            if not instance.__module__.startswith('deluge_'):
                 import warnings
 
                 warnings.warn_explicit(
@@ -257,28 +255,25 @@ class PluginManagerBase(object):
 
     def get_plugin_info(self, name):
         """Returns a dictionary of plugin info from the metadata"""
-        info = {}.fromkeys(METADATA_KEYS)
-        last_header = ''
-        cont_lines = []
-        # Missing plugin info
+
         if not self.pkg_env[name]:
             log.warning('Failed to retrieve info for plugin: %s', name)
-            for k in info:
-                info[k] = 'not available'
+            info = {}.fromkeys(METADATA_KEYS, '')
+            info['Name'] = info['Version'] = 'not available'
             return info
-        for line in self.pkg_env[name][0].get_metadata('PKG-INFO').splitlines():
-            if not line:
-                continue
-            if line[0] in ' \t' and (
-                len(line.split(':', 1)) == 1 or line.split(':', 1)[0] not in info
-            ):
-                # This is a continuation
-                cont_lines.append(line.strip())
-            else:
-                if cont_lines:
-                    info[last_header] = '\n'.join(cont_lines).strip()
-                    cont_lines = []
-                if line.split(':', 1)[0] in info:
-                    last_header = line.split(':', 1)[0]
-                    info[last_header] = line.split(':', 1)[1].strip()
+
+        pkg_info = self.pkg_env[name][0].get_metadata('PKG-INFO')
+        return self.parse_pkg_info(pkg_info)
+
+    @staticmethod
+    def parse_pkg_info(pkg_info):
+        metadata_msg = email.message_from_string(pkg_info)
+        metadata_ver = metadata_msg.get('Metadata-Version')
+
+        info = {key: metadata_msg.get(key, '') for key in METADATA_KEYS}
+
+        # Optional Description field in body (Metadata spec >=2.1)
+        if not info['Description'] and metadata_ver.startswith('2'):
+            info['Description'] = metadata_msg.get_payload().strip()
+
         return info

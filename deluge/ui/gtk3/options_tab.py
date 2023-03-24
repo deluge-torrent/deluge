@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008 Andrew Resch <andrewresch@gmail.com>
 #               2017 Calum Lind <calumlind+deluge@gmail.com>
@@ -7,8 +6,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import unicode_literals
 
 from gi.repository.Gdk import keyval_name
 
@@ -21,7 +18,7 @@ from .torrentdetails import Tab
 
 class OptionsTab(Tab):
     def __init__(self):
-        super(OptionsTab, self).__init__('Options', 'options_tab', 'options_tab_label')
+        super().__init__('Options', 'options_tab', 'options_tab_label')
 
         self.prev_torrent_ids = None
         self.prev_status = None
@@ -191,8 +188,9 @@ class OptionsTab(Tab):
             ):
                 options[status_key] = widget_value
 
-        if options.get('move_completed', False):
-            options['move_completed_path'] = self.move_completed_path_chooser.get_text()
+        move_completed_path = self.move_completed_path_chooser.get_text()
+        if move_completed_path != self.prev_status['move_completed_path']:
+            options['move_completed_path'] = move_completed_path
 
         client.core.set_torrent_options(self.prev_torrent_ids, options)
         self.button_apply.set_sensitive(False)

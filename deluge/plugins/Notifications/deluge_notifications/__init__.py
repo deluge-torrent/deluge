@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009-2010 Pedro Algarvio <pedro@algarvio.me>
 #
@@ -12,8 +11,6 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 from deluge.plugins.init import PluginInitBase
 
 
@@ -22,7 +19,7 @@ class CorePlugin(PluginInitBase):
         from .core import Core as _pluginCls
 
         self._plugin_cls = _pluginCls
-        super(CorePlugin, self).__init__(plugin_name)
+        super().__init__(plugin_name)
 
 
 class GtkUIPlugin(PluginInitBase):
@@ -30,7 +27,7 @@ class GtkUIPlugin(PluginInitBase):
         from .gtkui import GtkUI as _pluginCls
 
         self._plugin_cls = _pluginCls
-        super(GtkUIPlugin, self).__init__(plugin_name)
+        super().__init__(plugin_name)
 
 
 class WebUIPlugin(PluginInitBase):
@@ -38,4 +35,4 @@ class WebUIPlugin(PluginInitBase):
         from .webui import WebUI as _pluginCls
 
         self._plugin_cls = _pluginCls
-        super(WebUIPlugin, self).__init__(plugin_name)
+        super().__init__(plugin_name)

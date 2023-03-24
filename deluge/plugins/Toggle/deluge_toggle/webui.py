@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2010 John Garland <johnnybg+deluge@gmail.com>
 #
@@ -12,8 +11,6 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 import logging
 
 from deluge.plugins.pluginbase import WebPluginBase
@@ -24,7 +21,6 @@ log = logging.getLogger(__name__)
 
 
 class WebUI(WebPluginBase):
-
     scripts = [get_resource('toggle.js')]
 
     def enable(self):

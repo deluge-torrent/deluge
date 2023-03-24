@@ -1,5 +1,4 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
 #
 # This software is in the public domain, furnished "as is", without technical
 # support, and with no warranty, express or implied, as to its usefulness for
@@ -11,8 +10,6 @@
 # that I've found useful to change.
 #
 # Authour: Garett Harnish
-
-from __future__ import unicode_literals
 
 import logging
 import sys

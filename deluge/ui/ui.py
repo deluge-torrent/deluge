@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
 #
@@ -7,9 +6,8 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 import logging
+import sys
 
 import deluge.common
 import deluge.configmanager
@@ -27,7 +25,7 @@ except ImportError:
         return
 
 
-class UI(object):
+class UI:
     """
     Base class for UI implementations.
 
@@ -60,7 +58,7 @@ class UI(object):
         return self.__options
 
     def start(self, parser=None):
-        args = deluge.common.unicode_argv()[1:]
+        args = sys.argv[1:]
         if parser is None:
             parser = self.parser
         self.__options = self.parse_args(parser, args)

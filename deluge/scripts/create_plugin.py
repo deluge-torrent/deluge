@@ -7,8 +7,6 @@ python create_plugin.py --name MyPlugin2 --basepath . --author-name "Your Name" 
 
 """
 
-from __future__ import print_function, unicode_literals
-
 import os
 import sys
 from argparse import ArgumentParser
@@ -51,7 +49,6 @@ options = parser.parse_args()
 
 
 def create_plugin():
-
     if not options.url:
         options.url = ''
 
@@ -115,9 +112,13 @@ def create_plugin():
 
     # add an input parameter for this?
     print('building dev-link..')
-    write_file(plugin_base, 'create_dev_link.sh', CREATE_DEV_LINK)
-    dev_link_path = os.path.join(plugin_base, 'create_dev_link.sh')
-    os.system('chmod +x %s' % dev_link_path)  # lazy..
+    if deluge.common.windows_check():
+        write_file(plugin_base, 'create_dev_link.bat', CREATE_DEV_LINK_WIN)
+        dev_link_path = os.path.join(plugin_base, 'create_dev_link.bat')
+    else:
+        write_file(plugin_base, 'create_dev_link.sh', CREATE_DEV_LINK_NIX)
+        dev_link_path = os.path.join(plugin_base, 'create_dev_link.sh')
+        os.system('chmod +x %s' % dev_link_path)  # lazy..
     os.system(dev_link_path)
 
 
@@ -374,7 +375,7 @@ GPL = """# -*- coding: utf-8 -*-
 # the OpenSSL library. See LICENSE for more details.
 """
 
-CREATE_DEV_LINK = """#!/bin/bash
+CREATE_DEV_LINK_NIX = """#!/bin/bash
 BASEDIR=$(cd `dirname $0` && pwd)
 CONFIG_DIR=$( test -z $1 && echo "%(configdir)s" || echo "$1")
 [ -d "$CONFIG_DIR/plugins" ] || echo "Config dir \"$CONFIG_DIR\" is either not a directory \
@@ -386,6 +387,29 @@ export PYTHONPATH=$BASEDIR/temp
 %(python_path)s setup.py build develop --install-dir $BASEDIR/temp
 cp $BASEDIR/temp/*.egg-link $CONFIG_DIR/plugins
 rm -fr $BASEDIR/temp
+"""
+
+CREATE_DEV_LINK_WIN = """@echo off
+set BASEDIR=%%~dp0
+set BASEDIR=%%BASEDIR:~0,-1%%
+if [%%1]==[] (
+    set CONFIG_DIR=%(configdir)s
+) else (
+    set CONFIG_DIR=%%1
+)
+if not exist %%CONFIG_DIR%%\\plugins (
+    echo Config dir %%CONFIG_DIR%% is either not a directory \
+or is not a proper deluge config directory. Exiting
+    exit /b 1
+)
+cd %%BASEDIR%%
+if not exist %%BASEDIR%%\\temp (
+    md %%BASEDIR%%\\temp
+)
+set PYTHONPATH=%%BASEDIR%%/temp
+%(python_path)s setup.py build develop --install-dir %%BASEDIR%%\\temp
+copy "%%BASEDIR%%\\temp\\*.egg-link" "%%CONFIG_DIR%%\\plugins"
+rd /s /q %%BASEDIR%%\\temp
 """
 
 create_plugin()

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2010 Andrew Resch <andrewresch@gmail.com>
 #
@@ -6,8 +5,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-from __future__ import unicode_literals
-
 import logging
 from time import time
 
@@ -148,11 +145,17 @@ class SessionProxy(component.Component):
 
                 def on_status(result, torrent_id):
                     t = time()
-                    self.torrents[torrent_id][0] = t
-                    self.torrents[torrent_id][1].update(result)
-                    for key in keys_to_get:
-                        self.cache_times[torrent_id][key] = t
-                    return self.create_status_dict([torrent_id], keys)[torrent_id]
+                    try:
+                        self.torrents[torrent_id][0] = t
+                        self.torrents[torrent_id][1].update(result)
+                        for key in keys_to_get:
+                            self.cache_times[torrent_id][key] = t
+                        return self.create_status_dict([torrent_id], keys)[torrent_id]
+                    except KeyError:
+                        log.debug(
+                            f'Status missing for torrent (removed?): {torrent_id}'
+                        )
+                        return {}
 
                 return d.addCallback(on_status, torrent_id)
         else:
@@ -187,6 +190,7 @@ class SessionProxy(component.Component):
         :rtype: dict
 
         """
+
         # Helper functions and callbacks ---------------------------------------
         def on_status(result, torrent_ids, keys):
             # Update the internal torrent status dict with the update values

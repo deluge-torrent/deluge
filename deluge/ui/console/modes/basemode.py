@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2011 Nick Lanham <nick@afternight.org>
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
@@ -8,10 +7,11 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 import logging
+import signal
+import struct
 import sys
+from typing import Tuple
 
 import deluge.component as component
 import deluge.ui.console.utils.colors as colors
@@ -25,10 +25,8 @@ except ImportError:
     pass
 
 try:
-    import signal
-    import struct
-    import termios
     from fcntl import ioctl
+    from termios import TIOCGWINSZ
 except ImportError:
     pass
 
@@ -36,7 +34,7 @@ except ImportError:
 log = logging.getLogger(__name__)
 
 
-class InputKeyHandler(object):
+class InputKeyHandler:
     def __init__(self):
         self._input_result = None
 
@@ -62,32 +60,35 @@ class InputKeyHandler(object):
         return util.ReadState.IGNORED
 
 
-class TermResizeHandler(object):
+class TermResizeHandler:
     def __init__(self):
         try:
-            signal.signal(signal.SIGWINCH, self.on_terminal_size)
+            signal.signal(signal.SIGWINCH, self.on_resize)
         except ValueError as ex:
             log.debug('TermResize unavailable, unable to catch SIGWINCH signal: %s', ex)
         except AttributeError as ex:
             log.debug('TermResize unavailable, no SIGWINCH signal on Windows: %s', ex)
 
-    def on_terminal_size(self, *args):
-        # Get the new rows and cols value
-        rows, cols = struct.unpack('hhhh', ioctl(0, termios.TIOCGWINSZ, b'\000' * 8))[
-            0:2
-        ]
+    @staticmethod
+    def get_window_size(fd: int = 0) -> Tuple[int, int]:
+        """Return the tty window size as row, col."""
+        return struct.unpack('4h', ioctl(fd, TIOCGWINSZ, b'\x00' * 8))[0:2]
+
+    def on_resize(self, _signum, _frame):
+        """Handler for SIGWINCH when terminal changes size"""
+        rows, cols = self.get_window_size()
         curses.resizeterm(rows, cols)
         return rows, cols
 
 
-class CursesStdIO(object):
+class CursesStdIO:
     """
     fake fd to be registered as a reader with the twisted reactor.
        Curses classes needing input should extend this
     """
 
     def fileno(self):
-        """ We want to select on FD 0 """
+        """We want to select on FD 0"""
         return 0
 
     def doRead(self):  # NOQA: N802

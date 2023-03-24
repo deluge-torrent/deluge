@@ -1166,8 +1166,6 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="invisible_char">•</property>
-                                        <property name="primary_icon_activatable">False</property>
-                                        <property name="secondary_icon_activatable">False</property>
                                         <property name="adjustment">spin_stop_ratio_adjustment</property>
                                         <property name="digits">1</property>
                                         <property name="numeric">True</property>
@@ -1267,8 +1265,6 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="invisible_char">•</property>
-                                        <property name="primary_icon_activatable">False</property>
-                                        <property name="secondary_icon_activatable">False</property>
                                         <property name="adjustment">spin_max_connections_adjustment</property>
                                         <property name="numeric">True</property>
                                       </object>
@@ -1282,8 +1278,6 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="invisible_char">•</property>
-                                        <property name="primary_icon_activatable">False</property>
-                                        <property name="secondary_icon_activatable">False</property>
                                         <property name="adjustment">spin_max_upload_adjustment</property>
                                         <property name="digits">1</property>
                                         <property name="numeric">True</property>
@@ -1298,8 +1292,6 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="invisible_char">•</property>
-                                        <property name="primary_icon_activatable">False</property>
-                                        <property name="secondary_icon_activatable">False</property>
                                         <property name="adjustment">spin_max_download_adjustment</property>
                                         <property name="climb_rate">1</property>
                                         <property name="digits">1</property>
@@ -1356,8 +1348,6 @@
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="invisible_char">•</property>
-                                        <property name="primary_icon_activatable">False</property>
-                                        <property name="secondary_icon_activatable">False</property>
                                         <property name="adjustment">spin_max_upload_slots_adjustment</property>
                                         <property name="numeric">True</property>
                                       </object>

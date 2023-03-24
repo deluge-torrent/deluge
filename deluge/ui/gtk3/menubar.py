@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007, 2008 Andrew Resch <andrewresch@gmail.com>
 # Copyright (C) 2011 Pedro Algarvio <pedro@algarvio.me>
@@ -8,8 +7,6 @@
 # See LICENSE for more details.
 #
 
-
-from __future__ import unicode_literals
 
 import logging
 import os.path
@@ -21,10 +18,21 @@ import deluge.component as component
 from deluge.configmanager import ConfigManager
 from deluge.ui.client import client
 
-from .dialogs import ErrorDialog, OtherDialog
+from .dialogs import CopyMagnetDialog, ErrorDialog, OtherDialog
 from .path_chooser import PathChooser
 
 log = logging.getLogger(__name__)
+
+default_main_window_accelmap = {
+    '<Deluge-MainWindow>/File/Add Torrent': '<Primary>o',
+    '<Deluge-MainWindow>/File/Create Torrent': '<Primary>n',
+    '<Deluge-MainWindow>/File/Quit & Shutdown Daemon': '<Primary><Shift>q',
+    '<Deluge-MainWindow>/File/Quit': '<Primary>q',
+    '<Deluge-MainWindow>/Edit/Preferences': '<Primary>p',
+    '<Deluge-MainWindow>/Edit/Connection Manager': '<Primary>m',
+    '<Deluge-MainWindow>/View/Find ...': '<Primary>f',
+    '<Deluge-MainWindow>/Help/FAQ': 'F1',
+}
 
 
 class MenuBar(component.Component):
@@ -34,6 +42,7 @@ class MenuBar(component.Component):
         self.mainwindow = component.get('MainWindow')
         self.main_builder = self.mainwindow.get_builder()
         self.config = ConfigManager('gtk3ui.conf')
+        self._magnet_copied = False
 
         self.builder = Gtk.Builder()
         # Get the torrent menu from the gtk builder file
@@ -114,6 +123,11 @@ class MenuBar(component.Component):
         # Attach the torrent_menu to the Torrent file menu
         self.menu_torrent.set_submenu(self.torrentmenu)
 
+        # Set keyboard shortcuts
+        for accel_path, accelerator in default_main_window_accelmap.items():
+            accel_key, accel_mods = Gtk.accelerator_parse(accelerator)
+            Gtk.AccelMap.change_entry(accel_path, accel_key, accel_mods, True)
+
         # Make sure the view menuitems are showing the correct active state
         self.main_builder.get_object('menuitem_toolbar').set_active(
             self.config['show_toolbar']
@@ -141,6 +155,19 @@ class MenuBar(component.Component):
         self.builder.connect_signals(self)
 
         self.change_sensitivity = ['menuitem_addtorrent']
+
+    def magnet_copied(self):
+        """
+        lets the caller know whether a magnet was copied internally
+
+        the `mainwindow` checks every time the data in the clipboard,
+        so it will automatically open the AddTorrentURL dialog in case it
+        contains a valid link (URL to a torrent or a magnet URI).
+
+        """
+        val = self._magnet_copied
+        self._magnet_copied = False
+        return val
 
     def start(self):
         for widget in self.change_sensitivity:
@@ -281,6 +308,21 @@ class MenuBar(component.Component):
         client.core.resume_torrents(
             component.get('TorrentView').get_selected_torrents()
         )
+
+    def on_menuitem_copymagnet_activate(self, data=None):
+        log.debug('on_menuitem_copymagnet_activate')
+        torrent_ids = component.get('TorrentView').get_selected_torrents()
+        if torrent_ids:
+
+            def _on_magnet_uri(magnet_uri):
+                def update_copied(response_id):
+                    if dialog.copied:
+                        self._magnet_copied = True
+
+                dialog = CopyMagnetDialog(magnet_uri)
+                dialog.run().addCallback(update_copied)
+
+            client.core.get_magnet_uri(torrent_ids[0]).addCallback(_on_magnet_uri)
 
     def on_menuitem_updatetracker_activate(self, data=None):
         log.debug('on_menuitem_updatetracker_activate')
@@ -541,7 +583,7 @@ class MenuBar(component.Component):
             account_to_log = {}
             for key, value in account.copy().items():
                 if key == 'password':
-                    value = '*' * len(value)
+                    value = '*' * 10
                 account_to_log[key] = value
             known_accounts_to_log.append(account_to_log)
         log.debug('_on_known_accounts: %s', known_accounts_to_log)

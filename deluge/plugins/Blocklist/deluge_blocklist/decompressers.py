@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009-2010 John Garland <johnnybg+deluge@gmail.com>
 #
@@ -7,8 +6,6 @@
 # See LICENSE for more details.
 #
 # pylint: disable=redefined-builtin
-
-from __future__ import unicode_literals
 
 import bz2
 import gzip

@@ -11,26 +11,13 @@ compatible with 2.0 and this guide aims to helps with that process.
 
 ### Python version matching
 
-Ensure your code is both Python 2.7 and Python >=3.5 compatible.
+Ensure your code is Python >=3.6 compatible.
 
 In `1.3-stable` the plugins that were built with a specific version of Python
 would only be loaded if the system Python also matched.
 
 This has change in Deluge 2.0 and it will load any Python version of plugin
 eggs so compatibility is essential for end-users not to encounter issues.
-
-### Six
-
-Use [six] to assist with compatibility.
-
-[six]: https://pythonhosted.org/six/
-
-### Unicode literals
-
-Add the following to files to ensure strings and bytes separation so there
-are no surprises when running on Python 3.
-
-    from __future__ import unicode_literals
 
 ## GTK 3 addition
 

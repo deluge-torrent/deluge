@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2011 Nick Lanham <nick@afternight.org>
 #
@@ -7,11 +6,8 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 import logging
 
-from deluge.common import PY2
 from deluge.decorators import overrides
 from deluge.ui.console.modes.basemode import InputKeyHandler, move_cursor
 from deluge.ui.console.modes.torrentlist.torrentactions import torrent_actions_popup
@@ -49,7 +45,7 @@ SEARCH_FORMAT = {
 
 class SearchMode(InputKeyHandler):
     def __init__(self, torrentlist):
-        super(SearchMode, self).__init__()
+        super().__init__()
         self.torrentlist = torrentlist
         self.torrentview = torrentlist.torrentview
         self.search_state = SEARCH_EMPTY
@@ -176,7 +172,7 @@ class SearchMode(InputKeyHandler):
         elif c > 31 and c < 256:
             old_search_string = self.search_string
             stroke = chr(c)
-            uchar = '' if PY2 else stroke
+            uchar = stroke
             while not uchar:
                 try:
                     uchar = stroke.decode(self.torrentlist.encoding)

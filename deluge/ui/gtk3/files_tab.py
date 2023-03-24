@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008 Andrew Resch <andrewresch@gmail.com>
 #
@@ -7,15 +6,13 @@
 # See LICENSE for more details.
 #
 
-from __future__ import division, unicode_literals
-
 import json
 import logging
 import os.path
 
 import gi  # isort:skip (Required before Gtk import).
 
-gi.require_version('Gtk', '3.0')  # NOQA: E402
+gi.require_version('Gtk', '3.0')
 
 # isort:imports-thirdparty
 from gi.repository import Gio, Gtk
@@ -84,7 +81,7 @@ def cell_progress(column, cell, model, row, data):
 
 class FilesTab(Tab):
     def __init__(self):
-        super(FilesTab, self).__init__('Files', 'files_tab', 'files_tab_label')
+        super().__init__('Files', 'files_tab', 'files_tab_label')
 
         self.listview = self.main_builder.get_object('files_listview')
         # filename, size, progress string, progress value, priority, file index, icon id
@@ -248,7 +245,7 @@ class FilesTab(Tab):
         if state['sort_id'] is not None and state['sort_order'] is not None:
             self.treestore.set_sort_column_id(state['sort_id'], state['sort_order'])
 
-        for (index, column) in enumerate(self.listview.get_columns()):
+        for index, column in enumerate(self.listview.get_columns()):
             cname = column.get_title()
             if cname in state['columns']:
                 cstate = state['columns'][cname]
@@ -762,7 +759,6 @@ class FilesTab(Tab):
                 fd['path'] = fd['path'].replace(old_folder, new_folder, 1)
 
         if torrent_id == self.torrent_id:
-
             old_split = old_folder.split('/')
             try:
                 old_split.remove('')

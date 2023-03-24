@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2016 bendikro <bro.devel+deluge@gmail.com>
 #
@@ -7,22 +6,21 @@
 # See LICENSE for more details.
 #
 
-from __future__ import print_function, unicode_literals
-
 import os
 import sys
-import tempfile
 import traceback
 
+import pytest
 from twisted.internet import defer, protocol, reactor
 from twisted.internet.defer import Deferred
 from twisted.internet.error import CannotListenError
-from twisted.trial import unittest
 
 import deluge.configmanager
 import deluge.core.preferencesmanager
 import deluge.log
+from deluge.common import get_localhost_auth
 from deluge.error import DelugeError
+from deluge.ui.client import Client
 
 # This sets log level to critical, so use log.critical() to debug while running unit tests
 deluge.log.setup_logger('none')
@@ -30,12 +28,6 @@ deluge.log.setup_logger('none')
 
 def disable_new_release_check():
     deluge.core.preferencesmanager.DEFAULT_PREFS['new_release_check'] = False
-
-
-def set_tmp_config_dir():
-    config_directory = tempfile.mkdtemp()
-    deluge.configmanager.set_config_dir(config_directory)
-    return config_directory
 
 
 def setup_test_logger(level='info', prefix='deluge'):
@@ -55,7 +47,7 @@ def todo_test(caller):
 
     filename = os.path.basename(traceback.extract_stack(None, 2)[0][0])
     funcname = traceback.extract_stack(None, 2)[0][2]
-    raise unittest.SkipTest('TODO: %s:%s' % (filename, funcname))
+    pytest.skip(f'TODO: {filename}:{funcname}')
 
 
 def add_watchdog(deferred, timeout=0.05, message=None):
@@ -73,7 +65,7 @@ def add_watchdog(deferred, timeout=0.05, message=None):
     return watchdog
 
 
-class ReactorOverride(object):
+class ReactorOverride:
     """Class used to patch reactor while running unit tests
     to avoid starting and stopping the twisted reactor
     """
@@ -97,12 +89,19 @@ class ReactorOverride(object):
 
 class ProcessOutputHandler(protocol.ProcessProtocol):
     def __init__(
-        self, script, callbacks, logfile=None, print_stdout=True, print_stderr=True
+        self,
+        script,
+        shutdown_func,
+        callbacks,
+        logfile=None,
+        print_stdout=True,
+        print_stderr=True,
     ):
         """Executes a script and handle the process' output to stdout and stderr.
 
         Args:
             script (str): The script to execute.
+            shutdown_func (func): A function which will gracefully stop the called script.
             callbacks (list): Callbacks to trigger if the expected output if found.
             logfile (str, optional): Filename to wrote the process' output.
             print_stderr (bool): Print the process' stderr output to stdout.
@@ -111,6 +110,7 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
         """
         self.callbacks = callbacks
         self.script = script
+        self.shutdown_func = shutdown_func
         self.log_output = ''
         self.stderr_out = ''
         self.logfile = logfile
@@ -130,6 +130,7 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
         with open(self.logfile, 'w') as f:
             f.write(self.log_output)
 
+    @defer.inlineCallbacks
     def kill(self):
         """Kill the running process.
 
@@ -142,11 +143,17 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
         self.killed = True
         self._kill_watchdogs()
         self.quit_d = Deferred()
-        self.transport.signalProcess('INT')
-        return self.quit_d
+        shutdown = self.shutdown_func()
+        shutdown.addTimeout(5, reactor)
+        try:
+            yield shutdown
+        except Exception:
+            self.transport.signalProcess('TERM')
+        result = yield self.quit_d
+        return result
 
     def _kill_watchdogs(self):
-        """"Cancel all watchdogs"""
+        """Cancel all watchdogs"""
         for w in self.watchdogs:
             if not w.called and not w.cancelled:
                 w.cancel()
@@ -205,7 +212,7 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
 
 
 def start_core(
-    listen_port=58846,
+    listen_port=58900,
     logfile=None,
     timeout=10,
     timeout_msg=None,
@@ -213,13 +220,14 @@ def start_core(
     print_stdout=True,
     print_stderr=True,
     extra_callbacks=None,
+    config_directory='',
 ):
     """Start the deluge core as a daemon.
 
     Args:
         listen_port (int, optional): The port the daemon listens for client connections.
         logfile (str, optional): Logfile name to write the output from the process.
-        timeout (int): If none of the callbacks have been triggered before the imeout, the process is killed.
+        timeout (int): If none of the callbacks have been triggered before the timeout, the process is killed.
         timeout_msg (str): The message to print when the timeout expires.
         custom_script (str): Extra python code to insert into the daemon process script.
         print_stderr (bool): If the output from the process' stderr should be printed to stdout.
@@ -234,7 +242,6 @@ def start_core(
         or upon timeout expiry. The ProcessOutputHandler is the handler for the deluged process.
 
     """
-    config_directory = set_tmp_config_dir()
     daemon_script = """
 import sys
 import deluge.core.daemon_entry
@@ -254,7 +261,7 @@ except Exception:
     import traceback
     sys.stderr.write('Exception raised:\\n %%s' %% traceback.format_exc())
 """ % {
-        'dir': config_directory,
+        'dir': config_directory.as_posix(),
         'port': listen_port,
         'script': custom_script,
     }
@@ -289,20 +296,30 @@ except Exception:
     if extra_callbacks:
         callbacks.extend(extra_callbacks)
 
+    @defer.inlineCallbacks
+    def shutdown_daemon():
+        username, password = get_localhost_auth()
+        client = Client()
+        yield client.connect(
+            'localhost', listen_port, username=username, password=password
+        )
+        yield client.daemon.shutdown()
+
     process_protocol = start_process(
-        daemon_script, callbacks, logfile, print_stdout, print_stderr
+        daemon_script, shutdown_daemon, callbacks, logfile, print_stdout, print_stderr
     )
     return default_core_cb['deferred'], process_protocol
 
 
 def start_process(
-    script, callbacks, logfile=None, print_stdout=True, print_stderr=True
+    script, shutdown_func, callbacks, logfile=None, print_stdout=True, print_stderr=True
 ):
     """
     Starts an external python process which executes the given script.
 
     Args:
         script (str): The content of the script to execute.
+        shutdown_func (func): A function which will gracefully end the called script.
         callbacks (list): list of dictionaries specifying callbacks.
         logfile (str, optional): Logfile name to write the output from the process.
         print_stderr (bool): If the output from the process' stderr should be printed to stdout.
@@ -324,7 +341,12 @@ def start_process(
     """
     cwd = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
     process_protocol = ProcessOutputHandler(
-        script.encode('utf8'), callbacks, logfile, print_stdout, print_stderr
+        script.encode('utf8'),
+        shutdown_func,
+        callbacks,
+        logfile,
+        print_stdout,
+        print_stderr,
     )
 
     # Add timeouts to deferreds

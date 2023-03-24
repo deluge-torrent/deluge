@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009-2010 Damien Churchill <damoxc@gmail.com>
 #
@@ -7,8 +6,7 @@
 # See LICENSE for more details.
 #
 
-from __future__ import division, unicode_literals
-
+import cgi
 import json
 import logging
 import os
@@ -16,7 +14,6 @@ import shutil
 import tempfile
 from base64 import b64encode
 from types import FunctionType
-from xml.sax.saxutils import escape as xml_escape
 
 from twisted.internet import defer, reactor
 from twisted.internet.defer import Deferred, DeferredList
@@ -39,7 +36,7 @@ log = logging.getLogger(__name__)
 
 class JSONComponent(component.Component):
     def __init__(self, name, interval=1, depend=None):
-        super(JSONComponent, self).__init__(name, interval, depend)
+        super().__init__(name, interval, depend)
         self._json = component.get('JSON')
         self._json.register_object(self, name)
 
@@ -146,7 +143,7 @@ class JSON(resource.Resource, component.Component):
             params = request_data['params']
             request_id = request_data['id']
         except KeyError as ex:
-            message = 'Invalid JSON request, missing param %s in %s' % (
+            message = 'Invalid JSON request, missing param {} in {}'.format(
                 ex,
                 request_data,
             )
@@ -167,7 +164,7 @@ class JSON(resource.Resource, component.Component):
         except Exception as ex:
             log.error('Error calling method `%s`: %s', method, ex)
             log.exception(ex)
-            error = {'message': '%s: %s' % (ex.__class__.__name__, str(ex)), 'code': 3}
+            error = {'message': f'{ex.__class__.__name__}: {str(ex)}', 'code': 3}
 
         return request_id, result, error
 
@@ -184,7 +181,7 @@ class JSON(resource.Resource, component.Component):
         """
         log.error(reason)
         response['error'] = {
-            'message': '%s: %s' % (reason.__class__.__name__, str(reason)),
+            'message': f'{reason.__class__.__name__}: {str(reason)}',
             'code': 4,
         }
         return self._send_response(request, response)
@@ -194,7 +191,7 @@ class JSON(resource.Resource, component.Component):
         Handler to take the json data as a string and pass it on to the
         _handle_request method for further processing.
         """
-        content_type = request.getHeader(b'content-type').decode()
+        content_type, _ = cgi.parse_header(request.getHeader(b'content-type').decode())
         if content_type != 'application/json':
             message = 'Invalid JSON request content-type: %s' % content_type
             raise JSONException(message)
@@ -221,7 +218,7 @@ class JSON(resource.Resource, component.Component):
             'id': None,
             'error': {
                 'code': 5,
-                'message': '%s: %s' % (reason.__class__.__name__, str(reason)),
+                'message': f'{reason.__class__.__name__}: {str(reason)}',
             },
         }
         return self._send_response(request, response)
@@ -288,7 +285,7 @@ class JSON(resource.Resource, component.Component):
 FILES_KEYS = ['files', 'file_progress', 'file_priorities']
 
 
-class EventQueue(object):
+class EventQueue:
     """
     This class subscribes to events from the core and stores them until all
     the subscribed listeners have received the events.
@@ -378,10 +375,8 @@ class WebApi(JSONComponent):
     methods available from the core RPC.
     """
 
-    XSS_VULN_KEYS = ['name', 'message', 'comment', 'tracker_status', 'peers']
-
     def __init__(self):
-        super(WebApi, self).__init__('Web', depend=['SessionProxy'])
+        super().__init__('Web', depend=['SessionProxy'])
         self.hostlist = HostList()
         self.core_config = CoreConfig()
         self.event_queue = EventQueue()
@@ -518,7 +513,7 @@ class WebApi(JSONComponent):
             return d
 
         def got_stats(stats):
-            ui_info['stats']['num_connections'] = stats['num_peers']
+            ui_info['stats']['num_connections'] = stats['peer.num_peers_connected']
             ui_info['stats']['upload_rate'] = stats['payload_upload_rate']
             ui_info['stats']['download_rate'] = stats['payload_download_rate']
             ui_info['stats']['download_protocol_rate'] = (
@@ -527,9 +522,9 @@ class WebApi(JSONComponent):
             ui_info['stats']['upload_protocol_rate'] = (
                 stats['upload_rate'] - stats['payload_upload_rate']
             )
-            ui_info['stats']['dht_nodes'] = stats['dht_nodes']
+            ui_info['stats']['dht_nodes'] = stats['dht.dht_nodes']
             ui_info['stats']['has_incoming_connections'] = stats[
-                'has_incoming_connections'
+                'net.has_incoming_connections'
             ]
 
         def got_filters(filters):
@@ -555,13 +550,13 @@ class WebApi(JSONComponent):
 
         d3 = client.core.get_session_status(
             [
-                'num_peers',
+                'peer.num_peers_connected',
                 'payload_download_rate',
                 'payload_upload_rate',
                 'download_rate',
                 'upload_rate',
-                'dht_nodes',
-                'has_incoming_connections',
+                'dht.dht_nodes',
+                'net.has_incoming_connections',
             ]
         )
         d3.addCallback(got_stats)
@@ -584,7 +579,7 @@ class WebApi(JSONComponent):
         paths = []
         info = {}
         for index, torrent_file in enumerate(files):
-            path = xml_escape(torrent_file['path'])
+            path = torrent_file['path']
             paths.append(path)
             torrent_file['progress'] = file_progress[index]
             torrent_file['priority'] = file_priorities[index]
@@ -621,25 +616,10 @@ class WebApi(JSONComponent):
         file_tree.walk(walk)
         d.callback(file_tree.get_tree())
 
-    def _on_torrent_status(self, torrent, d):
-        for key in self.XSS_VULN_KEYS:
-            try:
-                if key == 'peers':
-                    for peer in torrent[key]:
-                        peer['client'] = xml_escape(peer['client'])
-                else:
-                    torrent[key] = xml_escape(torrent[key])
-            except KeyError:
-                pass
-        d.callback(torrent)
-
     @export
     def get_torrent_status(self, torrent_id, keys):
         """Get the status for a torrent, filtered by status keys."""
-        main_deferred = Deferred()
-        d = component.get('SessionProxy').get_torrent_status(torrent_id, keys)
-        d.addCallback(self._on_torrent_status, main_deferred)
-        return main_deferred
+        return component.get('SessionProxy').get_torrent_status(torrent_id, keys)
 
     @export
     def get_torrent_files(self, torrent_id):
@@ -1006,7 +986,7 @@ class WebUtils(JSONComponent):
     """
 
     def __init__(self):
-        super(WebUtils, self).__init__('WebUtils')
+        super().__init__('WebUtils')
 
     @export
     def get_languages(self):

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2011-2013 Calum Lind <calumlind@gmail.com>
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
@@ -10,8 +9,6 @@
 #
 
 """Parses Python and Javascript code for translation strings to create the 'deluge.pot' template for translators"""
-
-from __future__ import print_function, unicode_literals
 
 import os
 import re
@@ -42,7 +39,7 @@ xgettext_cmd = [
 ]
 
 to_translate = []
-for (dirpath, dirnames, filenames) in os.walk('deluge'):
+for dirpath, dirnames, filenames in os.walk('deluge'):
     for filename in filenames:
         if dirpath not in EXCLUSIONS and not RE_EXC_PLUGIN_BUILD.match(dirpath):
             filepath = os.path.join(dirpath, filename)
@@ -70,13 +67,13 @@ call(xgettext_cmd)
 
 # find javascript files
 js_to_translate = []
-for (dirpath, dirnames, filenames) in os.walk(WEBUI_JS_DIR):
+for dirpath, dirnames, filenames in os.walk(WEBUI_JS_DIR):
     for filename in filenames:
         if os.path.splitext(filename)[1] == '.js':
             js_to_translate.append(os.path.join(dirpath, filename))
 
 # find render html files
-for (dirpath, dirnames, filenames) in os.walk(WEBUI_RENDER_DIR):
+for dirpath, dirnames, filenames in os.walk(WEBUI_RENDER_DIR):
     for filename in filenames:
         if os.path.splitext(filename)[1] == '.html':
             js_to_translate.append(os.path.join(dirpath, filename))
@@ -91,7 +88,7 @@ with open(INFILES_LIST, 'w') as f:
 call(xgettext_cmd + ['--language=Python', '-j'])
 
 # Replace YEAR and PACKAGE in the copyright message
-with open(POT_FILEPATH, 'r') as f:
+with open(POT_FILEPATH) as f:
     lines = f.readlines()
 with open(POT_FILEPATH, 'w') as f:
     for line in lines:

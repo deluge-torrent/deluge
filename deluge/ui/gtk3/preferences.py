@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007, 2008 Andrew Resch <andrewresch@gmail.com>
 # Copyright (C) 2011 Pedro Algarvio <pedro@algarvio.me>
@@ -8,11 +7,10 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 import logging
 import os
 from hashlib import sha1 as sha
+from urllib.parse import urlparse
 
 from gi import require_version
 from gi.repository import Gtk
@@ -21,6 +19,7 @@ from gi.repository.Gdk import Color
 import deluge.common
 import deluge.component as component
 from deluge.configmanager import ConfigManager, get_config_dir
+from deluge.decorators import maybe_coroutine
 from deluge.error import AuthManagerError, NotAuthorizedError
 from deluge.i18n import get_languages
 from deluge.ui.client import client
@@ -29,12 +28,6 @@ from deluge.ui.common import DISK_CACHE_KEYS, PREFS_CATOG_TRANS
 from .common import associate_magnet_links, get_clipboard_text, get_deluge_icon
 from .dialogs import AccountDialog, ErrorDialog, InformationDialog, YesNoDialog
 from .path_chooser import PathChooser
-
-try:
-    from urllib.parse import urlparse
-except ImportError:
-    # PY2 fallback
-    from urlparse import urlparse  # pylint: disable=ungrouped-imports
 
 try:
     require_version('AppIndicator3', '0.1')
@@ -302,7 +295,7 @@ class Preferences(component.Component):
         'Bandwidth'"""
         self.window_open = True
         if page is not None:
-            for (index, string, __) in self.liststore:
+            for index, string, __ in self.liststore:
                 if page == string:
                     self.treeview.get_selection().select_path(index)
                     break
@@ -679,11 +672,15 @@ class Preferences(component.Component):
             'chk_random_outgoing_ports'
         ).get_active()
         incoming_address = self.builder.get_object('entry_interface').get_text().strip()
-        if deluge.common.is_ip(incoming_address) or not incoming_address:
+        if deluge.common.is_interface(incoming_address) or not incoming_address:
             new_core_config['listen_interface'] = incoming_address
-        new_core_config['outgoing_interface'] = (
+        outgoing_address = (
             self.builder.get_object('entry_outgoing_interface').get_text().strip()
         )
+        if deluge.common.is_interface(outgoing_address) or not outgoing_address:
+            new_core_config['outgoing_interface'] = (
+                self.builder.get_object('entry_outgoing_interface').get_text().strip()
+            )
         new_core_config['peer_tos'] = self.builder.get_object(
             'entry_peer_tos'
         ).get_text()
@@ -948,6 +945,7 @@ class Preferences(component.Component):
 
     def hide(self):
         self.window_open = False
+        self.builder.get_object('port_spinner').stop()
         self.builder.get_object('port_img').hide()
         self.pref_dialog.hide()
 
@@ -1092,6 +1090,8 @@ class Preferences(component.Component):
         log.debug('on_test_port_clicked')
 
         def on_get_test(status):
+            self.builder.get_object('port_spinner').stop()
+            self.builder.get_object('port_spinner').hide()
             if status:
                 self.builder.get_object('port_img').set_from_icon_name(
                     'emblem-ok-symbolic', Gtk.IconSize.MENU
@@ -1104,12 +1104,9 @@ class Preferences(component.Component):
                 self.builder.get_object('port_img').show()
 
         client.core.test_listen_port().addCallback(on_get_test)
-        # XXX: Consider using gtk.Spinner() instead of the loading gif
-        #      It requires gtk.ver > 2.12
-        self.builder.get_object('port_img').set_from_file(
-            deluge.common.get_pixmap('loading.gif')
-        )
-        self.builder.get_object('port_img').show()
+        self.builder.get_object('port_spinner').start()
+        self.builder.get_object('port_spinner').show()
+        self.builder.get_object('port_img').hide()
         client.force_call()
 
     def on_plugin_toggled(self, renderer, path):
@@ -1333,58 +1330,46 @@ class Preferences(component.Component):
         (model, itr) = treeselection.get_selected()
         if not itr:
             return
-        username = model[itr][0]
-        if username:
+        level = model[itr][1]
+        if level:
             self.builder.get_object('accounts_edit').set_sensitive(True)
             self.builder.get_object('accounts_delete').set_sensitive(True)
         else:
             self.builder.get_object('accounts_edit').set_sensitive(False)
             self.builder.get_object('accounts_delete').set_sensitive(False)
 
-    def on_accounts_add_clicked(self, widget):
+    @maybe_coroutine
+    async def on_accounts_add_clicked(self, widget):
         dialog = AccountDialog(
             levels_mapping=client.auth_levels_mapping, parent=self.pref_dialog
         )
+        response = await dialog.run()
+        if response != Gtk.ResponseType.OK:
+            return
 
-        def dialog_finished(response_id):
-            username = dialog.get_username()
-            password = dialog.get_password()
-            authlevel = dialog.get_authlevel()
+        account = dialog.account
+        try:
+            await client.core.create_account(*account)
+        except AuthManagerError as ex:
+            return ErrorDialog(
+                _('Error Adding Account'),
+                _('Authentication failed'),
+                parent=self.pref_dialog,
+                details=ex,
+            ).run()
+        except Exception as ex:
+            return ErrorDialog(
+                _('Error Adding Account'),
+                _(f'An error occurred while adding account: {account}'),
+                parent=self.pref_dialog,
+                details=ex,
+            ).run()
 
-            def add_ok(rv):
-                accounts_iter = self.accounts_liststore.append()
-                self.accounts_liststore.set_value(
-                    accounts_iter, ACCOUNTS_USERNAME, username
-                )
-                self.accounts_liststore.set_value(
-                    accounts_iter, ACCOUNTS_LEVEL, authlevel
-                )
-                self.accounts_liststore.set_value(
-                    accounts_iter, ACCOUNTS_PASSWORD, password
-                )
-
-            def add_fail(failure):
-                if failure.type == AuthManagerError:
-                    ErrorDialog(
-                        _('Error Adding Account'),
-                        _('Authentication failed'),
-                        parent=self.pref_dialog,
-                        details=failure.getErrorMessage(),
-                    ).run()
-                else:
-                    ErrorDialog(
-                        _('Error Adding Account'),
-                        _('An error occurred while adding account'),
-                        parent=self.pref_dialog,
-                        details=failure.getErrorMessage(),
-                    ).run()
-
-            if response_id == Gtk.ResponseType.OK:
-                client.core.create_account(username, password, authlevel).addCallback(
-                    add_ok
-                ).addErrback(add_fail)
-
-        dialog.run().addCallback(dialog_finished)
+        self.accounts_liststore.set(
+            self.accounts_liststore.append(),
+            [ACCOUNTS_USERNAME, ACCOUNTS_LEVEL, ACCOUNTS_PASSWORD],
+            [account.username, account.authlevel, account.password],
+        )
 
     def on_accounts_edit_clicked(self, widget):
         (model, itr) = self.accounts_listview.get_selection().get_selected()

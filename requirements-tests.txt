@@ -1,4 +1,4 @@
-pytest != 5.2.3, < 5.4
+pytest
 pytest-twisted
 pytest-cov
 mock
@@ -9,3 +9,4 @@ flake8-isort
 pep8-naming
 mccabe
 pylint
+asyncmock; python_version <= '3.7'

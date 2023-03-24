@@ -148,8 +148,6 @@
                     <property name="max_length">6</property>
                     <property name="activates_default">True</property>
                     <property name="width_chars">6</property>
-                    <property name="primary_icon_activatable">False</property>
-                    <property name="secondary_icon_activatable">False</property>
                     <property name="adjustment">adjustment1</property>
                   </object>
                 </child>

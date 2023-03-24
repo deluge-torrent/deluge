@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
 #
@@ -7,11 +6,7 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 import logging
-
-from six import string_types
 
 import deluge.component as component
 from deluge.common import TORRENT_STATE
@@ -136,7 +131,7 @@ class FilterManager(component.Component):
 
         # Sanitize input: filter-value must be a list of strings
         for key, value in filter_dict.items():
-            if isinstance(value, string_types):
+            if isinstance(value, str):
                 filter_dict[key] = [value]
 
         # Optimized filter for id

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2010 John Garland <johnnybg+deluge@gmail.com>
 #
@@ -7,14 +6,14 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 import logging
 import os
-from tempfile import mkstemp
+import tempfile
+from html.parser import HTMLParser
+from urllib.parse import urljoin, urlparse
 
 from twisted.internet import defer, threads
-from twisted.web.error import PageRedirect
+from twisted.python.failure import Failure
 from twisted.web.resource import ForbiddenResource, NoResource
 
 from deluge.component import Component
@@ -23,12 +22,9 @@ from deluge.decorators import proxy
 from deluge.httpdownloader import download_file
 
 try:
-    from html.parser import HTMLParser
-    from urllib.parse import urljoin, urlparse
+    import chardet
 except ImportError:
-    # PY2 fallback
-    from HTMLParser import HTMLParser
-    from urlparse import urljoin, urlparse  # pylint: disable=ungrouped-imports
+    chardet = None
 
 try:
     from PIL import Image
@@ -38,7 +34,7 @@ except ImportError:
 log = logging.getLogger(__name__)
 
 
-class TrackerIcon(object):
+class TrackerIcon:
     """
     Represents a tracker's icon
     """
@@ -207,17 +203,19 @@ class TrackerIcons(Component):
         else:
             # We need to fetch it
             self.pending[host] = []
+            tmp_file = tempfile.mkstemp(prefix='deluge_trackericon_html.')
+            filename = tmp_file[1]
             # Start callback chain
-            d = self.download_page(host)
+            d = self.download_page(host, filename)
             d.addCallbacks(
                 self.on_download_page_complete,
                 self.on_download_page_fail,
-                errbackArgs=(host,),
             )
             d.addCallback(self.parse_html_page)
             d.addCallbacks(
                 self.on_parse_complete, self.on_parse_fail, callbackArgs=(host,)
             )
+            d.addBoth(self.del_tmp_file, tmp_file)
             d.addCallback(self.download_icon, host)
             d.addCallbacks(
                 self.on_download_icon_complete,
@@ -229,24 +227,38 @@ class TrackerIcons(Component):
             d.addCallback(self.store_icon, host)
         return d
 
-    def download_page(self, host, url=None):
-        """
-        Downloads a tracker host's page
+    @staticmethod
+    def del_tmp_file(result, tmp_file):
+        """Remove tmp_file created when downloading tracker page"""
+        fd, filename = tmp_file
+        try:
+            os.close(fd)
+            os.remove(filename)
+        except OSError:
+            log.debug(f'Unable to delete temporary file: {filename}')
+
+        return result
+
+    def download_page(
+        self, host: str, filename: str, url: str = None
+    ) -> 'defer.Deferred[str]':
+        """Downloads a tracker host's page
+
         If no url is provided, it bases the url on the host
 
-        :param host: the tracker host
-        :type host: string
-        :param url: the (optional) url of the host
-        :type url: string
-        :returns: the filename of the tracker host's page
-        :rtype: Deferred
+        Args:
+            host: The tracker host
+            filename: Location to download page
+            url: The url of the host
+
+        Returns:
+            The filename of the tracker host's page
         """
         if not url:
             url = self.host_to_url(host)
-        log.debug('Downloading %s %s', host, url)
-        tmp_fd, tmp_file = mkstemp(prefix='deluge_ticon.')
-        os.close(tmp_fd)
-        return download_file(url, tmp_file, force_filename=True, handle_redirects=False)
+
+        log.debug(f'Downloading {host} {url} to {filename}')
+        return download_file(url, filename, force_filename=True)
 
     def on_download_page_complete(self, page):
         """
@@ -260,33 +272,18 @@ class TrackerIcons(Component):
         log.debug('Finished downloading %s', page)
         return page
 
-    def on_download_page_fail(self, f, host):
-        """
-        Recovers from download error
+    def on_download_page_fail(self, failure: 'Failure') -> 'Failure':
+        """Runs any download failure clean-up functions
 
-        :param f: the failure that occurred
-        :type f: Failure
-        :param host: the name of the host whose page failed to download
-        :type host: string
-        :returns: a Deferred if recovery was possible
-                  else the original failure
-        :rtype: Deferred or Failure
-        """
-        error_msg = f.getErrorMessage()
-        log.debug('Error downloading page: %s', error_msg)
-        d = f
-        if f.check(PageRedirect):
-            # Handle redirect errors
-            location = urljoin(self.host_to_url(host), error_msg.split(' to ')[1])
-            self.redirects[host] = url_to_host(location)
-            d = self.download_page(host, url=location)
-            d.addCallbacks(
-                self.on_download_page_complete,
-                self.on_download_page_fail,
-                errbackArgs=(host,),
-            )
+        Args:
+            failure: The failure that occurred.
 
-        return d
+        Returns:
+            The original failure.
+
+        """
+        log.debug(f'Error downloading page: {failure.getErrorMessage()}')
+        return failure
 
     @proxy(threads.deferToThread)
     def parse_html_page(self, page):
@@ -298,17 +295,19 @@ class TrackerIcons(Component):
         :returns: a Deferred which callbacks a list of available favicons (url, type)
         :rtype: Deferred
         """
-        with open(page, 'r') as _file:
+        encoding = 'UTF-8'
+        if chardet:
+            with open(page, 'rb') as _file:
+                result = chardet.detect(_file.read())
+                encoding = result['encoding']
+
+        with open(page, encoding=encoding) as _file:
             parser = FaviconParser()
             for line in _file:
                 parser.feed(line)
                 if parser.left_head:
                     break
             parser.close()
-        try:
-            os.remove(page)
-        except OSError as ex:
-            log.warning('Could not remove temp file: %s', ex)
 
         return parser.get_icons()
 
@@ -382,7 +381,7 @@ class TrackerIcons(Component):
             try:
                 with Image.open(icon_name):
                     pass
-            except IOError as ex:
+            except OSError as ex:
                 raise InvalidIconError(ex)
         else:
             if not os.path.getsize(icon_name):
@@ -423,22 +422,7 @@ class TrackerIcons(Component):
         error_msg = f.getErrorMessage()
         log.debug('Error downloading icon from %s: %s', host, error_msg)
         d = f
-        if f.check(PageRedirect):
-            # Handle redirect errors
-            location = urljoin(self.host_to_url(host), error_msg.split(' to ')[1])
-            d = self.download_icon(
-                [(location, extension_to_mimetype(location.rpartition('.')[2]))]
-                + icons,
-                host,
-            )
-            if not icons:
-                d.addCallbacks(
-                    self.on_download_icon_complete,
-                    self.on_download_icon_fail,
-                    callbackArgs=(host,),
-                    errbackArgs=(host,),
-                )
-        elif f.check(NoResource, ForbiddenResource) and icons:
+        if f.check(NoResource, ForbiddenResource) and icons:
             d = self.download_icon(icons, host)
         elif f.check(NoIconsError):
             # No icons, try favicon.ico as an act of desperation
@@ -477,14 +461,17 @@ class TrackerIcons(Component):
         # Requires Pillow(PIL) to resize.
         if icon and Image:
             filename = icon.get_filename()
+            remove_old = False
             with Image.open(filename) as img:
                 if img.size > (16, 16):
                     new_filename = filename.rpartition('.')[0] + '.png'
                     img = img.resize((16, 16), Image.ANTIALIAS)
                     img.save(new_filename)
                     if new_filename != filename:
-                        os.remove(filename)
-                        icon = TrackerIcon(new_filename)
+                        remove_old = True
+            if remove_old:
+                os.remove(filename)
+                icon = TrackerIcon(new_filename)
         return icon
 
     def store_icon(self, icon, host):
@@ -617,11 +604,13 @@ MIME_MAP = {
     'image/png': 'png',
     'image/vnd.microsoft.icon': 'ico',
     'image/x-icon': 'ico',
+    'image/svg+xml': 'svg',
     'gif': 'image/gif',
     'jpg': 'image/jpeg',
     'jpeg': 'image/jpeg',
     'png': 'image/png',
     'ico': 'image/vnd.microsoft.icon',
+    'svg': 'image/svg+xml',
 }
 
 

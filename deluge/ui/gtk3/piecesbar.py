@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2011 Pedro Algarvio <pedro@algarvio.me>
 #
@@ -7,15 +6,13 @@
 # See LICENSE for more details.
 #
 
-from __future__ import division, unicode_literals
-
 from math import pi
 
 import gi  # isort:skip (Version check required before import).
 
-gi.require_version('PangoCairo', '1.0')  # NOQA: E402
-gi.require_foreign('cairo')  # NOQA: E402
-gi.require_version('cairo', '1.0')  # NOQA: E402
+gi.require_version('PangoCairo', '1.0')
+gi.require_foreign('cairo')
+gi.require_version('cairo', '1.0')
 
 # isort:imports-thirdparty
 import cairo  # Backward compat cairo <= 1.15
@@ -24,7 +21,6 @@ from gi.repository.Gtk import DrawingArea, ProgressBar, StateFlags
 from gi.repository.Pango import SCALE, Weight
 
 # isort:imports-firstparty
-from deluge.common import PY2
 from deluge.configmanager import ConfigManager
 
 COLOR_STATES = ['missing', 'waiting', 'downloading', 'completed']
@@ -32,10 +28,10 @@ COLOR_STATES = ['missing', 'waiting', 'downloading', 'completed']
 
 class PiecesBar(DrawingArea):
     # Draw in response to an draw
-    __gsignals__ = {'draw': 'override'} if not PY2 else {b'draw': b'override'}
+    __gsignals__ = {'draw': 'override'}
 
     def __init__(self):
-        super(PiecesBar, self).__init__()
+        super().__init__()
         # Get progress bar styles, in order to keep font consistency
         pb = ProgressBar()
         pb_style = pb.get_style_context()

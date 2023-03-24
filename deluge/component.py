@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007-2010 Andrew Resch <andrewresch@gmail.com>
 #
@@ -7,13 +6,10 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 import logging
 import traceback
 from collections import defaultdict
 
-from six import string_types
 from twisted.internet import reactor
 from twisted.internet.defer import DeferredList, fail, maybeDeferred, succeed
 from twisted.internet.task import LoopingCall, deferLater
@@ -27,13 +23,13 @@ class ComponentAlreadyRegistered(Exception):
 
 class ComponentException(Exception):
     def __init__(self, message, tb):
-        super(ComponentException, self).__init__(message)
+        super().__init__(message)
         self.message = message
         self.tb = tb
 
     def __str__(self):
-        s = super(ComponentException, self).__str__()
-        return '%s\n%s' % (s, ''.join(self.tb))
+        s = super().__str__()
+        return '{}\n{}'.format(s, ''.join(self.tb))
 
     def __eq__(self, other):
         if isinstance(other, self.__class__):
@@ -45,7 +41,7 @@ class ComponentException(Exception):
         return not self.__eq__(other)
 
 
-class Component(object):
+class Component:
     """Component objects are singletons managed by the :class:`ComponentRegistry`.
 
     When a new Component object is instantiated, it will be automatically
@@ -63,10 +59,15 @@ class Component(object):
                  Deluge core.
 
         **update()** - This method is called every 1 second by default while the
-                   Componented is in a *Started* state.  The interval can be
+                   Component is in a *Started* state.  The interval can be
                    specified during instantiation.  The update() timer can be
                    paused by instructing the :class:`ComponentRegistry` to pause
                    this Component.
+
+        **pause()** - This method is called when the component is being paused.
+
+        **resume()** - This method is called when the component resumes from a Paused
+                    state.
 
         **shutdown()** - This method is called when the client is exiting.  If the
                      Component is in a "Started" state when this is called, a
@@ -87,7 +88,7 @@ class Component(object):
         **Stopping** - The Component has had it's stop method called, but it hasn't
                     fully stopped yet.
 
-        **Paused** - The Component has had it's update timer stopped, but will
+        **Paused** - The Component has had its update timer stopped, but will
                     still be considered in a Started state.
 
     """
@@ -115,9 +116,8 @@ class Component(object):
             _ComponentRegistry.deregister(self)
 
     def _component_start_timer(self):
-        if hasattr(self, 'update'):
-            self._component_timer = LoopingCall(self.update)
-            self._component_timer.start(self._component_interval)
+        self._component_timer = LoopingCall(self.update)
+        self._component_timer.start(self._component_interval)
 
     def _component_start(self):
         def on_start(result):
@@ -133,13 +133,10 @@ class Component(object):
             return fail(result)
 
         if self._component_state == 'Stopped':
-            if hasattr(self, 'start'):
-                self._component_state = 'Starting'
-                d = deferLater(reactor, 0, self.start)
-                d.addCallbacks(on_start, on_start_fail)
-                self._component_starting_deferred = d
-            else:
-                d = maybeDeferred(on_start, None)
+            self._component_state = 'Starting'
+            d = deferLater(reactor, 0, self.start)
+            d.addCallbacks(on_start, on_start_fail)
+            self._component_starting_deferred = d
         elif self._component_state == 'Starting':
             return self._component_starting_deferred
         elif self._component_state == 'Started':
@@ -169,14 +166,11 @@ class Component(object):
             return result
 
         if self._component_state != 'Stopped' and self._component_state != 'Stopping':
-            if hasattr(self, 'stop'):
-                self._component_state = 'Stopping'
-                d = maybeDeferred(self.stop)
-                d.addCallback(on_stop)
-                d.addErrback(on_stop_fail)
-                self._component_stopping_deferred = d
-            else:
-                d = maybeDeferred(on_stop, None)
+            self._component_state = 'Stopping'
+            d = maybeDeferred(self.stop)
+            d.addCallback(on_stop)
+            d.addErrback(on_stop_fail)
+            self._component_stopping_deferred = d
 
         if self._component_state == 'Stopping':
             return self._component_stopping_deferred
@@ -186,13 +180,12 @@ class Component(object):
     def _component_pause(self):
         def on_pause(result):
             self._component_state = 'Paused'
+            if self._component_timer and self._component_timer.running:
+                self._component_timer.stop()
 
         if self._component_state == 'Started':
-            if self._component_timer and self._component_timer.running:
-                d = maybeDeferred(self._component_timer.stop)
-                d.addCallback(on_pause)
-            else:
-                d = succeed(None)
+            d = maybeDeferred(self.pause)
+            d.addCallback(on_pause)
         elif self._component_state == 'Paused':
             d = succeed(None)
         else:
@@ -209,9 +202,10 @@ class Component(object):
     def _component_resume(self):
         def on_resume(result):
             self._component_state = 'Started'
+            self._component_start_timer()
 
         if self._component_state == 'Paused':
-            d = maybeDeferred(self._component_start_timer)
+            d = maybeDeferred(self.resume)
             d.addCallback(on_resume)
         else:
             d = fail(
@@ -226,9 +220,7 @@ class Component(object):
 
     def _component_shutdown(self):
         def on_stop(result):
-            if hasattr(self, 'shutdown'):
-                return maybeDeferred(self.shutdown)
-            return succeed(None)
+            return maybeDeferred(self.shutdown)
 
         d = self._component_stop()
         d.addCallback(on_stop)
@@ -249,8 +241,14 @@ class Component(object):
     def shutdown(self):
         pass
 
+    def pause(self):
+        pass
 
-class ComponentRegistry(object):
+    def resume(self):
+        pass
+
+
+class ComponentRegistry:
     """The ComponentRegistry holds a list of currently registered :class:`Component` objects.
 
     It is used to manage the Components by starting, stopping, pausing and shutting them down.
@@ -325,7 +323,7 @@ class ComponentRegistry(object):
         # Start all the components if names is empty
         if not names:
             names = list(self.components)
-        elif isinstance(names, string_types):
+        elif isinstance(names, str):
             names = [names]
 
         def on_depends_started(result, name):
@@ -359,7 +357,7 @@ class ComponentRegistry(object):
         """
         if not names:
             names = list(self.components)
-        elif isinstance(names, string_types):
+        elif isinstance(names, str):
             names = [names]
 
         def on_dependents_stopped(result, name):
@@ -399,7 +397,7 @@ class ComponentRegistry(object):
         """
         if not names:
             names = list(self.components)
-        elif isinstance(names, string_types):
+        elif isinstance(names, str):
             names = [names]
 
         deferreds = []
@@ -425,7 +423,7 @@ class ComponentRegistry(object):
         """
         if not names:
             names = list(self.components)
-        elif isinstance(names, string_types):
+        elif isinstance(names, str):
             names = [names]
 
         deferreds = []

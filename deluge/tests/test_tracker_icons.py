@@ -1,34 +1,24 @@
-# -*- coding: utf-8 -*-
 #
 # This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import unicode_literals
+import os.path
 
 import pytest
-from twisted.trial.unittest import SkipTest
 
 import deluge.component as component
 import deluge.ui.tracker_icons
-from deluge.common import windows_check
+from deluge.conftest import BaseTestCase
 from deluge.ui.tracker_icons import TrackerIcon, TrackerIcons
 
 from . import common
-from .basetest import BaseTestCase
 
-common.set_tmp_config_dir()
-deluge.ui.tracker_icons.PIL_INSTALLED = False
 common.disable_new_release_check()
 
 
 @pytest.mark.internet
-class TrackerIconsTestCase(BaseTestCase):
-
-    if windows_check():
-        skip = 'cannot use os.path.samefile to compair on windows(unix only)'
-
+class TestTrackerIcons(BaseTestCase):
     def set_up(self):
         # Disable resizing with Pillow for consistency.
         self.patch(deluge.ui.tracker_icons, 'Image', None)
@@ -37,41 +27,45 @@ class TrackerIconsTestCase(BaseTestCase):
     def tear_down(self):
         return component.shutdown()
 
-    def test_get_deluge_png(self):
+    async def test_get_deluge_png(self, mock_mkstemp):
         # Deluge has a png favicon link
         icon = TrackerIcon(common.get_test_data_file('deluge.png'))
-        d = self.icons.fetch('deluge-torrent.org')
-        d.addCallback(self.assertNotIdentical, None)
-        d.addCallback(self.assertEqual, icon)
-        return d
+        result = await self.icons.fetch('deluge-torrent.org')
+        assert result == icon
+        assert not os.path.isfile(mock_mkstemp[1])
 
-    def test_get_google_ico(self):
+    async def test_get_google_ico(self):
         # Google doesn't have any icon links
         # So instead we'll grab its favicon.ico
         icon = TrackerIcon(common.get_test_data_file('google.ico'))
-        d = self.icons.fetch('www.google.com')
-        d.addCallback(self.assertNotIdentical, None)
-        d.addCallback(self.assertEqual, icon)
-        return d
+        result = await self.icons.fetch('www.google.com')
+        assert result == icon
 
-    def test_get_google_ico_with_redirect(self):
+    async def test_get_google_ico_hebrew(self):
+        """Test that Google.co.il page is read as UTF-8"""
+        icon = TrackerIcon(common.get_test_data_file('google.ico'))
+        result = await self.icons.fetch('www.google.co.il')
+        assert result == icon
+
+    async def test_get_google_ico_with_redirect(self):
         # google.com redirects to www.google.com
         icon = TrackerIcon(common.get_test_data_file('google.ico'))
-        d = self.icons.fetch('google.com')
-        d.addCallback(self.assertNotIdentical, None)
-        d.addCallback(self.assertEqual, icon)
-        return d
+        result = await self.icons.fetch('google.com')
+        assert result == icon
 
-    def test_get_seo_ico_with_sni(self):
+    @pytest.mark.skip(reason='Site removed favicon, new SNI test will be needed')
+    async def test_get_seo_svg_with_sni(self):
         # seo using certificates with SNI support only
-        raise SkipTest('Site certificate expired')
-        icon = TrackerIcon(common.get_test_data_file('seo.ico'))
-        d = self.icons.fetch('www.seo.com')
-        d.addCallback(self.assertNotIdentical, None)
-        d.addCallback(self.assertEqual, icon)
-        return d
+        icon = TrackerIcon(common.get_test_data_file('seo.svg'))
+        result = await self.icons.fetch('www.seo.com')
+        assert result == icon
 
-    def test_get_empty_string_tracker(self):
-        d = self.icons.fetch('')
-        d.addCallback(self.assertIdentical, None)
-        return d
+    async def test_get_empty_string_tracker(self):
+        result = await self.icons.fetch('')
+        assert result is None
+
+    async def test_invalid_host(self, mock_mkstemp):
+        """Test that TrackerIcon can handle invalid hostname"""
+        result = await self.icons.fetch('deluge.example.com')
+        assert not result
+        assert not os.path.isfile(mock_mkstemp[1])

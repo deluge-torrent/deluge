@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
 #
@@ -9,8 +8,6 @@
 
 
 """PluginManager for Core"""
-from __future__ import unicode_literals
-
 import logging
 
 from twisted.internet import defer

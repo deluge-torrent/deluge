@@ -31,6 +31,11 @@
     <property name="icon_name">media-playback-pause-symbolic</property>
     <property name="icon_size">1</property>
   </object>
+  <object class="GtkImage" id="menu-item-image15">
+    <property name="can_focus">False</property>
+    <property name="icon_name">edit-copy-symbolic</property>
+    <property name="icon_size">1</property>
+  </object>
   <object class="GtkImage" id="menu-item-image19">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -152,6 +157,17 @@
       <object class="GtkSeparatorMenuItem" id="menuitem1">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkImageMenuItem" id="menuitem_copymagnet">
+        <property name="label" translatable="yes">_Copy Magnet URI</property>
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="use_underline">True</property>
+        <property name="image">menu-item-image15</property>
+        <property name="use_stock">False</property>
+        <signal name="activate" handler="on_menuitem_copymagnet_activate" swapped="no"/>
       </object>
     </child>
     <child>

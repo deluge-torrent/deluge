@@ -1,0 +1,100 @@
+name: Package
+
+on:
+  push:
+    tags:
+      - "deluge-*"
+      - "!deluge*-dev*"
+    branches:
+      - develop
+  pull_request:
+    types: [labeled, opened, synchronize, reopened]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "Enter a tag or commit to package"
+        default: ""
+
+jobs:
+  windows_package:
+    runs-on: windows-2019
+    if: (github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'package'))
+    strategy:
+      matrix:
+        arch: [x64, x86]
+        python: ["3.9"]
+        libtorrent: [2.0.6, 1.2.15]
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      # Checkout Deluge source to subdir to enable packaging any tag/commit
+      - name: Checkout Deluge source
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.inputs.ref }}
+          fetch-depth: 0
+          path: deluge_src
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python}}
+          architecture: ${{ matrix.arch }}
+          cache: pip
+
+      - name: Prepare pip
+        run: python -m pip install wheel
+
+      - name: Install GTK
+        run: |
+          $WebClient = New-Object System.Net.WebClient
+          $WebClient.DownloadFile("https://github.com/deluge-torrent/gvsbuild-release/releases/download/latest/gvsbuild-py${{ matrix.python }}-vs16-${{ matrix.arch }}.zip","C:\GTK.zip")
+          7z x C:\GTK.zip -oc:\GTK
+          echo "C:\GTK\release\lib" | Out-File -FilePath $env:GITHUB_PATH -Append
+          echo "C:\GTK\release\bin" | Out-File -FilePath $env:GITHUB_PATH -Append
+          echo "C:\GTK\release" | Out-File -FilePath $env:GITHUB_PATH -Append
+          python -m pip install --no-index --find-links="C:\GTK\release\python" pycairo PyGObject
+
+      - name: Install Python dependencies
+        run: >
+          python -m pip install
+          twisted[tls]==22.4.0
+          libtorrent==${{ matrix.libtorrent }}
+          pyinstaller==4.10
+          pygame
+          -r requirements.txt
+
+      - name: Install Deluge
+        working-directory: deluge_src
+        run: |
+          python -m pip install .
+          python setup.py install_scripts
+
+      - name: Freeze Deluge
+        working-directory: packaging/win
+        run: |
+          pyinstaller --clean delugewin.spec --distpath freeze
+
+      - name: Fix OpenSSL for libtorrent x64
+        if: ${{ matrix.arch == 'x64' }}
+        working-directory: packaging/win/freeze/Deluge
+        run: |
+          cp libssl-1_1.dll libssl-1_1-x64.dll
+          cp libcrypto-1_1.dll libcrypto-1_1-x64.dll
+
+      - name: Make Deluge Installer
+        working-directory: ./packaging/win
+        run: |
+          python setup_nsis.py
+          makensis /Darch=${{ matrix.arch }} deluge-win-installer.nsi
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: deluge-py${{ matrix.python }}-lt${{ matrix.libtorrent }}-${{ matrix.arch }}
+          path: packaging/win/*.exe

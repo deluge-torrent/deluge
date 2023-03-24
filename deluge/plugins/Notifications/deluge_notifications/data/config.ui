@@ -187,8 +187,6 @@
                                   <object class="GtkEntry" id="smtp_host">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="primary_icon_activatable">False</property>
-                                    <property name="secondary_icon_activatable">False</property>
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -217,8 +215,6 @@
                                     <property name="can_focus">True</property>
                                     <property name="max_length">5</property>
                                     <property name="width_chars">5</property>
-                                    <property name="primary_icon_activatable">False</property>
-                                    <property name="secondary_icon_activatable">False</property>
                                     <property name="adjustment">adjustment1</property>
                                     <property name="climb_rate">1</property>
                                     <property name="numeric">True</property>
@@ -246,8 +242,6 @@
                                   <object class="GtkEntry" id="smtp_user">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="primary_icon_activatable">False</property>
-                                    <property name="secondary_icon_activatable">False</property>
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -273,8 +267,6 @@
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="visibility">False</property>
-                                    <property name="primary_icon_activatable">False</property>
-                                    <property name="secondary_icon_activatable">False</property>
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -427,8 +419,6 @@
                                   <object class="GtkEntry" id="smtp_from">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="primary_icon_activatable">False</property>
-                                    <property name="secondary_icon_activatable">False</property>
                                   </object>
                                   <packing>
                                     <property name="left_attach">1</property>

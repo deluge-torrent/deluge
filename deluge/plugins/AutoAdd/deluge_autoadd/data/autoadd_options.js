@@ -90,9 +90,8 @@ Deluge.ux.AutoAdd.AutoAddWindowBase = Ext.extend(Ext.Window, {
 
         options['enabled'] = Ext.getCmp('enabled').getValue();
         options['path'] = Ext.getCmp('path').getValue();
-        options['download_location'] = Ext.getCmp(
-            'download_location'
-        ).getValue();
+        options['download_location'] =
+            Ext.getCmp('download_location').getValue();
         options['move_completed_path'] = Ext.getCmp(
             'move_completed_path'
         ).getValue();

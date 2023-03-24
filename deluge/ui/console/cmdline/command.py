@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008-2009 Ido Abramovich <ido.deluge@gmail.com>
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
@@ -8,8 +7,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import print_function, unicode_literals
 
 import logging
 import shlex
@@ -23,7 +20,7 @@ from deluge.ui.console.utils.colors import strip_colors
 log = logging.getLogger(__name__)
 
 
-class Commander(object):
+class Commander:
     def __init__(self, cmds, interactive=False):
         self._commands = cmds
         self.interactive = interactive
@@ -144,8 +141,7 @@ class Commander(object):
             return ret
 
 
-class BaseCommand(object):
-
+class BaseCommand:
     usage = None
     interactive_only = False
     aliases = []

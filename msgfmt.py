@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: iso-8859-1 -*-
 # Written by Martin v. Lwis <loewis@informatik.hu-berlin.de>
 # Plural forms support added by alexander smishlajev <alex@tycobka.lv>
 """
@@ -25,8 +24,6 @@ Options:
     --version
         Display version information and exit.
 """
-from __future__ import print_function, unicode_literals
-
 import array
 import ast
 import getopt
@@ -103,10 +100,7 @@ def generate():
         0,
         0,
     )  # size and offset of hash table
-    if sys.version_info.major == 2:
-        output += array.array(b'i', offsets).tostring()
-    else:
-        output += array.array('i', offsets).tobytes()
+    output += array.array('i', offsets).tobytes()
     output += ids.encode('utf8')
     output += strs.encode('utf8')
     return output
@@ -127,11 +121,9 @@ def make(filename, outfile):
         outfile = os.path.splitext(infile)[0] + '.mo'
 
     try:
-        import io
-
-        with io.open(infile, encoding='utf8') as _file:
+        with open(infile, encoding='utf8') as _file:
             lines = _file.readlines()
-    except IOError as msg:
+    except OSError as msg:
         print(msg, file=sys.stderr)
         sys.exit(1)
 
@@ -181,9 +173,6 @@ def make(filename, outfile):
         if not line:
             continue
         line = ast.literal_eval(line)
-        # Python 2 ast.literal_eval returns bytes.
-        if isinstance(line, bytes):
-            line = line.decode('utf8')
         if section == section_id:
             msgid += line
         elif section == section_str:
@@ -202,7 +191,7 @@ def make(filename, outfile):
     try:
         with open(outfile, 'wb') as _file:
             _file.write(output)
-    except IOError as msg:
+    except OSError as msg:
         print(msg, file=sys.stderr)
 
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
@@ -6,8 +5,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import unicode_literals
 
 import cgi
 import logging
@@ -19,7 +16,7 @@ from twisted.internet.defer import Deferred
 from twisted.python.failure import Failure
 from twisted.web import client, http
 from twisted.web._newclient import HTTPClientParser
-from twisted.web.error import PageRedirect
+from twisted.web.error import Error, PageRedirect
 from twisted.web.http_headers import Headers
 from twisted.web.iweb import IAgent
 from zope.interface import implementer
@@ -40,11 +37,11 @@ class CompressionDecoderProtocol(client._GzipProtocol):
     """A compression decoder protocol for CompressionDecoder."""
 
     def __init__(self, protocol, response):
-        super(CompressionDecoderProtocol, self).__init__(protocol, response)
+        super().__init__(protocol, response)
         self._zlibDecompress = zlib.decompressobj(32 + zlib.MAX_WBITS)
 
 
-class BodyHandler(HTTPClientParser, object):
+class BodyHandler(HTTPClientParser):
     """An HTTP parser that saves the response to a file."""
 
     def __init__(self, request, finished, length, agent, encoding=None):
@@ -56,7 +53,7 @@ class BodyHandler(HTTPClientParser, object):
             length (int): The length of the response.
             agent (t.w.i.IAgent): The agent from which the request was sent.
         """
-        super(BodyHandler, self).__init__(request, finished)
+        super().__init__(request, finished)
         self.agent = agent
         self.finished = finished
         self.total_length = length
@@ -76,12 +73,12 @@ class BodyHandler(HTTPClientParser, object):
         with open(self.agent.filename, 'wb') as _file:
             _file.write(self.data)
         self.finished.callback(self.agent.filename)
-        self.state = u'DONE'
+        self.state = 'DONE'
         HTTPClientParser.connectionLost(self, reason)
 
 
 @implementer(IAgent)
-class HTTPDownloaderAgent(object):
+class HTTPDownloaderAgent:
     """A File Downloader Agent."""
 
     def __init__(
@@ -125,6 +122,9 @@ class HTTPDownloaderAgent(object):
             location = response.headers.getRawHeaders(b'location')[0]
             error = PageRedirect(response.code, location=location)
             finished.errback(Failure(error))
+        elif response.code >= 400:
+            error = Error(response.code)
+            finished.errback(Failure(error))
         else:
             headers = response.headers
             body_length = int(headers.getRawHeaders(b'content-length', default=[0])[0])
@@ -146,7 +146,7 @@ class HTTPDownloaderAgent(object):
                     fileext = os.path.splitext(new_file_name)[1]
                     while os.path.isfile(new_file_name):
                         # Increment filename if already exists
-                        new_file_name = '%s-%s%s' % (fileroot, count, fileext)
+                        new_file_name = f'{fileroot}-{count}{fileext}'
                         count += 1
 
                     self.filename = new_file_name

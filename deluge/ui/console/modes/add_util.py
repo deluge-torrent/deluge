@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008-2009 Ido Abramovich <ido.deluge@gmail.com>
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
@@ -9,14 +8,10 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 import glob
 import logging
 import os
 from base64 import b64encode
-
-from six import unichr as chr  # noqa: A001 shadowing
 
 import deluge.common
 from deluge.ui.client import client

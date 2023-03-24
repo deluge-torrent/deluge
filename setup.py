@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
 # Copyright (C) 2009 Damien Churchill <damoxc@gmail.com>
@@ -9,8 +8,6 @@
 # See LICENSE for more details.
 #
 
-from __future__ import print_function
-
 import glob
 import os
 import platform
@@ -18,7 +15,7 @@ import sys
 from distutils.command.build import build as _build
 from distutils.command.clean import clean as _clean
 from distutils.command.install_data import install_data as _install_data
-from shutil import rmtree
+from shutil import rmtree, which
 
 from setuptools import Command, find_packages, setup
 from setuptools.command.test import test as _test
@@ -27,16 +24,10 @@ import msgfmt
 from version import get_version
 
 try:
-    from shutil import which
-except ImportError:
-    # PY2 Fallback
-    from distutils.spawn import find_executable as which
-
-try:
     from sphinx.setup_command import BuildDoc
 except ImportError:
 
-    class BuildDoc(object):
+    class BuildDoc:
         pass
 
 
@@ -49,7 +40,7 @@ def osx_check():
 
 
 desktop_data = 'deluge/ui/data/share/applications/deluge.desktop'
-appdata_data = 'deluge/ui/data/share/appdata/deluge.appdata.xml'
+metainfo_data = 'deluge/ui/data/share/metainfo/deluge.metainfo.xml'
 
 # Variables for setuptools.setup
 _package_data = {}
@@ -88,7 +79,7 @@ class CleanDocs(Command):
 
     def run(self):
         docs_build = 'docs/build'
-        print('Deleting {}'.format(docs_build))
+        print(f'Deleting {docs_build}')
         try:
             rmtree(docs_build)
         except OSError:
@@ -166,7 +157,7 @@ class CleanWebUI(Command):
         for js_src_dir in BuildWebUI.JS_SRC_DIRS:
             for file_type in ('.js', '-debug.js'):
                 js_file = os.path.join(js_basedir, js_src_dir + file_type)
-                print('Deleting {}'.format(js_file))
+                print(f'Deleting {js_file}')
                 try:
                     os.remove(js_file)
                 except OSError:
@@ -174,7 +165,7 @@ class CleanWebUI(Command):
 
         # Remove generated gettext.js
         js_file = os.path.join(js_basedir, 'gettext.js')
-        print('Deleting {}'.format(js_file))
+        print(f'Deleting {js_file}')
         try:
             os.remove(js_file)
         except OSError:
@@ -208,7 +199,7 @@ class BuildTranslations(Command):
         intltool_merge = 'intltool-merge'
         if not windows_check() and which(intltool_merge):
             intltool_merge_opts = '--utf8 --quiet'
-            for data_file in (desktop_data, appdata_data):
+            for data_file in (desktop_data, metainfo_data):
                 # creates the translated file from .in file.
                 in_file = data_file + '.in'
                 if 'xml' in data_file:
@@ -268,7 +259,7 @@ class CleanTranslations(Command):
         self.set_undefined_options('clean', ('all', 'all'))
 
     def run(self):
-        for path in (desktop_data, appdata_data):
+        for path in (desktop_data, metainfo_data):
             if os.path.isfile(path):
                 print('Deleting %s' % path)
                 os.remove(path)
@@ -398,7 +389,7 @@ class Build(_build):
         try:
             from deluge._libtorrent import LT_VERSION
 
-            print('Info: Found libtorrent ({}) installed.'.format(LT_VERSION))
+            print(f'Info: Found libtorrent ({LT_VERSION}) installed.')
         except ImportError as ex:
             print('Warning: libtorrent (libtorrent-rasterbar) not found: %s' % ex)
 
@@ -463,7 +454,7 @@ if not windows_check() and not osx_check():
     for icon_path in glob.glob('deluge/ui/data/icons/hicolor/*x*'):
         size = os.path.basename(icon_path)
         icons = glob.glob(os.path.join(icon_path, 'apps', 'deluge*.png'))
-        _data_files.append(('share/icons/hicolor/{}/apps'.format(size), icons))
+        _data_files.append((f'share/icons/hicolor/{size}/apps', icons))
     _data_files.extend(
         [
             (
@@ -485,14 +476,24 @@ if not windows_check() and not osx_check():
     )
     if os.path.isfile(desktop_data):
         _data_files.append(('share/applications', [desktop_data]))
-    if os.path.isfile(appdata_data):
-        _data_files.append(('share/appdata', [appdata_data]))
+    if os.path.isfile(metainfo_data):
+        _data_files.append(('share/metainfo', [metainfo_data]))
 
+
+# Entry Points
 _entry_points['console_scripts'] = [
     'deluge-console = deluge.ui.console:start',
+]
+
+# On Windows use gui_scripts to hide cmd popup (no effect on Linux/MacOS)
+_entry_points['gui_scripts'] = [
+    'deluge = deluge.ui.ui_entry:start_ui',
+    'deluge-gtk = deluge.ui.gtk3:start',
     'deluge-web = deluge.ui.web:start',
     'deluged = deluge.core.daemon_entry:start_daemon',
 ]
+
+# Provide Windows 'debug' exes for stdin/stdout e.g. logging/errors
 if windows_check():
     _entry_points['console_scripts'].extend(
         [
@@ -501,10 +502,7 @@ if windows_check():
             'deluged-debug = deluge.core.daemon_entry:start_daemon',
         ]
     )
-_entry_points['gui_scripts'] = [
-    'deluge = deluge.ui.ui_entry:start_ui',
-    'deluge-gtk = deluge.ui.gtk3:start',
-]
+
 _entry_points['deluge.ui'] = [
     'console = deluge.ui.console:Console',
     'web = deluge.ui.web:Web',
@@ -548,7 +546,6 @@ install_requires = [
     'pyopenssl',
     'pyxdg',
     'mako',
-    'six',
     'setuptools',
     "pywin32; sys_platform == 'win32'",
     "certifi; sys_platform == 'win32'",
@@ -559,6 +556,7 @@ extras_require = {
         'setproctitle',
         'pillow',
         'chardet',
+        'ifaddr',
     ]
 }
 
@@ -599,7 +597,7 @@ setup(
         'Operating System :: POSIX',
         'Topic :: Internet',
     ],
-    python_requires='>=2.7',
+    python_requires='>=3.6',
     license='GPLv3+',
     cmdclass=cmdclass,
     setup_requires=setup_requires,

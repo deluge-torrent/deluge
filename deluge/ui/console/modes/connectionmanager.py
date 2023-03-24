@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2011 Nick Lanham <nick@afternight.org>
 #
@@ -6,8 +5,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import unicode_literals
 
 import logging
 
@@ -33,9 +30,12 @@ class ConnectionManager(BaseMode, PopupsHandler):
         self.all_torrents = None
         self.hostlist = HostList()
         BaseMode.__init__(self, stdscr, encoding=encoding)
-        self.update_hosts_status()
 
     def update_select_host_popup(self):
+        if self.popup and not isinstance(self.popup, SelectablePopup):
+            # Ignore MessagePopup on popup stack upon connect fail
+            return
+
         selected_index = self.popup.current_selection() if self.popup else None
 
         popup = SelectablePopup(
@@ -50,22 +50,24 @@ class ConnectionManager(BaseMode, PopupsHandler):
             % (_('Quit'), _('Add Host'), _('Delete Host')),
             space_below=True,
         )
-        self.push_popup(popup, clear=True)
 
         for host_entry in self.hostlist.get_hosts_info():
             host_id, hostname, port, user = host_entry
-            args = {'data': host_id, 'foreground': 'red'}
-            state = 'Offline'
-            if host_id in self.statuses:
-                state = 'Online'
-                args.update({'data': self.statuses[host_id], 'foreground': 'green'})
-            host_str = '%s:%d [%s]' % (hostname, port, state)
-            self.popup.add_line(
+            host_status = self.statuses.get(host_id)
+
+            state = host_status[1] if host_status else 'Offline'
+            state_color = 'green' if state in ('Online', 'Connected') else 'red'
+            host_str = f'{hostname}:{port} [{state}]'
+
+            args = {'data': host_id, 'foreground': state_color}
+            popup.add_line(
                 host_id, host_str, selectable=True, use_underline=True, **args
             )
 
         if selected_index:
-            self.popup.set_selection(selected_index)
+            popup.set_selection(selected_index)
+
+        self.push_popup(popup, clear=True)
         self.inlist = True
         self.refresh()
 
@@ -85,7 +87,7 @@ class ConnectionManager(BaseMode, PopupsHandler):
         d.addCallback(on_console_start)
 
     def _on_connect_fail(self, result):
-        self.report_message('Failed to connect!', result)
+        self.report_message('Failed to connect!', result.getErrorMessage())
         self.refresh()
         if hasattr(result, 'getTraceback'):
             log.exception(result)
@@ -125,12 +127,14 @@ class ConnectionManager(BaseMode, PopupsHandler):
 
     def add_host(self, hostname, port, username, password):
         log.info('Adding host: %s', hostname)
+        if port.isdecimal():
+            port = int(port)
         try:
             self.hostlist.add_host(hostname, port, username, password)
         except ValueError as ex:
-            self.report_message(_('Error adding host'), '%s: %s' % (hostname, ex))
+            self.report_message(_('Error adding host'), f'{hostname}: {ex}')
         else:
-            self.update_select_host_popup()
+            self.pop_popup()
 
     def delete_host(self, host_id):
         log.info('Deleting host: %s', host_id)
@@ -167,7 +171,9 @@ class ConnectionManager(BaseMode, PopupsHandler):
         if not self.popup:
             self.update_select_host_popup()
 
-        self.popup.refresh()
+        if self.popup:
+            self.popup.refresh()
+
         curses.doupdate()
 
     @overrides(BaseMode)
@@ -191,7 +197,8 @@ class ConnectionManager(BaseMode, PopupsHandler):
                 if chr(c) == 'q':
                     return
                 elif chr(c) == 'D':
-                    host_id = self.popup.current_selection()[1]
+                    host_index = self.popup.current_selection()
+                    host_id = self.popup.inputs[host_index].name
                     self.delete_host(host_id)
                     return
                 elif chr(c) == 'a':

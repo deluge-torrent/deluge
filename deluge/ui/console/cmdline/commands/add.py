@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008-2009 Ido Abramovich <ido.deluge@gmail.com>
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
@@ -8,10 +7,10 @@
 # See LICENSE for more details.
 #
 
-from __future__ import unicode_literals
-
 import os
 from base64 import b64encode
+from urllib.parse import urlparse
+from urllib.request import url2pathname
 
 from twisted.internet import defer
 
@@ -20,14 +19,6 @@ import deluge.component as component
 from deluge.ui.client import client
 
 from . import BaseCommand
-
-try:
-    from urllib.parse import urlparse
-    from urllib.request import url2pathname
-except ImportError:
-    # PY2 fallback
-    from urllib import url2pathname  # pylint: disable=ungrouped-imports
-    from urlparse import urlparse  # pylint: disable=ungrouped-imports
 
 
 class Command(BaseCommand):

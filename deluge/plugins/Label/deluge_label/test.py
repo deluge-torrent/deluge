@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 #
 # -*- coding: utf-8 -*-
 #
@@ -9,8 +8,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import print_function, unicode_literals
 
 from deluge.ui.client import sclient
 

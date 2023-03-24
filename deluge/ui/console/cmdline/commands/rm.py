@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008-2009 Ido Abramovich <ido.deluge@gmail.com>
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
@@ -7,8 +6,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import unicode_literals
 
 import logging
 
@@ -74,7 +71,7 @@ class Command(BaseCommand):
                     'Error(s) occurred when trying to delete torrent(s).'
                 )
                 for t_id, e_msg in errors:
-                    self.console.write('Error removing torrent %s : %s' % (t_id, e_msg))
+                    self.console.write(f'Error removing torrent {t_id} : {e_msg}')
 
         log.info('Removing %d torrents', len(torrent_ids))
         d = client.core.remove_torrents(torrent_ids, options.remove_data)

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
@@ -15,8 +14,6 @@ Example:
     >>> from deluge._libtorrent import lt
 
 """
-from __future__ import unicode_literals
-
 from deluge.common import VersionSplit, get_version
 from deluge.error import LibtorrentImportError
 
@@ -29,10 +26,10 @@ except ImportError:
         raise LibtorrentImportError('No libtorrent library found: %s' % (ex))
 
 
-REQUIRED_VERSION = '1.1.2.0'
+REQUIRED_VERSION = '1.2.0.0'
 LT_VERSION = lt.__version__
 
 if VersionSplit(LT_VERSION) < VersionSplit(REQUIRED_VERSION):
     raise LibtorrentImportError(
-        'Deluge %s requires libtorrent >= %s' % (get_version(), REQUIRED_VERSION)
+        f'Deluge {get_version()} requires libtorrent >= {REQUIRED_VERSION}'
     )

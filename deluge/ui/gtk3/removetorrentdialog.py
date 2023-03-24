@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007-2008 Andrew Resch <andrewresch@gmail.com>
 #
@@ -6,8 +5,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import unicode_literals
 
 import logging
 import os
@@ -21,7 +18,7 @@ from deluge.ui.client import client
 log = logging.getLogger(__name__)
 
 
-class RemoveTorrentDialog(object):
+class RemoveTorrentDialog:
     """
     This class is used to create and show a Remove Torrent Dialog.
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 Damien Churchill <damoxc@gmail.com>
 #
@@ -6,8 +5,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import print_function, unicode_literals
 
 import logging
 
@@ -20,11 +17,10 @@ log = logging.getLogger(__name__)
 
 
 class Web(UI):
-
     cmd_description = """Web-based user interface (http://localhost:8112)"""
 
     def __init__(self, *args, **kwargs):
-        super(Web, self).__init__(
+        super().__init__(
             'web', *args, description='Starts the Deluge Web interface', **kwargs
         )
         self.__server = None
@@ -67,7 +63,7 @@ class Web(UI):
         return self.__server
 
     def start(self):
-        super(Web, self).start()
+        super().start()
 
         from deluge.ui.web import server
 

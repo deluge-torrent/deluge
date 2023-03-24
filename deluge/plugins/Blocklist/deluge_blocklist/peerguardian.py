@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007 Steve 'Tarka' Smith (tarka@internode.on.net)
 #
@@ -6,8 +5,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import unicode_literals
 
 import gzip
 import logging
@@ -23,14 +20,14 @@ class PGException(Exception):
 
 # Incrementally reads PeerGuardian blocklists v1 and v2.
 # See http://wiki.phoenixlabs.org/wiki/P2B_Format
-class PGReader(object):
+class PGReader:
     def __init__(self, filename):
         log.debug('PGReader loading: %s', filename)
 
         try:
             with gzip.open(filename, 'rb') as _file:
                 self.fd = _file
-        except IOError:
+        except OSError:
             log.debug('Blocklist: PGReader: Incorrect file type or list is corrupt')
 
         # 4 bytes, should be 0xffffffff
@@ -64,9 +61,6 @@ class PGReader(object):
         end = socket.inet_ntoa(buf)
 
         return (start, end)
-
-    # Python 2 compatibility
-    next = __next__
 
     def close(self):
         self.fd.close()

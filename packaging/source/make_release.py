@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 #
 # Copyright 2014 Calum Lind <calumlind@gmail.com>
 #
@@ -7,18 +6,11 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-from __future__ import print_function, unicode_literals
-
 import os.path
-import sys
 from hashlib import sha256
 from subprocess import call, check_output
 
-PY2 = sys.version_info.major == 2
-
 sdist_formats = 'xztar'
-if PY2:
-    sdist_formats = 'tar'
 
 version = check_output(['python', 'version.py']).strip().decode()
 
@@ -53,7 +45,7 @@ else:
 
 # Calculate shasum and add to sha256sums.txt
 with open(tarxz_path, 'rb') as _file:
-    sha256sum = '%s %s' % (
+    sha256sum = '{} {}'.format(
         sha256(_file.read()).hexdigest(),
         os.path.basename(tarxz_path),
     )

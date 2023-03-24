@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2007 Andrew Resch <andrewresch@gmail.com>
 # Copyright (C) 2010 Pedro Algarvio <pedro@algarvio.me>
@@ -12,8 +11,6 @@
 # user runs the command 'deluge'.
 
 """Main starting point for Deluge"""
-from __future__ import unicode_literals
-
 import argparse
 import logging
 import os
@@ -100,7 +97,7 @@ def start_ui():
         # If the UI is set as default, indicate this in help by prefixing with a star.
         subactions = subparsers._get_subactions()
         prefix = '*' if ui == default_ui else ' '
-        subactions[-1].metavar = '%s %s' % (prefix, ui)
+        subactions[-1].metavar = f'{prefix} {ui}'
 
     # Insert a default UI subcommand unless one of the ambiguous_args are specified
     parser.set_default_subparser(default_ui, abort_opts=AMBIGUOUS_CMD_ARGS)
@@ -115,7 +112,7 @@ def start_ui():
 
     try:
         ui = ui_entrypoints[selected_ui](
-            prog='%s %s' % (os.path.basename(sys.argv[0]), selected_ui), ui_args=ui_args
+            prog=f'{os.path.basename(sys.argv[0])} {selected_ui}', ui_args=ui_args
         )
     except KeyError:
         log.error(

@@ -9,5 +9,22 @@ skip-string-normalization = true
 
 [tool.isort]
 profile = "black"
-# Python 2 stdlib
-extra_standard_library = ["urlparse", "HTMLParser", "urllib2"]
+
+[tool.pytest.ini_options]
+# Hide logged warnings and errors in test output.
+log_cli_level = "CRITICAL"
+addopts = "--basetemp=_pytest_temp"
+markers = [
+    "todo: Tests that are yet to be written",
+    "gtkui: Tests for GTK code",
+    "security: Security related tests",
+    "slow: Tests that are particularly slow",
+    "internet: Tests that require internet connectivity",
+]
+filterwarnings = [
+    "ignore::DeprecationWarning:gi",
+    "ignore::DeprecationWarning:twisted.internet.gireactor",
+    "ignore:twisted.web.resource.*:DeprecationWarning",
+    "ignore:Using readBody.*:DeprecationWarning",
+    "ignore:resume_data is deprecated.*:DeprecationWarning:deluge.core.alertmanager",
+]

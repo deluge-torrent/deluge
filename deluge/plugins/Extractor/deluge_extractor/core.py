@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
@@ -10,8 +9,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import unicode_literals
 
 import errno
 import logging
@@ -37,14 +34,11 @@ if windows_check():
         'C:\\Program Files (x86)\\7-Zip\\7z.exe',
     ]
 
-    try:
-        import winreg
-    except ImportError:
-        import _winreg as winreg  # For Python 2.
+    import winreg
 
     try:
         hkey = winreg.OpenKey(winreg.HKEY_CURRENT_USER, 'Software\\7-Zip')
-    except WindowsError:
+    except OSError:
         pass
     else:
         win_7z_path = os.path.join(winreg.QueryValueEx(hkey, 'Path')[0], '7z.exe')

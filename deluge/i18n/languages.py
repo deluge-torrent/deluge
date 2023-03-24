@@ -1,9 +1,6 @@
-# -*- coding: utf-8 -*-
 #
 # This file is public domain.
 #
-
-from __future__ import unicode_literals
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html

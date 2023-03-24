@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008-2010 Andrew Resch <andrewresch@gmail.com>
 #
@@ -8,13 +7,13 @@
 #
 
 
-from __future__ import unicode_literals
-
 import logging
 import os
 import platform
 import random
 import threading
+from urllib.parse import quote_plus
+from urllib.request import urlopen
 
 from twisted.internet.task import LoopingCall
 
@@ -24,17 +23,14 @@ import deluge.configmanager
 from deluge._libtorrent import lt
 from deluge.event import ConfigValueChangedEvent
 
+GeoIP = None
 try:
-    import GeoIP
+    from GeoIP import GeoIP
 except ImportError:
-    GeoIP = None
-
-try:
-    from urllib.parse import quote_plus
-    from urllib.request import urlopen
-except ImportError:
-    from urllib import quote_plus
-    from urllib2 import urlopen
+    try:
+        from pygeoip import GeoIP
+    except ImportError:
+        pass
 
 log = logging.getLogger(__name__)
 
@@ -202,7 +198,7 @@ class PreferencesManager(component.Component):
         self.__set_listen_on()
 
     def __set_listen_on(self):
-        """ Set the ports and interface address to listen for incoming connections on."""
+        """Set the ports and interface address to listen for incoming connections on."""
         if self.config['random_port']:
             if not self.config['listen_random_port']:
                 self.config['listen_random_port'] = random.randrange(49152, 65525)
@@ -225,7 +221,7 @@ class PreferencesManager(component.Component):
             self.config['listen_use_sys_port'],
         )
         interfaces = [
-            '%s:%s' % (interface, port)
+            f'{interface}:{port}'
             for port in range(listen_ports[0], listen_ports[1] + 1)
         ]
         self.core.apply_session_settings(
@@ -400,7 +396,7 @@ class PreferencesManager(component.Component):
                             + quote_plus(':'.join(self.config['enabled_plugins']))
                         )
                         urlopen(url)
-                    except IOError as ex:
+                    except OSError as ex:
                         log.debug('Network error while trying to send info: %s', ex)
                     else:
                         self.config['info_sent'] = now
@@ -464,11 +460,9 @@ class PreferencesManager(component.Component):
         # Load the GeoIP DB for country look-ups if available
         if os.path.exists(geoipdb_path):
             try:
-                self.core.geoip_instance = GeoIP.open(
-                    geoipdb_path, GeoIP.GEOIP_STANDARD
-                )
-            except AttributeError:
-                log.warning('GeoIP Unavailable')
+                self.core.geoip_instance = GeoIP(geoipdb_path, 0)
+            except Exception as ex:
+                log.warning('GeoIP Unavailable: %s', ex)
         else:
             log.warning('Unable to find GeoIP database file: %s', geoipdb_path)
 

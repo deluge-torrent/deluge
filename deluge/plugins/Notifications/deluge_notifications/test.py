@@ -1,12 +1,9 @@
-# -*- coding: utf-8 -*-
 # vim: sw=4 ts=4 fenc=utf-8 et
 # ==============================================================================
 # Copyright © 2009-2010 UfSoft.org - Pedro Algarvio <pedro@algarvio.me>
 #
 # License: BSD - Please view the LICENSE file for additional information.
 # ==============================================================================
-
-from __future__ import unicode_literals
 
 import logging
 
@@ -70,14 +67,14 @@ class TestEmailNotifications(component.Component):
 
     def custom_email_message_provider(self, *evt_args, **evt_kwargs):
         log.debug('Running custom email message provider: %s %s', evt_args, evt_kwargs)
-        subject = '%s Email Subject: %s' % (self.events[0].__class__.__name__, self.n)
-        message = '%s Email Message: %s' % (self.events[0].__class__.__name__, self.n)
+        subject = f'{self.events[0].__class__.__name__} Email Subject: {self.n}'
+        message = f'{self.events[0].__class__.__name__} Email Message: {self.n}'
         return subject, message
 
     def custom_popup_message_provider(self, *evt_args, **evt_kwargs):
         log.debug('Running custom popup message provider: %s %s', evt_args, evt_kwargs)
-        title = '%s Popup Title: %s' % (self.events[0].__class__.__name__, self.n)
-        message = '%s Popup Message: %s' % (self.events[0].__class__.__name__, self.n)
+        title = f'{self.events[0].__class__.__name__} Popup Title: {self.n}'
+        message = f'{self.events[0].__class__.__name__} Popup Message: {self.n}'
         return title, message
 
     def custom_blink_message_provider(self, *evt_args, **evt_kwargs):

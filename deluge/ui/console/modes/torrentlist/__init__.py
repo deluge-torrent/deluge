@@ -1,7 +1,4 @@
-from __future__ import unicode_literals
-
-
-class ACTION(object):
+class ACTION:
     PAUSE = 'pause'
     RESUME = 'resume'
     REANNOUNCE = 'update_tracker'

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
 #
@@ -6,8 +5,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import unicode_literals
 
 import logging
 import re
@@ -91,8 +88,8 @@ def init_colors():
             curses.init_pair(counter, fg, bg)
             color_pairs[(fg_name, bg_name)] = counter
             counter += 1
-        except curses.error as ex:
-            log.warning('Error: %s', ex)
+        except (curses.error, ValueError) as ex:
+            log.debug(f'Color pair {fg_name} {bg_name} not available: {ex}')
         return counter
 
     # Create the color_pairs dict
@@ -271,7 +268,7 @@ def parse_color_string(string):
                     last_color_attr = color_pair
                     attrs = attrs[2:]  # Remove colors
                 except KeyError:
-                    raise BadColorString('Bad color value in tag: %s,%s' % (fg, bg))
+                    raise BadColorString(f'Bad color value in tag: {fg},{bg}')
             # Check for additional attributes and OR them to the color_pair
             color_pair = apply_attrs(color_pair, attrs)
             last_color_attr = color_pair
@@ -292,7 +289,7 @@ def parse_color_string(string):
     return ret
 
 
-class ConsoleColorFormatter(object):
+class ConsoleColorFormatter:
     """
     Format help in a way suited to deluge CmdLine mode - colors, format, indentation...
     """

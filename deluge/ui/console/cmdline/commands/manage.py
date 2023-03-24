@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008-2009 Ido Abramovich <ido.deluge@gmail.com>
 # Copyright (C) 2009 Andrew Resch <andrewresch@gmail.com>
@@ -7,8 +6,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import unicode_literals
 
 import logging
 
@@ -69,7 +66,7 @@ class Command(BaseCommand):
                 self.console.write('{!info!}ID: {!input!}%s' % torrentid)
                 for k, v in data.items():
                     if k != 'name':
-                        self.console.write('{!info!}%s: {!input!}%s' % (k, v))
+                        self.console.write(f'{{!info!}}{k}: {{!input!}}{v}')
 
         def on_torrents_status_fail(reason):
             self.console.write('{!error!}Failed to get torrent data.')
@@ -106,9 +103,7 @@ class Command(BaseCommand):
             self.console.write('{!success!}Torrent option successfully updated.')
             deferred.callback(True)
 
-        self.console.write(
-            'Setting %s to %s for torrents %s..' % (key, val, torrent_ids)
-        )
+        self.console.write(f'Setting {key} to {val} for torrents {torrent_ids}..')
         client.core.set_torrent_options(torrent_ids, {key: val}).addCallback(
             on_set_config
         )

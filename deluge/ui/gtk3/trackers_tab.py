@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # Copyright (C) 2008 Andrew Resch <andrewresch@gmail.com>
 #
@@ -6,8 +5,6 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
-from __future__ import unicode_literals
 
 import logging
 
@@ -22,9 +19,7 @@ log = logging.getLogger(__name__)
 
 class TrackersTab(Tab):
     def __init__(self):
-        super(TrackersTab, self).__init__(
-            'Trackers', 'trackers_tab', 'trackers_tab_label'
-        )
+        super().__init__('Trackers', 'trackers_tab', 'trackers_tab_label')
 
         self.add_tab_widget('summary_next_announce', ftime, ('next_announce',))
         self.add_tab_widget('summary_tracker', None, ('tracker_host',))
