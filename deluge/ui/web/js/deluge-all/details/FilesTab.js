@@ -214,7 +214,9 @@ Deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
                     {
                         success: function () {
                             Ext.each(nodes, function (node) {
-                                node.setColumnValue(3, baseItem.filePriority);
+                                node.attributes.priority =
+                                    baseItem.filePriority;
+                                node.ui.updateColumns();
                             });
                         },
                         scope: this,
