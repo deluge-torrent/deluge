@@ -134,14 +134,24 @@ deluge.ui = {
         deluge.details.update();
     },
 
-    onConnectionError: function (error) {},
+    onConnectionError: function (error) {
+        if (this.checking) {
+            clearTimeout(this.checking);
+        }
+        this.checking = setTimeout(this.checkConnection, 2000);
+    },
 
     onConnectionSuccess: function (result) {
+        if (this.checking) {
+            clearTimeout(this.checking);
+            this.checking = undefined;
+        }
+        this.running = setTimeout(this.update, 2000);
+        this.update();
         deluge.statusbar.setStatus({
             iconCls: 'x-deluge-statusbar icon-ok',
             text: _('Connection restored'),
         });
-        clearInterval(this.checking);
         if (!result) {
             deluge.connectionManager.show();
         }
@@ -159,9 +169,13 @@ deluge.ui = {
             deluge.statusbar.setStatus({
                 text: _('Lost connection to webserver'),
             });
-            this.checking = setInterval(this.checkConnection, 2000);
+            this.checking = setTimeout(this.checkConnection, 2000);
         }
         this.errorCount++;
+        if (this.running) {
+            clearTimeout(this.running);
+            this.running = undefined;
+        }
     },
 
     /**
@@ -170,10 +184,15 @@ deluge.ui = {
      * Updates the various components in the interface.
      */
     onUpdate: function (data) {
+        if (this.running) {
+            clearTimeout(this.running);
+            this.running = undefined;
+        }
         if (!data['connected']) {
             deluge.connectionManager.disconnect(true);
             return;
         }
+        this.running = setTimeout(this.update, 2000);
 
         if (deluge.config.show_session_speed) {
             document.title =
@@ -201,7 +220,7 @@ deluge.ui = {
      */
     onConnect: function () {
         if (!this.running) {
-            this.running = setInterval(this.update, 2000);
+            this.running = setTimeout(this.update, 2000);
             this.update();
         }
         deluge.client.web.get_plugins({
@@ -280,8 +299,8 @@ deluge.ui = {
      */
     stop: function () {
         if (this.running) {
-            clearInterval(this.running);
-            this.running = false;
+            clearTimeout(this.running);
+            this.running = undefined;
             deluge.torrents.getStore().removeAll();
         }
     },
