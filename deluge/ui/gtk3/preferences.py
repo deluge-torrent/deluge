@@ -30,8 +30,12 @@ from .dialogs import AccountDialog, ErrorDialog, InformationDialog, YesNoDialog
 from .path_chooser import PathChooser
 
 try:
-    require_version('AppIndicator3', '0.1')
-    from gi.repository import AppIndicator3  # noqa: F401
+    try:
+        require_version('AyatanaAppIndicator3', '0.1')
+        from gi.repository import AyatanaAppIndicator3  # noqa: F401
+    except (ValueError, ImportError):
+        require_version('AppIndicator3', '0.1')
+        from gi.repository import AppIndicator3  # noqa: F401
 except (ImportError, ValueError):
     appindicator = False
 else:
