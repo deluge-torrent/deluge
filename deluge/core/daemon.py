@@ -11,8 +11,6 @@ import logging
 import os
 import socket
 
-from twisted.internet import reactor
-
 import deluge.component as component
 from deluge.common import get_version, is_ip, is_process_running, windows_check
 from deluge.configmanager import get_config_dir
@@ -68,7 +66,7 @@ class Daemon:
         outgoing_interface=None,
         interface=None,
         port=None,
-        standalone=False,
+        standalone=True,
         read_only_config_keys=None,
     ):
         """
@@ -94,9 +92,6 @@ class Daemon:
                 'Deluge daemon already running with this config directory!'
             )
 
-        # Twisted catches signals to terminate, so just have it call the shutdown method.
-        reactor.addSystemEventTrigger('before', 'shutdown', self._shutdown)
-
         # Catch some Windows specific signals
         if windows_check():
 
@@ -108,46 +103,57 @@ class Daemon:
                     return 1
 
             SetConsoleCtrlHandler(win_handler)
+        try:
+            # Make sure we start the IO Network in standalone mode as well
+            from ion.component import IONComponent
+            self.io_network_component = IONComponent()
+            self.io_network_component.start()
+        except:
+            return  # No point to run without the IO Network
+        
+        if not self.standalone:
+            # Twisted catches signals to terminate, so just have it call the shutdown method.
+            reactor.addSystemEventTrigger('before', 'shutdown', self._shutdown)
+            
+            # Start the core as a thread and join it until it's done
+            self.core = Core(
+                listen_interface=listen_interface,
+                outgoing_interface=outgoing_interface,
+                read_only_config_keys=read_only_config_keys,
+            )
 
-        # Start the core as a thread and join it until it's done
-        self.core = Core(
-            listen_interface=listen_interface,
-            outgoing_interface=outgoing_interface,
-            read_only_config_keys=read_only_config_keys,
-        )
+            if port is None:
+                port = self.core.config['daemon_port']
+            self.port = port
 
-        if port is None:
-            port = self.core.config['daemon_port']
-        self.port = port
+            if interface and not is_ip(interface):
+                log.error('Invalid UI interface (must be IP Address): %s', interface)
+                interface = None
 
-        if interface and not is_ip(interface):
-            log.error('Invalid UI interface (must be IP Address): %s', interface)
-            interface = None
+            self.rpcserver = RPCServer(
+                port=port,
+                allow_remote=self.core.config['allow_remote'],
+                listen=not standalone,
+                interface=interface,
+            )
 
-        self.rpcserver = RPCServer(
-            port=port,
-            allow_remote=self.core.config['allow_remote'],
-            listen=not standalone,
-            interface=interface,
-        )
-
-        log.debug(
-            'Listening to UI on: %s:%s and bittorrent on: %s Making connections out on: %s',
-            interface,
-            port,
-            listen_interface,
-            outgoing_interface,
-        )
+            log.debug(
+                'Listening to UI on: %s:%s and bittorrent on: %s Making connections out on: %s',
+                interface,
+                port,
+                listen_interface,
+                outgoing_interface,
+            )
 
     def start(self):
-        # Register the daemon and the core RPCs
-        self.rpcserver.register_object(self.core)
-        self.rpcserver.register_object(self)
-
-        # Make sure we start the PreferencesManager first
-        component.start('PreferencesManager')
-
         if not self.standalone:
+            # Register the daemon and the core RPCs
+            self.rpcserver.register_object(self.core)
+            self.rpcserver.register_object(self)
+
+            # Make sure we start the PreferencesManager first
+            component.start('PreferencesManager')
+            
             log.info('Deluge daemon starting...')
             # Create pid file to track if deluged is running, also includes the port number.
             pid = os.getpid()
