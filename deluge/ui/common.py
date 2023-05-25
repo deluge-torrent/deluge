@@ -216,7 +216,7 @@ class TorrentInfo:
         if 'files' in info_dict:
             paths = {}
             dirs = {}
-            prefix = self._name if len(info_dict['files']) > 1 else ''
+            prefix = self._name
 
             for index, f in enumerate(info_dict['files']):
                 f = {k.decode(): v for k, v in f.items()}
