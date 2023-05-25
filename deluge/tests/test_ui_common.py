@@ -157,3 +157,19 @@ class TestUICommon:
         ]
 
         assert len(ti.files) == len(result_files)
+
+    def test_directory_with_single_file(self):
+        filename = common.get_test_data_file('dir_with_single_file.torrent')
+
+        ti = TorrentInfo(filename)
+        expected_file_tree = {'dir_with_single_file': {'single_file.txt': (0, 9, True)}}
+        assert ti.files_tree == expected_file_tree
+
+        result_files = [
+            {
+                'path': 'dir_with_single_file/single_file.txt',
+                'size': 9,
+                'download': True,
+            }
+        ]
+        assert ti.files == result_files
