@@ -545,8 +545,8 @@ class RPCServer(component.Component):
         :type event: :class:`deluge.event.DelugeEvent`
         """
         log.debug('intevents: %s', self.factory.interested_events)
-        # Find sessions interested in this event
-        for session_id, interest in self.factory.interested_events.items():
+        # Use copy of `interested_events` since it can mutate while iterating.
+        for session_id, interest in self.factory.interested_events.copy().items():
             if event.name in interest:
                 log.debug('Emit Event: %s %s', event.name, event.args)
                 # This session is interested so send a RPC_EVENT
