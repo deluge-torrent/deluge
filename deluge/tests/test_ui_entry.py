@@ -58,7 +58,7 @@ class StringFileDescriptor:
 
 class UIBaseTestCase:
     def set_up(self):
-        common.setup_test_logger(level='info', prefix=self.id())
+        common.setup_test_logger(level='info', prefix=self.config_dir / self.id())
         return component.start()
 
     def tear_down(self):
@@ -75,7 +75,7 @@ class UIWithDaemonBaseTestCase(UIBaseTestCase, DaemonBase):
 
     def set_up(self):
         d = self.common_set_up()
-        common.setup_test_logger(level='info', prefix=self.id())
+        common.setup_test_logger(level='info', prefix=self.config_dir / self.id())
         return d
 
 
@@ -386,7 +386,6 @@ class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
             f'move_completed_path: {tmp_path}\nmove_completed: True\n'
         )
 
-    @pytest_twisted.ensureDeferred
     async def test_console_command_status(self):
         fd = StringFileDescriptor(sys.stdout)
         self.patch_arg_command(['status'])

@@ -202,34 +202,32 @@ class TorrentManager(component.Component):
 
         # Register alert functions
         alert_handles = [
-            'external_ip_alert',
-            'performance_alert',
-            'add_torrent_alert',
-            'metadata_received_alert',
-            'torrent_finished_alert',
-            'torrent_paused_alert',
-            'torrent_checked_alert',
-            'torrent_resumed_alert',
-            'tracker_reply_alert',
-            'tracker_announce_alert',
-            'tracker_warning_alert',
-            'tracker_error_alert',
-            'file_renamed_alert',
-            'file_error_alert',
-            'file_completed_alert',
-            'storage_moved_alert',
-            'storage_moved_failed_alert',
-            'state_update_alert',
-            'state_changed_alert',
-            'save_resume_data_alert',
-            'save_resume_data_failed_alert',
-            'fastresume_rejected_alert',
+            'external_ip',
+            'performance',
+            'add_torrent',
+            'metadata_received',
+            'torrent_finished',
+            'torrent_paused',
+            'torrent_checked',
+            'torrent_resumed',
+            'tracker_reply',
+            'tracker_announce',
+            'tracker_warning',
+            'tracker_error',
+            'file_renamed',
+            'file_error',
+            'file_completed',
+            'storage_moved',
+            'storage_moved_failed',
+            'state_update',
+            'state_changed',
+            'save_resume_data',
+            'save_resume_data_failed',
+            'fastresume_rejected',
         ]
 
         for alert_handle in alert_handles:
-            on_alert_func = getattr(
-                self, ''.join(['on_alert_', alert_handle.replace('_alert', '')])
-            )
+            on_alert_func = getattr(self, ''.join(['on_alert_', alert_handle]))
             self.alerts.register_handler(alert_handle, on_alert_func)
 
         # Define timers

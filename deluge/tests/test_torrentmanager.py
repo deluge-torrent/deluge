@@ -64,7 +64,6 @@ class TestTorrentmanager(BaseTestCase):
         torrent_id = yield self.core.add_torrent_magnet(magnet, options)
         assert self.tm.remove(torrent_id, False)
 
-    @pytest_twisted.ensureDeferred
     async def test_prefetch_metadata(self):
         from deluge._libtorrent import lt
 
@@ -119,7 +118,6 @@ class TestTorrentmanager(BaseTestCase):
         )
         assert expected == await d
 
-    @pytest_twisted.ensureDeferred
     async def test_prefetch_metadata_timeout(self):
         magnet = 'magnet:?xt=urn:btih:ab570cdd5a17ea1b61e970bb72047de141bce173'
         d = self.tm.prefetch_metadata(magnet, 30)

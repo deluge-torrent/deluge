@@ -40,7 +40,7 @@ Deluge.preferences.Bandwidth = Ext.extend(Ext.form.FormPanel, {
             defaultType: 'spinnerfield',
             defaults: {
                 minValue: -1,
-                maxValue: 99999,
+                maxValue: 9999999,
             },
             style: 'margin-bottom: 0px; padding-bottom: 0px;',
             autoHeight: true,

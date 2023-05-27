@@ -140,7 +140,7 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
                 fieldLabel: _('Session Timeout:'),
                 decimalPrecision: 0,
                 minValue: -1,
-                maxValue: 99999,
+                maxValue: Number.MAX_SAFE_INTEGER || Number.MAX_VALUE,
             })
         );
         om.bind(

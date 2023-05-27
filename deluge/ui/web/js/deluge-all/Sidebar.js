@@ -60,14 +60,16 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
         this.doLayout();
         this.panels[filter] = panel;
 
-        panel.header.on('click', function (header) {
-            if (!deluge.config.sidebar_multiple_filters) {
-                deluge.ui.update();
-            }
-            if (!panel.list.getSelectionCount()) {
-                panel.list.select(0);
-            }
-        });
+        if (panel.header) {
+            panel.header.on('click', function (header) {
+                if (!deluge.config.sidebar_multiple_filters) {
+                    deluge.ui.update();
+                }
+                if (!panel.list.getSelectionCount()) {
+                    panel.list.select(0);
+                }
+            });
+        }
         this.fireEvent('filtercreate', this, panel);
 
         panel.updateStates(states);

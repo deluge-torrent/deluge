@@ -26,7 +26,6 @@ common.disable_new_release_check()
 
 class TestWebAPI(WebServerTestBase):
     @pytest.mark.xfail(reason='This just logs an error at the moment.')
-    @pytest_twisted.ensureDeferred
     async def test_connect_invalid_host(self):
         with pytest.raises(Exception):
             await self.deluge_web.web_api.connect('id')
@@ -58,7 +57,7 @@ class TestWebAPI(WebServerTestBase):
 
     def test_get_config(self):
         config = self.deluge_web.web_api.get_config()
-        assert self.webserver_listen_port == config['port']
+        assert self.deluge_web.port == config['port']
 
     def test_set_config(self):
         config = self.deluge_web.web_api.get_config()
@@ -175,7 +174,7 @@ class TestWebAPI(WebServerTestBase):
         self.deluge_web.top_level.putChild(
             filename.encode(), File(common.get_test_data_file(filename))
         )
-        url = 'http://localhost:%d/%s' % (self.webserver_listen_port, filename)
+        url = 'http://localhost:%d/%s' % (self.deluge_web.port, filename)
         res = yield self.deluge_web.web_api.download_torrent_from_url(url)
         assert res.endswith(filename)
 
@@ -191,7 +190,7 @@ class TestWebAPI(WebServerTestBase):
         bad_body = b'{ method": "auth.login" }'
         d = yield agent.request(
             b'POST',
-            b'http://127.0.0.1:%i/json' % self.webserver_listen_port,
+            b'http://127.0.0.1:%i/json' % self.deluge_web.port,
             Headers(
                 {
                     b'User-Agent': [b'Twisted Web Client Example'],

@@ -176,18 +176,15 @@ class TestDownloadFile:
                 pytest.fail(ex)
         return filename
 
-    @pytest_twisted.ensureDeferred
     async def test_download(self):
         filename = await download_file(self.get_url(), fname('index.html'))
         assert filename == fname('index.html')
 
-    @pytest_twisted.ensureDeferred
     async def test_download_without_required_cookies(self):
         url = self.get_url('cookie')
         filename = await download_file(url, fname('none'))
         self.assert_contains(filename, 'Password cookie not set!')
 
-    @pytest_twisted.ensureDeferred
     async def test_download_with_required_cookies(self):
         url = self.get_url('cookie')
         cookie = {'cookie': 'password=deluge'}
@@ -195,14 +192,12 @@ class TestDownloadFile:
         assert filename == fname('monster')
         self.assert_contains(filename, 'COOKIE MONSTER!')
 
-    @pytest_twisted.ensureDeferred
     async def test_download_with_rename(self):
         url = self.get_url('rename?filename=renamed')
         filename = await download_file(url, fname('original'))
         assert filename == fname('renamed')
         self.assert_contains(filename, 'This file should be called renamed')
 
-    @pytest_twisted.ensureDeferred
     async def test_download_with_rename_exists(self):
         open(fname('renamed'), 'w').close()
         url = self.get_url('rename?filename=renamed')
@@ -210,34 +205,29 @@ class TestDownloadFile:
         assert filename == fname('renamed-1')
         self.assert_contains(filename, 'This file should be called renamed')
 
-    @pytest_twisted.ensureDeferred
     async def test_download_with_rename_sanitised(self):
         url = self.get_url('rename?filename=/etc/passwd')
         filename = await download_file(url, fname('original'))
         assert filename == fname('passwd')
         self.assert_contains(filename, 'This file should be called /etc/passwd')
 
-    @pytest_twisted.ensureDeferred
     async def test_download_with_attachment_no_filename(self):
         url = self.get_url('attachment')
         filename = await download_file(url, fname('original'))
         assert filename == fname('original')
         self.assert_contains(filename, 'Attachment with no filename set')
 
-    @pytest_twisted.ensureDeferred
     async def test_download_with_rename_prevented(self):
         url = self.get_url('rename?filename=spam')
         filename = await download_file(url, fname('forced'), force_filename=True)
         assert filename == fname('forced')
         self.assert_contains(filename, 'This file should be called spam')
 
-    @pytest_twisted.ensureDeferred
     async def test_download_with_gzip_encoding(self):
         url = self.get_url('gzip?msg=success')
         filename = await download_file(url, fname('gzip_encoded'))
         self.assert_contains(filename, 'success')
 
-    @pytest_twisted.ensureDeferred
     async def test_download_with_gzip_encoding_disabled(self):
         url = self.get_url('gzip?msg=unzip')
         filename = await download_file(
@@ -245,32 +235,27 @@ class TestDownloadFile:
         )
         self.assert_contains(filename, 'unzip')
 
-    @pytest_twisted.ensureDeferred
     async def test_page_redirect_unhandled(self):
         url = self.get_url('redirect')
         with pytest.raises(PageRedirect):
             await download_file(url, fname('none'), handle_redirects=False)
 
-    @pytest_twisted.ensureDeferred
     async def test_page_redirect(self):
         url = self.get_url('redirect')
         filename = await download_file(url, fname('none'), handle_redirects=True)
         assert filename == fname('none')
 
-    @pytest_twisted.ensureDeferred
     async def test_page_not_found(self):
         with pytest.raises(Error):
             await download_file(self.get_url('page/not/found'), fname('none'))
 
     @pytest.mark.xfail(reason="Doesn't seem like httpdownloader ever implemented this.")
-    @pytest_twisted.ensureDeferred
     async def test_page_not_modified(self):
         headers = {'If-Modified-Since': formatdate(usegmt=True)}
         with pytest.raises(Error) as exc_info:
             await download_file(self.get_url(), fname('index.html'), headers=headers)
         assert exc_info.value.status == NOT_MODIFIED
 
-    @pytest_twisted.ensureDeferred
     async def test_download_text_reencode_charset(self):
         """Re-encode as UTF-8 specified charset for text content-type header"""
         url = self.get_url('attachment')
@@ -280,7 +265,6 @@ class TestDownloadFile:
         assert filename == filepath
         self.assert_contains(filename, 'Attachment with no filename setбвгде')
 
-    @pytest_twisted.ensureDeferred
     async def test_download_binary_ignore_charset(self):
         """Ignore charset for binary content-type header e.g. torrent files"""
         url = self.get_url('torrent')

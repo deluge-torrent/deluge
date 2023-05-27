@@ -31,10 +31,8 @@ class WebServerTestBase(BaseTestCase):
         return self.start_webapi(None)
 
     def start_webapi(self, arg):
-        self.webserver_listen_port = 8999
-
         config_defaults = deluge.ui.web.server.CONFIG_DEFAULTS.copy()
-        config_defaults['port'] = self.webserver_listen_port
+        config_defaults['port'] = 8999
         self.config = configmanager.ConfigManager('web.conf', config_defaults)
 
         self.deluge_web = DelugeWeb(daemon=False)

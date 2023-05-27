@@ -10,7 +10,6 @@ from base64 import b64encode
 from unittest import mock
 
 import pytest
-import pytest_twisted
 from twisted.internet import defer, reactor
 from twisted.internet.task import deferLater
 
@@ -85,7 +84,6 @@ class TestTorrent(BaseTestCase):
         }
         return atp
 
-    @pytest_twisted.ensureDeferred
     async def test_set_file_priorities(self):
         if getattr(lt, 'file_prio_alert', None):
             # Libtorrent 2.0.3 and later has a file_prio_alert

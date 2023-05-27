@@ -86,7 +86,7 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
                 xtype: 'number',
                 decimalPrecision: 1,
                 minValue: -1,
-                maxValue: 99999,
+                maxValue: 9999999,
             },
         });
         this.fieldsets.bandwidth.add({
@@ -113,7 +113,7 @@ Deluge.details.OptionsTab = Ext.extend(Ext.form.FormPanel, {
                 xtype: 'number',
                 decimalPrecision: 1,
                 minValue: -1,
-                maxValue: 99999,
+                maxValue: 9999999,
             },
         });
         this.fieldsets.bandwidth.add({

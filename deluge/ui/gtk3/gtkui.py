@@ -89,7 +89,7 @@ DEFAULT_PREFS = {
     'enable_system_tray': True,
     'close_to_tray': False,
     'start_in_tray': False,
-    'enable_appindicator': False,
+    'enable_appindicator': True,
     'lock_tray': False,
     'tray_password': '',
     'check_new_releases': True,

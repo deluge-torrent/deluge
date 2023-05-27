@@ -3,6 +3,8 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
+import time
+from unittest.mock import Mock
 
 import pytest
 import pytest_twisted
@@ -13,95 +15,50 @@ import deluge.component as component
 
 class ComponentTester(component.Component):
     def __init__(self, name, depend=None):
-        component.Component.__init__(self, name, depend=depend)
-        self.start_count = 0
-        self.stop_count = 0
-
-    def start(self):
-        self.start_count += 1
-
-    def stop(self):
-        self.stop_count += 1
+        super().__init__(name, depend=depend)
+        event_methods = ('start', 'update', 'pause', 'resume', 'stop', 'shutdown')
+        for event_method in event_methods:
+            setattr(self, event_method, Mock())
 
 
 class ComponentTesterDelayStart(ComponentTester):
-    def start(self):
-        def do_sleep():
-            import time
+    def __init__(self, name, depend=None):
+        super().__init__(name, depend=depend)
+        self.start = Mock(side_effect=self.delay)
 
-            time.sleep(1)
-
-        d = threads.deferToThread(do_sleep)
-
-        def on_done(result):
-            self.start_count += 1
-
-        return d.addCallback(on_done)
-
-
-class ComponentTesterUpdate(component.Component):
-    def __init__(self, name):
-        component.Component.__init__(self, name)
-        self.counter = 0
-        self.start_count = 0
-        self.stop_count = 0
-
-    def update(self):
-        self.counter += 1
-
-    def stop(self):
-        self.stop_count += 1
-
-
-class ComponentTesterShutdown(component.Component):
-    def __init__(self, name):
-        component.Component.__init__(self, name)
-        self.shutdowned = False
-        self.stop_count = 0
-
-    def shutdown(self):
-        self.shutdowned = True
-
-    def stop(self):
-        self.stop_count += 1
+    @pytest_twisted.inlineCallbacks
+    def delay(self):
+        yield threads.deferToThread(time.sleep, 0.5)
 
 
 @pytest.mark.usefixtures('component')
 class TestComponent:
-    def test_start_component(self):
-        def on_start(result, c):
-            assert c._component_state == 'Started'
-            assert c.start_count == 1
+    async def test_start_component(self):
+        c = ComponentTester('test_start')
+        await component.start(['test_start'])
 
-        c = ComponentTester('test_start_c1')
-        d = component.start(['test_start_c1'])
-        d.addCallback(on_start, c)
-        return d
+        assert c._component_state == 'Started'
+        assert c.start.call_count == 1
 
-    def test_start_stop_depends(self):
-        def on_stop(result, c1, c2):
-            assert c1._component_state == 'Stopped'
-            assert c2._component_state == 'Stopped'
-            assert c1.stop_count == 1
-            assert c2.stop_count == 1
-
-        def on_start(result, c1, c2):
-            assert c1._component_state == 'Started'
-            assert c2._component_state == 'Started'
-            assert c1.start_count == 1
-            assert c2.start_count == 1
-            return component.stop(['test_start_depends_c1']).addCallback(
-                on_stop, c1, c2
-            )
-
+    async def test_start_stop_depends(self):
         c1 = ComponentTester('test_start_depends_c1')
         c2 = ComponentTester('test_start_depends_c2', depend=['test_start_depends_c1'])
 
-        d = component.start(['test_start_depends_c2'])
-        d.addCallback(on_start, c1, c2)
-        return d
+        await component.start('test_start_depends_c2')
 
-    def start_with_depends(self):
+        assert c1._component_state == 'Started'
+        assert c2._component_state == 'Started'
+        assert c1.start.call_count == 1
+        assert c2.start.call_count == 1
+
+        await component.stop(['test_start_depends_c1'])
+
+        assert c1._component_state == 'Stopped'
+        assert c2._component_state == 'Stopped'
+        assert c1.stop.call_count == 1
+        assert c2.stop.call_count == 1
+
+    async def start_with_depends(self):
         c1 = ComponentTesterDelayStart('test_start_all_c1')
         c2 = ComponentTester('test_start_all_c2', depend=['test_start_all_c4'])
         c3 = ComponentTesterDelayStart(
@@ -110,141 +67,126 @@ class TestComponent:
         c4 = ComponentTester('test_start_all_c4', depend=['test_start_all_c3'])
         c5 = ComponentTester('test_start_all_c5')
 
-        d = component.start()
-        return (d, c1, c2, c3, c4, c5)
+        await component.start()
+        return c1, c2, c3, c4, c5
 
     def finish_start_with_depends(self, *args):
         for c in args[1:]:
             component.deregister(c)
 
-    def test_start_all(self):
-        def on_start(*args):
-            for c in args[1:]:
-                assert c._component_state == 'Started'
-                assert c.start_count == 1
+    async def test_start_all(self):
+        components = await self.start_with_depends()
+        for c in components:
+            assert c._component_state == 'Started'
+            assert c.start.call_count == 1
 
-        ret = self.start_with_depends()
-        ret[0].addCallback(on_start, *ret[1:])
-        ret[0].addCallback(self.finish_start_with_depends, *ret[1:])
-        return ret[0]
+        self.finish_start_with_depends(components)
 
     def test_register_exception(self):
-        ComponentTester('test_register_exception_c1')
+        ComponentTester('test_register_exception')
         with pytest.raises(component.ComponentAlreadyRegistered):
             ComponentTester(
-                'test_register_exception_c1',
+                'test_register_exception',
             )
 
-    def test_stop_component(self):
-        def on_stop(result, c):
+    async def test_stop(self):
+        c = ComponentTester('test_stop')
+
+        await component.start(['test_stop'])
+
+        assert c._component_state == 'Started'
+
+        await component.stop(['test_stop'])
+
+        assert c._component_state == 'Stopped'
+        assert not c._component_timer.running
+        assert c.stop.call_count == 1
+
+    async def test_stop_all(self):
+        components = await self.start_with_depends()
+        assert all(c._component_state == 'Started' for c in components)
+
+        component.stop()
+        for c in components:
             assert c._component_state == 'Stopped'
-            assert not c._component_timer.running
-            assert c.stop_count == 1
+            assert c.stop.call_count == 1
 
-        def on_start(result, c):
-            assert c._component_state == 'Started'
-            return component.stop(['test_stop_component_c1']).addCallback(on_stop, c)
+        self.finish_start_with_depends(components)
 
-        c = ComponentTesterUpdate('test_stop_component_c1')
-        d = component.start(['test_stop_component_c1'])
-        d.addCallback(on_start, c)
-        return d
+    async def test_update(self):
+        c = ComponentTester('test_update')
+        init_update_count = int(c.update.call_count)
+        await component.start(['test_update'])
 
-    def test_stop_all(self):
-        def on_stop(result, *args):
-            for c in args:
-                assert c._component_state == 'Stopped'
-                assert c.stop_count == 1
+        assert c._component_timer
+        assert c._component_timer.running
+        assert c.update.call_count != init_update_count
+        await component.stop()
 
-        def on_start(result, *args):
-            for c in args:
-                assert c._component_state == 'Started'
-            return component.stop().addCallback(on_stop, *args)
+    async def test_pause(self):
+        c = ComponentTester('test_pause')
+        init_update_count = int(c.update.call_count)
 
-        ret = self.start_with_depends()
-        ret[0].addCallback(on_start, *ret[1:])
-        ret[0].addCallback(self.finish_start_with_depends, *ret[1:])
-        return ret[0]
+        await component.start(['test_pause'])
 
-    def test_update(self):
-        def on_start(result, c1, counter):
-            assert c1._component_timer
-            assert c1._component_timer.running
-            assert c1.counter != counter
-            return component.stop()
+        assert c._component_timer
+        assert c.update.call_count != init_update_count
 
-        c1 = ComponentTesterUpdate('test_update_c1')
-        cnt = int(c1.counter)
-        d = component.start(['test_update_c1'])
+        await component.pause(['test_pause'])
 
-        d.addCallback(on_start, c1, cnt)
-        return d
+        assert c._component_state == 'Paused'
+        assert c.pause.call_count == 1
+        assert c.update.call_count != init_update_count
+        assert not c._component_timer.running
 
-    def test_pause(self):
-        def on_pause(result, c1, counter):
-            assert c1._component_state == 'Paused'
-            assert c1.counter != counter
-            assert not c1._component_timer.running
+    async def test_resume(self):
+        c = ComponentTester('test_resume')
 
-        def on_start(result, c1, counter):
-            assert c1._component_timer
-            assert c1.counter != counter
-            d = component.pause(['test_pause_c1'])
-            d.addCallback(on_pause, c1, counter)
-            return d
+        await component.start(['test_resume'])
 
-        c1 = ComponentTesterUpdate('test_pause_c1')
-        cnt = int(c1.counter)
-        d = component.start(['test_pause_c1'])
+        assert c._component_state == 'Started'
 
-        d.addCallback(on_start, c1, cnt)
-        return d
+        await component.pause(['test_resume'])
 
-    @pytest_twisted.inlineCallbacks
-    def test_component_start_error(self):
-        ComponentTesterUpdate('test_pause_c1')
-        yield component.start(['test_pause_c1'])
-        yield component.pause(['test_pause_c1'])
-        test_comp = component.get('test_pause_c1')
+        assert c._component_state == 'Paused'
+
+        await component.resume(['test_resume'])
+
+        assert c._component_state == 'Started'
+        assert c.resume.call_count == 1
+        assert c._component_timer.running
+
+    async def test_component_start_error(self):
+        ComponentTester('test_start_error')
+        await component.start(['test_start_error'])
+        await component.pause(['test_start_error'])
+        test_comp = component.get('test_start_error')
         with pytest.raises(component.ComponentException, match='Current state: Paused'):
-            yield test_comp._component_start()
+            await test_comp._component_start()
 
-    @pytest_twisted.inlineCallbacks
-    def test_start_paused_error(self):
-        ComponentTesterUpdate('test_pause_c1')
-        yield component.start(['test_pause_c1'])
-        yield component.pause(['test_pause_c1'])
+    async def test_start_paused_error(self):
+        name = 'test_pause_error'
+        ComponentTester(name)
+        await component.start([name])
+        await component.pause([name])
 
-        # Deferreds that fail in component have to error handler which results in
-        # twisted doing a log.err call which causes the test to fail.
-        # Prevent failure by ignoring the exception
-        # self._observer._ignoreErrors(component.ComponentException)
-
-        result = yield component.start()
-        assert [(result[0][0], result[0][1].value)] == [
+        (failure, error), *_ = await component.start()
+        assert (failure, error.type, error.value.message) == (
+            defer.FAILURE,
+            component.ComponentException,
             (
-                defer.FAILURE,
-                component.ComponentException(
-                    'Trying to start component "%s" but it is '
-                    'not in a stopped state. Current state: %s'
-                    % ('test_pause_c1', 'Paused'),
-                    '',
-                ),
-            )
-        ]
+                f'Trying to start component "{name}" but it is '
+                'not in a stopped state. Current state: Paused'
+            ),
+        )
 
-    def test_shutdown(self):
-        def on_shutdown(result, c1):
-            assert c1.shutdowned
-            assert c1._component_state == 'Stopped'
-            assert c1.stop_count == 1
+    async def test_shutdown(self):
+        c = ComponentTester('test_shutdown')
 
-        def on_start(result, c1):
-            d = component.shutdown()
-            d.addCallback(on_shutdown, c1)
-            return d
+        await component.start(['test_shutdown'])
+        await component.shutdown()
 
-        c1 = ComponentTesterShutdown('test_shutdown_c1')
-        d = component.start(['test_shutdown_c1'])
-        d.addCallback(on_start, c1)
-        return d
+        assert c.shutdown.call_count == 1
+        assert c._component_state == 'Stopped'
+        assert not c._component_timer.running
+        assert c.stop.call_count == 1
