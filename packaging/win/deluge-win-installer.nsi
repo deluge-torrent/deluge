@@ -203,8 +203,8 @@ Section Uninstall
     !insertmacro MUI_STARTMENU_GETFOLDER Application $StartMenuFolder
         SetShellVarContext all
         Delete "$SMPROGRAMS\$StartMenuFolder\Deluge.lnk"
+        Delete "$SMPROGRAMS\$StartMenuFolder\Website.lnk"
         Delete "$SMPROGRAMS\$StartMenuFolder\Uninstall Deluge.lnk"
-        Delete "$SMPROGRAMS\$StartMenuFolder\Deluge Website.lnk"
         RmDir "$SMPROGRAMS\$StartMenuFolder"
         DeleteRegKey /ifempty HKCR "Software\Deluge"
 
