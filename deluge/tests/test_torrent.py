@@ -66,8 +66,21 @@ class TestTorrent(BaseTestCase):
         print(tmp)
 
     def assert_state(self, torrent, state):
+        """Assert torrent state matches expected state"""
         torrent.update_state()
         assert torrent.state == state
+
+    def assert_state_wait(self, torrent, expected, timeout=1, interval=0.2):
+        """Assert state but retry with timeout e.g. Allow for async lt alerts"""
+        start = time.time()
+
+        while time.time() - start < timeout:
+            torrent.update_state()
+            time.sleep(interval)
+            if torrent.state == expected:
+                break
+        else:
+            assert torrent.state == expected
 
     def get_torrent_atp(self, filename):
         filename = common.get_test_data_file(filename)
@@ -193,13 +206,12 @@ class TestTorrent(BaseTestCase):
         torrent_id = self.core.add_torrent_file(filename, filedump, options)
         torrent = self.core.torrentmanager.torrents[torrent_id]
 
-        # time.sleep(0.5)  # Delay to wait for lt to finish check on Travis.
-        # self.assert_state(torrent, 'Seeding')
+        # Inital check will fail and return to download state
+        self.assert_state_wait(torrent, 'Downloading')
 
         # Force an error by reading (non-existant) piece from disk
         torrent.handle.read_piece(0)
-        time.sleep(0.2)  # Delay to wait for alert from lt
-        self.assert_state(torrent, 'Error')
+        self.assert_state_wait(torrent, 'Error')
 
     def test_torrent_error_resume_original_state(self):
         options = {'seed_mode': True, 'add_paused': True}
@@ -214,8 +226,7 @@ class TestTorrent(BaseTestCase):
 
         # Force an error by reading (non-existant) piece from disk
         torrent.handle.read_piece(0)
-        time.sleep(0.2)  # Delay to wait for alert from lt
-        self.assert_state(torrent, 'Error')
+        self.assert_state_wait(torrent, 'Error')
 
         # Clear error and verify returned to original state
         torrent.force_recheck()
