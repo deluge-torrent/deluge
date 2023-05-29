@@ -1,4 +1,4 @@
-libtorrent==2.0.7
+libtorrent
 twisted[tls]>=17.1
 rencode
 pyopenssl
