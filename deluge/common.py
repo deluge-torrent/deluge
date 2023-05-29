@@ -23,14 +23,20 @@ import tarfile
 import time
 from contextlib import closing
 from datetime import datetime
+from importlib import resources
 from io import BytesIO
+from pathlib import Path
 from urllib.parse import unquote_plus, urljoin
 from urllib.request import pathname2url
 
-import pkg_resources
-
 from deluge.decorators import deprecated
 from deluge.error import InvalidPathError
+
+try:
+    from importlib.metadata import distribution
+except ImportError:
+    from pkg_resources import get_distribution as distribution
+
 
 try:
     import chardet
@@ -90,7 +96,7 @@ def get_version():
     Returns:
         str: The version of Deluge.
     """
-    return pkg_resources.get_distribution('Deluge').version
+    return distribution('Deluge').version
 
 
 def get_default_config_dir(filename=None):
@@ -290,20 +296,22 @@ def get_pixmap(fname):
     return resource_filename('deluge', os.path.join('ui', 'data', 'pixmaps', fname))
 
 
-def resource_filename(module, path):
-    """Get filesystem path for a resource.
+def resource_filename(module: str, path: str) -> str:
+    """Get filesystem path for a non-python resource.
 
-    This function contains a work-around for pkg_resources.resource_filename
-    not returning the correct path with multiple packages installed.
-
-    So if there's a second deluge package, installed globally and another in
-    develop mode somewhere else, while pkg_resources.get_distribution('Deluge')
-    returns the proper deluge instance, pkg_resources.resource_filename
-    does not, it returns the first found on the python path, which is wrong.
+    Abstracts getting module resource files. Originally created to
+    workaround pkg_resources.resource_filename limitations with
+    multiple Deluge packages installed.
     """
-    return pkg_resources.get_distribution('Deluge').get_resource_filename(
-        pkg_resources._manager, os.path.join(*(module.split('.') + [path]))
-    )
+    path = Path(path)
+
+    try:
+        with resources.as_file(resources.files(module) / path) as resource_file:
+            return str(resource_file)
+    except AttributeError:
+        # Python <= 3.8
+        with resources.path(module, path.parts[0]) as resource_file:
+            return str(resource_file.joinpath(*path.parts[1:]))
 
 
 def open_file(path, timestamp=None):

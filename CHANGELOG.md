@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.2.x (TBA)
+
+### Breaking changes
+
+- Python 3.6 support removed (Python >= 3.7)
+
 ## 2.1.1 (2022-07-10)
 
 ### Core
