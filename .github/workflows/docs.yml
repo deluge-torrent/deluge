@@ -15,22 +15,15 @@ jobs:
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - uses: actions/setup-python@v2
+
+      - uses: actions/setup-python@v4
         with:
-          python-version: "3.8"
-      - name: Cache pip
-        uses: actions/cache@v2
-        with:
-          # This path is specific to Ubuntu
-          path: ~/.cache/pip
-          # Look to see if there is a cache hit for the corresponding requirements file
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements*.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-            ${{ runner.os }}-
+          python-version: "3.10"
+          cache: "pip"
+          cache-dependency-path: "requirements*.txt"
 
       - name: Install dependencies
         run: |
@@ -38,7 +31,7 @@ jobs:
           pip install tox
           sudo apt-get install enchant-2
 
-      - name: Test with tox
+      - name: Build docs with tox
         env:
           TOX_ENV: docs
         run: |

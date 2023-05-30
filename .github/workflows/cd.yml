@@ -19,7 +19,7 @@ on:
 
 jobs:
   windows_package:
-    runs-on: windows-2019
+    runs-on: windows-2022
     if: (github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'package'))
     strategy:
       matrix:
@@ -94,7 +94,7 @@ jobs:
           python setup_nsis.py
           makensis /Darch=${{ matrix.arch }} deluge-win-installer.nsi
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: deluge-py${{ matrix.python }}-lt${{ matrix.libtorrent }}-${{ matrix.arch }}
           path: packaging/win/*.exe
