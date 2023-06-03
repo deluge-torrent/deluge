@@ -15,7 +15,7 @@ from twisted.internet import defer, reactor, ssl
 from twisted.internet.protocol import ClientFactory
 
 from deluge import error
-from deluge.common import get_localhost_auth, get_version
+from deluge.common import VersionSplit, get_localhost_auth, get_version
 from deluge.decorators import deprecated
 from deluge.transfer import DelugeTransferProtocol
 
@@ -227,6 +227,7 @@ class DelugeRPCClientFactory(ClientFactory):
         self.daemon.host = None
         self.daemon.port = None
         self.daemon.username = None
+        self.daemon.daemon_version = None
         self.daemon.connected = False
 
         if (
@@ -260,6 +261,7 @@ class DaemonSSLProxy(DaemonProxy):
         self.host = None
         self.port = None
         self.username = None
+        self.daemon_version = None
         self.authentication_level = 0
 
         self.connected = False
@@ -389,7 +391,7 @@ class DaemonSSLProxy(DaemonProxy):
         log.debug('__on_connect called')
 
         def on_info(daemon_info):
-            self.daemon_info = daemon_info
+            self.daemon_version = daemon_info
             log.debug('Got info from daemon: %s', daemon_info)
             self.daemon_info_deferred.callback(daemon_info)
 
@@ -740,6 +742,26 @@ class Client:
             )
 
         return None
+
+    @property
+    def daemon_version(self) -> str:
+        """Get the connected daemon version
+
+        Returns:
+            The daemon version
+        """
+        return self._daemon_proxy.daemon_version if self.connected() else ''
+
+    def daemon_version_check_min(self, min_version=get_version()) -> bool:
+        """Check connected daemon against a minimum version.
+
+        Returns:
+            If connected daemon meets minimum version requirement.
+        """
+        if not (self.daemon_version and min_version):
+            return False
+
+        return VersionSplit(self.daemon_version) >= VersionSplit(min_version)
 
     def register_event_handler(self, event, handler):
         """
