@@ -6203,5 +6203,5 @@ msgstr "估计剩余时间:"
 msgid "Date Added:"
 msgstr "添加日期："
 
-#~ msgid "<b>Languge</b>"
+#~ msgid "<b>Language</b>"
 #~ msgstr "<b>语言</b>"

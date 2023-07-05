@@ -6325,5 +6325,5 @@ msgstr "Tid kvar:"
 msgid "Date Added:"
 msgstr "Tillagd:"
 
-#~ msgid "<b>Languge</b>"
+#~ msgid "<b>Language</b>"
 #~ msgstr "<b>Språk</b>"
