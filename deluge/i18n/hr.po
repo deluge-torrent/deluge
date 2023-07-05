@@ -6245,5 +6245,5 @@ msgstr ""
 msgid "Date Added:"
 msgstr ""
 
-#~ msgid "<b>Languge</b>"
+#~ msgid "<b>Language</b>"
 #~ msgstr "<b>Jezik</b>"

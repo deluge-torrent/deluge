@@ -6307,5 +6307,5 @@ msgstr "Temps restant estimé :"
 msgid "Date Added:"
 msgstr ""
 
-#~ msgid "<b>Languge</b>"
+#~ msgid "<b>Language</b>"
 #~ msgstr "<b>Langue</b>"

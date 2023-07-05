@@ -6355,5 +6355,5 @@ msgstr "Temps estimat:"
 msgid "Date Added:"
 msgstr "Data d'addició"
 
-#~ msgid "<b>Languge</b>"
+#~ msgid "<b>Language</b>"
 #~ msgstr "<b>Idioma</b>"
