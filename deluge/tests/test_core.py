@@ -3,7 +3,7 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
+import base64
 import os
 from base64 import b64encode
 from hashlib import sha1 as sha
@@ -483,3 +483,29 @@ class TestCore(BaseTestCase):
         assert self.core._create_peer_id('2.0.1rc1') == '-DE201r-'
         assert self.core._create_peer_id('2.11.0b2') == '-DE2B0b-'
         assert self.core._create_peer_id('2.4.12b2.dev3') == '-DE24CD-'
+
+    @pytest.mark.parametrize(
+        'path',
+        [
+            common.get_test_data_file('deluge.png'),
+            os.path.dirname(common.get_test_data_file('deluge.png')),
+        ],
+    )
+    @pytest.mark.parametrize('piece_length', [2**14, 2**16])
+    @pytest_twisted.inlineCallbacks
+    def test_create_torrent(self, path, tmp_path, piece_length):
+        target = tmp_path / 'test.torrent'
+
+        filename, filedump = yield self.core.create_torrent(
+            path=path,
+            tracker=None,
+            piece_length=piece_length,
+            target=target,
+            add_to_session=False,
+        )
+        filecontent = base64.b64decode(filedump)
+
+        with open(target, 'rb') as f:
+            assert f.read() == filecontent
+
+        lt.torrent_info(filecontent)
