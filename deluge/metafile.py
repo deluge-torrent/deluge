@@ -51,7 +51,7 @@ class RemoteFileProgress:
         )
 
 
-def make_meta_file(
+def make_meta_file_content(
     path,
     url,
     piece_length,
@@ -60,7 +60,6 @@ def make_meta_file(
     comment=None,
     safe=None,
     content_type=None,
-    target=None,
     webseeds=None,
     name=None,
     private=False,
@@ -70,14 +69,6 @@ def make_meta_file(
     data = {'creation date': int(gmtime())}
     if url:
         data['announce'] = url.strip()
-    a, b = os.path.split(path)
-    if not target:
-        if b == '':
-            f = a + '.torrent'
-        else:
-            f = os.path.join(a, b + '.torrent')
-    else:
-        f = target
 
     if progress is None:
         progress = dummy
@@ -121,8 +112,55 @@ def make_meta_file(
         data['announce-list'] = trackers
 
     data['encoding'] = 'UTF-8'
-    with open(f, 'wb') as file_:
-        file_.write(bencode(utf8_encode_structure(data)))
+    return bencode(utf8_encode_structure(data))
+
+
+def default_meta_file_path(content_path):
+    a, b = os.path.split(content_path)
+    if b == '':
+        f = a + '.torrent'
+    else:
+        f = os.path.join(a, b + '.torrent')
+    return f
+
+
+def make_meta_file(
+    path,
+    url,
+    piece_length,
+    progress=None,
+    title=None,
+    comment=None,
+    safe=None,
+    content_type=None,
+    target=None,
+    webseeds=None,
+    name=None,
+    private=False,
+    created_by=None,
+    trackers=None,
+):
+    if not target:
+        target = default_meta_file_path(path)
+
+    file_content = make_meta_file_content(
+        path,
+        url,
+        piece_length,
+        progress=progress,
+        title=title,
+        comment=comment,
+        safe=safe,
+        content_type=content_type,
+        webseeds=webseeds,
+        name=name,
+        private=private,
+        created_by=created_by,
+        trackers=trackers,
+    )
+
+    with open(target, 'wb') as file_:
+        file_.write(file_content)
 
 
 def calcsize(path):
