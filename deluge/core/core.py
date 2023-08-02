@@ -12,7 +12,6 @@ import logging
 import os
 import shutil
 import tempfile
-import threading
 from base64 import b64decode, b64encode
 from typing import Any, Dict, List, Optional, Tuple, Union
 from urllib.request import URLError, urlopen
@@ -1001,21 +1000,19 @@ class Core(component.Component):
         add_to_session=False,
     ):
         log.debug('creating torrent..')
-        threading.Thread(
-            target=self._create_torrent_thread,
-            args=(
-                path,
-                tracker,
-                piece_length,
-                comment,
-                target,
-                webseeds,
-                private,
-                created_by,
-                trackers,
-                add_to_session,
-            ),
-        ).start()
+        return threads.deferToThread(
+            self._create_torrent_thread,
+            path,
+            tracker,
+            piece_length,
+            comment=comment,
+            target=target,
+            webseeds=webseeds,
+            private=private,
+            created_by=created_by,
+            trackers=trackers,
+            add_to_session=add_to_session,
+        )
 
     def _create_torrent_thread(
         self,
@@ -1055,12 +1052,13 @@ class Core(component.Component):
             with open(target, 'wb') as _file:
                 _file.write(filecontent)
 
+        filedump = b64encode(filecontent)
         log.debug('torrent created!')
         if add_to_session:
             options = {}
             options['download_location'] = os.path.split(path)[0]
-            filedump = b64encode(filecontent)
             self.add_torrent_file(filename, filedump, options)
+        return filename, filedump
 
     @export
     def upload_plugin(self, filename: str, filedump: Union[str, bytes]) -> None:
