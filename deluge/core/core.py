@@ -17,7 +17,7 @@ from base64 import b64decode, b64encode
 from typing import Any, Dict, List, Optional, Tuple, Union
 from urllib.request import URLError, urlopen
 
-from twisted.internet import defer, reactor, task
+from twisted.internet import defer, reactor, task, threads
 from twisted.web.client import Agent, readBody
 
 import deluge.common
@@ -992,13 +992,13 @@ class Core(component.Component):
         path,
         tracker,
         piece_length,
-        comment,
-        target,
-        webseeds,
-        private,
-        created_by,
-        trackers,
-        add_to_session,
+        comment=None,
+        target=None,
+        webseeds=None,
+        private=False,
+        created_by=None,
+        trackers=None,
+        add_to_session=False,
     ):
         log.debug('creating torrent..')
         threading.Thread(
@@ -1032,24 +1032,35 @@ class Core(component.Component):
     ):
         from deluge import metafile
 
-        metafile.make_meta_file(
+        filecontent = metafile.make_meta_file_content(
             path,
             tracker,
             piece_length,
             comment=comment,
-            target=target,
             webseeds=webseeds,
             private=private,
             created_by=created_by,
             trackers=trackers,
         )
+
+        write_file = False
+        if target or not add_to_session:
+            write_file = True
+
+        if not target:
+            target = metafile.default_meta_file_path(path)
+        filename = os.path.split(target)[-1]
+
+        if write_file:
+            with open(target, 'wb') as _file:
+                _file.write(filecontent)
+
         log.debug('torrent created!')
         if add_to_session:
             options = {}
             options['download_location'] = os.path.split(path)[0]
-            with open(target, 'rb') as _file:
-                filedump = b64encode(_file.read())
-                self.add_torrent_file(os.path.split(target)[1], filedump, options)
+            filedump = b64encode(filecontent)
+            self.add_torrent_file(filename, filedump, options)
 
     @export
     def upload_plugin(self, filename: str, filedump: Union[str, bytes]) -> None:
