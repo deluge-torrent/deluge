@@ -7,7 +7,13 @@
 import os
 import tempfile
 
+import pytest
+
 from deluge import metafile
+from deluge._libtorrent import LT_VERSION
+from deluge.common import VersionSplit
+
+from . import common
 
 
 def check_torrent(filename):
@@ -55,3 +61,52 @@ class TestMetafile:
             metafile.make_meta_file(tmp_data, '', 32768, target=tmp_torrent)
 
             check_torrent(tmp_torrent)
+
+    @pytest.mark.parametrize(
+        'path',
+        [
+            common.get_test_data_file('deluge.png'),
+            common.get_test_data_file('unicode_filenames.torrent'),
+            os.path.dirname(common.get_test_data_file('deluge.png')),
+        ],
+    )
+    @pytest.mark.parametrize(
+        'torrent_format',
+        [
+            metafile.TorrentFormat.V1,
+            metafile.TorrentFormat.V2,
+            metafile.TorrentFormat.HYBRID,
+        ],
+    )
+    @pytest.mark.parametrize('piece_length', [2**14, 2**15, 2**16])
+    @pytest.mark.parametrize('private', [True, False])
+    def test_create_info(self, path, torrent_format, piece_length, private):
+        our_info, our_piece_layers = metafile.makeinfo(
+            path,
+            piece_length,
+            metafile.dummy,
+            private=private,
+            torrent_format=torrent_format,
+        )
+        lt_info, lt_piece_layers = metafile.makeinfo_lt(
+            path,
+            piece_length,
+            private=private,
+            torrent_format=torrent_format,
+        )
+
+        if (
+            torrent_format == metafile.TorrentFormat.HYBRID
+            and os.path.isdir(path)
+            and VersionSplit(LT_VERSION) <= VersionSplit('2.0.7.0')
+        ):
+            # Libtorrent didn't correctly follow the standard until version 2.0.7 included
+            # https://github.com/arvidn/libtorrent/commit/74d82a0cd7c2e9e3c4294901d7eb65e247050df4
+            # If last file is a padding, ignore that file and the last piece.
+            if our_info[b'files'][-1][b'path'][0] == b'.pad':
+                our_info[b'files'] = our_info[b'files'][:-1]
+                our_info[b'pieces'] = our_info[b'pieces'][:-32]
+                lt_info[b'pieces'] = lt_info[b'pieces'][:-32]
+
+        assert our_info == lt_info
+        assert our_piece_layers == lt_piece_layers
