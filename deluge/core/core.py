@@ -21,7 +21,7 @@ from twisted.web.client import Agent, readBody
 
 import deluge.common
 import deluge.component as component
-from deluge import path_chooser_common
+from deluge import metafile, path_chooser_common
 from deluge._libtorrent import LT_VERSION, lt
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.alertmanager import AlertManager
@@ -998,7 +998,11 @@ class Core(component.Component):
         created_by=None,
         trackers=None,
         add_to_session=False,
+        torrent_format=metafile.TorrentFormat.V1,
     ):
+        if isinstance(torrent_format, str):
+            torrent_format = metafile.TorrentFormat(torrent_format)
+
         log.debug('creating torrent..')
         return threads.deferToThread(
             self._create_torrent_thread,
@@ -1012,6 +1016,7 @@ class Core(component.Component):
             created_by=created_by,
             trackers=trackers,
             add_to_session=add_to_session,
+            torrent_format=torrent_format,
         )
 
     def _create_torrent_thread(
@@ -1026,6 +1031,7 @@ class Core(component.Component):
         created_by,
         trackers,
         add_to_session,
+        torrent_format,
     ):
         from deluge import metafile
 
@@ -1038,6 +1044,7 @@ class Core(component.Component):
             private=private,
             created_by=created_by,
             trackers=trackers,
+            torrent_format=torrent_format,
         )
 
         write_file = False
