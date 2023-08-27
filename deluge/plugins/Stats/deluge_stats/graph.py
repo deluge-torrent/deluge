@@ -104,20 +104,19 @@ class Graph:
     def set_interval(self, interval):
         self.interval = interval
 
-    def draw_to_context(self, context, width, height):
-        self.ctx = context
+    def draw_to_context(self, ctx, width, height):
         self.width, self.height = width, height
-        self.draw_rect(white, 0, 0, self.width, self.height)
-        self.draw_graph()
-        return self.ctx
+        self.draw_rect(ctx, white, 0, 0, self.width, self.height)
+        self.draw_graph(ctx)
 
     def draw(self, width, height):
+        """Create surface with context for use in tests"""
         surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
         ctx = cairo.Context(surface)
         self.draw_to_context(ctx, width, height)
         return surface
 
-    def draw_x_axis(self, bounds):
+    def draw_x_axis(self, ctx, bounds):
         (left, top, right, bottom) = bounds
         duration = self.length * self.interval
         start = self.last_update - duration
@@ -142,13 +141,13 @@ class Graph:
             )
             # + 0.5 to allign x to nearest pixel
             x = int(ratio * (seconds_to_step + i * x_step) + left) + 0.5
-            self.draw_x_text(text, x, bottom)
-            self.draw_dotted_line(gray, x, top - 0.5, x, bottom + 0.5)
+            self.draw_x_text(ctx, text, x, bottom)
+            self.draw_dotted_line(ctx, gray, x, top - 0.5, x, bottom + 0.5)
 
-        self.draw_line(gray, left, bottom + 0.5, right, bottom + 0.5)
+        self.draw_line(ctx, gray, left, bottom + 0.5, right, bottom + 0.5)
 
-    def draw_graph(self):
-        font_extents = self.ctx.font_extents()
+    def draw_graph(self, ctx):
+        font_extents = ctx.font_extents()
         x_axis_space = font_extents[2] + 2 + self.line_size / 2
         plot_height = self.height - x_axis_space
         # lets say we need 2n-1*font height pixels to plot the y ticks
@@ -171,18 +170,18 @@ class Graph:
         # find the width of the y_ticks
         y_tick_text = [self.left_axis['formatter'](tick) for tick in y_ticks]
 
-        def space_required(text):
-            te = self.ctx.text_extents(text)
+        def space_required(ctx, text):
+            te = ctx.text_extents(text)
             return math.ceil(te[4] - te[0])
 
-        y_tick_width = max(space_required(text) for text in y_tick_text)
+        y_tick_width = max(space_required(ctx, text) for text in y_tick_text)
 
         top = font_extents[2] / 2
         # bounds(left, top, right, bottom)
         bounds = (y_tick_width + 4, top + 2, self.width, self.height - x_axis_space)
 
-        self.draw_x_axis(bounds)
-        self.draw_left_axis(bounds, y_ticks, y_tick_text)
+        self.draw_x_axis(ctx, bounds)
+        self.draw_left_axis(ctx, bounds, y_ticks, y_tick_text)
 
     def intervalise(self, x, limit=None):
         """Given a value x create an array of tick points to got with the graph
@@ -229,7 +228,7 @@ class Graph:
         ]
         return intervals
 
-    def draw_left_axis(self, bounds, y_ticks, y_tick_text):
+    def draw_left_axis(self, ctx, bounds, y_ticks, y_tick_text):
         (left, top, right, bottom) = bounds
         stats = {}
         for stat in self.stat_info:
@@ -246,29 +245,36 @@ class Graph:
         for i, y_val in enumerate(y_ticks):
             y = int(bottom - y_val * ratio) - 0.5
             if i != 0:
-                self.draw_dotted_line(gray, left, y, right, y)
-            self.draw_y_text(y_tick_text[i], left, y)
-        self.draw_line(gray, left, top, left, bottom)
+                self.draw_dotted_line(ctx, gray, left, y, right, y)
+            self.draw_y_text(ctx, y_tick_text[i], left, y)
+        self.draw_line(ctx, gray, left, top, left, bottom)
 
         for stat, info in stats.items():
             if len(info['values']) > 0:
-                self.draw_value_poly(info['values'], info['color'], max_value, bounds)
                 self.draw_value_poly(
-                    info['values'], info['fill_color'], max_value, bounds, info['fill']
+                    ctx, info['values'], info['color'], max_value, bounds
+                )
+                self.draw_value_poly(
+                    ctx,
+                    info['values'],
+                    info['fill_color'],
+                    max_value,
+                    bounds,
+                    info['fill'],
                 )
 
     def draw_legend(self):
         pass
 
-    def trace_path(self, values, max_value, bounds):
+    def trace_path(self, ctx, values, max_value, bounds):
         (left, top, right, bottom) = bounds
         ratio = (bottom - top) / max_value
         line_width = self.line_size
 
-        self.ctx.set_line_width(line_width)
-        self.ctx.move_to(right, bottom)
+        ctx.set_line_width(line_width)
+        ctx.move_to(right, bottom)
 
-        self.ctx.line_to(right, int(bottom - values[0] * ratio))
+        ctx.line_to(right, int(bottom - values[0] * ratio))
 
         x = right
         step = (right - left) / (self.length - 1)
@@ -276,64 +282,62 @@ class Graph:
             if i == self.length - 1:
                 x = left
 
-            self.ctx.line_to(x, int(bottom - value * ratio))
+            ctx.line_to(x, int(bottom - value * ratio))
             x -= step
 
-        self.ctx.line_to(int(right - (len(values) - 1) * step), bottom)
-        self.ctx.close_path()
+        ctx.line_to(int(right - (len(values) - 1) * step), bottom)
+        ctx.close_path()
 
-    def draw_value_poly(self, values, color, max_value, bounds, fill=False):
-        self.trace_path(values, max_value, bounds)
-        self.ctx.set_source_rgba(*color)
+    def draw_value_poly(self, ctx, values, color, max_value, bounds, fill=False):
+        self.trace_path(ctx, values, max_value, bounds)
+        ctx.set_source_rgba(*color)
 
         if fill:
-            self.ctx.fill()
+            ctx.fill()
         else:
-            self.ctx.stroke()
+            ctx.stroke()
 
-    def draw_x_text(self, text, x, y):
+    def draw_x_text(self, ctx, text, x, y):
         """Draws text below and horizontally centered about x,y"""
-        fe = self.ctx.font_extents()
-        te = self.ctx.text_extents(text)
+        fe = ctx.font_extents()
+        te = ctx.text_extents(text)
         height = fe[2]
         x_bearing = te[0]
         width = te[2]
-        self.ctx.move_to(int(x - width / 2 + x_bearing), int(y + height))
-        self.ctx.set_source_rgba(*self.black)
-        self.ctx.show_text(text)
+        ctx.move_to(int(x - width / 2 + x_bearing), int(y + height))
+        ctx.set_source_rgba(*self.black)
+        ctx.show_text(text)
 
-    def draw_y_text(self, text, x, y):
+    def draw_y_text(self, ctx, text, x, y):
         """Draws text left of and vertically centered about x,y"""
-        fe = self.ctx.font_extents()
-        te = self.ctx.text_extents(text)
+        fe = ctx.font_extents()
+        te = ctx.text_extents(text)
         descent = fe[1]
         ascent = fe[0]
         x_bearing = te[0]
         width = te[4]
-        self.ctx.move_to(
-            int(x - width - x_bearing - 2), int(y + (ascent - descent) / 2)
-        )
-        self.ctx.set_source_rgba(*self.black)
-        self.ctx.show_text(text)
+        ctx.move_to(int(x - width - x_bearing - 2), int(y + (ascent - descent) / 2))
+        ctx.set_source_rgba(*self.black)
+        ctx.show_text(text)
 
-    def draw_rect(self, color, x, y, height, width):
-        self.ctx.set_source_rgba(*color)
-        self.ctx.rectangle(x, y, height, width)
-        self.ctx.fill()
+    def draw_rect(self, ctx, color, x, y, height, width):
+        ctx.set_source_rgba(*color)
+        ctx.rectangle(x, y, height, width)
+        ctx.fill()
 
-    def draw_line(self, color, x1, y1, x2, y2):
-        self.ctx.set_source_rgba(*color)
-        self.ctx.set_line_width(1)
-        self.ctx.move_to(x1, y1)
-        self.ctx.line_to(x2, y2)
-        self.ctx.stroke()
+    def draw_line(self, ctx, color, x1, y1, x2, y2):
+        ctx.set_source_rgba(*color)
+        ctx.set_line_width(1)
+        ctx.move_to(x1, y1)
+        ctx.line_to(x2, y2)
+        ctx.stroke()
 
-    def draw_dotted_line(self, color, x1, y1, x2, y2):
-        self.ctx.set_source_rgba(*color)
-        self.ctx.set_line_width(1)
-        dash, offset = self.ctx.get_dash()
-        self.ctx.set_dash(self.dash_length, 0)
-        self.ctx.move_to(x1, y1)
-        self.ctx.line_to(x2, y2)
-        self.ctx.stroke()
-        self.ctx.set_dash(dash, offset)
+    def draw_dotted_line(self, ctx, color, x1, y1, x2, y2):
+        ctx.set_source_rgba(*color)
+        ctx.set_line_width(1)
+        dash, offset = ctx.get_dash()
+        ctx.set_dash(self.dash_length, 0)
+        ctx.move_to(x1, y1)
+        ctx.line_to(x2, y2)
+        ctx.stroke()
+        ctx.set_dash(dash, offset)
