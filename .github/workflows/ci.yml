@@ -36,7 +36,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install --upgrade pip wheel
+          pip install --upgrade pip wheel setuptools
           pip install -r requirements.txt -r requirements-tests.txt
           pip install -e .
 
@@ -91,7 +91,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install --upgrade pip wheel
+          pip install --upgrade pip wheel setuptools
           pip install -r requirements.txt -r requirements-tests.txt
           pip install -e .
 
