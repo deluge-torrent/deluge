@@ -4,6 +4,7 @@ rencode
 pyopenssl
 pyxdg
 pillow
+pillow<=9; python_version=="3.7"
 mako
 setuptools
 chardet
