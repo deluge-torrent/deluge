@@ -67,9 +67,9 @@ jobs:
         run: >
           python -m pip install
           --only-binary=pillow
-          twisted[tls]==22.4.0
+          twisted[tls]==22.8.0
           libtorrent==${{ matrix.libtorrent }}
-          pyinstaller==4.10
+          pyinstaller
           pygame
           -r requirements.txt
 
