@@ -8,7 +8,7 @@ import pytest_twisted
 from twisted.internet import defer
 
 from deluge import error
-from deluge.common import AUTH_LEVEL_NORMAL, get_localhost_auth
+from deluge.common import AUTH_LEVEL_NORMAL, get_localhost_auth, get_version
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
 from deluge.ui.client import Client, DaemonSSLProxy, client
 
@@ -170,3 +170,23 @@ class TestClient:
 
         d.addCallbacks(self.fail, on_failure)
         return d
+
+    @pytest_twisted.inlineCallbacks
+    def test_connection_version(self):
+        username, password = get_localhost_auth()
+        yield client.connect(
+            'localhost', self.listen_port, username=username, password=password
+        )
+
+        assert client.connection_version() == get_version()
+
+    @pytest_twisted.inlineCallbacks
+    def test_daemon_version_above(self):
+        username, password = get_localhost_auth()
+        yield client.connect(
+            'localhost', self.listen_port, username=username, password=password
+        )
+
+        assert client.is_daemon_version_equal_or_greater(get_version())
+        assert not client.is_daemon_version_equal_or_greater(f'{get_version()}1')
+        assert client.is_daemon_version_equal_or_greater('0.1.0')
