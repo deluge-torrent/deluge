@@ -19,7 +19,7 @@ msgstr ""
 
 #: deluge/common.py:411
 msgid "B"
-msgstr ""
+msgstr "B"
 
 #: deluge/common.py:412
 msgid "KiB"
@@ -35,7 +35,7 @@ msgstr "GiB"
 
 #: deluge/common.py:415
 msgid "TiB"
-msgstr ""
+msgstr "TiB"
 
 #: deluge/common.py:416
 msgid "K"
@@ -51,7 +51,7 @@ msgstr "G"
 
 #: deluge/common.py:419
 msgid "T"
-msgstr ""
+msgstr "T"
 
 #: deluge/common.py:515 deluge/ui/gtk3/statusbar.py:442
 #: deluge/ui/gtk3/statusbar.py:455 deluge/ui/gtk3/statusbar.py:464
@@ -62,7 +62,7 @@ msgstr ""
 #: deluge/ui/gtk3/systemtray.py:274 deluge/ui/gtk3/systemtray.py:442
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:40
 msgid "K/s"
-msgstr ""
+msgstr "K/s"
 
 #: deluge/common.py:515 deluge/ui/gtk3/menubar.py:449
 #: deluge/ui/gtk3/menubar.py:455
@@ -80,7 +80,7 @@ msgstr "KiB/s"
 
 #: deluge/common.py:521
 msgid "M/s"
-msgstr ""
+msgstr "M/s"
 
 #: deluge/common.py:521
 msgid "MiB/s"
@@ -88,7 +88,7 @@ msgstr "MiB/s"
 
 #: deluge/common.py:527
 msgid "G/s"
-msgstr ""
+msgstr "G/s"
 
 #: deluge/common.py:527
 msgid "GiB/s"
@@ -96,11 +96,11 @@ msgstr "GiB/s"
 
 #: deluge/common.py:533
 msgid "T/s"
-msgstr ""
+msgstr "T/s"
 
 #: deluge/common.py:533
 msgid "TiB/s"
-msgstr ""
+msgstr "TiB/s"
 
 #: deluge/argparserbase.py:172
 msgid "Common Options"
