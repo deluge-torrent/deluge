@@ -198,36 +198,36 @@ msgstr "Wszystkie"
 #: deluge/plugins/AutoAdd/deluge_autoadd/gtkui.py:534
 #: deluge/ui/web/js/deluge-all/UI.js:19
 msgid "Active"
-msgstr "Aktywny"
+msgstr "Aktywne"
 
 #: deluge/ui/common.py:39 deluge/ui/web/js/deluge-all/UI.js:20
 msgid "Allocating"
-msgstr ""
+msgstr "Alokowane"
 
 #: deluge/ui/common.py:40 deluge/ui/web/js/deluge-all/UI.js:21
 #: deluge/ui/web/js/deluge-all/UI.js:25
 msgid "Checking"
-msgstr "Sprawdzanie"
+msgstr "Sprawdzane"
 
 #: deluge/ui/common.py:41
 #: deluge/ui/console/modes/preferences/preference_panes.py:568
 #: deluge/ui/web/js/deluge-all/UI.js:22
 msgid "Downloading"
-msgstr "Pobieranie"
+msgstr "Pobierane"
 
 #: deluge/ui/common.py:42
 #: deluge/ui/console/modes/preferences/preference_panes.py:575
 #: deluge/ui/web/js/deluge-all/UI.js:23
 msgid "Seeding"
-msgstr "Wysyłanie"
+msgstr "Wysyłane"
 
 #: deluge/ui/common.py:43 deluge/ui/web/js/deluge-all/UI.js:24
 msgid "Paused"
-msgstr "Pauza"
+msgstr "Wstrzymane"
 
 #: deluge/ui/common.py:44 deluge/ui/web/js/deluge-all/UI.js:26
 msgid "Queued"
-msgstr "W kolejce"
+msgstr "Zakolejkowane"
 
 #: deluge/ui/common.py:45 deluge/ui/common.py:122
 #: deluge/ui/gtk3/statusbar.py:396 deluge/ui/gtk3/filtertreeview.py:131
@@ -243,7 +243,7 @@ msgstr "W kolejce"
 #: deluge/ui/web/js/deluge-all/add/AddWindow.js:291
 #: deluge/ui/web/js/deluge-all/add/AddWindow.js:316
 msgid "Error"
-msgstr "Błąd"
+msgstr "Błędne"
 
 #: deluge/ui/common.py:50 deluge/ui/gtk3/listview.py:793
 #: deluge/ui/gtk3/torrentview.py:180 deluge/ui/gtk3/torrentview.py:276
