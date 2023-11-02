@@ -423,24 +423,30 @@ def translate_size_units():
 
 
 def fsize(fsize_b, precision=1, shortform=False):
-    """Formats the bytes value into a string with KiB, MiB or GiB units.
+    """Formats the bytes value into a string with KiB, MiB, GiB or TiB units.
 
     Args:
         fsize_b (int): The filesize in bytes.
-        precision (int): The filesize float precision.
+        precision (int): The output float precision, 1 by default.
+        shortform (bool): The output short|long form, False (long form) by default.
 
     Returns:
-        str: A formatted string in KiB, MiB or GiB units.
+        str: A formatted string in KiB, MiB, GiB or TiB units.
 
     Examples:
         >>> fsize(112245)
         '109.6 KiB'
         >>> fsize(112245, precision=0)
         '110 KiB'
+        >>> fsize(112245, shortform=True)
+        '109.6 K'
 
     Note:
         This function has been refactored for performance with the
         fsize units being translated outside the function.
+
+        Notice that short forms K|M|G|T are synonymous here with
+        KiB|MiB|GiB|TiB. They are powers of 1024, not 1000.
 
     """
 
@@ -477,7 +483,7 @@ def fpcnt(dec, precision=2):
 
     Args:
         dec (float): The ratio in the range [0.0, 1.0].
-        precision (int): The percentage float precision.
+        precision (int): The output float precision, 2 by default.
 
     Returns:
         str: A formatted string representing a percentage.
@@ -501,6 +507,8 @@ def fspeed(bps, precision=1, shortform=False):
 
     Args:
         bps (int): The speed in bytes per second.
+        precision (int): The output float precision, 1 by default.
+        shortform (bool): The output short|long form, False (long form) by default.
 
     Returns:
         str: A formatted string representing transfer speed.
@@ -508,6 +516,10 @@ def fspeed(bps, precision=1, shortform=False):
     Examples:
         >>> fspeed(43134)
         '42.1 KiB/s'
+
+    Note:
+        Notice that short forms K|M|G|T are synonymous here with
+        KiB|MiB|GiB|TiB. They are powers of 1024, not 1000.
 
     """
 
@@ -545,7 +557,7 @@ def fpeer(num_peers, total_peers):
         total_peers (int): The total number of peers.
 
     Returns:
-        str: A formatted string 'num_peers (total_peers)' or total_peers < 0, just 'num_peers'.
+        str: A formatted string 'num_peers (total_peers)' or if total_peers < 0, just 'num_peers'.
 
     Examples:
         >>> fpeer(10, 20)
@@ -594,16 +606,16 @@ def ftime(secs):
         time_str = f'{secs // 604800}w {secs // 86400 % 7}d'
     else:
         time_str = f'{secs // 31449600}y {secs // 604800 % 52}w'
-
     return time_str
 
 
 def fdate(seconds, date_only=False, precision_secs=False):
-    """Formats a date time string in the locale's date representation based on the systems timezone.
+    """Formats a date time string in the locale's date representation based on the system's timezone.
 
     Args:
         seconds (float): Time in seconds since the Epoch.
-        precision_secs (bool): Include seconds in time format.
+        date_only (bool): Whether to include only the date, False by default.
+        precision_secs (bool): Include seconds in time format, False by default.
 
     Returns:
         str: A string in the locale's datetime representation or "" if seconds < 0
@@ -628,10 +640,14 @@ def tokenize(text):
     Returns:
         list: A list of strings and/or numbers.
 
-    This function is used to implement robust tokenization of user input
-    It automatically coerces integer and floating point numbers, ignores
-    whitespace and knows how to separate numbers from strings even without
-    whitespace.
+    Note:
+        This function is used to implement robust tokenization of user input
+        It automatically coerces integer and floating point numbers, ignores
+        whitespace and knows how to separate numbers from strings even without
+        whitespace.
+
+        Possible optimization: move the 2 regexes outside of function.
+
     """
     tokenized_input = []
     for token in re.split(r'(\d+(?:\.\d+)?)', text):
@@ -647,6 +663,11 @@ def tokenize(text):
 
 size_units = [
     {'prefix': 'b', 'divider': 1, 'singular': 'byte', 'plural': 'bytes'},
+    {'prefix': 'k', 'divider': 1000**1},
+    {'prefix': 'm', 'divider': 1000**2},
+    {'prefix': 'g', 'divider': 1000**3},
+    {'prefix': 't', 'divider': 1000**4},
+    {'prefix': 'p', 'divider': 1000**5},
     {'prefix': 'KiB', 'divider': 1024**1},
     {'prefix': 'MiB', 'divider': 1024**2},
     {'prefix': 'GiB', 'divider': 1024**3},
@@ -657,7 +678,6 @@ size_units = [
     {'prefix': 'GB', 'divider': 1000**3},
     {'prefix': 'TB', 'divider': 1000**4},
     {'prefix': 'PB', 'divider': 1000**5},
-    {'prefix': 'm', 'divider': 1000**2},
 ]
 
 
@@ -841,7 +861,7 @@ def create_magnet_uri(infohash, name=None, trackers=None):
     Args:
         infohash (str): The info-hash of the torrent.
         name (str, optional): The name of the torrent.
-        trackers (list or dict, optional): A list of trackers or dict or {tracker: tier} pairs.
+        trackers (list or dict, optional): A list of trackers or a dict or some {tracker: tier} pairs.
 
     Returns:
         str: A magnet URI string.
