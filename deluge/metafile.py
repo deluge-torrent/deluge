@@ -98,6 +98,7 @@ def make_meta_file_content(
     created_by=None,
     trackers=None,
     torrent_format=TorrentFormat.V1,
+    ca_cert=None,
 ):
     data = {'creation date': int(gmtime())}
     if url:
@@ -121,6 +122,7 @@ def make_meta_file_content(
         content_type,
         private,
         torrent_format,
+        ca_cert,
     )
 
     # check_info(info)
@@ -294,6 +296,7 @@ def makeinfo(
     content_type=None,
     private=False,
     torrent_format=TorrentFormat.V1,
+    ca_cert=None,
 ):
     # HEREDAVE. If path is directory, how do we assign content type?
 
@@ -443,6 +446,8 @@ def makeinfo(
                 b'file tree': file_tree,
             }
         )
+    if ca_cert:
+        info[b'ssl-cert'] = ca_cert
     return info, piece_layers if torrent_format.includes_v2() else None
 
 
