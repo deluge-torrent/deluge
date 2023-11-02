@@ -11,3 +11,4 @@ pep8-naming
 mccabe
 pylint
 asyncmock; python_version <= '3.7'
+cryptography

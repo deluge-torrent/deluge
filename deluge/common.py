@@ -1231,12 +1231,9 @@ AUTH_LEVEL_ADMIN = 10
 AUTH_LEVEL_DEFAULT = AUTH_LEVEL_NORMAL
 
 
-def create_auth_file():
+def create_auth_file(auth_file):
     import stat
 
-    import deluge.configmanager
-
-    auth_file = deluge.configmanager.get_config_dir('auth')
     # Check for auth file and create if necessary
     if not os.path.exists(auth_file):
         with open(auth_file, 'w', encoding='utf8') as _file:
@@ -1246,22 +1243,26 @@ def create_auth_file():
         os.chmod(auth_file, stat.S_IREAD | stat.S_IWRITE)
 
 
-def create_localclient_account(append=False):
+def create_localclient_account(append=False, auth_file=None):
     import random
     from hashlib import sha1 as sha
 
     import deluge.configmanager
 
-    auth_file = deluge.configmanager.get_config_dir('auth')
-    if not os.path.exists(auth_file):
-        create_auth_file()
+    if not auth_file:
+        auth_file = deluge.configmanager.get_config_dir('auth')
 
+    if not os.path.exists(auth_file):
+        create_auth_file(auth_file)
+
+    username = 'localclient'
+    password = sha(str(random.random()).encode('utf8')).hexdigest()
     with open(auth_file, 'a' if append else 'w', encoding='utf8') as _file:
         _file.write(
             ':'.join(
                 [
-                    'localclient',
-                    sha(str(random.random()).encode('utf8')).hexdigest(),
+                    username,
+                    password,
                     str(AUTH_LEVEL_ADMIN),
                 ]
             )
@@ -1269,6 +1270,7 @@ def create_localclient_account(append=False):
         )
         _file.flush()
         os.fsync(_file.fileno())
+    return username, password
 
 
 def get_localhost_auth():
