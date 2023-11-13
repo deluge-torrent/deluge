@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2019-11-12 14:55+0000\n"
-"PO-Revision-Date: 2020-02-13 08:19+0000\n"
-"Last-Translator: Dan Cooper <Unknown>\n"
+"PO-Revision-Date: 2023-11-06 17:15+0000\n"
+"Last-Translator: Ettore Atalan <atalanttore@googlemail.com>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2021-09-10 18:01+0000\n"
-"X-Generator: Launchpad (build aca2013fd8cd2fea408d75f89f9bc012fbab307d)\n"
+"X-Launchpad-Export-Date: 2023-11-06 19:12+0000\n"
+"X-Generator: Launchpad (build f1e537f62ee3967c2b3f24dd10eacf1696334fe6)\n"
 
 #: deluge/common.py:411
 msgid "B"
@@ -1580,7 +1580,7 @@ msgstr "Simbabwe"
 
 #: deluge/ui/ui_entry.py:51
 msgid "UI Options"
-msgstr ""
+msgstr "UI-Optionen"
 
 #: deluge/ui/ui_entry.py:57
 msgid "Set the default UI to be run, when no UI is specified"
@@ -2013,7 +2013,7 @@ msgstr "<b>IP</b> <small>%s</small>"
 #: deluge/ui/console/widgets/statusbars.py:121
 #: deluge/ui/web/js/deluge-all/Statusbar.js:358
 msgid "n/a"
-msgstr ""
+msgstr "n/v"
 
 #: deluge/ui/gtk3/statusbar.py:220
 msgid "<b><small>Port Issue</small></b>"
@@ -2174,7 +2174,7 @@ msgstr ""
 
 #: deluge/ui/gtk3/gtkui.py:350
 msgid "Change User Interface Mode"
-msgstr ""
+msgstr "Benutzeroberflächenmodus ändern"
 
 #: deluge/ui/gtk3/connectionmanager.py:52
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:56
@@ -2819,7 +2819,7 @@ msgstr "Mit einem Deluge-Daemon verbinden (deluged)"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:22
 msgid "Application Mode"
-msgstr ""
+msgstr "Anwendungsmodus"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:23
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:46
@@ -3208,7 +3208,7 @@ msgstr ""
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:108
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:38
 msgid "Incoming Address"
-msgstr ""
+msgstr "Eingangsadresse"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:109
 msgid "Random"
@@ -3229,7 +3229,7 @@ msgstr "Aktiven Port testen"
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:113
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:58
 msgid "Incoming Port"
-msgstr ""
+msgstr "Eingangsport"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:114
 msgid ""
@@ -3706,7 +3706,7 @@ msgstr "Pfadeintrag anzeigen"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:6
 msgid "Show file chooser"
-msgstr ""
+msgstr "Dateiauswahl anzeigen"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:7
 msgid "Show folder name"
@@ -3762,7 +3762,7 @@ msgstr "Strg+D"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:22
 msgid "Toggle hidden files"
-msgstr ""
+msgstr "Versteckte Dateien umschalten"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:23
 msgid "Default path"
@@ -3770,7 +3770,7 @@ msgstr "Standardpfad"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:24
 msgid "Shortcuts"
-msgstr ""
+msgstr "Tastenkombinationen"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:25
 msgid "Select a Directory"
@@ -3813,7 +3813,7 @@ msgstr "Hinzufügen"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:32
 msgid "Add the current entry value to the list"
-msgstr ""
+msgstr "Den aktuellen Eintragswert zur Liste hinzufügen"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:33
 #: deluge/ui/web/js/deluge-all/EditTrackersWindow.js:98
@@ -3864,7 +3864,7 @@ msgstr "Datei-Quersumme hinzufügen"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.infohash.ui.h:4
 msgid "From Infohash"
-msgstr ""
+msgstr "Von Infohash"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.infohash.ui.h:5
 msgid "Infohash:"
@@ -4018,7 +4018,7 @@ msgstr "Gesamtgröße:"
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:21
 #: deluge/ui/web/js/deluge-all/details/DetailsTab.js:27
 msgid "Total Files:"
-msgstr ""
+msgstr "Dateien insgesamt:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:22
 #: deluge/ui/web/js/deluge-all/details/DetailsTab.js:24
@@ -4067,7 +4067,7 @@ msgstr "Aktueller Tracker:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:47
 msgid "Total Trackers:"
-msgstr ""
+msgstr "Tracker insgesamt:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:48
 #: deluge/ui/web/render/tab_status.html:6
@@ -4827,7 +4827,7 @@ msgstr "Festplattenspeicher vorbelegen"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:304
 msgid "Incomming Ports"
-msgstr ""
+msgstr "Eingangsports"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:313
 #: deluge/ui/console/modes/preferences/preference_panes.py:337
@@ -4846,7 +4846,7 @@ msgstr "Benutze Zufallsports"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:352
 msgid "Incoming Interface"
-msgstr ""
+msgstr "Eingangsschnittstelle"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:355
 msgid "IP address of the interface to listen on (leave empty for default):"
@@ -4935,7 +4935,7 @@ msgstr "Tauschverhältnis"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:601
 msgid "Time Ratio"
-msgstr ""
+msgstr "Zeitverhältnis"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:609
 msgid "Time (m)"
@@ -4971,7 +4971,7 @@ msgstr ""
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:712
 msgid "Blocks Written"
-msgstr ""
+msgstr "Geschriebene Blöcke"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:716
 msgid "Writes"
@@ -4983,7 +4983,7 @@ msgstr ""
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:725
 msgid "Blocks Read"
-msgstr ""
+msgstr "Gelesene Blöcke"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:729
 msgid "Blocks Read hit"
@@ -5400,7 +5400,7 @@ msgstr "Uploadfarbe:"
 
 #: deluge/plugins/Stats/deluge_stats/data/config.ui.h:3
 msgid "<b>Connections Graph</b>"
-msgstr ""
+msgstr "<b>Verbindungsgraph</b>"
 
 #: deluge/plugins/Stats/deluge_stats/data/config.ui.h:4
 msgid "<b>Bandwidth Graph</b>"
@@ -5408,7 +5408,7 @@ msgstr "<b>Bandbreitengraph</b>"
 
 #: deluge/plugins/Stats/deluge_stats/data/config.ui.h:5
 msgid "DHT nodes:"
-msgstr ""
+msgstr "DHT-Knoten:"
 
 #: deluge/plugins/Stats/deluge_stats/data/config.ui.h:6
 msgid "Cached DHT nodes:"
@@ -5424,7 +5424,7 @@ msgstr "<b>Seeds / Peers</b>"
 
 #: deluge/plugins/Stats/deluge_stats/data/config.ui.h:11
 msgid "<b>Graph Colors</b>"
-msgstr ""
+msgstr "<b>Graphfarben</b>"
 
 #: deluge/plugins/WebUi/deluge_webui/gtkui.py:35
 #: deluge/plugins/WebUi/deluge_webui/gtkui.py:47
@@ -5997,7 +5997,7 @@ msgstr "Erzwinge erneute Überprüfung"
 
 #: deluge/ui/web/js/deluge-all/Menus.js:359
 msgid "Expand All"
-msgstr ""
+msgstr "Alles ausklappen"
 
 #: deluge/ui/web/js/deluge-all/details/DetailsTab.js:13
 msgid "Details"
@@ -6119,7 +6119,7 @@ msgstr "Zufälligen Port verwenden"
 
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:241
 msgid "Type Of Service"
-msgstr ""
+msgstr "Diensttyp"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:53
 msgid "Show filters with zero torrents"
@@ -6151,7 +6151,7 @@ msgstr "Server"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:140
 msgid "Session Timeout:"
-msgstr ""
+msgstr "Zeitüberschreitung der Sitzung:"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:165
 msgid "Enable SSL (paths relative to Deluge config folder)"
@@ -6221,7 +6221,7 @@ msgstr "Datei"
 
 #: deluge/ui/web/js/deluge-all/add/AddWindow.js:149
 msgid "Infohash"
-msgstr ""
+msgstr "Infohash"
 
 #: deluge/ui/web/js/deluge-all/add/AddWindow.js:260
 msgid "Uploading your torrent..."

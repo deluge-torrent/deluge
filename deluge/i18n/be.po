@@ -8,50 +8,50 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2019-11-12 14:55+0000\n"
-"PO-Revision-Date: 2019-06-06 10:57+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2023-08-01 15:28+0000\n"
+"Last-Translator: Anton Hryb <Unknown>\n"
 "Language-Team: Belarusian <be@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2021-09-10 18:01+0000\n"
-"X-Generator: Launchpad (build aca2013fd8cd2fea408d75f89f9bc012fbab307d)\n"
+"X-Launchpad-Export-Date: 2023-11-06 19:12+0000\n"
+"X-Generator: Launchpad (build f1e537f62ee3967c2b3f24dd10eacf1696334fe6)\n"
 
 #: deluge/common.py:411
 msgid "B"
-msgstr ""
+msgstr "Б"
 
 #: deluge/common.py:412
 msgid "KiB"
-msgstr ""
+msgstr "КіБ"
 
 #: deluge/common.py:413
 msgid "MiB"
-msgstr ""
+msgstr "МіБ"
 
 #: deluge/common.py:414
 msgid "GiB"
-msgstr ""
+msgstr "ГіБ"
 
 #: deluge/common.py:415
 msgid "TiB"
-msgstr ""
+msgstr "ТіБ"
 
 #: deluge/common.py:416
 msgid "K"
-msgstr ""
+msgstr "К"
 
 #: deluge/common.py:417
 msgid "M"
-msgstr ""
+msgstr "М"
 
 #: deluge/common.py:418
 msgid "G"
-msgstr ""
+msgstr "Г"
 
 #: deluge/common.py:419
 msgid "T"
-msgstr ""
+msgstr "Т"
 
 #: deluge/common.py:515 deluge/ui/gtk3/statusbar.py:442
 #: deluge/ui/gtk3/statusbar.py:455 deluge/ui/gtk3/statusbar.py:464
@@ -62,7 +62,7 @@ msgstr ""
 #: deluge/ui/gtk3/systemtray.py:274 deluge/ui/gtk3/systemtray.py:442
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:40
 msgid "K/s"
-msgstr ""
+msgstr "К/с"
 
 #: deluge/common.py:515 deluge/ui/gtk3/menubar.py:449
 #: deluge/ui/gtk3/menubar.py:455
@@ -76,55 +76,55 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:94
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:121
 msgid "KiB/s"
-msgstr "КБ/с"
+msgstr "КіБ/с"
 
 #: deluge/common.py:521
 msgid "M/s"
-msgstr ""
+msgstr "М/с"
 
 #: deluge/common.py:521
 msgid "MiB/s"
-msgstr ""
+msgstr "МіБ/с"
 
 #: deluge/common.py:527
 msgid "G/s"
-msgstr ""
+msgstr "Г/с"
 
 #: deluge/common.py:527
 msgid "GiB/s"
-msgstr ""
+msgstr "ГіБ/с"
 
 #: deluge/common.py:533
 msgid "T/s"
-msgstr ""
+msgstr "Т/с"
 
 #: deluge/common.py:533
 msgid "TiB/s"
-msgstr ""
+msgstr "ТіБ/с"
 
 #: deluge/argparserbase.py:172
 msgid "Common Options"
-msgstr ""
+msgstr "Агульныя параметры"
 
 #: deluge/argparserbase.py:175
 msgid "Print this help message"
-msgstr ""
+msgstr "Друк дапаможнага паведамлення"
 
 #: deluge/argparserbase.py:182
 msgid "Print version information"
-msgstr ""
+msgstr "Друк інфармацыі пра версію"
 
 #: deluge/argparserbase.py:194
 msgid "Set the config directory path"
-msgstr ""
+msgstr "Наладзіць шлях да папкі з канфігурацыяй"
 
 #: deluge/argparserbase.py:200
 msgid "Output to specified logfile instead of stdout"
-msgstr ""
+msgstr "Вывад у вызначаны файл логаў замест stdout"
 
 #: deluge/argparserbase.py:206
 msgid "Set the log level (none, error, warning, info, debug)"
-msgstr ""
+msgstr "Узровень лога (none, error, warning, info, debug)"
 
 #: deluge/argparserbase.py:215
 #, python-format
@@ -132,10 +132,12 @@ msgid ""
 "Enable logfile rotation, with optional maximum logfile size, default: "
 "%(const)s (Logfile rotation count is 5)"
 msgstr ""
+"Уключыць змену файла лога, з максімумам памера файла, па змаўчанні: "
+"%(const)s (Logfile rotation count is 5)"
 
 #: deluge/argparserbase.py:223
 msgid "Quieten logging output (Same as `--loglevel none`)"
-msgstr ""
+msgstr "Сцішаны вывад логаў (Тое ж што `--loglevel none`)"
 
 #: deluge/argparserbase.py:231
 #, python-format
@@ -143,91 +145,93 @@ msgid ""
 "Profile %(prog)s with cProfile. Outputs to stdout unless a filename is "
 "specified"
 msgstr ""
+"Профіль %(prog)s з cProfile. Вывад у stdout пакуль не вызначана імя файла"
 
 #: deluge/argparserbase.py:351
 msgid "Process Control Options"
-msgstr ""
+msgstr "Опцыі кантролю працэса"
 
 #: deluge/argparserbase.py:357
 msgid "Pidfile to store the process id"
-msgstr ""
+msgstr "Файл для захавання id працэса"
 
 #: deluge/argparserbase.py:365
 msgid "Do not daemonize (fork) this process"
-msgstr ""
+msgstr "Не дэманізаваць (разгаліноўваць) гэты працэс"
 
 #: deluge/argparserbase.py:379
 msgid "Change to this user on startup (Requires root)"
-msgstr ""
+msgstr "Змяніць гэтага карыстальніка пры запуску (патрэбны правы root)"
 
 #: deluge/argparserbase.py:386
 msgid "Change to this group on startup (Requires root)"
-msgstr ""
+msgstr "Змяніць на гэту групу пры запуску (патрэбны правы root)"
 
 #: deluge/core/daemon_entry.py:25
 msgid "Daemon Options"
-msgstr ""
+msgstr "Опцыі дэмана"
 
 #: deluge/core/daemon_entry.py:31
 msgid "IP address to listen for UI connections"
-msgstr ""
+msgstr "IP адрасы каб слухаць падлучэнні"
 
 #: deluge/core/daemon_entry.py:39
 msgid "Port to listen for UI connections on"
-msgstr ""
+msgstr "Які порт слухаць пры падлучэнні"
 
 #: deluge/core/daemon_entry.py:47
 msgid "IP address to listen for BitTorrent connections"
-msgstr ""
+msgstr "IP адрас каб слухаць падлучэнне BitTorrent"
 
 #: deluge/core/daemon_entry.py:56
 msgid ""
 "The network interface name or IP address for outgoing BitTorrent connections."
-msgstr ""
+msgstr "Назва сеткі ці IP адрас для сыходзячага падлучэння BitTorrent."
 
 #: deluge/core/daemon_entry.py:63
 msgid "Config keys to be unmodified by `set_config` RPC"
 msgstr ""
+"Ключы канфігурацый для  RPC, немадыфікаваных з дапамогай `set_config`"
 
 #: deluge/ui/common.py:37 deluge/ui/gtk3/filtertreeview.py:130
 #: deluge/ui/web/js/deluge-all/UI.js:18
 msgid "All"
-msgstr ""
+msgstr "Усе"
 
 #: deluge/ui/common.py:38 deluge/plugins/AutoAdd/deluge_autoadd/gtkui.py:490
 #: deluge/plugins/AutoAdd/deluge_autoadd/gtkui.py:534
 #: deluge/ui/web/js/deluge-all/UI.js:19
 msgid "Active"
-msgstr ""
+msgstr "Актыўны"
 
 #: deluge/ui/common.py:39 deluge/ui/web/js/deluge-all/UI.js:20
 msgid "Allocating"
-msgstr ""
+msgstr "Выдзяленне"
 
 #: deluge/ui/common.py:40 deluge/ui/web/js/deluge-all/UI.js:21
 #: deluge/ui/web/js/deluge-all/UI.js:25
 msgid "Checking"
-msgstr ""
+msgstr "Праверка"
 
 #: deluge/ui/common.py:41
 #: deluge/ui/console/modes/preferences/preference_panes.py:568
 #: deluge/ui/web/js/deluge-all/UI.js:22
 msgid "Downloading"
-msgstr ""
+msgstr "Спампоўка"
 
 #: deluge/ui/common.py:42
 #: deluge/ui/console/modes/preferences/preference_panes.py:575
 #: deluge/ui/web/js/deluge-all/UI.js:23
 msgid "Seeding"
-msgstr ""
+msgstr "Раздача"
 
 #: deluge/ui/common.py:43 deluge/ui/web/js/deluge-all/UI.js:24
 msgid "Paused"
-msgstr ""
+msgstr "Прыпынена"
 
 #: deluge/ui/common.py:44 deluge/ui/web/js/deluge-all/UI.js:26
 msgid "Queued"
-msgstr ""
+msgstr "У чарзе"
 
 #: deluge/ui/common.py:45 deluge/ui/common.py:122
 #: deluge/ui/gtk3/statusbar.py:396 deluge/ui/gtk3/filtertreeview.py:131
@@ -258,7 +262,7 @@ msgstr "Назва"
 #: deluge/ui/web/js/deluge-all/details/PeersTab.js:80
 #: deluge/ui/web/js/deluge-all/details/FilesTab.js:34
 msgid "Progress"
-msgstr "Стан"
+msgstr "Прагрэс"
 
 #: deluge/ui/common.py:52 deluge/ui/web/js/deluge-all/Sidebar.js:12
 msgid "State"
@@ -278,17 +282,17 @@ msgstr "Памер"
 #: deluge/ui/common.py:55 deluge/ui/gtk3/torrentview.py:289
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:244
 msgid "Downloaded"
-msgstr ""
+msgstr "Спампавана"
 
 #: deluge/ui/common.py:56 deluge/ui/gtk3/torrentview.py:296
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:252
 msgid "Uploaded"
-msgstr ""
+msgstr "Запампавана"
 
 #: deluge/ui/common.py:57 deluge/ui/gtk3/torrentview.py:303
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:260
 msgid "Remaining"
-msgstr ""
+msgstr "Застаецца"
 
 #: deluge/ui/common.py:58 deluge/ui/gtk3/torrentview.py:373
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:165
@@ -300,32 +304,32 @@ msgstr "Рэйтынг"
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:144
 #: deluge/ui/web/js/deluge-all/details/PeersTab.js:87
 msgid "Down Speed"
-msgstr "Запампоўка"
+msgstr "Хуткасць спампоўкі"
 
 #: deluge/ui/common.py:60 deluge/ui/gtk3/torrentview.py:346
 #: deluge/ui/gtk3/peers_tab.py:146
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:151
 #: deluge/ui/web/js/deluge-all/details/PeersTab.js:94
 msgid "Up Speed"
-msgstr "Раздача"
+msgstr "Хуткасць раздачы"
 
 #: deluge/ui/common.py:61 deluge/ui/gtk3/torrentview.py:352
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:268
 msgid "Down Limit"
-msgstr ""
+msgstr "Ліміт спампоўкі"
 
 #: deluge/ui/common.py:62 deluge/ui/gtk3/torrentview.py:359
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:276
 msgid "Up Limit"
-msgstr ""
+msgstr "Ліміт раздачы"
 
 #: deluge/ui/common.py:63 deluge/ui/web/js/deluge-all/add/OptionsTab.js:101
 msgid "Max Connections"
-msgstr ""
+msgstr "Макс злучэнняў"
 
 #: deluge/ui/common.py:64 deluge/ui/web/js/deluge-all/add/OptionsTab.js:109
 msgid "Max Upload Slots"
-msgstr ""
+msgstr "Макс слотаў раздачы"
 
 #: deluge/ui/common.py:65 deluge/ui/gtk3/torrentview.py:325
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:136
@@ -336,7 +340,7 @@ msgstr "Піры"
 #: deluge/ui/common.py:66 deluge/ui/gtk3/torrentview.py:317
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:128
 msgid "Seeds"
-msgstr ""
+msgstr "Сіды"
 
 #: deluge/ui/common.py:67 deluge/ui/gtk3/torrentview.py:380
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:173
@@ -346,13 +350,13 @@ msgstr "Даступна"
 #: deluge/ui/common.py:68 deluge/ui/gtk3/torrentview.py:333
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:284
 msgid "Seeds:Peers"
-msgstr ""
+msgstr "Сіды:Піры"
 
 #: deluge/ui/common.py:69 deluge/ui/gtk3/listview.py:203
 #: deluge/ui/gtk3/torrentview.py:387
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:181
 msgid "Added"
-msgstr "Даданы"
+msgstr "Дададзена"
 
 #: deluge/ui/common.py:70 deluge/ui/gtk3/createtorrentdialog.py:88
 #: deluge/ui/gtk3/edittrackersdialog.py:127 deluge/ui/gtk3/torrentview.py:408
@@ -367,55 +371,55 @@ msgstr "Трэкер"
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:213
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:31
 msgid "Download Folder"
-msgstr ""
+msgstr "Папка спампоўкі"
 
 #: deluge/ui/common.py:75
 msgid "Seeding Time"
-msgstr ""
+msgstr "Час сідавання"
 
 #: deluge/ui/common.py:76
 msgid "Active Time"
-msgstr ""
+msgstr "Актыўны час"
 
 #: deluge/ui/common.py:78
 msgid "Last Activity"
-msgstr ""
+msgstr "Апошняя актыўнасць"
 
 #: deluge/ui/common.py:81
 msgid "Finished Time"
-msgstr ""
+msgstr "Час завяршэння"
 
 #: deluge/ui/common.py:83 deluge/ui/gtk3/torrentview.py:401
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:189
 msgid "Complete Seen"
-msgstr ""
+msgstr "Паказ завершанага"
 
 #: deluge/ui/common.py:86 deluge/ui/gtk3/torrentview.py:394
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:197
 msgid "Completed"
-msgstr ""
+msgstr "Завершана"
 
 #: deluge/ui/common.py:87 deluge/ui/gtk3/torrentview.py:366
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:158
 msgid "ETA"
-msgstr "Засталася"
+msgstr "Засталося"
 
 #: deluge/ui/common.py:88 deluge/ui/gtk3/torrentview.py:418
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:30
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:236
 msgid "Shared"
-msgstr ""
+msgstr "Супольнае"
 
 #: deluge/ui/common.py:90 deluge/ui/gtk3/glade/main_window.tabs.ui.h:31
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:287
 msgid "Prioritize First/Last"
-msgstr "Прыярытэт першай/апошняй"
+msgstr "Прыятытэт Першае/Апошняе"
 
 #: deluge/ui/common.py:94 deluge/ui/gtk3/glade/main_window.tabs.ui.h:32
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:14
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:143
 msgid "Sequential Download"
-msgstr ""
+msgstr "Паслядоўная спампоўка"
 
 #: deluge/ui/common.py:97 deluge/ui/common.py:98
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:35
@@ -427,27 +431,27 @@ msgstr "Аўтаматычнае кіраванне"
 
 #: deluge/ui/common.py:99
 msgid "Stop At Ratio"
-msgstr ""
+msgstr "Спыніць пры суадносінах"
 
 #: deluge/ui/common.py:100
 msgid "Stop Ratio"
-msgstr ""
+msgstr "Суадносіны для спынення"
 
 #: deluge/ui/common.py:101
 msgid "Remove At Ratio"
-msgstr ""
+msgstr "Выдаліць пры суадносінах"
 
 #: deluge/ui/common.py:102 deluge/ui/common.py:108
 msgid "Move On Completed"
-msgstr ""
+msgstr "Перамясціць пры завяршэнні"
 
 #: deluge/ui/common.py:104
 msgid "Move Completed Path"
-msgstr ""
+msgstr "Шлях перамяшчэння завершанага"
 
 #: deluge/ui/common.py:112
 msgid "Move On Completed Path"
-msgstr ""
+msgstr "Перамясціць на шлях завершанага"
 
 #: deluge/ui/common.py:115 deluge/ui/gtk3/filtertreeview.py:135
 #: deluge/ui/gtk3/torrentview.py:416
@@ -455,25 +459,25 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/FilterPanel.js:32
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:221
 msgid "Owner"
-msgstr ""
+msgstr "Уласнік"
 
 #: deluge/ui/common.py:116
 msgid "Pieces"
-msgstr ""
+msgstr "Часткі"
 
 #: deluge/ui/common.py:117
 msgid "Seed Rank"
-msgstr ""
+msgstr "Ранг сідаў"
 
 #: deluge/ui/common.py:118 deluge/ui/gtk3/glade/main_window.tabs.ui.h:33
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:22
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:294
 msgid "Super Seeding"
-msgstr ""
+msgstr "Супер сідаванне"
 
 #: deluge/ui/common.py:123 deluge/ui/web/js/deluge-all/details/StatusTab.js:122
 msgid "Warning"
-msgstr "Папярэджаньне"
+msgstr "Папярэджанне"
 
 #: deluge/ui/common.py:124 deluge/ui/web/js/deluge-all/details/StatusTab.js:123
 msgid "Announce OK"
@@ -496,7 +500,7 @@ msgstr "Інтэрфейс"
 #: deluge/ui/console/modes/preferences/preferences.py:90
 #: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:21
 msgid "Downloads"
-msgstr "Запампоўкі"
+msgstr "Спампоўкі"
 
 #: deluge/ui/common.py:131 deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:33
 #: deluge/ui/console/modes/preferences/preference_panes.py:409
@@ -523,7 +527,7 @@ msgstr "Чарга"
 #: deluge/ui/console/modes/preferences/preferences.py:91
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:28
 msgid "Network"
-msgstr "Сеціва"
+msgstr "Сетка"
 
 #: deluge/ui/common.py:134 deluge/ui/gtk3/glade/preferences_dialog.ui.h:146
 #: deluge/ui/console/modes/preferences/preference_panes.py:640
@@ -562,33 +566,35 @@ msgstr "Дэман"
 #: deluge/ui/common.py:138
 #: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:18
 msgid "Plugins"
-msgstr "Модулі"
+msgstr "Плагіны"
 
 #: deluge/ui/common.py:150 deluge/ui/web/js/deluge-all/Deluge.js:154
 #: deluge/ui/web/js/deluge-all/Menus.js:365
 msgid "Skip"
-msgstr ""
+msgstr "Прапусціць"
 
 #: deluge/ui/common.py:151 deluge/ui/web/js/deluge-all/Deluge.js:155
 #: deluge/ui/web/js/deluge-all/Menus.js:371
 msgid "Low"
-msgstr ""
+msgstr "Нізкі"
 
 #: deluge/ui/common.py:152 deluge/ui/web/js/deluge-all/Deluge.js:156
 #: deluge/ui/web/js/deluge-all/Menus.js:377
 msgid "Normal"
-msgstr ""
+msgstr "Звычайны"
 
 #: deluge/ui/common.py:153 deluge/ui/web/js/deluge-all/Deluge.js:157
 #: deluge/ui/web/js/deluge-all/Menus.js:383
 msgid "High"
-msgstr ""
+msgstr "Высокі"
 
 #: deluge/ui/client.py:681
 msgid ""
 "Deluge cannot find the `deluged` executable, check that the deluged package "
 "is installed, or added to your PATH."
 msgstr ""
+"Deluge не знаходзіць выканальны `deluged`, праверце што пакет усталяваны, "
+"або дадайце шлях."
 
 #: deluge/ui/countries.py:10
 msgid "Afghanistan"
@@ -608,7 +614,7 @@ msgstr "Алжыр"
 
 #: deluge/ui/countries.py:14
 msgid "American Samoa"
-msgstr "Усходняе Самоа"
+msgstr "Амерыканскае Самоа"
 
 #: deluge/ui/countries.py:15
 msgid "Andorra"
@@ -680,7 +686,7 @@ msgstr "Бельгія"
 
 #: deluge/ui/countries.py:32
 msgid "Belize"
-msgstr "Бэліз"
+msgstr "Беліз"
 
 #: deluge/ui/countries.py:33
 msgid "Benin"
@@ -688,7 +694,7 @@ msgstr "Бенін"
 
 #: deluge/ui/countries.py:34
 msgid "Bermuda"
-msgstr "Бэрмудзкія астравы"
+msgstr "Бермудскія астравы"
 
 #: deluge/ui/countries.py:35
 msgid "Bhutan"
@@ -708,7 +714,7 @@ msgstr "Батсвана"
 
 #: deluge/ui/countries.py:39
 msgid "Bouvet Island"
-msgstr "Востраў Буве"
+msgstr "Востраў Бувэ"
 
 #: deluge/ui/countries.py:40
 msgid "Brazil"
@@ -728,7 +734,7 @@ msgstr "Балгарыя"
 
 #: deluge/ui/countries.py:44
 msgid "Burkina Faso"
-msgstr "Буркіна Фасо"
+msgstr "Буркіна-Фасо"
 
 #: deluge/ui/countries.py:45
 msgid "Burundi"
@@ -748,7 +754,7 @@ msgstr "Канада"
 
 #: deluge/ui/countries.py:49
 msgid "Cape Verde"
-msgstr "Каба Вэрдэ"
+msgstr "Каба-Вердэ"
 
 #: deluge/ui/countries.py:50
 msgid "Cayman Islands"
@@ -756,7 +762,7 @@ msgstr "Кайманавы астравы"
 
 #: deluge/ui/countries.py:51
 msgid "Central African Republic"
-msgstr "Цэнтральнаафрыканская Рэспубліка"
+msgstr "Цэнтральна-Афрыканская Рэспубліка"
 
 #: deluge/ui/countries.py:52
 msgid "Chad"
@@ -772,11 +778,11 @@ msgstr "Кітай"
 
 #: deluge/ui/countries.py:55
 msgid "Christmas Island"
-msgstr "Востраў Раства"
+msgstr "Востраў Каляд"
 
 #: deluge/ui/countries.py:56
 msgid "Cocos (Keeling) Islands"
-msgstr "Какосавыя астравы (Астравы Килинг)"
+msgstr "Какосавыя (Кілінг) астравы"
 
 #: deluge/ui/countries.py:57
 msgid "Colombia"
@@ -800,7 +806,7 @@ msgstr "Астравы Кука"
 
 #: deluge/ui/countries.py:62
 msgid "Costa Rica"
-msgstr "Коста Рыка"
+msgstr "Коста-Рыка"
 
 #: deluge/ui/countries.py:63
 msgid "Cote d'Ivoire"
@@ -820,7 +826,7 @@ msgstr "Кіпр"
 
 #: deluge/ui/countries.py:67
 msgid "Czech Republic"
-msgstr "Чэшская рэспубліка"
+msgstr "Чэшская Рэспубліка"
 
 #: deluge/ui/countries.py:68
 msgid "Denmark"
@@ -868,7 +874,7 @@ msgstr "Эфіопія"
 
 #: deluge/ui/countries.py:79
 msgid "Falkland Islands (Malvinas)"
-msgstr "Фальклендзкія (Мальвінскія) астравы"
+msgstr "Фалклендскія (Мальвінскія) астравы"
 
 #: deluge/ui/countries.py:80
 msgid "Faroe Islands"
@@ -956,7 +962,7 @@ msgstr "Гвінея"
 
 #: deluge/ui/countries.py:101
 msgid "Guinea-Bissau"
-msgstr "Гвінея-Бісаў"
+msgstr "Гвінея-Бісау"
 
 #: deluge/ui/countries.py:102
 msgid "Guyana"
@@ -996,7 +1002,7 @@ msgstr "Індыя"
 
 #: deluge/ui/countries.py:111
 msgid "Indonesia"
-msgstr "Інданэзія"
+msgstr "Інданезія"
 
 #: deluge/ui/countries.py:112
 msgid "Iran, Islamic Republic of"
@@ -1064,11 +1070,11 @@ msgstr "Кувейт"
 
 #: deluge/ui/countries.py:128
 msgid "Kyrgyzstan"
-msgstr "Кіргізія"
+msgstr "Кыргызстан"
 
 #: deluge/ui/countries.py:129
 msgid "Lao People's Democratic Republic"
-msgstr "Лаоская Народна-Дэмакратычная Рэспубліка"
+msgstr "Лаос"
 
 #: deluge/ui/countries.py:130
 msgid "Latvia"
@@ -1092,7 +1098,7 @@ msgstr "Лівійская Арабская Джамахірыя"
 
 #: deluge/ui/countries.py:135
 msgid "Liechtenstein"
-msgstr "Ліхтэнштайн"
+msgstr "Ліхтэнштэйн"
 
 #: deluge/ui/countries.py:136
 msgid "Lithuania"
@@ -1108,7 +1114,7 @@ msgstr "Макао"
 
 #: deluge/ui/countries.py:139
 msgid "Macedonia, The Former Yugoslav Republic of"
-msgstr "Македонія"
+msgstr "Паўночная Македонія"
 
 #: deluge/ui/countries.py:140
 msgid "Madagascar"
@@ -1124,7 +1130,7 @@ msgstr "Малайзія"
 
 #: deluge/ui/countries.py:143
 msgid "Maldives"
-msgstr "Мальдыўскія астравы"
+msgstr "Мальдывы"
 
 #: deluge/ui/countries.py:144
 msgid "Mali"
@@ -1160,7 +1166,7 @@ msgstr "Мексіка"
 
 #: deluge/ui/countries.py:152
 msgid "Micronesia, Federated States of"
-msgstr "Фэдэратыўныя Штаты Мікранэзіі"
+msgstr "Федэратыўныя Штаты Мікранезіі"
 
 #: deluge/ui/countries.py:153
 msgid "Moldova"
@@ -1180,7 +1186,7 @@ msgstr "Чарнагорыя"
 
 #: deluge/ui/countries.py:157
 msgid "Montserrat"
-msgstr "Мансэрат"
+msgstr "Мантсерат"
 
 #: deluge/ui/countries.py:158
 msgid "Morocco"
@@ -1204,7 +1210,7 @@ msgstr "Науру"
 
 #: deluge/ui/countries.py:163
 msgid "Nepal"
-msgstr "Нэпал"
+msgstr "Непал"
 
 #: deluge/ui/countries.py:164
 msgid "Netherlands"
@@ -1236,7 +1242,7 @@ msgstr "Нігерыя"
 
 #: deluge/ui/countries.py:171
 msgid "Niue"
-msgstr "Ніуе"
+msgstr "Ніуэ"
 
 #: deluge/ui/countries.py:172
 msgid "Norfolk Island"
@@ -1272,7 +1278,7 @@ msgstr "Панама"
 
 #: deluge/ui/countries.py:180
 msgid "Papua New Guinea"
-msgstr "Папуа - Новая Гвінея"
+msgstr "Папуа-Новая Гвінея"
 
 #: deluge/ui/countries.py:181
 msgid "Paraguay"
@@ -1288,7 +1294,7 @@ msgstr "Філіпіны"
 
 #: deluge/ui/countries.py:184
 msgid "Pitcairn"
-msgstr "Піткэрн"
+msgstr "Астравы Піткэрн"
 
 #: deluge/ui/countries.py:185
 msgid "Poland"
@@ -1300,7 +1306,7 @@ msgstr "Партугалія"
 
 #: deluge/ui/countries.py:187
 msgid "Puerto Rico"
-msgstr "Пуэрта Рыка"
+msgstr "Пуэрта-Рыка"
 
 #: deluge/ui/countries.py:188
 msgid "Qatar"
@@ -1324,31 +1330,31 @@ msgstr "Руанда"
 
 #: deluge/ui/countries.py:193
 msgid "Saint Barthelemy"
-msgstr "Сэнт-Бартелеми"
+msgstr "Сен-Бартэльмі"
 
 #: deluge/ui/countries.py:194
 msgid "Saint Helena"
-msgstr "Востраў Святой Елены"
+msgstr "Востраў Святой Алены"
 
 #: deluge/ui/countries.py:195
 msgid "Saint Kitts and Nevis"
-msgstr "Сэнт-Кітс і Нэвіс"
+msgstr "Сент-Кітс і Невіс"
 
 #: deluge/ui/countries.py:196
 msgid "Saint Lucia"
-msgstr "Сэнт-Люсія"
+msgstr "Сент-Люсія"
 
 #: deluge/ui/countries.py:197
 msgid "Saint Martin"
-msgstr "Сэнт-Марцін"
+msgstr "Сен-Мартэн"
 
 #: deluge/ui/countries.py:198
 msgid "Saint Pierre and Miquelon"
-msgstr "Сэнт-П'ер і Мікелон"
+msgstr "Сен-П'ер і Мікелон"
 
 #: deluge/ui/countries.py:199
 msgid "Saint Vincent and the Grenadines"
-msgstr "Сэнт-Вінсэнт і Грэнадзіны"
+msgstr "Сент-Вінсент і Грэнадзіны"
 
 #: deluge/ui/countries.py:200
 msgid "Samoa"
@@ -1360,7 +1366,7 @@ msgstr "Сан-Марына"
 
 #: deluge/ui/countries.py:202
 msgid "Sao Tome and Principe"
-msgstr "Сан-Томе і Прынсыпі"
+msgstr "Сан-Тамэ і Прынсіпі"
 
 #: deluge/ui/countries.py:203
 msgid "Saudi Arabia"
@@ -1396,7 +1402,7 @@ msgstr "Славенія"
 
 #: deluge/ui/countries.py:211
 msgid "Solomon Islands"
-msgstr "Саламонавы Астравы"
+msgstr "Саламонавы астравы"
 
 #: deluge/ui/countries.py:212
 msgid "Somalia"
@@ -1408,7 +1414,7 @@ msgstr "Паўднёва-Афрыканская Рэспубліка"
 
 #: deluge/ui/countries.py:214
 msgid "South Georgia and the South Sandwich Islands"
-msgstr "Паўднёвая Джорджыя і Паўднёвыя Сэндвічавыя выспы"
+msgstr "Паўднёвая Георгія і Паўднёвыя Сандвічавы астравы"
 
 #: deluge/ui/countries.py:215
 msgid "Spain"
@@ -1428,7 +1434,7 @@ msgstr "Сурынам"
 
 #: deluge/ui/countries.py:219
 msgid "Svalbard and Jan Mayen"
-msgstr "Шпіцбэрген і Ян-Майен"
+msgstr "Шпіцберген і Ян-Маен"
 
 #: deluge/ui/countries.py:220
 msgid "Swaziland"
@@ -1448,7 +1454,7 @@ msgstr "Сірыйская Арабская Рэспубліка"
 
 #: deluge/ui/countries.py:224
 msgid "Taiwan"
-msgstr ""
+msgstr "Тайвань"
 
 #: deluge/ui/countries.py:225
 msgid "Tajikistan"
@@ -1456,7 +1462,7 @@ msgstr "Таджыкістан"
 
 #: deluge/ui/countries.py:226
 msgid "Tanzania, United Republic of"
-msgstr "Злучаная Рэспубліка Танзанія"
+msgstr "Танзанія"
 
 #: deluge/ui/countries.py:227
 msgid "Thailand"
@@ -1464,7 +1470,7 @@ msgstr "Тайланд"
 
 #: deluge/ui/countries.py:228
 msgid "Timor-Leste"
-msgstr "Усходні Тымор"
+msgstr "Тымор-Лешці"
 
 #: deluge/ui/countries.py:229
 msgid "Togo"
@@ -1472,7 +1478,7 @@ msgstr "Тога"
 
 #: deluge/ui/countries.py:230
 msgid "Tokelau"
-msgstr "Такелаў"
+msgstr "Такелау"
 
 #: deluge/ui/countries.py:231
 msgid "Tonga"
@@ -1496,7 +1502,7 @@ msgstr "Туркменістан"
 
 #: deluge/ui/countries.py:236
 msgid "Turks and Caicos Islands"
-msgstr "Астравы Тэркс і Кайкас"
+msgstr "Астравы Цёркс і Кайкас"
 
 #: deluge/ui/countries.py:237
 msgid "Tuvalu"
@@ -1512,7 +1518,7 @@ msgstr "Украіна"
 
 #: deluge/ui/countries.py:240
 msgid "United Arab Emirates"
-msgstr "Злучаныя Арабскія Эміраты"
+msgstr "Аб'яднаныя Арабскія Эміраты"
 
 #: deluge/ui/countries.py:241
 msgid "United Kingdom"
@@ -1524,7 +1530,7 @@ msgstr "Злучаныя Штаты Амерыкі"
 
 #: deluge/ui/countries.py:243
 msgid "United States Minor Outlying Islands"
-msgstr "Знешнія Малыя Астравы (ЗША)"
+msgstr "Малыя Аддаленыя астравы ЗША"
 
 #: deluge/ui/countries.py:244
 msgid "Uruguay"
@@ -1556,7 +1562,7 @@ msgstr "Віргінскія астравы (ЗША)"
 
 #: deluge/ui/countries.py:251
 msgid "Wallis and Futuna"
-msgstr "Астравы Уоліс і Футуна"
+msgstr "Уоліс і Футуна"
 
 #: deluge/ui/countries.py:252
 msgid "Western Sahara"
@@ -1576,45 +1582,47 @@ msgstr "Зімбабвэ"
 
 #: deluge/ui/ui_entry.py:51
 msgid "UI Options"
-msgstr ""
+msgstr "Опцыі UI"
 
 #: deluge/ui/ui_entry.py:57
 msgid "Set the default UI to be run, when no UI is specified"
-msgstr ""
+msgstr "Вызначыць UI для запуску па змаўчанні, калі UI не вызначаны"
 
 #: deluge/ui/ui_entry.py:91
 msgid ""
 "Alternative UI to launch, with optional ui args \n"
 "  (default UI: *)"
 msgstr ""
+"Альтэрнатыўны UI для запуску, з апцыянальнымі аргументамі \n"
+"  (UI па змаўчанні: *)"
 
 #: deluge/ui/web/web.py:32
 msgid "Web Server Options"
-msgstr ""
+msgstr "Опцыі вэб-сервера"
 
 #: deluge/ui/web/web.py:38
 msgid "IP address for web server to listen on"
-msgstr ""
+msgstr "IP адрас для праслухоўвання вэб-сервера"
 
 #: deluge/ui/web/web.py:46
 msgid "Port for web server to listen on"
-msgstr ""
+msgstr "Порт для праслухоўвання вэб-сервера"
 
 #: deluge/ui/web/web.py:53
 msgid "Set the base path that the ui is running on"
-msgstr ""
+msgstr "Наладзіць базавы шлях для запуску UI"
 
 #: deluge/ui/web/web.py:56
 msgid "Force the web server to use SSL"
-msgstr ""
+msgstr "Прымусіць вэб-сервер выкарыстоўваць SSL"
 
 #: deluge/ui/web/web.py:61
 msgid "Force the web server to disable SSL"
-msgstr ""
+msgstr "Прымусіць вэб-сервер адключыць SSL"
 
 #: deluge/ui/web/json_api.py:868
 msgid "Daemon does not exist"
-msgstr ""
+msgstr "Дэман не існуе"
 
 #: deluge/ui/web/json_api.py:875
 msgid "Daemon not running"
@@ -1660,18 +1668,18 @@ msgstr "Выберыце файл"
 #: deluge/ui/gtk3/glade/edit_trackers.add.ui.h:2
 #: deluge/ui/gtk3/glade/add_torrent_dialog.url.ui.h:2
 msgid "_Cancel"
-msgstr ""
+msgstr "_Скасаваць"
 
 #: deluge/ui/gtk3/createtorrentdialog.py:134
 #: deluge/ui/gtk3/createtorrentdialog.py:171
 #: deluge/ui/gtk3/addtorrentdialog.py:700 deluge/ui/gtk3/preferences.py:1160
 msgid "_Open"
-msgstr ""
+msgstr "_Адкрыць"
 
 #: deluge/ui/gtk3/createtorrentdialog.py:165
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:28
 msgid "Choose a folder"
-msgstr "Выберыце каталог"
+msgstr "Выбраць папку"
 
 #: deluge/ui/gtk3/createtorrentdialog.py:254
 #: deluge/ui/gtk3/glade/create_torrent_dialog.remote_save.ui.h:4
@@ -1682,12 +1690,12 @@ msgstr "Захаваць файл .torrent"
 #: deluge/ui/gtk3/glade/connection_manager.addhost.ui.h:3
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:30
 msgid "_Save"
-msgstr ""
+msgstr "_Захаваць"
 
 #: deluge/ui/gtk3/createtorrentdialog.py:271
 #: deluge/ui/gtk3/addtorrentdialog.py:712
 msgid "Torrent files"
-msgstr "Торэнт файлы"
+msgstr "Торэнт-файлы"
 
 #: deluge/ui/gtk3/createtorrentdialog.py:275
 #: deluge/ui/gtk3/addtorrentdialog.py:716
@@ -1696,16 +1704,16 @@ msgstr "Усе файлы"
 
 #: deluge/ui/gtk3/mainwindow.py:192
 msgid "Enter your password to show Deluge..."
-msgstr ""
+msgstr "Увядзіце пароль, каб паказаць Deluge..."
 
 #: deluge/ui/gtk3/mainwindow.py:251
 msgid "Enter your password to Quit Deluge..."
-msgstr ""
+msgstr "Увядзіце пароль, каб выйсці з Deluge..."
 
 #: deluge/ui/gtk3/mainwindow.py:343
 #, python-brace-format
 msgid "D: {download_rate} U: {upload_rate} - Deluge"
-msgstr ""
+msgstr "D: {download_rate} U: {upload_rate} - Deluge"
 
 #: deluge/ui/gtk3/mainwindow.py:357 deluge/ui/gtk3/aboutdialog.py:26
 #: deluge/ui/gtk3/aboutdialog.py:27 deluge/ui/gtk3/systemtray.py:96
@@ -1719,21 +1727,21 @@ msgstr "Deluge"
 #: deluge/ui/gtk3/path_combo_chooser.py:393
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:20
 msgid "Edit path"
-msgstr ""
+msgstr "Змяніць шлях"
 
 #: deluge/ui/gtk3/path_combo_chooser.py:395
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:21
 msgid "Remove path"
-msgstr ""
+msgstr "Выдаліць шлях"
 
 #: deluge/ui/gtk3/options_tab.py:136
 msgid "_Apply to selected"
-msgstr ""
+msgstr "_Прымяніць да выбранага"
 
 #: deluge/ui/gtk3/aboutdialog.py:40
 #, python-format
 msgid "Copyright %(year_start)s-%(year_end)s Deluge Team"
-msgstr ""
+msgstr "Аўтарскае права %(year_start)s-%(year_end)s Каманда Deluge"
 
 #: deluge/ui/gtk3/aboutdialog.py:44
 #: deluge/ui/web/js/deluge-all/AboutWindow.js:52
@@ -1741,19 +1749,21 @@ msgid ""
 "A peer-to-peer file sharing program\n"
 "utilizing the BitTorrent protocol."
 msgstr ""
+"Праграма перадачы файлаў\n"
+"выкарыстоўваючы пратакол BitTorrent."
 
 #: deluge/ui/gtk3/aboutdialog.py:46
 #: deluge/ui/web/js/deluge-all/AboutWindow.js:55
 msgid "Client:"
-msgstr ""
+msgstr "Кліент:"
 
 #: deluge/ui/gtk3/aboutdialog.py:52
 msgid "Current Developers:"
-msgstr ""
+msgstr "Дзейныя распрацоўнікі:"
 
 #: deluge/ui/gtk3/aboutdialog.py:61
 msgid "Past Developers or Contributors:"
-msgstr ""
+msgstr "Ранейшыя распрацоўнікі і ўкладальнікі:"
 
 #: deluge/ui/gtk3/aboutdialog.py:795
 msgid ""
@@ -1781,16 +1791,38 @@ msgid ""
 "delete this exception statement from all source files in the program, then "
 "also delete it here."
 msgstr ""
+"Гэта праграма свабодная; вы можаце змяняць яе паводле ліцэнзіі GNU General "
+"Public License, распаўсюджанай фондам Free Software Foundation; як трэцяй "
+"версіі, так і пазнейшымі. \n"
+"\n"
+"Гэта праграма распаўсюджваецца ў надзеі, што яна будзе карысна, але БЕЗ "
+"АНІЯКІХ ГАРАНТЫЙ; нават без гарантыі ПРЫДАТНАСЦІ ці АДПАВЕДНАСЦІ "
+"ПРЫЗНАЧЭННЮ. Для падрабязнасцей глядзіце тэкст ліцэнзіі GNU General Public "
+"License. \n"
+"\n"
+"Вы павінны былі атрымаць копію ліцэнзіі GNU General Public License разам з "
+"гэтай праграмай; калі ж не, глядзіце <http://www.gnu.org/licenses>. \n"
+"\n"
+"Дадаткова, як выключэнне, уладальнікі правоў даюць зазвол спасылацца на код "
+"праграмы праз свабодныя бібліятэкі OpenSSL. Вы павінны прытрымлівацца "
+"ліцэнзіі GNU General Public License з павагай да ўсяго кода, які "
+"выкарыстоўваецца акрамя OpenSSL. \n"
+"\n"
+"Пры змяненні файла(ў) у адпаведнасці з выключэннем, вы можаце пашырыць "
+"выключэнне да вашай версіі файла(ў), але вы не абавязаны рабіць гэта. Калі "
+"вы не жадаеце рабіць гэта, выдаліце гэта паведамленне з вашай версіі. Калі "
+"вы выдаліце паведамленне аб выключэнні з усіх файлаў праграмы, таксама "
+"выдаліце яго тут."
 
 #: deluge/ui/gtk3/aboutdialog.py:829
 #: deluge/ui/web/js/deluge-all/AboutWindow.js:65
 msgid "Server:"
-msgstr "Сэрвер:"
+msgstr "Сервер:"
 
 #: deluge/ui/gtk3/aboutdialog.py:833
 #: deluge/ui/web/js/deluge-all/AboutWindow.js:41
 msgid "libtorrent:"
-msgstr ""
+msgstr "libtorrent:"
 
 #: deluge/ui/gtk3/addtorrentdialog.py:102 deluge/ui/gtk3/queuedtorrents.py:51
 msgid "Torrent"
@@ -1799,17 +1831,17 @@ msgstr "Торэнт"
 #: deluge/ui/gtk3/addtorrentdialog.py:232
 #, python-format
 msgid "Add Torrents (%d)"
-msgstr ""
+msgstr "Дадаць торэнты (%d)"
 
 #: deluge/ui/gtk3/addtorrentdialog.py:238
 msgid "Duplicate torrent(s)"
-msgstr ""
+msgstr "Дубліраваны(я) торрэнт(ы)"
 
 #: deluge/ui/gtk3/addtorrentdialog.py:240
 #, python-format
 msgid ""
 "You cannot add the same torrent twice. %d torrents were already added."
-msgstr ""
+msgstr "Нельга двойчы дадаць адзін торрэнт. Ужо дададзена торрэнтаў: %d."
 
 #: deluge/ui/gtk3/addtorrentdialog.py:255
 msgid "Invalid File"
@@ -1818,11 +1850,11 @@ msgstr "Няправільны файл"
 #: deluge/ui/gtk3/addtorrentdialog.py:290
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:8
 msgid "Please wait for files..."
-msgstr ""
+msgstr "Пачакайце файлаў..."
 
 #: deluge/ui/gtk3/addtorrentdialog.py:296
 msgid "Unable to download files for this magnet"
-msgstr ""
+msgstr "Немагчыма спампаваць файлы для гэтай спасылкі"
 
 #: deluge/ui/gtk3/addtorrentdialog.py:694
 msgid "Choose a .torrent file"
@@ -1834,49 +1866,49 @@ msgstr "Няправільны URL"
 
 #: deluge/ui/gtk3/addtorrentdialog.py:778
 msgid "is not a valid URL."
-msgstr ""
+msgstr "не карэктны URL."
 
 #: deluge/ui/gtk3/addtorrentdialog.py:784
 msgid "Downloading..."
-msgstr ""
+msgstr "Спампоўка..."
 
 #: deluge/ui/gtk3/addtorrentdialog.py:819
 msgid "Download Failed"
-msgstr "Збой запампоўкі"
+msgstr "Не ўдалося спампаваць"
 
 #: deluge/ui/gtk3/addtorrentdialog.py:820
 msgid "Failed to download:"
-msgstr ""
+msgstr "Не ўдалося спампаваць:"
 
 #: deluge/ui/gtk3/dialogs.py:110
 msgid "_No"
-msgstr ""
+msgstr "_Не"
 
 #: deluge/ui/gtk3/dialogs.py:110
 msgid "_Yes"
-msgstr ""
+msgstr "_Так"
 
 #: deluge/ui/gtk3/dialogs.py:132 deluge/ui/gtk3/dialogs.py:156
 #: deluge/ui/gtk3/glade/queuedtorrents.ui.h:2
 #: deluge/ui/gtk3/glade/main_window.new_release.ui.h:2
 #: deluge/ui/gtk3/glade/connection_manager.ui.h:2
 msgid "_Close"
-msgstr ""
+msgstr "_Закрыць"
 
 #: deluge/ui/gtk3/dialogs.py:179
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:195
 #: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:38
 msgid "Details:"
-msgstr "Дадатковыя звесткі:"
+msgstr "Падрабязнасці:"
 
 #: deluge/ui/gtk3/dialogs.py:200
 msgid "Authenticate"
-msgstr ""
+msgstr "Аўтэнтыфікацыя"
 
 #: deluge/ui/gtk3/dialogs.py:203 deluge/ui/gtk3/connectionmanager.py:211
 #: deluge/ui/gtk3/glade/connection_manager.ui.h:3
 msgid "C_onnect"
-msgstr ""
+msgstr "Да_лучыцца"
 
 #: deluge/ui/gtk3/dialogs.py:209 deluge/ui/gtk3/dialogs.py:281
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:139
@@ -1904,25 +1936,25 @@ msgstr "Пароль:"
 
 #: deluge/ui/gtk3/dialogs.py:257
 msgid "Edit Account"
-msgstr ""
+msgstr "Рэдагаваць акаўнт"
 
 #: deluge/ui/gtk3/dialogs.py:258
 msgid "Edit existing account"
-msgstr ""
+msgstr "Рэдагаваць існуючы акаўнт"
 
 #: deluge/ui/gtk3/dialogs.py:263 deluge/ui/gtk3/dialogs.py:364
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:16
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:38
 msgid "_Apply"
-msgstr ""
+msgstr "_Ужыць"
 
 #: deluge/ui/gtk3/dialogs.py:270
 msgid "New Account"
-msgstr ""
+msgstr "Новы акаўнт"
 
 #: deluge/ui/gtk3/dialogs.py:271
 msgid "Create a new account"
-msgstr ""
+msgstr "Стварыць новы акаўнт"
 
 #: deluge/ui/gtk3/dialogs.py:273 deluge/ui/gtk3/glade/queuedtorrents.ui.h:3
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:191
@@ -1931,15 +1963,15 @@ msgstr ""
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:20
 #: deluge/ui/gtk3/glade/connection_manager.ui.h:4
 msgid "_Add"
-msgstr ""
+msgstr "_Дадаць"
 
 #: deluge/ui/gtk3/dialogs.py:289
 msgid "Authentication Level:"
-msgstr ""
+msgstr "Узровень аўтэнтыфікацыі:"
 
 #: deluge/ui/gtk3/dialogs.py:423
 msgid "Password Protected"
-msgstr ""
+msgstr "Абаронена паролем"
 
 #: deluge/ui/gtk3/dialogs.py:429
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:17
@@ -1955,7 +1987,7 @@ msgstr ""
 #: deluge/ui/gtk3/glade/edit_trackers.add.ui.h:3
 #: deluge/ui/gtk3/glade/add_torrent_dialog.url.ui.h:3
 msgid "_OK"
-msgstr ""
+msgstr "_ОК"
 
 #: deluge/ui/gtk3/common.py:155 deluge/ui/gtk3/menubar.py:83
 msgid "Other..."
@@ -1967,19 +1999,19 @@ msgstr "Не падключаны"
 
 #: deluge/ui/gtk3/statusbar.py:175
 msgid "Connections (Limit)"
-msgstr ""
+msgstr "Падлучэнні (ліміт)"
 
 #: deluge/ui/gtk3/statusbar.py:182
 msgid "Download Speed (Limit)"
-msgstr ""
+msgstr "Хуткасць спампоўкі (ліміт)"
 
 #: deluge/ui/gtk3/statusbar.py:189
 msgid "Upload Speed (Limit)"
-msgstr ""
+msgstr "Хуткасць раздачы (ліміт)"
 
 #: deluge/ui/gtk3/statusbar.py:196
 msgid "Protocol Traffic (Down:Up)"
-msgstr ""
+msgstr "Пратакольны трафік (спампоўка:раздача)"
 
 #: deluge/ui/gtk3/statusbar.py:201 deluge/ui/web/js/deluge-all/Statusbar.js:234
 msgid "DHT Nodes"
@@ -1987,82 +2019,82 @@ msgstr "Вузлы DHT"
 
 #: deluge/ui/gtk3/statusbar.py:207
 msgid "Free Disk Space"
-msgstr ""
+msgstr "Свабоднае месца на дыску"
 
 #: deluge/ui/gtk3/statusbar.py:212 deluge/ui/web/js/deluge-all/Statusbar.js:226
 msgid "External IP Address"
-msgstr ""
+msgstr "Знешні IP адрас"
 
 #: deluge/ui/gtk3/statusbar.py:213 deluge/ui/gtk3/statusbar.py:409
 #, python-format
 msgid "<b>IP</b> <small>%s</small>"
-msgstr ""
+msgstr "<b>IP</b> <small>%s</small>"
 
 #: deluge/ui/gtk3/statusbar.py:213 deluge/ui/gtk3/statusbar.py:408
 #: deluge/ui/console/widgets/statusbars.py:121
 #: deluge/ui/web/js/deluge-all/Statusbar.js:358
 msgid "n/a"
-msgstr ""
+msgstr "н/д"
 
 #: deluge/ui/gtk3/statusbar.py:220
 msgid "<b><small>Port Issue</small></b>"
-msgstr ""
+msgstr "<b><small>Праблема з портам</small></b>"
 
 #: deluge/ui/gtk3/statusbar.py:222
 msgid "No incoming connections, check port forwarding"
-msgstr ""
+msgstr "Няма ўваходзячых злучэнняў, праверце порт"
 
 #: deluge/ui/gtk3/statusbar.py:475 deluge/ui/gtk3/systemtray.py:394
 #: deluge/ui/gtk3/menubar.py:447
 msgid "Download Speed Limit"
-msgstr ""
+msgstr "Ліміт хуткасці спампоўкі"
 
 #: deluge/ui/gtk3/statusbar.py:476 deluge/ui/gtk3/systemtray.py:395
 #: deluge/ui/gtk3/menubar.py:448
 msgid "Set the maximum download speed"
-msgstr ""
+msgstr "Усталяваць максімум хуткасці спампоўкі"
 
 #: deluge/ui/gtk3/statusbar.py:482 deluge/ui/gtk3/systemtray.py:409
 #: deluge/ui/gtk3/menubar.py:453
 msgid "Upload Speed Limit"
-msgstr ""
+msgstr "Ліміт хуткасці раздачы"
 
 #: deluge/ui/gtk3/statusbar.py:483 deluge/ui/gtk3/systemtray.py:410
 #: deluge/ui/gtk3/menubar.py:454
 msgid "Set the maximum upload speed"
-msgstr ""
+msgstr "Усталяваць максімум хуткасці раздачы"
 
 #: deluge/ui/gtk3/statusbar.py:489 deluge/ui/gtk3/menubar.py:459
 msgid "Incoming Connections"
-msgstr ""
+msgstr "Уваходныя злучэнні"
 
 #: deluge/ui/gtk3/statusbar.py:490 deluge/ui/gtk3/menubar.py:460
 msgid "Set the maximum incoming connections"
-msgstr ""
+msgstr "Усталяваць максімум уваходных злучэнняў"
 
 #: deluge/ui/gtk3/tab_data_funcs.py:28
 #, python-brace-format
 msgid "{state} {percent}%"
-msgstr ""
+msgstr "{state} {percent}%"
 
 #: deluge/ui/gtk3/tab_data_funcs.py:30
 #, python-brace-format
 msgid "{state}: {err_msg}"
-msgstr ""
+msgstr "{state}: {err_msg}"
 
 #: deluge/ui/gtk3/tab_data_funcs.py:42
 #: deluge/ui/gtk3/torrentview_data_funcs.py:284
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:74
 msgid "Never"
-msgstr ""
+msgstr "Ніколі"
 
 #: deluge/ui/gtk3/tab_data_funcs.py:96
 msgid "Yes"
-msgstr ""
+msgstr "Так"
 
 #: deluge/ui/gtk3/tab_data_funcs.py:96
 msgid "No"
-msgstr ""
+msgstr "Не"
 
 #: deluge/ui/gtk3/files_tab.py:140
 #: deluge/ui/web/js/deluge-all/details/FilesTab.js:48
@@ -2071,17 +2103,17 @@ msgstr "Прыярытэт"
 
 #: deluge/ui/gtk3/torrentdetails.py:142
 msgid "_All"
-msgstr ""
+msgstr "_Усе"
 
 #: deluge/ui/gtk3/torrentdetails.py:143
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:15
 msgid "_Status"
-msgstr "_Стан"
+msgstr "_Статус"
 
 #: deluge/ui/gtk3/torrentdetails.py:144
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:26
 msgid "_Details"
-msgstr "_Падрабязнасьці"
+msgstr "Паз_драбязнасці"
 
 #: deluge/ui/gtk3/torrentdetails.py:145
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:27
@@ -2092,22 +2124,22 @@ msgstr "_Файлы"
 #: deluge/ui/gtk3/torrentdetails.py:146
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:28
 msgid "_Peers"
-msgstr "Піры"
+msgstr "_Піры"
 
 #: deluge/ui/gtk3/torrentdetails.py:147
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:45
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:36
 msgid "_Options"
-msgstr "_Налады"
+msgstr "_Опцыі"
 
 #: deluge/ui/gtk3/torrentdetails.py:148
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:52
 msgid "_Trackers"
-msgstr ""
+msgstr "_Трэкеры"
 
 #: deluge/ui/gtk3/systemtray.py:184
 msgid "Not Connected..."
-msgstr ""
+msgstr "Не злучана..."
 
 #: deluge/ui/gtk3/systemtray.py:235 deluge/ui/gtk3/systemtray.py:239
 #: deluge/ui/web/js/deluge-all/Statusbar.js:73
@@ -2118,7 +2150,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/Menus.js:199
 #: deluge/ui/web/js/deluge-all/Menus.js:244
 msgid "Unlimited"
-msgstr "Без абмежаванняў"
+msgstr "Неабмежавана"
 
 #: deluge/ui/gtk3/systemtray.py:245
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:39
@@ -2127,7 +2159,7 @@ msgstr "Без абмежаванняў"
 #: deluge/ui/web/js/deluge-all/EditTrackersWindow.js:85
 #: deluge/ui/web/js/deluge-all/Menus.js:298
 msgid "Down"
-msgstr "Запампоўка"
+msgstr "Спампоўка"
 
 #: deluge/ui/gtk3/systemtray.py:248
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:37
@@ -2144,97 +2176,106 @@ msgid ""
 "A Deluge daemon (deluged) is already running.\n"
 "To use Standalone mode, stop local daemon and restart Deluge."
 msgstr ""
+"Дэман Deluge (deluged) ужо запушчаны.\n"
+"Каб перайсці ў аўтаномны рэжым, спыніце лакальны дэман і перазапусціце "
+"Deluge."
 
 #: deluge/ui/gtk3/gtkui.py:319
 msgid ""
 "Only Thin Client mode is available because libtorrent is not installed.\n"
 "To use Standalone mode, please install libtorrent package."
 msgstr ""
+"Даступны толькі тонкі кліент, таму што libtorrent не ўсталяваны.\n"
+"Каб перайсці ў аўтаномны рэжым, усталюйце пакет libtorrent."
 
 #: deluge/ui/gtk3/gtkui.py:325 deluge/ui/gtk3/gtkui.py:331
 msgid ""
 "Only Thin Client mode is available due to unknown Import Error.\n"
 "To use Standalone mode, please see logs for error details."
 msgstr ""
+"Даступны толькі тонкі кліент з-за невядомай памылкі імпарту.\n"
+"Каб перайсці ў аўтаномны рэжым, паглядзіце лог з памылкамі."
 
 #: deluge/ui/gtk3/gtkui.py:349
 msgid "Continue in Thin Client mode?"
-msgstr ""
+msgstr "Працягнуць у рэжыме тонкага кліента?"
 
 #: deluge/ui/gtk3/gtkui.py:350
 msgid "Change User Interface Mode"
-msgstr ""
+msgstr "Змяніць рэжым інтэрейса карыстальніка"
 
 #: deluge/ui/gtk3/connectionmanager.py:52
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:56
 msgid "Offline"
-msgstr "Ня ў сеціве"
+msgstr "Па-за сеткай"
 
 #: deluge/ui/gtk3/connectionmanager.py:53
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:53
 msgid "Online"
-msgstr "У сеціве"
+msgstr "У сетцы"
 
 #: deluge/ui/gtk3/connectionmanager.py:54
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:59
 msgid "Connected"
-msgstr "Падключаны"
+msgstr "Злучана"
 
 #: deluge/ui/gtk3/connectionmanager.py:110
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:176
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:48
 #: deluge/ui/web/js/deluge-all/details/StatusTab.js:17
 msgid "Status"
-msgstr ""
+msgstr "Статус"
 
 #: deluge/ui/gtk3/connectionmanager.py:115
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:66
 msgid "Host"
-msgstr ""
+msgstr "Хост"
 
 #: deluge/ui/gtk3/connectionmanager.py:122
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:73
 msgid "Version"
-msgstr ""
+msgstr "Версія"
 
 #: deluge/ui/gtk3/connectionmanager.py:219
 #: deluge/ui/gtk3/glade/connection_manager.ui.h:8
 msgid "_Start Daemon"
-msgstr ""
+msgstr "_Запусціць дэман"
 
 #: deluge/ui/gtk3/connectionmanager.py:250
 msgid "_Stop Daemon"
-msgstr ""
+msgstr "_Спыніць дэман"
 
 #: deluge/ui/gtk3/connectionmanager.py:255
 msgid "_Disconnect"
-msgstr ""
+msgstr "_Адлучыць"
 
 #: deluge/ui/gtk3/connectionmanager.py:280
 msgid "Unable to start daemon!"
-msgstr ""
+msgstr "Немагчыма запусціць дэман!"
 
 #: deluge/ui/gtk3/connectionmanager.py:281
 msgid "Check deluged package is installed and logs for further details"
-msgstr ""
+msgstr "Праверце ўсталяванне пакета і логі для падрабязнасцей"
 
 #: deluge/ui/gtk3/connectionmanager.py:332
 msgid "Incompatible Client"
-msgstr ""
+msgstr "Несумяшчальны кліент"
 
 #: deluge/ui/gtk3/connectionmanager.py:343
 msgid ""
 "Auto-starting the daemon locally is not enabled. See \"Options\" on the "
 "\"Connection Manager\"."
 msgstr ""
+"Лакальны аўтазапуск дэмана не ўключаны. Глядзіце \"Опцыі\" ў \"Кіраванні "
+"злучэннямі\"."
 
 #: deluge/ui/gtk3/connectionmanager.py:346
 msgid "Failed To Connect"
-msgstr ""
+msgstr "Памылка злучэння"
 
 #: deluge/ui/gtk3/connectionmanager.py:403
 msgid "Edit Host"
-msgstr ""
+msgstr "Рэдагаваць хост"
 
 #: deluge/ui/gtk3/connectionmanager.py:428
 msgid "Error Adding Host"
@@ -2242,18 +2283,18 @@ msgstr "Збой дадання хосту"
 
 #: deluge/ui/gtk3/connectionmanager.py:464
 msgid "Error Updating Host"
-msgstr ""
+msgstr "Памылка рэдагавання хосту"
 
 #: deluge/ui/gtk3/preferences.py:131
 #: deluge/ui/console/cmdline/commands/connect.py:33
 #: deluge/ui/console/modes/preferences/preference_panes.py:651
 msgid "Username"
-msgstr ""
+msgstr "Імя карыстальніка"
 
 #: deluge/ui/gtk3/preferences.py:135
 #: deluge/ui/console/modes/preferences/preference_panes.py:399
 msgid "Level"
-msgstr ""
+msgstr "Узровень"
 
 #: deluge/ui/gtk3/preferences.py:159
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:2
@@ -2264,106 +2305,106 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/preferences/EncryptionPage.js:67
 #: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:71
 msgid "Enabled"
-msgstr "Уключаны"
+msgstr "Уключана"
 
 #: deluge/ui/gtk3/preferences.py:162
 #: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:87
 msgid "Plugin"
-msgstr "Модуль"
+msgstr "Плагін"
 
 #: deluge/ui/gtk3/preferences.py:876 deluge/ui/gtk3/preferences.py:886
 msgid "Attention"
-msgstr ""
+msgstr "Увага"
 
 #: deluge/ui/gtk3/preferences.py:876
 msgid "You must choose a language"
-msgstr ""
+msgstr "Вы павінны выбраць мову"
 
 #: deluge/ui/gtk3/preferences.py:887
 msgid "You must now restart the deluge UI for the changes to take effect."
-msgstr ""
+msgstr "Вы павінны перазапусціць UI праграмы каб прымяніць змены."
 
 #: deluge/ui/gtk3/preferences.py:940
 msgid "Thinclient"
-msgstr ""
+msgstr "Тонкі кліент"
 
 #: deluge/ui/gtk3/preferences.py:940
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:18
 msgid "Standalone"
-msgstr ""
+msgstr "Аўтаномны"
 
 #: deluge/ui/gtk3/preferences.py:942
 msgid "Switching Deluge Client Mode..."
-msgstr ""
+msgstr "Пераключэнне рэжыму кліента Deluge..."
 
 #: deluge/ui/gtk3/preferences.py:943
 #, python-format
 msgid "Do you want to restart to use %s mode?"
-msgstr ""
+msgstr "Жадаеце перазапусціць у рэжыме %s?"
 
 #: deluge/ui/gtk3/preferences.py:1154
 msgid "Select the Plugin"
-msgstr "Выберыце модуль"
+msgstr "Выберыце плагін"
 
 #: deluge/ui/gtk3/preferences.py:1170
 msgid "Plugin Eggs"
-msgstr "Модулі Egg"
+msgstr "Плагін Egg"
 
 #: deluge/ui/gtk3/preferences.py:1297
 msgid "Server Side Error"
-msgstr ""
+msgstr "Памылка сервера"
 
 #: deluge/ui/gtk3/preferences.py:1298
 msgid "An error occurred on the server"
-msgstr ""
+msgstr "Памылка на серверы"
 
 #: deluge/ui/gtk3/preferences.py:1368 deluge/ui/gtk3/preferences.py:1375
 msgid "Error Adding Account"
-msgstr ""
+msgstr "Памылка дадання акаўнта"
 
 #: deluge/ui/gtk3/preferences.py:1369
 msgid "Authentication failed"
-msgstr ""
+msgstr "Памылка аўтэнтыфікацыі"
 
 #: deluge/ui/gtk3/preferences.py:1376
 msgid "An error occurred while adding account"
-msgstr ""
+msgstr "Памылка падчас дадання акаўнта"
 
 #: deluge/ui/gtk3/preferences.py:1408
 msgid "Error Updating Account"
-msgstr ""
+msgstr "Памылка абнаўлення акаўнта"
 
 #: deluge/ui/gtk3/preferences.py:1409
 msgid "An error occurred while updating account"
-msgstr ""
+msgstr "Памылка падчас абнаўлення акаўнта"
 
 #: deluge/ui/gtk3/preferences.py:1427
 msgid "Remove Account"
-msgstr ""
+msgstr "Выдаліць акаўнт"
 
 #: deluge/ui/gtk3/preferences.py:1429
 #, python-format
 msgid ""
 "Are you sure you want to remove the account with the username "
 "\"%(username)s\"?"
-msgstr ""
+msgstr "Сапраўды жадаеце выдаліць акаўнт з іменем \"%(username)s\"?"
 
 #: deluge/ui/gtk3/preferences.py:1441 deluge/ui/gtk3/preferences.py:1448
 msgid "Error Removing Account"
-msgstr ""
+msgstr "Памылка выдаляння акаўнта"
 
 #: deluge/ui/gtk3/preferences.py:1442
 msgid "Auhentication failed"
-msgstr ""
+msgstr "Памылка аўтэнтыфікацыі"
 
 #: deluge/ui/gtk3/preferences.py:1449
 msgid "An error occurred while removing account"
-msgstr ""
+msgstr "Памылка падчас выдалення акаўнта"
 
 #: deluge/ui/gtk3/filtertreeview.py:122
 #: deluge/ui/web/js/deluge-all/FilterPanel.js:28
 msgid "States"
-msgstr ""
+msgstr "Станы"
 
 #: deluge/ui/gtk3/filtertreeview.py:128
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:23
@@ -2376,29 +2417,29 @@ msgstr "Трэкеры"
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:7
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:33
 msgid "None"
-msgstr "Адсутнічае"
+msgstr "Няма"
 
 #: deluge/ui/gtk3/filtertreeview.py:137
 msgid "Admin"
-msgstr ""
+msgstr "Адмін"
 
 #: deluge/ui/gtk3/filtertreeview.py:159
 #: deluge/ui/web/js/deluge-all/FilterPanel.js:34
 msgid "Labels"
-msgstr ""
+msgstr "Ярлыкі"
 
 #: deluge/ui/gtk3/filtertreeview.py:204
 #: deluge/plugins/Label/deluge_label/gtkui/submenu.py:28
 msgid "No Label"
-msgstr ""
+msgstr "Без ярлыка"
 
 #: deluge/ui/gtk3/filtertreeview.py:206
 msgid "No Owner"
-msgstr ""
+msgstr "Няма ўласніка"
 
 #: deluge/ui/gtk3/new_release_dialog.py:60
 msgid "<i>Client Version</i>"
-msgstr ""
+msgstr "<i>Версія кліента</i>"
 
 #: deluge/ui/gtk3/queuedtorrents.py:118
 msgid " Torrents Queued"
@@ -2406,20 +2447,20 @@ msgstr " Торэнты пастаўлены ў чаргу"
 
 #: deluge/ui/gtk3/queuedtorrents.py:120
 msgid " Torrent Queued"
-msgstr " Тарэнт пастаўлены ў чаргу"
+msgstr " Торэнт пастаўлены ў чаргу"
 
 #: deluge/ui/gtk3/torrentview.py:421
 msgid "Torrent is shared between other Deluge users or not."
-msgstr ""
+msgstr "Торэнт агульны ці не з іншымі карыстальнікамі Deluge."
 
 #: deluge/ui/gtk3/removetorrentdialog.py:67
 msgid "Remove the selected torrents?"
-msgstr ""
+msgstr "Выдаліць вылучаныя торэнты?"
 
 #: deluge/ui/gtk3/removetorrentdialog.py:68
 #, python-format
 msgid "Total of %s torrents selected"
-msgstr ""
+msgstr "Усяго вылучана торэнтаў: %s"
 
 #: deluge/ui/gtk3/menubar.py:79
 msgid "Set Unlimited"
@@ -2427,39 +2468,39 @@ msgstr "Неабмежавана"
 
 #: deluge/ui/gtk3/menubar.py:91 deluge/ui/web/js/deluge-all/Menus.js:259
 msgid "On"
-msgstr "Укл."
+msgstr "Уключана"
 
 #: deluge/ui/gtk3/menubar.py:94 deluge/ui/web/js/deluge-all/Menus.js:265
 msgid "Off"
-msgstr "Адкл."
+msgstr "Выключана"
 
 #: deluge/ui/gtk3/menubar.py:101
 msgid "Disable"
-msgstr ""
+msgstr "Выключыць"
 
 #: deluge/ui/gtk3/menubar.py:104
 msgid "Enable..."
-msgstr ""
+msgstr "Уключыць..."
 
 #: deluge/ui/gtk3/menubar.py:465
 msgid "Peer Upload Slots"
-msgstr ""
+msgstr "Слоты піраў раздачы"
 
 #: deluge/ui/gtk3/menubar.py:466
 msgid "Set the maximum upload slots"
-msgstr ""
+msgstr "Усталяваць максімум слотаў раздачы"
 
 #: deluge/ui/gtk3/menubar.py:471
 msgid "Stop Seed At Ratio"
-msgstr ""
+msgstr "Спыніць сіды па рэйтынгу"
 
 #: deluge/ui/gtk3/menubar.py:606
 msgid "Ownership Change Error"
-msgstr ""
+msgstr "Памылка змены ўласніка"
 
 #: deluge/ui/gtk3/menubar.py:607
 msgid "There was an error while trying changing ownership."
-msgstr ""
+msgstr "Памылка падчас спробы змяніць ўласніка."
 
 #: deluge/ui/gtk3/peers_tab.py:91
 #: deluge/ui/web/js/deluge-all/details/PeersTab.js:66
@@ -2473,13 +2514,15 @@ msgstr "Кліент"
 
 #: deluge/ui/gtk3/__init__.py:29
 msgid "GTK Options"
-msgstr ""
+msgstr "Опцыі GTK"
 
 #: deluge/ui/gtk3/__init__.py:36
 msgid ""
 "Add one or more torrent files, torrent URLs or magnet URIs to a currently "
 "running Deluge GTK instance"
 msgstr ""
+"Дадаць адзін ці больш торэнт-файлаў, URL-аў ці URI-спасылак у запушчаны "
+"цяпер Deluge GTK"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.progress.ui.h:1
 msgid "Creating Torrent"
@@ -2491,7 +2534,7 @@ msgstr "Торэнты ў чарзе"
 
 #: deluge/ui/gtk3/glade/queuedtorrents.ui.h:4
 msgid "Add Queued Torrents"
-msgstr ""
+msgstr "Дадаць торэнты ў чарзе"
 
 #: deluge/ui/gtk3/glade/queuedtorrents.ui.h:5
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:7
@@ -2503,7 +2546,7 @@ msgstr "_Выдаліць"
 
 #: deluge/ui/gtk3/glade/queuedtorrents.ui.h:6
 msgid "_Clear"
-msgstr ""
+msgstr "А_чысціць"
 
 #: deluge/ui/gtk3/glade/queuedtorrents.ui.h:7
 msgid "Automatically add torrents on connect"
@@ -2526,7 +2569,7 @@ msgstr "_Стварыць торэнт"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:4
 msgid "Quit & _Shutdown Daemon"
-msgstr ""
+msgstr "Выйсці і вы_ключыць дэман"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:5
 #: deluge/ui/gtk3/glade/tray_menu.ui.h:8
@@ -2538,11 +2581,11 @@ msgstr "В_ыхад"
 #: deluge/ui/gtk3/glade/edit_trackers.ui.h:6
 #: deluge/ui/gtk3/glade/connection_manager.ui.h:5
 msgid "_Edit"
-msgstr "_Змяніць"
+msgstr "_Рэдагаваць"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:7
 msgid "_Preferences"
-msgstr ""
+msgstr "_Налады"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:8
 msgid "_Connection Manager"
@@ -2558,7 +2601,7 @@ msgstr "_Выгляд"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:11
 msgid "_Toolbar"
-msgstr "Панэль _прыладаў"
+msgstr "Панэль _прылад"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:12
 msgid "_Sidebar"
@@ -2578,7 +2621,7 @@ msgstr "_Калонкі"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:16
 msgid "_Find ..."
-msgstr ""
+msgstr "_Знайсці ..."
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:17
 msgid "S_idebar"
@@ -2594,7 +2637,7 @@ msgstr "Паказваць _трэкеры"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:20
 msgid "Show _Owners"
-msgstr ""
+msgstr "Паказваць у_ласнікаў"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:21
 msgid "_Help"
@@ -2602,11 +2645,11 @@ msgstr "_Даведка"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:22
 msgid "_Homepage"
-msgstr ""
+msgstr "_Хатняя старонка"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:23
 msgid "_FAQ"
-msgstr ""
+msgstr "_Частыя пытанні"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:24
 msgid "Frequently Asked Questions"
@@ -2614,11 +2657,11 @@ msgstr "Частыя пытанні"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:25
 msgid "_Community"
-msgstr ""
+msgstr "_Супольнасць"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:26
 msgid "_About"
-msgstr ""
+msgstr "_Аб праграме"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:27
 msgid "Add torrent"
@@ -2631,7 +2674,7 @@ msgstr "Дадаць торэнт"
 #: deluge/ui/gtk3/glade/main_window.ui.h:29
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:221
 msgid "Remove torrent"
-msgstr ""
+msgstr "Выдаліць торэнт"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:30
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:105
@@ -2647,10 +2690,12 @@ msgid ""
 "Filter torrents by name.\n"
 "This will filter torrents for the current selection on the sidebar."
 msgstr ""
+"Фільтраваць торэнты па імені.\n"
+"Гэта адфільтруе торэнты паводле бягучага адбора на бакавой панэлі."
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:33
 msgid "Filter"
-msgstr ""
+msgstr "Фільтр"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:34
 msgid "Pause the selected torrents"
@@ -2660,7 +2705,7 @@ msgstr "Прыпыніць вылучаныя торэнты"
 #: deluge/ui/web/js/deluge-all/Toolbar.js:54
 #: deluge/ui/web/js/deluge-all/Menus.js:52
 msgid "Pause"
-msgstr "Паўза"
+msgstr "Прыпыніць"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:36
 msgid "Resume the selected torrents"
@@ -2674,7 +2719,7 @@ msgstr "Працягнуць"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:38
 msgid "Queue Torrent Up"
-msgstr "Перанесьці торэнт уверх"
+msgstr "Перанесці торэнт уверх"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:39
 msgid "Queue Up"
@@ -2682,7 +2727,7 @@ msgstr "Вышэй"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:40
 msgid "Queue Torrent Down"
-msgstr "Перанесьці торэнт уніз"
+msgstr "Перанесці торэнт уніз"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:41
 msgid "Queue Down"
@@ -2693,14 +2738,14 @@ msgstr "Ніжэй"
 #: deluge/ui/web/js/deluge-all/Toolbar.js:84
 #: deluge/ui/web/js/deluge-all/preferences/PreferencesWindow.js:24
 msgid "Preferences"
-msgstr "Налады"
+msgstr "Параметры"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:43
 #: deluge/ui/gtk3/glade/connection_manager.ui.h:1
 #: deluge/ui/web/js/deluge-all/Toolbar.js:91
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:21
 msgid "Connection Manager"
-msgstr "Кіраванне злучэньнямі"
+msgstr "Кіраванне злучэннямі"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:44
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:2
@@ -2711,19 +2756,19 @@ msgstr "Кіраванне злучэньнямі"
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:211
 #: deluge/ui/web/js/deluge-all/preferences/PreferencesWindow.js:86
 msgid "Close"
-msgstr ""
+msgstr "Закрыць"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:45
 msgid "Filter:"
-msgstr ""
+msgstr "Фільтр:"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:46
 msgid "Clear the search"
-msgstr ""
+msgstr "Ачысціць пошук"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:47
 msgid "_Match Case"
-msgstr ""
+msgstr "_Улічваць рэгістр літар"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:1
 #: deluge/ui/console/modes/preferences/preference_panes.py:383
@@ -2731,7 +2776,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/preferences/EncryptionPage.js:45
 #: deluge/ui/web/js/deluge-all/preferences/EncryptionPage.js:66
 msgid "Forced"
-msgstr ""
+msgstr "Прымусова"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:3
 #: deluge/ui/console/modes/preferences/preference_panes.py:383
@@ -2739,71 +2784,71 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/preferences/EncryptionPage.js:47
 #: deluge/ui/web/js/deluge-all/preferences/EncryptionPage.js:68
 msgid "Disabled"
-msgstr ""
+msgstr "Адключана"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:4
 #: deluge/ui/console/modes/preferences/preference_panes.py:400
 #: deluge/ui/web/js/deluge-all/preferences/EncryptionPage.js:87
 msgid "Handshake"
-msgstr ""
+msgstr "Рукапацісканне"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:5
 #: deluge/ui/console/modes/preferences/preference_panes.py:400
 #: deluge/ui/web/js/deluge-all/preferences/EncryptionPage.js:88
 msgid "Full Stream"
-msgstr ""
+msgstr "Поўная плынь"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:6
 #: deluge/ui/console/modes/preferences/preference_panes.py:400
 #: deluge/ui/web/js/deluge-all/preferences/EncryptionPage.js:89
 msgid "Either"
-msgstr ""
+msgstr "Любы"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:8
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:34
 msgid "Socks4"
-msgstr ""
+msgstr "Socks4"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:9
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:35
 msgid "Socks5"
-msgstr ""
+msgstr "Socks5"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:10
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:36
 msgid "Socks5 Auth"
-msgstr ""
+msgstr "Socks5 Auth"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:11
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:37
 msgid "HTTP"
-msgstr ""
+msgstr "HTTP"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:12
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:38
 msgid "HTTP Auth"
-msgstr ""
+msgstr "HTTP Auth"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:13
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:39
 msgid "I2P"
-msgstr ""
+msgstr "I2P"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:19
 msgid "The standalone self-contained application"
-msgstr ""
+msgstr "Аўтаномная самастойная праграма"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:20
 msgid "Thin Client"
-msgstr ""
+msgstr "Тонкі кліент"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:21
 msgid "Connect to a Deluge daemon (deluged)"
-msgstr ""
+msgstr "Злучыцца з дэманам Deluge (deluged)"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:22
 msgid "Application Mode"
-msgstr ""
+msgstr "Рэжым праграмы"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:23
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:46
@@ -2812,7 +2857,7 @@ msgstr "Паказваць хуткасць у загалоўку праграм
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:24
 msgid "Focus window when adding torrent"
-msgstr ""
+msgstr "Факусіраваць на акне пры даданні торэнта"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:25
 msgid ""
@@ -2820,45 +2865,48 @@ msgid ""
 "will increase bandwidth use between client\n"
 "and daemon (does not apply in Standalone mode)."
 msgstr ""
+"Паласа паказу частак\n"
+"павялічыць прапускную здольнасць паміж кліентам\n"
+"і дэманам (не дзейнічае ў аўтаномным рэжыме)."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:28
 msgid "Show a pieces bar in Status tab"
-msgstr ""
+msgstr "Паказваць паласу частак на панэлі стану"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:29
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:25
 #: deluge/ui/web/render/tab_status.html:27
 msgid "Completed:"
-msgstr ""
+msgstr "Завершана:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:30
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:72
 msgid "Downloading:"
-msgstr ""
+msgstr "Спампоўка:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:31
 msgid "Waiting:"
-msgstr ""
+msgstr "Чаканне:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:32
 msgid "Missing:"
-msgstr ""
+msgstr "Згублена:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:33
 msgid "_Revert"
-msgstr ""
+msgstr "_Вярнуць"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:34
 msgid "Revert color to default"
-msgstr ""
+msgstr "Вярнуць зыходны колер"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:35
 msgid "Piece Colors"
-msgstr ""
+msgstr "Колеры частак"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:36
 msgid "Main Window"
-msgstr ""
+msgstr "Галоўнае акно"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:37
 msgid "Enable system tray icon"
@@ -2866,11 +2914,11 @@ msgstr "Уключыць значок у сістэмным трэі"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:38
 msgid "App Indicator"
-msgstr ""
+msgstr "Індыкатар праграмы"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:39
 msgid "Systray"
-msgstr ""
+msgstr "Сістэмны трэй"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:40
 msgid "Minimize to tray on close"
@@ -2886,25 +2934,25 @@ msgstr "Абараніць паролем вобласць апавяшчэнн�
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:44
 msgid "System Tray"
-msgstr ""
+msgstr "Сістэмны трэй"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:45
 msgid "Notify about new releases"
-msgstr ""
+msgstr "Апавяшчаць аб новых рэлізах"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:46
 #: deluge/ui/web/js/deluge-all/preferences/OtherPage.js:38
 msgid "Updates"
-msgstr ""
+msgstr "Абнаўленні"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:47
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:235
 msgid "System Default"
-msgstr ""
+msgstr "Сістэмныя налады па змаўчанні"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:48
 msgid "<b>Language</b>"
-msgstr ""
+msgstr "<b>Мова</b>"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:49
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:16
@@ -2922,36 +2970,36 @@ msgstr "Капіяваць файлы .torrent ў:"
 #: deluge/ui/console/modes/preferences/preference_panes.py:275
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:19
 msgid "Delete copy of torrent file on remove"
-msgstr ""
+msgstr "Выдаляць копіі торэнт-файлаў"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:52
 msgid ""
 "Delete the copy of the torrent file created when the torrent is removed"
-msgstr ""
+msgstr "Выдаляць копію торэнт-файла пры выдаленні торэнта"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:53
 #: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:53
 msgid "Download to:"
-msgstr "Запампоўваць у:"
+msgstr "Спампоўваць у:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:54
 msgid "Download Folders"
-msgstr ""
+msgstr "Папкі спампоўкі"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:55
 #: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:93
 msgid "Prioritize first and last pieces of torrent"
-msgstr "Прыярытэт у першай і апошняй частак торэнта"
+msgstr "Прыярытэт першай і апошняй частак торэнта"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:56
 msgid "Prioritize first and last pieces of files in torrent"
-msgstr "Прыярытэт у першай і апошняй частак файлаў торэнта"
+msgstr "Прыярытэт першай і апошняй частак файлаў у торэнце"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:57
 #: deluge/ui/console/modes/preferences/preference_panes.py:287
 #: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:102
 msgid "Sequential download"
-msgstr ""
+msgstr "Паслядоўная спампоўка"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:58
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:15
@@ -2963,6 +3011,12 @@ msgid ""
 "distribution negatively in the swarm. It should be\n"
 "used sparingly."
 msgstr ""
+"Калі ўключана, чаткі будуць падбірацца\n"
+"паслядоўна замест \"спачатку самы рэдкі\".\n"
+"\n"
+"Уключэнне паслядоўнай спампоўкі ў цэлым адмоўна\n"
+"на атрыманне частак падзейнічае. Трэба\n"
+"выкарыстоўваць ашчадна."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:64
 #: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:111
@@ -2972,15 +3026,15 @@ msgstr "Дадаваць торэнты ў спыненым стане"
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:65
 #: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:120
 msgid "Pre-allocate disk space"
-msgstr ""
+msgstr "Рэзерваваць месца на дыску"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:66
 msgid "Pre-allocate the disk space for the torrent files"
-msgstr ""
+msgstr "Рэзерваваць месца на дыску для торэнт-файлаў"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:67
 msgid "Add Torrent Options"
-msgstr ""
+msgstr "Опцыі дадання торэнта"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:68
 msgid "Always show"
@@ -2992,15 +3046,15 @@ msgstr "Зрабіць дыялогавае акно актыўным"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:70
 msgid "Add Torrents Dialog"
-msgstr ""
+msgstr "Дыялог дадання торэнта"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:71
 msgid "Connection Attempts per Second:"
-msgstr ""
+msgstr "Спробы злучыцца ў секунду:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:72
 msgid "Half-Open Connections:"
-msgstr ""
+msgstr "Паў-адкрытае злучэнне:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:73
 msgid "The maximum number of connections allowed.  Set -1 for unlimited."
@@ -3025,24 +3079,24 @@ msgstr ""
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:32
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:5
 msgid "Upload Slots:"
-msgstr ""
+msgstr "Слоты раздачы:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:77
 msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
 msgstr ""
-"Максімальная хуткасць прыёму для ўсіх торэнтаў. Для неабмежаванай усталюйце -"
-"1."
+"Максімальная хуткасць спампоўкі для ўсіх торэнтаў. Для неабмежаванай "
+"усталюйце -1."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:78
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:41
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:7
 msgid "Download Speed:"
-msgstr "Хуткасць запампоўкі:"
+msgstr "Хуткасць спампоўкі:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:79
 msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
 msgstr ""
-"Максімальная хуткасць запампоўкі для ўсіх торэнтаў. Для неабмежаванай "
+"Максімальная хуткасць спампоўкі для ўсіх торэнтаў. Для неабмежаванай "
 "усталюйце -1."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:81
@@ -3072,7 +3126,7 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:85
 msgid "Global Bandwidth Limits"
-msgstr ""
+msgstr "Глабальныя ліміты прапускной здольнасці"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:86
 msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
@@ -3088,62 +3142,66 @@ msgstr ""
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:88
 msgid "The maximum number download speed per torrent.  Set -1 for unlimited."
 msgstr ""
+"Максімальная хуткасць спампоўкі на торэнт. Для неабмежаванай усталюйце -1."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:89
 msgid "The maximum upload speed per torrent.  Set -1 for unlimited."
 msgstr ""
+"Максімальная хуткасць раздачы на торэнт. Для неабмежаванай усталюйце -1."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:90
 msgid "Per-Torrent Bandwidth Limits"
-msgstr ""
+msgstr "Ліміты прапускной здольнасці на торэнт"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:91
 #: deluge/ui/console/modes/preferences/preference_panes.py:556
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:42
 msgid "Queue to top"
-msgstr ""
+msgstr "Падняць у чарзе"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:92
 #: deluge/ui/console/modes/preferences/preference_panes.py:554
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:30
 msgid "New Torrents"
-msgstr ""
+msgstr "Новыя торэнты"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:93
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:85
 msgid "Seeding:"
-msgstr ""
+msgstr "Сідаванне:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:94
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:59
 msgid "Total:"
-msgstr ""
+msgstr "Усяго:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:95
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:102
 msgid "Ignore slow torrents"
-msgstr ""
+msgstr "Ігнараваць марудныя торэнты"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:96
 msgid ""
 "Torrents not transfering any data do not count towards download/seeding "
 "active count."
 msgstr ""
+"Торэнты без перадачы даных не ўлічваюцца пры падліку актыўных "
+"спамповак/сідавання."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:97
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:111
 msgid "Prefer seeding torrents"
-msgstr ""
+msgstr "Пераважнае сідаванне торэнтаў"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:98
 msgid "Give preference to seeding torrents over downloading torrents."
-msgstr ""
+msgstr "Аддайваць перавагу сідаванню торэнтаў над спампоўкай."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:99
 #: deluge/ui/console/modes/preferences/preference_panes.py:558
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:50
 msgid "Active Torrents"
-msgstr ""
+msgstr "Актыўныя торэнты"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:100
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:7
@@ -3151,52 +3209,54 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:187
 #: deluge/ui/web/render/tab_status.html:4
 msgid "Share Ratio:"
-msgstr ""
+msgstr "Суадносіны дзялення:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:101
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:142
 msgid "Time Ratio:"
-msgstr ""
+msgstr "Суадносіны часу:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:102
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:157
 msgid "Time (m):"
-msgstr ""
+msgstr "Час (хв):"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:103
 #: deluge/ui/console/modes/preferences/preference_panes.py:590
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:118
 msgid "Seeding Rotation"
-msgstr ""
+msgstr "Змена сідавання"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:104
 msgid "Pause Torrent"
-msgstr ""
+msgstr "Прыпыніць торэнт"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:106
 #: deluge/ui/console/modes/preferences/preference_panes.py:627
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:173
 msgid "Share Ratio Reached"
-msgstr ""
+msgstr "Дасягнуты суадносіны дзялення"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:107
 msgid ""
 "The IP address of the interface to listen for incoming bittorrent "
 "connections on. Leave this empty if you want to use the default."
 msgstr ""
+"IP адрас інтэрфейса для праслухоўвання ўваходзячых злучэнняў bittorrent. "
+"Пакіньце пустым каб выкарыстоўваць значэнне па змаўчанні."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:108
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:38
 msgid "Incoming Address"
-msgstr ""
+msgstr "Уваходзячы адрас"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:109
 msgid "Random"
-msgstr ""
+msgstr "Выпадковы"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:110
 msgid "Uses random ports in range 49152 to 65525"
-msgstr ""
+msgstr "Выкарыстоўвае выпадковы порт паміж 49152 і 65525"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:111
 msgid "Active Port:"
@@ -3209,7 +3269,7 @@ msgstr "Праверыць актыўны порт"
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:113
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:58
 msgid "Incoming Port"
-msgstr ""
+msgstr "Уваходзячы порт"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:114
 msgid ""
@@ -3218,12 +3278,16 @@ msgid ""
 "connections. (Leave empty for default.)\n"
 "                                        "
 msgstr ""
+"\n"
+"Сеткавы інтэрфейс ці IP адрас для зыходзячых злучэнняў BitTorrent. (Пакіньце "
+"пустым каб выкарыстоўваць перадвызначаны.)\n"
+"                                        "
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:117
 #: deluge/ui/console/modes/preferences/preference_panes.py:359
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:101
 msgid "Outgoing Interface"
-msgstr ""
+msgstr "Зыходзячы інтэрфейс"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:118
 #: deluge/plugins/Notifications/deluge_notifications/data/config.ui.h:11
@@ -3240,17 +3304,17 @@ msgstr "Да:"
 #: deluge/ui/console/modes/preferences/preference_panes.py:328
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:120
 msgid "Outgoing Ports"
-msgstr ""
+msgstr "Зыходзячыя парты"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:121
 #: deluge/ui/web/js/deluge-all/preferences/EncryptionPage.js:59
 msgid "Outgoing:"
-msgstr ""
+msgstr "Зыходзячы:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:122
 #: deluge/ui/web/js/deluge-all/preferences/EncryptionPage.js:38
 msgid "Incoming:"
-msgstr ""
+msgstr "Уваходзячы:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:123
 #: deluge/ui/web/js/deluge-all/preferences/EncryptionPage.js:80
@@ -3261,7 +3325,7 @@ msgstr "Узровень:"
 #: deluge/ui/console/modes/preferences/preference_panes.py:379
 #: deluge/ui/web/js/deluge-all/preferences/EncryptionPage.js:18
 msgid "Encryption"
-msgstr ""
+msgstr "Шыфраванне"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:125
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:194
@@ -3288,7 +3352,7 @@ msgstr "Абмен пірамі"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:130
 msgid "Exchanges peers between clients. (Disabling requires restart)"
-msgstr ""
+msgstr "Абмен пірамі паміж кліентамі. (Адключэнне патрабуе перазапуску)"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:131
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:223
@@ -3319,7 +3383,7 @@ msgstr "TOS-байт піра:"
 #: deluge/ui/console/modes/preferences/preference_panes.py:372
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:181
 msgid "Network Extras"
-msgstr ""
+msgstr "Сетка дадаткова"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:137
 #: deluge/ui/gtk3/glade/connection_manager.addhost.ui.h:4
@@ -3343,68 +3407,72 @@ msgstr "Порт:"
 #: deluge/ui/console/modes/preferences/preference_panes.py:658
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:94
 msgid "Proxy Hostnames"
-msgstr ""
+msgstr "Назва хаста проксі"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:141
 msgid ""
 "Hostnames should be attempted to be resolved through\n"
 "the proxy instead of using the local DNS service"
 msgstr ""
+"Назвы хаста трэба спрабаваць выправіць праз проксі\n"
+"замест таго, каб выкарыстоўваць лакальны сэрвіс DNS"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:143
 #: deluge/ui/console/modes/preferences/preference_panes.py:661
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:103
 msgid "Proxy Peers"
-msgstr ""
+msgstr "Проксі піры"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:144
 msgid "Proxy peer and web seed connections."
-msgstr ""
+msgstr "Злучэнне праз проксі піры і вэб сід."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:145
 #: deluge/ui/console/modes/preferences/preference_panes.py:665
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:112
 msgid "Proxy Trackers"
-msgstr ""
+msgstr "Проксі трэкеры"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:147
 msgid "Force Proxy Use"
-msgstr ""
+msgstr "Прымусовае выкарыстанне проксі"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:148
 #: deluge/ui/console/modes/preferences/preference_panes.py:671
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:141
 msgid "Hide Client Identity"
-msgstr ""
+msgstr "Хаваць ідэнтычнасць кліента"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:149
 msgid ""
 "Attempt to hide client identity and only use proxy for incoming connections."
 msgstr ""
+"Спрабаваць хаваць ідэнтычнасць кліента і выкарыстоўваць толькі проксі для "
+"ўваходзячых злучэнняў."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:150
 #: deluge/ui/console/modes/preferences/preference_panes.py:668
 #: deluge/ui/console/modes/preferences/preference_panes.py:669
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:120
 msgid "Force Proxy"
-msgstr ""
+msgstr "Прымусовае проксі"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:151
 msgid "Cache Size (16 KiB blocks):"
-msgstr "Памер кэшу (у блоках па 16 КБ):"
+msgstr "Памер кэшу (у блоках па 16 КіБ):"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:152
 msgid ""
 "The number of seconds from the last cached write to a piece in the write "
 "cache, to when it's forcefully flushed to disk. Default is 60 seconds."
 msgstr ""
-"Час (у секундах) ад апошняга кэшыраваннага запісу часткі ў кэше запісу да "
+"Час у секундах ад апошняга кэшыраваннага запісу часткі ў кэшы запісу да "
 "таго, як прымусова скідаць кэш гэтай часткі на дыск. Па змаўчанні 60 секунд."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:153
 #: deluge/ui/web/js/deluge-all/preferences/CachePage.js:53
 msgid "Cache Expiry (seconds):"
-msgstr "Час жыцця кэшу (секунд):"
+msgstr "Час жыцця кэша (секунд):"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:154
 #: deluge/ui/console/modes/preferences/preference_panes.py:694
@@ -3412,7 +3480,7 @@ msgstr "Час жыцця кэшу (секунд):"
 #: deluge/ui/web/js/deluge-all/preferences/EncryptionPage.js:29
 #: deluge/ui/web/js/deluge-all/preferences/CachePage.js:30
 msgid "Settings"
-msgstr ""
+msgstr "Параметры"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:155
 msgid ""
@@ -3442,9 +3510,9 @@ msgid ""
 "of saved write operations per total write operations, i.e. a kind of cache "
 "hit ratio for the write cache."
 msgstr ""
-"Суадноснасць (блокаў_запісана - аперацый_запісу) / блокаў_запісана "
-"прадстаўляе суадноснасць колькасці захаваных аперацый запісу да іх агульнай "
-"колькасці, г.зн. эфектыўнасць кэша запісу."
+"Суадносіны (блокаў_запісана - аперацый_запісу) / блокаў_запісана прадстаўляе "
+"суадноснасць колькасці захаваных аперацый запісу да іх агульнай колькасці, "
+"г.зн. эфектыўнасць кэша запісу."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:160
 msgid "Write Cache Hit Ratio:"
@@ -3453,7 +3521,7 @@ msgstr "Працэнт траплення ў кэш:"
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:161
 #: deluge/ui/console/modes/preferences/preference_panes.py:709
 msgid "Write"
-msgstr ""
+msgstr "Запісаць"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:162
 msgid ""
@@ -3461,7 +3529,7 @@ msgid ""
 "peers), that were served from disk or cache."
 msgstr ""
 "Колькасць блокаў, запытаных рухавіком BitTorrent (ад піраў) і счытаных з "
-"дыска ці з кэшу."
+"дыска ці з кэша."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:163
 msgid "Blocks Read:"
@@ -3469,42 +3537,42 @@ msgstr "Блокаў счытана:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:164
 msgid "The number of blocks that were served from cache."
-msgstr "Колькасць блокаў, счытаных з кэшу."
+msgstr "Колькасць блокаў, счытаных з кэша."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:165
 msgid "Blocks Read Hit:"
-msgstr "Счытана блокаў з кэшу:"
+msgstr "Счытана блокаў з кэша:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:166
 msgid "The cache hit ratio for the read cache."
-msgstr "Каэфіцыент эфектыўнасці кэшу счытывання."
+msgstr "Каэфіцыент эфектыўнасці кэша счытвання."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:167
 msgid "Read Cache Hit Ratio:"
-msgstr "Працэнт счытываньня з кэшу:"
+msgstr "Працэнт счытвання з кэша:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:168
 msgid ""
 "The total number of read operations performed since this session was started."
 msgstr ""
-"Агульная колькасць аперацый счытываання, выкананых з пачатку гэтай сесіі."
+"Агульная колькасць аперацый счытвання, выкананых з пачатку гэтай сесіі."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:169
 msgid "Reads:"
-msgstr "Аперацый счытывання:"
+msgstr "Аперацый счытвання:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:170
 #: deluge/ui/console/modes/preferences/preference_panes.py:723
 msgid "Read"
-msgstr ""
+msgstr "Чытаць"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:171
 msgid ""
 "The number of 16 KiB blocks currently in the disk cache. This includes both "
 "read and write cache."
 msgstr ""
-"Колькасць блокаў па 16 КБ, якія знаходзяцца зараз у дыскавым кэше. Уключае "
-"кэш счытывання і запісу."
+"Колькасць блокаў па 16 КБ, якія знаходзяцца зараз у дыскавым кэшы. Уключае "
+"кэш счытвання і запісу."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:172
 msgid "Cache Size:"
@@ -3512,12 +3580,12 @@ msgstr "Памер кэша:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:173
 msgid "Read Cache Size:"
-msgstr "Памер кэша счытывання:"
+msgstr "Памер кэша счытвання:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:175
 #: deluge/ui/gtk3/glade/connection_manager.ui.h:7
 msgid "_Refresh"
-msgstr ""
+msgstr "_Абнавіць"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:177
 msgid ""
@@ -3536,11 +3604,11 @@ msgstr "Адсылаць ананімную статыстыку"
 #: deluge/ui/console/modes/preferences/preference_panes.py:503
 #: deluge/ui/web/js/deluge-all/preferences/OtherPage.js:57
 msgid "System Information"
-msgstr ""
+msgstr "Сістэмная інфармацыя"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:180
 msgid "Location:"
-msgstr "Размяшчэнне:"
+msgstr "Месцазнаходжанне:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:181
 msgid ""
@@ -3548,21 +3616,21 @@ msgid ""
 "using DNS to resolve the peer's country."
 msgstr ""
 "Калі Deluge не зможа знайсці базу файлаў па паказаным шляху, то для "
-"вызначэння краіны пира будзе выкарыстоўвацца DNS."
+"вызначэння краіны піра будзе выкарыстоўвацца DNS."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:182
 #: deluge/ui/console/modes/preferences/preference_panes.py:516
 #: deluge/ui/web/js/deluge-all/preferences/OtherPage.js:85
 msgid "GeoIP Database"
-msgstr ""
+msgstr "База даных GeoIP"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:183
 msgid "Associate with Deluge"
-msgstr ""
+msgstr "Звязаць з Deluge"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:184
 msgid "Magnet Links"
-msgstr ""
+msgstr "Магнет-спасылкі"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:185
 #: deluge/ui/web/js/deluge-all/preferences/DaemonPage.js:37
@@ -3573,7 +3641,7 @@ msgstr "Порт дэмана:"
 #: deluge/ui/console/modes/preferences/preference_panes.py:655
 #: deluge/ui/web/js/deluge-all/preferences/DaemonPage.js:30
 msgid "Port"
-msgstr ""
+msgstr "Порт"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:187
 #: deluge/ui/web/js/deluge-all/preferences/DaemonPage.js:61
@@ -3591,15 +3659,15 @@ msgstr "Злучэнні"
 #: deluge/ui/console/modes/preferences/preference_panes.py:543
 #: deluge/ui/web/js/deluge-all/preferences/DaemonPage.js:80
 msgid "Periodically check the website for new releases"
-msgstr "Перыядычна правяраць вэб-сайт на наяўнасць аднаўленьняў"
+msgstr "Перыядычна правяраць вэб-сайт на наяўнасць абнаўленняў"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:193
 msgid "_Delete"
-msgstr ""
+msgstr "_Выдаліць"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:194
 msgid "Accounts"
-msgstr ""
+msgstr "Акаўнты"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:196
 #: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:29
@@ -3629,27 +3697,27 @@ msgstr "Інфармацыя"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:201
 msgid "_Install"
-msgstr ""
+msgstr "_Усталяваць"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:202
 msgid "_Find More..."
-msgstr ""
+msgstr "_Знайсці болей..."
 
 #: deluge/ui/gtk3/glade/remove_torrent_dialog.ui.h:4
 msgid "Remove the selected torrent(s)?"
-msgstr ""
+msgstr "Выдаліць вылучаныя торэнты?"
 
 #: deluge/ui/gtk3/glade/remove_torrent_dialog.ui.h:5
 msgid "Include downloaded files"
-msgstr ""
+msgstr "Уключыць спампаваныя файлы"
 
 #: deluge/ui/gtk3/glade/remove_torrent_dialog.ui.h:6
 msgid "(This is permanent!)"
-msgstr ""
+msgstr "(Гэта назаўсёды!)"
 
 #: deluge/ui/gtk3/glade/connect_peer_dialog.ui.h:1
 msgid "Add Peer"
-msgstr "Дадаць піра"
+msgstr "Дадаць пір"
 
 #: deluge/ui/gtk3/glade/connect_peer_dialog.ui.h:4
 msgid "hostname:port"
@@ -3657,11 +3725,11 @@ msgstr "назва_вузла:порт"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:1
 msgid "Properties"
-msgstr ""
+msgstr "Уласцівасці"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:3
 msgid "Max drop down rows"
-msgstr ""
+msgstr "Макс радкоў у спісе"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:4
 #: deluge/plugins/Blocklist/deluge_blocklist/data/blocklist_pref.ui.h:2
@@ -3671,87 +3739,87 @@ msgstr "<b>Агульныя</b>"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:5
 msgid "Show path entry"
-msgstr ""
+msgstr "Паказваць шлях"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:6
 msgid "Show file chooser"
-msgstr ""
+msgstr "Паказваць выбар файлаў"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:7
 msgid "Show folder name"
-msgstr ""
+msgstr "Паказваць назву папкі"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:8
 msgid "Path Chooser Type"
-msgstr ""
+msgstr "Тып выбара шляху"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:9
 msgid "Enable autocomplete"
-msgstr ""
+msgstr "Уключыць аўтазапаўненне"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:10
 msgid "Show hidden files"
-msgstr ""
+msgstr "Паказваць схаваныя файлы"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:11
 msgid "Set new key"
-msgstr ""
+msgstr "Усталяваць новую клавішу"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:12
 msgid "Press this key to set new key accelerators to trigger auto-complete"
-msgstr ""
+msgstr "Націсніце гэту клавішу каб усталяваць яе як трыгер аўтазапаўнення"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:13
 msgid "Autocomplete"
-msgstr ""
+msgstr "Аўтазапаўнення"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:14
 msgid "Save path"
-msgstr ""
+msgstr "Захаваць шлях"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:15
 msgid "Ctrl+S"
-msgstr ""
+msgstr "Ctrl+S"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:16
 msgid "Ctrl+E"
-msgstr ""
+msgstr "Ctrl+E"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:17
 msgid "Ctrl+R"
-msgstr ""
+msgstr "Ctrl+R"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:18
 msgid "Ctrl+H"
-msgstr ""
+msgstr "Ctrl+H"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:19
 msgid "Ctrl+D"
-msgstr ""
+msgstr "Ctrl+D"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:22
 msgid "Toggle hidden files"
-msgstr ""
+msgstr "Пераключальнік схаваных файлаў"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:23
 msgid "Default path"
-msgstr ""
+msgstr "Шлях па змаўчанні"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:24
 msgid "Shortcuts"
-msgstr ""
+msgstr "Спалучэнні клавіш"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:25
 msgid "Select a Directory"
-msgstr ""
+msgstr "Выберыце папку"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:26
 msgid "Saved paths"
-msgstr ""
+msgstr "Захаваныя шляхі"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:27
 msgid "column"
-msgstr ""
+msgstr "слупок"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:29
 #: deluge/ui/console/modes/preferences/preferences.py:145
@@ -3763,11 +3831,11 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/OtherLimitWindow.js:51
 #: deluge/ui/web/js/deluge-all/add/AddWindow.js:64
 msgid "Cancel"
-msgstr ""
+msgstr "Скасаваць"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:30
 msgid "Open"
-msgstr ""
+msgstr "Адкрыць"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:31
 #: deluge/ui/web/js/deluge-all/Toolbar.js:39
@@ -3778,22 +3846,22 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/add/UrlWindow.js:27
 #: deluge/ui/web/js/deluge-all/add/AddWindow.js:65
 msgid "Add"
-msgstr ""
+msgstr "Дадаць"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:32
 msgid "Add the current entry value to the list"
-msgstr ""
+msgstr "Дадаць бягучае значэнне ў спіс"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:33
 #: deluge/ui/web/js/deluge-all/EditTrackersWindow.js:98
 #: deluge/ui/web/js/deluge-all/EditConnectionWindow.js:33
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:102
 msgid "Edit"
-msgstr ""
+msgstr "Рэдагаваць"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:34
 msgid "Edit the selected entry"
-msgstr ""
+msgstr "Рэдагаваць выбранае значэнне"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:35
 #: deluge/ui/web/js/deluge-all/Toolbar.js:46
@@ -3801,31 +3869,31 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:110
 #: deluge/ui/web/js/deluge-all/add/AddWindow.js:156
 msgid "Remove"
-msgstr ""
+msgstr "Выдаліць"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:36
 msgid "Remove the selected entry"
-msgstr ""
+msgstr "Выдаліць выбраны запіс"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:38
 msgid "Move the selected entry up"
-msgstr ""
+msgstr "Падняць выбраны запіс"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:40
 msgid "Move the selected entry down"
-msgstr ""
+msgstr "Апусціць выбраны запіс"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:41
 msgid "Default"
-msgstr ""
+msgstr "Прадвызначана"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:42
 msgid "No default path set"
-msgstr ""
+msgstr "Няма прадвызначанага шляху"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:43
 msgid "Open properties dialog"
-msgstr ""
+msgstr "Адкрыць акенца ўласцівасцей"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.infohash.ui.h:1
 msgid "Add Infohash"
@@ -3833,11 +3901,11 @@ msgstr "Дадаць хэш файлаў"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.infohash.ui.h:4
 msgid "From Infohash"
-msgstr ""
+msgstr "З хэша файлаў"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.infohash.ui.h:5
 msgid "Infohash:"
-msgstr "Хэш файлаў"
+msgstr "Хэш файлаў:"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.infohash.ui.h:6
 #: deluge/ui/gtk3/glade/edit_trackers.add.ui.h:5
@@ -3854,11 +3922,11 @@ msgstr "Дадаць хост"
 #: deluge/ui/web/js/deluge-all/MoveStorage.js:16
 #: deluge/ui/web/js/deluge-all/Menus.js:346
 msgid "Move Download Folder"
-msgstr ""
+msgstr "Перамясціць папку спампоўкі"
 
 #: deluge/ui/gtk3/glade/move_storage_dialog.ui.h:4
 msgid "Move the torrent(s) download folder."
-msgstr ""
+msgstr "Перамясціць папку спампоўкі торэнта(ў)."
 
 #: deluge/ui/gtk3/glade/move_storage_dialog.ui.h:5
 msgid "Destination:"
@@ -3874,95 +3942,95 @@ msgstr "_Перайсці на вэб-сайт"
 
 #: deluge/ui/gtk3/glade/main_window.new_release.ui.h:4
 msgid "New Release Available!"
-msgstr ""
+msgstr "Даступна новая версія!"
 
 #: deluge/ui/gtk3/glade/main_window.new_release.ui.h:5
 msgid "Available Version:"
-msgstr ""
+msgstr "Даступная версія:"
 
 #: deluge/ui/gtk3/glade/main_window.new_release.ui.h:6
 msgid "Server Version"
-msgstr ""
+msgstr "Версія сервера"
 
 #: deluge/ui/gtk3/glade/main_window.new_release.ui.h:7
 msgid "Current Version:"
-msgstr ""
+msgstr "Бягучая версія:"
 
 #: deluge/ui/gtk3/glade/main_window.new_release.ui.h:8
 msgid "Do not show this dialog in the future"
-msgstr "Больш не паказваць гэтае акно"
+msgstr "Больш не паказваць гэта акно"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:1
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:26
 #: deluge/ui/web/render/tab_status.html:9
 msgid "Down Speed:"
-msgstr ""
+msgstr "Хуткасць спампоўкі:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:2
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:28
 #: deluge/ui/web/render/tab_status.html:10
 msgid "Up Speed:"
-msgstr ""
+msgstr "Хуткасць раздачы:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:3
 #: deluge/ui/web/render/tab_status.html:2
 msgid "Downloaded:"
-msgstr ""
+msgstr "Спампавана:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:4
 #: deluge/ui/web/render/tab_status.html:3
 msgid "Uploaded:"
-msgstr ""
+msgstr "Раздадзена:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:5
 #: deluge/ui/web/render/tab_status.html:16
 msgid "Seeds:"
-msgstr ""
+msgstr "Сіды:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:6
 #: deluge/plugins/Stats/deluge_stats/data/config.ui.h:10
 #: deluge/ui/web/render/tab_status.html:17
 msgid "Peers:"
-msgstr ""
+msgstr "Піры:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:8
 #: deluge/ui/web/render/tab_status.html:18
 msgid "Availability:"
-msgstr ""
+msgstr "Даступнасць:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:9
 #: deluge/ui/web/render/tab_status.html:25
 msgid "Seed Rank:"
-msgstr ""
+msgstr "Ранг сіда:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:10
 msgid "ETA Time:"
-msgstr ""
+msgstr "Час да завяршэння:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:11
 #: deluge/ui/web/render/tab_status.html:13
 msgid "Last Transfer:"
-msgstr ""
+msgstr "Апошняя перадача:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:12
 #: deluge/ui/web/render/tab_status.html:23
 msgid "Active Time:"
-msgstr ""
+msgstr "Час актыўнасці:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:13
 #: deluge/ui/web/render/tab_status.html:20
 msgid "Complete Seen:"
-msgstr ""
+msgstr "Цалкам прагледжана:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:14
 #: deluge/ui/web/render/tab_status.html:24
 msgid "Seeding Time:"
-msgstr ""
+msgstr "Час сідавання:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:16
 #: deluge/ui/web/render/tab_status.html:12
 msgid "Pieces:"
-msgstr ""
+msgstr "Частак:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:17
 #: deluge/plugins/Label/deluge_label/data/label_add.ui.h:3
@@ -3973,44 +4041,44 @@ msgstr "Назва:"
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:18
 #: deluge/ui/web/js/deluge-all/details/DetailsTab.js:25
 msgid "Download Folder:"
-msgstr ""
+msgstr "Папка спампоўкі:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:19
 msgid "Added:"
-msgstr ""
+msgstr "Дададзена:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:20
 #: deluge/ui/web/js/deluge-all/details/DetailsTab.js:26
 msgid "Total Size:"
-msgstr ""
+msgstr "Усяго памер:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:21
 #: deluge/ui/web/js/deluge-all/details/DetailsTab.js:27
 msgid "Total Files:"
-msgstr ""
+msgstr "Усяго файлаў:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:22
 #: deluge/ui/web/js/deluge-all/details/DetailsTab.js:24
 msgid "Hash:"
-msgstr ""
+msgstr "Хэш:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:23
 #: deluge/ui/web/js/deluge-all/details/DetailsTab.js:31
 msgid "Created By:"
-msgstr ""
+msgstr "Створана:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:24
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:17
 msgid "Comments:"
-msgstr "Каментарыі:"
+msgstr "Каментары:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:29
 msgid "Owner:"
-msgstr ""
+msgstr "Уласнік:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:34
 msgid "Move completed:"
-msgstr "Перамяшчаць завершаныя"
+msgstr "Перамяшчаць завершаныя:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:36
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:39
@@ -4028,46 +4096,46 @@ msgstr "Выдаліць на рэйтынгу"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:44
 msgid "Bandwidth Limits"
-msgstr ""
+msgstr "Ліміты прапускной здольнасці"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:46
 msgid "Current Tracker:"
-msgstr ""
+msgstr "Бягучы трэкер:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:47
 msgid "Total Trackers:"
-msgstr ""
+msgstr "Усяго трэкераў:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:48
 #: deluge/ui/web/render/tab_status.html:6
 msgid "Tracker Status:"
-msgstr ""
+msgstr "Статус трэкера:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:49
 #: deluge/ui/web/render/tab_status.html:5
 msgid "Next Announce:"
-msgstr ""
+msgstr "Наступны анонс:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:50
 msgid "Private Torrent:"
-msgstr ""
+msgstr "Прыватны торэнт:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:51
 #: deluge/ui/gtk3/glade/torrent_menu.ui.h:8
 msgid "_Edit Trackers"
-msgstr "_Змяніць трэкеры"
+msgstr "_Рэдагаваць трэкеры"
 
 #: deluge/ui/gtk3/glade/torrent_menu.queue.ui.h:1
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:44
 #: deluge/ui/web/js/deluge-all/Menus.js:284
 msgid "Top"
-msgstr ""
+msgstr "Зверху"
 
 #: deluge/ui/gtk3/glade/torrent_menu.queue.ui.h:4
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:45
 #: deluge/ui/web/js/deluge-all/Menus.js:305
 msgid "Bottom"
-msgstr ""
+msgstr "Знізу"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:1
 #: deluge/ui/web/js/deluge-all/add/AddWindow.js:50
@@ -4076,7 +4144,7 @@ msgstr "Дадаць торэнты"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:5
 msgid "_URL"
-msgstr "_Ссылка"
+msgstr "_URL"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:6
 msgid "Info_hash"
@@ -4084,7 +4152,7 @@ msgstr "Хэш _файлаў"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:11
 msgid "Move Complete Folder"
-msgstr ""
+msgstr "Перамясціць завершаную папку"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:12
 msgid "Add In _Paused State"
@@ -4099,32 +4167,32 @@ msgstr "Прыярытэт у першай/апошняй частак"
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:46
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:152
 msgid "Skip File Hash Check"
-msgstr ""
+msgstr "Прапусціць праверку хэша"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:23
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:170
 msgid "Preallocate Disk Space"
-msgstr ""
+msgstr "Зарэзерваваць месца на дыску"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:24
 msgid "Preallocate the disk space for the torrent files"
-msgstr ""
+msgstr "Зарэзерваваць месца на дыску для файлаў"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:25
 msgid "Maximum torrent download speed"
-msgstr ""
+msgstr "Макс хуткасць спампоўкі торэнта"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:27
 msgid "Maximum torrent upload speed"
-msgstr ""
+msgstr "Макс хуткасць раздачы торэнта"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:29
 msgid "Maximum torrent connections"
-msgstr ""
+msgstr "Макс злучэнняў для торэнта"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:31
 msgid "Maximum torrent upload slots"
-msgstr ""
+msgstr "Макс слотаў раздачы торэнта"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:34
 msgid "Apply To All"
@@ -4136,25 +4204,25 @@ msgstr "Вярнуцца да налад па змаўчанню"
 
 #: deluge/ui/gtk3/glade/tray_menu.ui.h:1
 msgid "_Show Deluge"
-msgstr "Паказать Deluge"
+msgstr "Па_казать Deluge"
 
 #: deluge/ui/gtk3/glade/tray_menu.ui.h:3
 msgid "_Pause Session"
-msgstr ""
+msgstr "_Прыпыніць сесію"
 
 #: deluge/ui/gtk3/glade/tray_menu.ui.h:4
 msgid "_Resume Session"
-msgstr ""
+msgstr "Ад_навіць сесію"
 
 #: deluge/ui/gtk3/glade/tray_menu.ui.h:5
 #: deluge/ui/gtk3/glade/torrent_menu.options.ui.h:1
 msgid "_Download Speed Limit"
-msgstr "Перанесьці _файлы"
+msgstr "Ліміт хуткасці с_пампоўкі"
 
 #: deluge/ui/gtk3/glade/tray_menu.ui.h:6
 #: deluge/ui/gtk3/glade/torrent_menu.options.ui.h:2
 msgid "_Upload Speed Limit"
-msgstr "Абмежаванне хуткасці _запампоўкі"
+msgstr "Ліміт хуткасці _раздачы"
 
 #: deluge/ui/gtk3/glade/tray_menu.ui.h:7
 msgid "Quit & Shutdown Daemon"
@@ -4165,21 +4233,21 @@ msgstr "Выйсці і спыніць дэман"
 #: deluge/ui/web/js/deluge-all/Menus.js:323
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:318
 msgid "Edit Trackers"
-msgstr "Змяніць трэкеры"
+msgstr "Рэдагаваць трэкеры"
 
 #: deluge/ui/gtk3/glade/edit_trackers.ui.h:4
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:19
 msgid "_Up"
-msgstr ""
+msgstr "_Вышэй"
 
 #: deluge/ui/gtk3/glade/edit_trackers.ui.h:8
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:22
 msgid "_Down"
-msgstr ""
+msgstr "_Ніжэй"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.menu_peer.ui.h:1
 msgid "_Add Peer"
-msgstr ""
+msgstr "_Дадаць пір"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.menu_peer.ui.h:2
 msgid "Add a peer by its IP"
@@ -4188,7 +4256,7 @@ msgstr "Дадаць піра па IP"
 #: deluge/ui/gtk3/glade/edit_trackers.edit.ui.h:1
 #: deluge/ui/web/js/deluge-all/EditTrackerWindow.js:17
 msgid "Edit Tracker"
-msgstr "Змяніць трэкер"
+msgstr "Рэдагаваць трэкер"
 
 #: deluge/ui/gtk3/glade/edit_trackers.edit.ui.h:4
 #: deluge/ui/web/js/deluge-all/EditTrackerWindow.js:44
@@ -4198,11 +4266,11 @@ msgstr "Трэкер:"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.remote_path.ui.h:1
 msgid "Enter Remote Path"
-msgstr "Калі ласка, увядзіце аддалены шлях"
+msgstr "Увядзіце аддалены шлях"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.remote_path.ui.h:4
 msgid "Remote Path"
-msgstr ""
+msgstr "Аддалены шлях"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.remote_path.ui.h:5
 #: deluge/ui/gtk3/glade/create_torrent_dialog.remote_save.ui.h:5
@@ -4212,43 +4280,43 @@ msgstr "Шлях:"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:1
 msgid "32 KiB"
-msgstr ""
+msgstr "32 КіБ"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:2
 msgid "64 KiB"
-msgstr ""
+msgstr "64 КіБ"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:3
 msgid "128 KiB"
-msgstr ""
+msgstr "128 КіБ"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:4
 msgid "256 KiB"
-msgstr ""
+msgstr "256 КіБ"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:5
 msgid "512 KiB"
-msgstr ""
+msgstr "512 КіБ"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:6
 msgid "1 MiB"
-msgstr ""
+msgstr "1 МіБ"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:7
 msgid "2 MiB"
-msgstr ""
+msgstr "2 МіБ"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:8
 msgid "4 MiB"
-msgstr ""
+msgstr "4 МіБ"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:9
 msgid "8 MiB"
-msgstr ""
+msgstr "8 МіБ"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:10
 msgid "16 MiB"
-msgstr ""
+msgstr "16 МіБ"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:11
 msgid "Create Torrent"
@@ -4256,7 +4324,7 @@ msgstr "Стварыць торэнт"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:13
 msgid "Fol_der"
-msgstr "_Каталог"
+msgstr "_Папка"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:14
 msgid "_Remote Path"
@@ -4267,7 +4335,7 @@ msgstr "_Аддалены шлях"
 #: deluge/ui/web/js/deluge-all/details/FilesTab.js:73
 #: deluge/ui/web/js/deluge-all/add/FilesTab.js:18
 msgid "Files"
-msgstr ""
+msgstr "Файлы"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:24
 msgid "Webseeds"
@@ -4279,7 +4347,7 @@ msgstr "Памер часткі:"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:26
 msgid "Set Private Flag"
-msgstr "Усталяваць сьцяг прыватнасьці"
+msgstr "Усталяваць сцяг прыватнасці"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:27
 msgid "Add this torrent to the session"
@@ -4293,7 +4361,7 @@ msgstr "Дадаць гэты торэнт да сесіі"
 #: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:80
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:17
 msgid "Options"
-msgstr "Налады"
+msgstr "Параметры"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.remote_save.ui.h:1
 msgid "Save .torrent as"
@@ -4301,15 +4369,15 @@ msgstr "Захаваць .torrent як"
 
 #: deluge/ui/gtk3/glade/torrent_menu.ui.h:1
 msgid "_Open Download Folder"
-msgstr ""
+msgstr "_Адкрыць папку спампоўкі"
 
 #: deluge/ui/gtk3/glade/torrent_menu.ui.h:2
 msgid "_Pause"
-msgstr ""
+msgstr "_Прыпыніць"
 
 #: deluge/ui/gtk3/glade/torrent_menu.ui.h:3
 msgid "Resu_me"
-msgstr "_Аднавіць"
+msgstr "Ад_навіць"
 
 #: deluge/ui/gtk3/glade/torrent_menu.ui.h:4
 #: deluge/ui/gtk3/glade/filtertree_menu.ui.h:4
@@ -4318,7 +4386,7 @@ msgstr "Аднавіць вылучаныя торэнты."
 
 #: deluge/ui/gtk3/glade/torrent_menu.ui.h:5
 msgid "Opt_ions"
-msgstr "_Налады"
+msgstr "_Параметры"
 
 #: deluge/ui/gtk3/glade/torrent_menu.ui.h:6
 msgid "_Queue"
@@ -4334,11 +4402,11 @@ msgstr "_Выдаліць торэнт"
 
 #: deluge/ui/gtk3/glade/torrent_menu.ui.h:10
 msgid "_Force Re-check"
-msgstr "Пераправерыць файлы"
+msgstr "П_ераправерыць файлы"
 
 #: deluge/ui/gtk3/glade/torrent_menu.ui.h:11
 msgid "_Move Download Folder"
-msgstr ""
+msgstr "Пера_мясціць папку спампоўкі"
 
 #: deluge/ui/gtk3/glade/other_dialog.ui.h:3
 msgid "label"
@@ -4350,23 +4418,23 @@ msgstr "_Вылучыць усе"
 
 #: deluge/ui/gtk3/glade/filtertree_menu.ui.h:2
 msgid "_Pause All"
-msgstr "_Прыпыніць усё"
+msgstr "_Прыпыніць усе"
 
 #: deluge/ui/gtk3/glade/filtertree_menu.ui.h:3
 msgid "Resu_me All"
-msgstr "Аднавіц_ь усё"
+msgstr "Ад_навіць усе"
 
 #: deluge/ui/gtk3/glade/torrent_menu.options.ui.h:3
 msgid "_Connection Limit"
-msgstr "_Абмежаванне злучэнняў"
+msgstr "Ліміт _злучэнняў"
 
 #: deluge/ui/gtk3/glade/torrent_menu.options.ui.h:4
 msgid "Upload _Slot Limit"
-msgstr "Абмежаванне слотаў раз_дачы"
+msgstr "Ліміт _слотаў раздачы"
 
 #: deluge/ui/gtk3/glade/torrent_menu.options.ui.h:5
 msgid "Stop seed at _ratio"
-msgstr ""
+msgstr "Спыніць сід на р_эйтынгу"
 
 #: deluge/ui/gtk3/glade/torrent_menu.options.ui.h:6
 msgid "_Auto Managed"
@@ -4374,11 +4442,11 @@ msgstr "_Аўтаматычнае кіраванне"
 
 #: deluge/ui/gtk3/glade/torrent_menu.options.ui.h:7
 msgid "_Super Seeding"
-msgstr ""
+msgstr "С_упер сідаванне"
 
 #: deluge/ui/gtk3/glade/torrent_menu.options.ui.h:8
 msgid "_Change Ownership"
-msgstr ""
+msgstr "Змяніць у_ладальніка"
 
 #: deluge/ui/gtk3/glade/edit_trackers.add.ui.h:1
 #: deluge/ui/web/js/deluge-all/AddTrackerWindow.js:26
@@ -4387,48 +4455,48 @@ msgstr "Дадаць трэкер"
 
 #: deluge/ui/gtk3/glade/edit_trackers.add.ui.h:4
 msgid "Add Trackers"
-msgstr ""
+msgstr "Дадаць трэкеры"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.url.ui.h:1
 msgid "Add URL"
-msgstr "Дадаць адрас"
+msgstr "Дадаць URL"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.url.ui.h:4
 msgid "From URL"
-msgstr ""
+msgstr "З URL"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.url.ui.h:5
 #: deluge/plugins/Blocklist/deluge_blocklist/data/blocklist_pref.ui.h:1
 msgid "URL:"
-msgstr "URL-адрас:"
+msgstr "URL:"
 
 #: deluge/ui/gtk3/glade/connection_manager.ui.h:9
 msgid "Deluge Daemons"
-msgstr ""
+msgstr "Дэманы Deluge"
 
 #: deluge/ui/gtk3/glade/connection_manager.ui.h:10
 msgid "Auto-connect to selected Daemon"
-msgstr ""
+msgstr "Аўтазлучэнне з выбраным дэманам"
 
 #: deluge/ui/gtk3/glade/connection_manager.ui.h:11
 msgid "Auto-start localhost daemon (if required)"
-msgstr ""
+msgstr "Аўтастарт лакальнага дэмана (калі патрэбна)"
 
 #: deluge/ui/gtk3/glade/connection_manager.ui.h:12
 msgid "Hide this dialog"
-msgstr ""
+msgstr "Схаваць гэта акно"
 
 #: deluge/ui/gtk3/glade/connection_manager.ui.h:13
 msgid "Startup Options"
-msgstr ""
+msgstr "Параметры запуску"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.menu_file.ui.h:1
 msgid "_Open File"
-msgstr ""
+msgstr "_Адкрыць файл"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.menu_file.ui.h:2
 msgid "_Show Folder"
-msgstr ""
+msgstr "_Паказаць папку"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.menu_file.ui.h:3
 msgid "_Expand All"
@@ -4436,28 +4504,28 @@ msgstr "_Разгарнуць усё"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.menu_file.ui.h:4
 msgid "_Skip"
-msgstr ""
+msgstr "Пр_апусціць"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.menu_file.ui.h:5
 msgid "_Low"
-msgstr ""
+msgstr "_Нізкі"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.menu_file.ui.h:6
 msgid "_Normal"
-msgstr ""
+msgstr "_Звычайны"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.menu_file.ui.h:7
 msgid "_High"
-msgstr ""
+msgstr "_Высокі"
 
 #: deluge/ui/data/share/metainfo/deluge.metainfo.xml.in.h:1
 msgid "Deluge Team"
-msgstr ""
+msgstr "Каманда Deluge"
 
 #: deluge/ui/data/share/metainfo/deluge.metainfo.xml.in.h:2
 msgid ""
 "Deluge is a lightweight, Free Software, cross-platform BitTorrent client."
-msgstr ""
+msgstr "Deluge - легкавесны, свабодны, крос-платформенны кліент BitTorrent."
 
 #: deluge/ui/data/share/metainfo/deluge.metainfo.xml.in.h:3
 msgid ""
@@ -4467,6 +4535,10 @@ msgid ""
 "Deluge heavily utilises the libtorrent library it has a comprehensive list "
 "of the features provided."
 msgstr ""
+"Deluge утрымлівае звычайныя функцыі кліентаў BitTorrent, напрыклад пратакол "
+"шыфравання, DHT, лакальнае адкрыццё піраў (LSD), абмен пірамі (PEX), UPnP, "
+"NAT-PMP, падтрымка проксі, вэб-сіды, ліміты хуткасці. Паколькі Deluge "
+"актыўна выкарыстоўвае бібліятэку libtorrent, яна мае комплексны спіс функцый."
 
 #: deluge/ui/data/share/metainfo/deluge.metainfo.xml.in.h:4
 msgid ""
@@ -4475,326 +4547,341 @@ msgid ""
 "handles all the BitTorrent activity and is able to run on headless machines "
 "with the user-interfaces connecting remotely from any other platform."
 msgstr ""
+"Deluge распрацавана каб працаваць і як звычайная аўтаномная праграма, і як "
+"кліент-серверная. У рэжыме тонкага кліента дэман Deluge кіруе ўсімі "
+"дзеяннямі з торэнтамі і здольны працаваць аддалена з іншых платформ праз "
+"карыстальніцкі інтэрфейс."
 
 #: deluge/ui/data/share/applications/deluge.desktop.in.h:2
 msgid "BitTorrent Client"
-msgstr ""
+msgstr "Кліент BitTorrent"
 
 #: deluge/ui/data/share/applications/deluge.desktop.in.h:3
 msgid "Deluge BitTorrent Client"
-msgstr ""
+msgstr "BitTorrent кліент Deluge"
 
 #: deluge/ui/data/share/applications/deluge.desktop.in.h:4
 msgid "Download and share files over BitTorrent"
-msgstr ""
+msgstr "Спампоўванне і раздача файлаў праз BitTorrent"
 
 #: deluge/ui/console/console.py:76
 msgid "Console Options"
-msgstr ""
+msgstr "Налады кансолі"
 
 #: deluge/ui/console/console.py:78
 msgid ""
 "These daemon connect options will be used for commands, or if console ui "
 "autoconnect is enabled."
 msgstr ""
+"Гэтыя налады дэмана будуць выкарыстоўвацца для каманд ці пры ўключэнні "
+"аўтазлучэння ў кансолі."
 
 #: deluge/ui/console/console.py:87
 msgid "Deluge daemon IP address to connect to (default 127.0.0.1)"
-msgstr ""
+msgstr "IP адрас дэмана Deluge для злучэння (па змаўчанні 127.0.0.1)"
 
 #: deluge/ui/console/console.py:96
 msgid "Deluge daemon port to connect to (default 58846)"
-msgstr ""
+msgstr "Порт дэмана Deluge для злучэння (па змаўчанні 58846)"
 
 #: deluge/ui/console/console.py:104
 msgid "Deluge daemon username to use when connecting"
-msgstr ""
+msgstr "Імя карыстальніка дэмана Deluge пры злучэнні"
 
 #: deluge/ui/console/console.py:111
 msgid "Deluge daemon password to use when connecting"
-msgstr ""
+msgstr "Пароль дэмана Deluge пры злучэнні"
 
 #: deluge/ui/console/console.py:131
 msgid "Console Commands"
-msgstr ""
+msgstr "Кансольныя каманды"
 
 #: deluge/ui/console/console.py:132
 msgid "Description"
-msgstr ""
+msgstr "Апісанне"
 
 #: deluge/ui/console/console.py:133
 msgid "The following console commands are available:"
-msgstr ""
+msgstr "Даступны кансольныя каманды:"
 
 #: deluge/ui/console/console.py:134
 #: deluge/plugins/Execute/deluge_execute/data/execute_prefs.ui.h:2
 msgid "Command"
-msgstr "Загад"
+msgstr "Каманда"
 
 #: deluge/ui/console/cmdline/command.py:208
 #, python-format
 msgid "`%s` alias"
-msgstr ""
+msgstr "`%s` імя"
 
 #: deluge/ui/console/cmdline/commands/manage.py:29
 msgid "Usage: manage <torrent-id> [--set <key> <value>] [<key> [<key>...] ]"
 msgstr ""
+"Выкарыстанне: manage <torrent-id> [--set <key> <value>] [<key> [<key>...] ]"
 
 #: deluge/ui/console/cmdline/commands/manage.py:35
 msgid "an expression matched against torrent ids and torrent names"
-msgstr ""
+msgstr "выраз суадносіць id торэнтаў і імёны торэнтаў"
 
 #: deluge/ui/console/cmdline/commands/manage.py:43
 #: deluge/ui/console/cmdline/commands/config.py:88
 msgid "set value for this key"
-msgstr ""
+msgstr "задаць значэнне ключа"
 
 #: deluge/ui/console/cmdline/commands/manage.py:46
 #: deluge/ui/console/cmdline/commands/config.py:91
 msgid "Value to set"
-msgstr ""
+msgstr "Задаць значэнне"
 
 #: deluge/ui/console/cmdline/commands/manage.py:53
 #: deluge/ui/console/cmdline/commands/config.py:98
 msgid "one or more keys separated by space"
-msgstr ""
+msgstr "адзін ці больш ключоў- праз прабел"
 
 #: deluge/ui/console/cmdline/commands/rm.py:33
 msgid "Also removes the torrent data"
-msgstr ""
+msgstr "Таксама выдаляе даныя торэнта"
 
 #: deluge/ui/console/cmdline/commands/rm.py:40
 msgid "List the matching torrents without removing."
-msgstr ""
+msgstr "Спіс суаднесеных торэнтаў без выдалення."
 
 #: deluge/ui/console/cmdline/commands/rm.py:46
 #: deluge/ui/console/cmdline/commands/recheck.py:28
 #: deluge/ui/console/cmdline/commands/move.py:31
 msgid "One or more torrent ids"
-msgstr ""
+msgstr "Адзін ці больш id торэнтаў"
 
 #: deluge/ui/console/cmdline/commands/rm.py:66
 #, python-format
 msgid "Confirm with -c to remove the listed torrents (Count: %d)"
-msgstr ""
+msgstr "Пацвердзіць з -c каб выдаліць пералічаныя торэнты (Падлік: %d)"
 
 #: deluge/ui/console/cmdline/commands/resume.py:22
 msgid "Usage: resume [ * | <torrent-id> [<torrent-id> ...] ]"
-msgstr ""
+msgstr "Выкарыстанне: resume [ * | <torrent-id> [<torrent-id> ...] ]"
 
 #: deluge/ui/console/cmdline/commands/resume.py:29
 msgid "One or more torrent ids. Use \"*\" to resume all torrents"
 msgstr ""
+"Адзін ці больш id торэнтаў. Выкарыстоўвайце \"*\" каб аднавіць усе торэнты"
 
 #: deluge/ui/console/cmdline/commands/pause.py:29
 msgid "One or more torrent ids. Use \"*\" to pause all torrents"
 msgstr ""
+"Адзін ці больш id торэнтаў. Выкарыстоўвайце \"*\" каб прыпыніць усе торэнты"
 
 #: deluge/ui/console/cmdline/commands/add.py:38
 msgid "Download folder for torrent"
-msgstr ""
+msgstr "Папка спампоўкі для торэнта"
 
 #: deluge/ui/console/cmdline/commands/add.py:44
 msgid "Move the completed torrent to this folder"
-msgstr ""
+msgstr "Перамясціць завершаны торэнт у гэту папку"
 
 #: deluge/ui/console/cmdline/commands/add.py:50
 msgid "One or more torrent files, URLs or magnet URIs"
-msgstr ""
+msgstr "Адзін ці больш торэнт-файлаў, URL ці спасылак URI"
 
 #: deluge/ui/console/cmdline/commands/plugin.py:29
 msgid "Lists available plugins"
-msgstr ""
+msgstr "Спіс даступных плагінаў"
 
 #: deluge/ui/console/cmdline/commands/plugin.py:37
 msgid "Shows enabled plugins"
-msgstr ""
+msgstr "Паказвае ўключаныя плагіны"
 
 #: deluge/ui/console/cmdline/commands/plugin.py:40
 msgid "Enables a plugin"
-msgstr ""
+msgstr "Уключае плагін"
 
 #: deluge/ui/console/cmdline/commands/plugin.py:43
 msgid "Disables a plugin"
-msgstr ""
+msgstr "Выключае плагін"
 
 #: deluge/ui/console/cmdline/commands/plugin.py:51
 msgid "Reload list of available plugins"
-msgstr ""
+msgstr "Перазагрузка спіса даступных плагінаў"
 
 #: deluge/ui/console/cmdline/commands/plugin.py:54
 msgid "Install a plugin from an .egg file"
-msgstr ""
+msgstr "Усталяваць плагін з файла .egg"
 
 #: deluge/ui/console/cmdline/commands/status.py:36
 msgid ""
 "Raw values for upload/download rates (without KiB/s suffix)(useful for "
 "scripts that want to do their own parsing)"
 msgstr ""
+"Значэнні для рэйтынга раздачы/спампоўкі (без КіБ/с)(карысна для скрыптоў, "
+"якія жадаюць рабіць уласны парсінг)"
 
 #: deluge/ui/console/cmdline/commands/status.py:46
 msgid "Do not show torrent status (Improves command speed)"
-msgstr ""
+msgstr "Не паказваць статус торэнта (Паляпшае хуткасць каманды)"
 
 #: deluge/ui/console/cmdline/commands/connect.py:26
 msgid "Usage: connect <host[:port]> [<username>] [<password>]"
-msgstr ""
+msgstr "Выкарыстанне: connect <host[:port]> [<username>] [<password>]"
 
 #: deluge/ui/console/cmdline/commands/connect.py:30
 msgid "Daemon host and port"
-msgstr ""
+msgstr "Хост і порт дэмана"
 
 #: deluge/ui/console/cmdline/commands/connect.py:36
 #: deluge/ui/console/modes/preferences/preference_panes.py:652
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:259
 msgid "Password"
-msgstr ""
+msgstr "Пароль"
 
 #: deluge/ui/console/cmdline/commands/move.py:34
 msgid "The path to move the torrents to"
-msgstr ""
+msgstr "Шлях куды перамясціць торэнты"
 
 #: deluge/ui/console/cmdline/commands/debug.py:26
 msgid "The new state"
-msgstr ""
+msgstr "Новы стан"
 
 #: deluge/ui/console/cmdline/commands/help.py:29
 msgid "One or more commands"
-msgstr ""
+msgstr "Адна ці больш каманд"
 
 #: deluge/ui/console/cmdline/commands/config.py:79
 msgid "Usage: config [--set <key> <value>] [<key> [<key>...] ]"
-msgstr ""
+msgstr "Выкарыстанне: config [--set <key> <value>] [<key> [<key>...] ]"
 
 #: deluge/ui/console/cmdline/commands/info.py:101
 msgid "Show more information per torrent."
-msgstr ""
+msgstr "Паказаць больш інфармацыі аб торэнце."
 
 #: deluge/ui/console/cmdline/commands/info.py:109
 msgid "Show more detailed information including files and peers."
-msgstr ""
+msgstr "Паказаць больш падрабязную інфармацыю пра файлы і піры."
 
 #: deluge/ui/console/cmdline/commands/info.py:116
 #, python-format
 msgid "Show torrents with state STATE: %s."
-msgstr ""
+msgstr "Паказаць торэнты са станам STATE: %s."
 
 #: deluge/ui/console/cmdline/commands/info.py:132
 msgid "Same as --sort but items are in reverse order."
-msgstr ""
+msgstr "Такое ж як --sort але адзінкі ў адваротным парадку."
 
 #: deluge/ui/console/cmdline/commands/info.py:138
 msgid "One or more torrent ids. If none is given, list all"
-msgstr ""
+msgstr "Адзін ці больш id торэнтаў. Калі нічога не выбрана, паказваюцца ўсе"
 
 #: deluge/ui/console/modes/connectionmanager.py:44
 msgid "Select Host"
-msgstr ""
+msgstr "Выбраць хост"
 
 #: deluge/ui/console/modes/connectionmanager.py:51
 msgid "Quit"
-msgstr ""
+msgstr "Выйсці"
 
 #: deluge/ui/console/modes/connectionmanager.py:51
 msgid "Delete Host"
-msgstr ""
+msgstr "Выдаліць хост"
 
 #: deluge/ui/console/modes/connectionmanager.py:116
 msgid "Add Host (Up & Down arrows to navigate, Esc to cancel)"
-msgstr ""
+msgstr "Дадаць хост (стрэлкі ўверх/уніз для перамяшчэння, Esc каб скасаваць)"
 
 #: deluge/ui/console/modes/connectionmanager.py:133
 msgid "Error adding host"
-msgstr ""
+msgstr "Памылка дадання хоста"
 
 #: deluge/ui/console/modes/torrentlist/torrentviewcolumns.py:96
 msgid "Columns"
-msgstr ""
+msgstr "Слупкі"
 
 #: deluge/ui/console/modes/torrentlist/torrentviewcolumns.py:96
 msgid "Width"
-msgstr ""
+msgstr "Шырыня"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:178
 msgid "General options"
-msgstr ""
+msgstr "Агульныя параметры"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:182
 msgid "Ring system bell when a download finishes"
-msgstr ""
+msgstr "Сістэмны званочак калі скончылася спампоўка"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:188
 msgid "List complete torrents after incomplete regardless of sorting order"
 msgstr ""
+"Змяшчаць завершаныя торэнты пасля незавершаных па выбранай сарціроўцы"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:193
 msgid "Move selection when moving torrents in the queue"
-msgstr ""
+msgstr "Перамясціць выбар пры перамяшчэнні торэнта ў чарзе"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:200
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:67
 msgid "Language"
-msgstr ""
+msgstr "Мова"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:202
 msgid "Command Line Mode"
-msgstr ""
+msgstr "Рэжым каманднага радка"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:205
 msgid "Do not store duplicate input in history"
-msgstr ""
+msgstr "Не захоўваць копіі ўводу ў гісторыі"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:210
 msgid "Store and load command line history in command line mode"
 msgstr ""
+"Захоўваць і загружаць гісторыю каманднага радка ў рэжыме каманднага радка"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:216
 msgid "Third tab lists all remaining torrents in command line mode"
 msgstr ""
+"Трэцяя ўкладка ўтрымлівае ўсе торэнты, якія засталіся, у рэжыме каманднага "
+"радка"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:221
 msgid "Torrents per tab press"
-msgstr ""
+msgstr "Торэнты на націсканне ўкладкі"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:234
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:18
 #: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:39
 msgid "Folders"
-msgstr ""
+msgstr "Папкі"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:237
 msgid "Download To"
-msgstr ""
+msgstr "Спампоўваць у"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:254
 msgid "Move completed to"
-msgstr ""
+msgstr "Перамяшчаць завершаны ў"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:269
 msgid "Copy of .torrent files to"
-msgstr ""
+msgstr "Капіяваць файлы .torrent у"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:290
 msgid "Add Paused"
-msgstr ""
+msgstr "Дадаць прыпыненыя"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:293
 msgid "Pre-Allocate disk space"
-msgstr ""
+msgstr "Рэзерваваць месца на дыску"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:304
 msgid "Incomming Ports"
-msgstr ""
+msgstr "Уваходзячыя парты"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:313
 #: deluge/ui/console/modes/preferences/preference_panes.py:337
 msgid "From"
-msgstr ""
+msgstr "З"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:321
 #: deluge/ui/console/modes/preferences/preference_panes.py:345
 msgid "To"
-msgstr ""
+msgstr "Да"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:331
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:131
@@ -4803,189 +4890,192 @@ msgstr "Выкарыстоўваць выпадковыя парты"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:352
 msgid "Incoming Interface"
-msgstr ""
+msgstr "Уваходзячы інтэрфейс"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:355
 msgid "IP address of the interface to listen on (leave empty for default):"
 msgstr ""
+"IP адрас інтэрфейса каб слухаць (перадвызначаны калі пакінуць пустым):"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:363
 msgid ""
 "The network interface name or IP address for outgoing BitTorrent "
 "connections. (Leave empty for default.):"
 msgstr ""
+"Імя інтэрфейса сеткі ці IP адрас для сыходзячага злучэння BitTorrent. "
+"(Перадвызначаны калі пакінуць пустым.):"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:382
 msgid "Inbound"
-msgstr ""
+msgstr "Уваходзячы"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:391
 msgid "Outbound"
-msgstr ""
+msgstr "Сыходзячы"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:413
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:38
 msgid "Global Bandwidth Usage"
-msgstr ""
+msgstr "Агульнае выкарыстанне прапускной здольнасці"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:416
 #: deluge/ui/console/modes/preferences/preference_panes.py:469
 msgid "Maximum Connections"
-msgstr ""
+msgstr "Максімум злучэнняў"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:423
 #: deluge/ui/console/modes/preferences/preference_panes.py:476
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:63
 msgid "Maximum Upload Slots"
-msgstr ""
+msgstr "Максімум слотаў раздачы"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:430
 #: deluge/ui/console/modes/preferences/preference_panes.py:483
 msgid "Maximum Download Speed (KiB/s)"
-msgstr ""
+msgstr "Максімум хуткасці спампоўкі (КіБ/с)"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:437
 #: deluge/ui/console/modes/preferences/preference_panes.py:490
 msgid "Maximum Upload Speed (KiB/s)"
-msgstr ""
+msgstr "Максімум хуткасці раздачы (КіБ/с)"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:444
 msgid "Maximum Half-Open Connections"
-msgstr ""
+msgstr "Максімум паўадкрытых злучэнняў"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:451
 msgid "Maximum Connection Attempts per Second"
-msgstr ""
+msgstr "Максімум спроб злучэнняў у секунду"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:463
 msgid "Rate Limit IP Overhead"
-msgstr ""
+msgstr "Ацаніць верхні ліміт  IP"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:466
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:148
 msgid "Per Torrent Bandwidth Usage"
-msgstr ""
+msgstr "Выкарыстанне прапускной здольнасці на торэнт"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:513
 msgid "Yes, please send anonymous statistics."
-msgstr ""
+msgstr "Так, адсылаць ананімную статыстыку."
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:531
 msgid "Daemon Port"
-msgstr ""
+msgstr "Порт дэмана"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:538
 msgid "Allow remote connections"
-msgstr ""
+msgstr "Дазволіць аддаленыя злучэнні"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:561
 msgid "Total"
-msgstr ""
+msgstr "Усяго"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:593
 msgid "Share Ratio"
-msgstr ""
+msgstr "Рэйтынг раздачы"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:601
 msgid "Time Ratio"
-msgstr ""
+msgstr "Рэйтынг часу"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:609
 msgid "Time (m)"
-msgstr ""
+msgstr "Час (хв)"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:633
 msgid "Remove torrent (Unchecked pauses torrent)"
-msgstr ""
+msgstr "Выдаліць торэнт (Адключаны прыпыняе торэнт)"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:646
 msgid "Proxy Settings"
-msgstr ""
+msgstr "Налады проксі"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:649
 msgid "Type"
-msgstr ""
+msgstr "Тып"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:653
 msgid "Hostname"
-msgstr ""
+msgstr "Імя хоста"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:673
 msgid "Proxy Type Help"
-msgstr ""
+msgstr "Дапамога тыпа проксі"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:697
 msgid "Cache Size (16 KiB blocks)"
-msgstr ""
+msgstr "Памер кэша (блокі 16 КіБ)"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:704
 msgid "Cache Expiry (seconds)"
-msgstr ""
+msgstr "Заканчэння кэша (секунды)"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:712
 msgid "Blocks Written"
-msgstr ""
+msgstr "Блакіруе запісанае"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:716
 msgid "Writes"
-msgstr ""
+msgstr "Запісвае"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:720
 msgid "Write Cache Hit Ratio"
-msgstr ""
+msgstr "Рэйтынг запісу кэша"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:725
 msgid "Blocks Read"
-msgstr ""
+msgstr "Блакіруе чытанне"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:729
 msgid "Blocks Read hit"
-msgstr ""
+msgstr "Блакіруе чытанне"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:732
 msgid "Reads"
-msgstr ""
+msgstr "Чытае"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:735
 msgid "Read Cache Hit Ratio"
-msgstr ""
+msgstr "Рэйтынг чытання кэша"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:741
 msgid "Cache Size"
-msgstr ""
+msgstr "Памер кэша"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:746
 msgid "Read Cache Size"
-msgstr ""
+msgstr "Памер кэша чытання"
 
 #: deluge/ui/console/modes/preferences/preferences.py:145
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:333
 #: deluge/ui/web/js/deluge-all/preferences/PreferencesWindow.js:87
 msgid "Apply"
-msgstr ""
+msgstr "Ужыць"
 
 #: deluge/ui/console/modes/preferences/preferences.py:145
 #: deluge/ui/web/js/deluge-all/EditTrackersWindow.js:35
 #: deluge/ui/web/js/deluge-all/OtherLimitWindow.js:52
 #: deluge/ui/web/js/deluge-all/preferences/PreferencesWindow.js:88
 msgid "OK"
-msgstr ""
+msgstr "ОК"
 
 #: deluge/ui/console/widgets/fields.py:1070
 msgid "Select Language"
-msgstr ""
+msgstr "Выбраць мову"
 
 #: deluge/ui/console/widgets/statusbars.py:120
 #, python-format
 msgid "IP {!white,blue!}%s{!status!}"
-msgstr ""
+msgstr "IP {!white,blue!}%s{!status!}"
 
 #: deluge/plugins/Blocklist/deluge_blocklist/common.py:114
 #: deluge/plugins/Blocklist/deluge_blocklist/common.py:116
 #: deluge/plugins/Blocklist/deluge_blocklist/common.py:118
 #, python-format
 msgid "The IP address \"%s\" is badly formed"
-msgstr ""
+msgstr "IP адрас \"%s\" дрэнна сфарміраваны"
 
 #: deluge/plugins/Blocklist/deluge_blocklist/webui.py:21
 msgid "Emule IP list (GZip)"
@@ -4997,7 +5087,7 @@ msgstr "SafePeer тэкст (zip)"
 
 #: deluge/plugins/Blocklist/deluge_blocklist/webui.py:23
 msgid "PeerGuardian Text (Uncompressed)"
-msgstr "PeerGuardian тэкст (без сціску)"
+msgstr "PeerGuardian тэкст (несціснуты)"
 
 #: deluge/plugins/Blocklist/deluge_blocklist/webui.py:24
 msgid "PeerGuardian P2B (GZip)"
@@ -5005,7 +5095,7 @@ msgstr "PeerGuardian P2B (GZip)"
 
 #: deluge/plugins/Blocklist/deluge_blocklist/gtkui.py:45
 msgid "Blocked IP Ranges /Whitelisted IP Ranges"
-msgstr ""
+msgstr "Блакіраваныя дыяпазоны IP /Дазволеныя дыяпазоны IP"
 
 #: deluge/plugins/Blocklist/deluge_blocklist/gtkui.py:56
 #: deluge/plugins/Blocklist/deluge_blocklist/gtkui.py:156
@@ -5015,7 +5105,7 @@ msgstr "Чорны спіс"
 
 #: deluge/plugins/Blocklist/deluge_blocklist/gtkui.py:233
 msgid "Bad IP address"
-msgstr ""
+msgstr "Дрэнны IP адрас"
 
 #: deluge/plugins/Blocklist/deluge_blocklist/peerguardian.py:40
 msgid "Invalid leader"
@@ -5052,11 +5142,11 @@ msgstr "Спампаваць файл чорнага спісу, калі неа
 
 #: deluge/plugins/Blocklist/deluge_blocklist/data/blocklist_pref.ui.h:8
 msgid "Check Download and Import"
-msgstr "Праверыць і запампанаваць"
+msgstr "Праверыць спампоўку і імпарт"
 
 #: deluge/plugins/Blocklist/deluge_blocklist/data/blocklist_pref.ui.h:9
 msgid "Download a new blocklist file and import it."
-msgstr "Спампаваць новы файл чорнага спісу і дабавіць яго"
+msgstr "Спампаваць новы файл чорнага спісу і дабавіць яго."
 
 #: deluge/plugins/Blocklist/deluge_blocklist/data/blocklist_pref.ui.h:10
 msgid "Force Download and Import"
@@ -5089,11 +5179,11 @@ msgstr "<b>Інфармацыя</b>"
 
 #: deluge/plugins/Blocklist/deluge_blocklist/data/blocklist_pref.ui.h:17
 msgid "<b>Whitelist</b>"
-msgstr ""
+msgstr "<b>Белы спіс</b>"
 
 #: deluge/plugins/Execute/deluge_execute/gtkui.py:36
 msgid "Torrent Complete"
-msgstr "Запампоўка торэнту скончана"
+msgstr "Торэнт завершаны"
 
 #: deluge/plugins/Execute/deluge_execute/gtkui.py:37
 msgid "Torrent Added"
@@ -5101,7 +5191,7 @@ msgstr "Торэнт дададзены"
 
 #: deluge/plugins/Execute/deluge_execute/gtkui.py:38
 msgid "Torrent Removed"
-msgstr ""
+msgstr "Торэнт выдалены"
 
 #: deluge/plugins/Execute/deluge_execute/gtkui.py:64
 #: deluge/plugins/Execute/deluge_execute/gtkui.py:79
@@ -5114,86 +5204,92 @@ msgstr "Падзея"
 
 #: deluge/plugins/Execute/deluge_execute/data/execute_prefs.ui.h:3
 msgid "<b>Add Command</b>"
-msgstr "Дадаць загад"
+msgstr "<b>Дадаць каманду</b>"
 
 #: deluge/plugins/Execute/deluge_execute/data/execute_prefs.ui.h:4
 msgid "<b>Commands</b>"
-msgstr "<b>Загады</b>"
+msgstr "<b>Каманды</b>"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/gtkui.py:327
 #: deluge/plugins/AutoAdd/deluge_autoadd/gtkui.py:342
 msgid "Incompatible Option"
-msgstr ""
+msgstr "Несумяшчальная опцыя"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/gtkui.py:418
 msgid ""
 "\"Watch Folder\" directory and \"Copy of .torrent files to\" directory "
 "cannot be the same!"
 msgstr ""
+"Папка для \"Глядзець папку\" і \"Капіяваць файл .torrent у\" не можа быць "
+"адной і той жа!"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/gtkui.py:462
 #: deluge/plugins/AutoAdd/deluge_autoadd/gtkui.py:466
 msgid "AutoAdd"
-msgstr ""
+msgstr "Аўтададанне"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/gtkui.py:495
 msgid "Double-click to toggle"
-msgstr ""
+msgstr "Двайное націсканне каб пераключыць"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/gtkui.py:503
 #: deluge/plugins/AutoAdd/deluge_autoadd/gtkui.py:511
 msgid "Double-click to edit"
-msgstr ""
+msgstr "Двайное націсканне каб рэдагаваць"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/gtkui.py:507
 msgid "Path"
-msgstr ""
+msgstr "Шлях"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/core.py:125
 msgid "Watch folder does not exist."
-msgstr ""
+msgstr "Папка прагляду не існуе."
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/core.py:128
 #: deluge/plugins/AutoAdd/deluge_autoadd/core.py:443
 msgid "Path does not exist."
-msgstr ""
+msgstr "Шлях не існуе."
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:1
 msgid "Watch Folder Properties"
-msgstr ""
+msgstr "Уласцівасці папкі прагляду"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:2
 msgid ""
 "If a .torrent file is added to this directory,\n"
 "it will be added to the session."
 msgstr ""
+"Калі файл .torrent дададзены ў папку,\n"
+"ён будзе дададзены да сесіі."
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:4
 #: deluge/plugins/Extractor/deluge_extractor/data/extractor_prefs.ui.h:2
 msgid "Select A Folder"
-msgstr "Выбраць каталог"
+msgstr "Вылучыць папку"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:5
 msgid "Enable this watch folder"
-msgstr ""
+msgstr "Уключыць папку прагляду"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:6
 msgid "<b>Watch Folder</b>"
-msgstr ""
+msgstr "<b>Папка прагляду</b>"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:7
 msgid "Delete .torrent after adding"
-msgstr ""
+msgstr "Выдаліць .torrent пасля дадання"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:8
 msgid ""
 "Once the torrent is added to the session,\n"
 "the .torrent will be deleted."
 msgstr ""
+"Як толькі торэнт дададзены да сесіі,\n"
+".torrent будзе выдалены."
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:10
 msgid "Append extension after adding:"
-msgstr ""
+msgstr "Дадаць пашырэнне пасля дадання:"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:11
 msgid ""
@@ -5201,10 +5297,13 @@ msgid ""
 "an extension will be appended to the .torrent\n"
 "and it will remain in the same directory."
 msgstr ""
+"Як толькі торэнт дададзены да сесіі,\n"
+"пашырэнне будзе дададзена да .torrent\n"
+"і застанецца ў той жа папцы."
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:14
 msgid ".added"
-msgstr ""
+msgstr ".added"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:16
 msgid ""
@@ -5212,56 +5311,61 @@ msgid ""
 "the .torrent will copied to the chosen directory\n"
 "and deleted from the watch folder."
 msgstr ""
+"Як толькі торэнт дададзены да сесіі,\n"
+".torrent будзе скапіяваны ў вылучаную папку\n"
+"і выдалены з папкі прагляду."
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:20
 msgid ""
 "Once the torrent is deleted from the session,\n"
 "also delete the .torrent file used to add it."
 msgstr ""
+"Як толькі торэнт выдалены з сесіі,\n"
+"таксама выдаліць і адпаведны файл .torrent."
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:22
 msgid "<b>Torrent File Action</b>"
-msgstr ""
+msgstr "<b>Дзеянні з файлам торэнта</b>"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:23
 msgid "Set download folder"
-msgstr ""
+msgstr "Выбраць папку спампоўкі"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:24
 msgid "This folder will be where the torrent data is downloaded to."
-msgstr ""
+msgstr "У гэту папку будуць спампоўвацца даныя торэнтаў."
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:25
 msgid "<b>Download Folder</b>"
-msgstr ""
+msgstr "<b>Папка спампоўкі</b>"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:26
 msgid "Set move completed folder"
-msgstr ""
+msgstr "Выбраць папку для перамяшчэння завершаных"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:27
 msgid "<b>Move Completed</b>"
-msgstr ""
+msgstr "<b>Перамясціць завершаныя</b>"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:28
 msgid "Label: "
-msgstr ""
+msgstr "Пазнака: "
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:29
 msgid "<b>Label</b>"
-msgstr ""
+msgstr "<b>Пазнака</b>"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:30
 msgid "Main"
-msgstr ""
+msgstr "Асноўная"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:31
 msgid "The user selected here will be the owner of the torrent."
-msgstr ""
+msgstr "Выбраны тут карыстальнік будзе ўласнікам торэнта."
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:32
 msgid "<b>Owner</b>"
-msgstr ""
+msgstr "<b>Уласнік</b>"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:33
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:103
@@ -5281,7 +5385,7 @@ msgstr "Максімальная колькасць слотаў раздачы:
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:37
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:77
 msgid "Max Download Speed:"
-msgstr "Максімальная хуткасць запампоўкі:"
+msgstr "Максімальная хуткасць спампоўкі:"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:38
 msgid "<b>Bandwidth</b>"
@@ -5290,15 +5394,15 @@ msgstr "<b>Абмежаванні</b>"
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:41
 #: deluge/ui/web/render/tab_status.html:19
 msgid "Auto Managed:"
-msgstr ""
+msgstr "Аўтаматычна:"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:42
 msgid "Add Paused:"
-msgstr ""
+msgstr "Дадаць прыпыненыя:"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:43
 msgid "Queue to:"
-msgstr ""
+msgstr "Чарга да:"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:47
 msgid "<b>Queue</b>"
@@ -5306,82 +5410,84 @@ msgstr "<b>Чарга</b>"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/config.ui.h:1
 msgid "<b>Watch Folders:</b>"
-msgstr ""
+msgstr "<b>Папкі назірання:</b>"
 
 #: deluge/plugins/Stats/deluge_stats/gtkui.py:60
 msgid "minutes"
-msgstr ""
+msgstr "хвіліны"
 
 #: deluge/plugins/Stats/deluge_stats/gtkui.py:62
 msgid "1 minute"
-msgstr ""
+msgstr "1 хвіліна"
 
 #: deluge/plugins/Stats/deluge_stats/gtkui.py:64
 msgid "1 second"
-msgstr ""
+msgstr "1 секунда"
 
 #: deluge/plugins/Stats/deluge_stats/gtkui.py:66
 msgid "seconds"
-msgstr ""
+msgstr "секунды"
 
 #: deluge/plugins/Stats/deluge_stats/data/tabs.ui.h:1
 msgid "Stats"
-msgstr ""
+msgstr "Статыстыка"
 
 #: deluge/plugins/Stats/deluge_stats/data/tabs.ui.h:2
 msgid "Resolution"
-msgstr ""
+msgstr "Раздзяляльнасць"
 
 #: deluge/plugins/Stats/deluge_stats/data/tabs.ui.h:5
 msgid "Seeds/Peers"
-msgstr ""
+msgstr "Сіды/Піры"
 
 #: deluge/plugins/Stats/deluge_stats/data/config.ui.h:1
 msgid "Download color:"
-msgstr ""
+msgstr "Колер спампоўкі:"
 
 #: deluge/plugins/Stats/deluge_stats/data/config.ui.h:2
 msgid "Upload color:"
-msgstr ""
+msgstr "Колер раздачы:"
 
 #: deluge/plugins/Stats/deluge_stats/data/config.ui.h:3
 msgid "<b>Connections Graph</b>"
-msgstr ""
+msgstr "<b>Граф злучэнняў</b>"
 
 #: deluge/plugins/Stats/deluge_stats/data/config.ui.h:4
 msgid "<b>Bandwidth Graph</b>"
-msgstr ""
+msgstr "<b>Граф прапускной здольнасці</b>"
 
 #: deluge/plugins/Stats/deluge_stats/data/config.ui.h:5
 msgid "DHT nodes:"
-msgstr ""
+msgstr "Вузлы DHT:"
 
 #: deluge/plugins/Stats/deluge_stats/data/config.ui.h:6
 msgid "Cached DHT nodes:"
-msgstr ""
+msgstr "Кэшаваныя вузлы DHT:"
 
 #: deluge/plugins/Stats/deluge_stats/data/config.ui.h:7
 msgid "DHT torrents:"
-msgstr ""
+msgstr "Торэнты DHT:"
 
 #: deluge/plugins/Stats/deluge_stats/data/config.ui.h:9
 msgid "<b>Seeds / Peers</b>"
-msgstr ""
+msgstr "<b>Сіды / Піры</b>"
 
 #: deluge/plugins/Stats/deluge_stats/data/config.ui.h:11
 msgid "<b>Graph Colors</b>"
-msgstr ""
+msgstr "<b>Колеры графаў</b>"
 
 #: deluge/plugins/WebUi/deluge_webui/gtkui.py:35
 #: deluge/plugins/WebUi/deluge_webui/gtkui.py:47
 msgid "WebUi"
-msgstr ""
+msgstr "Вэб-інтэрфейс"
 
 #: deluge/plugins/WebUi/deluge_webui/gtkui.py:90
 msgid ""
 "The Deluge web interface is not installed, please install the\n"
 "interface and try again"
 msgstr ""
+"Вэб-інтэрфейс Deluge не ўсталяваны, калі ласка,\n"
+"усталюйце яго і паўтарыце спробу"
 
 #: deluge/plugins/WebUi/deluge_webui/data/config.ui.h:1
 msgid "Enable web interface"
@@ -5397,21 +5503,21 @@ msgstr "Праслухоўваць порт:"
 
 #: deluge/plugins/Label/deluge_label/core.py:184
 msgid "Invalid label, valid characters:[a-z0-9_-]"
-msgstr "Няверная метка. Дазволеныя сімвалы: [a-z0-9_-]"
+msgstr "Памылковая пазнака. Дазволеныя сімвалы: [a-z0-9_-]"
 
 #: deluge/plugins/Label/deluge_label/core.py:186
 msgid "Empty Label"
-msgstr "Пустая метка"
+msgstr "Пустая пазнака"
 
 #: deluge/plugins/Label/deluge_label/core.py:187
 msgid "Label already exists"
-msgstr "Метка ўжо існуе"
+msgstr "Пазнака ўжо існуе"
 
 #: deluge/plugins/Label/deluge_label/core.py:195
 #: deluge/plugins/Label/deluge_label/core.py:285
 #: deluge/plugins/Label/deluge_label/core.py:320
 msgid "Unknown Label"
-msgstr "Невядомая метка"
+msgstr "Невядомая пазнака"
 
 #: deluge/plugins/Label/deluge_label/core.py:321
 msgid "Unknown Torrent"
@@ -5419,20 +5525,20 @@ msgstr "Невядомы торэнт"
 
 #: deluge/plugins/Label/deluge_label/gtkui/sidebar_menu.py:46
 msgid "Label _Options"
-msgstr "_Налады меткі"
+msgstr "_Налады пазнакі"
 
 #: deluge/plugins/Label/deluge_label/gtkui/sidebar_menu.py:47
 msgid "_Remove Label"
-msgstr "_Выдаліць метку"
+msgstr "_Выдаліць пазнаку"
 
 #: deluge/plugins/Label/deluge_label/gtkui/sidebar_menu.py:48
 msgid "_Add Label"
-msgstr "_Дадаць метку"
+msgstr "_Дадаць пазнаку"
 
 #: deluge/plugins/Label/deluge_label/gtkui/sidebar_menu.py:177
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:2
 msgid "Label Options"
-msgstr "Налады меткі"
+msgstr "Налады пазнакі"
 
 #: deluge/plugins/Label/deluge_label/gtkui/submenu.py:34
 #: deluge/plugins/Label/deluge_label/gtkui/label_config.py:37
@@ -5440,19 +5546,19 @@ msgstr "Налады меткі"
 #: deluge/plugins/Label/deluge_label/gtkui/__init__.py:49
 #: deluge/plugins/Label/deluge_label/gtkui/__init__.py:77
 msgid "Label"
-msgstr "Метка"
+msgstr "Пазнака"
 
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:1
 msgid "tracker1.org"
-msgstr ""
+msgstr "tracker1.org"
 
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:3
 msgid "<b>Label Options</b>"
-msgstr "<b>Налады меткі</b>"
+msgstr "<b>Налады пазнакі</b>"
 
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:9
 msgid "Apply per torrent max settings:"
-msgstr "Прымяніць максімальныя налады да кожнага торэнту"
+msgstr "Прымяніць макс налады да кожнага торэнта:"
 
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:10
 msgid "Maximum"
@@ -5460,11 +5566,11 @@ msgstr "Максімум"
 
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:14
 msgid "Apply Queue settings:"
-msgstr "Прымяніць налады чаргі"
+msgstr "Прымяніць налады чаргі:"
 
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:17
 msgid "Apply folder settings:"
-msgstr ""
+msgstr "Прымяніць налады папкі:"
 
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:19
 msgid "<i>(1 line per tracker)</i>"
@@ -5472,107 +5578,107 @@ msgstr "<i>(кожны трэкер у асобным радку)</i>"
 
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:20
 msgid "Automatically apply label:"
-msgstr "Аўтаматычна ўжываць метку:"
+msgstr "Аўтаматычна ўжываць пазнаку:"
 
 #: deluge/plugins/Label/deluge_label/data/label_add.ui.h:1
 msgid "Add Label"
-msgstr "Дадаць метку"
+msgstr "Дадаць пазнаку"
 
 #: deluge/plugins/Label/deluge_label/data/label_add.ui.h:2
 msgid "<b>Add Label</b>"
-msgstr "<b>Дадаць метку</b>"
+msgstr "<b>Дадаць пазнаку</b>"
 
 #: deluge/plugins/Label/deluge_label/data/label_pref.ui.h:1
 msgid "<i>Use the sidebar to add,edit and remove labels. </i>\n"
 msgstr ""
 "<i>Выкарыстоўвайце бакавую панэль для дадання, выпраўлення і выдалення "
-"метак.</i>\n"
+"пазнак.</i>\n"
 
 #: deluge/plugins/Label/deluge_label/data/label_pref.ui.h:3
 msgid "<b>Labels</b>"
-msgstr "<b>Меткі</b>"
+msgstr "<b>Пазнакі</b>"
 
 #: deluge/plugins/Notifications/deluge_notifications/gtkui.py:171
 msgid "Notification Blink shown"
-msgstr ""
+msgstr "Паказваць мігценне паведамлення"
 
 #: deluge/plugins/Notifications/deluge_notifications/gtkui.py:175
 msgid "Popup notification is not enabled."
-msgstr ""
+msgstr "Усплываючыя вокны не ўключаны."
 
 #: deluge/plugins/Notifications/deluge_notifications/gtkui.py:177
 msgid "libnotify is not installed"
-msgstr ""
+msgstr "libnotify не ўсталявана"
 
 #: deluge/plugins/Notifications/deluge_notifications/gtkui.py:185
 msgid "Failed to popup notification"
-msgstr ""
+msgstr "Памылка паведамленняў"
 
 #: deluge/plugins/Notifications/deluge_notifications/gtkui.py:188
 msgid "Notification popup shown"
-msgstr ""
+msgstr "Паказваць усплываючае акно"
 
 #: deluge/plugins/Notifications/deluge_notifications/gtkui.py:192
 msgid "Sound notification not enabled"
-msgstr ""
+msgstr "Гукавое апавяшчэнне не ўключана"
 
 #: deluge/plugins/Notifications/deluge_notifications/gtkui.py:194
 msgid "pygame is not installed"
-msgstr ""
+msgstr "pygame не ўсталявана"
 
 #: deluge/plugins/Notifications/deluge_notifications/gtkui.py:206
 #, python-format
 msgid "Sound notification failed %s"
-msgstr ""
+msgstr "Гукавое апавяшчэнне няўдала %s"
 
 #: deluge/plugins/Notifications/deluge_notifications/gtkui.py:210
 msgid "Sound notification Success"
-msgstr ""
+msgstr "Гукавое апавяшчэнне ўдалае"
 
 #: deluge/plugins/Notifications/deluge_notifications/gtkui.py:234
 msgid "Finished Torrent"
-msgstr ""
+msgstr "Торэнт скончаны"
 
 #: deluge/plugins/Notifications/deluge_notifications/gtkui.py:238
 #, python-format
 msgid ""
 "The torrent \"%(name)s\" including %(num_files)i file(s) has finished "
 "downloading."
-msgstr ""
+msgstr "Скончылася спампоўка \"%(name)s\" з %(num_files)i файла(ў)."
 
 #: deluge/plugins/Notifications/deluge_notifications/gtkui.py:287
 #: deluge/plugins/Notifications/deluge_notifications/gtkui.py:317
 msgid "Notifications"
-msgstr ""
+msgstr "Апавяшчэнні"
 
 #: deluge/plugins/Notifications/deluge_notifications/gtkui.py:663
 msgid "Choose Sound File"
-msgstr ""
+msgstr "Выберыце гукавы файл"
 
 #: deluge/plugins/Notifications/deluge_notifications/core.py:127
 #: deluge/plugins/Notifications/deluge_notifications/core.py:158
 #, python-format
 msgid "There was an error sending the notification email: %s"
-msgstr ""
+msgstr "Памылка апавяшчэння па электроннай пошце: %s"
 
 #: deluge/plugins/Notifications/deluge_notifications/core.py:145
 #, python-format
 msgid "Server did not reply properly to HELO greeting: %s"
-msgstr ""
+msgstr "Сервер няправільна адказаў на прывітанне: %s"
 
 #: deluge/plugins/Notifications/deluge_notifications/core.py:149
 #, python-format
 msgid "Server refused username/password combination: %s"
-msgstr ""
+msgstr "Сервер адмовіўся прыняць імя карыстальніка або пароль: %s"
 
 #: deluge/plugins/Notifications/deluge_notifications/core.py:174
 msgid "Notification email sent."
-msgstr ""
+msgstr "Апавяшчэнне выслана па эл. пошце."
 
 #: deluge/plugins/Notifications/deluge_notifications/core.py:181
 #, python-format
 msgid "Finished Torrent \"%(name)s\""
-msgstr ""
+msgstr "Завершаны торэнт \"%(name)s\""
 
 #: deluge/plugins/Notifications/deluge_notifications/core.py:184
 #, python-format
@@ -5585,53 +5691,62 @@ msgid ""
 "Thank you,\n"
 "Deluge."
 msgstr ""
+"Гэты ліст інфармуе, што Deluge скончыў спампоўку «%(name)s», які складаецца "
+"з %(num_files)i файлаў.\n"
+"Каб перастаць атрымліваць гэтыя паведамленні — выключыце апавяшчэнні ў "
+"наладах Deluge.\n"
+"\n"
+"Дзякуем,\n"
+"Deluge."
 
 #: deluge/plugins/Notifications/deluge_notifications/data/config.ui.h:1
 msgid "Tray icon blinks enabled"
-msgstr ""
+msgstr "Мігценне значка ў трэі ўключана"
 
 #: deluge/plugins/Notifications/deluge_notifications/data/config.ui.h:2
 msgid "Popups enabled"
-msgstr ""
+msgstr "Усплываючыя вокны ўключаны"
 
 #: deluge/plugins/Notifications/deluge_notifications/data/config.ui.h:3
 msgid "Sound enabled"
-msgstr ""
+msgstr "Гукі ўключаны"
 
 #: deluge/plugins/Notifications/deluge_notifications/data/config.ui.h:4
 msgid "<b>UI Notifications</b>"
-msgstr ""
+msgstr "<b>Апавяшчэнні UI</b>"
 
 #: deluge/plugins/Notifications/deluge_notifications/data/config.ui.h:9
 msgid "<b>Recipients</b>"
-msgstr ""
+msgstr "<b>Атрымальнікі</b>"
 
 #: deluge/plugins/Notifications/deluge_notifications/data/config.ui.h:10
 msgid "Server requires TLS/SSL"
-msgstr ""
+msgstr "Сервер патрабуе TLS/SSL"
 
 #: deluge/plugins/Notifications/deluge_notifications/data/config.ui.h:13
 msgid "<b>Email Notifications</b>"
-msgstr ""
+msgstr "<b>Паштовыя апавяшчэнні</b>"
 
 #: deluge/plugins/Notifications/deluge_notifications/data/config.ui.h:15
 msgid ""
 "This configuration does not mean that you'll actually receive notifications "
 "for all these events."
 msgstr ""
+"Гэтая канфігурацыя не азначае, што вы атрымаеце ўсе апавяшчэнні пра гэтыя "
+"падзеі."
 
 #: deluge/plugins/Notifications/deluge_notifications/data/config.ui.h:16
 msgid "Subscriptions"
-msgstr ""
+msgstr "Падпіскі"
 
 #: deluge/plugins/Notifications/deluge_notifications/data/config.ui.h:17
 msgid "Sound Customization"
-msgstr ""
+msgstr "Налады гуку"
 
 #: deluge/plugins/Extractor/deluge_extractor/gtkui.py:42
 #: deluge/plugins/Extractor/deluge_extractor/gtkui.py:53
 msgid "Extractor"
-msgstr ""
+msgstr "Распакоўка"
 
 #: deluge/plugins/Extractor/deluge_extractor/data/extractor_prefs.ui.h:1
 msgid "Extract to:"
@@ -5639,32 +5754,32 @@ msgstr "Распакаваць у:"
 
 #: deluge/plugins/Extractor/deluge_extractor/data/extractor_prefs.ui.h:3
 msgid "Create torrent name sub-folder"
-msgstr "Стварыць падкаталог з назвай торэнту"
+msgstr "Стварыць пад-папку з назвай торэнта"
 
 #: deluge/plugins/Extractor/deluge_extractor/data/extractor_prefs.ui.h:4
 msgid ""
 "This option will create a sub-folder using the torrent's name within the "
 "selected extract folder and put the extracted files there."
 msgstr ""
-"Гэтая налада дазволіць стварыць падкаталог з назвай торэнту ўнутры выбранага "
-"каталога і перамясціць туды распакаваныя файлы."
+"Гэта налада дазволіць стварыць пад-папку з назвай торэнта ўнутры выбранай "
+"папкі і перамясціць туды распакаваныя файлы."
 
 #: deluge/plugins/Scheduler/deluge_scheduler/gtkui.py:196
 #: deluge/plugins/Scheduler/deluge_scheduler/gtkui.py:359
 msgid "Scheduler"
-msgstr ""
+msgstr "Планавальнік"
 
 #: deluge/plugins/Scheduler/deluge_scheduler/gtkui.py:289
 msgid "<b>Schedule</b>"
-msgstr ""
+msgstr "<b>Запланаваць</b>"
 
 #: deluge/plugins/Scheduler/deluge_scheduler/gtkui.py:301
 msgid "Download Limit:"
-msgstr "Абмежаванне хуткасці запампоўкі:"
+msgstr "Абмежаванне спампоўкі:"
 
 #: deluge/plugins/Scheduler/deluge_scheduler/gtkui.py:310
 msgid "Upload Limit:"
-msgstr "Абмежаванне хуткасці раздачы:"
+msgstr "Абмежаванне раздачы:"
 
 #: deluge/plugins/Scheduler/deluge_scheduler/gtkui.py:319
 msgid "Active Torrents:"
@@ -5672,11 +5787,11 @@ msgstr "Актыўныя торэнты:"
 
 #: deluge/plugins/Scheduler/deluge_scheduler/gtkui.py:328
 msgid "Active Downloading:"
-msgstr ""
+msgstr "Актыўныя спампоўкі:"
 
 #: deluge/plugins/Scheduler/deluge_scheduler/gtkui.py:337
 msgid "Active Seeding:"
-msgstr ""
+msgstr "Актыўныя сідаванні:"
 
 #: deluge/plugins/Scheduler/deluge_scheduler/gtkui.py:350
 msgid "<b>Slow Settings</b>"
@@ -5684,51 +5799,51 @@ msgstr "<b>Абмежаванні</ b>"
 
 #: deluge/ui/web/js/deluge-all/FileBrowser.js:13
 msgid "File Browser"
-msgstr ""
+msgstr "Агляд файлаў"
 
 #: deluge/ui/web/js/deluge-all/FileBrowser.js:25
 msgid "Back"
-msgstr ""
+msgstr "Назад"
 
 #: deluge/ui/web/js/deluge-all/FileBrowser.js:29
 msgid "Forward"
-msgstr ""
+msgstr "Наперад"
 
 #: deluge/ui/web/js/deluge-all/FileBrowser.js:37
 msgid "Home"
-msgstr ""
+msgstr "Хатняя"
 
 #: deluge/ui/web/js/deluge-all/Toolbar.js:32
 msgid "Create"
-msgstr ""
+msgstr "Стварыць"
 
 #: deluge/ui/web/js/deluge-all/Toolbar.js:100
 msgid "Help"
-msgstr ""
+msgstr "Даведка"
 
 #: deluge/ui/web/js/deluge-all/Toolbar.js:108
 msgid "Logout"
-msgstr ""
+msgstr "Скончыць сеанс"
 
 #: deluge/ui/web/js/deluge-all/EditTrackerWindow.js:34
 msgid "Save"
-msgstr ""
+msgstr "Захаваць"
 
 #: deluge/ui/web/js/deluge-all/AboutWindow.js:19
 msgid "About Deluge"
-msgstr ""
+msgstr "Аб Deluge"
 
 #: deluge/ui/web/js/deluge-all/AboutWindow.js:102
 msgid "Copyright 2007-2018 Deluge Team"
-msgstr ""
+msgstr "Copyright 2007-2018 Deluge Team"
 
 #: deluge/ui/web/js/deluge-all/RemoveWindow.js:33
 msgid "Remove With Data"
-msgstr ""
+msgstr "Выдаліць з данымі"
 
 #: deluge/ui/web/js/deluge-all/AddConnectionWindow.js:17
 msgid "Add Connection"
-msgstr ""
+msgstr "Дадаць злучэнне"
 
 #: deluge/ui/web/js/deluge-all/AddConnectionWindow.js:44
 #: deluge/ui/web/js/deluge-all/EditConnectionWindow.js:44
@@ -5739,48 +5854,48 @@ msgstr "Хост:"
 #: deluge/ui/web/js/deluge-all/AddConnectionWindow.js:96
 #, python-brace-format
 msgid "Unable to add host: {0}"
-msgstr ""
+msgstr "Немагчыма дадаць хост: {0}"
 
 #: deluge/ui/web/js/deluge-all/MoveStorage.js:37
 msgid "Move"
-msgstr ""
+msgstr "Перамясціць"
 
 #: deluge/ui/web/js/deluge-all/MoveStorage.js:54
 msgid "Browse"
-msgstr ""
+msgstr "Аглядзець"
 
 #: deluge/ui/web/js/deluge-all/EditConnectionWindow.js:17
 msgid "Edit Connection"
-msgstr ""
+msgstr "Рэдагаваць злучэнне"
 
 #: deluge/ui/web/js/deluge-all/EditConnectionWindow.js:115
 msgid "Unable to edit host"
-msgstr ""
+msgstr "Немагчыма рэдагаваць хост"
 
 #: deluge/ui/web/js/deluge-all/LoginWindow.js:22
 #: deluge/ui/web/js/deluge-all/LoginWindow.js:31
 msgid "Login"
-msgstr ""
+msgstr "Уваход"
 
 #: deluge/ui/web/js/deluge-all/LoginWindow.js:108
 msgid "Login Failed"
-msgstr ""
+msgstr "Памылка ўваходу"
 
 #: deluge/ui/web/js/deluge-all/LoginWindow.js:109
 msgid "You entered an incorrect password"
-msgstr ""
+msgstr "Вы ўвялі няправільны пароль"
 
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:228
 msgid "Public"
-msgstr ""
+msgstr "Публічны"
 
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:292
 msgid "Last Transfer"
-msgstr ""
+msgstr "Апошняя перадача"
 
 #: deluge/ui/web/js/deluge-all/Deluge.js:158
 msgid "Mixed"
-msgstr ""
+msgstr "Змешаны"
 
 #: deluge/ui/web/js/deluge-all/Statusbar.js:87
 msgid "Set Maximum Connections"
@@ -5788,46 +5903,46 @@ msgstr "Максімальная колькасць злучэнняў"
 
 #: deluge/ui/web/js/deluge-all/Statusbar.js:97
 msgid "Download Speed"
-msgstr "Хуткасць запампоўкі"
+msgstr "Хуткасць спампоўкі"
 
 #: deluge/ui/web/js/deluge-all/Statusbar.js:102
 #: deluge/ui/web/js/deluge-all/Statusbar.js:161
 #: deluge/ui/web/js/deluge-all/Menus.js:79
 #: deluge/ui/web/js/deluge-all/Menus.js:124
 msgid "5 KiB/s"
-msgstr ""
+msgstr "5 КіБ/с"
 
 #: deluge/ui/web/js/deluge-all/Statusbar.js:108
 #: deluge/ui/web/js/deluge-all/Statusbar.js:167
 #: deluge/ui/web/js/deluge-all/Menus.js:85
 #: deluge/ui/web/js/deluge-all/Menus.js:130
 msgid "10 KiB/s"
-msgstr ""
+msgstr "10 КіБ/с"
 
 #: deluge/ui/web/js/deluge-all/Statusbar.js:114
 #: deluge/ui/web/js/deluge-all/Statusbar.js:173
 #: deluge/ui/web/js/deluge-all/Menus.js:91
 #: deluge/ui/web/js/deluge-all/Menus.js:136
 msgid "30 KiB/s"
-msgstr ""
+msgstr "30 КіБ/с"
 
 #: deluge/ui/web/js/deluge-all/Statusbar.js:120
 #: deluge/ui/web/js/deluge-all/Statusbar.js:179
 #: deluge/ui/web/js/deluge-all/Menus.js:97
 #: deluge/ui/web/js/deluge-all/Menus.js:142
 msgid "80 KiB/s"
-msgstr ""
+msgstr "80 КіБ/с"
 
 #: deluge/ui/web/js/deluge-all/Statusbar.js:126
 #: deluge/ui/web/js/deluge-all/Statusbar.js:185
 #: deluge/ui/web/js/deluge-all/Menus.js:103
 #: deluge/ui/web/js/deluge-all/Menus.js:148
 msgid "300 KiB/s"
-msgstr ""
+msgstr "300 КіБ/с"
 
 #: deluge/ui/web/js/deluge-all/Statusbar.js:145
 msgid "Set Maximum Download Speed"
-msgstr "Усталяваць максімальную хуткасць запампоўкі"
+msgstr "Усталяваць максімальную хуткасць спампоўкі"
 
 #: deluge/ui/web/js/deluge-all/Statusbar.js:156
 msgid "Upload Speed"
@@ -5839,49 +5954,50 @@ msgstr "Усталяваць максімальную хуткасць разд�
 
 #: deluge/ui/web/js/deluge-all/Statusbar.js:215
 msgid "Protocol Traffic Download/Upload"
-msgstr "Трафік пратакола - Запампоўка/Аддача"
+msgstr "Трафік пратакола Спампоўка/Раздача"
 
 #: deluge/ui/web/js/deluge-all/Statusbar.js:242
 msgid "Freespace in download folder"
-msgstr ""
+msgstr "Вольнае месца ў папцы спампоўкі"
 
 #: deluge/ui/web/js/deluge-all/Statusbar.js:357
 #, python-brace-format
 msgid "<b>IP</b> {0}"
-msgstr ""
+msgstr "<b>IP</b> {0}"
 
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:33
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:187
 msgid "Connect"
-msgstr ""
+msgstr "Злучыцца"
 
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:120
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:197
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:379
 msgid "Stop Daemon"
-msgstr ""
+msgstr "Спыніць дэман"
 
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:185
 msgid "Disconnect"
-msgstr ""
+msgstr "Адлучыцца"
 
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:204
 msgid "Start Daemon"
-msgstr ""
+msgstr "Запусціць дэман"
 
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:322
 msgid "Change Default Password"
-msgstr ""
+msgstr "Змяніць пароль па змаўчанні"
 
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:324
 msgid ""
 "We recommend changing the default password.<br><br>Would you like to change "
 "it now?"
 msgstr ""
+"Мы рэкамендавалі змену пароля па змаўчанні.<br><br>Жадаеце змяніць яго цяпер?"
 
 #: deluge/ui/web/js/deluge-all/Sidebar.js:13
 msgid "Tracker Host"
-msgstr ""
+msgstr "Хост трэкера"
 
 #: deluge/ui/web/js/deluge-all/Sidebar.js:33
 msgid "Filters"
@@ -5889,68 +6005,68 @@ msgstr "Фільтры"
 
 #: deluge/ui/web/js/deluge-all/UI.js:142
 msgid "Connection restored"
-msgstr ""
+msgstr "Злучэнне адноўлена"
 
 #: deluge/ui/web/js/deluge-all/UI.js:153
 msgid "Lost Connection"
-msgstr ""
+msgstr "Злучэнне згублена"
 
 #: deluge/ui/web/js/deluge-all/UI.js:154
 msgid "The connection to the webserver has been lost!"
-msgstr ""
+msgstr "Злучэнне з вэб-серверам згублена!"
 
 #: deluge/ui/web/js/deluge-all/UI.js:160
 msgid "Lost connection to webserver"
-msgstr ""
+msgstr "Згублена злучэнне з вэб-серверам"
 
 #: deluge/ui/web/js/deluge-all/Menus.js:72
 msgid "D/L Speed Limit"
-msgstr ""
+msgstr "Ліміт хуткасці Спам"
 
 #: deluge/ui/web/js/deluge-all/Menus.js:117
 msgid "U/L Speed Limit"
-msgstr ""
+msgstr "Ліміт хуткасці Разд"
 
 #: deluge/ui/web/js/deluge-all/Menus.js:162
 msgid "Connection Limit"
-msgstr ""
+msgstr "Ліміт злучэння"
 
 #: deluge/ui/web/js/deluge-all/Menus.js:207
 msgid "Upload Slot Limit"
-msgstr ""
+msgstr "Ліміт слота раздачы"
 
 #: deluge/ui/web/js/deluge-all/Menus.js:316
 msgid "Update Tracker"
-msgstr ""
+msgstr "Абнавіць трэкер"
 
 #: deluge/ui/web/js/deluge-all/Menus.js:339
 msgid "Force Recheck"
-msgstr ""
+msgstr "Прымусовая праверка"
 
 #: deluge/ui/web/js/deluge-all/Menus.js:359
 msgid "Expand All"
-msgstr ""
+msgstr "Разгарнуць усё"
 
 #: deluge/ui/web/js/deluge-all/details/DetailsTab.js:13
 msgid "Details"
-msgstr ""
+msgstr "Падрабязнасці"
 
 #: deluge/ui/web/js/deluge-all/details/DetailsTab.js:28
 msgid "Comment:"
-msgstr ""
+msgstr "Каментар:"
 
 #: deluge/ui/web/js/deluge-all/details/DetailsTab.js:29
 msgid "Status:"
-msgstr ""
+msgstr "Статус:"
 
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:242
 msgid "Move Completed:"
-msgstr ""
+msgstr "Перамяшчэнне завершана:"
 
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:272
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:116
 msgid "General"
-msgstr ""
+msgstr "Асноўныя"
 
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:279
 msgid "Private"
@@ -5958,11 +6074,11 @@ msgstr "Прыватны"
 
 #: deluge/ui/web/js/deluge-all/details/StatusTab.js:39
 msgid "Loading"
-msgstr ""
+msgstr "Загрузка"
 
 #: deluge/ui/web/js/deluge-all/details/StatusTab.js:118
 msgid "True"
-msgstr ""
+msgstr "True"
 
 #: deluge/ui/web/js/deluge-all/preferences/OtherPage.js:50
 msgid "Be alerted about new releases"
@@ -5973,224 +6089,226 @@ msgid ""
 "Help us improve Deluge by sending us your Python version, PyGTK version, OS "
 "and processor types. Absolutely no other information is sent."
 msgstr ""
+"Дапамажыце нам палепшыць Deluge, дашліце вашы версіі Python, PyGTK, АС і тып "
+"працэсара. Больш ніякай інфармацыі не адсылаецца."
 
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:215
 msgid "Pause torrent"
-msgstr ""
+msgstr "Прыпыніць торэнт"
 
 #: deluge/ui/web/js/deluge-all/preferences/InstallPluginWindow.js:17
 msgid "Install Plugin"
-msgstr ""
+msgstr "Усталяваць плагін"
 
 #: deluge/ui/web/js/deluge-all/preferences/InstallPluginWindow.js:33
 #: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:109
 msgid "Install"
-msgstr ""
+msgstr "Усталяваць"
 
 #: deluge/ui/web/js/deluge-all/preferences/InstallPluginWindow.js:45
 msgid "Select an egg"
-msgstr ""
+msgstr "Выбраць"
 
 #: deluge/ui/web/js/deluge-all/preferences/InstallPluginWindow.js:46
 msgid "Plugin Egg"
-msgstr ""
+msgstr "Плагін"
 
 #: deluge/ui/web/js/deluge-all/preferences/InstallPluginWindow.js:49
 msgid "Browse..."
-msgstr ""
+msgstr "Аглядзець..."
 
 #: deluge/ui/web/js/deluge-all/preferences/InstallPluginWindow.js:59
 msgid "Uploading your plugin..."
-msgstr ""
+msgstr "Запампоўваецца ваш плагін..."
 
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:52
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:162
 msgid "Maximum Connections:"
-msgstr "Максімальную колькасць злучэнняў:"
+msgstr "Макс колькасць злучэнняў:"
 
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:74
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:184
 msgid "Maximum Download Speed (KiB/s):"
-msgstr "Максімальная хуткасць прыёму (КБ/с):"
+msgstr "Макс хуткасць спампоўкі (КБ/с):"
 
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:85
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:195
 msgid "Maximum Upload Speed (KiB/s):"
-msgstr "Максімальная хуткасць раздачы (КБ/с):"
+msgstr "Макс хуткасць раздачы (КБ/с):"
 
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:96
 msgid "Maximum Half-Open Connections:"
-msgstr "Максімальную колькасць паў-адкрытых злучэнняў:"
+msgstr "Макс колькасць паў-адкрытых злучэнняў:"
 
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:107
 msgid "Maximum Connection Attempts per Second:"
-msgstr "Максімальная колькасць спробаў злучэння ў секунду:"
+msgstr "Макс колькасць спроб злучэння ў секунду:"
 
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:173
 msgid "Maximum Upload Slots:"
-msgstr "Максімальная колькасць слотаў раздачы:"
+msgstr "Макс колькасць слотаў раздачы:"
 
 #: deluge/ui/web/js/deluge-all/preferences/CachePage.js:43
 msgid "Cache Size (16 KiB Blocks):"
-msgstr ""
+msgstr "Памер кэша (блокі 16 Кіб):"
 
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:132
 msgid "Force Use of Proxy"
-msgstr ""
+msgstr "Прымусова выкарыстоўваць проксі"
 
 #: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:116
 msgid "Find More"
-msgstr ""
+msgstr "Знайсці больш"
 
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:69
 msgid "Use Random Port"
-msgstr ""
+msgstr "Выкарыстоўваць выпадковы порт"
 
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:241
 msgid "Type Of Service"
-msgstr ""
+msgstr "Тып сервіса"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:53
 msgid "Show filters with zero torrents"
-msgstr ""
+msgstr "Паказваць фільтры з нулявымі торэнтамі"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:60
 msgid "Allow the use of multiple filters at once"
-msgstr ""
+msgstr "Дазволіць выкарыстанне адразу некалькіх фільтраў"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:94
 msgid "WebUI Password"
-msgstr ""
+msgstr "Пароль WebUI"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:110
 msgid "Old:"
-msgstr ""
+msgstr "Стары:"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:114
 msgid "New:"
-msgstr ""
+msgstr "Новы:"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:118
 msgid "Confirm:"
-msgstr ""
+msgstr "Пацвердзіць:"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:124
 msgid "Server"
-msgstr ""
+msgstr "Сервер"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:140
 msgid "Session Timeout:"
-msgstr ""
+msgstr "Таймаўт сесіі:"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:165
 msgid "Enable SSL (paths relative to Deluge config folder)"
-msgstr ""
+msgstr "Уключыць SSL (шляхі адносна папкі з канфігамі Deluge)"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:177
 msgid "Private Key:"
-msgstr ""
+msgstr "Прыватны ключ:"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:187
 msgid "Certificate:"
-msgstr ""
+msgstr "Сертыфікат:"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:205
 msgid "WebUI Language Changed"
-msgstr ""
+msgstr "Мова WebUI зменена"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:207
 msgid "Do you want to refresh the page now to use the new language?"
-msgstr ""
+msgstr "Жадаеце перазапусціць старонку цяпер каб выкарыстоўваць новую мову?"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:210
 msgid "Refresh"
-msgstr ""
+msgstr "Абнавіць"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:244
 msgid "Invalid Password"
-msgstr ""
+msgstr "Няправільны пароль"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:245
 msgid "Your passwords don't match!"
-msgstr ""
+msgstr "Ваш пароль не супадае!"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:260
 msgid "Your old password was incorrect!"
-msgstr ""
+msgstr "Ваш стары пароль быў няправільны!"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:269
 msgid "Change Successful"
-msgstr ""
+msgstr "Паспяховая змена"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:270
 msgid "Your password was successfully changed!"
-msgstr ""
+msgstr "Ваш пароль быў паспяхова зменены!"
 
 #: deluge/ui/web/js/deluge-all/add/UrlWindow.js:13
 msgid "Add from Url"
-msgstr ""
+msgstr "Дадаць з Url"
 
 #: deluge/ui/web/js/deluge-all/add/UrlWindow.js:37
 #: deluge/ui/web/js/deluge-all/add/AddWindow.js:143
 msgid "Url"
-msgstr ""
+msgstr "Url"
 
 #: deluge/ui/web/js/deluge-all/add/UrlWindow.js:45
 msgid "Cookies"
-msgstr ""
+msgstr "Кукі"
 
 #: deluge/ui/web/js/deluge-all/add/UrlWindow.js:99
 msgid "Failed to download torrent"
-msgstr ""
+msgstr "Не ўдалося спапмаваць торэнт"
 
 #: deluge/ui/web/js/deluge-all/add/AddWindow.js:133
 msgid "File"
-msgstr ""
+msgstr "Файл"
 
 #: deluge/ui/web/js/deluge-all/add/AddWindow.js:149
 msgid "Infohash"
-msgstr ""
+msgstr "Infohash"
 
 #: deluge/ui/web/js/deluge-all/add/AddWindow.js:260
 msgid "Uploading your torrent..."
-msgstr ""
+msgstr "Раздача вашага торэнта..."
 
 #: deluge/ui/web/js/deluge-all/add/AddWindow.js:292
 msgid "Failed to upload torrent"
-msgstr ""
+msgstr "Не ўдалося раздаць торэнт"
 
 #: deluge/ui/web/js/deluge-all/add/AddWindow.js:317
 msgid "Not a valid torrent"
-msgstr ""
+msgstr "Некарэктны торэнт"
 
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:50
 msgid "Move Completed Folder"
-msgstr ""
+msgstr "Перамясціць завершаную папку"
 
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:85
 msgid "Max Down Speed"
-msgstr ""
+msgstr "Макс хуткасць спампоўкі"
 
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:93
 msgid "Max Up Speed"
-msgstr ""
+msgstr "Макс хуткасць раздачы"
 
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:125
 msgid "Add In Paused State"
-msgstr ""
+msgstr "Дадаць у спыненым стане"
 
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:161
 msgid "Super Seed"
-msgstr ""
+msgstr "Супер сід"
 
 #: deluge/ui/web/js/deluge-all/add/FilesTab.js:43
 msgid "Download"
-msgstr ""
+msgstr "Спампаваць"
 
 #: deluge/ui/web/render/tab_status.html:11
 msgid "ETA:"
-msgstr ""
+msgstr "ETA:"
 
 #: deluge/ui/web/render/tab_status.html:26
 msgid "Date Added:"
-msgstr ""
+msgstr "Дата дададзена:"

@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2019-11-12 14:55+0000\n"
-"PO-Revision-Date: 2020-04-26 10:56+0000\n"
+"PO-Revision-Date: 2022-06-10 17:48+0000\n"
 "Last-Translator: Jiri Grönroos <Unknown>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2021-09-10 18:01+0000\n"
-"X-Generator: Launchpad (build aca2013fd8cd2fea408d75f89f9bc012fbab307d)\n"
+"X-Launchpad-Export-Date: 2023-11-06 19:12+0000\n"
+"X-Generator: Launchpad (build f1e537f62ee3967c2b3f24dd10eacf1696334fe6)\n"
 
 #: deluge/common.py:411
 msgid "B"
@@ -120,11 +120,11 @@ msgstr ""
 
 #: deluge/argparserbase.py:200
 msgid "Output to specified logfile instead of stdout"
-msgstr ""
+msgstr "Ohjaa tuloste määritettyyn lokitiedostoon stdoutin sijaan"
 
 #: deluge/argparserbase.py:206
 msgid "Set the log level (none, error, warning, info, debug)"
-msgstr ""
+msgstr "Aseta lokituksen taso (none, error, warning, info, debug)"
 
 #: deluge/argparserbase.py:215
 #, python-format
@@ -166,7 +166,7 @@ msgstr ""
 
 #: deluge/core/daemon_entry.py:25
 msgid "Daemon Options"
-msgstr ""
+msgstr "Taustaprosessin valinnat"
 
 #: deluge/core/daemon_entry.py:31
 msgid "IP address to listen for UI connections"
@@ -325,7 +325,7 @@ msgstr "Yhteyksiä enintään"
 
 #: deluge/ui/common.py:64 deluge/ui/web/js/deluge-all/add/OptionsTab.js:109
 msgid "Max Upload Slots"
-msgstr ""
+msgstr "Jakopaikkoja enintään"
 
 #: deluge/ui/common.py:65 deluge/ui/gtk3/torrentview.py:325
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:136
@@ -336,7 +336,7 @@ msgstr "Vertaiset"
 #: deluge/ui/common.py:66 deluge/ui/gtk3/torrentview.py:317
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:128
 msgid "Seeds"
-msgstr ""
+msgstr "Jakajat"
 
 #: deluge/ui/common.py:67 deluge/ui/gtk3/torrentview.py:380
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:173
@@ -346,7 +346,7 @@ msgstr "Saat."
 #: deluge/ui/common.py:68 deluge/ui/gtk3/torrentview.py:333
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:284
 msgid "Seeds:Peers"
-msgstr ""
+msgstr "Jakajia:vertaisia"
 
 #: deluge/ui/common.py:69 deluge/ui/gtk3/listview.py:203
 #: deluge/ui/gtk3/torrentview.py:387
@@ -371,15 +371,15 @@ msgstr "Latauskansio"
 
 #: deluge/ui/common.py:75
 msgid "Seeding Time"
-msgstr ""
+msgstr "Jakoaika"
 
 #: deluge/ui/common.py:76
 msgid "Active Time"
-msgstr ""
+msgstr "Aktiivisuusaika"
 
 #: deluge/ui/common.py:78
 msgid "Last Activity"
-msgstr ""
+msgstr "Viimeisin toiminta"
 
 #: deluge/ui/common.py:81
 msgid "Finished Time"
@@ -404,7 +404,7 @@ msgstr "Aikaa jäljellä"
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:30
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:236
 msgid "Shared"
-msgstr ""
+msgstr "Jaettu"
 
 #: deluge/ui/common.py:90 deluge/ui/gtk3/glade/main_window.tabs.ui.h:31
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:287
@@ -415,7 +415,7 @@ msgstr "Suosi ensimmäistä/viimeistä"
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:14
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:143
 msgid "Sequential Download"
-msgstr ""
+msgstr "Peräkkäinen lataus"
 
 #: deluge/ui/common.py:97 deluge/ui/common.py:98
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:35
@@ -427,15 +427,15 @@ msgstr "Automaattisesti hallittu"
 
 #: deluge/ui/common.py:99
 msgid "Stop At Ratio"
-msgstr ""
+msgstr "Pysäytä suhteessa"
 
 #: deluge/ui/common.py:100
 msgid "Stop Ratio"
-msgstr ""
+msgstr "Pysäytyssuhde"
 
 #: deluge/ui/common.py:101
 msgid "Remove At Ratio"
-msgstr ""
+msgstr "Poista suhteessa"
 
 #: deluge/ui/common.py:102 deluge/ui/common.py:108
 msgid "Move On Completed"
@@ -443,7 +443,7 @@ msgstr ""
 
 #: deluge/ui/common.py:104
 msgid "Move Completed Path"
-msgstr ""
+msgstr "Siirrä valmistuneet -polku"
 
 #: deluge/ui/common.py:112
 msgid "Move On Completed Path"
@@ -1614,7 +1614,7 @@ msgstr ""
 
 #: deluge/ui/web/json_api.py:868
 msgid "Daemon does not exist"
-msgstr ""
+msgstr "Taustaprosessia ei ole olemassa"
 
 #: deluge/ui/web/json_api.py:875
 msgid "Daemon not running"
@@ -1969,15 +1969,15 @@ msgstr "Ei yhdistetty"
 
 #: deluge/ui/gtk3/statusbar.py:175
 msgid "Connections (Limit)"
-msgstr ""
+msgstr "Yhteydet (raja)"
 
 #: deluge/ui/gtk3/statusbar.py:182
 msgid "Download Speed (Limit)"
-msgstr ""
+msgstr "Latausnopeus (raja)"
 
 #: deluge/ui/gtk3/statusbar.py:189
 msgid "Upload Speed (Limit)"
-msgstr ""
+msgstr "Lähetysnopeus (raja)"
 
 #: deluge/ui/gtk3/statusbar.py:196
 msgid "Protocol Traffic (Down:Up)"
@@ -2450,11 +2450,11 @@ msgstr ""
 
 #: deluge/ui/gtk3/menubar.py:466
 msgid "Set the maximum upload slots"
-msgstr ""
+msgstr "Aseta lähetyspaikkojen enimmäismäärä"
 
 #: deluge/ui/gtk3/menubar.py:471
 msgid "Stop Seed At Ratio"
-msgstr ""
+msgstr "Lopeta jakaminen suhteessa"
 
 #: deluge/ui/gtk3/menubar.py:606
 msgid "Ownership Change Error"
@@ -2494,7 +2494,7 @@ msgstr "Torrentit jonossa"
 
 #: deluge/ui/gtk3/glade/queuedtorrents.ui.h:4
 msgid "Add Queued Torrents"
-msgstr ""
+msgstr "Lisää jonotetut torrentit"
 
 #: deluge/ui/gtk3/glade/queuedtorrents.ui.h:5
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:7
@@ -2775,7 +2775,7 @@ msgstr "Socks5"
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:10
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:36
 msgid "Socks5 Auth"
-msgstr ""
+msgstr "Socks5-todennus"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:11
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:37
@@ -2785,7 +2785,7 @@ msgstr "HTTP"
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:12
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:38
 msgid "HTTP Auth"
-msgstr ""
+msgstr "HTTP-todennus"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:13
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:39
@@ -2802,11 +2802,11 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:21
 msgid "Connect to a Deluge daemon (deluged)"
-msgstr ""
+msgstr "Yhdistä Deluge-taustaprosessiin (deluged)"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:22
 msgid "Application Mode"
-msgstr ""
+msgstr "Sovellustila"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:23
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:46
@@ -2841,11 +2841,11 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:31
 msgid "Waiting:"
-msgstr ""
+msgstr "Odottaa:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:32
 msgid "Missing:"
-msgstr ""
+msgstr "Puuttuu:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:33
 msgid "_Revert"
@@ -2853,7 +2853,7 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:34
 msgid "Revert color to default"
-msgstr ""
+msgstr "Palauta väri oletukseksi"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:35
 msgid "Piece Colors"
@@ -2889,7 +2889,7 @@ msgstr "Suojaa ilmoitusalueelle pienennetty Deluge salasanalla"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:44
 msgid "System Tray"
-msgstr ""
+msgstr "Ilmoitusalue"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:45
 msgid "Notify about new releases"
@@ -2939,7 +2939,7 @@ msgstr "Lataa kansioon:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:54
 msgid "Download Folders"
-msgstr ""
+msgstr "Latauskansiot"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:55
 #: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:93
@@ -2975,15 +2975,15 @@ msgstr "Lisää torrentit keskeytettyinä"
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:65
 #: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:120
 msgid "Pre-allocate disk space"
-msgstr ""
+msgstr "Ennakkovaraa levytila"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:66
 msgid "Pre-allocate the disk space for the torrent files"
-msgstr ""
+msgstr "Ennakkovaraa levytila torrent-tiedostoille"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:67
 msgid "Add Torrent Options"
-msgstr ""
+msgstr "Lisää torrent -valinnat"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:68
 msgid "Always show"
@@ -2995,15 +2995,15 @@ msgstr "Tuo valintaikkuna eteen"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:70
 msgid "Add Torrents Dialog"
-msgstr ""
+msgstr "Lisää torrentti -ikkuna"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:71
 msgid "Connection Attempts per Second:"
-msgstr ""
+msgstr "Yhteysyrityksiä per sekunti:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:72
 msgid "Half-Open Connections:"
-msgstr ""
+msgstr "Puoliksi avoimet yhteydet:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:73
 msgid "The maximum number of connections allowed.  Set -1 for unlimited."
@@ -3028,7 +3028,7 @@ msgstr ""
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:32
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:5
 msgid "Upload Slots:"
-msgstr ""
+msgstr "Lähetyspaikkoja:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:77
 msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
@@ -3073,7 +3073,7 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:85
 msgid "Global Bandwidth Limits"
-msgstr ""
+msgstr "Yleiset kaistanleveyden rajoitukset"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:86
 msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
@@ -3095,19 +3095,19 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:90
 msgid "Per-Torrent Bandwidth Limits"
-msgstr ""
+msgstr "Torrent-kohtaiset kaistanleveyden rajoitukset"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:91
 #: deluge/ui/console/modes/preferences/preference_panes.py:556
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:42
 msgid "Queue to top"
-msgstr ""
+msgstr "Jonota ylimmäksi"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:92
 #: deluge/ui/console/modes/preferences/preference_panes.py:554
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:30
 msgid "New Torrents"
-msgstr ""
+msgstr "Uudet torrentit"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:93
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:85
@@ -3117,7 +3117,7 @@ msgstr ""
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:94
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:59
 msgid "Total:"
-msgstr ""
+msgstr "Yhteensä:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:95
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:102
@@ -3143,7 +3143,7 @@ msgstr ""
 #: deluge/ui/console/modes/preferences/preference_panes.py:558
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:50
 msgid "Active Torrents"
-msgstr ""
+msgstr "Aktiiviset torrentit"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:100
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:7
@@ -3161,7 +3161,7 @@ msgstr ""
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:102
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:157
 msgid "Time (m):"
-msgstr ""
+msgstr "Aika (min):"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:103
 #: deluge/ui/console/modes/preferences/preference_panes.py:590
@@ -3177,7 +3177,7 @@ msgstr "Keskeytä torrent"
 #: deluge/ui/console/modes/preferences/preference_panes.py:627
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:173
 msgid "Share Ratio Reached"
-msgstr ""
+msgstr "Jakosuhde saavutettu"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:107
 msgid ""
@@ -3223,7 +3223,7 @@ msgstr ""
 #: deluge/ui/console/modes/preferences/preference_panes.py:359
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:101
 msgid "Outgoing Interface"
-msgstr ""
+msgstr "Lähtevä sovitin"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:118
 #: deluge/plugins/Notifications/deluge_notifications/data/config.ui.h:11
@@ -3240,7 +3240,7 @@ msgstr "Päättyen:"
 #: deluge/ui/console/modes/preferences/preference_panes.py:328
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:120
 msgid "Outgoing Ports"
-msgstr ""
+msgstr "Lähtevät portit"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:121
 #: deluge/ui/web/js/deluge-all/preferences/EncryptionPage.js:59
@@ -3318,7 +3318,7 @@ msgstr "Vertaisen TOS-tavu:"
 #: deluge/ui/console/modes/preferences/preference_panes.py:372
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:181
 msgid "Network Extras"
-msgstr ""
+msgstr "Verkon lisäasetukset"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:137
 #: deluge/ui/gtk3/glade/connection_manager.addhost.ui.h:4
@@ -3368,7 +3368,7 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:147
 msgid "Force Proxy Use"
-msgstr ""
+msgstr "Pakota välityspalvelimen käyttö"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:148
 #: deluge/ui/console/modes/preferences/preference_panes.py:671
@@ -3386,7 +3386,7 @@ msgstr ""
 #: deluge/ui/console/modes/preferences/preference_panes.py:669
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:120
 msgid "Force Proxy"
-msgstr ""
+msgstr "Pakota välityspalvelin"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:151
 msgid "Cache Size (16 KiB blocks):"
@@ -3449,7 +3449,7 @@ msgstr "Osumasuhde kirjoitetulle välimuistille:"
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:161
 #: deluge/ui/console/modes/preferences/preference_panes.py:709
 msgid "Write"
-msgstr ""
+msgstr "Kirjoitettu"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:162
 msgid ""
@@ -3491,7 +3491,7 @@ msgstr "Luettu:"
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:170
 #: deluge/ui/console/modes/preferences/preference_panes.py:723
 msgid "Read"
-msgstr ""
+msgstr "Luettu"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:171
 msgid ""
@@ -3554,11 +3554,11 @@ msgstr "GeoIP-tietokanta"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:183
 msgid "Associate with Deluge"
-msgstr ""
+msgstr "Liitä Delugeen"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:184
 msgid "Magnet Links"
-msgstr ""
+msgstr "Magneettilinkit"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:185
 #: deluge/ui/web/js/deluge-all/preferences/DaemonPage.js:37
@@ -3629,11 +3629,11 @@ msgstr "_Asenna"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:202
 msgid "_Find More..."
-msgstr ""
+msgstr "_Löydä enemmän..."
 
 #: deluge/ui/gtk3/glade/remove_torrent_dialog.ui.h:4
 msgid "Remove the selected torrent(s)?"
-msgstr ""
+msgstr "Poistetaanko valitut torrentit?"
 
 #: deluge/ui/gtk3/glade/remove_torrent_dialog.ui.h:5
 msgid "Include downloaded files"
@@ -3641,7 +3641,7 @@ msgstr "Sisällytä ladatut tiedostot"
 
 #: deluge/ui/gtk3/glade/remove_torrent_dialog.ui.h:6
 msgid "(This is permanent!)"
-msgstr ""
+msgstr "(Tätä ei voi perua!)"
 
 #: deluge/ui/gtk3/glade/connect_peer_dialog.ui.h:1
 msgid "Add Peer"
@@ -3691,7 +3691,7 @@ msgstr "Näytä piilotetut tiedostot"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:11
 msgid "Set new key"
-msgstr ""
+msgstr "Aseta uusi avain"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:12
 msgid "Press this key to set new key accelerators to trigger auto-complete"
@@ -3829,7 +3829,7 @@ msgstr "Lisää Infohash"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.infohash.ui.h:4
 msgid "From Infohash"
-msgstr ""
+msgstr "Infohashista"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.infohash.ui.h:5
 msgid "Infohash:"
@@ -3892,13 +3892,13 @@ msgstr "Älä näytä tätä ilmoitusta tulevaisuudessa"
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:26
 #: deluge/ui/web/render/tab_status.html:9
 msgid "Down Speed:"
-msgstr ""
+msgstr "Latausnopeus:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:2
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:28
 #: deluge/ui/web/render/tab_status.html:10
 msgid "Up Speed:"
-msgstr ""
+msgstr "Lähetysnopeus:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:3
 #: deluge/ui/web/render/tab_status.html:2
@@ -3913,7 +3913,7 @@ msgstr "Lähetetty:"
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:5
 #: deluge/ui/web/render/tab_status.html:16
 msgid "Seeds:"
-msgstr ""
+msgstr "Jakajia:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:6
 #: deluge/plugins/Stats/deluge_stats/data/config.ui.h:10
@@ -3924,7 +3924,7 @@ msgstr "Vertaiset:"
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:8
 #: deluge/ui/web/render/tab_status.html:18
 msgid "Availability:"
-msgstr ""
+msgstr "Saatavuus:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:9
 #: deluge/ui/web/render/tab_status.html:25
@@ -3933,7 +3933,7 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:10
 msgid "ETA Time:"
-msgstr ""
+msgstr "Arvioitu valmistumisaika:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:11
 #: deluge/ui/web/render/tab_status.html:13
@@ -3943,7 +3943,7 @@ msgstr ""
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:12
 #: deluge/ui/web/render/tab_status.html:23
 msgid "Active Time:"
-msgstr ""
+msgstr "Aktiivisuusaika:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:13
 #: deluge/ui/web/render/tab_status.html:20
@@ -3953,7 +3953,7 @@ msgstr ""
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:14
 #: deluge/ui/web/render/tab_status.html:24
 msgid "Seeding Time:"
-msgstr ""
+msgstr "Jakoaika:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:16
 #: deluge/ui/web/render/tab_status.html:12
@@ -4024,7 +4024,7 @@ msgstr "Poista, kun jakosuhde on"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:44
 msgid "Bandwidth Limits"
-msgstr ""
+msgstr "Kaistanleveyden rajoitukset"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:46
 msgid "Current Tracker:"
@@ -4037,7 +4037,7 @@ msgstr ""
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:48
 #: deluge/ui/web/render/tab_status.html:6
 msgid "Tracker Status:"
-msgstr ""
+msgstr "Seurantapalvelimen tila:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:49
 #: deluge/ui/web/render/tab_status.html:5
@@ -4095,16 +4095,16 @@ msgstr "Suosi ensimmäisiä / viimeisiä osia"
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:46
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:152
 msgid "Skip File Hash Check"
-msgstr ""
+msgstr "Ohita tiedoston tiivisteen tarkistus"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:23
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:170
 msgid "Preallocate Disk Space"
-msgstr ""
+msgstr "Ennakkovaraa levytila"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:24
 msgid "Preallocate the disk space for the torrent files"
-msgstr ""
+msgstr "Ennakkovaraa levytila torrent-tiedostoille"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:25
 msgid "Maximum torrent download speed"
@@ -4116,7 +4116,7 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:29
 msgid "Maximum torrent connections"
-msgstr ""
+msgstr "Torrent-yhteyksien enimmäismäärä"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:31
 msgid "Maximum torrent upload slots"
@@ -4391,7 +4391,7 @@ msgstr "Lisää verkko-osoite"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.url.ui.h:4
 msgid "From URL"
-msgstr ""
+msgstr "Verkko-osoitteesta"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.url.ui.h:5
 #: deluge/plugins/Blocklist/deluge_blocklist/data/blocklist_pref.ui.h:1
@@ -4400,7 +4400,7 @@ msgstr "Osoite:"
 
 #: deluge/ui/gtk3/glade/connection_manager.ui.h:9
 msgid "Deluge Daemons"
-msgstr ""
+msgstr "Deluge-taustaprosessit"
 
 #: deluge/ui/gtk3/glade/connection_manager.ui.h:10
 msgid "Auto-connect to selected Daemon"
@@ -4612,7 +4612,7 @@ msgstr "Ottaa liitännäisen käyttöön"
 
 #: deluge/ui/console/cmdline/commands/plugin.py:43
 msgid "Disables a plugin"
-msgstr ""
+msgstr "Poistaa liitännäisen käytöstä"
 
 #: deluge/ui/console/cmdline/commands/plugin.py:51
 msgid "Reload list of available plugins"
@@ -4620,7 +4620,7 @@ msgstr ""
 
 #: deluge/ui/console/cmdline/commands/plugin.py:54
 msgid "Install a plugin from an .egg file"
-msgstr ""
+msgstr "Asenna liitännäinen .egg-tiedostosta"
 
 #: deluge/ui/console/cmdline/commands/status.py:36
 msgid ""
@@ -4656,7 +4656,7 @@ msgstr ""
 
 #: deluge/ui/console/cmdline/commands/help.py:29
 msgid "One or more commands"
-msgstr ""
+msgstr "Yksi tai useampi komento"
 
 #: deluge/ui/console/cmdline/commands/config.py:79
 msgid "Usage: config [--set <key> <value>] [<key> [<key>...] ]"
@@ -4764,7 +4764,7 @@ msgstr ""
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:254
 msgid "Move completed to"
-msgstr ""
+msgstr "Siirrä valmistuneet sijaintiin"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:269
 msgid "Copy of .torrent files to"
@@ -4776,7 +4776,7 @@ msgstr ""
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:293
 msgid "Pre-Allocate disk space"
-msgstr ""
+msgstr "Ennakkovaraa levytila"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:304
 msgid "Incomming Ports"
@@ -4822,7 +4822,7 @@ msgstr "Ulos"
 #: deluge/ui/console/modes/preferences/preference_panes.py:413
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:38
 msgid "Global Bandwidth Usage"
-msgstr ""
+msgstr "Yleinen kaistankäyttö"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:416
 #: deluge/ui/console/modes/preferences/preference_panes.py:469
@@ -4860,7 +4860,7 @@ msgstr "Nopeusraja IP:n yläpuolella"
 #: deluge/ui/console/modes/preferences/preference_panes.py:466
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:148
 msgid "Per Torrent Bandwidth Usage"
-msgstr ""
+msgstr "Torrent-kohtainen kaistankäyttö"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:513
 msgid "Yes, please send anonymous statistics."
@@ -4868,7 +4868,7 @@ msgstr "Kyllä, lähetä anonyymeja tilastoja."
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:531
 msgid "Daemon Port"
-msgstr ""
+msgstr "Taustaprosessin portti"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:538
 msgid "Allow remote connections"
@@ -4884,11 +4884,11 @@ msgstr "Jakosuhde"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:601
 msgid "Time Ratio"
-msgstr ""
+msgstr "Aikasuhde"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:609
 msgid "Time (m)"
-msgstr ""
+msgstr "Aika (min)"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:633
 msgid "Remove torrent (Unchecked pauses torrent)"
@@ -4912,11 +4912,11 @@ msgstr ""
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:697
 msgid "Cache Size (16 KiB blocks)"
-msgstr ""
+msgstr "Välimuistin koko (16 KiB:in lohkoissa)"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:704
 msgid "Cache Expiry (seconds)"
-msgstr ""
+msgstr "Välimuistin vanheneminen (sekuntia)"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:712
 msgid "Blocks Written"
@@ -4981,7 +4981,7 @@ msgstr ""
 #: deluge/plugins/Blocklist/deluge_blocklist/common.py:118
 #, python-format
 msgid "The IP address \"%s\" is badly formed"
-msgstr ""
+msgstr "IP-osoite \"%s\" on väärin muodostettu"
 
 #: deluge/plugins/Blocklist/deluge_blocklist/webui.py:21
 msgid "Emule IP list (GZip)"
@@ -5253,7 +5253,7 @@ msgstr "Pää"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:31
 msgid "The user selected here will be the owner of the torrent."
-msgstr ""
+msgstr "Tässä valittu käyttäjä tulee olemaan torrentin omistaja."
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:32
 msgid "<b>Owner</b>"
@@ -5306,7 +5306,7 @@ msgstr "<b>Tarkkaile hakemistoja:</b>"
 
 #: deluge/plugins/Stats/deluge_stats/gtkui.py:60
 msgid "minutes"
-msgstr ""
+msgstr "minuuttia"
 
 #: deluge/plugins/Stats/deluge_stats/gtkui.py:62
 msgid "1 minute"
@@ -5322,7 +5322,7 @@ msgstr "sekuntia"
 
 #: deluge/plugins/Stats/deluge_stats/data/tabs.ui.h:1
 msgid "Stats"
-msgstr ""
+msgstr "Tilastot"
 
 #: deluge/plugins/Stats/deluge_stats/data/tabs.ui.h:2
 msgid "Resolution"
@@ -5330,15 +5330,15 @@ msgstr ""
 
 #: deluge/plugins/Stats/deluge_stats/data/tabs.ui.h:5
 msgid "Seeds/Peers"
-msgstr ""
+msgstr "Jakajat/vertaiset"
 
 #: deluge/plugins/Stats/deluge_stats/data/config.ui.h:1
 msgid "Download color:"
-msgstr ""
+msgstr "Latausväri:"
 
 #: deluge/plugins/Stats/deluge_stats/data/config.ui.h:2
 msgid "Upload color:"
-msgstr ""
+msgstr "Lähetysväri:"
 
 #: deluge/plugins/Stats/deluge_stats/data/config.ui.h:3
 msgid "<b>Connections Graph</b>"
@@ -5350,11 +5350,11 @@ msgstr "<b>Kaistanleveyden kuvaaja</b>"
 
 #: deluge/plugins/Stats/deluge_stats/data/config.ui.h:5
 msgid "DHT nodes:"
-msgstr ""
+msgstr "DHT-solmut:"
 
 #: deluge/plugins/Stats/deluge_stats/data/config.ui.h:6
 msgid "Cached DHT nodes:"
-msgstr ""
+msgstr "Välimuistissa olevat DHT-solmut:"
 
 #: deluge/plugins/Stats/deluge_stats/data/config.ui.h:7
 msgid "DHT torrents:"
@@ -5362,7 +5362,7 @@ msgstr "DHT-torrentit:"
 
 #: deluge/plugins/Stats/deluge_stats/data/config.ui.h:9
 msgid "<b>Seeds / Peers</b>"
-msgstr ""
+msgstr "<b>Jakajat / vertaiset</b>"
 
 #: deluge/plugins/Stats/deluge_stats/data/config.ui.h:11
 msgid "<b>Graph Colors</b>"
@@ -5462,7 +5462,7 @@ msgstr "Käytä jonoasetuksia:"
 
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:17
 msgid "Apply folder settings:"
-msgstr ""
+msgstr "Toteuta kansioasetukset:"
 
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:19
 msgid "<i>(1 line per tracker)</i>"
@@ -5664,7 +5664,7 @@ msgstr "Ajastin"
 
 #: deluge/plugins/Scheduler/deluge_scheduler/gtkui.py:289
 msgid "<b>Schedule</b>"
-msgstr ""
+msgstr "<b>Aikataulu</b>"
 
 #: deluge/plugins/Scheduler/deluge_scheduler/gtkui.py:301
 msgid "Download Limit:"
@@ -5867,7 +5867,7 @@ msgstr "Yhdistä"
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:197
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:379
 msgid "Stop Daemon"
-msgstr ""
+msgstr "Pysäytä taustaprosessi"
 
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:185
 msgid "Disconnect"
@@ -5875,7 +5875,7 @@ msgstr "Katkaise yhteys"
 
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:204
 msgid "Start Daemon"
-msgstr ""
+msgstr "Käynnistä taustaprosessi"
 
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:322
 msgid "Change Default Password"
@@ -5953,7 +5953,7 @@ msgstr "Tila:"
 
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:242
 msgid "Move Completed:"
-msgstr ""
+msgstr "Siirrä valmistuneet:"
 
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:272
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:116
@@ -6040,11 +6040,11 @@ msgstr "Lähetyspaikkojen enimmäismäärä:"
 
 #: deluge/ui/web/js/deluge-all/preferences/CachePage.js:43
 msgid "Cache Size (16 KiB Blocks):"
-msgstr ""
+msgstr "Välimuistin koko (16 KiB:in lohkoissa):"
 
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:132
 msgid "Force Use of Proxy"
-msgstr ""
+msgstr "Pakota välityspalvelimen käyttö"
 
 #: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:116
 msgid "Find More"
@@ -6088,7 +6088,7 @@ msgstr "Palvelin"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:140
 msgid "Session Timeout:"
-msgstr ""
+msgstr "Istunnon aikakatkaisu:"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:165
 msgid "Enable SSL (paths relative to Deluge config folder)"
@@ -6173,15 +6173,15 @@ msgstr "Torrent ei ole kelvollinen"
 
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:50
 msgid "Move Completed Folder"
-msgstr ""
+msgstr "Siirrä valmistuneet -kansio"
 
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:85
 msgid "Max Down Speed"
-msgstr ""
+msgstr "Latausnopeus enintään"
 
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:93
 msgid "Max Up Speed"
-msgstr ""
+msgstr "Lähetysnopeus enintään"
 
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:125
 msgid "Add In Paused State"

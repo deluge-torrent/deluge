@@ -1,16 +1,16 @@
-# Tamil translation for deluge
-# Copyright (c) 2019 Rosetta Contributors and Canonical Ltd 2019
+# Moldavian translation for deluge
+# Copyright (c) 2023 Rosetta Contributors and Canonical Ltd 2023
 # This file is distributed under the same license as the deluge package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2019-11-12 14:55+0000\n"
-"PO-Revision-Date: 2019-06-06 10:57+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: Tamil <ta@li.org>\n"
+"PO-Revision-Date: 2023-03-07 14:10+0000\n"
+"Last-Translator: Vlad Nenea <Unknown>\n"
+"Language-Team: Moldavian <mo@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -249,7 +249,7 @@ msgstr ""
 #: deluge/ui/gtk3/torrentview.py:180 deluge/ui/gtk3/torrentview.py:276
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:107
 msgid "Name"
-msgstr "பெயர்"
+msgstr ""
 
 #: deluge/ui/common.py:51 deluge/ui/common.py:53
 #: deluge/ui/gtk3/files_tab.py:126 deluge/ui/gtk3/torrentview.py:310
@@ -258,7 +258,7 @@ msgstr "பெயர்"
 #: deluge/ui/web/js/deluge-all/details/PeersTab.js:80
 #: deluge/ui/web/js/deluge-all/details/FilesTab.js:34
 msgid "Progress"
-msgstr "முன்னேற்றம்"
+msgstr ""
 
 #: deluge/ui/common.py:52 deluge/ui/web/js/deluge-all/Sidebar.js:12
 msgid "State"
@@ -496,7 +496,7 @@ msgstr ""
 #: deluge/ui/console/modes/preferences/preferences.py:90
 #: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:21
 msgid "Downloads"
-msgstr "பதிவிறக்கங்கள்"
+msgstr ""
 
 #: deluge/ui/common.py:131 deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:33
 #: deluge/ui/console/modes/preferences/preference_panes.py:409
@@ -516,14 +516,14 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:176
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:18
 msgid "Queue"
-msgstr "வரிசை"
+msgstr ""
 
 #: deluge/ui/common.py:133
 #: deluge/ui/console/modes/preferences/preference_panes.py:300
 #: deluge/ui/console/modes/preferences/preferences.py:91
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:28
 msgid "Network"
-msgstr "வலையமைப்பு"
+msgstr ""
 
 #: deluge/ui/common.py:134 deluge/ui/gtk3/glade/preferences_dialog.ui.h:146
 #: deluge/ui/console/modes/preferences/preference_panes.py:640
@@ -550,7 +550,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/preferences/OtherPage.js:21
 #: deluge/ui/web/js/deluge-all/preferences/DaemonPage.js:69
 msgid "Other"
-msgstr "ஏனையவை"
+msgstr ""
 
 #: deluge/ui/common.py:137
 #: deluge/ui/console/modes/preferences/preference_panes.py:524
@@ -562,7 +562,7 @@ msgstr ""
 #: deluge/ui/common.py:138
 #: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:18
 msgid "Plugins"
-msgstr "சொருகுபொருள்கள்"
+msgstr ""
 
 #: deluge/ui/common.py:150 deluge/ui/web/js/deluge-all/Deluge.js:154
 #: deluge/ui/web/js/deluge-all/Menus.js:365
@@ -1900,7 +1900,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/LoginWindow.js:47
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:83
 msgid "Password:"
-msgstr "கடவுச்சொல்:"
+msgstr ""
 
 #: deluge/ui/gtk3/dialogs.py:257
 msgid "Edit Account"
@@ -2127,7 +2127,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/EditTrackersWindow.js:85
 #: deluge/ui/web/js/deluge-all/Menus.js:298
 msgid "Down"
-msgstr "கீழ்"
+msgstr ""
 
 #: deluge/ui/gtk3/systemtray.py:248
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:37
@@ -2137,7 +2137,7 @@ msgstr "கீழ்"
 #: deluge/ui/web/js/deluge-all/EditTrackersWindow.js:79
 #: deluge/ui/web/js/deluge-all/Menus.js:291
 msgid "Up"
-msgstr "மேல்"
+msgstr ""
 
 #: deluge/ui/gtk3/gtkui.py:313
 msgid ""
@@ -2469,7 +2469,7 @@ msgstr ""
 #: deluge/ui/gtk3/peers_tab.py:107
 #: deluge/ui/web/js/deluge-all/details/PeersTab.js:73
 msgid "Client"
-msgstr "வாங்கி"
+msgstr ""
 
 #: deluge/ui/gtk3/__init__.py:29
 msgid "GTK Options"
@@ -2513,12 +2513,12 @@ msgstr ""
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:4
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:12
 msgid "_File"
-msgstr "கோப்பு (_F)"
+msgstr "_Фишиер"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:2
 #: deluge/ui/gtk3/glade/tray_menu.ui.h:2
 msgid "_Add Torrent"
-msgstr "_டோர்றேன்ட் ஐ சேர்க்கவும்"
+msgstr ""
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:3
 msgid "_Create Torrent"
@@ -2538,7 +2538,7 @@ msgstr ""
 #: deluge/ui/gtk3/glade/edit_trackers.ui.h:6
 #: deluge/ui/gtk3/glade/connection_manager.ui.h:5
 msgid "_Edit"
-msgstr "(_E)திருத்து"
+msgstr "_Редактаре"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:7
 msgid "_Preferences"
@@ -2554,7 +2554,7 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:10
 msgid "_View"
-msgstr ""
+msgstr "_Аспект"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:11
 msgid "_Toolbar"
@@ -2598,27 +2598,27 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:21
 msgid "_Help"
-msgstr "_உதவி"
+msgstr "_Информацие"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:22
 msgid "_Homepage"
-msgstr ""
+msgstr "_Паӂинэ де интернет"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:23
 msgid "_FAQ"
-msgstr ""
+msgstr "_Ынтребэрь фреквенте"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:24
 msgid "Frequently Asked Questions"
-msgstr ""
+msgstr "Ынтребэрь фреквенте"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:25
 msgid "_Community"
-msgstr ""
+msgstr "_Комунитате"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:26
 msgid "_About"
-msgstr ""
+msgstr "_Деспре програм"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:27
 msgid "Add torrent"
@@ -2626,7 +2626,7 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:28
 msgid "Add Torrent"
-msgstr "டோர்றேன்ட் ஐ சேர்க்கவும்"
+msgstr ""
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:29
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:221
@@ -2640,7 +2640,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/RemoveWindow.js:34
 #: deluge/ui/web/js/deluge-all/Menus.js:331
 msgid "Remove Torrent"
-msgstr "டோர்றேன்ட் ஐ நீக்கவும்"
+msgstr ""
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:31
 msgid ""
@@ -2660,7 +2660,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/Toolbar.js:54
 #: deluge/ui/web/js/deluge-all/Menus.js:52
 msgid "Pause"
-msgstr "தற்காலிகமாக நிறுத்து"
+msgstr ""
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:36
 msgid "Resume the selected torrents"
@@ -2670,11 +2670,11 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/Toolbar.js:61
 #: deluge/ui/web/js/deluge-all/Menus.js:59
 msgid "Resume"
-msgstr "மீண்டும் துவக்க"
+msgstr ""
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:38
 msgid "Queue Torrent Up"
-msgstr "டோர்றேன்ட் - களை மேல் நோக்கி வரிசைப்படுத்துக"
+msgstr ""
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:39
 msgid "Queue Up"
@@ -2682,7 +2682,7 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:40
 msgid "Queue Torrent Down"
-msgstr "டோர்றேன்ட் - களை கீழ் நோக்கி வரிசைப்படுத்துக"
+msgstr ""
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:41
 msgid "Queue Down"
@@ -2693,7 +2693,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/Toolbar.js:84
 #: deluge/ui/web/js/deluge-all/preferences/PreferencesWindow.js:24
 msgid "Preferences"
-msgstr "விருப்பங்கள்"
+msgstr ""
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:43
 #: deluge/ui/gtk3/glade/connection_manager.ui.h:1
@@ -3557,7 +3557,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/Statusbar.js:39
 #: deluge/ui/web/js/deluge-all/preferences/DaemonPage.js:50
 msgid "Connections"
-msgstr "இணைப்புகள்"
+msgstr ""
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:189
 #: deluge/ui/console/modes/preferences/preference_panes.py:543
@@ -3750,7 +3750,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/add/UrlWindow.js:27
 #: deluge/ui/web/js/deluge-all/add/AddWindow.js:65
 msgid "Add"
-msgstr "சேர்க்கவும்"
+msgstr ""
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:32
 msgid "Add the current entry value to the list"
@@ -3773,7 +3773,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:110
 #: deluge/ui/web/js/deluge-all/add/AddWindow.js:156
 msgid "Remove"
-msgstr "நீக்கவும்"
+msgstr ""
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:36
 msgid "Remove the selected entry"
@@ -4239,7 +4239,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/details/FilesTab.js:73
 #: deluge/ui/web/js/deluge-all/add/FilesTab.js:18
 msgid "Files"
-msgstr "கோப்புக்கள்"
+msgstr ""
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:24
 msgid "Webseeds"
@@ -5672,7 +5672,7 @@ msgstr ""
 
 #: deluge/ui/web/js/deluge-all/Toolbar.js:100
 msgid "Help"
-msgstr ""
+msgstr "Информацие"
 
 #: deluge/ui/web/js/deluge-all/Toolbar.js:108
 msgid "Logout"

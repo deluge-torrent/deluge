@@ -8,18 +8,18 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2019-11-12 14:55+0000\n"
-"PO-Revision-Date: 2019-06-06 10:57+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2023-11-06 18:51+0000\n"
+"Last-Translator: Cas <Unknown>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2021-09-10 18:01+0000\n"
-"X-Generator: Launchpad (build aca2013fd8cd2fea408d75f89f9bc012fbab307d)\n"
+"X-Launchpad-Export-Date: 2023-11-06 19:12+0000\n"
+"X-Generator: Launchpad (build f1e537f62ee3967c2b3f24dd10eacf1696334fe6)\n"
 
 #: deluge/common.py:411
 msgid "B"
-msgstr ""
+msgstr "B"
 
 #: deluge/common.py:412
 msgid "KiB"
@@ -35,7 +35,7 @@ msgstr "GiB"
 
 #: deluge/common.py:415
 msgid "TiB"
-msgstr ""
+msgstr "TiB"
 
 #: deluge/common.py:416
 msgid "K"
@@ -51,7 +51,7 @@ msgstr "G"
 
 #: deluge/common.py:419
 msgid "T"
-msgstr ""
+msgstr "T"
 
 #: deluge/common.py:515 deluge/ui/gtk3/statusbar.py:442
 #: deluge/ui/gtk3/statusbar.py:455 deluge/ui/gtk3/statusbar.py:464
@@ -62,7 +62,7 @@ msgstr ""
 #: deluge/ui/gtk3/systemtray.py:274 deluge/ui/gtk3/systemtray.py:442
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:40
 msgid "K/s"
-msgstr ""
+msgstr "K/s"
 
 #: deluge/common.py:515 deluge/ui/gtk3/menubar.py:449
 #: deluge/ui/gtk3/menubar.py:455
@@ -80,7 +80,7 @@ msgstr "KiB/s"
 
 #: deluge/common.py:521
 msgid "M/s"
-msgstr ""
+msgstr "M/s"
 
 #: deluge/common.py:521
 msgid "MiB/s"
@@ -88,7 +88,7 @@ msgstr "MiB/s"
 
 #: deluge/common.py:527
 msgid "G/s"
-msgstr ""
+msgstr "G/s"
 
 #: deluge/common.py:527
 msgid "GiB/s"
@@ -96,11 +96,11 @@ msgstr "GiB/s"
 
 #: deluge/common.py:533
 msgid "T/s"
-msgstr ""
+msgstr "T/s"
 
 #: deluge/common.py:533
 msgid "TiB/s"
-msgstr ""
+msgstr "TiB/s"
 
 #: deluge/argparserbase.py:172
 msgid "Common Options"
@@ -198,36 +198,36 @@ msgstr "Wszystkie"
 #: deluge/plugins/AutoAdd/deluge_autoadd/gtkui.py:534
 #: deluge/ui/web/js/deluge-all/UI.js:19
 msgid "Active"
-msgstr "Aktywny"
+msgstr "Aktywne"
 
 #: deluge/ui/common.py:39 deluge/ui/web/js/deluge-all/UI.js:20
 msgid "Allocating"
-msgstr ""
+msgstr "Alokowane"
 
 #: deluge/ui/common.py:40 deluge/ui/web/js/deluge-all/UI.js:21
 #: deluge/ui/web/js/deluge-all/UI.js:25
 msgid "Checking"
-msgstr "Sprawdzanie"
+msgstr "Sprawdzane"
 
 #: deluge/ui/common.py:41
 #: deluge/ui/console/modes/preferences/preference_panes.py:568
 #: deluge/ui/web/js/deluge-all/UI.js:22
 msgid "Downloading"
-msgstr "Pobieranie"
+msgstr "Pobierane"
 
 #: deluge/ui/common.py:42
 #: deluge/ui/console/modes/preferences/preference_panes.py:575
 #: deluge/ui/web/js/deluge-all/UI.js:23
 msgid "Seeding"
-msgstr "Wysyłanie"
+msgstr "Wysyłane"
 
 #: deluge/ui/common.py:43 deluge/ui/web/js/deluge-all/UI.js:24
 msgid "Paused"
-msgstr "Pauza"
+msgstr "Wstrzymane"
 
 #: deluge/ui/common.py:44 deluge/ui/web/js/deluge-all/UI.js:26
 msgid "Queued"
-msgstr "W kolejce"
+msgstr "Zakolejkowane"
 
 #: deluge/ui/common.py:45 deluge/ui/common.py:122
 #: deluge/ui/gtk3/statusbar.py:396 deluge/ui/gtk3/filtertreeview.py:131
@@ -243,7 +243,7 @@ msgstr "W kolejce"
 #: deluge/ui/web/js/deluge-all/add/AddWindow.js:291
 #: deluge/ui/web/js/deluge-all/add/AddWindow.js:316
 msgid "Error"
-msgstr "Błąd"
+msgstr "Błędne"
 
 #: deluge/ui/common.py:50 deluge/ui/gtk3/listview.py:793
 #: deluge/ui/gtk3/torrentview.py:180 deluge/ui/gtk3/torrentview.py:276
@@ -288,26 +288,26 @@ msgstr "Wysłano"
 #: deluge/ui/common.py:57 deluge/ui/gtk3/torrentview.py:303
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:260
 msgid "Remaining"
-msgstr ""
+msgstr "Pozostało"
 
 #: deluge/ui/common.py:58 deluge/ui/gtk3/torrentview.py:373
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:165
 msgid "Ratio"
-msgstr "Ratio"
+msgstr "Ułamek"
 
 #: deluge/ui/common.py:59 deluge/ui/gtk3/torrentview.py:340
 #: deluge/ui/gtk3/peers_tab.py:133
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:144
 #: deluge/ui/web/js/deluge-all/details/PeersTab.js:87
 msgid "Down Speed"
-msgstr "Szybk. pobierania"
+msgstr "Szybkość pobierania"
 
 #: deluge/ui/common.py:60 deluge/ui/gtk3/torrentview.py:346
 #: deluge/ui/gtk3/peers_tab.py:146
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:151
 #: deluge/ui/web/js/deluge-all/details/PeersTab.js:94
 msgid "Up Speed"
-msgstr "Szybk. wysyłania"
+msgstr "Szybkość wysyłania"
 
 #: deluge/ui/common.py:61 deluge/ui/gtk3/torrentview.py:352
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:268
@@ -321,11 +321,11 @@ msgstr "Limit Wysyłania"
 
 #: deluge/ui/common.py:63 deluge/ui/web/js/deluge-all/add/OptionsTab.js:101
 msgid "Max Connections"
-msgstr ""
+msgstr "Maksymalnie Połączeń"
 
 #: deluge/ui/common.py:64 deluge/ui/web/js/deluge-all/add/OptionsTab.js:109
 msgid "Max Upload Slots"
-msgstr ""
+msgstr "Maksymalnie Slotów Wysyłania"
 
 #: deluge/ui/common.py:65 deluge/ui/gtk3/torrentview.py:325
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:136
@@ -336,17 +336,17 @@ msgstr "Uczestnicy"
 #: deluge/ui/common.py:66 deluge/ui/gtk3/torrentview.py:317
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:128
 msgid "Seeds"
-msgstr ""
+msgstr "Posiadacze"
 
 #: deluge/ui/common.py:67 deluge/ui/gtk3/torrentview.py:380
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:173
 msgid "Avail"
-msgstr "Dost."
+msgstr "Dostępność"
 
 #: deluge/ui/common.py:68 deluge/ui/gtk3/torrentview.py:333
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:284
 msgid "Seeds:Peers"
-msgstr ""
+msgstr "Posiadaczy:Uczestników"
 
 #: deluge/ui/common.py:69 deluge/ui/gtk3/listview.py:203
 #: deluge/ui/gtk3/torrentview.py:387
@@ -367,33 +367,33 @@ msgstr "Tracker"
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:213
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:31
 msgid "Download Folder"
-msgstr ""
+msgstr "Folder pobrania"
 
 #: deluge/ui/common.py:75
 msgid "Seeding Time"
-msgstr ""
+msgstr "Razem wysyłano czasu"
 
 #: deluge/ui/common.py:76
 msgid "Active Time"
-msgstr ""
+msgstr "Razem aktywności czasu"
 
 #: deluge/ui/common.py:78
 msgid "Last Activity"
-msgstr ""
+msgstr "Ostatnia aktywność"
 
 #: deluge/ui/common.py:81
 msgid "Finished Time"
-msgstr ""
+msgstr "Zakończono o"
 
 #: deluge/ui/common.py:83 deluge/ui/gtk3/torrentview.py:401
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:189
 msgid "Complete Seen"
-msgstr ""
+msgstr "Ostatnio widziano cały o"
 
 #: deluge/ui/common.py:86 deluge/ui/gtk3/torrentview.py:394
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:197
 msgid "Completed"
-msgstr ""
+msgstr "Zakończono o"
 
 #: deluge/ui/common.py:87 deluge/ui/gtk3/torrentview.py:366
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:158
@@ -404,7 +404,7 @@ msgstr "Pozostało"
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:30
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:236
 msgid "Shared"
-msgstr ""
+msgstr "Współdzielony"
 
 #: deluge/ui/common.py:90 deluge/ui/gtk3/glade/main_window.tabs.ui.h:31
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:287
@@ -415,7 +415,7 @@ msgstr "Kolejkuj Pierwszy/Ostatni"
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:14
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:143
 msgid "Sequential Download"
-msgstr ""
+msgstr "Sekwencyjne pobieranie"
 
 #: deluge/ui/common.py:97 deluge/ui/common.py:98
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:35
@@ -427,19 +427,19 @@ msgstr "Automatycznie zarządzany"
 
 #: deluge/ui/common.py:99
 msgid "Stop At Ratio"
-msgstr ""
+msgstr "Zatrzymaj na ułamku"
 
 #: deluge/ui/common.py:100
 msgid "Stop Ratio"
-msgstr ""
+msgstr "Ułamek do zatrzymania"
 
 #: deluge/ui/common.py:101
 msgid "Remove At Ratio"
-msgstr ""
+msgstr "Usuń na ułamku"
 
 #: deluge/ui/common.py:102 deluge/ui/common.py:108
 msgid "Move On Completed"
-msgstr ""
+msgstr "Przenieś po zakończeniu"
 
 #: deluge/ui/common.py:104
 msgid "Move Completed Path"
@@ -455,7 +455,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/FilterPanel.js:32
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:221
 msgid "Owner"
-msgstr ""
+msgstr "Właściciel"
 
 #: deluge/ui/common.py:116
 msgid "Pieces"
@@ -463,13 +463,13 @@ msgstr "Fragmentów"
 
 #: deluge/ui/common.py:117
 msgid "Seed Rank"
-msgstr ""
+msgstr "Cyklów seedowania"
 
 #: deluge/ui/common.py:118 deluge/ui/gtk3/glade/main_window.tabs.ui.h:33
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:22
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:294
 msgid "Super Seeding"
-msgstr ""
+msgstr "Początkowe seedowanie"
 
 #: deluge/ui/common.py:123 deluge/ui/web/js/deluge-all/details/StatusTab.js:122
 msgid "Warning"
@@ -506,7 +506,7 @@ msgstr "Pobierane"
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:21
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:73
 msgid "Bandwidth"
-msgstr "Łącze"
+msgstr "Przepustowość"
 
 #: deluge/ui/common.py:132
 #: deluge/ui/console/modes/preferences/preference_panes.py:550
@@ -532,7 +532,7 @@ msgstr "Sieć"
 #: deluge/ui/web/js/deluge-all/preferences/ProxyPage.js:21
 #: deluge/ui/web/js/deluge-all/preferences/ProxyPage.js:35
 msgid "Proxy"
-msgstr "Proxy"
+msgstr "Pośrednik sieciowy"
 
 #: deluge/ui/common.py:135
 #: deluge/ui/console/modes/preferences/preference_panes.py:685
@@ -567,22 +567,22 @@ msgstr "Wtyczki"
 #: deluge/ui/common.py:150 deluge/ui/web/js/deluge-all/Deluge.js:154
 #: deluge/ui/web/js/deluge-all/Menus.js:365
 msgid "Skip"
-msgstr ""
+msgstr "Nie pobieraj"
 
 #: deluge/ui/common.py:151 deluge/ui/web/js/deluge-all/Deluge.js:155
 #: deluge/ui/web/js/deluge-all/Menus.js:371
 msgid "Low"
-msgstr ""
+msgstr "Niski priorytet"
 
 #: deluge/ui/common.py:152 deluge/ui/web/js/deluge-all/Deluge.js:156
 #: deluge/ui/web/js/deluge-all/Menus.js:377
 msgid "Normal"
-msgstr ""
+msgstr "Średni priorytet"
 
 #: deluge/ui/common.py:153 deluge/ui/web/js/deluge-all/Deluge.js:157
 #: deluge/ui/web/js/deluge-all/Menus.js:383
 msgid "High"
-msgstr ""
+msgstr "Wysoki priorytet"
 
 #: deluge/ui/client.py:681
 msgid ""

@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2019-11-12 14:55+0000\n"
-"PO-Revision-Date: 2019-12-30 00:59+0000\n"
+"PO-Revision-Date: 2022-12-21 00:21+0000\n"
 "Last-Translator: Pere Orga <Unknown>\n"
 "Language-Team: Catalan <ca@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2021-09-10 18:01+0000\n"
-"X-Generator: Launchpad (build aca2013fd8cd2fea408d75f89f9bc012fbab307d)\n"
+"X-Launchpad-Export-Date: 2023-11-06 19:12+0000\n"
+"X-Generator: Launchpad (build f1e537f62ee3967c2b3f24dd10eacf1696334fe6)\n"
 
 #: deluge/common.py:411
 msgid "B"
@@ -1210,7 +1210,7 @@ msgstr "Namíbia"
 
 #: deluge/ui/countries.py:162
 msgid "Nauru"
-msgstr "Nauru"
+msgstr "nauruà"
 
 #: deluge/ui/countries.py:163
 msgid "Nepal"
@@ -1482,7 +1482,7 @@ msgstr "Togo"
 
 #: deluge/ui/countries.py:230
 msgid "Tokelau"
-msgstr "Tokelau"
+msgstr "tokelauès"
 
 #: deluge/ui/countries.py:231
 msgid "Tonga"
@@ -1800,7 +1800,7 @@ msgstr ""
 "Aquest programa és programari lliure (\"free software\" en anglès); podeu "
 "redistribuir-lo i/o modificar-lo sota els termes de la llicència GNU Public "
 "License tal com està publicada per la Free Software Foundation; ja sigui la "
-"versió 3 de la llicència, o (a la vostra decisió) qualsevol altre versió "
+"versió 3 de la llicència, o (a la vostra decisió) qualsevol altra versió "
 "posterior.\n"
 "Aquest programari es distribueix amb l'esperança de que serà útil, però "
 "SENSE CAP GARANTIA; fins i tot sense la garantia implícita de "
@@ -1841,7 +1841,7 @@ msgstr "Afegeix els torrents (%d)"
 
 #: deluge/ui/gtk3/addtorrentdialog.py:238
 msgid "Duplicate torrent(s)"
-msgstr "Torrent(s) duplicat(s)."
+msgstr "Torrent(s) duplicat(s)"
 
 #: deluge/ui/gtk3/addtorrentdialog.py:240
 #, python-format
@@ -1870,11 +1870,11 @@ msgstr "Seleccioneu un fitxer .torrent"
 
 #: deluge/ui/gtk3/addtorrentdialog.py:777
 msgid "Invalid URL"
-msgstr "URL invàlida"
+msgstr "L'URL no és vàlid"
 
 #: deluge/ui/gtk3/addtorrentdialog.py:778
 msgid "is not a valid URL."
-msgstr "no és una URL vàlida."
+msgstr "no és un URL vàlid."
 
 #: deluge/ui/gtk3/addtorrentdialog.py:784
 msgid "Downloading..."
@@ -1975,7 +1975,7 @@ msgstr "_Afegeix"
 
 #: deluge/ui/gtk3/dialogs.py:289
 msgid "Authentication Level:"
-msgstr "Nivel d'autenticació"
+msgstr "Nivel d'autenticació:"
 
 #: deluge/ui/gtk3/dialogs.py:423
 msgid "Password Protected"
@@ -2296,7 +2296,7 @@ msgstr "Error en afegir l'amfitrió"
 
 #: deluge/ui/gtk3/connectionmanager.py:464
 msgid "Error Updating Host"
-msgstr "Ha fallat l'actualització del l'amfitrió"
+msgstr "Ha fallat l'actualització de l'amfitrió"
 
 #: deluge/ui/gtk3/preferences.py:131
 #: deluge/ui/console/cmdline/commands/connect.py:33
@@ -2535,8 +2535,8 @@ msgid ""
 "Add one or more torrent files, torrent URLs or magnet URIs to a currently "
 "running Deluge GTK instance"
 msgstr ""
-"Afegeix un o més fitxers torrent, URLs de fitxers torrent URIs magnet a una "
-"instància en execució del Deluge GTK."
+"Afegeix un o més fitxers torrent, URLs de fitxers torrent o URIs magnet a "
+"una instància GTK en execució del Deluge"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.progress.ui.h:1
 msgid "Creating Torrent"
@@ -3064,7 +3064,7 @@ msgstr "Diàleg «Afegeix torrents»"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:71
 msgid "Connection Attempts per Second:"
-msgstr "Intents de connexió per segon"
+msgstr "Intents de connexió per segon:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:72
 msgid "Half-Open Connections:"
@@ -3137,7 +3137,7 @@ msgid ""
 "to avoid exceeding the limits with the total traffic"
 msgstr ""
 "Si es marca, la sobrecàrrega TCP/IP estimada no es tindrà en compte en els "
-"límits de relació, per tal d'evitar excedir els límits amb el trànsit total."
+"límits de relació, per tal d'evitar excedir els límits amb el trànsit total"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:85
 msgid "Global Bandwidth Limits"
@@ -3442,7 +3442,7 @@ msgstr "Clients del servidor intermediari"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:144
 msgid "Proxy peer and web seed connections."
-msgstr "Connexions de clients del servidor intermediari i de llavors web"
+msgstr "Connexions de clients del servidor intermediari i de llavors web."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:145
 #: deluge/ui/console/modes/preferences/preference_panes.py:665
@@ -3726,7 +3726,7 @@ msgstr "_Troba'n més..."
 
 #: deluge/ui/gtk3/glade/remove_torrent_dialog.ui.h:4
 msgid "Remove the selected torrent(s)?"
-msgstr "Voleu suprimit els torrents seleccionats?"
+msgstr "Voleu suprimir els torrents seleccionats?"
 
 #: deluge/ui/gtk3/glade/remove_torrent_dialog.ui.h:5
 msgid "Include downloaded files"
@@ -3961,7 +3961,7 @@ msgstr "Nova versió"
 
 #: deluge/ui/gtk3/glade/main_window.new_release.ui.h:3
 msgid "_Goto Website"
-msgstr "_Vés al lloc web"
+msgstr "_Ves al lloc web"
 
 #: deluge/ui/gtk3/glade/main_window.new_release.ui.h:4
 msgid "New Release Available!"
@@ -4405,7 +4405,7 @@ msgstr "Conti_nua"
 #: deluge/ui/gtk3/glade/torrent_menu.ui.h:4
 #: deluge/ui/gtk3/glade/filtertree_menu.ui.h:4
 msgid "Resume selected torrents."
-msgstr "Continua amb els torrents seleccionats"
+msgstr "Reprèn els torrents seleccionats."
 
 #: deluge/ui/gtk3/glade/torrent_menu.ui.h:5
 msgid "Opt_ions"
@@ -4561,11 +4561,11 @@ msgid ""
 "of the features provided."
 msgstr ""
 "El Deluge conté les funcions comunes dels clients BitTorrent, com ara el "
-"xifratge del protocol, DHT,  descobriment de clients locals (LSD), "
-"intercanvi de clients (PEX), UPnP, NAT-PMP, suport per servidors "
-"intermediaris, llavors web i límits de velocitat globals i per torrent. El "
-"Deluge es basa en la biblioteca libtorrent, i per tant incorpora la llista "
-"completa de les funcions que proporciona."
+"xifratge del protocol, DHT, descobriment de clients locals (LSD), intercanvi "
+"de clients (PEX), UPnP, NAT-PMP, suport per servidors intermediaris, llavors "
+"web i límits de velocitat globals i per torrent. El Deluge es basa en la "
+"biblioteca libtorrent, i, per tant, incorpora la llista completa de les "
+"funcions que proporciona."
 
 #: deluge/ui/data/share/metainfo/deluge.metainfo.xml.in.h:4
 msgid ""
@@ -4701,7 +4701,8 @@ msgstr ""
 #: deluge/ui/console/cmdline/commands/pause.py:29
 msgid "One or more torrent ids. Use \"*\" to pause all torrents"
 msgstr ""
-"Un o més identificadors de torrent. Useu \"*\" per pausar tots els torrents"
+"Un o més identificadors de torrent. Useu \"*\" per posar en pausa tots els "
+"torrents"
 
 #: deluge/ui/console/cmdline/commands/add.py:38
 msgid "Download folder for torrent"
@@ -4745,7 +4746,7 @@ msgid ""
 "scripts that want to do their own parsing)"
 msgstr ""
 "Valors en brut de les velocitats de pujada i baixada (sense el sufix KiB/s) "
-"(útil per a scripts que vulguin fer el seu propi anàlisi)"
+"(útil per a scripts que vulguin analitzar-ho)"
 
 #: deluge/ui/console/cmdline/commands/status.py:46
 msgid "Do not show torrent status (Improves command speed)"
@@ -4792,7 +4793,7 @@ msgstr "Mostra més informació detallada com ara els fitxers i clients."
 #: deluge/ui/console/cmdline/commands/info.py:116
 #, python-format
 msgid "Show torrents with state STATE: %s."
-msgstr "Mostra els torrents amb l'estat: %s"
+msgstr "Mostra els torrents amb l'estat: %s."
 
 #: deluge/ui/console/cmdline/commands/info.py:132
 msgid "Same as --sort but items are in reverse order."
@@ -4802,7 +4803,7 @@ msgstr "El mateix que --sort però els elements estan amb ordre invers."
 msgid "One or more torrent ids. If none is given, list all"
 msgstr ""
 "Un o més identificadors de torrent. Si no se'n proporciona cap, mostra'ls "
-"tots."
+"tots"
 
 #: deluge/ui/console/modes/connectionmanager.py:44
 msgid "Select Host"
@@ -5116,7 +5117,7 @@ msgstr "L'adreça IP \"%s\" està mal formada"
 
 #: deluge/plugins/Blocklist/deluge_blocklist/webui.py:21
 msgid "Emule IP list (GZip)"
-msgstr "Llistat de les IP d'Emule (GZip)"
+msgstr "Llistat d'IPs de l'eMule (GZip)"
 
 #: deluge/plugins/Blocklist/deluge_blocklist/webui.py:22
 msgid "SafePeer Text (Zipped)"
@@ -5281,7 +5282,7 @@ msgstr "Camí"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/core.py:125
 msgid "Watch folder does not exist."
-msgstr "La carpeta vigilada no existeix"
+msgstr "La carpeta vigilada no existeix."
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/core.py:128
 #: deluge/plugins/AutoAdd/deluge_autoadd/core.py:443
@@ -5740,7 +5741,7 @@ msgstr ""
 
 #: deluge/plugins/Notifications/deluge_notifications/data/config.ui.h:1
 msgid "Tray icon blinks enabled"
-msgstr "El parpadeig de les icones de la safata del sistema està activat"
+msgstr "El parpelleig de les icones de la safata del sistema està activat"
 
 #: deluge/plugins/Notifications/deluge_notifications/data/config.ui.h:2
 msgid "Popups enabled"
@@ -5826,7 +5827,7 @@ msgstr "Torrents actius:"
 
 #: deluge/plugins/Scheduler/deluge_scheduler/gtkui.py:328
 msgid "Active Downloading:"
-msgstr "Nombre màxim de connexions actives"
+msgstr "Nombre de connexions actives:"
 
 #: deluge/plugins/Scheduler/deluge_scheduler/gtkui.py:337
 msgid "Active Seeding:"
@@ -6056,7 +6057,7 @@ msgstr "S'ha perdut la connexió amb el servidor web."
 
 #: deluge/ui/web/js/deluge-all/UI.js:160
 msgid "Lost connection to webserver"
-msgstr "Connexió al servidor web perduda."
+msgstr "S'ha perdut la connexió al servidor"
 
 #: deluge/ui/web/js/deluge-all/Menus.js:72
 msgid "D/L Speed Limit"
@@ -6353,7 +6354,7 @@ msgstr "Temps estimat:"
 
 #: deluge/ui/web/render/tab_status.html:26
 msgid "Date Added:"
-msgstr "Data d'addició"
+msgstr "Data d'addició:"
 
 #~ msgid "<b>Language</b>"
 #~ msgstr "<b>Idioma</b>"

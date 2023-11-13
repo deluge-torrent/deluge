@@ -8,18 +8,18 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2019-11-12 14:55+0000\n"
-"PO-Revision-Date: 2019-06-06 10:57+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2021-12-23 05:43+0000\n"
+"Last-Translator: Sam van Kampen <sam@tehsvk.net>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2021-09-10 18:01+0000\n"
-"X-Generator: Launchpad (build aca2013fd8cd2fea408d75f89f9bc012fbab307d)\n"
+"X-Launchpad-Export-Date: 2023-11-06 19:12+0000\n"
+"X-Generator: Launchpad (build f1e537f62ee3967c2b3f24dd10eacf1696334fe6)\n"
 
 #: deluge/common.py:411
 msgid "B"
-msgstr ""
+msgstr "B"
 
 #: deluge/common.py:412
 msgid "KiB"
@@ -35,7 +35,7 @@ msgstr "GiB"
 
 #: deluge/common.py:415
 msgid "TiB"
-msgstr ""
+msgstr "TiB"
 
 #: deluge/common.py:416
 msgid "K"
@@ -80,7 +80,7 @@ msgstr "KiB/s"
 
 #: deluge/common.py:521
 msgid "M/s"
-msgstr ""
+msgstr "M/s"
 
 #: deluge/common.py:521
 msgid "MiB/s"
@@ -88,7 +88,7 @@ msgstr "MiB/s"
 
 #: deluge/common.py:527
 msgid "G/s"
-msgstr ""
+msgstr "G/s"
 
 #: deluge/common.py:527
 msgid "GiB/s"
@@ -96,11 +96,11 @@ msgstr "GiB/s"
 
 #: deluge/common.py:533
 msgid "T/s"
-msgstr ""
+msgstr "T/s"
 
 #: deluge/common.py:533
 msgid "TiB/s"
-msgstr ""
+msgstr "TiB/s"
 
 #: deluge/argparserbase.py:172
 msgid "Common Options"
@@ -108,11 +108,11 @@ msgstr ""
 
 #: deluge/argparserbase.py:175
 msgid "Print this help message"
-msgstr ""
+msgstr "Dit Help-bericht afdrukken"
 
 #: deluge/argparserbase.py:182
 msgid "Print version information"
-msgstr ""
+msgstr "Versie-informatie afdrukken"
 
 #: deluge/argparserbase.py:194
 msgid "Set the config directory path"
@@ -278,12 +278,12 @@ msgstr "Grootte"
 #: deluge/ui/common.py:55 deluge/ui/gtk3/torrentview.py:289
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:244
 msgid "Downloaded"
-msgstr "Gedownloaded"
+msgstr "Binnengehaald"
 
 #: deluge/ui/common.py:56 deluge/ui/gtk3/torrentview.py:296
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:252
 msgid "Uploaded"
-msgstr "Geupload"
+msgstr "Geüpload"
 
 #: deluge/ui/common.py:57 deluge/ui/gtk3/torrentview.py:303
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:260
@@ -3901,17 +3901,17 @@ msgstr ""
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:28
 #: deluge/ui/web/render/tab_status.html:10
 msgid "Up Speed:"
-msgstr ""
+msgstr "Uploadsnelheid:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:3
 #: deluge/ui/web/render/tab_status.html:2
 msgid "Downloaded:"
-msgstr ""
+msgstr "Binnengehaald:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:4
 #: deluge/ui/web/render/tab_status.html:3
 msgid "Uploaded:"
-msgstr ""
+msgstr "Geüpload:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:5
 #: deluge/ui/web/render/tab_status.html:16

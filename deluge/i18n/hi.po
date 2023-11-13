@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2019-11-12 14:55+0000\n"
-"PO-Revision-Date: 2019-06-06 10:57+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2023-02-17 20:51+0000\n"
+"Last-Translator: Hemish <Unknown>\n"
 "Language-Team: Hindi <hi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2021-09-10 18:01+0000\n"
-"X-Generator: Launchpad (build aca2013fd8cd2fea408d75f89f9bc012fbab307d)\n"
+"X-Launchpad-Export-Date: 2023-11-06 19:12+0000\n"
+"X-Generator: Launchpad (build f1e537f62ee3967c2b3f24dd10eacf1696334fe6)\n"
 
 #: deluge/common.py:411
 msgid "B"
@@ -198,7 +198,7 @@ msgstr "सभी"
 #: deluge/plugins/AutoAdd/deluge_autoadd/gtkui.py:534
 #: deluge/ui/web/js/deluge-all/UI.js:19
 msgid "Active"
-msgstr ""
+msgstr "सक्रिय"
 
 #: deluge/ui/common.py:39 deluge/ui/web/js/deluge-all/UI.js:20
 msgid "Allocating"
@@ -223,11 +223,11 @@ msgstr "सीड किया जा रहा है"
 
 #: deluge/ui/common.py:43 deluge/ui/web/js/deluge-all/UI.js:24
 msgid "Paused"
-msgstr "ठहराया हुआ"
+msgstr "ठहरा हुआ"
 
 #: deluge/ui/common.py:44 deluge/ui/web/js/deluge-all/UI.js:26
 msgid "Queued"
-msgstr "क़तार-बद्ध"
+msgstr "पंक्तिबद्ध"
 
 #: deluge/ui/common.py:45 deluge/ui/common.py:122
 #: deluge/ui/gtk3/statusbar.py:396 deluge/ui/gtk3/filtertreeview.py:131
@@ -288,7 +288,7 @@ msgstr "अपलोडेड"
 #: deluge/ui/common.py:57 deluge/ui/gtk3/torrentview.py:303
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:260
 msgid "Remaining"
-msgstr ""
+msgstr "बाकी"
 
 #: deluge/ui/common.py:58 deluge/ui/gtk3/torrentview.py:373
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:165
@@ -393,7 +393,7 @@ msgstr ""
 #: deluge/ui/common.py:86 deluge/ui/gtk3/torrentview.py:394
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:197
 msgid "Completed"
-msgstr ""
+msgstr "पूर्ण"
 
 #: deluge/ui/common.py:87 deluge/ui/gtk3/torrentview.py:366
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:158
@@ -404,7 +404,7 @@ msgstr "इ टी ए (E T A)"
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:30
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:236
 msgid "Shared"
-msgstr ""
+msgstr "साझा किए गए"
 
 #: deluge/ui/common.py:90 deluge/ui/gtk3/glade/main_window.tabs.ui.h:31
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:287
@@ -455,7 +455,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/FilterPanel.js:32
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:221
 msgid "Owner"
-msgstr ""
+msgstr "मालिक"
 
 #: deluge/ui/common.py:116
 msgid "Pieces"
@@ -539,7 +539,7 @@ msgstr "प्रॉक्सी"
 #: deluge/ui/console/modes/preferences/preferences.py:97
 #: deluge/ui/web/js/deluge-all/preferences/CachePage.js:18
 msgid "Cache"
-msgstr ""
+msgstr "कैश"
 
 #: deluge/ui/common.py:136 deluge/ui/gtk3/glade/preferences_dialog.ui.h:190
 #: deluge/ui/console/modes/preferences/preference_panes.py:499
@@ -567,22 +567,22 @@ msgstr "प्लग-इन्स"
 #: deluge/ui/common.py:150 deluge/ui/web/js/deluge-all/Deluge.js:154
 #: deluge/ui/web/js/deluge-all/Menus.js:365
 msgid "Skip"
-msgstr ""
+msgstr "अभी नहीं"
 
 #: deluge/ui/common.py:151 deluge/ui/web/js/deluge-all/Deluge.js:155
 #: deluge/ui/web/js/deluge-all/Menus.js:371
 msgid "Low"
-msgstr ""
+msgstr "कम"
 
 #: deluge/ui/common.py:152 deluge/ui/web/js/deluge-all/Deluge.js:156
 #: deluge/ui/web/js/deluge-all/Menus.js:377
 msgid "Normal"
-msgstr ""
+msgstr "सामान्य"
 
 #: deluge/ui/common.py:153 deluge/ui/web/js/deluge-all/Deluge.js:157
 #: deluge/ui/web/js/deluge-all/Menus.js:383
 msgid "High"
-msgstr ""
+msgstr "उच्च"
 
 #: deluge/ui/client.py:681
 msgid ""
@@ -592,7 +592,7 @@ msgstr ""
 
 #: deluge/ui/countries.py:10
 msgid "Afghanistan"
-msgstr ""
+msgstr "अफ़ग़ानिस्तान"
 
 #: deluge/ui/countries.py:11
 msgid "Aland Islands"
@@ -644,15 +644,15 @@ msgstr ""
 
 #: deluge/ui/countries.py:23
 msgid "Australia"
-msgstr ""
+msgstr "ऑस्ट्रेलिया"
 
 #: deluge/ui/countries.py:24
 msgid "Austria"
-msgstr ""
+msgstr "ऑस्ट्रिया"
 
 #: deluge/ui/countries.py:25
 msgid "Azerbaijan"
-msgstr ""
+msgstr "अज़रबैजान"
 
 #: deluge/ui/countries.py:26
 msgid "Bahamas"
@@ -664,7 +664,7 @@ msgstr ""
 
 #: deluge/ui/countries.py:28
 msgid "Bangladesh"
-msgstr ""
+msgstr "बांग्लादेश"
 
 #: deluge/ui/countries.py:29
 msgid "Barbados"
@@ -672,11 +672,11 @@ msgstr ""
 
 #: deluge/ui/countries.py:30
 msgid "Belarus"
-msgstr ""
+msgstr "बेलारूस"
 
 #: deluge/ui/countries.py:31
 msgid "Belgium"
-msgstr ""
+msgstr "बेल्जियम"
 
 #: deluge/ui/countries.py:32
 msgid "Belize"
@@ -1887,7 +1887,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/EditConnectionWindow.js:65
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:74
 msgid "Username:"
-msgstr "उपयोगकर्ता का नाम:"
+msgstr "उपयोगक्ता का नाम:"
 
 #: deluge/ui/gtk3/dialogs.py:217 deluge/ui/gtk3/dialogs.py:310
 #: deluge/ui/gtk3/dialogs.py:437
@@ -2264,7 +2264,7 @@ msgstr "स्तर"
 #: deluge/ui/web/js/deluge-all/preferences/EncryptionPage.js:67
 #: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:71
 msgid "Enabled"
-msgstr "सक्रिय किया"
+msgstr "सक्रिय"
 
 #: deluge/ui/gtk3/preferences.py:162
 #: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:87
@@ -3223,7 +3223,7 @@ msgstr ""
 #: deluge/plugins/Notifications/deluge_notifications/data/config.ui.h:11
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:155
 msgid "From:"
-msgstr "द्वारा:"
+msgstr "प्रेषक:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:119
 #: deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:165
@@ -3403,7 +3403,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/preferences/EncryptionPage.js:29
 #: deluge/ui/web/js/deluge-all/preferences/CachePage.js:30
 msgid "Settings"
-msgstr ""
+msgstr "सेटिंग्स"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:155
 msgid ""
@@ -5023,7 +5023,7 @@ msgstr "चालु होने पर ब्लॉकलिस्ट आय�
 #: deluge/plugins/Blocklist/deluge_blocklist/data/blocklist_pref.ui.h:6
 #: deluge/plugins/WebUi/deluge_webui/data/config.ui.h:4
 msgid "<b>Settings</b>"
-msgstr "<b>सेटिंग</b>"
+msgstr "<b>सेटिंग्स</b>"
 
 #: deluge/plugins/Blocklist/deluge_blocklist/data/blocklist_pref.ui.h:7
 msgid "Download the blocklist file if necessary and import the file."
@@ -5126,7 +5126,7 @@ msgstr ""
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/gtkui.py:507
 msgid "Path"
-msgstr ""
+msgstr "पाथ"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/core.py:125
 msgid "Watch folder does not exist."
@@ -5135,7 +5135,7 @@ msgstr ""
 #: deluge/plugins/AutoAdd/deluge_autoadd/core.py:128
 #: deluge/plugins/AutoAdd/deluge_autoadd/core.py:443
 msgid "Path does not exist."
-msgstr ""
+msgstr "पाथ मौजूद नहीं है"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:1
 msgid "Watch Folder Properties"
@@ -5372,7 +5372,7 @@ msgstr ""
 
 #: deluge/plugins/WebUi/deluge_webui/data/config.ui.h:3
 msgid "Listening port:"
-msgstr ""
+msgstr "सुनने का पोर्ट:"
 
 #: deluge/plugins/Label/deluge_label/core.py:184
 msgid "Invalid label, valid characters:[a-z0-9_-]"
@@ -5495,7 +5495,7 @@ msgstr ""
 
 #: deluge/plugins/Notifications/deluge_notifications/gtkui.py:194
 msgid "pygame is not installed"
-msgstr ""
+msgstr "pygame स्थापित नहीं है"
 
 #: deluge/plugins/Notifications/deluge_notifications/gtkui.py:206
 #, python-format
@@ -5573,7 +5573,7 @@ msgstr ""
 
 #: deluge/plugins/Notifications/deluge_notifications/data/config.ui.h:3
 msgid "Sound enabled"
-msgstr ""
+msgstr "ध्वनि सक्षम हैं"
 
 #: deluge/plugins/Notifications/deluge_notifications/data/config.ui.h:4
 msgid "<b>UI Notifications</b>"
@@ -5724,7 +5724,7 @@ msgstr "स्थानान्तर"
 
 #: deluge/ui/web/js/deluge-all/MoveStorage.js:54
 msgid "Browse"
-msgstr ""
+msgstr "ब्राउज़ करें"
 
 #: deluge/ui/web/js/deluge-all/EditConnectionWindow.js:17
 msgid "Edit Connection"
@@ -5757,7 +5757,7 @@ msgstr ""
 
 #: deluge/ui/web/js/deluge-all/Deluge.js:158
 msgid "Mixed"
-msgstr ""
+msgstr "मिश्रित"
 
 #: deluge/ui/web/js/deluge-all/Statusbar.js:87
 msgid "Set Maximum Connections"
@@ -5906,7 +5906,7 @@ msgstr "बलपूर्वक पुनः जांच"
 
 #: deluge/ui/web/js/deluge-all/Menus.js:359
 msgid "Expand All"
-msgstr ""
+msgstr "सभी फैलाएँ"
 
 #: deluge/ui/web/js/deluge-all/details/DetailsTab.js:13
 msgid "Details"
@@ -5914,11 +5914,11 @@ msgstr "विवरण"
 
 #: deluge/ui/web/js/deluge-all/details/DetailsTab.js:28
 msgid "Comment:"
-msgstr ""
+msgstr "टिप्पणीः"
 
 #: deluge/ui/web/js/deluge-all/details/DetailsTab.js:29
 msgid "Status:"
-msgstr ""
+msgstr "स्थिति:"
 
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:242
 msgid "Move Completed:"
@@ -5935,7 +5935,7 @@ msgstr "निजी"
 
 #: deluge/ui/web/js/deluge-all/details/StatusTab.js:39
 msgid "Loading"
-msgstr ""
+msgstr "लोड हो रहा है"
 
 #: deluge/ui/web/js/deluge-all/details/StatusTab.js:118
 msgid "True"
@@ -5962,7 +5962,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/preferences/InstallPluginWindow.js:33
 #: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:109
 msgid "Install"
-msgstr ""
+msgstr "स्थापित करें"
 
 #: deluge/ui/web/js/deluge-all/preferences/InstallPluginWindow.js:45
 msgid "Select an egg"
@@ -6041,11 +6041,11 @@ msgstr ""
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:110
 msgid "Old:"
-msgstr ""
+msgstr "पुराना:"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:114
 msgid "New:"
-msgstr ""
+msgstr "नया:"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:118
 msgid "Confirm:"
@@ -6081,11 +6081,11 @@ msgstr ""
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:210
 msgid "Refresh"
-msgstr ""
+msgstr "ताज़ा करें"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:244
 msgid "Invalid Password"
-msgstr ""
+msgstr "अवैध पासवर्ड"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:245
 msgid "Your passwords don't match!"
@@ -6114,7 +6114,7 @@ msgstr "यूआरएल"
 
 #: deluge/ui/web/js/deluge-all/add/UrlWindow.js:45
 msgid "Cookies"
-msgstr ""
+msgstr "कुकी"
 
 #: deluge/ui/web/js/deluge-all/add/UrlWindow.js:99
 msgid "Failed to download torrent"

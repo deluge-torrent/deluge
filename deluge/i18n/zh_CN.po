@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2019-11-12 14:55+0000\n"
-"PO-Revision-Date: 2019-12-06 05:38+0000\n"
+"PO-Revision-Date: 2022-12-28 05:35+0000\n"
 "Last-Translator: 玉堂白鹤 <yjwork@qq.com>\n"
 "Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2021-09-10 18:01+0000\n"
-"X-Generator: Launchpad (build aca2013fd8cd2fea408d75f89f9bc012fbab307d)\n"
+"X-Launchpad-Export-Date: 2023-11-06 19:12+0000\n"
+"X-Generator: Launchpad (build f1e537f62ee3967c2b3f24dd10eacf1696334fe6)\n"
 "Language: zh_CN\n"
 
 #: deluge/common.py:411
@@ -132,18 +132,18 @@ msgstr "设置日志级别(无、错误、警告、信息、调试)"
 msgid ""
 "Enable logfile rotation, with optional maximum logfile size, default: "
 "%(const)s (Logfile rotation count is 5)"
-msgstr ""
+msgstr "启用日志文件循环，使用可选的最大日志文件大小，默认值：%(const)s （日志文件循环计数为 5）"
 
 #: deluge/argparserbase.py:223
 msgid "Quieten logging output (Same as `--loglevel none`)"
-msgstr ""
+msgstr "静态日志记录输出（与“--loglevel none”相同）"
 
 #: deluge/argparserbase.py:231
 #, python-format
 msgid ""
 "Profile %(prog)s with cProfile. Outputs to stdout unless a filename is "
 "specified"
-msgstr ""
+msgstr "使用 cProfile 的配置文件 %(prog)s 。除非指定了文件名，否则输出到标准输出"
 
 #: deluge/argparserbase.py:351
 msgid "Process Control Options"
@@ -151,7 +151,7 @@ msgstr "进程控制选项"
 
 #: deluge/argparserbase.py:357
 msgid "Pidfile to store the process id"
-msgstr ""
+msgstr "用于存储进程 id 的 Pidfile"
 
 #: deluge/argparserbase.py:365
 msgid "Do not daemonize (fork) this process"
@@ -2421,7 +2421,7 @@ msgstr " 种子已加入队列"
 
 #: deluge/ui/gtk3/torrentview.py:421
 msgid "Torrent is shared between other Deluge users or not."
-msgstr ""
+msgstr "Torrent 是否在其他 Deluge 用户之间共享。"
 
 #: deluge/ui/gtk3/removetorrentdialog.py:67
 msgid "Remove the selected torrents?"

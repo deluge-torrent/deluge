@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2019-11-12 14:55+0000\n"
-"PO-Revision-Date: 2021-07-07 20:36+0000\n"
+"PO-Revision-Date: 2021-12-23 09:01+0000\n"
 "Last-Translator: ma$terok <Unknown>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2021-09-10 18:01+0000\n"
-"X-Generator: Launchpad (build aca2013fd8cd2fea408d75f89f9bc012fbab307d)\n"
+"X-Launchpad-Export-Date: 2023-11-06 19:12+0000\n"
+"X-Generator: Launchpad (build f1e537f62ee3967c2b3f24dd10eacf1696334fe6)\n"
 
 #: deluge/common.py:411
 msgid "B"
@@ -301,7 +301,7 @@ msgstr "Залишилося"
 #: deluge/ui/common.py:58 deluge/ui/gtk3/torrentview.py:373
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:165
 msgid "Ratio"
-msgstr "Відношення"
+msgstr "Рейтинг"
 
 #: deluge/ui/common.py:59 deluge/ui/gtk3/torrentview.py:340
 #: deluge/ui/gtk3/peers_tab.py:133
@@ -1797,28 +1797,28 @@ msgid ""
 "delete this exception statement from all source files in the program, then "
 "also delete it here."
 msgstr ""
-"Ця проґрама є вільним проґрамним забезпеченням, Ви можете розповсюджувати та "
-"/ або модифікувати його на умовах GNU General Public License, опублікованій "
-"Free Software Foundation, версії 3, або (за вашим вибором) будь-якої "
-"пізнішої версії.\n"
+"Ця програма є безкоштовним програмним забезпеченням; ви можете поширювати "
+"його та/або змінювати відповідно до умов Загальної публічної ліцензії GNU, "
+"опублікованої Фондом вільного програмного забезпечення; або версії 3 "
+"Ліцензії, або (на ваш вибір) будь якої пізнішої версії.\n"
 "\n"
-"Ця проґрама поширюється зі сподіванням, що вона буде корисною, але БЕЗ БУДЬ-"
-"ЯКИХ ЗАПОРУК, навіть без запорук КОМЕРЦІЙНОЇ ЦІННОСТІ чи ПРИДАТНОСТІ ДЛЯ "
-"КОНКРЕТНИХ ЦІЛЕЙ. Див громадської ліцензії GNU General ліцензії для більш "
-"докладної інформації.\n"
+"Ця програма розповсюджується в надії, що вона буде корисною, але БЕЗ БУДЬ "
+"ЯКИХ ГАРАНТІЙ; навіть без прихованої гарантії КОМЕРЦІЙНОЇ ВИГОДИ чи "
+"ПРИДАТНОСТІ ДЛЯ КОНКРЕТНИХ ЦІЛЕЙ. Докладніше дивися у Загальнодоступній "
+"ліцензії GNU.\n"
 "\n"
-"Ви повинні були отримати копію Public License GNU General разом з цією "
-"проґрамою, якщо ні, див <http://www.gnu.org/licenses>.\n"
+"Ви повинні були отримати копію Загальної публічної ліцензії GNU разом із "
+"цією програмою; якщо ні, дивися <http://www.gnu.org/licenses>.\n"
 "\n"
-"Крім того, в якості особливого винятку, власників авторських прав дати "
-"дозвіл, щоб зв'язати код частини цієї проґрами з бібліотекою OpenSSL. Ви "
-"повинні коритися GNU General Public License у всіх відношеннях для всіх код, "
-"що використовується, крім OpenSSL.\n"
+"Крім того, як особливий виняток, власники авторських прав дають дозвіл "
+"пов'язувати код частин цієї програми з бібліотекою OpenSSL. Ви повинні "
+"дотримуватись Загальної загальнодоступної ліцензії GNU у всіх відношеннях до "
+"всього коду, що використовується, крім OpenSSL.\n"
 "\n"
-"Якщо ви зміните файл (и) з виключенням цього, ви можете розширити це виняток "
-"для вашої версії файлу (ів), але ви не зобов'язані це робити. Якщо ви не "
-"хочете зробити це, вилучіть це виняток заява від вашої версії. Якщо ви "
-"вилучите це виняток заява всі вихідні файли в проґраму, то і вилучати її тут."
+"Якщо ви змінюєте файл (и) з цим винятком, ви можете поширити цей виняток на "
+"свою версію файлу (ів), але ви не зобов’язані це робити. Якщо ви не хочете "
+"цього робити, видаліть цей виняток із своєї версії. Якщо ви видалите цей "
+"виняток із усіх вихідних файлів програми, також видаліть його тут."
 
 #: deluge/ui/gtk3/aboutdialog.py:829
 #: deluge/ui/web/js/deluge-all/AboutWindow.js:65
@@ -3223,12 +3223,12 @@ msgstr "Активні торенти"
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:187
 #: deluge/ui/web/render/tab_status.html:4
 msgid "Share Ratio:"
-msgstr "Співвідношення:"
+msgstr "Рейтинг:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:101
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:142
 msgid "Time Ratio:"
-msgstr ""
+msgstr "Співвідношення часу:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:102
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:157
@@ -3239,7 +3239,7 @@ msgstr "Час(хв)"
 #: deluge/ui/console/modes/preferences/preference_panes.py:590
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:118
 msgid "Seeding Rotation"
-msgstr ""
+msgstr "Ротація завершених"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:104
 msgid "Pause Torrent"
@@ -3249,7 +3249,7 @@ msgstr "Призупинити торент"
 #: deluge/ui/console/modes/preferences/preference_panes.py:627
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:173
 msgid "Share Ratio Reached"
-msgstr ""
+msgstr "Співвідношення досягнуто"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:107
 msgid ""
@@ -3456,7 +3456,7 @@ msgstr "Примусово використовувати проксі"
 #: deluge/ui/console/modes/preferences/preference_panes.py:671
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:141
 msgid "Hide Client Identity"
-msgstr ""
+msgstr "Приховати дані клієнта"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:149
 msgid ""
@@ -3728,7 +3728,7 @@ msgstr "Додати завантажені файли"
 
 #: deluge/ui/gtk3/glade/remove_torrent_dialog.ui.h:6
 msgid "(This is permanent!)"
-msgstr "(Це постійно!)"
+msgstr "Назавжди"
 
 #: deluge/ui/gtk3/glade/connect_peer_dialog.ui.h:1
 msgid "Add Peer"
@@ -3754,7 +3754,7 @@ msgstr "<b>Загальні</b>"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:5
 msgid "Show path entry"
-msgstr ""
+msgstr "Вказати шлях"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:6
 msgid "Show file chooser"
@@ -3766,7 +3766,7 @@ msgstr "Показати ім'я теки"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:8
 msgid "Path Chooser Type"
-msgstr ""
+msgstr "Тип вибору шляху"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:9
 msgid "Enable autocomplete"
@@ -3917,7 +3917,7 @@ msgstr "Додати хеш даних"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.infohash.ui.h:4
 msgid "From Infohash"
-msgstr ""
+msgstr "З хешу"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.infohash.ui.h:5
 msgid "Infohash:"
@@ -4021,12 +4021,12 @@ msgstr "Рейтинг роздачі:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:10
 msgid "ETA Time:"
-msgstr ""
+msgstr "Строк завантаження:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:11
 #: deluge/ui/web/render/tab_status.html:13
 msgid "Last Transfer:"
-msgstr ""
+msgstr "Остання передача:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:12
 #: deluge/ui/web/render/tab_status.html:23
@@ -4036,7 +4036,7 @@ msgstr "Час активности:"
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:13
 #: deluge/ui/web/render/tab_status.html:20
 msgid "Complete Seen:"
-msgstr ""
+msgstr "Завершені:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:14
 #: deluge/ui/web/render/tab_status.html:24
@@ -4108,7 +4108,7 @@ msgstr "Зупинити роздачу при коефіцієнті:"
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:13
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:233
 msgid "Remove at ratio"
-msgstr "Вилучити при коефіцієнті"
+msgstr "Вилучити при рейтингу"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:44
 msgid "Bandwidth Limits"
@@ -4450,7 +4450,7 @@ msgstr "Межа _слотів роздачі"
 
 #: deluge/ui/gtk3/glade/torrent_menu.options.ui.h:5
 msgid "Stop seed at _ratio"
-msgstr ""
+msgstr "Зупинити при спів_відношенні"
 
 #: deluge/ui/gtk3/glade/torrent_menu.options.ui.h:6
 msgid "_Auto Managed"
@@ -4458,7 +4458,7 @@ msgstr "Автоматичне керування"
 
 #: deluge/ui/gtk3/glade/torrent_menu.options.ui.h:7
 msgid "_Super Seeding"
-msgstr ""
+msgstr "_Супер-сід"
 
 #: deluge/ui/gtk3/glade/torrent_menu.options.ui.h:8
 msgid "_Change Ownership"
@@ -4657,7 +4657,7 @@ msgstr "Встановлюване значення"
 #: deluge/ui/console/cmdline/commands/manage.py:53
 #: deluge/ui/console/cmdline/commands/config.py:98
 msgid "one or more keys separated by space"
-msgstr ""
+msgstr "один або кілька ключів, розділених пробілами"
 
 #: deluge/ui/console/cmdline/commands/rm.py:33
 msgid "Also removes the torrent data"
@@ -4681,15 +4681,19 @@ msgstr ""
 
 #: deluge/ui/console/cmdline/commands/resume.py:22
 msgid "Usage: resume [ * | <torrent-id> [<torrent-id> ...] ]"
-msgstr ""
+msgstr "Використання: відновити [ * | <torrent-id> [<torrent-id> ...] ]"
 
 #: deluge/ui/console/cmdline/commands/resume.py:29
 msgid "One or more torrent ids. Use \"*\" to resume all torrents"
 msgstr ""
+"Один або кілька ідентифікаторів торрентів. Для відновлення всіх торрентів "
+"використовуйте \"*\""
 
 #: deluge/ui/console/cmdline/commands/pause.py:29
 msgid "One or more torrent ids. Use \"*\" to pause all torrents"
 msgstr ""
+"Один або кілька ідентифікаторів торрентів. Використовуйте \"*\" для "
+"призупинення всіх торрентів"
 
 #: deluge/ui/console/cmdline/commands/add.py:38
 msgid "Download folder for torrent"
@@ -4760,7 +4764,7 @@ msgstr "Шлях для переміщення торентів"
 
 #: deluge/ui/console/cmdline/commands/debug.py:26
 msgid "The new state"
-msgstr ""
+msgstr "Новий стан"
 
 #: deluge/ui/console/cmdline/commands/help.py:29
 msgid "One or more commands"
@@ -4861,10 +4865,12 @@ msgstr ""
 #: deluge/ui/console/modes/preferences/preference_panes.py:216
 msgid "Third tab lists all remaining torrents in command line mode"
 msgstr ""
+"На третій вкладці перераховані всі торренти, що залишилися, у режимі "
+"командного рядка"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:221
 msgid "Torrents per tab press"
-msgstr ""
+msgstr "Торренти за натисненням вкладки"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:234
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:18
@@ -4939,7 +4945,7 @@ msgstr "Вихідні"
 #: deluge/ui/console/modes/preferences/preference_panes.py:413
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:38
 msgid "Global Bandwidth Usage"
-msgstr ""
+msgstr "Глобальне використання пропускної здатності"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:416
 #: deluge/ui/console/modes/preferences/preference_panes.py:469
@@ -4977,7 +4983,7 @@ msgstr "Обмежувати швидкість із урахуванням ви
 #: deluge/ui/console/modes/preferences/preference_panes.py:466
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:148
 msgid "Per Torrent Bandwidth Usage"
-msgstr ""
+msgstr "Налаштування швидкості торенту"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:513
 msgid "Yes, please send anonymous statistics."
@@ -4997,11 +5003,11 @@ msgstr "Загалом"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:593
 msgid "Share Ratio"
-msgstr "Коефіцієнт обміну"
+msgstr "Рейтинг"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:601
 msgid "Time Ratio"
-msgstr ""
+msgstr "Співвідношення часу"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:609
 msgid "Time (m)"
@@ -5009,7 +5015,7 @@ msgstr "Час (хв)"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:633
 msgid "Remove torrent (Unchecked pauses torrent)"
-msgstr ""
+msgstr "Видалити торент (Не позначені призупиняют торент)"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:646
 msgid "Proxy Settings"
@@ -5037,7 +5043,7 @@ msgstr ""
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:712
 msgid "Blocks Written"
-msgstr ""
+msgstr "Записано блоків"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:716
 msgid "Writes"
@@ -5049,11 +5055,11 @@ msgstr ""
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:725
 msgid "Blocks Read"
-msgstr ""
+msgstr "Зчитано блоків"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:729
 msgid "Blocks Read hit"
-msgstr ""
+msgstr "Зчитано блоків з кешу"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:732
 msgid "Reads"
@@ -5245,6 +5251,8 @@ msgid ""
 "\"Watch Folder\" directory and \"Copy of .torrent files to\" directory "
 "cannot be the same!"
 msgstr ""
+"\"Тека для стеження\" і тека \"Копіювати .torrent файли до\" не можуть бути "
+"однаковими!"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/gtkui.py:462
 #: deluge/plugins/AutoAdd/deluge_autoadd/gtkui.py:466
@@ -5334,6 +5342,9 @@ msgid ""
 "the .torrent will copied to the chosen directory\n"
 "and deleted from the watch folder."
 msgstr ""
+"Після додавання торрента,\n"
+".torrent буде скопійовано до вибраної теки\n"
+"і видалено з теки для стеження."
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:20
 msgid ""
@@ -5361,7 +5372,7 @@ msgstr "<b>Тека для завантаження</b>"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:26
 msgid "Set move completed folder"
-msgstr ""
+msgstr "Вкажіть теку для переміщення завершених"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:27
 msgid "<b>Move Completed</b>"
@@ -5628,7 +5639,7 @@ msgstr "Спливні вікна вимкнено"
 
 #: deluge/plugins/Notifications/deluge_notifications/gtkui.py:177
 msgid "libnotify is not installed"
-msgstr ""
+msgstr "libnotify не встановлено"
 
 #: deluge/plugins/Notifications/deluge_notifications/gtkui.py:185
 msgid "Failed to popup notification"
@@ -6291,7 +6302,7 @@ msgstr "Файл"
 
 #: deluge/ui/web/js/deluge-all/add/AddWindow.js:149
 msgid "Infohash"
-msgstr ""
+msgstr "Хеш-сума"
 
 #: deluge/ui/web/js/deluge-all/add/AddWindow.js:260
 msgid "Uploading your torrent..."
