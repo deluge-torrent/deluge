@@ -1,11 +1,26 @@
 #!/bin/bash
-
-# A script to convert the Deluge svg icons to png.
+# Convert Deluge svg icons to png.
+#
+# Requires
+#  * rsvg-convert
+#  * convert (ImageMagik)
+#  * oxipng
+#
+# Optional
+#  * ect (Efficient-Compression-Tool)
+#
+# Potential to combine pngquant with oxipng for further gains.
+#
+# Excellent compression with ECT but is much slower. For Linux need
+# to build this tool from source.
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 data_dir="$DIR/../ui/data"
-zopfli_iter="--iterations=100"
-zopflipng_bin="zopflipng --filters=01234mepb --lossy_8bit --lossy_transparent -y"
+
+OXI_COMPRESS="oxipng --opt 4 --interlace 0 --strip safe"
+ECT_COMPRESS="ect --allfilters-b --pal_sort=120 -30060"
+
+COMPRESS=$OXI_COMPRESS
 
 # Create deluge png icon pack for all sizes.
 for size in 16 22 24 32 36 48 64 72 96 128 192 256 512; do
@@ -13,11 +28,7 @@ for size in 16 22 24 32 36 48 64 72 96 128 192 256 512; do
     in_svg=$data_dir/pixmaps/deluge.svg
     out_png=$data_dir/icons/hicolor/${size}x${size}/apps/deluge.png
     rsvg-convert -w ${size} -h ${size} -o $out_png $in_svg
-    if [ "$size" -gt 128 ]; then
-        zopfli_iter=""
-    fi
-    echo $zopflipng_bin $zopfli_iter
-    eval $zopflipng_bin $zopfli_iter $out_png $out_png
+    eval $COMPRESS $out_png
 done
 
 # Create deluge-panel png for systray.
@@ -44,7 +55,7 @@ cp $data_dir/icons/hicolor/48x48/apps/deluge.png $data_dir/pixmaps/deluge.png
 for file in $data_dir/pixmaps/*.svg; do
     out_png=${file%.*}16.png
     rsvg-convert -w 16 -h 16 -o $out_png $file
-    eval $zopflipng_bin $out_png $out_png
+    eval $COMPRESS $out_png
 done
 
 # Copy 16px deluge and status pngs to webui icons folder.
@@ -58,11 +69,12 @@ for size in 32 192 512; do
     in_png=$data_dir/icons/hicolor/${size}x${size}/apps/deluge.png
     out_png=$data_dir/../web/icons/deluge-${size}.png
     cp $in_png $out_png
+done
 
 # Create apple and android touch icons with background colour.
 apple_icon=$data_dir/../web/icons/deluge-apple-180.png
 rsvg-convert -w 180 -h 180 -b '#599EEE' -o $apple_icon $data_dir/pixmaps/deluge.svg
-eval $zopflipng_bin $apple_icon $apple_icon
+eval $COMPRESS $apple_icon
 
 # Create favicon.ico icon from pngs.
 for size in 16 32 48; do
