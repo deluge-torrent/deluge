@@ -1,8 +1,5 @@
 [build-system]
-requires = [
-    "setuptools",
-    "wheel",
-]
+requires = ["setuptools", "wheel"]
 
 [tool.black]
 skip-string-normalization = true
@@ -11,6 +8,8 @@ skip-string-normalization = true
 profile = "black"
 
 [tool.pytest.ini_options]
+# Dump tracebacks if a test takes longer than X seconds
+faulthandler_timeout = 60
 # Hide logged warnings and errors in test output.
 log_cli_level = "CRITICAL"
 addopts = "--basetemp=_pytest_temp"
