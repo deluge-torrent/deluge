@@ -15,7 +15,7 @@ from twisted.internet import defer, reactor, ssl
 from twisted.internet.protocol import ClientFactory
 
 from deluge import error
-from deluge.common import get_localhost_auth, get_version
+from deluge.common import VersionSplit, get_localhost_auth, get_version
 from deluge.decorators import deprecated
 from deluge.transfer import DelugeTransferProtocol
 
@@ -227,6 +227,7 @@ class DelugeRPCClientFactory(ClientFactory):
         self.daemon.host = None
         self.daemon.port = None
         self.daemon.username = None
+        self.daemon.daemon_info = None
         self.daemon.connected = False
 
         if (
@@ -260,6 +261,7 @@ class DaemonSSLProxy(DaemonProxy):
         self.host = None
         self.port = None
         self.username = None
+        self.daemon_info = None
         self.authentication_level = 0
 
         self.connected = False
@@ -740,6 +742,25 @@ class Client:
             )
 
         return None
+
+    def connection_version(self):
+        """
+        Get the connected daemon version
+
+        Returns:
+            str: the daemon version
+        """
+        if self.connected():
+            return self._daemon_proxy.daemon_info
+
+        return ''
+
+    def is_daemon_version_equal_or_greater(self, version_check):
+        if VersionSplit(version_check) and self.connected():
+            daemon_version = self.connection_version()
+            return VersionSplit(daemon_version) >= VersionSplit(version_check)
+
+        return False
 
     def register_event_handler(self, event, handler):
         """
