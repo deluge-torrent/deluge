@@ -11,6 +11,7 @@
 # See LICENSE for more details.
 
 import logging
+
 import gi  # isort:skip (Required before Gtk import).
 
 gi.require_version('Gtk', '3.0')

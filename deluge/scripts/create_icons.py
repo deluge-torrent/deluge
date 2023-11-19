@@ -10,9 +10,8 @@
 #
 import shutil
 import subprocess
-from pathlib import Path
-
 from dataclasses import dataclass, field
+from pathlib import Path
 
 
 @dataclass
@@ -156,20 +155,20 @@ def create_web_icons(app_pngs, sizes, dest_dir):
 
 
 def main():
-    DATA_DIR = Path.cwd() / 'deluge' / 'ui' / 'data'
-    if not DATA_DIR.is_dir():
-        exit(f'No path to UI data dir: {DATA_DIR}')
+    data_dir = Path.cwd() / 'deluge' / 'ui' / 'data'
+    if not data_dir.is_dir():
+        exit(f'No path to UI data dir: {data_dir}')
 
     # Create Deluge UI icons
-    ICON_PACK_SIZES = [16, 22, 24, 32, 36, 48, 64, 72, 96, 128, 192, 256, 512]
-    PANEL_ICON_SIZES = [16, 22, 24]
-    ICO_ICON_SIZES = [16, 32, 48, 64, 128, 256]
+    icon_pack_sizes = [16, 22, 24, 32, 36, 48, 64, 72, 96, 128, 192, 256, 512]
+    panel_icon_sizes = [16, 22, 24]
+    ico_icon_sizes = [16, 32, 48, 64, 128, 256]
     ui_icons = IconPack(
         name='deluge',
-        dir=DATA_DIR,
-        icon_sizes=ICON_PACK_SIZES,
-        panel_sizes=PANEL_ICON_SIZES,
-        ico_sizes=ICO_ICON_SIZES,
+        dir=data_dir,
+        icon_sizes=icon_pack_sizes,
+        panel_sizes=panel_icon_sizes,
+        ico_sizes=ico_icon_sizes,
     )
 
     # Theme icons for GTK
@@ -184,13 +183,13 @@ def main():
     create_logo(ui_icons.theme_pngs[48], ui_icons.logo_png)
 
     # Web UI Icons
-    WEB_ICON_SIZES = [32, 192, 512]
-    FAVICON_SIZES = [16, 32, 48]
+    web_icon_sizes = [32, 192, 512]
+    favicon_sizes = [16, 32, 48]
     web_icons = WebIconPack(
         name='deluge',
-        dir=DATA_DIR / '..' / 'web',
-        icon_sizes=WEB_ICON_SIZES,
-        favicon_sizes=FAVICON_SIZES,
+        dir=data_dir / '..' / 'web',
+        icon_sizes=web_icon_sizes,
+        favicon_sizes=favicon_sizes,
     )
     create_web_icons(ui_icons.theme_pngs, web_icons.icon_sizes, web_icons.icons_dir)
     create_web_status_icons(ui_icons.pixmaps_dir, web_icons.icons_dir)
