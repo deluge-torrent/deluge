@@ -58,7 +58,7 @@ class TestStatsPlugin:
 
     @pytest.mark.gtkui
     @defer.inlineCallbacks
-    def test_write(self):
+    def test_write(self, tmp_path):
         """
         writing to a file-like object; need this for webui.
 
@@ -102,5 +102,5 @@ class TestStatsPlugin:
         file_like = FakeFile()
         surface.write_to_png(file_like)
         data = b''.join(file_like.data)
-        with open('file_like.png', 'wb') as _file:
+        with open(tmp_path / 'file_like.png', 'wb') as _file:
             _file.write(data)
