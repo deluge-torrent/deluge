@@ -84,12 +84,13 @@ jobs:
         run: |
           pyinstaller --clean delugewin.spec --distpath freeze
 
-      - name: Fix OpenSSL for libtorrent x64
-        if: ${{ matrix.arch == 'x64' }}
-        working-directory: packaging/win/freeze/Deluge
+      - name: Verify Deluge exes
+        working-directory: packaging/win/freeze/Deluge/
         run: |
-          cp libssl-1_1.dll libssl-1_1-x64.dll
-          cp libcrypto-1_1.dll libcrypto-1_1-x64.dll
+          deluge-debug.exe -v
+          deluged-debug.exe -v
+          deluge-web-debug.exe -v
+          deluge-console -v
 
       - name: Make Deluge Installer
         working-directory: ./packaging/win
