@@ -632,7 +632,8 @@ class TopLevel(resource.Resource):
         request.setHeader(b'content-type', b'text/html; charset=utf-8')
 
         web_config = component.get('Web').get_config()
-        web_config['base'] = request.base.decode()
+        header = request.getHeader('x-deluge-base')
+        web_config['base'] = header if header else request.base.decode()
         config = {key: web_config[key] for key in UI_CONFIG_KEYS}
         js_config = json.dumps(config)
         # Insert the values into 'index.html' and return.
