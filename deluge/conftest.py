@@ -12,7 +12,7 @@ import pytest
 import pytest_twisted
 from twisted.internet import reactor
 from twisted.internet.defer import Deferred, maybeDeferred
-from twisted.internet.error import CannotListenError
+from twisted.internet.error import CannotListenError, ProcessTerminated
 from twisted.python.failure import Failure
 
 import deluge.component as _component
@@ -120,7 +120,10 @@ async def daemon(request, config_dir, tmp_path):
         raise exception_error
     daemon.listen_port = listen_port
     yield daemon
-    await daemon.kill()
+    try:
+        await daemon.kill()
+    except ProcessTerminated:
+        pass
 
 
 @pytest.fixture(autouse=True)
