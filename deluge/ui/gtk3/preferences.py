@@ -117,7 +117,6 @@ class Preferences(component.Component):
 
         # Setup accounts tab lisview
         self.accounts_levels_mapping = None
-        self.accounts_authlevel = self.builder.get_object('accounts_authlevel')
         self.accounts_liststore = Gtk.ListStore(str, str, str, int)
         self.accounts_liststore.set_sort_column_id(
             ACCOUNTS_USERNAME, Gtk.SortType.ASCENDING

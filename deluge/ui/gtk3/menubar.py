@@ -578,42 +578,26 @@ class MenuBar(component.Component):
         component.get('FilterTreeView').update()
 
     def _on_known_accounts(self, known_accounts):
-        known_accounts_to_log = []
-        for account in known_accounts:
-            account_to_log = {}
-            for key, value in account.copy().items():
-                if key == 'password':
-                    value = '*' * 10
-                account_to_log[key] = value
-            known_accounts_to_log.append(account_to_log)
-        log.debug('_on_known_accounts: %s', known_accounts_to_log)
+        menuitem_change_owner = self.builder.get_object('menuitem_change_owner')
         if len(known_accounts) <= 1:
+            menuitem_change_owner.set_visible(False)
             return
 
-        self.builder.get_object('menuitem_change_owner').set_visible(True)
-
-        self.change_owner_submenu = Gtk.Menu()
-        self.change_owner_submenu_items = {}
-        maingroup = Gtk.RadioMenuItem()
-
-        self.change_owner_submenu_items[None] = Gtk.RadioMenuItem(maingroup)
+        self.users_menu = Gtk.Menu()
+        self.users_menu_items = {}
+        menu_group = None
 
         for account in known_accounts:
             username = account['username']
-            item = Gtk.RadioMenuItem.new_with_label(maingroup, username)
-            self.change_owner_submenu_items[username] = item
-            self.change_owner_submenu.append(item)
+            item = Gtk.RadioMenuItem.new_with_label(menu_group, username)
+            menu_group = item.get_group()
             item.connect('toggled', self._on_change_owner_toggled, username)
+            self.users_menu_items[username] = item
+            self.users_menu.append(item)
 
-        self.change_owner_submenu.show_all()
-        self.change_owner_submenu_items[None].set_active(True)
-        self.change_owner_submenu_items[None].hide()
-        self.builder.get_object('menuitem_change_owner').connect(
-            'activate', self._on_change_owner_submenu_active
-        )
-        self.builder.get_object('menuitem_change_owner').set_submenu(
-            self.change_owner_submenu
-        )
+        self.users_menu.show_all()
+        menuitem_change_owner.set_submenu(self.users_menu)
+        menuitem_change_owner.set_visible(True)
 
     def _on_known_accounts_fail(self, reason):
         self.builder.get_object('menuitem_change_owner').set_visible(False)
@@ -622,13 +606,13 @@ class MenuBar(component.Component):
         log.debug('_on_change_owner_submenu_active')
         selected = component.get('TorrentView').get_selected_torrents()
         if len(selected) > 1:
-            self.change_owner_submenu_items[None].set_active(True)
+            self.users_menu_items[None].set_active(True)
             return
 
         torrent_owner = component.get('TorrentView').get_torrent_status(selected[0])[
             'owner'
         ]
-        for username, item in self.change_owner_submenu_items.items():
+        for username, item in self.users_menu_items.items():
             item.set_active(username == torrent_owner)
 
     def _on_change_owner_toggled(self, widget, username):
