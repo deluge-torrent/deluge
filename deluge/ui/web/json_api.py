@@ -600,7 +600,10 @@ class WebApi(JSONComponent):
 
                 progresses = dirinfo.setdefault('progresses', [])
                 progresses.append(torrent_file['size'] * torrent_file['progress'] / 100)
-                dirinfo['progress'] = sum(progresses) / dirinfo['size'] * 100
+                if dirinfo['size'] > 0:
+                    dirinfo['progress'] = sum(progresses) / dirinfo['size'] * 100
+                else:
+                    dirinfo['progress'] = 100
                 dirinfo['path'] = dirname
                 dirname = os.path.dirname(dirname)
 
