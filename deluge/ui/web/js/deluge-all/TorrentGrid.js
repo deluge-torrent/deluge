@@ -61,7 +61,7 @@
         return String.format(
             '<div style="background: url(' +
                 deluge.config.base +
-                'tracker/{0}) no-repeat; padding-left: 20px;">{0}</div>',
+                'tracker/{0}) no-repeat; background-size: contain; padding-left: 20px;">{0}</div>',
             Ext.util.Format.htmlEncode(value)
         );
     }
