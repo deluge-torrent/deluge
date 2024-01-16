@@ -238,7 +238,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="halign">start</property>
-                                <property name="label" translatable="yes">Down Speed:</property>
+                                <property name="label" translatable="yes">Uploaded:</property>
                                 <attributes>
                                   <attribute name="weight" value="bold"/>
                                 </attributes>
@@ -283,7 +283,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <property name="halign">start</property>
-                                <property name="label" translatable="yes">Uploaded:</property>
+                                <property name="label" translatable="yes">Down Speed:</property>
                                 <attributes>
                                   <attribute name="weight" value="bold"/>
                                 </attributes>
