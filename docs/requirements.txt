@@ -1,5 +1,5 @@
-sphinx==4.*
-myst-parser
-sphinx_rtd_theme==1.0.*
-sphinxcontrib-spelling==7.3.0
-sphinx-autodoc-typehints
+sphinx==7.2.*
+myst-parser==2.0.*
+sphinx_rtd_theme==2.0.*
+sphinxcontrib-spelling==8.0.*
+sphinx-autodoc-typehints==1.25.*
