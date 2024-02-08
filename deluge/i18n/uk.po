@@ -4899,7 +4899,7 @@ msgid "Pre-Allocate disk space"
 msgstr "Виділяти місце під увесь файл"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:304
-msgid "Incomming Ports"
+msgid "Incoming Ports"
 msgstr "Вхідні порти"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:313

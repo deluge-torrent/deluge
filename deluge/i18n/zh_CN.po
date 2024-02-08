@@ -4776,7 +4776,7 @@ msgid "Pre-Allocate disk space"
 msgstr "预分配磁盘空间"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:304
-msgid "Incomming Ports"
+msgid "Incoming Ports"
 msgstr "传入端口"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:313

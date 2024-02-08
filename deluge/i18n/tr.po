@@ -4902,7 +4902,7 @@ msgid "Pre-Allocate disk space"
 msgstr "Disk alanını önceden ayır"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:304
-msgid "Incomming Ports"
+msgid "Incoming Ports"
 msgstr "Gelen Bağlantı Noktaları"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:313

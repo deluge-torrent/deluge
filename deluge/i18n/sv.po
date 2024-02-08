@@ -4880,7 +4880,7 @@ msgid "Pre-Allocate disk space"
 msgstr "Fördela diskutrymme"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:304
-msgid "Incomming Ports"
+msgid "Incoming Ports"
 msgstr "Inkommande portar"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:313
