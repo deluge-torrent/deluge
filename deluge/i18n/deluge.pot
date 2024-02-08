@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Deluge 2.2.0.dev46\n"
+"Project-Id-Version: Deluge 2.2.0.dev57\n"
 "Report-Msgid-Bugs-To: http://deluge-torrent.org\n"
-"POT-Creation-Date: 2024-07-15 08:37+0100\n"
+"POT-Creation-Date: 2024-08-24 17:37+0100\n"
 "PO-Revision-Date: 2024-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1819,7 +1819,7 @@ msgid "Pre-Allocate disk space"
 msgstr ""
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:302
-msgid "Incomming Ports"
+msgid "Incoming Ports"
 msgstr ""
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:311
@@ -2387,14 +2387,6 @@ msgstr ""
 
 #: deluge/ui/console/widgets/fields.py:1062
 msgid "Select Language"
-msgstr ""
-
-#: deluge/ui/web/json_api.py:851
-msgid "Daemon does not exist"
-msgstr ""
-
-#: deluge/ui/web/json_api.py:858
-msgid "Daemon not running"
 msgstr ""
 
 #: deluge/ui/web/web.py:28

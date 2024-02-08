@@ -299,7 +299,7 @@ class NetworkPane(BasePreferencePane):
 
     @overrides(BasePreferencePane)
     def create_pane(self, core_conf, console_config):
-        self.add_header(_('Incomming Ports'))
+        self.add_header(_('Incoming Ports'))
         inrand = self.add_checked_input(
             'random_port',
             'Use Random Ports    Active Port: %d' % self.preferences.active_port,
