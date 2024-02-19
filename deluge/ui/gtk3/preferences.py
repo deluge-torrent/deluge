@@ -174,7 +174,7 @@ class Preferences(component.Component):
         # Initialize a binding for dark theme
         Gtk.Settings.get_default().bind_property(
             'gtk-application-prefer-dark-theme',
-            self.builder.get_object('radio_theme_dark'),
+            self.builder.get_object('chk_prefer_dark_theme'),
             'active',
             GObject.BindingFlags.BIDIRECTIONAL | GObject.BindingFlags.SYNC_CREATE,
         )
@@ -565,8 +565,8 @@ class Preferences(component.Component):
         self.builder.get_object('radio_thinclient').set_active(
             not self.gtkui_config['standalone']
         )
-        self.builder.get_object('radio_theme_dark').set_active(
-            self.gtkui_config['dark_theme']
+        self.builder.get_object('chk_prefer_dark_theme').set_active(
+            self.gtkui_config['prefer_dark_theme']
         )
         self.builder.get_object('chk_show_rate_in_title').set_active(
             self.gtkui_config['show_rate_in_title']
@@ -752,8 +752,8 @@ class Preferences(component.Component):
         ).get_active()
 
         # Interface tab #
-        new_gtkui_config['dark_theme'] = self.builder.get_object(
-            'radio_theme_dark'
+        new_gtkui_config['prefer_dark_theme'] = self.builder.get_object(
+            'chk_prefer_dark_theme'
         ).get_active()
         new_gtkui_config['enable_system_tray'] = self.builder.get_object(
             'chk_use_tray'
@@ -1090,7 +1090,7 @@ class Preferences(component.Component):
         log.debug('on_button_cancel_clicked')
         Gtk.Settings.get_default().set_property(
             'gtk-application-prefer-dark-theme',
-            self.gtkui_config['dark_theme'],
+            self.gtkui_config['prefer_dark_theme'],
         )
         self.hide()
         return True

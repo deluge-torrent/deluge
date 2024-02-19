@@ -75,7 +75,7 @@ class MainWindow(component.Component):
         # Set theme
         Gtk.Settings.get_default().set_property(
             'gtk-application-prefer-dark-theme',
-            self.config['dark_theme'],
+            self.config['prefer_dark_theme'],
         )
 
         # Patch this GtkBuilder to avoid connecting signals from elsewhere
