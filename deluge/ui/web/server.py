@@ -12,6 +12,7 @@ import logging
 import mimetypes
 import os
 import tempfile
+from pathlib import Path
 
 from twisted.application import internet, service
 from twisted.internet import defer, reactor
@@ -539,19 +540,27 @@ class TopLevel(resource.Resource):
         self.putChild(b'themes', Themes(rpath('themes')))
         self.putChild(b'tracker', Tracker())
 
-        theme = component.get('DelugeWeb').config['theme']
-        if not os.path.isfile(rpath('themes', 'css', f'xtheme-{theme}.css')):
-            theme = CONFIG_DEFAULTS.get('theme')
-        self.__stylesheets.insert(1, f'themes/css/xtheme-{theme}.css')
-
     @property
     def stylesheets(self):
         return self.__stylesheets
 
-    def change_theme(self, theme: str):
+    def get_themes(self):
+        themes_dir = Path(rpath('themes', 'css'))
+        themes = [
+            theme.stem.split('xtheme-')[1] for theme in themes_dir.glob('xtheme-*.css')
+        ]
+        themes = [(theme, _(theme.capitalize())) for theme in themes]
+        return themes
+
+    def set_theme(self, theme: str):
         if not os.path.isfile(rpath('themes', 'css', f'xtheme-{theme}.css')):
             theme = CONFIG_DEFAULTS.get('theme')
-        self.__stylesheets[1] = f'themes/css/xtheme-{theme}.css'
+        self.__theme = f'themes/css/xtheme-{theme}.css'
+
+        # Only one xtheme CSS, ordered last to override other styles.
+        if 'xtheme-' in self.stylesheets[-1]:
+            self.__stylesheets.pop()
+        self.__stylesheets.append(self.__theme)
 
     def add_script(self, script):
         """
@@ -688,6 +697,8 @@ class DelugeWeb(component.Component):
             elif options.no_ssl:
                 self.https = False
 
+        self.top_level.set_theme(self.config['theme'])
+
         setup_translation()
 
         # Remove twisted version number from 'server' http-header for security reasons
@@ -794,14 +805,11 @@ class DelugeWeb(component.Component):
         config['language'] = CONFIG_DEFAULTS['language']
         return config
 
-    def get_themes_list(self):
-        return [
-            (file[7:-4], _(file[7:-4].capitalize()))
-            for file in os.listdir(rpath('themes', 'css'))
-        ]
+    def get_themes(self):
+        return self.top_level.get_themes()
 
     def set_theme(self, theme: str):
-        self.top_level.change_theme(theme)
+        self.top_level.set_theme(theme)
 
 
 if __name__ == '__builtin__':

@@ -1019,4 +1019,4 @@ class WebUtils(JSONComponent):
         Returns:
             list: of themes ``[theme1, theme2, ...]``
         """
-        return component.get('DelugeWeb').get_themes_list()
+        return component.get('DelugeWeb').get_themes()
