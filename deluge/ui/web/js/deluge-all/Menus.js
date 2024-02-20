@@ -35,7 +35,7 @@ deluge.menus = {
                 deluge.copyMagnetWindow.show();
                 break;
             case 'edit_trackers':
-                deluge.editTrackers.show();
+                deluge.editTrackers.show(ids);
                 break;
             case 'remove':
                 deluge.removeWindow.show(ids);

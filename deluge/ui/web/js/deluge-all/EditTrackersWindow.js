@@ -171,10 +171,16 @@ Deluge.EditTrackersWindow = Ext.extend(Ext.Window, {
             });
         }, this);
 
-        deluge.client.core.set_torrent_trackers(this.torrentId, trackers, {
-            failure: this.onSaveFail,
-            scope: this,
-        });
+        for (var i in this.torrentIds) {
+            deluge.client.core.set_torrent_trackers(
+                this.torrentIds[i],
+                trackers,
+                {
+                    failure: this.onSaveFail,
+                    scope: this,
+                }
+            );
+        }
 
         this.hide();
     },
@@ -199,10 +205,13 @@ Deluge.EditTrackersWindow = Ext.extend(Ext.Window, {
         }
     },
 
+    show: function (ids) {
+        this.torrentIds = ids;
+        Deluge.EditTrackersWindow.superclass.show.call(this);
+    },
     onShow: function () {
         this.panel.getBottomToolbar().items.get(4).disable();
         var r = deluge.torrents.getSelected();
-        this.torrentId = r.id;
         deluge.client.core.get_torrent_status(r.id, ['trackers'], {
             success: this.onRequestComplete,
             scope: this,
