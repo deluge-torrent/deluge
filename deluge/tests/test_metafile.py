@@ -51,6 +51,18 @@ class TestMetafile:
         os.close(tmp_fd)
         os.remove(tmp_file)
 
+    def test_save_empty_file(self):
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            with open(tmp_dir + '/empty', 'wb') as tmp_file:
+                pass
+            with open(tmp_dir + '/file', 'wb') as tmp_file:
+                tmp_file.write(b'c' * (11 * 1024))
+
+            tmp_torrent = tmp_dir + '/test.torrent'
+            metafile.make_meta_file(tmp_dir, '', 32768, target=tmp_torrent)
+
+            check_torrent(tmp_torrent)
+
     def test_save_singlefile(self):
         with tempfile.TemporaryDirectory() as tmp_dir:
             tmp_data = tmp_dir + '/testdata'

@@ -780,6 +780,8 @@ class AddTorrentDialog(component.Component):
                 ).run()
 
     def add_from_url(self, url):
+        daemon_dl_supported = client.daemon_version_check_min('2.2')
+
         dialog = Gtk.Dialog(
             _('Downloading...'),
             flags=Gtk.DialogFlags.MODAL | Gtk.DialogFlags.DESTROY_WITH_PARENT,
@@ -790,11 +792,6 @@ class AddTorrentDialog(component.Component):
         pb = Gtk.ProgressBar()
         dialog.vbox.pack_start(pb, True, True, 0)
         dialog.show_all()
-
-        # Create a tmp file path
-        import tempfile
-
-        tmp_fd, tmp_file = tempfile.mkstemp(prefix='deluge_url.', suffix='.torrent')
 
         def on_part(data, current_length, total_length):
             if total_length:
@@ -808,10 +805,6 @@ class AddTorrentDialog(component.Component):
                 pb.pulse()
                 pb.set_text('%s' % fsize(current_length))
 
-        def on_download_success(result):
-            self.add_from_files([result])
-            dialog.destroy()
-
         def on_download_fail(result):
             log.debug('Download failed: %s', result)
             dialog.destroy()
@@ -823,8 +816,36 @@ class AddTorrentDialog(component.Component):
             ).run()
             return result
 
-        d = download_file(url, tmp_file, on_part)
-        os.close(tmp_fd)
+        if daemon_dl_supported:
+
+            def on_download_success(result):
+                # Create a tmp file path
+                import tempfile
+
+                tmp_fd, tmp_file = tempfile.mkstemp(
+                    prefix='deluge_url.', suffix='.torrent'
+                )
+                with open(tmp_file, 'wb') as _file:
+                    _file.write(result)
+                os.close(tmp_fd)
+                self.add_from_files([tmp_file])
+                dialog.destroy()
+                client.deregister_callback_handler(on_part.__qualname__)
+
+            client.register_callback_handler(on_part.__qualname__, on_part)
+            d = client.core.download_file(url, on_part.__qualname__)
+        else:
+            # Create a tmp file path
+            import tempfile
+
+            tmp_fd, tmp_file = tempfile.mkstemp(prefix='deluge_url.', suffix='.torrent')
+
+            def on_download_success(result):
+                self.add_from_files([result])
+                dialog.destroy()
+
+            d = download_file(url, tmp_file, on_part)
+            os.close(tmp_fd)
         d.addCallbacks(on_download_success, on_download_fail)
 
     def on_button_hash_clicked(self, widget):

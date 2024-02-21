@@ -102,7 +102,7 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
             return
         if len(request) < 3:
             log.debug(
-                'Received invalid message: number of items in ' 'response is %s',
+                'Received invalid message: number of items in response is %s',
                 len(request),
             )
             return
@@ -556,6 +556,7 @@ class Client:
     """
 
     __event_handlers = {}
+    __callback_handlers = {}
 
     def __init__(self):
         self._daemon_proxy = None
@@ -598,6 +599,9 @@ class Client:
 
         def on_authenticate(result, daemon_info):
             log.debug('Authentication successful: %s', result)
+            self.register_event_handler(
+                'CallbackHandlingEvent', self._handle_callback_event
+            )
             return result
 
         def on_authenticate_fail(reason):
@@ -624,6 +628,10 @@ class Client:
         """
         Disconnects from the daemon.
         """
+        self.deregister_event_handler(
+            'CallbackHandlingEvent', self._handle_callback_event
+        )
+
         if self.is_standalone():
             self._daemon_proxy.disconnect()
             self.stop_standalone()
@@ -789,6 +797,32 @@ class Client:
             self.__event_handlers[event].remove(handler)
         if self._daemon_proxy:
             self._daemon_proxy.deregister_event_handler(event, handler)
+
+    @staticmethod
+    def register_callback_handler(callback_id: str, callback: callable):
+        """
+        Registers a callback handler for supported methods on the daemon.
+
+        Args:
+            callback_id: a unique identifier for the callback
+            callback: the callback function to call
+        """
+        Client.__callback_handlers[callback_id] = callback
+
+    @staticmethod
+    def deregister_callback_handler(callback_id: str):
+        """
+        Deregisters a callback handler
+
+        Args:
+            callback_id: the identifier to remove
+        """
+        if callback_id in Client.__callback_handlers:
+            Client.__callback_handlers.pop(callback_id)
+
+    def _handle_callback_event(self, callback_id, *args):
+        if callback_id in self.__callback_handlers:
+            self.__callback_handlers[callback_id](*(args[0]), **(args[1]))
 
     def force_call(self, block=False):
         # no-op for now.. we'll see if we need this in the future

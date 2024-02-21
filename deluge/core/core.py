@@ -10,7 +10,9 @@
 import glob
 import logging
 import os
+import random
 import shutil
+import string
 import tempfile
 from base64 import b64decode, b64encode
 from typing import Any, Dict, List, Optional, Tuple, Union
@@ -46,6 +48,7 @@ from deluge.error import (
     InvalidTorrentError,
 )
 from deluge.event import (
+    CallbackHandlingEvent,
     NewVersionAvailableEvent,
     SessionPausedEvent,
     SessionResumedEvent,
@@ -508,6 +511,84 @@ class Core(component.Component):
 
         return task.deferLater(reactor, 0, add_torrents)
 
+    @maybe_coroutine
+    async def _download_file(
+        self,
+        url,
+        callback=None,
+        headers=None,
+        allow_compression=True,
+        handle_redirects=True,
+    ) -> bytes:
+        tmp_fd, tmp_file = tempfile.mkstemp(prefix='deluge_url.')
+        try:
+            filename = await download_file(
+                url=url,
+                filename=tmp_file,
+                callback=callback,
+                headers=headers,
+                force_filename=True,
+                allow_compression=allow_compression,
+                handle_redirects=handle_redirects,
+            )
+        except Exception:
+            raise
+        else:
+            with open(filename, 'rb') as _file:
+                data = _file.read()
+            return data
+        finally:
+            try:
+                os.close(tmp_fd)
+                os.remove(tmp_file)
+            except OSError as ex:
+                log.warning(f'Unable to delete temp file {tmp_file}: , {ex}')
+
+    @export
+    @maybe_coroutine
+    async def download_file(
+        self,
+        url,
+        callback=None,
+        headers=None,
+        allow_compression=True,
+        handle_redirects=True,
+    ) -> 'defer.Deferred[Optional[bytes]]':
+        """Downloads a file from a URL and returns the content as bytes.
+
+        Use this method to download from the daemon itself (like a proxy).
+
+        Args:
+            url (str): The url to download from.
+            callback (func, str): A function to be called when partial data is received,
+                it's signature should be: func(data, current_length, total_length).
+            headers (dict): Any optional headers to send.
+            allow_compression (bool): Allows gzip & deflate decoding.
+            handle_redirects (bool): HTTP redirects handled automatically or not.
+
+        Returns:
+            a Deferred which returns the content as bytes or None
+        """
+        log.info(f'Attempting to download URL {url}')
+
+        if isinstance(callback, str):
+            original_callback = callback
+
+            def emit(*args, **kwargs):
+                component.get('EventManager').emit(
+                    CallbackHandlingEvent(original_callback, *args, **kwargs)
+                )
+
+            callback = emit
+
+        try:
+            return await self._download_file(
+                url, callback, headers, allow_compression, handle_redirects
+            )
+        except Exception:
+            log.error(f'Failed to download file from URL {url}')
+            raise
+
     @export
     @maybe_coroutine
     async def add_torrent_url(
@@ -524,26 +605,17 @@ class Core(component.Component):
         Returns:
             a Deferred which returns the torrent_id as a str or None
         """
-        log.info('Attempting to add URL %s', url)
+        log.info(f'Attempting to add URL {url}')
 
-        tmp_fd, tmp_file = tempfile.mkstemp(prefix='deluge_url.', suffix='.torrent')
         try:
-            filename = await download_file(
-                url, tmp_file, headers=headers, force_filename=True
-            )
+            data = await self._download_file(url, headers=headers)
         except Exception:
-            log.error('Failed to add torrent from URL %s', url)
+            log.error(f'Failed to add torrent from URL {url}')
             raise
         else:
-            with open(filename, 'rb') as _file:
-                data = _file.read()
-            return self.add_torrent_file(filename, b64encode(data), options)
-        finally:
-            try:
-                os.close(tmp_fd)
-                os.remove(tmp_file)
-            except OSError as ex:
-                log.warning(f'Unable to delete temp file {tmp_file}: , {ex}')
+            chars = string.ascii_letters + string.digits
+            tmp_file_name = ''.join(random.choices(chars, k=7))
+            return self.add_torrent_file(tmp_file_name, b64encode(data), options)
 
     @export
     def add_torrent_magnet(self, uri: str, options: dict) -> str:

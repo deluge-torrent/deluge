@@ -20,6 +20,7 @@ from deluge.component import Component
 from deluge.configmanager import get_config_dir
 from deluge.decorators import proxy
 from deluge.httpdownloader import download_file
+from deluge.ui.client import client
 
 try:
     import chardet
@@ -254,11 +255,24 @@ class TrackerIcons(Component):
         Returns:
             The filename of the tracker host's page
         """
+        daemon_dl_supported = client.daemon_version_check_min('2.2')
+
         if not url:
             url = self.host_to_url(host)
 
         log.debug(f'Downloading {host} {url} to {filename}')
-        return download_file(url, filename, force_filename=True)
+        if daemon_dl_supported:
+
+            def on_download(data):
+                with open(filename, 'w') as icon_file:
+                    icon_file.write(data)
+                return filename
+
+            d = client.core.download_file(url)
+            d.addCallback(on_download)
+            return d
+        else:
+            return download_file(url, filename, force_filename=True)
 
     def on_download_page_complete(self, page):
         """
@@ -352,14 +366,29 @@ class TrackerIcons(Component):
         :returns: a Deferred which fires with the downloaded icon's filename
         :rtype: Deferred
         """
+        daemon_dl_supported = client.daemon_version_check_min('2.2')
+
         if len(icons) == 0:
             raise NoIconsError('empty icons list')
         (url, mimetype) = icons.pop(0)
-        d = download_file(
-            url,
-            os.path.join(self.dir, host_to_icon_name(host, mimetype)),
-            force_filename=True,
-        )
+
+        icon_download_path = os.path.join(self.dir, host_to_icon_name(host, mimetype))
+
+        if daemon_dl_supported:
+
+            def on_download(data):
+                with open(icon_download_path, 'wb') as icon_file:
+                    icon_file.write(data)
+                return icon_download_path
+
+            d = client.core.download_file(url)
+            d.addCallback(on_download)
+        else:
+            d = download_file(
+                url,
+                icon_download_path,
+                force_filename=True,
+            )
         d.addCallback(self.check_icon_is_valid)
         if icons:
             d.addErrback(self.on_download_icon_fail, host, icons)

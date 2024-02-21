@@ -509,3 +509,57 @@ class TestCore(BaseTestCase):
             assert f.read() == filecontent
 
         lt.torrent_info(filecontent)
+
+    @pytest.fixture
+    def _download_file_content(self):
+        with open(
+            common.get_test_data_file('ubuntu-9.04-desktop-i386.iso.torrent'), 'rb'
+        ) as _file:
+            data = _file.read()
+        return data
+
+    @pytest_twisted.inlineCallbacks
+    def test_download_file(self, mock_mkstemp, _download_file_content):
+        url = (
+            f'http://localhost:{self.listen_port}/ubuntu-9.04-desktop-i386.iso.torrent'
+        )
+
+        file_content = yield self.core.download_file(url)
+        assert file_content == _download_file_content
+        assert not os.path.isfile(mock_mkstemp[1])
+
+    async def test_download_file_with_cookie(self, _download_file_content):
+        url = f'http://localhost:{self.listen_port}/cookie'
+        headers = {'Cookie': 'password=deluge'}
+
+        with pytest.raises(Exception):
+            await self.core.download_file(url)
+
+        file_content = await self.core.download_file(url, headers=headers)
+        assert file_content == _download_file_content
+
+    async def test_download_file_with_redirect(self, _download_file_content):
+        url = f'http://localhost:{self.listen_port}/redirect'
+
+        with pytest.raises(Exception):
+            await self.core.download_file(url, handle_redirects=False)
+
+        file_content = await self.core.download_file(url)
+        assert file_content == _download_file_content
+
+    async def test_download_file_with_callback(self, _download_file_content):
+        url = (
+            f'http://localhost:{self.listen_port}/ubuntu-9.04-desktop-i386.iso.torrent'
+        )
+        called_callback = False
+        data_valid = False
+
+        def on_retrieve_data(data, current_length, total_length):
+            nonlocal called_callback, data_valid
+            data_valid |= data in _download_file_content
+            called_callback = True
+
+        file_content = await self.core.download_file(url, callback=on_retrieve_data)
+        assert file_content == _download_file_content
+        assert data_valid
+        assert called_callback

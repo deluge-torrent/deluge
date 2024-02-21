@@ -318,3 +318,8 @@ class ExternalIPEvent(DelugeEvent):
             external_ip (str): The IP address.
         """
         self._args = [external_ip]
+
+
+class CallbackHandlingEvent(DelugeEvent):
+    def __init__(self, callback, *args, **kwargs):
+        self._args = [callback, args, kwargs]
