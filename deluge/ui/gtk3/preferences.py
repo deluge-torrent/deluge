@@ -428,6 +428,7 @@ class Preferences(component.Component):
             'spin_seeding': ('value', 'max_active_seeding'),
             'spin_downloading': ('value', 'max_active_downloading'),
             'chk_dont_count_slow_torrents': ('active', 'dont_count_slow_torrents'),
+            'chk_announce_to_all_trackers': ('active', 'announce_to_all_trackers'),
             'chk_auto_manage_prefer_seeds': ('active', 'auto_manage_prefer_seeds'),
             'chk_queue_new_top': ('active', 'queue_new_to_top'),
             'spin_share_ratio_limit': ('value', 'share_ratio_limit'),
@@ -848,6 +849,9 @@ class Preferences(component.Component):
         ).get_value_as_int()
         new_core_config['dont_count_slow_torrents'] = self.builder.get_object(
             'chk_dont_count_slow_torrents'
+        ).get_active()
+        new_core_config['announce_to_all_trackers'] = self.builder.get_object(
+            'chk_announce_to_all_trackers'
         ).get_active()
         new_core_config['auto_manage_prefer_seeds'] = self.builder.get_object(
             'chk_auto_manage_prefer_seeds'

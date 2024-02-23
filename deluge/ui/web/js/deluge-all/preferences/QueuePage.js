@@ -103,6 +103,15 @@ Deluge.preferences.Queue = Ext.extend(Ext.form.FormPanel, {
             })
         );
         om.bind(
+            'announce_to_all_trackers',
+            fieldset.add({
+                xtype: 'checkbox',
+                name: 'announce_to_all_trackers',
+                hideLabel: true,
+                boxLabel: _('Announce to all trackers of the same tier'),
+            })
+        );
+        om.bind(
             'auto_manage_prefer_seeds',
             fieldset.add({
                 xtype: 'checkbox',
