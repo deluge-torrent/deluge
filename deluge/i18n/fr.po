@@ -4856,7 +4856,7 @@ msgid "Pre-Allocate disk space"
 msgstr "Pré-allouer de l'espace disque"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:304
-msgid "Incomming Ports"
+msgid "Incoming Ports"
 msgstr "Ports entrants"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:313

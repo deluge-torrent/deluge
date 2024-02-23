@@ -4870,7 +4870,7 @@ msgid "Pre-Allocate disk space"
 msgstr "Рэзерваваць месца на дыску"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:304
-msgid "Incomming Ports"
+msgid "Incoming Ports"
 msgstr "Уваходзячыя парты"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:313
