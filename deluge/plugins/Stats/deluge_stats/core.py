@@ -1,4 +1,5 @@
 #
+# Copyright (C) 2012 Tydus Ken <Tydus@Tydus.org>
 # Copyright (C) 2009 Ian Martin <ianmartin@cantab.net>
 # Copyright (C) 2008 Damien Churchill <damoxc@gmail.com>
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
@@ -166,6 +167,15 @@ class Core(CorePluginBase):
         self.saved_stats.save()
 
     # export:
+    @export
+    def reset_counters(self):
+        self.saved_stats['total_upload'] = 0
+        self.saved_stats['total_download'] = 0
+        self.saved_stats['total_payload_upload'] = 0
+        self.saved_stats['total_payload_download'] = 0
+        self.saved_stats.save()
+        self.totals.update(self.saved_stats.config)
+
     @export
     def get_stats(self, keys, interval):
         if interval not in self.intervals:
