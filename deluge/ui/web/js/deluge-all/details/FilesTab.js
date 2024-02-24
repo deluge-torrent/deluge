@@ -41,7 +41,7 @@ Deluge.details.FilesTab = Ext.extend(Ext.ux.tree.TreeGrid, {
                     progress,
                     this.col.width,
                     progress.toFixed(2) + '%',
-                    0
+                    10
                 );
             },
         },
