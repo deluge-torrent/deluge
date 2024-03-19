@@ -317,12 +317,12 @@ class Preferences(BaseMode, PopupsHandler):
         self.action_input.handle_read(c)
         if c in [curses.KEY_ENTER, util.KEY_ENTER2]:
             # take action
-            if self.action_input.selected_index == 0:  # Cancel
+            if self.action_input.active_index == 0:  # Cancel
                 self.back_to_parent()
-            elif self.action_input.selected_index == 1:  # Apply
+            elif self.action_input.active_index == 1:  # Apply
                 self._apply_prefs()
                 client.core.get_config().addCallback(self._update_preferences)
-            elif self.action_input.selected_index == 2:  # OK
+            elif self.action_input.active_index == 2:  # OK
                 self._apply_prefs()
                 self.back_to_parent()
 
