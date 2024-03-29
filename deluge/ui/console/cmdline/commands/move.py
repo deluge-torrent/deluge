@@ -46,7 +46,8 @@ class Command(BaseCommand):
         for t_id in options.torrent_ids:
             tid = self.console.match_torrent(t_id)
             ids.extend(tid)
-            names.append(self.console.get_torrent_name(tid))
+            for name in tid:
+                names.append(self.console.get_torrent_name(name))
 
         def on_move(res):
             msg = 'Moved "{}" to {}'.format(', '.join(names), options.path)
