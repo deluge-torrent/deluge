@@ -107,6 +107,14 @@ class Command(BaseCommand):
             help=_('Show more detailed information including files and peers.'),
         )
         parser.add_argument(
+            '-f',
+            '--onlyfiles',
+            action='store_true',
+            default=False,
+            dest='onlyfiles',
+            help=_('Output only files used by torrent'),
+        )
+        parser.add_argument(
             '-s',
             '--state',
             action='store',
@@ -179,7 +187,7 @@ class Command(BaseCommand):
                 key=lambda x: x[1].get(sort_key),
                 reverse=sort_reverse,
             ):
-                self.show_info(key, status[key], options.verbose, options.detailed)
+                self.show_info(key, status[key], options.verbose, options.detailed, options.onlyfiles)
 
         def on_torrents_status_fail(reason):
             self.console.write('{!error!}Error getting torrent info: %s' % reason)
@@ -316,7 +324,7 @@ class Command(BaseCommand):
 
             self.console.write(s[:-1])
 
-    def show_info(self, torrent_id, status, verbose=False, detailed=False):
+    def show_info(self, torrent_id, status, verbose=False, detailed=False, onlyfiles=False):
         """
         Writes out the torrents information to the screen.
 
@@ -331,7 +339,10 @@ class Command(BaseCommand):
 
         sep = ' '
 
-        if verbose or detailed:
+        if onlyfiles:
+            for index, torrent_file in enumerate(status['files']):
+                self.console.write(status['download_location'] + "/" + torrent_file['path'])
+        elif verbose or detailed:
             self.console.write('{!info!}Name: {!input!}%s' % (status['name']))
             self.console.write('{!info!}ID: {!input!}%s' % (torrent_id))
             s = '{{!info!}}State: {}{}'.format(
