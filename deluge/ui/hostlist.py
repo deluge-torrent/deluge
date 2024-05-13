@@ -163,12 +163,12 @@ class HostList:
             host_id (str): The host id to get info on.
 
         Returns:
-            list: A list of (host_id, hostname, port, username).
+            list: A list of (host_id, hostname, port, username, password).
 
         """
         for host_entry in self.config['hosts']:
             if host_entry[0] == host_id:
-                return host_entry[0:4]
+                return host_entry[0:5]
         else:
             return []
 
@@ -212,7 +212,7 @@ class HostList:
             return status_offline
 
         try:
-            host_id, host, port, user = self.get_host_info(host_id)
+            host_id, host, port, user = self.get_host_info(host_id)[0:4]
         except ValueError:
             log.warning('Problem getting host_id info from hostlist')
             return defer.succeed(status_offline)
