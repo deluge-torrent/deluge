@@ -236,7 +236,6 @@ class BaseMode(CursesStdIO, component.Component):
         curses.nocbreak()
         self.stdscr.keypad(0)
         curses.echo()
-        curses.endwin()
 
 
 def add_string(
