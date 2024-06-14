@@ -21,13 +21,13 @@ gi.require_version('Gdk', '3.0')
 # isort:imports-thirdparty
 from gi.repository.GLib import set_prgname
 from gi.repository.Gtk import Builder, ResponseType
-from twisted.internet import defer, gtk3reactor
+from twisted.internet import defer, gireactor
 from twisted.internet.error import ReactorAlreadyInstalledError
 from twisted.internet.task import LoopingCall
 
 try:
     # Install twisted reactor, before any other modules import reactor.
-    reactor = gtk3reactor.install()
+    reactor = gireactor.install()
 except ReactorAlreadyInstalledError:
     # Running unit tests so already installed a rector
     from twisted.internet import reactor
