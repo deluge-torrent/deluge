@@ -19,12 +19,12 @@ jobs:
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
           cache: "pip"
@@ -63,7 +63,7 @@ jobs:
           python -c 'from deluge._libtorrent import lt; print(lt.__version__)';
           $DEBUG_PREFIX pytest -v -m "not (todo or gtkui)" deluge
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         # capture all crashes as build artifacts
         if: failure()
         with:
@@ -78,12 +78,12 @@ jobs:
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
           cache: "pip"
