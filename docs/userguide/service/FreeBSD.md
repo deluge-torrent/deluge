@@ -1,0 +1,139 @@
+# FreeBSD Init Script
+These scripts assume that the deluged daemon has been run once by a user named "deluge" with home directory "deluge".
+## Deluged
+
+```sh
+#!/bin/sh
+#
+#  deluged RCng startup script
+#  created by: R.S.A. aka .faust 
+#	     mail: rsa dot aka dot f at gmail dot com
+# 
+ 
+# PROVIDE: deluged
+# REQUIRE: NETWORKING SERVERS DAEMON ldconfig resolv
+# BEFORE: LOGIN
+# KEYWORD: shutdown
+ 
+# Add the following line to /etc/rc.conf.local or /etc/rc.conf to enable deluged at startup
+# 	deluged_enable="YES"
+#
+# cfg_dir (str):	Specify the full path to directory with deluged config files
+# log (str):		Specify the full path to the LOG file
+# loglevel (str):	Set loglevel (Available: none, info, warning, error, critical, debug)
+# pidfile (str):	Specify the full path to the PID file
+# deluged_user (str):	Set to user running deluged
+#
+#  Warning! Rights to folders and files must be "rwx" for the user under which deluged is run
+ 
+. /etc/rc.subr
+ 
+name="deluged"
+rcvar=`set_rcvar`
+ 
+load_rc_config $name
+deluged_enable=${deluged_enable:=NO}
+
+cfg_dir="/home/deluge/.config/deluge/"
+log="${cfg_dir}${name}.log"
+loglevel="error"
+pidfile="${cfg_dir}${name}.pid"
+deluged_user="deluge"
+
+required_dirs=${cfg_dir}
+
+command_interpreter="/usr/local/bin/python"
+command="/usr/local/bin/${name}"
+start_cmd="${name}_start"
+
+deluged_start()
+{
+if [ ! -f "${pidfile}" ]; then
+    su -m ${deluged_user} -c "/usr/local/bin/${name} -c ${cfg_dir} -L ${loglevel} -l ${log} -P ${pidfile}"
+    echo "Starting ${name}."
+else
+    GETPROCESSPID=`/bin/ps -auxw | /usr/bin/awk '/deluged/ && !/awk/ && !/sh/ {print $2}'`
+    PIDFROMFILE=`cat ${pidfile}`
+    if [ "$GETPROCESSPID" = "$PIDFROMFILE" ]; then
+    	echo "${name} already running with PID: ${PIDFROMFILE} ?"  
+    	echo "Remove ${pidfile} manually if needed."
+    else
+    	rm -f ${pidfile}
+    	su -m ${deluged_user} -c "/usr/local/bin/${name} -c ${cfg_dir} -l ${log} -P ${pidfile}"
+    	echo "Starting ${name}."
+    fi
+fi
+}
+run_rc_command "$1"
+```
+
+## Web UI
+
+```sh
+#!/bin/sh
+#
+#  deluge-web RCng startup script
+#  created by: R.S.A. aka .faust 
+#	     mail: rsa dot aka dot f at gmail dot com
+# 
+ 
+# PROVIDE: delugew
+# REQUIRE: NETWORKING SERVERS DAEMON ldconfig resolv
+# BEFORE: LOGIN
+# KEYWORD: shutdown
+ 
+# Add the following line to /etc/rc.conf.local or /etc/rc.conf to enable deluge-web at startup
+# 	delugew_enable="YES"
+#
+# cfg_dir (str):	Specify the full path to directory with deluge-web config files
+# log (str):		Specify the full path to the LOG file
+# pidfile (str):	Specify the full path to the PID file
+# delugew_user (str):	Set to user running deluge-web
+#
+#  Warning! Rights to folders and files must be "rwx" for the user under which deluge-web is run
+. /etc/rc.subr
+ 
+name="delugew"
+rcvar=`set_rcvar`
+ 
+load_rc_config $name
+delugew_enable=${delugew_enable:=NO}
+
+cfg_dir="/home/deluge/.config/deluge/"
+log="${cfg_dir}${name}.log"
+pidfile="${cfg_dir}${name}.pid"
+delugew_user="deluge"
+
+required_dirs=${cfg_dir}
+
+command_interpreter="/usr/local/bin/python"
+command="/usr/local/bin/deluge-web"
+start_cmd="${name}_start"
+start_postcmd="${name}_poststart"
+
+delugew_start()
+{
+if [ ! -f "${pidfile}" ]; then
+    su -m ${delugew_user} -c "/usr/local/bin/deluge-web -f -c ${cfg_dir} -l ${log}"
+    echo "Starting ${name}."
+else
+    GETPROCESSPID=`/bin/ps -auxw | /usr/bin/awk '/deluge-web/ && !/awk/ && !/sh/ {print $2}'`
+    PIDFROMFILE=`cat ${pidfile}`
+    if [ "$GETPROCESSPID" = "$PIDFROMFILE" ]; then
+    	echo "${name} already running with PID: ${PIDFROMFILE} ?"  
+    	echo "Remove ${pidfile} manually if needed."
+    else
+    	rm -f ${pidfile}
+    	su -m ${delugew_user} -c "/usr/local/bin/deluge-web -f -c ${cfg_dir} -l ${log}"
+    	echo "Starting ${name}."
+    fi
+fi
+}
+ 
+delugew_poststart()
+{
+echo `/bin/ps -auxw | /usr/bin/awk '/deluge-web/ && !/awk/ {print $2}'` > $pidfile
+}
+ 
+run_rc_command "$1"
+```

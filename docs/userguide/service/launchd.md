@@ -1,0 +1,1 @@
+Moved to: https://deluge.readthedocs.io/en/latest/how-to/launchd-service.html
