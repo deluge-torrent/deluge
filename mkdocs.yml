@@ -1,9 +1,13 @@
-site_name: Deluge BitTorrent Client
-site_url: https://deluge-bittorrent.org
+site_name: Deluge
+site_url: https://deluge-torrent.org
 theme:
   name: material
   logo: assets/deluge_logo.png
   favicon: assets/deluge_icon.png
+  features:
+    - navigation.sections
+    - navigation.path
+    - navigation.indexes
   font:
     test: Open Sans
     #text: Josefin Sans
@@ -18,5 +22,6 @@ nav:
   - Home: index.md
   - Download: download.md
   - Plugins: plugins
-  - Support: userguide
+  - Support:
+      - User Guide: userguide/index.md
   - Development: development
