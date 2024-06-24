@@ -1,0 +1,30 @@
+body {
+    color: #D1DAE5;
+    background-color: #304663;
+}
+
+section {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin: 0 auto;
+    max-width: 751px;
+}
+
+.item {
+    flex-grow: 1;
+    flex-basis: 250px;
+    border-right: 1px dotted #889db8;
+}
+
+section > *:first-child {
+    flex-basis: 100%;
+    border-right: none;
+    border-bottom: 1px dotted #889db8;
+}
+
+section > *:last-child {
+    border-right: none;
+}
+

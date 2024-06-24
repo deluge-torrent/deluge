@@ -1,0 +1,29 @@
+{% extends "main.html" %} {% block extrahead %}
+<link rel="stylesheet" href="{{ 'assets/stylesheets/home.css' | url }}" />
+{% endblock %} {% block site_nav%} {% endblock %} {% block content %}
+
+<section>
+  <div class="item">
+    Deluge is a lightweight, Free Software, cross-platform BitTorrent client to
+    send or receive files across a decentralized network.
+    <ul>
+      <li>Full Encryption</li>
+      <li>Web User Interface</li>
+      <li>Plugin System</li>
+      <li>Much more...</li>
+    </ul>
+    <a>Learn More</a>
+  </div>
+  <div class="item">
+    <h2>Get started</h2>
+
+    Check out our guides to learn how to setup and use Deluge.
+  </div>
+  <div class="item">
+    <h2>Download</h2>
+
+    Deluge 2.1.1 Download now Available for Linux, macOS and Windows.
+  </div>
+</section>
+
+{% endblock %}
