@@ -13,7 +13,6 @@ from unittest import mock
 
 import pytest
 import pytest_twisted
-from twisted.internet import defer
 
 import deluge
 import deluge.component as component
@@ -353,7 +352,8 @@ class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
         fd = StringFileDescriptor(sys.stdout)
         self.patch(sys, 'stdout', fd)
 
-        yield self.exec_command()
+        with mock.patch('deluge.ui.console.main.ConsoleUI.quit', autospec=True):
+            yield self.exec_command()
 
         std_output = fd.out.getvalue()
         assert (
@@ -377,7 +377,8 @@ class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
         fd = StringFileDescriptor(sys.stdout)
         self.patch(sys, 'stdout', fd)
 
-        yield self.exec_command()
+        with mock.patch('deluge.ui.console.main.ConsoleUI.quit', autospec=True):
+            yield self.exec_command()
 
         std_output = fd.out.getvalue()
         assert std_output.endswith(
@@ -391,19 +392,22 @@ class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
         self.patch_arg_command(['status'])
         self.patch(sys, 'stdout', fd)
 
-        await self.exec_command()
+        with mock.patch('deluge.ui.console.main.ConsoleUI.quit', autospec=True):
+            await self.exec_command()
 
         std_output = fd.out.getvalue()
         assert std_output.startswith('Total upload: ')
         assert std_output.endswith(' Moving: 0\n')
 
-    @defer.inlineCallbacks
+    @pytest_twisted.inlineCallbacks
     def test_console_command_config_set_download_location(self):
         fd = StringFileDescriptor(sys.stdout)
         self.patch_arg_command(['config --set download_location /downloads'])
         self.patch(sys, 'stdout', fd)
 
-        yield self.exec_command()
+        with mock.patch('deluge.ui.console.main.ConsoleUI.quit', autospec=True):
+            yield self.exec_command()
+
         std_output = fd.out.getvalue()
         assert std_output.startswith('Setting "download_location" to: \'/downloads\'')
         assert std_output.endswith('Configuration value successfully updated.\n')

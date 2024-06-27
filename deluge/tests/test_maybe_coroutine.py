@@ -6,19 +6,19 @@
 import pytest
 import pytest_twisted
 import twisted.python.failure
-from twisted.internet import defer, reactor, task
+from twisted.internet import reactor, task
 from twisted.internet.defer import maybeDeferred
 
 from deluge.decorators import maybe_coroutine
 
 
-@defer.inlineCallbacks
+@pytest_twisted.inlineCallbacks
 def inline_func():
     result = yield task.deferLater(reactor, 0, lambda: 'function_result')
     return result
 
 
-@defer.inlineCallbacks
+@pytest_twisted.inlineCallbacks
 def inline_error():
     raise Exception('function_error')
     yield
@@ -35,13 +35,13 @@ async def coro_error():
     raise Exception('function_error')
 
 
-@defer.inlineCallbacks
+@pytest_twisted.inlineCallbacks
 def coro_func_from_inline():
     result = yield coro_func()
     return result
 
 
-@defer.inlineCallbacks
+@pytest_twisted.inlineCallbacks
 def coro_error_from_inline():
     result = yield coro_error()
     return result

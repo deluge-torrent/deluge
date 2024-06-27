@@ -1,4 +1,4 @@
 -r requirements.txt
 -r requirements-tests.txt
-pytest==7.4.2
+pytest
 libtorrent==2.0.7

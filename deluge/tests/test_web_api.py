@@ -11,7 +11,7 @@ from io import BytesIO
 
 import pytest
 import pytest_twisted
-from twisted.internet import defer, reactor
+from twisted.internet import reactor
 from twisted.web.client import Agent, FileBodyProducer
 from twisted.web.http_headers import Headers
 from twisted.web.static import File
@@ -45,7 +45,7 @@ class TestWebAPI(WebServerTestBase):
     def test_disconnect(self):
         d = self.deluge_web.web_api.connect(self.host_id)
 
-        @defer.inlineCallbacks
+        @pytest_twisted.inlineCallbacks
         def on_connect(result):
             assert self.deluge_web.web_api.connected()
             yield self.deluge_web.web_api.disconnect()
@@ -76,7 +76,7 @@ class TestWebAPI(WebServerTestBase):
         assert config['pwd_sha1'] != web_config['pwd_sha1']
         assert config['sessions'] != web_config['sessions']
 
-    @defer.inlineCallbacks
+    @pytest_twisted.inlineCallbacks
     def get_host_status(self):
         host = list(self.deluge_web.web_api.hostlist.get_host_info(self.host_id))
         host[3] = 'Online'

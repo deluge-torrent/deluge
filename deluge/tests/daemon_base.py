@@ -5,7 +5,7 @@
 #
 
 import pytest
-from twisted.internet import defer
+import pytest_twisted
 from twisted.internet.error import CannotListenError
 
 import deluge.component as component
@@ -29,7 +29,7 @@ class DaemonBase:
             d = self.core.kill()
             return d
 
-    @defer.inlineCallbacks
+    @pytest_twisted.inlineCallbacks
     def start_core(
         self,
         arg,
