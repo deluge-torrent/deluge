@@ -12,12 +12,11 @@ The latest and greatest versions of Deluge are here:
 Guides:
 
 - [Installing from Source](/installing/source)
-- [GitRepo Using git repository]
+- [Using git repository](/development/git/gitrepo)
 
 ## Bug Tracking
 
-- [/report/2 View bug tickets]
-- [/newticket Create bug ticket]
+- [View bug tickets](https://dev.deluge-torrent.org)
 
 ## Development Documentation
 
@@ -25,7 +24,7 @@ Guides:
 
 ### Coding
 
-- [['Development/1.3/UIClient']]
+- [UI Client](/development/1.3/uiclient)
 
 ### Testing
 
@@ -33,18 +32,18 @@ Guides:
 
 ### Plugins
 
-- [['Development/1.3/Plugin']]
-- [['Development/PluginIdeas']]
-- [['Plugins']]
+- [Plugin Development](/development/plugins)
+- [Plugin Ideas](/development/pluginideas)
+- [Available Plugins](/plugins)
 
 ### Performance
 
-- [['Development/Profiling']]
-- [['Development/Vast_amount_of_torrents']]
+- [Profiling](/development/profiling)
+- [Vast number of torrents](/development/vast_amount_of_torrents)
 
 ## Packaging
 
-- [['Development/Packaging']]
+- [Packaging](/development/packaging)
 
 ## Contributing
 
@@ -54,9 +53,9 @@ Guides:
 ## Community
 
 - [Development Forum](https://forum.deluge-torrent.org/viewforum.php?f=8) - Forum for ideas and discussion
-- [irc://irc.libera.chat/deluge IRC] - IRC chat in **#deluge** on **irc.libera.chat**
+- [IRC](irc://irc.libera.chat/deluge) - IRC chat in **#deluge** on **irc.libera.chat**
 
 ### Deluge Development Team
 
-- Calum Lind (cas) - ![](https://s3.amazonaws.com/patreon_public_assets/favicon.ico) [Support Cas on Patreon](https://www.patreon.com/deluge_cas)
+- Calum Lind (cas)
 - Andrew Resch (andar)
