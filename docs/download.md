@@ -1,38 +1,35 @@
 # Deluge Download
 
-Latest Release: **Version**
-
 ## Linux
 
-```div
-[[Image(https://deluge-torrent.org/images/ubuntu-logo.png, left, link=)]]
-[[Image(https://deluge-torrent.org/images/spacer.gif, left, link=, width=7, height=20)]]
-[https://tinyurl.com/installdeluge Ubuntu], also [wiki:Installing/Linux/Ubuntu#AddDelugePPARepository Deluge PPA]
+<img src=https://deluge-torrent.org/images/ubuntu-logo.png left, link=>
+<img src=https://deluge-torrent.org/images/spacer.gif left, link=, width=7, height=20>
+[Ubuntu](https://tinyurl.com/installdeluge), also [Deluge PPA](/installing/linux/ubuntu#AddDelugePPARepository)
 
-[[Image(https://deluge-torrent.org/images/debian-logo.png, left, link=)]]
-[[Image(https://deluge-torrent.org/images/spacer.gif, left, link=, width=10, height=20)]]
-[https://packages.debian.org/search?searchon=names&keywords=deluge Debian]
+<img src=https://deluge-torrent.org/images/debian-logo.png left, link=>
+<img src=https://deluge-torrent.org/images/spacer.gif left, link=, width=10, height=20>
+[Debian](https://packages.debian.org/search?searchon=names&keywords=deluge)
 
-[[Image(https://deluge-torrent.org/images/fedora-logo.png, left, link=)]]
-[[Image(https://deluge-torrent.org/images/spacer.gif, left, link=, width=7, height=20)]]
-[https://admin.fedoraproject.org/pkgdb/package/deluge/ Fedora]
+<img src=https://deluge-torrent.org/images/fedora-logo.png left, link=>
+<img src=https://deluge-torrent.org/images/spacer.gif left, link=, width=7, height=20>
+[Fedora](https://admin.fedoraproject.org/pkgdb/package/deluge/)
 
-[[Image(https://deluge-torrent.org/images/opensuse.png, left, link=)]]
-[[Image(https://deluge-torrent.org/images/spacer.gif, left, link=, width=7, height=20)]]
-[http://packman.links2linux.org/install/deluge OpenSUSE 1click]
+<img src=https://deluge-torrent.org/images/opensuse.png left, link=>
+<img src=https://deluge-torrent.org/images/spacer.gif left, link=, width=7, height=20>
+[1click](http://packman.links2linux.org/install/deluge OpenSUSE)
 
-[[Image(https://deluge-torrent.org/images/arch-logo.png, left, link=)]]
-[[Image(https://deluge-torrent.org/images/spacer.gif, left, link=, width=7, height=20)]]
-[https://wiki.archlinux.org/index.php/Deluge Arch]
+<img src=https://deluge-torrent.org/images/arch-logo.png left, link=>
+<img src=https://deluge-torrent.org/images/spacer.gif left, link=, width=7, height=20>
+[Arch](https://wiki.archlinux.org/index.php/Deluge)
 
-[[Image(https://deluge-torrent.org/images/gentoo-logo.png, left, link=)]]
-[[Image(https://deluge-torrent.org/images/spacer.gif, left, link=, width=7, height=20)]]
-[http://packages.gentoo.org/package/net-p2p/deluge Gentoo]
+<img src=https://deluge-torrent.org/images/gentoo-logo.png left, link=>
+<img src=https://deluge-torrent.org/images/spacer.gif left, link=, width=7, height=20>
+[Gentoo](http://packages.gentoo.org/package/net-p2p/deluge)
 
-[[Image(https://flathub.org/favicon.png, left, link=, width=16, height=16)]]
-[[Image(https://deluge-torrent.org/images/spacer.gif, left, link=, width=7, height=20)]]
-[https://flathub.org/apps/details/org.deluge_torrent.deluge Flatpak ]
-```
+<img src=https://flathub.org/favicon.png left, link=, width=16, height=16>
+<img src=https://deluge-torrent.org/images/spacer.gif left, link=, width=7, height=20>
+[Flatpak](https://flathub.org/apps/details/org.deluge_torrent.deluge)
+
 
 ## Microsoft Windows
 

@@ -1,6 +1,6 @@
 # Before Reporting a Bug
 
-- Install the latest version of Deluge: **Version**
+- Install the latest version of Deluge.
 
 - Check the **[Frequently Asked Questions](/faq)**.
 
