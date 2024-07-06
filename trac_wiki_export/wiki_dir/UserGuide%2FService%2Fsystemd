@@ -1,0 +1,1 @@
+Moved to: https://deluge.readthedocs.io/en/latest/how-to/systemd-service.html

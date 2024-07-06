@@ -1,0 +1,23 @@
+= Prevent Suspend Plugin =
+
+Simple plugin for the core that prevents computer suspension when it is activated (Currently only works on linux)
+== Download ==
+
+[http://github.com/downloads/ianmartin/Deluge-PreventSuspend-plugin/PreventSuspend-0.3-py2.6.egg Prevent Suspend 0.3] for Deluge 1.2 and above
+
+[http://github.com/downloads/ianmartin/Deluge-PreventSuspend-plugin/PreventSuspend-0.2-py2.6.egg Version 0.2] for Deluge 1.1.x
+
+== Configuration ==
+
+The preferences dialog allows you to choose when to prevent suspension/hibernation
+
+== Discussion/Support ==
+
+
+== Source Code ==
+http://github.com/ianmartin/Deluge-PreventSuspend-plugin
+
+
+
+
+

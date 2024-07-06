@@ -1,0 +1,29 @@
+= Deluge Service =
+
+== What is a service? ==
+
+Operating systems use services to start applications on system boot and leave them running in the background. They will also stop the application nicely on system shutdown and automatically restart them if they crash.
+
+The Deluge daemon `deluged` and Web UI `deluge-web` can both be run as services.
+
+== Linux ==
+
+Most Linux distributions now use systemd. See [https://en.wikipedia.org/wiki/Systemd#Adoption_and_reception wikipedia] for releases with systemd as ''default''.
+
+ * [wiki:UserGuide/Service/systemd systemd]
+
+ * [wiki:UserGuide/Service/Upstart Upstart] ''(Ubuntu 11.04 to 14.10)''
+
+ * [wiki:UserGuide/Service/DebianUbuntuInitd init.d] ''(Obsolete)''
+
+== Microsoft Windows ==
+
+ * [wiki:UserGuide/Service/MS_Windows Windows service]
+
+== Apple OS X ==
+
+ * [wiki:UserGuide/Service/launchd launchd]
+
+== FreeBSD ==
+
+ * [wiki:UserGuide/Service/FreeBSD rc.d]

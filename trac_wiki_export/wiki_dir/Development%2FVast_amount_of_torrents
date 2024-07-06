@@ -1,0 +1,48 @@
+[[PageOutline(1-3,,inline)]]
+
+= Improving the speed of Deluge =
+
+We have been working on optimizing Deluge to use less resources and handle more torrents. Most issues with speed gets noticable when the number of torrents grow past a given threshold. Deluge 1.3 will not be getting any more optimizations or improvements, so any new code will go into the develop branch.
+
+Tickets for performance issues that have not yet been fixed or applied to the develop branch are listed in the [http://dev.deluge-torrent.org/query?group=status&milestone=performance performance milestone].
+ 
+
+= Current state of Deluge (v1.3) =
+
+Deluge v1.3 handles hundreds of torrents fairly well. The GTKUI uses a lot of CPU to render the torrent list, so to keep CPU usage at a minimum it is a good idea to run in deamon/client mode and only connect with to the daemon when you need.
+
+When the torrent list reaches 1000 torrents, the CPU usage gets more and more noticable, the more torrents the slower it gets.
+
+The following patches have been applied to 1.3:
+ * [http://dev.deluge-torrent.org/ticket/2248 Cache tracker icons in gtkui (#2248)] [http://git.deluge-torrent.org/deluge/commit/?h=1.3-stable&id=36a78d8f219f git commit] (GTKUI)
+ * [http://dev.deluge-torrent.org/ticket/2259 Small (but significant) speed optimizations to the torrentview (#2259)]  [http://git.deluge-torrent.org/deluge/commit/?h=1.3-stable&id=a0ae3ebfce826980d08f6e75ec62a48e39cd5b41 git commit] (GTKUI) (smaller version of #2184 for 1.3 branch)
+ * [http://dev.deluge-torrent.org/ticket/2184 Speed optimizations to the torrentview in GTKUI (#2184)], [http://git.deluge-torrent.org/deluge/commit/?h=1.3-stable&id=5dba83853308482827aaecd1be1e79be97e30d15 git commit]
+
+= State of git-develop (To be v2) =
+
+git-develop has been tested and works well with 2-3000 torrents. Currently the biggest problem is that to make libtorrent v0.16.X handle that many active torrents, the settings ''active_dht_limit'', ''active_tracker_limit'', ''active_lsd_limit'' must be set. This is currently not implemented in git-develop, but applying the patch proposed in #2257 should solve this. This can also be fixed by using the ltConfig plugin found in the [http://dev.deluge-torrent.org/wiki/Plugins list of plugins].
+
+The following patches have already been applied which improves the speed of Deluge with many torrents greatly:
+
+== GTKUI patches==
+ * [http://dev.deluge-torrent.org/ticket/2184 Speed optimizations to the torrentview in GTKUI (#2184)], [http://git.deluge-torrent.org/deluge/commit/?id=b4f5e78a775503a5501e2eba7eee73dfa0e1955a git commit]
+ * [http://dev.deluge-torrent.org/ticket/2248 Cache tracker icons in gtkui (#2248)] ([http://git.deluge-torrent.org/deluge/commit/?id=463ac0c07eda1b33b145e1b9be7edbc0981815a99 git commit])
+ * [http://dev.deluge-torrent.org/ticket/2285 Speed optimizations to sessionproxy (#2285)] [http://git.deluge-torrent.org/deluge/commit/?h=develop&id=5503f9047 git commit]
+ * [http://dev.deluge-torrent.org/ticket/1885 Add caching to the data-funcs in ui/gtkui/torrentview_data_funcs.py] [http://dev.deluge-torrent.org/changeset/8ecc0e11a79d92 git commit]
+ * [http://dev.deluge-torrent.org/ticket/2250 Speedup removing multiple torrents from core (#2250)] (GTKUI)
+
+== Core patches ==
+ * [http://dev.deluge-torrent.org/ticket/2255 Speed optimizations to the daemon] [http://git.deluge-torrent.org/deluge/commit/?id=8c106ce8c4c0794ddd63e8e8f98b097221a56a52 git commit] 
+ * [http://dev.deluge-torrent.org/ticket/2246 Speedup set_prioritize_first_last in torrent.py (#2246)], [http://git.deluge-torrent.org/deluge/commit/?id=6313ff19b322a2801c633324bb0d77dc4f59b9a1 git commit] (Mainly on startup)
+ * [http://dev.deluge-torrent.org/ticket/2379 Move cleanup of prev_status from torrent.py to torrentmanager.py (#2379)] [http://dev.deluge-torrent.org/changeset/feaeee0379 git commit]
+ * [http://dev.deluge-torrent.org/ticket/2116 Application layer protocol for transfering RPC messages + utf8 decoding error (#2116)], [http://git.deluge-torrent.org/deluge/commit/?id=8e7432e71c80a47c96bf48c07535ec1991efe1d9 git commit] (RPC communication between daemon and clients)
+ * [http://dev.deluge-torrent.org/ticket/2406 Speed up adding multiple torrents (#2406)] (Core/GTKUI) 
+
+Proposed patches:
+  * [http://dev.deluge-torrent.org/ticket/2257 Allow setting of active_dht_limit, active_tracker_limit and active_lsd_limit. Fix bugs. (#2257)] (Daemon)
+
+Other issues that need investigation:
+ * Pausing/resuming multiple torrents is very slow. This is probably because when a torrent changes state, a lot of operations are done (event listeners in GUI presumable), so with hundreds of torrents changing state the result is too much work needing to be done.
+ * CPU usage on an idle daemon can still be around 5% ([http://dev.deluge-torrent.org/ticket/1490 #1490]).
+ * Reducing the number of calls (executions) torrent.update_state during startup (loading torrents)
+ * Investigate if libtorrent.file_progress is a bottleneck

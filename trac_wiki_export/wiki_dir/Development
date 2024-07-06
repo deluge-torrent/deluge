@@ -1,0 +1,64 @@
+[[PageOutline(2-4,,inline)]]
+
+= Development =
+
+[wiki:ProjectGoals Deluge Project Goals]
+
+== Source Code ==
+
+The latest and greatest versions of Deluge are here:
+
+ * '''[https://ftp.osuosl.org/pub/deluge/source/?C=M;O=D Source Tarballs]'''
+ * '''[https://git.deluge-torrent.org/deluge Git Repository]'''
+
+Guides: 
+
+ * [wiki:Installing/Source Installing from Source]
+ * [GitRepo Using git repository]
+
+== Bug Tracking ==
+
+ * [/report/2 View bug tickets]
+ * [/newticket Create bug ticket]
+
+== Development Documentation ==
+
+ * [https://deluge.readthedocs.io/en/latest/reference/index.html Reference Documentation]
+
+=== Coding ===
+
+ * [wiki:'Development/1.3/UIClient' HowTo - Writing a Client]
+
+=== Testing ===
+
+ * [https://deluge.readthedocs.io/en/latest/contributing/testing.html Running tests]
+
+=== Plugins ===
+
+ * [wiki:'Development/1.3/Plugin' HowTo - Writing a Plugin]
+ * [wiki:'Development/PluginIdeas' Plugin Ideas]
+ * [wiki:'Plugins' Current Plugins]
+
+=== Performance ===
+
+ * [wiki:'Development/Profiling' Profiling Deluge]
+ * [wiki:'Development/Vast_amount_of_torrents' Making deluge handle thousands of torrents]
+
+== Packaging == 
+
+ * [wiki:'Development/Packaging' Packaging]
+
+== Contributing ==
+
+ * [https://deluge.readthedocs.io/en/latest/contributing/translations.html Translation]
+ * [https://deluge.readthedocs.io/en/latest/contributing/code.html Provide Patches or Pull Requests]
+
+== Community ==
+
+ * [https://forum.deluge-torrent.org/viewforum.php?f=8 Development Forum] - Forum for ideas and discussion
+ * [irc://irc.libera.chat/deluge IRC] - IRC chat in '''#deluge''' on '''irc.libera.chat'''
+
+=== Deluge Development Team === 
+ * Calum Lind (cas) - [[Image(https://s3.amazonaws.com/patreon_public_assets/favicon.ico)]]  [https://www.patreon.com/deluge_cas Support Cas on Patreon] 
+ * Andrew Resch (andar)
+

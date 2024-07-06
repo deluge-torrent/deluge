@@ -1,0 +1,31 @@
+= Deluge User Guide =
+
+== Steps for Getting Started ==
+
+Guides for installing Deluge:
+[[TitleIndex(Installing/, hideprefix, depth=0, exclude=Installing/Source)]]
+ * [Installing/Source From source-code]
+
+Installation on a server (to run Deluge daemon in the background) setting up a `service` is useful:
+ * [UserGuide/Service Service]
+To allow clients to remotely connect to the daemon `deluged` follow this guide:
+ * [UserGuide/ThinClient ThinClient] 
+
+== Advanced Usage ==
+
+[[TitleIndex(UserGuide/, hideprefix, depth=0, exclude=UserGuide/Service:UserGuide/ThinClient:UserGuide/InitScript)]]
+ * [wiki:UserGuide/WebUI/ReverseProxy Reverse Proxy (Web UI)]
+
+== Questions or Issues ==
+
+ * '''[wiki:Faq FAQ]'''
+
+ * '''[wiki:Troubleshooting Troubleshooting]'''
+
+ * '''[wiki:Contributing/BugReporting Report a Bug]'''
+
+=== Contact Us ===
+
+  * '''[http://forum.deluge-torrent.org Forum]''' - The main area for support and discussion.
+
+  * '''[irc://irc.libera.chat/deluge IRC]''' - '''#deluge''' on '''irc.libera.chat''' (Quick tip: [https://rurounijones.github.io/blog/2009/03/17/how-to-ask-for-help-on-irc// Don't ask to ask] on IRC)

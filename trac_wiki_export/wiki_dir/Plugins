@@ -1,0 +1,144 @@
+= Plugins = 
+
+[[PageOutline(2-4,,inline, unnumbered)]]
+
+
+----
+
+== Plugins (Included) ==
+ ||'''Name'''||'''Description'''||'''WebUI'''||
+ ||[wiki:Plugins/AutoAdd AutoAdd]|| Multiple watch folder support ||''Yes''||
+ ||[wiki:Plugins/Blocklist Blocklist]|| Download and import IP blocklists ||''Yes''||
+ ||[wiki:Plugins/Execute Execute]|| Executes a command upon an event ||''Yes''||
+ ||Extractor|| Extracts files upon completion ||''Yes''||
+ ||Label|| Assign labels to torrents for custom actions ||''Yes''||
+ ||Notification|| Provides Email, Popup, Blink and Sound notifications ||''Yes''||
+ ||Scheduler|| Limit Deluge bandwidth depending on schedule ||''Yes''||
+ ||[wiki:Plugins/Stats Stats]|| Displays pretty graphs of statistics ||''No''||
+ ||WebUI|| Start the web interface from within Deluge ||''Infinite recursion''||
+ ||[wiki:Plugins/Toggle Toggle] || Allows the users to set the session to either "paused" or "resumed" ||''No''||
+
+----
+
+== Plugins (3rd Party) ==
+ ||'''Name'''||'''Description'''||'''WebUI'''||'''Deluge 2.x support'''||
+ ||[wiki:Plugins/AutoPriority AutoPriority]                                    || Downloads torrents in alphabetical order ||''No''||''No''||
+ ||[http://forum.deluge-torrent.org/viewtopic.php?f=9&t=41165 AutoShutdown]    || Shutdown or hibernate computer when all torrents complete downloading ||''No''||''No''||
+ ||[http://forum.deluge-torrent.org/viewtopic.php?f=9&t=36443 Auto Remove]     || Limit the number of inactive torrents that are kept ||''No''||''No''||
+ ||[http://forum.deluge-torrent.org/viewtopic.php?f=9&t=47243 Auto Remove Plus]     || Based on Auto Remove but with more features ||'''Yes'''||'''Yes'''||
+ ||[https://github.com/Grewfisk/BatchRenamerRegEx/releases Batch Renamer RegEx]   || Batch rename files in a torrent using regex search and replace. Fork of Batch Renamer ||''No''||''No''||
+ ||[https://github.com/dredkin/deluge-rbb/releases Browse Button]              || Browse destination folders in client-server mode ||''No''||'''Yes'''||
+ ||[http://forum.deluge-torrent.org/viewtopic.php?f=9&t=47501 CopyMagnetURI]   || Copy the magnet URI of the selected torrent(s) to the clipboard ||''No''||''No''||
+ ||[https://github.com/stefantalpalaru/deluge-default-trackers Default Trackers] || Add default trackers for all your new torrents ||''No''||'''Yes'''||
+ ||[https://github.com/Laharah/deluge-FileBotTool FileBotTool]                 || Integrates automatic media sorting using [http://www.filebot.net/ FileBot] ||''No''||'''Yes'''||
+ ||[wiki:Plugins/IfaceWatch IfaceWatch]                                        || Watch for IP changes on specific interfaces and notify libtorrent ||''No''||'''Yes'''||
+ ||[https://github.com/cas--/deluge-ipstatusbar/releases IPstatusbar]                   || Show the external IP address being listened on in the status bar ||''No''||''No''||
+ ||[http://forum.deluge-torrent.org/viewtopic.php?f=9&t=42629 LabelPlus]       || Labeling plugin with additional features ||''No''||'''Yes'''||
+ ||[http://forum.deluge-torrent.org/viewtopic.php?f=9&t=42887 ltConfig]        || Configure libtorrent settings ||'''Yes'''||'''Yes'''||
+ ||[http://forum.deluge-torrent.org/viewtopic.php?f=9&t=54025 MyScheduler]     || Scheduler with Force Start ||'''Yes'''||''No''||
+ ||[http://forum.deluge-torrent.org/viewtopic.php?f=9&t=40769 NetWatcher]      || Monitors the local network activity and deciding if pause or resume all torrents. ||''No''||''No''||
+ ||[http://forum.deluge-torrent.org/viewtopic.php?f=9&t=47327 NetWatcher2]     || Monitors the local network activity and automatically limits the download speed.  ||''No''||''No''||
+ ||[wiki:Plugins/Pieces Pieces]                                                || View status and set priority of each individual piece of a torrent ||'''Yes'''||''No''||
+ ||[wiki:Plugins/PreventSuspend PreventSuspend]                                || Prevents computer suspending ||''No''||''No''||
+ ||[http://forum.deluge-torrent.org/viewtopic.php?f=9&t=52115 PreventSuspendPlus]                                || Prevents computer suspending (inc Windows support) ||'''Yes'''||''No''||
+ ||[https://forum.deluge-torrent.org/viewtopic.php?f=9&t=54864 Ratio]          || Show total downloads, uploads, and overall share ratio in status bar. ||''No''||''No''||
+ ||[http://forum.deluge-torrent.org/viewtopic.php?f=9&t=38747 Randomize]       || Randomizes incoming port based on configurable interval and blocked port check ||''No''||''No''||
+ ||[http://forum.deluge-torrent.org/viewtopic.php?f=9&t=39767 SeedTime]        || Pause or remove torrents after they have seeded for a certain amount of time. ||''No''||''No''||
+ ||[https://github.com/hrushikesh198/DelugeSequentialDownload SequentialDownload] || Download pieces in sequential order for watching while downloading. ||''No''||''No''||
+ ||[http://forum.deluge-torrent.org/viewtopic.php?f=9&t=40835 Smart Move]      || Displays move storage progress in status bar. ||''No''||''No''||
+ ||[http://forum.deluge-torrent.org/viewtopic.php?f=9&t=49679 Streaming]       || Stream video or audio directly from Deluge while downloading ||'''Yes'''||'''Yes'''||
+ ||[https://github.com/noam09/deluge-telegramer Telegramer]                    || Receive notifications, add and view torrents using Telegram messenger ||'''Yes'''||'''Yes'''||
+ ||[http://forum.deluge-torrent.org/viewtopic.php?f=9&t=53953 textTab]         || Displays the contents of a text file in a new tab ||''No''||''No''||
+ ||[http://forum.deluge-torrent.org/viewtopic.php?f=9&t=34025 Total Traffic]   || Shows per session & optionally total traffic ||''No''||''No''||
+ ||[http://forum.deluge-torrent.org/viewtopic.php?f=9&t=34343 Traffic Limits]  || Pause all torrents if more than a set amount of data is uploaded or downloaded. ||''No''||''No''||
+ ||[http://pypi.python.org/pypi/Updatorr/ Updatorr]                            || Automatic torrents updates for forum-like trackers ||''No''||''No''||
+ ||[https://github.com/Laharah/deluge-uTorrentImport uTorrentImport]           || a cross platform Deluge plugin to import torrents from uTorrent ||''No''||''No''||
+ ||[https://pypi.python.org/pypi/deluge-webapi WebAPI]                         || Alternative JSON API for WebUI ||'''Yes'''||'''Yes'''||
+ ||[wiki:Plugins/YaRSS2 YaRSS2]                                                || An RSS plugin configurable through the GUI ||''No''||'''Yes'''||
+
+
+ === Unmaintained Plugins === 
+ ||'''Name'''||'''Description'''||'''WebUI'''||'''Deluge 2.x support'''||
+ ||[wiki:Plugins/XMPPNotify XMPP Notify]                                       || XMPP notify/control bot ||''No''||''No''||
+ ||[http://forum.deluge-torrent.org/viewtopic.php?f=9&t=31553 YaRSS]           || Simple RSS plugin for TV Shows ||''No''||''No''||
+ ||[http://forum.deluge-torrent.org/viewtopic.php?f=9&t=35615 Batch Renamer]   || Rename multiple files in torrents for tidiness ||''No''||''No''||
+ ||[wiki:Plugins/Categorise Categorise]                                        || Moves downloaded torrent to a specific directory depending on type ||''No''||''No''||
+ ||[http://forum.deluge-torrent.org/viewtopic.php?f=9&t=33995 Copy Completed]  || Copies completed torrents to another location ||'''Yes'''||''Unknown''||
+ ||[http://forum.deluge-torrent.org/viewtopic.php?f=9&t=39173 CopyLimit]       || Controls upload "ratio" while downloading based on torrent total size ||''No''||''Unknown''||
+ ||[http://forum.deluge-torrent.org/viewtopic.php?f=9&t=28915 Delete Partials] || Deletes partial files left by 'Do not download' ||''No''||''No''||
+ ||[http://forum.deluge-torrent.org/viewtopic.php?f=9&t=32315 Growl]           || Growl Notifications for completed torrents ||''No''||''Unknown''||
+ ||[http://git.nordu.net/?p=lobber-deluge-core.git;a=tree;f=dist LobberCore]   || Automatic downloader and core functionality plugin for use with [https://portal.nordu.net/display/LOBBER/Lobber Lobber] ||''No''||''Unknown''||
+ ||[http://forum.deluge-torrent.org/viewtopic.php?f=9&t=34001 Managed Pause]   || Scheduler that allow you to exclude torrents ||''No''||''Unknown''||
+ ||[http://forum.deluge-torrent.org/viewtopic.php?f=9&t=42623 MoveTools]       || Monitor torrent move status ||''No''||''No''||
+
+
+
+ === Browser Plugins === 
+ '''Chrome'''        
+ ||[https://chrome.google.com/webstore/detail/gabdloknkpdefdpkkibplcfnkngbidim DelugeSiphon]|| Ultra simple Chrome extension to add torrents via WebUI interface. ||
+ ||[https://chrome.google.com/webstore/detail/remote-deluge/epcolmlaegimilnokaddncgmdafacohf Deluge Remote]|| Provides a simple overview of current torrents within Chrome [https://github.com/YodaDaCoda/chrome-deluge-remote (Source Code)]||
+
+
+ '''Firefox'''
+ ||[https://addons.mozilla.org/en-US/firefox/addon/delugeaddtorrent/ DelugeAddTorrent] || Send the torrent magnet link to Deluge Web UI [https://github.com/muriloportugal/DelugeAddTorrent (Source Code)] ||
+ ||[https://addons.mozilla.org/en-US/firefox/addon/bittorrent-webui-120685/ BitTorrent WebUI+]|| Automatically add torrent/magnet links via WebUI ||
+ ||[http://userscripts-mirror.org/scripts/show/79003.html WebUI Quick Add Torrent ] || Uses Greasemonkey to add a clickable icon on webpages for adding torrents via WebUI ||
+ === Application Plugins ===
+ ''Extensions or scripts for applications that enable interaction with Deluge''
+
+ ||'''Name'''||'''Description'''||
+ ||[https://github.com/Lord-Kamina/Deluge-Magnet-Handler OSX Magnet URI Handler]|| OSX Applescript handler to open magnet URLs in Deluge.app ||
+ ||[http://www.rubicode.com/Software/RCDefaultApp/ RCDefaultApp]|| General preference pane to configure default apps, used to link magnet links to Deluge-Magnet-Handler on newer macs ||
+ ||[http://forum.deluge-torrent.org/viewtopic.php?f=9&t=30825 ConkyDeluge]|| Script to display Deluge statistics within Conky ||
+ ||[http://forum.deluge-torrent.org/viewtopic.php?f=9&t=30985 Docky Helper]|| Docky helper that shows transfer rates on the Deluge badge ||  
+ ||[http://flexget.com/wiki/Plugins/deluge FlexGet Plugin]|| Deluge Plugin for the advanced RSS tool [wiki:Plugins/FlexGet (More Info)] ||
+ ||[http://forum.deluge-torrent.org/viewtopic.php?f=9&p=172841#p172841 FileBot Script] || Uses [wiki:Plugins/Execute Execute] plugin to run [http://filebot.sourceforge.net/ FileBot] which renames, categorizes, and finds subtitles and artwork ||
+ ||[https://github.com/maziara/deluge-feed-inoreader Inoreader] || Tag the articles in Inoreader and they will be downloaded in Deluge ||
+ ||[http://forum.deluge-torrent.org/viewtopic.php?f=9&t=38957&p=163277 Periscope Subtitle Script] || Uses [wiki:Plugins/Execute Execute] plugin to run a subtitle searching script based around [https://code.google.com/p/periscope/ Periscope] module
+ ||[http://www.transdroid.org/download/using-deluge-on-ubuntu/ Transdroid]|| Manage your torrents from your Android device ||
+ ||[http://code.google.com/p/deluge-xbmc-plugin/ XBMC Plugin] || Connects via WebUI to display and manipulate the status of torrents within XBMC ||
+ ||[http://forum.deluge-torrent.org/viewtopic.php?f=9&t=46529 Plex Script] || Uses [wiki:Plugins/Execute Execute] plugin for managing an automated [https://plex.tv/ Plex Media Server] setup. ||
+
+----
+
+
+== Installing Plugin Eggs ==
+
+=== Determine Python Version ===
+
+Plugin eggs have the ''Python'' version encoded in the filename and will only load in Deluge if the Python versions match.
+ * Verify Deluge [wiki:Troubleshooting#PythonVersion Python version].
+
+=== Download ===
+
+Download the plugin `egg` that matches the Deluge Python version from above, e.g.
+ * ''Plugin-1.0-'''py2.6'''.egg'' is a ''Python 2.6'' egg.
+ * ''Plugin-1.0-'''py2.7'''.egg'' is a ''Python 2.7'' egg.
+
+ For plugins that don't have a specific Deluge Python version available:: 
+   It is possible to rename an egg to match the Python version (e.g. ''Plugin-1.0-'''py2.6'''.egg'' ''to'' ''Plugin-1.0-'''py2.7'''.egg'') and should still work.
+
+=== Install ===
+
+ GUI::
+ `Preferences -> Plugins` click `Install plugin`, locate the downloaded plugin `egg` and select it to install.
+
+ Manually::
+ Copy the plugin `egg` to the Deluge [wiki:Faq#WheredoesDelugestoreitssettingsconfig config] `plugins` directory:
+
+If the Plugin does not show up in the Plugins list then it is likely the incorrect Python version of the plugin has been installed, also see below.
+==== Client-Server Setups ====
+
+When running the Deluge daemon, `deluged` and Deluge client on a separate computers, the plugin must be installed on both machines. Installing a plugin egg through the GTK client will copy the egg to both the local plugins directory, as well as the remote daemon's. However if the Python versions on the local machine and remote server do not match, you will have to copy the egg to the remote server manually.
+
+For example in the setup below you will have to install the py2.6 egg on the local machine but then ''manually'' install the py2.7 egg onto the remote server.
+
+    * Local machine with Python 2.6 running `GTKUI` client.
+    * Remote server with Python 2.7 running `deluged`.
+
+See [wiki:Plugins#DeterminePythonVersion Determine Python Version] above.
+
+== Plugin Development ==
+
+ * [wiki:'Development/1.3/Plugin' How to write a Plugin]
+ * [wiki:'Development/PluginIdeas' Plugin Ideas & Suggestions]

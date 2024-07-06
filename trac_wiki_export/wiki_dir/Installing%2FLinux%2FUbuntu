@@ -1,0 +1,37 @@
+= Ubuntu Install Guide =
+
+[[PageOutline(2,,inline)]]
+
+== Install Deluge ==
+
+'''Software Centre''': 
+ [http://apt.ubuntu.com/p/deluge Deluge]
+
+
+'''GUI install from Terminal:'''
+{{{
+ sudo apt-get install deluge
+}}}
+
+
+'''Headless install from Terminal:'''
+{{{
+ sudo apt-get install deluged deluge-web deluge-console
+}}}
+
+Although Deluge is included in the official [http://packages.ubuntu.com/search?keywords=deluge-torrent Ubuntu repositories] it may be out of date. To ensure you are using the latest version use the [wiki:Installing/Linux/Ubuntu#AddDelugePPARepository PPA Repository], see the steps below.
+
+=== Deluge PPA Repository ===
+The [https://launchpad.net/~deluge-team/+archive/stable Deluge PPA] contains the latest Deluge releases for Ubuntu.
+
+{{{
+sudo add-apt-repository ppa:deluge-team/stable
+sudo apt-get update
+sudo apt-get install deluge
+}}}
+
+== Removing ==
+
+{{{
+  sudo apt-get remove deluge
+}}}

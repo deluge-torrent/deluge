@@ -1,0 +1,25 @@
+= Stats Plugin =
+
+Displays pretty graphs much like the utorrent speed tab.
+
+== Download ==
+
+Note: Stats plugin is included with Deluge from version 1.3
+
+[http://github.com/ianmartin/Deluge-stats-plugin/downloads Stats plugin for Deluge]
+
+Version 0.2.x is for Deluge 1.1.x
+
+Version 0.3.x is for Deluge 1.2
+
+== Discussion/Support ==
+
+Problems, comments or suggestions welcome either in the  or on the
+
+[http://forum.deluge-torrent.org/viewtopic.php?f=9&t=24935 Forum Thread] 
+
+[http://github.com/ianmartin/Deluge-stats-plugin/issues Github Issue Tracker]
+
+== Source Code ==
+http://github.com/ianmartin/Deluge-stats-plugin
+

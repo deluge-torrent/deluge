@@ -1,0 +1,6 @@
+pygithub @ git+https://github.com/sagemath/PyGithub.git
+requests
+markdown
+roman
+diskcache
+rich

@@ -1,0 +1,80 @@
+= Before Reporting a Bug =
+
+ * Install the latest version of Deluge: '''[[Include(http://download.deluge-torrent.org/version)]]'''
+
+ * Check the '''[wiki:Faq Frequently Asked Questions]'''.
+
+== Search for Existing Issues ==
+
+''Frequently questions from users often relate to already fixed or known about bugs in Deluge so please search before asking.''
+
+ * '''[search: Deluge Bug Tickets]'''
+
+ * '''[http://forum.deluge-torrent.org/search.php Deluge Forum]'''
+
+ * Deluge site search using a [https://www.google.co.uk/search?q=site:deluge-torrent.org Search Engine]
+
+== Ask your Question Effectively ==
+Two links that provide helpful generic tips for reporting software problems.
+
+[http://www.catb.org/~esr/faqs/smart-questions.html#before How To Ask Questions The Smart Way][[br]]
+[http://www.chiark.greenend.org.uk/~sgtatham/bugs.html How to Report Bugs Effectively]
+
+
+= Collect Bug Information =
+
+You will need the following information when reporting a bug, Deluge and libtorrent versions are essential:
+
+ * Version Information:
+    * [wiki:Troubleshooting#DelugeVersion Deluge version].
+    * [wiki:Troubleshooting#libtorrentversion libtorrent version].
+    * Operating System and version.
+    * Browser and version ''(if using WebUI)''.
+
+ * Plugins enabled.
+ * Language in use ''(if not in English)''.
+ * Installation method ''i.e. from source, package or installer''.
+
+ * Precise steps to reproduce the bug.
+
+ * [wiki:Troubleshooting#EnableDelugeLogging Deluge Logs] (`error` level is usually fine in first instance).
+ * Information of any errors or traces.
+ * [wiki:Faq#WheredoesDelugestoreitssettings Config] files.
+ * Screenshots and screencasts are helpful for GUI issues.
+
+''Note: If you are using Client and Daemon you may need version or logs from both.''
+
+== Hard Crashes of Deluge (or libtorrent) ==
+A backtrace using `gdb` may be required for hard crashes of Deluge (crashes without an obvious error in Deluge logs).
+
+Here is a ''deluged'' example:
+{{{
+   gdb --args python /usr/bin/deluged -d
+   (gdb) run
+   ## After Crash ##
+   (gdb) thread apply all backtrace
+}}}
+
+= Opening a Bug Ticket =
+
+The bug ticket system we use is called Trac. [/register Sign up] if you haven't already.
+
+''Note: The Trac user account is separate to the Forum user account.''
+
+ 1. [/newticket Create a new bug ticket]
+ 2. Fill in the boxes, making sure the following are completed:
+   * ''Summary:'' Short description of issue
+   * ''Description:'' Include the steps to reproduce and other collected information, use `{{{ }}}` markup for pasting code or errors.
+   * ''Version:'' Deluge version
+   * ''Component:'' Best guess as to where the problem occurs
+ 3. Attach any logs, screenshots or patches
+
+= External bug trackers =
+
+These sites also track bugs relating to Deluge or libtorrent.
+ 
+ * [https://bugs.launchpad.net/ubuntu/+source/deluge Ubuntu], [https://apps.fedoraproject.org/packages/deluge/bugs Fedora], [http://bugs.debian.org/cgi-bin/pkgreport.cgi?src=deluge Debian], [https://bugs.archlinux.org/index.php?string=deluge Arch], [https://bugs.gentoo.org/buglist.cgi?quicksearch=deluge Gentoo], [http://trac.macports.org/query?status=assigned&status=new&status=reopened&order=priority&port=deluge MacPorts]
+
+'''libtorrent (rasterbar) Bugs:'''
+
+ * [https://github.com/arvidn/libtorrent/issues libtorrent issue tracker], also [https://bugs.launchpad.net/ubuntu/+source/libtorrent-rasterbar Ubuntu], [https://admin.fedoraproject.org/pkgdb/acls/bugs/rb_libtorrent Fedora], [http://trac.macports.org/query?status=assigned&status=new&status=reopened&order=priority&port=libtorrent-rasterbar MacPorts]
