@@ -1,8 +1,3 @@
-['Development']
-
-['Development/Plugins']
-
-
 # Webui Examples
 
 **Tested and developed on deluge-svn/Deluge 1.1**
