@@ -25,5 +25,11 @@ nav:
   - Download: download.md
   - Plugins: plugins
   - Support:
+      - FAQ: faq.md
       - User Guide: userguide/index.md
-  - Development: development
+  - Contributing:
+      - Bug Report: contributing/bugreporting.md
+      - Coding Style: contributing/codingstyle.md
+      - Pull Requests: contributing/pullrequests.md
+  - Development:
+      - Development: development/index.md
