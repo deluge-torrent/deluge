@@ -21,7 +21,7 @@ deluged
 killall deluged
 ```
 
-*Note: The config location is either the [default location](/faq#wheredoesdelugestoreitssettingsconfig) with reference to the `user` that `deluged` is running as. Alternatively if using a service it will be specified in the service config files with `-c <path>` option.*
+*Note: The config location is either the [default location](/faq#where-does-deluge-store-its-settingsconfig) with reference to the `user` that `deluged` is running as. Alternatively if using a service it will be specified in the service config files with `-c <path>` option.*
 
 ### Add User to the authentication file
 

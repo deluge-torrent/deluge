@@ -231,7 +231,7 @@ DAEMON1_ARGS="-d -L warning -l /var/log/deluge/daemon/warning.log"             #
 DAEMON2=/usr/bin/deluge-web
 DAEMON2_ARGS="-L warning -l /var/log/deluge/web/warning.log"
 ```
-* See [Logging](/faq#enabledelugelogging) for possible loglevels.
+* See [Logging](/faq#enable-deluge-logging) for possible loglevels.
 Restart the daemon
 
 ```

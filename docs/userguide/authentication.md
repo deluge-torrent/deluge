@@ -1,5 +1,5 @@
 ## Authentication
-The daemon looks at the file [<config folder>](http://dev.deluge-torrent.org/wiki/Faq#WheredoesDelugestoreitssettingsconfig)/auth for doing authentication.
+The daemon looks at the file [<config folder>](http://dev.deluge-torrent.org/wiki/Faq#where-does-deluge-store-its-settingsconfig)/auth for doing authentication.
 
 The format of this file is straightforward, each line contains a username:password:level tuple in plaintext.
 

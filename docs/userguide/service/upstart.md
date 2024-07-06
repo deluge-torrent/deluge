@@ -137,7 +137,7 @@ exec start-stop-daemon -S -c $uid:$gid -k $umask -x /usr/bin/deluged -- -d -l /v
 ```
 exec start-stop-daemon -S -c $uid:$gid -k $umask -x /usr/bin/deluge-web -- -l /var/log/deluge/web.log -L warning
 ```
-* Refer to the [FAQ](/faq#enabledelugelogging) for possible log-levels.
+* Refer to the [FAQ](/faq#enable-deluge-logging) for possible log-levels.
 
 Restart the daemon:
 

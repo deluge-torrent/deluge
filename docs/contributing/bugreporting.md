@@ -39,7 +39,7 @@ You will need the following information when reporting a bug, Deluge and libtorr
 
 - Precise steps to reproduce the bug.
 
-- [Deluge Logs](/troubleshooting#enabledelugelogging) (`error` level is usually fine in first instance).
+- [Deluge Logs](/troubleshooting#enable-deluge-logging) (`error` level is usually fine in first instance).
 - Information of any errors or traces.
 - [Config](/faq#wheredoesdelugestoreitssettings) files.
 - Screenshots and screencasts are helpful for GUI issues.

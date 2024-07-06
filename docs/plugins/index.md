@@ -131,7 +131,7 @@ GUI::
 `Preferences -> Plugins` click `Install plugin`, locate the downloaded plugin `egg` and select it to install.
 
 Manually::
-Copy the plugin `egg` to the Deluge [config](/faq#wheredoesdelugestoreitssettingsconfig) `plugins` directory:
+Copy the plugin `egg` to the Deluge [config](/faq#where-does-deluge-store-its-settingsconfig) `plugins` directory:
 
 If the Plugin does not show up in the Plugins list then it is likely the incorrect Python version of the plugin has been installed, also see below.
 
