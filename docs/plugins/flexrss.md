@@ -2,7 +2,7 @@
 
 This plugin is only compatible with the **0.5.x** and **1.1.x** releases of deluge.
 
-Note: For **1.2.x** or newer releases see [FlexGet](/plugins-flexget) or [yarss2](plugins/yarss2).
+Note: For **1.2.x** or newer releases see [FlexGet](/plugins/flexget) or [yarss2](plugins/yarss2).
 
 ## Overview
 

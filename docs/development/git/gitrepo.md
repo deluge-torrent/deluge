@@ -2,9 +2,9 @@
 
 Deluge's source code is always available through our [Git repository](http://git.deluge-torrent.org/deluge).
 
-To get a copy of the code, you will need to clone it from the repository then see the [['Installing/Source']].
+To get a copy of the code, you will need to clone it from the repository then see the [Install from source](/installing/source) guide.
 
-For more in-depth git usage see [GitTips](/gittips).
+For more in-depth git usage see [GitTips](/development/git/gittips).
 
 This guide uses commands which are meant to be typed at a command prompt, but most will be available from a GUI Git client.
 

@@ -8,7 +8,7 @@ Deluge can be setup in such a way that a Deluge daemon, `deluged`, can be setup 
 
 The Deluge daemon `deluged` and `deluge-console` should be [installed](/installing) on the server.
 
-See the [UserGuide/Service service guides] to run `deluged` as a service so that it starts/stops on server boot/shutdown. Substitute any daemon start or stop commands below with the appropriate service commands.
+See the [service guides](userguide/service) to run `deluged` as a service so that it starts/stops on server boot/shutdown. Substitute any daemon start or stop commands below with the appropriate service commands.
 
 To debug any problems setting up `deluged` [enable logging](/faq#howdoistartthedaemonwithloggingenabled) and check for errors.
 
@@ -27,7 +27,7 @@ killall deluged
 
 Create a Deluge user for clients/UIs to access the daemon by editing the authentication file, `auth`, located in the above config location.
 
-The `auth` file should consist of lines of `<username>:<password>:<level>`. Replace <username> and <password> with your choice and <level> with the desired [UserGuide/Authentication authentication level].
+The `auth` file should consist of lines of `<username>:<password>:<level>`. Replace <username> and <password> with your choice and <level> with the desired [ authentication level](/userguide/authentication).
 
 You can use your favourite text editor to achieve this or can be done with a one-line echo command e.g.:
 
@@ -82,7 +82,7 @@ The Deluge GTK UI setup require switching the GTK UI from Classic mode to Thin-c
 1. In `Preferences -> Interface` and disable (untick) `Classic Mode`
 2. Restart `deluge` and you should see the `Connection Manager`.
    * If it is not needed you can remove the `localhost` daemon.
-   * If SSH Tunnelling, before continuing [UserGuide/ThinClient#CreateSSHTunnel Create SSH Tunnel], and for `Hostname`, below, `127.0.0.2` *must* be used.
+   * If SSH Tunnelling, before continuing [Create SSH Tunnel](/userguide/thinclient#createsshtunnel), and for `Hostname`, below, `127.0.0.2` *must* be used.
 3. Create a new entry with `Add` button:
    * `Hostname` is your server's IP.
    * `Port` should be default `58846`.
@@ -133,7 +133,7 @@ The Web UI is slightly different as the `client` is a web server daemon `deluge-
 ```sh
 deluge-web
 ```
-   Note: To run it in the background as a daemon, use `--fork` option. You may also want to set it up as a [UserGuide/InitScript service].
+   Note: To run it in the background as a daemon, use `--fork` option. You may also want to set it up as a [service](/userguide/initscript).
 
 In your web browser, enter the url below where <server> is the IP address of the server:
 

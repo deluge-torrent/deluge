@@ -65,4 +65,4 @@ Deluge 2.0 packages are not yet available, please see [docs](https://deluge.read
 
 ## Source
 
-[_Install from source_](/installing/source) using [release tarballs](https://ftp.osuosl.org/pub/deluge/source/?c=m;o=d) or [git repository](gitrepo).
+[_Install from source_](/installing/source) using [release tarballs](https://ftp.osuosl.org/pub/deluge/source/?c=m;o=d) or [git repository](/development/git/gitrepo/).

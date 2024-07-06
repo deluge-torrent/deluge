@@ -1,6 +1,6 @@
 # Ubuntu Upstart Job
 
-**This page only applies to Ubuntu 11.04 Natty up to 14.10 Utopic, for newer Ubuntu distributions see: [systemd](/userguide-service/systemd).**
+**This page only applies to Ubuntu 11.04 Natty up to 14.10 Utopic, for newer Ubuntu distributions see: [systemd](/userguide/service/systemd).**
 
 Firstly ensure Deluge daemon and Web UI are installed:
 

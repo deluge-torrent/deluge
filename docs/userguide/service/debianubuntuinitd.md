@@ -1,7 +1,7 @@
 # Ubuntu Init Script
 
 ---
-**This page is for obsolete/unsupported Ubuntu distributions, see [systemd](/userguide-service-systemd) or [upstart](userguide-service/upstart) depending on your distribution.**
+**This page is for obsolete/unsupported Ubuntu distributions, see [systemd](/userguide/service/systemd) or [upstart](userguide/service/upstart) depending on your distribution.**
 
 ---
 

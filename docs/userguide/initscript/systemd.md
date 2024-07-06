@@ -1,1 +1,1 @@
-See [UserGuide/Service/systemd](/userguide-service/systemd).
+See [UserGuide/Service/systemd](/userguide/service/systemd).

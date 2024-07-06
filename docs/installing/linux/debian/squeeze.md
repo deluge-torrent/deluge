@@ -48,7 +48,7 @@ aptitude -t unstable install deluge
 ## Deluge Launchpad PPA
 The alternative to using Debian unstable involves using the Deluge Launchpad PPA for Ubuntu Maverick as the release is old enough to not get any unmet dependencies when installed on Squeeze.
 
-*This method does not work for Lenny as it depends on a package that doesn't exist, see [Installing Lenny](/installing-linux-debian/lenny)*
+*This method does not work for Lenny as it depends on a package that doesn't exist, see [Installing Lenny](/installing/linux/debian/lenny)*
 
 Add PPA to your `/etc/apt/sources.list`:
 
