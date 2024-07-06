@@ -1,0 +1,177 @@
+/*
+ * Deluge website theme - designed by Dan Fuhry
+ * Copyright 2007
+ *
+ * This theme is Free Software, available under the terms of the GNU General Public License.
+ * See the page Special:GNU_General_Public_License on this website for details.
+ */
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body#deluge-front-page {
+  color: #D1DAE5;
+  background-color: #304663;
+  font: 81% trebuchet ms, arial, helvetica, sans-serif;
+}
+
+div#deluge-header {
+  font-family: trebuchet ms, arial, helvetica, sans-serif;
+  color: #D1DAE5;
+  height: 128px;
+  align: center;
+  background-image: url(../images/navbar.gif);
+  background-repeat: repeat-x;
+  background-position: bottom center;
+  background-color: #425570;
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+
+div#deluge-header-inner {
+  /*width: 80%;*/
+
+  width: 728px;
+  height: 128px;
+  margin: 0 auto;
+  background-image: url(../images/droplet.png);
+  background-repeat: no-repeat;
+}
+
+div#delugelogo {
+  padding: 10px 0 0 118px;
+  margin-bottom: -7px;
+  /* position: absolute; */
+}
+
+div#delugelogo a {
+  text-decoration: none;
+  color: #D1DAE5;
+}
+
+h1#delugetext {
+  display: inline;
+  font-size: 64px;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  z-index: 3;
+  letter-spacing: normal;
+}
+
+h1#delugetext a {
+  display: inline;
+  font-family: trebuchet ms, arial, helvetica, sans-serif;
+  font-size: 64px;
+  border: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  z-index: 3;
+}
+
+/* Navbar at top */
+
+ul#deluge-navbar {
+  position: absolute;
+  top: 81px;
+  margin: 0 0 0 82px;
+  z-index: 2;
+  padding-left: 40px;
+}
+
+ul#deluge-navbar li {
+  list-style-type: none;
+  float: left;
+  line-height: 46px;
+}
+
+ul#deluge-navbar li a {
+  color: #D1DAE5;
+  text-decoration: none;
+  display: block;
+  padding: 0 14px;
+}
+
+ul#deluge-navbar li a:hover {
+  color: #D9E2EB;
+  background-color: #384D63;
+}
+
+ul#deluge-navbar li a.currenttab {
+  background-image: url(../images/nav-current.gif);
+  color: #131e38;
+  font-weight: bold;
+}
+
+/* Link styles */
+ul#deluge-navbar :link, :visited {
+ border-bottom: 0px;
+}
+
+/* Content area */
+
+div#content {
+  width: 728px; 
+  margin: 10px auto 0 auto;
+}
+div#content-f2 {
+  width: 728px;
+  margin: 10px auto 0 180;
+}
+
+div#content-inner {
+  padding: 0 160px 10px 160px;
+}
+
+div#content-inner a {
+  color: #D1DAE5;
+  text-decoration: underline;
+}
+
+div#content-inner a:hover {
+  color: #FFFFFF;
+  text-decoration: underline;
+  
+}
+
+div#content h2#h2PageTitle {
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid #131e38;
+}
+
+div#copyright {
+  text-align: center;
+  font-size: 0.6em;
+  color: #6c83a1;
+  padding: 10px 0;
+  width: 50%;
+  margin: 0 auto;
+  border-top: 1px dotted #889db8;
+  clear: both;
+}
+
+div#copyright a {
+  color: #889db8;
+  border-bottom: 1px dotted #4c6f9d;
+}
+
+div#copyright a:hover {
+  color: #FFFFFF;
+  border-bottom: 1px dotted #889db8;
+}
+
+div#copyright table#copyright-linktable {
+  margin: 0 auto;
+}
+
+div#copyright table#copyright-linktable a {
+  border-bottom-width: 0;
+}
+
+td#deluge_download_box a {
+  text-decoration: none !important;
+}

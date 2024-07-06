@@ -1,0 +1,166 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.deluge-nav {
+  height: 60px;
+  background-image: url("./images/deluge-navbar.gif");
+  background-repeat: repeat-x;
+  background-position: center center;
+  background-color: #425570;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  overflow: hidden;
+  font-family: sans-serif;
+  width: 100vw;
+}
+
+.deluge-nav .deluge-nav-logo {
+  max-width: 250px;
+  padding: 0 10px;
+  overflow: hidden;
+}
+
+.deluge-nav .deluge-nav-logo a {
+  text-decoration: none;
+  color: #DBE1E8;
+  font-size: 1.7rem;
+  font-weight: 600;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  height: 60px;
+}
+
+.deluge-nav .deluge-nav-logo a img {
+  max-width: 100%;
+  max-height: 56px;
+}
+
+.deluge-nav .deluge-navbar {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 10px;
+}
+
+.deluge-nav .deluge-navbar ul {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.deluge-nav .deluge-navbar ul li a {
+  text-decoration: none;
+  color: #DBE1E8;
+  font-size: 0.9rem;
+  display: block;
+  height: 46px;
+  line-height: 50px;
+  cursor: pointer;
+  padding: 0 10px;
+}
+
+.deluge-nav .deluge-navbar ul li a:hover {
+  color: #DBE1E8;
+  background-color: #384D63;
+}
+
+.deluge-nav .deluge-navbar ul .close {
+  display: none;
+  text-align: right;
+  padding: 10px;
+}
+
+.deluge-nav .deluge-navbar ul .close span {
+  color: #DBE1E8;
+  font-size: 40px;
+  display: inline-block;
+  border: 1px solid #DBE1E8;
+  padding: 0 10px;
+  cursor: pointer;
+}
+
+.deluge-nav .deluge-navbar ul .activetab {
+  background-color: #6F7F95;
+  color: #131e38;
+  font-weight: 600;
+}
+
+.deluge-nav .deluge-navbar .icon-bar {
+  padding: 18px 8px;
+  width: 50px;
+  height: 60px;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.deluge-nav .deluge-navbar .icon-bar i {
+  background-color: #DBE1E8;
+  height: 2px;
+}
+
+@media only screen and (max-width: 730px) {
+  .deluge-nav {
+    justify-content: space-between;
+  }
+
+  .deluge-nav .deluge-nav-logo {
+    flex: 1;
+  }
+
+  .deluge-nav .deluge-navbar {
+    flex: 0;
+  }
+
+  .deluge-nav .deluge-navbar ul {
+    flex-wrap: nowrap;
+    position: fixed;
+    left: 100%;
+    flex-direction: column;
+    background: #425570;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    transition: left .3s;
+    z-index: 1;
+  }
+
+  .deluge-nav .deluge-navbar ul li a {
+    padding: 15px;
+    font-size: 16px;
+    height: auto;
+    line-height: normal;
+    background-color: #2F435F;
+    border-top: 1px solid #DBE1E8;
+  }
+
+  .deluge-nav .deluge-navbar ul li:last-child a {
+    border-bottom: 1px solid #DBE1E8;
+  }
+
+  .deluge-nav .deluge-navbar ul .close {
+    display: block;
+  }
+
+  .deluge-nav .deluge-navbar .icon-bar {
+    display: flex;
+  }
+
+  .deluge-nav .deluge-navbar .menus-show {
+    left: 0;
+  }
+}

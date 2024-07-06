@@ -1,0 +1,14 @@
+Redirect 301 /downloads http://deluge-torrent.org/downloads.php
+Redirect 301 /downloads-debian.php http://deluge-torrent.org/downloads.php
+Redirect 301 /downloads-gentoo.php http://deluge-torrent.org/downloads.php
+Redirect 301 /downloads-ubuntu.php http://deluge-torrent.org/downloads.php
+Redirect 301 /downloads-source.php http://deluge-torrent.org/downloads.php
+Redirect 301 /downloads-windows.php http://deluge-torrent.org/downloads.php
+Redirect 301 /faq http://deluge-torrent.org/faq.php
+Redirect 301 /Changelog http://deluge-torrent.org/Changelog.php
+Redirect 301 /faq.php http://dev.deluge-torrent.org/wiki/Faq
+Redirect 301 /downloads.php http://dev.deluge-torrent.org/wiki/Download
+Redirect 301 /about.php http://dev.deluge-torrent.org/wiki/About
+Redirect 301 /screenshots.php http://dev.deluge-torrent.org/wiki/Screenshots
+Redirect 301 /plugin-list.php http://dev.deluge-torrent.org/wiki/Plugins
+
