@@ -5,7 +5,7 @@ body {
 
 section {
     display: flex;
-    align-items: flex-end;
+    align-items: flex-start;
     flex-wrap: wrap;
     gap: 16px;
     margin: 0 auto;
@@ -22,9 +22,19 @@ section > *:first-child {
     flex-basis: 100%;
     border-right: none;
     border-bottom: 1px dotted #889db8;
+    padding-bottom: 15px;
 }
 
 section > *:last-child {
     border-right: none;
 }
 
+.item h2 {
+    font-size: 1.4em;
+    margin: 0.5em 0 0.5em;
+}
+
+.item a {
+    color: #D1DAE5;
+    text-decoration: underline;
+}
