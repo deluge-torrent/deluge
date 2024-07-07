@@ -8,14 +8,14 @@
 
 Common startup errors with solutions:
 
-  `ImportError: No module named libtorrent`::
-    You need to install [libtorrent-rasterbar](http://www.rasterbar.com/products/libtorrent/).
+* `ImportError: No module named libtorrent`
+    * You need to install [libtorrent-rasterbar](http://www.rasterbar.com/products/libtorrent/).
 
-  `gobject.GError: Unrecognised image file format`::
-    You need to install SVG support. On !Debian/Ubuntu, the package is `librsvg2-common`.
+* `gobject.GError: Unrecognised image file format`
+    * You need to install SVG support. On !Debian/Ubuntu, the package is `librsvg2-common`.
 
-  Windows OS: `Deluge not starting` or `Error:14001 side-by-side configuration`::
-    Install *vcredist_x86.exe*: [Visual C++ 2008 SP1 Redistributable Package](https://www.microsoft.com/en-us/download/details.aspx?id=26368)
+* Windows OS: `Deluge not starting` or `Error:14001 side-by-side configuration`
+    * Install *vcredist_x86.exe*: [Visual C++ 2008 SP1 Redistributable Package](https://www.microsoft.com/en-us/download/details.aspx?id=26368)
 
 **For any other issues not solved here see** [Bug Reporting](/contributing/bugreporting) **and follow the detailed steps.**
 
@@ -29,10 +29,11 @@ Otherwise make sure you've followed the [thin client userguide](/userguide/thinc
 
 See [Bug Reporting](/contributing/bugreporting)
 
-```comment
+<!--
  This is currently not the case.
+
 ~~If you are on Windows, the debug logs are located in your [wiki:Faq#WheredoesDelugestoreitssettings settings folder] under the names `deluged.log` and `deluge.log`.~~
-```
+--->
 
 If you are pasting the log on the forums, please use the `[code][/code]` tags.
 
@@ -71,9 +72,8 @@ There is a bug in the way GTK sets language on Windows but there are several wor
   Save the file as `Deluge.cmd` in the same folder as `Deluge.exe`. Create a shortcut to the .cmd file and use it to start Deluge.
 
 * To force the use of English only, delete the following language files from Deluge program folder:
-   `C:\Program Files\Deluge\deluge-1.3.x-py2.x.egg\deluge\i18n`
-
-   `C:\Program Files\Deluge\share\locale`
+    * `C:\Program Files\Deluge\deluge-1.3.x-py2.x.egg\deluge\i18n`
+    * `C:\Program Files\Deluge\share\locale`
 
 # Deluge Version
 
@@ -120,6 +120,7 @@ deluge -L <loglevel> -l <logfile>
 ```
 
 ## Available Log levels
+
 * `none`
 * `critical`
 * `error`

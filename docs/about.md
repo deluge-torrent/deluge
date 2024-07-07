@@ -21,6 +21,7 @@ The [libtorrent](http://www.libtorrent.org) library is a huge part of Deluge and
 ## What about features?
 
 Deluge has a wide-array of features, including:
+
 * Core/UI split allowing Deluge to run as a daemon
 * Connect remotely to the Deluge daemon
 * Web UI
@@ -42,4 +43,4 @@ Deluge has a wide-array of features, including:
 * Other [libtorrent features](http://www.rasterbar.com/products/libtorrent/features.html)
 * And much more!
 
-['Download'] the latest release and give it a try!
+[Download](/download) the latest release and give it a try!
