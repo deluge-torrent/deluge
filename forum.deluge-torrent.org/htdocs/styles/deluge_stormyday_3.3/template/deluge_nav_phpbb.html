@@ -6,14 +6,14 @@
     </div>
 
     <div class="deluge-navbar">
-        <div class="icon-bar" onclick="show()">
+        <div class="icon-bar" onclick="show_nav_menu()">
             <i></i>
             <i></i>
             <i></i>
         </div>
 
         <ul id="deluge-nav-lists">
-            <li class="close"><span onclick="hide()">×</span></li>
+            <li class="close"><span onclick="hide_nav_menu()">×</span></li>
             <li><a href="https://dev.deluge-torrent.org/wiki/Download">Download</a></li>
             <li><a href="https://dev.deluge-torrent.org/wiki/Plugins">Plugins</a></li>
             <li><a href="https://forum.deluge-torrent.org/">Forum</a></li>
@@ -23,14 +23,3 @@
         </ul>
     </div>
 </div>
-
-<script>
-    const navList = document.getElementById("deluge-nav-lists");
-    function show() {
-        navList.classList.add("menus-show");
-    }
-
-    function hide(){
-        navList.classList.remove("menus-show");
-    }
-</script>
