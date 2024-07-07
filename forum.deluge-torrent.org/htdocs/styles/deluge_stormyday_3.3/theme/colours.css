@@ -97,9 +97,9 @@ a:hover { color: #D31141; }
 }
 
 .forabg {
-	background-color: #0076B1;
-	background-image: -webkit-linear-gradient(top, #6ACEFF 0%, #12A3EB 2px, #0076B1 92px, #0076B1 100%);
-	background-image: linear-gradient(to bottom, #6ACEFF 0%,#12A3EB 2px,#0076B1 92px,#0076B1 100%);
+	background-color: #2b3f59;
+	background-image: -webkit-linear-gradient(top, #DBE1E8 0%, #425570 2px, #2b3f59 92px, #2b3f59 100%);
+	background-image: linear-gradient(to bottom, #DBE1E8 0%,#425570 2px,#2b3f59 92px,#2b3f59 100%);
 	background-repeat: repeat-x;
 }
 
