@@ -5,6 +5,7 @@ theme:
   logo: assets/deluge_logo.png
   favicon: assets/deluge_icon.png
   features:
+    - navigation.tabs
     - navigation.sections
     - navigation.path
     - navigation.indexes
