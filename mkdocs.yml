@@ -5,16 +5,17 @@ theme:
   logo: assets/deluge_logo.png
   favicon: assets/deluge_icon.png
   features:
-    - navigation.tabs
     - navigation.sections
     - navigation.path
     - navigation.indexes
   font:
     test: Open Sans
-    #text: Josefin Sans
   palette:
     scheme: deluge
   custom_dir: overrides
+plugins:
+  - search
+  - awesome-pages
 markdown_extensions:
   - pymdownx.magiclink
 extra_css:
@@ -24,13 +25,20 @@ extra_css:
 nav:
   - Home: index.md
   - Download: download.md
-  - Plugins: plugins
   - Support:
+      - userguide/index.md
+      - ... | installing/*.md
+      - ... | userguide/*.md
       - FAQ: faq.md
-      - User Guide: userguide/index.md
+      - Troubleshooting: troubleshooting.md
+      - Contact: contactus.md
+  - Plugins:
+      - plugins/index.md
+      - ... | plugins/*.md
   - Contributing:
       - Bug Report: contributing/bugreporting.md
       - Coding Style: contributing/codingstyle.md
       - Pull Requests: contributing/pullrequests.md
   - Development:
       - Development: development/index.md
+      - ... | development/*.md
