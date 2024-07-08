@@ -14,8 +14,7 @@ might remain and need fixed.
 ### Local dev
 
 ```
-docker build -t deluge-mkdocs .
-docker run --rm -it -p 8000:8000 -v ${PWD}:/docs deluge-mkdocs
+docker compose up
 ```
 
 Open browser at http://localhost:8000
@@ -23,6 +22,14 @@ Open browser at http://localhost:8000
 Live reloading will refresh the served pages modifying mkdocs.yml and
 markdown pages. Changes to any `overrides` files requires restarting
 docker server.
+
+### Build site
+
+```
+docker compose run mkdocs build
+```
+
+The build output will be in `site` directory.
 
 ### Override home and header
 
