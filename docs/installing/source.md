@@ -34,10 +34,10 @@ pip install twisted[tls] chardet mako pyxdg pillow slimit pypiwin32 pygame certi
 
 ## libtorrent (rasterbar)
 
-For those advanced cases where you need to build and install [libtorrent](http://libtorrent.org/) from source, follow this guide: [Building/libtorrent](/building/libtorrent)
+For those advanced cases where you need to build and install [libtorrent](http://libtorrent.org/) from source, follow this guide: [Building/libtorrent]/development/building/libtorrent.md)
 
 # Download Source
-You can either get the source from a tarball on our [ftp](http://download.deluge-torrent.org/source/?C=M;O=D) or from our [GitRepo](/gitrepo).
+You can either get the source from a tarball on our [ftp](http://download.deluge-torrent.org/source/?C=M;O=D) or from our [GitRepo]/development/git/gitrepo.md).
 
 # Building and Installing
 Extract the source tarball and in the extracted folder run the build command:
@@ -54,7 +54,7 @@ sudo python setup.py install
 * *Debian & Ubuntu: Append `--install-layout=deb` to use `/usr/bin/` prefix instead of Debian default `/usr/bin/local/`.*
 * *Microsoft Windows: Omit `sudo` prefix.*
 
-For Linux Desktop systems an extra step is required due to an installer [bug](http://dev.deluge-torrent.org/ticket/1389) not copying data files, such as `deluge.desktop`:
+For Linux Desktop systems an extra step is required due to an installer [bug](http://dev.deluge-torrent.orghttps://dev.deluge-torrent.org/ticket/1389) not copying data files, such as `deluge.desktop`:
 
 ```
 sudo python setup.py install_data

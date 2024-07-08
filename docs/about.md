@@ -43,4 +43,4 @@ Deluge has a wide-array of features, including:
 * Other [libtorrent features](http://www.rasterbar.com/products/libtorrent/features.html)
 * And much more!
 
-[Download](/download) the latest release and give it a try!
+[Download](/download.md) the latest release and give it a try!

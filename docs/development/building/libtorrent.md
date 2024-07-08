@@ -127,7 +127,7 @@ rm -f /.swapfile
     ```
     bootstrap.bat
     ```
-    Due to a [boost bug](https://svn.boost.org/trac/boost/ticket/10817) with `VC for Python`, need to edit `project-config.jam` in boost folder to the following:
+    Due to a [boost bug](https://svn.boost.org/trac/boosthttps://dev.deluge-torrent.org/ticket/10817) with `VC for Python`, need to edit `project-config.jam` in boost folder to the following:
 
     ```
     using msvc : : : <setup>"%USERPROFILE%\\AppData\\Local\\Programs\\Common\\Microsoft\\Visual C++ for Python\\9.0\\vcvarsall.bat" ;

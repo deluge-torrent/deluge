@@ -27,8 +27,8 @@ nav:
   - Download: download.md
   - Support:
       - userguide/index.md
-      - ... | installing/*.md
-      - ... | userguide/*.md
+      - ... | installing/**/*.md
+      - ... | userguide/**/*.md
       - FAQ: faq.md
       - Troubleshooting: troubleshooting.md
       - Contact: contactus.md
@@ -41,4 +41,9 @@ nav:
       - Pull Requests: contributing/pullrequests.md
   - Development:
       - Development: development/index.md
-      - ... | development/*.md
+      - ... | development/**/*.md
+validation:
+  omitted_files: warn
+  absolute_links: relative_to_docs
+  unrecognized_links: warn
+  anchors: warn

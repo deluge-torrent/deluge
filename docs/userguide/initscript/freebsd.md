@@ -1,1 +1,1 @@
-See [UserGuide/Service/FreeBSD](/userguide/service/freebsd).
+See [UserGuide/Service/FreeBSD](/userguide/service/freebsd.md).

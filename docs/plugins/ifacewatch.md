@@ -1,4 +1,4 @@
-# [IfaceWatch](/ifacewatch)
+# IfaceWatch
 
 Watch for IP changes on specific interfaces and notify libtorrent.
 
@@ -18,7 +18,7 @@ Watch for IP changes on specific interfaces and notify libtorrent.
 
 ### Download
 
-Download [IfaceWatch](/ifacewatch) from the [https://github.com/bendikro/deluge-iface-watch/releases](https://github.com/bendikro/deluge-iface/watch/releases).
+Download IfaceWatch from the [https://github.com/bendikro/deluge-iface-watch/releases](https://github.com/bendikro/deluge-iface/watch/releases).
 
 You must download the egg that matches your python version (Python 2.6 or 2.7). See [http://dev.deluge-torrent.org/wiki/Plugins#InstallingPlugins](http://dev.deluge-torrent.org/wiki/Plugins#InstallingPlugins) for details if you are unsure.
 
@@ -30,14 +30,14 @@ See [instructions for how to install](http://dev.deluge-torrent.org/wiki/Plugins
 
 If you run Deluge in non-Classic mode (daemon and client setup), take a look at [Running a server/seedbox with a Deluge daemon](http://dev.deluge-torrent.org/wiki/Plugins#Client-ServerSetups)
 
-### Configuring [IfaceWatch](/ifacewatch)
+### Configuring IfaceWatch
 
-When enabling the plugin in Deluge a new tab is created in the Deluge prefences for [IfaceWatch](/ifacewatch).
+When enabling the plugin in Deluge a new tab is created in the Deluge prefences for IfaceWatch.
 The settings allows specifying a network interface, such as **eth0**, to be
 monitored for changes at the interval specified in the setting.
 
 In a VPN scenario where you want only the torrent traffic to pass through the VPN interface
 it is necessary to manually set up routing table rules for this traffic. When the IP changes for
-an interface, [IfaceWatch](/ifacewatch) will only instruct Deluge to change the IP that libtorrent listens on.
+an interface, IfaceWatch will only instruct Deluge to change the IP that libtorrent listens on.
 Therefore it is necessary to adjust the routing table rules as well when the IP changes.
 

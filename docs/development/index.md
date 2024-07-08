@@ -1,6 +1,6 @@
 # Development
 
-[Deluge Project Goals](/projectgoals)
+[Deluge Project Goals](/contributing/projectgoals.md)
 
 ## Source Code
 
@@ -11,8 +11,8 @@ The latest and greatest versions of Deluge are here:
 
 Guides:
 
-- [Installing from Source](/installing/source)
-- [Using git repository](/development/git/gitrepo)
+- [Installing from Source](/installing/source.md)
+- [Using git repository](/development/git/gitrepo.md)
 
 ## Bug Tracking
 
@@ -24,7 +24,7 @@ Guides:
 
 ### Coding
 
-- [UI Client](/development/1.3/uiclient)
+- [UI Client](/development/uiclient.md)
 
 ### Testing
 
@@ -32,18 +32,18 @@ Guides:
 
 ### Plugins
 
-- [Plugin Development](/development/plugins)
-- [Plugin Ideas](/development/pluginideas)
-- [Available Plugins](/plugins)
+- [Plugin Development](/development/plugins/index.md)
+- [Plugin Ideas](/development/plugins/pluginideas.md)
+- [Available Plugins](/plugins/index.md)
 
 ### Performance
 
-- [Profiling](/development/profiling)
-- [Vast number of torrents](/development/vast_amount_of_torrents)
+- [Profiling](/development/profiling.md)
+- [Vast number of torrents](/development/vast_amount_of_torrents.md)
 
 ## Packaging
 
-- [Packaging](/development/packaging)
+- [Packaging](/development/packaging/index.md)
 
 ## Contributing
 

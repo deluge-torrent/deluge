@@ -1,4 +1,4 @@
-**For Fedora version > 15 use: [systemd](/userguide/service/systemd)**
+**For Fedora version > 15 use: [systemd](/userguide/service/systemd.md)**
 
 # Fedora Init Script
 

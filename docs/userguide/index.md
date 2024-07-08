@@ -4,29 +4,29 @@
 
 Guides for installing Deluge:
 
-* [From source-code](/installing/source)
+* [From source-code](/installing/source.md)
 
 Installation on a server (to run Deluge daemon in the background) setting up a `service` is useful:
 
-* [Service](/userguide/service)
+* [Service](/userguide/service.md)
 
 
 To allow clients to remotely connect to the daemon `deluged` follow this guide:
 
-* [ThinClient](/userguide/thinclient)
+* [ThinClient](/userguide/thinclient.md)
 
 ## Advanced Usage
 
 
-* [Reverse Proxy (Web UI)](/userguide/webui/reverseproxy)
+* [Reverse Proxy (Web UI)](/userguide/webui/reverseproxy.md)
 
 ## Questions or Issues
 
-* **[FAQ](/faq)**
+* **[FAQ](/faq.md)**
 
-* **[Troubleshooting](/troubleshooting)**
+* **[Troubleshooting](/troubleshooting.md)**
 
-* **[Report a Bug](/contributing/bugreporting)**
+* **[Report a Bug](/contributing/bugreporting.md)**
 
 ### Contact Us
 

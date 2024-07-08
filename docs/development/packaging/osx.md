@@ -31,7 +31,7 @@
   jhbuild build meta-gtk-osx-themes
   jhbuild build gtk-quartz-engine
 ```
-* *Note:* [Quartz patch](https://www.xpra.org/trac/attachment/ticket/533/quartz-style-fix.patch) if build error: `'height' is uninitialized`.
+* *Note:* [Quartz patch](https://www.xpra.org/trac/attachmenthttps://dev.deluge-torrent.org/ticket/533/quartz-style-fix.patch) if build error: `'height' is uninitialized`.
 1. [Bundler](https://wiki.gnome.org/Projects/GTK%2B/OSX/Bundling) for Packaging Deluge.
 
  ```

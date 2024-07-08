@@ -6,18 +6,18 @@
 
 ### Is Deluge Free? Can I get the source?
 
-Yes, Deluge is Free Software, as defined by the Free Software Foundation, and is released under the GPL, giving our users complete freedom. The source code is available in the [download section](/download). Our GPL nature allows you to be 100% sure that our program will never “spy” on your activities. Closed-source BitTorrent clients cannot make that same claim.
+Yes, Deluge is Free Software, as defined by the Free Software Foundation, and is released under the GPL, giving our users complete freedom. The source code is available in the [download section](/download.md). Our GPL nature allows you to be 100% sure that our program will never “spy” on your activities. Closed-source BitTorrent clients cannot make that same claim.
 
 ### How do I install Deluge?
 
-[Installing](/installing)
+[Installing](/installing/index.md)
 
 ### I have an issue starting or using Deluge.
 
-See [Troubleshooting](/troubleshooting) and [Bug Reporting](/contributing/bugreporting)
+See [Troubleshooting](/troubleshooting.md) and [Bug Reporting](/contributing/bugreporting.md)
 
 ### How to start the various user-interfaces?
-See [UI specific questions](/faq#user-interface-specific)
+See [UI specific questions](/faq.md#user-interface-specific)
 
 ### How do I set Deluge as my default BitTorrent program?
 
@@ -48,7 +48,7 @@ Users can reset the Magnet association with:
   * Put `about:config` into address bar and change `network.protocol-handler.expose.magnet` to `false`.
   You will be prompted next time you click a Magnet to set an association with Deluge. (e.g. `/usr/bin/deluge`)
 * **Windows** users should simply re-run the installer and select the magnet association option.
-* **OSX** GTK does not support Magnet URIs (see [#2420](/ticket/2420)) but there is a plugin available: http://forum.deluge-torrent.org/viewtopic.php?f=9&t=52619
+* **OSX** GTK does not support Magnet URIs (see [#2420](https://dev.deluge-torrent.org/ticket/2420)) but there is a plugin available: http://forum.deluge-torrent.org/viewtopic.php?f=9&t=52619
 
 ### Where does Deluge store its settings/config?
 
@@ -68,7 +68,7 @@ Within the Deluge config in a directory named `state`.
 
 ### How do I reset the settings back to default?
 
-If you don't care about losing your current torrents then delete everything in Deluge's [config](/faq#where-does-deluge-store-its-settingsconfig) directory.
+If you don't care about losing your current torrents then delete everything in Deluge's [config](/faq.md#where-does-deluge-store-its-settingsconfig) directory.
 
 If you do want to keep your current torrents then delete everything except for the `state` folder.
 
@@ -116,7 +116,7 @@ In the Web UI:
 #### How can I reset forgotten password?
 
 1. Stop the Web UI before modifying the `web.conf` file.
-2. Edit `web.conf` in [config](/faq#where-does-deluge-store-its-settingsconfig) and delete the entire `pwd_sha1` line or use quick method via command-line e.g.:
+2. Edit `web.conf` in [config](/faq.md#where-does-deluge-store-its-settingsconfig) and delete the entire `pwd_sha1` line or use quick method via command-line e.g.:
 
 ```
 sed -i.bak "/pwd_sha1/d" ~/.config/deluge/web.conf
@@ -126,12 +126,12 @@ sed -i.bak "/pwd_sha1/d" ~/.config/deluge/web.conf
 #### How do I configure plugins with the Web UI?
 Not all plugins are configurable directly with the Web UI, see [Plugins] table for those with Web UI code.
 
-The easiest way to configure plugins is using the GTK UI. If unable to use GTK UI on the machine with your daemon, it is possible to connect to that daemon from another computer with the GTK UI. See [ThinClient](/userguide/thinclient) for more information on remote GTK UI setup.
+The easiest way to configure plugins is using the GTK UI. If unable to use GTK UI on the machine with your daemon, it is possible to connect to that daemon from another computer with the GTK UI. See [ThinClient](/userguide/thinclient.md) for more information on remote GTK UI setup.
 
 #### How do I auto-connect to a specific daemon?
 
 1. Stop the Web UI before modifying the `web.conf` file.
-2. Edit `web.conf` in [config](/faq#where-does-deluge-store-its-settingsconfig), find `"default_daemon"` and set its value to the daemon `id` in `hostlist.conf`
+2. Edit `web.conf` in [config](/faq.md#where-does-deluge-store-its-settingsconfig), find `"default_daemon"` and set its value to the daemon `id` in `hostlist.conf`
 
    e.g. To connect to localhost you would open `hostlist.conf` as see a snippet such as:
 
@@ -152,7 +152,7 @@ The easiest way to configure plugins is using the GTK UI. If unable to use GTK U
 #### How do I enable HTTPS?
 
 1. Create a (self-signed) SSL certificate: http://httpd.apache.org/docs/2.0/ssl/ssl_faq.html#selfcert
-2. Put the resulting `deluge.crt` and `deluge.key` in the [config's](/faq#where-does-deluge-store-its-settingsconfig) `ssl` directory.
+2. Put the resulting `deluge.crt` and `deluge.key` in the [config's](/faq.md#where-does-deluge-store-its-settingsconfig) `ssl` directory.
 3. Enable HTTPS in Web UI config and modify the filepaths to match the above files.
 4. Restart the Web UI.
 
@@ -201,7 +201,7 @@ $ deluge-console
 
 #### I encountered `BadLoginError("Password does not match")` with localhost daemon?
 
-This is likely due to mismatching config locations, ensure you are running deluge-console with same user as deluged: [More Details](/userguide/thinclient#accessingdelugedservicewithlocaluiclient)
+This is likely due to mismatching config locations, ensure you are running deluge-console with same user as deluged: [More Details](/userguide/thinclient.md#accessing-deluged-service-with-local-ui-client)
 
 ### Daemon
 
@@ -224,7 +224,7 @@ pkill deluged
 
 #### How do I start the daemon with logging enabled?
 
-See: [Troubleshooting - Enable Logging](/troubleshooting#enable-deluge-logging)
+See: [Troubleshooting - Enable Logging](/troubleshooting.md#enable-deluge-logging)
 
 Using the `--do-not-daemonize` (`-d`) option you can also log to console:
 
@@ -234,10 +234,10 @@ deluged -d [-L <loglevel>] [-l <logfile>]
 
 #### I can't connect to the daemon from another machine
 
-See [ThinClient](/userguide/thinclient) for more information but the summary steps are:
+See [ThinClient](/userguide/thinclient.md) for more information but the summary steps are:
 
 1. Configure the daemon to allow remote connections
-2. Configure [Authentication](/userguide/authentication)
+2. Configure [Authentication](/userguide/authentication.md)
 3. Restart the daemon.
 
 #### How do I make Deluge connect to a different daemon?
@@ -251,7 +251,7 @@ To disable classic mode:
 3. Restart Deluge and it will now start in thin-client mode
 4. Use the Connection Manager to enter the other daemon details
 5.
-See [ThinClient](/userguide/thinclient) for more information on remote GTK UI
+See [ThinClient](/userguide/thinclient.md) for more information on remote GTK UI
 
 #### How do I stop Deluge from killing the daemon when I quit the GTK UI?
 
@@ -301,11 +301,11 @@ If you're using pre-SP2 Windows Vista*:
 |-----------------------------|-|
 |Maximum Half-Open Connections|4|
 
-You can then tweak those settings to suit your connection.  See [Bandwidth Tweaking](/userguide/bandwidthtweaking).
+You can then tweak those settings to suit your connection.  See [Bandwidth Tweaking](/userguide/bandwidthtweaking.md).
 
 Note: if you do not know your upload speed, go to http://speedtest.net and run a test. You can view the results in KB/s by choosing "kilobytes" for "Speed Measurement" which can be accessed under "Settings" in the top left corner of the page.
 
-* If you have Deluge setup as a [ThinClient](/userguide/thinclient) then this setting is determined by the OS the daemon is running on, not the thin client.
+* If you have Deluge setup as a [ThinClient](/userguide/thinclient.md) then this setting is determined by the OS the daemon is running on, not the thin client.
 
 
 ### Deluge sometimes creates files that I didn't ask it to download?
@@ -320,7 +320,7 @@ Force recheck discards all incomplete pieces.
 
 ### Does Deluge support Initial or Super Seed?
 
-Not yet, but it will be added in a future release, see [#1903](/ticket/1903).
+Not yet, but it will be added in a future release, see [#1903](https://dev.deluge-torrent.org/ticket/1903).
 
 ### Does Deluge have an embedded tracker?
 
@@ -382,7 +382,7 @@ Masks: Normal Service `0x00`, Minimize Cost `0x02`, Maximize Reliability `0x04`,
 
 ### Can Deluge use blocklists such as SafePeer or PeerGuardian?
 
-You can use the [Blocklist Plugin](/plugins/blocklist).
+You can use the [Blocklist Plugin](/plugins/blocklist.md).
 
 ### I have a status bar warning: "No Incoming Connections!"
 
@@ -392,4 +392,4 @@ Enabling `UPnP` in Deluge and on your router can automatically open the ports as
 
 ## Enable Deluge Logging
 
-[Troubleshooting#enable-deluge-logging](/troubleshooting#enable-deluge-logging)
+[troubleshooting.md#enable-deluge-logging](/troubleshooting.md#enable-deluge-logging)

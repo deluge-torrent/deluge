@@ -49,7 +49,7 @@ To upgrade libtorrent:
 apt-get install -t trusty libtorrent-rasterbar8 python-libtorrent
 ```
 
-For config and systemd service setup see [systemd](/userguide/initscript/systemd) and [thinclient](userguide/thinclient) guides.
+For config and systemd service setup see [systemd](/userguide/initscript/systemd.md) and [thinclient](/userguide/thinclient.md) guides.
 
 For `'add-apt-repository: command not found:` install `software-properties-common`.
 

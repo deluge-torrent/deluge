@@ -3,7 +3,7 @@
 This plugin has the same functionality as the obsolete sequential download script.
 
 ## Download
-[AutoPriority-0.5.1-py2.6](/plugins autopriority/autopriority-0.5.1/py2.6.egg)
+
 
 ## Features
 

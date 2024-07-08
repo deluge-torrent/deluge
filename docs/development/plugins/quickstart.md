@@ -47,12 +47,12 @@ Rename the egg to <plugin-name>.egg and share it,
 
 ## alerts
 * registering for a "torrent_finished" alert : http://forum.deluge-torrent.org/viewtopic.php?f=9&t=8155#p37775
-* [Plugin Alerts](/development/plugins/alerts)
+* [Plugin Alerts](/development/plugins/alerts.md)
 
 ## signals
-* [Plugin Signals](/development/plugins/signals)
+* [Plugin Signals](/development/plugins/signals.md)
 
 # Examples
-* [Plugin WebUI Examples](/development/plugins/webui/examples)
+* [Plugin WebUI Examples](/development/plugins/webui/examples.md)
 
 

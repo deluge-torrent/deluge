@@ -2,7 +2,7 @@
 
 - Install the latest version of Deluge.
 
-- Check the **[Frequently Asked Questions](/faq)**.
+- Check the **[Frequently Asked Questions](/faq.md)**.
 
 ## Search for Existing Issues
 
@@ -28,8 +28,8 @@ You will need the following information when reporting a bug, Deluge and libtorr
 
 - Version Information:
 
-  - [Deluge version](/troubleshooting#delugeversion).
-  - [libtorrent version](/troubleshooting#libtorrentversion).
+  - [Deluge version](/troubleshooting.md#deluge-version).
+  - [libtorrent version](/troubleshooting.md#libtorrent-version).
   - Operating System and version.
   - Browser and version _(if using WebUI)_.
 
@@ -39,9 +39,9 @@ You will need the following information when reporting a bug, Deluge and libtorr
 
 - Precise steps to reproduce the bug.
 
-- [Deluge Logs](/troubleshooting#enable-deluge-logging) (`error` level is usually fine in first instance).
+- [Deluge Logs](/troubleshooting.md#enable-deluge-logging) (`error` level is usually fine in first instance).
 - Information of any errors or traces.
-- [Config](/faq#wheredoesdelugestoreitssettings) files.
+- [Config](/faq.md#where-does-deluge-store-its-settingsconfig) files.
 - Screenshots and screencasts are helpful for GUI issues.
 
 _Note: If you are using Client and Daemon you may need version or logs from both._

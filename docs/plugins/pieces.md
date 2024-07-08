@@ -20,13 +20,15 @@ Version 0.2 adds a tooltip to show which piece the mouse is hovering over, and a
 
 View of the tab:
 
+* Todo: Add screenshot of piece tab
+
 Piece # tooltip (shows piece priority in parens):
 
-![](/tooltip.png)
+* Todo: Add screenshot piece info tooltip on hover
 
 Menu to set the priority for a piece:
 
-![](set_priority.png)
+* Todo: Add screenshot piece priority popup menu
 
 ## Discussion/Support
 Please use the forum post: http://forum.deluge-torrent.org/viewtopic.php?f=9&t=27545

@@ -202,12 +202,12 @@ To differentiate commit changes at a glance, the subject of commits for specific
 
 If the commit fix/closes a ticket, include the number:
 
-`[[#1001](/ticket/1001)] Add support for magnet uris`
+`[[#1001](https://dev.deluge-torrent.org/ticket/1001)] Add support for magnet uris`
 
 A limited number of tags may be combined, such as
 
-`[[#1002](/ticket/1002)] [GTKUI] Fix the files tab context menu not being displayed`
+`[[#1002](https://dev.deluge-torrent.org/ticket/1002)] [GTKUI] Fix the files tab context menu not being displayed`
 
-`[[#2250](/ticket/2250)] [Core] [GTKUI] Add method remove_torrents to core`
+`[[#2250](https://dev.deluge-torrent.org/ticket/2250)] [Core] [GTKUI] Add method remove_torrents to core`
 
 

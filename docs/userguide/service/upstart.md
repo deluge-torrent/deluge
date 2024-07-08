@@ -1,6 +1,6 @@
 # Ubuntu Upstart Job
 
-**This page only applies to Ubuntu 11.04 Natty up to 14.10 Utopic, for newer Ubuntu distributions see: [systemd](/userguide/service/systemd).**
+**This page only applies to Ubuntu 11.04 Natty up to 14.10 Utopic, for newer Ubuntu distributions see: [systemd](/userguide/service/systemd.md).**
 
 Firstly ensure Deluge daemon and Web UI are installed:
 
@@ -137,7 +137,7 @@ exec start-stop-daemon -S -c $uid:$gid -k $umask -x /usr/bin/deluged -- -d -l /v
 ```
 exec start-stop-daemon -S -c $uid:$gid -k $umask -x /usr/bin/deluge-web -- -l /var/log/deluge/web.log -L warning
 ```
-* Refer to the [FAQ](/faq#enable-deluge-logging) for possible log-levels.
+* Refer to the [FAQ](/faq.md#enable-deluge-logging) for possible log-levels.
 
 Restart the daemon:
 

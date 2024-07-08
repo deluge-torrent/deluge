@@ -6,11 +6,11 @@ Deluge can be setup in such a way that a Deluge daemon, `deluged`, can be setup 
 
 ## Deluge Daemon Setup
 
-The Deluge daemon `deluged` and `deluge-console` should be [installed](/installing) on the server.
+The Deluge daemon `deluged` and `deluge-console` should be [installed](/installing/index.md) on the server.
 
-See the [service guides](userguide/service) to run `deluged` as a service so that it starts/stops on server boot/shutdown. Substitute any daemon start or stop commands below with the appropriate service commands.
+See the [service guides](/userguide/service.md) to run `deluged` as a service so that it starts/stops on server boot/shutdown. Substitute any daemon start or stop commands below with the appropriate service commands.
 
-To debug any problems setting up `deluged` [enable logging](/faq#howdoistartthedaemonwithloggingenabled) and check for errors.
+To debug any problems setting up `deluged` [enable logging](/faq.md#how-do-i-start-the-daemon-with-logging-enabled) and check for errors.
 
 ### Create Default Config
 
@@ -21,13 +21,13 @@ deluged
 killall deluged
 ```
 
-*Note: The config location is either the [default location](/faq#where-does-deluge-store-its-settingsconfig) with reference to the `user` that `deluged` is running as. Alternatively if using a service it will be specified in the service config files with `-c <path>` option.*
+*Note: The config location is either the [default location](/faq.md#where-does-deluge-store-its-settingsconfig) with reference to the `user` that `deluged` is running as. Alternatively if using a service it will be specified in the service config files with `-c <path>` option.*
 
 ### Add User to the authentication file
 
 Create a Deluge user for clients/UIs to access the daemon by editing the authentication file, `auth`, located in the above config location.
 
-The `auth` file should consist of lines of `<username>:<password>:<level>`. Replace <username> and <password> with your choice and <level> with the desired [ authentication level](/userguide/authentication).
+The `auth` file should consist of lines of `<username>:<password>:<level>`. Replace <username> and <password> with your choice and <level> with the desired [ authentication level](/userguide/authentication.md).
 
 You can use your favourite text editor to achieve this or can be done with a one-line echo command e.g.:
 
@@ -82,7 +82,7 @@ The Deluge GTK UI setup require switching the GTK UI from Classic mode to Thin-c
 1. In `Preferences -> Interface` and disable (untick) `Classic Mode`
 2. Restart `deluge` and you should see the `Connection Manager`.
    * If it is not needed you can remove the `localhost` daemon.
-   * If SSH Tunnelling, before continuing [Create SSH Tunnel](/userguide/thinclient#createsshtunnel), and for `Hostname`, below, `127.0.0.2` *must* be used.
+   * If SSH Tunnelling, before continuing [Create SSH Tunnel](#create-ssh-tunnel), and for `Hostname`, below, `127.0.0.2` *must* be used.
 3. Create a new entry with `Add` button:
    * `Hostname` is your server's IP.
    * `Port` should be default `58846`.
@@ -128,12 +128,12 @@ deluge-console "connect <host>[:<port>] <user> <password> ; add $(TorrentPathNam
 
 The Web UI is slightly different as the `client` is a web server daemon `deluge-web` that connects to a running `deluged`.
 
-1. [Install ](/installing) `deluge-web` and run it:
+1. [Install ](/installing/index.md) `deluge-web` and run it:
 
 ```sh
 deluge-web
 ```
-   Note: To run it in the background as a daemon, use `--fork` option. You may also want to set it up as a [service](/userguide/initscript).
+   Note: To run it in the background as a daemon, use `--fork` option. You may also want to set it up as a [service](/userguide/initscript.md).
 
 In your web browser, enter the url below where <server> is the IP address of the server:
 

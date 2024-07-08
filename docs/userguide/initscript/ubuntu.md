@@ -1,1 +1,1 @@
-See [UserGuide/Service/DebianUbuntuInitd](/userguide/service/debianubuntuinitd).
+See [UserGuide/Service/DebianUbuntuInitd](/userguide/service/debianubuntuinitd.md).

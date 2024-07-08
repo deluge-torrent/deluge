@@ -1,6 +1,6 @@
 # Python 3 Port
 
-This page provides more detailed information on porting to Python 3 started in ticket [#1328](/ticket/1328).
+This page provides more detailed information on porting to Python 3 started in ticket [#1328](https://dev.deluge-torrent.org/ticket/1328).
 
 The current consensus is that the core and common files should be prepared for a future Twisted release with full Python 3 support and UI's worked on at a later date.
 

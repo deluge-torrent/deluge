@@ -23,6 +23,14 @@ Live reloading will refresh the served pages modifying mkdocs.yml and
 markdown pages. Changes to any `overrides` files requires restarting
 docker server.
 
+### Mkdocs Plugins
+
+[**Awesome pages plugin**](https://github.com/lukasgeiter/mkdocs-awesome-pages-plugin)
+
+This pages plugin solves the issue where mkdocs only includes the specific pages listed in the config nav section which means it would be cumbersome to list every pages and it's location. To help build the navigation this plugin allows using ellipsis with filters to indicate all other pages to include in sections.
+
+In future if all pages are listed in config nav section this plugin would be redundant.
+
 ### Build site
 
 ```
@@ -36,13 +44,12 @@ The build output will be in `site` directory.
 The `overrides` directory contains the files to set a custom homepage
 and custom header for the site.
 
-
 ## Forum
 
 The Deluge forum is provided by phpBB. It uses a MySQL database and is
 installed in the following location:
 
-* `/var/www/forum.deluge-torrent.org/htdocs/`
+- `/var/www/forum.deluge-torrent.org/htdocs/`
 
 The Deluge navigation header is setup in a custom phpBB style theme
 named `deluge_stormyday_3.3` based on the default prosilver theme.
@@ -50,22 +57,21 @@ named `deluge_stormyday_3.3` based on the default prosilver theme.
 Note: Changes made to live site will not be reflected until a `Purge Cache`
 action is performed from admin control panel.
 
-
 ## CGIT
 
 cgit is a web interface to the git repos.
 
-* Installation: `/var/www/git.deluge-torrent.org/`
-* cgit config: `/etc/cgitrc`
-* Apache config: `/etc/httpd/sites-enabled/git.deluge-torrent.org.conf`
+- Installation: `/var/www/git.deluge-torrent.org/`
+- cgit config: `/etc/cgitrc`
+- Apache config: `/etc/httpd/sites-enabled/git.deluge-torrent.org.conf`
 
 ### Custom header
 
 The cgit config links to the following files to provide the Deluge
 header nav bar:
 
-* `/var/www/deluge-torrent.org/htdocs/cgit-head-include`
-* `/var/www/deluge-torrent.org/htdocs/deluge_header_nav.html`
+- `/var/www/deluge-torrent.org/htdocs/cgit-head-include`
+- `/var/www/deluge-torrent.org/htdocs/deluge_header_nav.html`
 
 ## Other Root files
 
@@ -74,8 +80,8 @@ header nav bar:
 These two PHP scripts provide the application with a test port option to
 verify network connectivity.
 
-* test-port.php
-* test_port.php
+- test-port.php
+- test_port.php
 
 ### Http Downloader
 

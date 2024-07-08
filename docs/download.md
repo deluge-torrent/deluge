@@ -4,7 +4,7 @@
 
 <img src=https://deluge-torrent.org/images/ubuntu-logo.png left, link=>
 <img src=https://deluge-torrent.org/images/spacer.gif left, link=, width=7, height=20>
-[Ubuntu](https://tinyurl.com/installdeluge), also [Deluge PPA](/installing/linux/ubuntu#AddDelugePPARepository)
+[Ubuntu](https://tinyurl.com/installdeluge), also [Deluge PPA](/installing/linux/ubuntu.md#deluge-ppa-repository)
 
 <img src=https://deluge-torrent.org/images/debian-logo.png left, link=>
 <img src=https://deluge-torrent.org/images/spacer.gif left, link=, width=10, height=20>
@@ -62,4 +62,4 @@ Deluge 2.0 packages are not yet available, please see [docs](https://deluge.read
 
 ## Source
 
-[_Install from source_](/installing/source) using [release tarballs](https://ftp.osuosl.org/pub/deluge/source/?c=m;o=d) or [git repository](/development/git/gitrepo/).
+[_Install from source_](/installing/source.md) using [release tarballs](https://ftp.osuosl.org/pub/deluge/source/?c=m;o=d) or [git repository](/development/git/gitrepo.md).

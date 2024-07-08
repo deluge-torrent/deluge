@@ -17,23 +17,17 @@ Common startup errors with solutions:
 * Windows OS: `Deluge not starting` or `Error:14001 side-by-side configuration`
     * Install *vcredist_x86.exe*: [Visual C++ 2008 SP1 Redistributable Package](https://www.microsoft.com/en-us/download/details.aspx?id=26368)
 
-**For any other issues not solved here see** [Bug Reporting](/contributing/bugreporting) **and follow the detailed steps.**
+**For any other issues not solved here see** [Bug Reporting](/contributing/bugreporting.md) **and follow the detailed steps.**
 
 ## Deluge's GTK UI won't connect to a remote daemon
 
 Make sure both the GTK UI and the daemon are the same (or similar, e.g. 1.3.x) versions.
 
-Otherwise make sure you've followed the [thin client userguide](/userguide/thinclient).
+Otherwise make sure you've followed the [thin client userguide](/userguide/thinclient.md).
 
 ## Deluge isn't working! What should I do?
 
-See [Bug Reporting](/contributing/bugreporting)
-
-<!--
- This is currently not the case.
-
-~~If you are on Windows, the debug logs are located in your [wiki:Faq#WheredoesDelugestoreitssettings settings folder] under the names `deluged.log` and `deluge.log`.~~
---->
+See [Bug Reporting](/contributing/bugreporting.md)
 
 If you are pasting the log on the forums, please use the `[code][/code]` tags.
 
@@ -85,7 +79,7 @@ There is a bug in the way GTK sets language on Windows but there are several wor
 
 ## libtorrent version
 
-The libtorrent version is in the output of [Deluge Version](/troubleshooting#delugeversion).
+The libtorrent version is in the output of [Deluge Version](/troubleshooting.md#deluge-version).
 
  From the terminal::
   `python -c "from deluge._libtorrent import lt; print lt.version"`

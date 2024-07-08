@@ -1,1 +1,1 @@
-See [UserGuide Service](/userguide/service).
+See [UserGuide Service](/userguide/service.md).

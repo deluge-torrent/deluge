@@ -1,6 +1,6 @@
 # Installing Deluge On Linux
 
-To install Deluge on Linux, head to the [downloads page](/download) and select the distribution you use.
+To install Deluge on Linux, head to the [downloads page](/download.md) and select the distribution you use.
 
 If you are using a 32 bit computer and operating system, you will need to select the package for i386 systems.
 

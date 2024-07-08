@@ -25,7 +25,7 @@ Lets open this with [RunSnakeRun](http://www.vrplumber.com/programming/runsnaker
 
 Below is an example of the profile results for version 1.3.5 after connecting to a daemon with 2000 torrents.
 
-![](/deluge_runsnake.png)
+![](/assets/screenshots/runsnake.png)
 
 A very interresting entry is the update_view in torrentview.py. This function is called 23 times where the total time spent in the function is 27 seconds. Each call takes 1.18 seconds. For the short time the client was connected this is a lot of time!
 
@@ -167,7 +167,7 @@ Lets do a new profile with the changes to the code:
  python -m cProfile -o deluge.profile deluge -l deluge.log -L info
 ```
 
-![](/deluge_runsnake_after_optimizations.png)
+![](/assets/screenshots/runsnake_after_optimizations.png)
 
 We can now see how update_view has dropped significantly on the list. Each call to update_view now takes 0.37 seconds on average compared to 1.18 in the original code.
 
@@ -202,6 +202,7 @@ Lets open that with [massif-visualizer](https://projects.kde.org/projects/extrag
 massif-visualizer massif.out.26034
 ```
 
-<img src="Development Profiling/Deluge_daemon_massif_visualizer.jpg" width=800px>
+![](/assets/screenshots/daemon_massif_visualizer.jpg)
+
 
 Here we see a nice graph showing the memory usage at snapshots taken at regular intervals. It's clear that a lot of the memory used by the daemon is in fact used by libtorrent. It's possible to get a more detailed view of the memory usage of the different categories shown in the list on the right.

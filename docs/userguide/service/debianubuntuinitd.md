@@ -1,7 +1,7 @@
 # Ubuntu Init Script
 
 ---
-**This page is for obsolete/unsupported Ubuntu distributions, see [systemd](/userguide/service/systemd) or [upstart](userguide/service/upstart) depending on your distribution.**
+**This page is for obsolete/unsupported Ubuntu distributions, see [systemd](/userguide/service/systemd.md) or [upstart](/userguide/service/upstart.md) depending on your distribution.**
 
 ---
 
@@ -231,7 +231,7 @@ DAEMON1_ARGS="-d -L warning -l /var/log/deluge/daemon/warning.log"             #
 DAEMON2=/usr/bin/deluge-web
 DAEMON2_ARGS="-L warning -l /var/log/deluge/web/warning.log"
 ```
-* See [Logging](/faq#enable-deluge-logging) for possible loglevels.
+* See [Logging](/faq.md#enable-deluge-logging) for possible loglevels.
 Restart the daemon
 
 ```

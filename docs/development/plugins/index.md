@@ -20,7 +20,7 @@ Conceptually you'll want to view your plugin as a collection of separate program
 
 ## Getting Started
 
-The easiest way to get started is to use the [create_plugin.py](http://git.deluge-torrent.org/deluge/plain/deluge/scripts/create_plugin.py?h=1.3-stable) script in the appropriate branch in our [GitRepo](/gitrepo).  Alternatively, you can use other plugins as a template if you prefer.
+The easiest way to get started is to use the [create_plugin.py](http://git.deluge-torrent.org/deluge/plain/deluge/scripts/create_plugin.py?h=1.3-stable) script in the appropriate branch in our [GitRepo]/development/git/gitrepo.md).  Alternatively, you can use other plugins as a template if you prefer.
 
 Running the script:
 

@@ -50,7 +50,7 @@ cp dist/RemoteNotify-0.1-py2.5.egg ~/.config/deluge/plugins/
 ### Start & Configure the Plugin
 
 1. Start deluged & deluge webUI
-2. Enable [RemoteNotify](/remotenotify) plugin ( using webui at http://yourdelugedomain/config/plugins </ the ajax theme doesn't have this )
+2. Enable RemoteNotify plugin ( using webui at http://yourdelugedomain/config/plugins </ the ajax theme doesn't have this )
 3. Enter The Account & Password for your Bots jabber and Email account & save. ( http://yourdelugedomain/config/remotenotify )
 4. Enter Notifier Email SMTP server. (For gmail use *smtp.gmail.com* )
 5. Restart deluged. ( Sadly, this is necessary because of a weird Twisted Words bug )
