@@ -9,14 +9,14 @@
   </div>
 
   <div class="deluge-navbar">
-    <div class="icon-bar" onclick="show()">
+    <div class="icon-bar" onclick="menus-show()">
       <i></i>
       <i></i>
       <i></i>
     </div>
 
     <ul id="deluge-nav-lists">
-      <li class="close"><span onclick="hide()">×</span></li>
+      <li class="close"><span onclick="menus-hide()">×</span></li>
       <li>
         <a href="/download">Download</a>
       </li>
@@ -32,14 +32,3 @@
     </ul>
   </div>
 </div>
-
-<script>
-  const navList = document.getElementById("deluge-nav-lists");
-  function show() {
-    navList.classList.add("menus-show");
-  }
-
-  function hide() {
-    navList.classList.remove("menus-show");
-  }
-</script>
