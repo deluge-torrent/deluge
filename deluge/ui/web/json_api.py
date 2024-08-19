@@ -30,7 +30,6 @@ from deluge.ui.common import FileTree2, TorrentInfo
 from deluge.ui.coreconfig import CoreConfig
 from deluge.ui.hostlist import HostList
 from deluge.ui.sessionproxy import SessionProxy
-from deluge.ui.web.common import _
 
 log = logging.getLogger(__name__)
 
