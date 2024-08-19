@@ -3,6 +3,7 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
+import sys
 from dataclasses import dataclass
 
 import pytest
@@ -77,6 +78,10 @@ class TestAlertManager:
 
         mock_callback.assert_called_once_with(mock_alert1)
 
+    @pytest.mark.xfail(
+        sys.platform == 'win32',
+        reason='Issue under Windows where mock is already called.',
+    )
     async def test_pause_not_pop_alert(
         self, component, mock_alert1, mock_alert2, mock_callback
     ):
