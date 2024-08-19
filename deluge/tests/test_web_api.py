@@ -78,27 +78,28 @@ class TestWebAPI(WebServerTestBase):
 
     @defer.inlineCallbacks
     def get_host_status(self):
-        host = list(self.deluge_web.web_api._get_host(self.host_id))
+        host = list(self.deluge_web.web_api.hostlist.get_host_info(self.host_id))
         host[3] = 'Online'
         host[4] = '2.0.0.dev562'
         status = yield self.deluge_web.web_api.get_host_status(self.host_id)
         assert status == tuple(status)
 
-    def test_get_host(self):
-        assert not self.deluge_web.web_api._get_host('invalid_id')
-        conn = list(self.deluge_web.web_api.hostlist.get_hosts_info()[0])
-        assert self.deluge_web.web_api._get_host(conn[0]) == conn[0:4]
+    def test_get_hosts(self):
+        hosts = self.deluge_web.web_api.hostlist.get_hosts_info()
+        assert self.deluge_web.web_api.get_hosts() == hosts
 
     def test_add_host(self):
         conn = ['abcdef', '10.0.0.1', 0, 'user123', 'pass123']
-        assert not self.deluge_web.web_api._get_host(conn[0])
+        assert not self.deluge_web.web_api.hostlist.get_host_info(conn[0])
         # Add valid host
         result, host_id = self.deluge_web.web_api.add_host(
             conn[1], conn[2], conn[3], conn[4]
         )
         assert result
         conn[0] = host_id
-        assert self.deluge_web.web_api._get_host(conn[0]) == conn[0:4]
+        assert (
+            list(self.deluge_web.web_api.hostlist.get_host_info(conn[0])) == conn[0:4]
+        )
 
         # Add already existing host
         ret = self.deluge_web.web_api.add_host(conn[1], conn[2], conn[3], conn[4])
@@ -112,10 +113,10 @@ class TestWebAPI(WebServerTestBase):
     def test_remove_host(self):
         conn = ['connection_id', '', 0, '', '']
         self.deluge_web.web_api.hostlist.config['hosts'].append(conn)
-        assert self.deluge_web.web_api._get_host(conn[0]) == conn[0:4]
+        assert self.deluge_web.web_api.hostlist.get_host_info(conn[0]) == conn[0:4]
         # Remove valid host
         assert self.deluge_web.web_api.remove_host(conn[0])
-        assert not self.deluge_web.web_api._get_host(conn[0])
+        assert not self.deluge_web.web_api.hostlist.get_host_info(conn[0])
         # Remove non-existing host
         assert not self.deluge_web.web_api.remove_host(conn[0])
 
