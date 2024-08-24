@@ -449,8 +449,18 @@ class ScriptResource(resource.Resource, component.Component):
                     filepath = filepath[0]
 
                 path = filepath + lookup_path[len(pattern) :]
+                path = os.path.abspath(path)
+
+                if not os.path.commonpath([path, filepath]) == filepath:
+                    log.warning(
+                        'Script path %s traverses out of common dir %s',
+                        path,
+                        filepath,
+                    )
+                    continue
 
                 if not os.path.isfile(path):
+                    log.warning('Unable to serve script which does not exist: %s', path)
                     continue
 
                 log.debug('Serving path: %s', path)
