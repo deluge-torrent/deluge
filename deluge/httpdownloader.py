@@ -21,8 +21,6 @@ from twisted.web.http_headers import Headers
 from twisted.web.iweb import IAgent
 from zope.interface import implementer
 
-from deluge.common import get_version
-
 log = logging.getLogger(__name__)
 
 
@@ -183,8 +181,7 @@ class HTTPDownloaderAgent:
             headers = Headers()
 
         if not headers.hasHeader(b'User-Agent'):
-            version = get_version()
-            user_agent = 'Deluge/%s (https://deluge-torrent.org)' % version
+            user_agent = 'Deluge'
             headers.addRawHeader('User-Agent', user_agent)
 
         d = self.agent.request(
