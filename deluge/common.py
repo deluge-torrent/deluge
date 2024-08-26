@@ -720,6 +720,16 @@ def parse_human_size(size):
     raise InvalidSize(msg % (size, tokens))
 
 
+def anchorify_urls(text: str) -> str:
+    """
+    Wrap all occurrences of text URLs with HTML
+    """
+    url_pattern = r'((htt)|(ft)|(ud))ps?://\S+'
+    html_href_pattern = r'<a href="\g<0>">\g<0></a>'
+
+    return re.sub(url_pattern, html_href_pattern, text)
+
+
 def is_url(url):
     """
     A simple test to check if the URL is valid
