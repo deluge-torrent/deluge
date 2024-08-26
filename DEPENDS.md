@@ -95,6 +95,6 @@ All modules will require the [common](#common) section dependencies.
 [mako]: https://www.makotemplates.org/
 [pygame]: https://www.pygame.org/
 [libnotify]: https://developer.gnome.org/libnotify/
-[ayatanaappindicator3]: https://packages.ubuntu.com/jammy/gir1.2-ayatanaappindicator3-0.1
+[ayatanaappindicator3]: https://lazka.github.io/pgi-docs/AyatanaAppIndicator3-0.1/index.html
 [librsvg]: https://wiki.gnome.org/action/show/Projects/LibRsvg
 [ifaddr]: https://pypi.org/project/ifaddr/
