@@ -6,7 +6,7 @@
 # See LICENSE for more details.
 #
 
-import cgi
+import email.message
 import logging
 import os.path
 import zlib
@@ -133,7 +133,9 @@ class HTTPDownloaderAgent:
                 content_disp = headers.getRawHeaders(b'content-disposition')[0].decode(
                     'utf-8'
                 )
-                content_disp_params = cgi.parse_header(content_disp)[1]
+                message = email.message.Message()
+                message['content-type'] = content_disp
+                content_disp_params = dict(message.get_params()[1:])
                 if 'filename' in content_disp_params:
                     new_file_name = content_disp_params['filename']
                     new_file_name = sanitise_filename(new_file_name)
@@ -152,7 +154,11 @@ class HTTPDownloaderAgent:
                     self.filename = new_file_name
 
             cont_type_header = headers.getRawHeaders(b'content-type')[0].decode()
-            cont_type, params = cgi.parse_header(cont_type_header)
+            message = email.message.Message()
+            message['content-type'] = cont_type_header
+            message_params = message.get_params()
+            cont_type = message_params[0][0]
+            params = dict(message_params[1:])
             # Only re-ecode text content types.
             encoding = None
             if cont_type.startswith('text/'):

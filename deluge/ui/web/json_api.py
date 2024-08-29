@@ -6,7 +6,7 @@
 # See LICENSE for more details.
 #
 
-import cgi
+import email.message
 import json
 import logging
 import os
@@ -191,7 +191,9 @@ class JSON(resource.Resource, component.Component):
         Handler to take the json data as a string and pass it on to the
         _handle_request method for further processing.
         """
-        content_type, _ = cgi.parse_header(request.getHeader(b'content-type').decode())
+        message = email.message.Message()
+        message['content-type'] = request.getHeader(b'content-type').decode()
+        content_type = message.get_params()[0][0]
         if content_type != 'application/json':
             message = 'Invalid JSON request content-type: %s' % content_type
             raise JSONException(message)
