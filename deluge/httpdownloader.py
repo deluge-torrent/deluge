@@ -133,11 +133,10 @@ class HTTPDownloaderAgent:
                 content_disp = headers.getRawHeaders(b'content-disposition')[0].decode(
                     'utf-8'
                 )
-                message = email.message.Message()
-                message['content-type'] = content_disp
-                content_disp_params = dict(message.get_params()[1:])
-                if 'filename' in content_disp_params:
-                    new_file_name = content_disp_params['filename']
+                message = email.message.EmailMessage()
+                message['content-disposition'] = content_disp
+                new_file_name = message.get_filename()
+                if new_file_name:
                     new_file_name = sanitise_filename(new_file_name)
                     new_file_name = os.path.join(
                         os.path.split(self.filename)[0], new_file_name
@@ -154,11 +153,10 @@ class HTTPDownloaderAgent:
                     self.filename = new_file_name
 
             cont_type_header = headers.getRawHeaders(b'content-type')[0].decode()
-            message = email.message.Message()
+            message = email.message.EmailMessage()
             message['content-type'] = cont_type_header
-            message_params = message.get_params()
-            cont_type = message_params[0][0]
-            params = dict(message_params[1:])
+            cont_type = message.get_content_type()
+            params = message['content-type'].params
             # Only re-ecode text content types.
             encoding = None
             if cont_type.startswith('text/'):

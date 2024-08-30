@@ -191,9 +191,9 @@ class JSON(resource.Resource, component.Component):
         Handler to take the json data as a string and pass it on to the
         _handle_request method for further processing.
         """
-        message = email.message.Message()
+        message = email.message.EmailMessage()
         message['content-type'] = request.getHeader(b'content-type').decode()
-        content_type = message.get_params()[0][0]
+        content_type = message.get_content_type()
         if content_type != 'application/json':
             message = 'Invalid JSON request content-type: %s' % content_type
             raise JSONException(message)
