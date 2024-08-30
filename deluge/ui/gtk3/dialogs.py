@@ -207,6 +207,8 @@ class AuthenticationDialog(BaseDialog):
             parent,
         )
 
+        self.account = None
+
         table = Gtk.Table(2, 2, False)
         self.username_label = Gtk.Label()
         self.username_label.set_markup('<b>' + _('Username:') + '</b>')
@@ -244,6 +246,16 @@ class AuthenticationDialog(BaseDialog):
 
     def on_password_activate(self, widget):
         self.response(Gtk.ResponseType.OK)
+
+    def _on_response(self, widget, response):
+        if response == Gtk.ResponseType.OK:
+            self.account = Account(
+                self.username_entry.get_text(),
+                self.password_entry.get_text(),
+                "",
+            )
+        self.destroy()
+        self.deferred.callback(response)
 
 
 class AccountDialog(BaseDialog):
