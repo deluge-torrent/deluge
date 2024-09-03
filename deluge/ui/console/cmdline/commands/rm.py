@@ -9,6 +9,8 @@
 
 import logging
 
+from twisted.internet import defer
+
 import deluge.component as component
 from deluge.ui.client import client
 
@@ -63,7 +65,7 @@ class Command(BaseCommand):
                 _('Confirm with -c to remove the listed torrents (Count: %d)')
                 % len(torrent_ids)
             )
-            return
+            return defer.succeed(True)
 
         def on_removed_finished(errors):
             if errors:
@@ -76,6 +78,7 @@ class Command(BaseCommand):
         log.info('Removing %d torrents', len(torrent_ids))
         d = client.core.remove_torrents(torrent_ids, options.remove_data)
         d.addCallback(on_removed_finished)
+        return d
 
     def complete(self, line):
         # We use the ConsoleUI torrent tab complete method
