@@ -206,10 +206,10 @@ class TestDownloadFile:
         self.assert_contains(filename, 'This file should be called renamed')
 
     async def test_download_with_rename_sanitised(self):
-        url = self.get_url('rename?filename=/etc/passwd')
+        url = self.get_url('rename?filename="/etc/passwd"')
         filename = await download_file(url, fname('original'))
         assert filename == fname('passwd')
-        self.assert_contains(filename, 'This file should be called /etc/passwd')
+        self.assert_contains(filename, 'This file should be called "/etc/passwd"')
 
     async def test_download_with_attachment_no_filename(self):
         url = self.get_url('attachment')
