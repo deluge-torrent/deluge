@@ -53,6 +53,7 @@ def mock_callback():
         mock.deferred = deferred
 
     mock = Mock()
+    mock.__qualname__ = 'mock'
     original_reset_mock = mock.reset_mock
     mock.reset_mock = reset
     mock.reset_mock()
