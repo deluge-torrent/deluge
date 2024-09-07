@@ -606,7 +606,7 @@ class QueuePane(BasePreferencePane):
             'seed_time_limit',
             '%s:' % _('Time (m)'),
             core_conf['seed_time_limit'],
-            min_val=1,
+            min_val=0,
             max_val=10000,
         )
         seedratio = FloatSpinInput(
@@ -617,7 +617,7 @@ class QueuePane(BasePreferencePane):
             core_conf['stop_seed_ratio'],
             precision=2,
             inc_amt=0.1,
-            min_val=0.5,
+            min_val=0,
             max_val=100.0,
         )
         self.add_checkedplus_input(
