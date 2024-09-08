@@ -7,6 +7,7 @@
 #
 
 """Common functions for various parts of Deluge to use."""
+
 import base64
 import binascii
 import functools

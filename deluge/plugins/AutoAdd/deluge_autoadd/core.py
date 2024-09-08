@@ -292,7 +292,7 @@ class Core(CorePluginBase):
                 if 'Label' in component.get('CorePluginManager').get_enabled_plugins():
                     if watchdir.get('label_toggle', True) and watchdir.get('label'):
                         label = component.get('CorePlugin.Label')
-                        if not watchdir['label'] in label.get_labels():
+                        if watchdir['label'] not in label.get_labels():
                             label.add(watchdir['label'])
                         try:
                             label.set_torrent(torrent_id, watchdir['label'])

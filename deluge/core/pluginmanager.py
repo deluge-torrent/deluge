@@ -8,6 +8,7 @@
 
 
 """PluginManager for Core"""
+
 import logging
 
 from twisted.internet import defer

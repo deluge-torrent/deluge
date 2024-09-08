@@ -14,6 +14,7 @@
 torrent-label core plugin.
 adds a status field for tracker.
 """
+
 import logging
 import re
 
@@ -182,7 +183,7 @@ class Core(CorePluginBase):
             RE_VALID.match(label_id), _('Invalid label, valid characters:[a-z0-9_-]')
         )
         check_input(label_id, _('Empty Label'))
-        check_input(not (label_id in self.labels), _('Label already exists'))
+        check_input(label_id not in self.labels, _('Label already exists'))
 
         self.labels[label_id] = dict(OPTIONS_DEFAULTS)
         self.config.save()

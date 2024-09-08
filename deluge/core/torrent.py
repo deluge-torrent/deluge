@@ -1138,9 +1138,8 @@ class Torrent:
             'download_location': lambda: self.options['download_location'],
             'seeds_peers_ratio': lambda: -1.0
             if self.status.num_incomplete == 0
-            else (  # Use -1.0 to signify infinity
-                self.status.num_complete / self.status.num_incomplete
-            ),
+            # Use -1.0 to signify infinity
+            else (self.status.num_complete / self.status.num_incomplete),
             'seed_rank': lambda: self.status.seed_rank,
             'state': lambda: self.state,
             'stop_at_ratio': lambda: self.options['stop_at_ratio'],
@@ -1544,20 +1543,18 @@ class Torrent:
                 self.status.pieces, self.handle.piece_availability()
             ):
                 if piece:
-                    pieces.append(3)  # Completed.
+                    # Completed.
+                    pieces.append(3)
                 elif avail_piece:
-                    pieces.append(
-                        1
-                    )  # Available, just not downloaded nor being downloaded.
+                    # Available, just not downloaded nor being downloaded.
+                    pieces.append(1)
                 else:
-                    pieces.append(
-                        0
-                    )  # Missing, no known peer with piece, or not asked for yet.
+                    # Missing, no known peer with piece, or not asked for yet.
+                    pieces.append(0)
 
             for peer_info in self.handle.get_peer_info():
                 if peer_info.downloading_piece_index >= 0:
-                    pieces[
-                        peer_info.downloading_piece_index
-                    ] = 2  # Being downloaded from peer.
+                    # Being downloaded from peer.
+                    pieces[peer_info.downloading_piece_index] = 2
 
         return pieces

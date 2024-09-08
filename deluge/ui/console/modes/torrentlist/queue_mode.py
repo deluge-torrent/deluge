@@ -42,9 +42,9 @@ class QueueMode:
         self.torrent_ids = torrent_ids
 
     def set_statusbar_args(self, statusbar_args):
-        statusbar_args[
-            'bottombar'
-        ] = '{!black,white!}Queue mode: change queue position of selected torrents.'
+        statusbar_args['bottombar'] = (
+            '{!black,white!}Queue mode: change queue position of selected torrents.'
+        )
         statusbar_args['bottombar_help'] = ' Press [h] for help'
 
     def update_cursor(self):
