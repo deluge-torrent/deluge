@@ -58,3 +58,7 @@ extend-function-names = ["_n"]
 "deluge/**/gtkui.py" = ["E402"]
 "deluge/plugins/Stats/deluge_stats/graph.py" = ["E402"]
 "deluge/ui/gtk3/*.py" = ["E402"]
+
+[tool.pyright]
+reportMissingImports = "information"
+reportMissingModuleSource = "information"
