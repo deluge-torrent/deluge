@@ -34,7 +34,7 @@ class TestWebAPI(WebServerTestBase):
         d = self.deluge_web.web_api.connect(self.host_id)
 
         def on_connect(result):
-            assert type(result) == tuple
+            assert isinstance(result, tuple)
             assert len(result) > 0
             return result
 

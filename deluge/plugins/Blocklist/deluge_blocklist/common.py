@@ -107,11 +107,11 @@ class IP:
         try:
             q1, q2, q3, q4 = (int(q) for q in ip.split('.'))
         except ValueError:
-            raise BadIP(_('The IP address "%s" is badly formed' % ip))
+            raise BadIP(_('The IP address "%s" is badly formed') % ip)
         if q1 < 0 or q2 < 0 or q3 < 0 or q4 < 0:
-            raise BadIP(_('The IP address "%s" is badly formed' % ip))
+            raise BadIP(_('The IP address "%s" is badly formed') % ip)
         elif q1 > 255 or q2 > 255 or q3 > 255 or q4 > 255:
-            raise BadIP(_('The IP address "%s" is badly formed' % ip))
+            raise BadIP(_('The IP address "%s" is badly formed') % ip)
         return cls(q1, q2, q3, q4)
 
     def quadrants(self):

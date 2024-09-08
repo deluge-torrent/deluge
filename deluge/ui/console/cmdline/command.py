@@ -201,7 +201,7 @@ class BaseCommand:
         for cmd_name in sorted([self.name] + self.aliases):
             if cmd_name not in subparsers._name_parser_map:
                 if cmd_name in self.aliases:
-                    opts['help'] = _('`%s` alias' % self.name)
+                    opts['help'] = _('`%s` alias') % self.name
                 parser = subparsers.add_parser(cmd_name, **opts)
                 break
 

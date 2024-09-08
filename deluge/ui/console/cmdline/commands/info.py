@@ -111,7 +111,7 @@ class Command(BaseCommand):
             '--state',
             action='store',
             dest='state',
-            help=_('Show torrents with state STATE: %s.' % (', '.join(STATES))),
+            help=_('Show torrents with state STATE: %s.') % (', '.join(STATES)),
         )
         parser.add_argument(
             '--sort',
