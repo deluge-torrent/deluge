@@ -29,7 +29,7 @@ jobs:
         run: |
           pip install --upgrade pip wheel
           pip install tox
-          sudo apt-get install enchant-2
+          sudo apt-get install enchant-2 libgirepository1.0-dev
 
       - name: Build docs with tox
         env:
