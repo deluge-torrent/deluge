@@ -109,13 +109,13 @@ class BasePreferencePane(BaseInputPane, BaseWindow, PopupsHandler):
                     elif ipt.name == 'proxy_port':
                         conf_dict.setdefault('proxy', {})['port'] = ipt.get_value()
                     elif ipt.name == 'proxy_hostnames':
-                        conf_dict.setdefault('proxy', {})[
-                            'proxy_hostnames'
-                        ] = ipt.get_value()
+                        conf_dict.setdefault('proxy', {})['proxy_hostnames'] = (
+                            ipt.get_value()
+                        )
                     elif ipt.name == 'proxy_peer_connections':
-                        conf_dict.setdefault('proxy', {})[
-                            'proxy_peer_connections'
-                        ] = ipt.get_value()
+                        conf_dict.setdefault('proxy', {})['proxy_peer_connections'] = (
+                            ipt.get_value()
+                        )
                     elif ipt.name == 'proxy_tracker_connections':
                         conf_dict.setdefault('proxy', {})[
                             'proxy_tracker_connections'
@@ -123,9 +123,9 @@ class BasePreferencePane(BaseInputPane, BaseWindow, PopupsHandler):
                 elif ipt.name == 'force_proxy':
                     conf_dict.setdefault('proxy', {})['force_proxy'] = ipt.get_value()
                 elif ipt.name == 'anonymous_mode':
-                    conf_dict.setdefault('proxy', {})[
-                        'anonymous_mode'
-                    ] = ipt.get_value()
+                    conf_dict.setdefault('proxy', {})['anonymous_mode'] = (
+                        ipt.get_value()
+                    )
                 else:
                     conf_dict[ipt.name] = ipt.get_value()
 

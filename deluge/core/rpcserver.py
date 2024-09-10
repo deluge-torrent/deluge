@@ -7,6 +7,7 @@
 #
 
 """RPCServer Module"""
+
 import logging
 import os
 import sys
@@ -46,13 +47,11 @@ TCallable = TypeVar('TCallable', bound=Callable)
 
 
 @overload
-def export(func: TCallable) -> TCallable:
-    ...
+def export(func: TCallable) -> TCallable: ...
 
 
 @overload
-def export(auth_level: int) -> Callable[[TCallable], TCallable]:
-    ...
+def export(auth_level: int) -> Callable[[TCallable], TCallable]: ...
 
 
 def export(auth_level=AUTH_LEVEL_DEFAULT):
@@ -274,9 +273,9 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                     raise IncompatibleClient(deluge.common.get_version())
                 ret = component.get('AuthManager').authorize(*args, **kwargs)
                 if ret:
-                    self.factory.authorized_sessions[
-                        self.transport.sessionno
-                    ] = self.AuthLevel(ret, args[0])
+                    self.factory.authorized_sessions[self.transport.sessionno] = (
+                        self.AuthLevel(ret, args[0])
+                    )
                     self.factory.session_protocols[self.transport.sessionno] = self
             except Exception as ex:
                 send_error()

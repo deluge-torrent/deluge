@@ -324,8 +324,7 @@ class GtkUI:
                 err_msg = _(
                     'Only Thin Client mode is available due to libtorrent import error: %s\n'
                     'To use Standalone mode, please see logs for error details.'
-                    % (str(ex))
-                )
+                ) % (str(ex))
 
         except ImportError as ex:
             log.exception(ex)

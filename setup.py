@@ -323,7 +323,7 @@ class CleanPlugins(Command):
         self.set_undefined_options('clean', ('all', 'all'))
 
     def run(self):
-        print('Cleaning the plugin\'s folders...')
+        print("Cleaning the plugin's folders...")
 
         plugin_path = 'deluge/plugins/*'
 
@@ -332,7 +332,7 @@ class CleanPlugins(Command):
                 c = 'cd ' + path + ' && ' + sys.executable + ' setup.py clean'
                 if self.all:
                     c += ' -a'
-                print('Calling \'%s\'' % c)
+                print("Calling '%s'" % c)
                 os.system(c)
 
             # Delete the .eggs
@@ -538,8 +538,7 @@ _package_data['deluge.ui.gtk3'] = ['glade/*.ui']
 
 setup_requires = ['setuptools', 'wheel']
 install_requires = [
-    "twisted[tls]>=17.1; sys_platform != 'win32'",
-    "twisted[tls]<23,>=17.1; sys_platform == 'win32'",
+    'twisted[tls]>=17.1',
     # Add pyasn1 for setuptools workaround:
     #   https://github.com/pypa/setuptools/issues/1510
     'pyasn1',

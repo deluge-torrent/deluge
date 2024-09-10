@@ -7,6 +7,7 @@
 #
 
 """Common functions for various parts of Deluge to use."""
+
 import base64
 import binascii
 import functools
@@ -718,6 +719,16 @@ def parse_human_size(size):
     # We failed to parse the size specification.
     msg = 'Failed to parse size! (input %r was tokenized as %r)'
     raise InvalidSize(msg % (size, tokens))
+
+
+def anchorify_urls(text: str) -> str:
+    """
+    Wrap all occurrences of text URLs with HTML
+    """
+    url_pattern = r'((htt)|(ft)|(ud))ps?://\S+'
+    html_href_pattern = r'<a href="\g<0>">\g<0></a>'
+
+    return re.sub(url_pattern, html_href_pattern, text)
 
 
 def is_url(url):

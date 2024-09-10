@@ -61,8 +61,7 @@ class TestAlertManager:
         component.start(['AlertManager'])
 
     def test_register_handler(self):
-        def handler(alert):
-            ...
+        def handler(alert): ...
 
         self.am.register_handler('dummy1', handler)
         self.am.register_handler('dummy2_alert', handler)
@@ -97,8 +96,7 @@ class TestAlertManager:
         assert len(self.am.session.alerts) == 2
 
     def test_deregister_handler(self):
-        def handler(alert):
-            ...
+        def handler(alert): ...
 
         self.am.register_handler('dummy1', handler)
         self.am.register_handler('dummy2_alert', handler)

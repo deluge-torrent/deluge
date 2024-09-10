@@ -229,7 +229,11 @@ class TestUICommon:
         ti = TorrentInfo(filename, filetree=1, force_bt_version=1)
         assert ti.files_tree == files_tree
         del files_tree['torrent_test']['.pad']
-        files_tree['torrent_test']['還在一個人無聊嗎~還不趕緊上來聊天美.txt'] = (1, 32, True)
+        files_tree['torrent_test']['還在一個人無聊嗎~還不趕緊上來聊天美.txt'] = (
+            1,
+            32,
+            True,
+        )
         ti = TorrentInfo(filename, filetree=1, force_bt_version=2)
         assert ti.files_tree == files_tree
 

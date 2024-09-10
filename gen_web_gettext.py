@@ -60,7 +60,7 @@ def check_missing_markup(js_dir):
                         # Ignore string that contains only digits or specificied strings in skip.
                         if (
                             not string
-                            or string.split('\'')[1].isdigit()
+                            or string.split("'")[1].isdigit()
                             or any(x in string for x in skip)
                         ):
                             continue
@@ -82,7 +82,7 @@ GETTEXT_SUBST_TPL = "GetText.add('{key}','${{escape(_(\"{key}\"))}}')\n"
 
 
 def create_gettext_js(js_dir):
-    string_re = re.compile('_\\(\'(.*?)\'\\)')
+    string_re = re.compile("_\\('(.*?)'\\)")
     strings = {}
     for root, dnames, files in os.walk(js_dir):
         for filename in files:

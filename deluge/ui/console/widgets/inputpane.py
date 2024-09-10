@@ -49,7 +49,7 @@ class BaseInputPane(InputKeyHandler):
         border_off_east=0,
         border_off_south=0,
         active_wrap=False,
-        **kwargs
+        **kwargs,
     ):
         InputKeyHandler.__init__(self)
         self.inputs = []
@@ -155,7 +155,7 @@ class BaseInputPane(InputKeyHandler):
                 self.visible_content_pane_width,
                 value,
                 col=col,
-                **kwargs
+                **kwargs,
             )
         )
 

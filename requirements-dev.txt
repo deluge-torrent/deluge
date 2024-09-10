@@ -4,11 +4,4 @@
 sphinx-autobuild
 tox
 pre-commit
-flake8-blind-except
-flake8-builtins
-flake8-commas
-flake8-comprehensions
-flake8-debugger
-flake8-mock
-flake8-mutable
 rjsmin

@@ -28,7 +28,7 @@ class TestLog(BaseTestCase):
             # Cause all warnings to always be triggered.
             warnings.simplefilter('always')
             LOG.debug('foo')
-            assert w[-1].category == DeprecationWarning
+            assert w[-1].category is DeprecationWarning
 
     # def test_twisted_error_log(self):
     #    from twisted.internet import defer

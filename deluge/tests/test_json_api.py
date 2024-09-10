@@ -33,7 +33,7 @@ class TestJSON:
     async def test_get_remote_methods(self):
         json = JSON()
         methods = await json.get_remote_methods()
-        assert type(methods) == tuple
+        assert isinstance(methods, tuple)
         assert len(methods) > 0
 
     def test_render_fail_disconnected(self):

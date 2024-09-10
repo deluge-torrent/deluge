@@ -8,6 +8,7 @@
 #
 
 """Logging functions"""
+
 import inspect
 import logging
 import logging.handlers

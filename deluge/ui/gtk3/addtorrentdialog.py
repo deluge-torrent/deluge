@@ -236,8 +236,9 @@ class AddTorrentDialog(component.Component):
             _('Duplicate torrent(s)'),
             _(
                 'You cannot add the same torrent twice.'
-                ' %d torrents were already added.' % count
-            ),
+                ' %d torrents were already added.'
+            )
+            % count,
             self.dialog,
         ).run()
 
@@ -585,9 +586,9 @@ class AddTorrentDialog(component.Component):
                     self.files_treestore.iter_children(_iter), priorities
                 )
             elif not self.files_treestore.get_value(_iter, 1).endswith('/'):
-                priorities[
-                    self.files_treestore.get_value(_iter, 3)
-                ] = self.files_treestore.get_value(_iter, 0)
+                priorities[self.files_treestore.get_value(_iter, 3)] = (
+                    self.files_treestore.get_value(_iter, 0)
+                )
             _iter = self.files_treestore.iter_next(_iter)
         return priorities
 

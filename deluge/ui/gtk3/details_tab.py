@@ -10,7 +10,7 @@ import logging
 from xml.sax.saxutils import escape as xml_escape
 
 import deluge.component as component
-from deluge.common import decode_bytes, fdate, fsize, is_url
+from deluge.common import anchorify_urls, decode_bytes, fdate, fsize
 
 from .tab_data_funcs import fdate_or_dash, fpieces_num_size
 from .torrentdetails import Tab
@@ -61,8 +61,8 @@ class DetailsTab(Tab):
         for widget in self.tab_widgets.values():
             txt = xml_escape(self.widget_status_as_fstr(widget, status))
             if decode_bytes(widget.obj.get_text()) != txt:
-                if 'comment' in widget.status_keys and is_url(txt):
-                    widget.obj.set_markup(f'<a href="{txt}">{txt}</a>')
+                if 'comment' in widget.status_keys:
+                    widget.obj.set_markup(anchorify_urls(txt))
                 else:
                     widget.obj.set_markup(txt)
 
