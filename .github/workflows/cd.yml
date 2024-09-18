@@ -16,6 +16,9 @@ on:
       ref:
         description: "Enter a tag or commit to package"
         default: ""
+      gvsbuild-tag:
+        description: "Use an alternative gvsbuild release for the windows build. Defaults to latest."
+        default: "latest"
 
 jobs:
   windows_package:
@@ -23,8 +26,8 @@ jobs:
     if: (github.event_name != 'pull_request' || contains(github.event.pull_request.labels.*.name, 'package'))
     strategy:
       matrix:
-        arch: [x64, x86]
-        python: ["3.9"]
+        arch: [x64]
+        python: ["3.10"]
         libtorrent: [2.0.7, 1.2.19]
 
     steps:
@@ -49,12 +52,20 @@ jobs:
           cache: pip
 
       - name: Prepare pip
-        run: python -m pip install wheel setuptools==68.*
+        run: python -m pip install wheel setuptools==70.*
+
+      - name: Determine gvsbuild release URL
+        id: gvsbuild-url
+        shell: bash
+        run: |
+          test -z "${{ github.event.inputs.gvsbuild-tag }}" && tag=latest || tag="${{ github.event.inputs.gvsbuild-tag }}"
+          if [[ "$tag" == "latest" ]]; then URL="https://github.com/${{ github.repository_owner }}/gvsbuild-release/releases/$tag/download"; else URL="https://github.com/${{ github.repository_owner }}/gvsbuild-release/releases/download/$tag" ; fi
+          echo "gvsbuild-release-url=$URL" >> $GITHUB_OUTPUT
 
       - name: Install GTK
         run: |
           $WebClient = New-Object System.Net.WebClient
-          $WebClient.DownloadFile("https://github.com/deluge-torrent/gvsbuild-release/releases/download/latest/gvsbuild-py${{ matrix.python }}-vs16-${{ matrix.arch }}.zip","C:\GTK.zip")
+          $WebClient.DownloadFile("${{ steps.gvsbuild-url.outputs.gvsbuild-release-url }}/gvsbuild-py${{ matrix.python }}-vs17-${{ matrix.arch }}.zip","C:\GTK.zip")
           7z x C:\GTK.zip -oc:\GTK
           echo "C:\GTK\release\lib" | Out-File -FilePath $env:GITHUB_PATH -Append
           echo "C:\GTK\release\bin" | Out-File -FilePath $env:GITHUB_PATH -Append
