@@ -782,7 +782,7 @@ class ListView:
 
         return True
 
-    def on_keypress_search_by_name(self, model, column, key, _iter):
+    def on_keypress_search_by_name(self, model, column, key, _iter, *search_data):
         torrent_name_col = self.columns[_('Name')].column_indices[1]
         return not model[_iter][torrent_name_col].lower().startswith(key.lower())
 
