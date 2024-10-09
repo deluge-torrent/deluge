@@ -14,6 +14,7 @@ This should typically only be used by the Core. Plugins should utilize the
 `:mod:EventManager` for similar functionality.
 
 """
+
 import contextlib
 import logging
 import threading

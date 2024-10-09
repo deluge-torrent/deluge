@@ -66,6 +66,8 @@ def set_language(lang):
     :type lang: str
     """
     if not lang:
+        os.environ.pop('LANGUAGE', None)
+        os.environ.pop('LANG', None)
         return
 
     # Necessary to set these environment variables for GtkBuilder

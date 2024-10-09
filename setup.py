@@ -323,7 +323,7 @@ class CleanPlugins(Command):
         self.set_undefined_options('clean', ('all', 'all'))
 
     def run(self):
-        print('Cleaning the plugin\'s folders...')
+        print("Cleaning the plugin's folders...")
 
         plugin_path = 'deluge/plugins/*'
 
@@ -332,7 +332,7 @@ class CleanPlugins(Command):
                 c = 'cd ' + path + ' && ' + sys.executable + ' setup.py clean'
                 if self.all:
                     c += ' -a'
-                print('Calling \'%s\'' % c)
+                print("Calling '%s'" % c)
                 os.system(c)
 
             # Delete the .eggs

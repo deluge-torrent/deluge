@@ -330,7 +330,7 @@ class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
         return UIWithDaemonBaseTestCase.set_up(self)
 
     def patch_arg_command(self, command):
-        if type(command) == str:
+        if isinstance(command, str):
             command = [command]
         username, password = get_localhost_auth()
         self.patch(

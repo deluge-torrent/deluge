@@ -7,6 +7,7 @@
 #
 
 """The torrent view component that lists all torrents in the session."""
+
 import logging
 from locale import strcoll
 
@@ -577,7 +578,7 @@ class TorrentView(ListView, component.Component):
         status_keys = self.set_columns_to_update(columns)
 
         # If there is nothing in status_keys then we must not continue
-        if status_keys is []:
+        if status_keys == []:
             return
 
         # Remove duplicates from status_key list

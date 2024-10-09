@@ -465,7 +465,7 @@ class TrackerIcons(Component):
             with Image.open(filename) as img:
                 if img.size > (16, 16):
                     new_filename = filename.rpartition('.')[0] + '.png'
-                    img = img.resize((16, 16), Image.ANTIALIAS)
+                    img = img.resize((16, 16), Image.Resampling.LANCZOS)
                     img.save(new_filename)
                     if new_filename != filename:
                         remove_old = True

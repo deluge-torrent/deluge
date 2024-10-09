@@ -6,6 +6,7 @@
 # See LICENSE for more details.
 #
 """Common functions for various parts of gtkui to use."""
+
 import contextlib
 import logging
 import os

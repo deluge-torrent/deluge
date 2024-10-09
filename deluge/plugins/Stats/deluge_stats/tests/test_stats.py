@@ -64,6 +64,7 @@ class TestStatsPlugin:
 
         Not strictly a unit test, but tests if calls do not fail...
         """
+        # ruff: noqa: I001
         from deluge_stats import graph, gtkui
 
         from deluge.configmanager import ConfigManager

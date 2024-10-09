@@ -192,12 +192,12 @@ class GtkUI(Gtk3PluginBase):
     def disable(self):
         component.get('Preferences').remove_page(_('Scheduler'))
         # Reset statusbar dict.
-        self.statusbar.config_value_changed_dict[
-            'max_download_speed'
-        ] = self.statusbar._on_max_download_speed
-        self.statusbar.config_value_changed_dict[
-            'max_upload_speed'
-        ] = self.statusbar._on_max_upload_speed
+        self.statusbar.config_value_changed_dict['max_download_speed'] = (
+            self.statusbar._on_max_download_speed
+        )
+        self.statusbar.config_value_changed_dict['max_upload_speed'] = (
+            self.statusbar._on_max_upload_speed
+        )
         # Remove statusbar item.
         self.statusbar.remove_item(self.status_item)
         del self.status_item
@@ -246,12 +246,12 @@ class GtkUI(Gtk3PluginBase):
                 # Skip error due to Plugin being enabled before statusbar items created on startup.
                 pass
         else:
-            self.statusbar.config_value_changed_dict[
-                'max_download_speed'
-            ] = self.statusbar._on_max_download_speed
-            self.statusbar.config_value_changed_dict[
-                'max_upload_speed'
-            ] = self.statusbar._on_max_upload_speed
+            self.statusbar.config_value_changed_dict['max_download_speed'] = (
+                self.statusbar._on_max_download_speed
+            )
+            self.statusbar.config_value_changed_dict['max_upload_speed'] = (
+                self.statusbar._on_max_upload_speed
+            )
 
             def update_config_values(config):
                 try:

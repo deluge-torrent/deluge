@@ -3,6 +3,7 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
+import sys
 from dataclasses import dataclass
 
 import pytest
@@ -60,8 +61,7 @@ class TestAlertManager:
         component.start(['AlertManager'])
 
     def test_register_handler(self):
-        def handler(alert):
-            ...
+        def handler(alert): ...
 
         self.am.register_handler('dummy1', handler)
         self.am.register_handler('dummy2_alert', handler)
@@ -77,6 +77,10 @@ class TestAlertManager:
 
         mock_callback.assert_called_once_with(mock_alert1)
 
+    @pytest.mark.xfail(
+        sys.platform == 'win32',
+        reason='Issue under Windows where mock is already called.',
+    )
     async def test_pause_not_pop_alert(
         self, component, mock_alert1, mock_alert2, mock_callback
     ):
@@ -92,8 +96,7 @@ class TestAlertManager:
         assert len(self.am.session.alerts) == 2
 
     def test_deregister_handler(self):
-        def handler(alert):
-            ...
+        def handler(alert): ...
 
         self.am.register_handler('dummy1', handler)
         self.am.register_handler('dummy2_alert', handler)

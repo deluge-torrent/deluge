@@ -226,20 +226,20 @@ class Preferences(component.Component):
         self.language_checkbox = self.builder.get_object('checkbutton_language')
         lang_model = self.language_combo.get_model()
         langs = get_languages()
-        index = -1
-        for i, l in enumerate(langs):
-            lang_code, name = l
+        lang_idx = -1
+        for idx, lang in enumerate(langs):
+            lang_code, name = lang
             lang_model.append([lang_code, name])
             if self.gtkui_config['language'] == lang_code:
-                index = i
+                lang_idx = idx
 
         if self.gtkui_config['language'] is None:
             self.language_checkbox.set_active(True)
             self.language_combo.set_visible(False)
         else:
             self.language_combo.set_visible(True)
-            if index != -1:
-                self.language_combo.set_active(index)
+            if lang_idx != -1:
+                self.language_combo.set_active(lang_idx)
 
     def __del__(self):
         del self.gtkui_config
@@ -647,15 +647,15 @@ class Preferences(component.Component):
             'chk_move_completed'
         ).get_active()
 
-        new_core_config[
-            'download_location'
-        ] = self.download_location_path_chooser.get_text()
-        new_core_config[
-            'move_completed_path'
-        ] = self.move_completed_path_chooser.get_text()
-        new_core_config[
-            'torrentfiles_location'
-        ] = self.copy_torrent_files_path_chooser.get_text()
+        new_core_config['download_location'] = (
+            self.download_location_path_chooser.get_text()
+        )
+        new_core_config['move_completed_path'] = (
+            self.move_completed_path_chooser.get_text()
+        )
+        new_core_config['torrentfiles_location'] = (
+            self.copy_torrent_files_path_chooser.get_text()
+        )
         new_core_config['prioritize_first_last_pieces'] = self.builder.get_object(
             'chk_prioritize_first_last_pieces'
         ).get_active()
@@ -956,7 +956,7 @@ class Preferences(component.Component):
             mode = _('Thinclient') if was_standalone else _('Standalone')
             dialog = YesNoDialog(
                 _('Switching Deluge Client Mode...'),
-                _('Do you want to restart to use %s mode?' % mode),
+                _('Do you want to restart to use %s mode?') % mode,
             )
             dialog.run().addCallback(on_response)
 
@@ -1381,7 +1381,9 @@ class Preferences(component.Component):
         except Exception as ex:
             return ErrorDialog(
                 _('Error Adding Account'),
-                _(f'An error occurred while adding account: {account}'),
+                _('An error occurred while adding account: {account}').format(
+                    account=account
+                ),
                 parent=self.pref_dialog,
                 details=ex,
             ).run()
@@ -1434,8 +1436,8 @@ class Preferences(component.Component):
         header = _('Remove Account')
         text = _(
             'Are you sure you want to remove the account with the '
-            'username "%(username)s"?' % {'username': username}
-        )
+            'username "%(username)s"?'
+        ) % {'username': username}
         dialog = YesNoDialog(header, text, parent=self.pref_dialog)
 
         def dialog_finished(response_id):

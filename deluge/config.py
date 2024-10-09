@@ -38,6 +38,7 @@ this can only be done for the 'config file version' and not for the 'format'
 version as this will be done internally.
 
 """
+
 import json
 import logging
 import os

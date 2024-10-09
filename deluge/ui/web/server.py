@@ -25,7 +25,7 @@ from deluge.crypto_utils import check_ssl_keys, get_context_factory
 from deluge.i18n import set_language, setup_translation
 from deluge.ui.tracker_icons import TrackerIcons
 from deluge.ui.web.auth import Auth
-from deluge.ui.web.common import Template
+from deluge.ui.web.common import Template, _
 from deluge.ui.web.json_api import JSON, WebApi, WebUtils
 from deluge.ui.web.pluginmanager import PluginManager
 

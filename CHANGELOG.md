@@ -6,6 +6,10 @@
 
 - Python 3.6 support removed (Python >= 3.7)
 
+### Web UI
+
+- Accept network interface name in addition to IP adress in "Incoming Address"
+
 ## 2.1.1 (2022-07-10)
 
 ### Core

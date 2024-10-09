@@ -138,7 +138,7 @@ class ConsoleUI(component.Component, TermResizeHandler):
         except ImportError:
             wrapper = None
 
-        if deluge.common.windows_check() and not wrapper:
+        if deluge.common.windows_check():
             print(
                 """\nDeluge-console does not run in interactive mode on Windows. \n
 Please use commands from the command line, e.g.:\n
@@ -148,6 +148,7 @@ deluge-console.exe "add --help"
 deluge-console.exe "add -p c:\\mytorrents c:\\new.torrent"
 """
             )
+            return
 
         # We don't ever want log output to terminal when running in
         # interactive mode, so insert a dummy here

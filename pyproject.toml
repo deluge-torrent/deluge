@@ -1,12 +1,6 @@
 [build-system]
 requires = ["setuptools", "wheel"]
 
-[tool.black]
-skip-string-normalization = true
-
-[tool.isort]
-profile = "black"
-
 [tool.pytest.ini_options]
 # Dump tracebacks if a test takes longer than X seconds
 faulthandler_timeout = 60
@@ -27,3 +21,44 @@ filterwarnings = [
     "ignore:Using readBody.*:DeprecationWarning",
     "ignore:resume_data is deprecated.*:DeprecationWarning:deluge.core.alertmanager",
 ]
+
+[tool.ruff]
+line-length = 88
+builtins = ["_", "_n", "__request__"]
+extend-exclude = ["dist", "build"]
+target-version = "py37"
+
+[tool.ruff.format]
+# Prefer single quotes over double quotes
+quote-style = "single"
+
+[tool.ruff.lint]
+ignore = [
+    "N818", # error-suffix-on-exception-name
+    "E501", # Line-too-long, let formatter resolve it
+
+]
+select = [
+    "A", # flake8-builtins
+    "E", # pycodestyle
+    "F", # Pyflakes
+    "N", # pep8-naming
+    "W", # pycodestyle
+    "INT", # flake8-gettext
+    "I", # isort
+
+]
+
+[tool.ruff.lint.flake8-gettext]
+extend-function-names = ["_n"]
+
+[tool.ruff.lint.extend-per-file-ignores]
+# E402 import not top of file (gi version check required before import)
+"deluge/**/gtkui/*.py" = ["E402"]
+"deluge/**/gtkui.py" = ["E402"]
+"deluge/plugins/Stats/deluge_stats/graph.py" = ["E402"]
+"deluge/ui/gtk3/*.py" = ["E402"]
+
+[tool.pyright]
+reportMissingImports = "information"
+reportMissingModuleSource = "information"

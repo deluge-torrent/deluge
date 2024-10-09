@@ -193,7 +193,9 @@ class GraphsTab(Tab):
         self.colors = colors
         # Fake switch page to update the graph colors (HACKY)
         self._on_notebook_switch_page(
-            self.notebook, None, self.notebook.get_current_page()  # This is unused
+            self.notebook,
+            None,
+            self.notebook.get_current_page(),  # This is unused
         )
 
     def _on_intervals_changed(self, intervals):

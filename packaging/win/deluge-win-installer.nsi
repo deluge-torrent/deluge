@@ -112,7 +112,6 @@ FunctionEnd
 
 # --- Installation sections ---
 !define PROGRAM_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PROGRAM_NAME}"
-!define PROGRAM_UNINST_ROOT_KEY "HKLM"
 !define PROGRAM_UNINST_FILENAME "$INSTDIR\deluge-uninst.exe"
 
 BrandingText "${PROGRAM_NAME} Windows Installer v${DELUGE_INSTALLER_VERSION}"
@@ -121,12 +120,15 @@ OutFile "${INSTALLER_FILENAME}"
 
 !ifndef arch
 InstallDir "$PROGRAMFILES64\Deluge"
+!define PROGRAM_UNINST_ROOT_KEY "HKLM64"
 !endif
 !If "${arch}" == "x64"
 InstallDir "$PROGRAMFILES64\Deluge"
+!define PROGRAM_UNINST_ROOT_KEY "HKLM64"
 !endIf
 !If "${arch}" == "x86"
 InstallDir "$PROGRAMFILES32\Deluge"
+!define PROGRAM_UNINST_ROOT_KEY "HKLM"
 !endIf
 
 ShowInstDetails show

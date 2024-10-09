@@ -6,7 +6,7 @@
 # See LICENSE for more details.
 #
 
-import cgi
+import email.message
 import json
 import logging
 import os
@@ -22,14 +22,14 @@ from twisted.web import http, resource, server
 from deluge import component, httpdownloader
 from deluge.common import AUTH_LEVEL_DEFAULT, get_magnet_info, is_magnet
 from deluge.configmanager import get_config_dir
+from deluge.decorators import maybe_coroutine
 from deluge.error import NotAuthorizedError
 from deluge.i18n import get_languages
-from deluge.ui.client import Client, client
+from deluge.ui.client import client
 from deluge.ui.common import FileTree2, TorrentInfo
 from deluge.ui.coreconfig import CoreConfig
 from deluge.ui.hostlist import HostList
 from deluge.ui.sessionproxy import SessionProxy
-from deluge.ui.web.common import _
 
 log = logging.getLogger(__name__)
 
@@ -191,7 +191,9 @@ class JSON(resource.Resource, component.Component):
         Handler to take the json data as a string and pass it on to the
         _handle_request method for further processing.
         """
-        content_type, _ = cgi.parse_header(request.getHeader(b'content-type').decode())
+        message = email.message.EmailMessage()
+        message['content-type'] = request.getHeader(b'content-type').decode()
+        content_type = message.get_content_type()
         if content_type != 'application/json':
             message = 'Invalid JSON request content-type: %s' % content_type
             raise JSONException(message)
@@ -744,18 +746,6 @@ class WebApi(JSONComponent):
                 deferreds.append(d)
         return DeferredList(deferreds, consumeErrors=False)
 
-    def _get_host(self, host_id):
-        """Information about a host from supplied host id.
-
-        Args:
-            host_id (str): The id of the host.
-
-        Returns:
-            list: The host information, empty list if not found.
-
-        """
-        return list(self.hostlist.get_host_info(host_id))
-
     @export
     def get_hosts(self):
         """
@@ -838,39 +828,18 @@ class WebApi(JSONComponent):
         client.start_daemon(port, get_config_dir())
 
     @export
-    def stop_daemon(self, host_id):
-        """
-        Stops a running daemon.
-
-        :param host_id: the hash id of the host
-        :type host_id: string
-        """
-        main_deferred = Deferred()
-        host = self._get_host(host_id)
-        if not host:
-            main_deferred.callback((False, _('Daemon does not exist')))
-            return main_deferred
-
+    @maybe_coroutine
+    async def stop_daemon(self, host_id):
         try:
+            await self.hostlist.connect_host(host_id)
+        except Exception as err:
+            msg = f'Error occurred stopping daemon: {err}'
+            result = (False, msg)
+        else:
+            client.daemon.shutdown()
+            result = (True,)
 
-            def on_connect(connected, c):
-                if not connected:
-                    main_deferred.callback((False, _('Daemon not running')))
-                    return
-                c.daemon.shutdown()
-                main_deferred.callback((True,))
-
-            def on_connect_failed(reason):
-                main_deferred.callback((False, reason))
-
-            host, port, user, password = host[1:5]
-            c = Client()
-            d = c.connect(host, port, user, password)
-            d.addCallback(on_connect, c)
-            d.addErrback(on_connect_failed)
-        except Exception:
-            main_deferred.callback((False, 'An error occurred'))
-        return main_deferred
+        return Deferred().callback(result)
 
     @export
     def get_config(self):
