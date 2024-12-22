@@ -132,8 +132,6 @@ def start_daemon(skip_start=False):
             sys.exit(1)
         finally:
             log.info('Exiting...')
-            if options.pidfile:
-                os.remove(options.pidfile)
 
     return run_profiled(
         run_daemon, options, output_file=options.profile, do_profile=options.profile
