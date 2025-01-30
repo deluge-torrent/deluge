@@ -8,7 +8,9 @@
 
 import logging
 
-from deluge.common import is_interface
+from deluge.common import (
+    is_interface,
+)
 from deluge.decorators import overrides
 from deluge.i18n import get_languages
 from deluge.ui.client import client

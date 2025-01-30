@@ -1039,7 +1039,7 @@ def is_interface_name(name):
     """Returns True if an interface name exists.
 
     Args:
-        name (str): The Interface to test. eg. eth0 linux. GUID on Windows.
+        name (str): The Interface to test. eg. eth0 linux. GUID or "Nice Name" eg.Local Area Connection" on Windows.
 
     Returns:
         bool: Whether name is valid or not.
@@ -1048,6 +1048,8 @@ def is_interface_name(name):
         >>> is_interface_name("eth0")
         True
         >>> is_interface_name("{7A30AE62-23ZA-3744-Z844-A5B042524871}")
+        True
+        >>> is_interface_name("Local Area Connection")
         True
 
     """
@@ -1066,13 +1068,52 @@ def is_interface_name(name):
         except OSError:
             return True
         else:
-            return any([name == a.name for a in adapters])
+            return (
+                any([name == a.name for a in adapters])
+                or any([name == a.nice_name for a in adapters])
+                or any(name == ip.nice_name for a in adapters for ip in a.ips)
+            )
 
     if windows_check():
         regex = '^{[0-9A-Z]{8}-([0-9A-Z]{4}-){3}[0-9A-Z]{12}}$'
         return bool(re.search(regex, str(name)))
 
     return True
+
+
+def convert_win_ifaddr_nice_name_to_name(interface):
+    """Returns name or guid for an interface from ifaddr.
+
+    Args:
+        name (str): The Interface to convert. eg. "Local Area Connection"
+
+    Returns:
+        str: A GUID eg. {EB51199A-G725-5138-3H29-3529J3D419F7}.
+
+    Examples:
+        >>> convert_win_ifaddr_nice_name_to_name("Local Area Connection")
+        "{EB51199A-G725-5138-3H29-3529J3D419F7}"
+
+    """
+    if ifaddr:
+        if windows_check:
+            if is_interface(interface):
+                regex = '^{[0-9A-Z]{8}-([0-9A-Z]{4}-){3}[0-9A-Z]{12}}$'
+                # if is_interface is true and doesnt match what a GUID would look like
+                # It is a nice name find what GUID belongs to the nice name for use in LT
+                if not bool(re.search(regex, str(interface))):
+                    try:
+                        adapters = ifaddr.get_adapters()
+                    except OSError:
+                        return interface
+                    else:
+                        for a in adapters:
+                            if a.nice_name == interface:
+                                interface = a.name
+                            for ip in a.ips:
+                                if ip.nice_name == interface:
+                                    interface = a.name
+    return interface
 
 
 def decode_bytes(byte_str, encoding='utf8'):
