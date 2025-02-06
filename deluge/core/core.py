@@ -373,8 +373,9 @@ class Core(component.Component):
     def get_new_release(self):
         log.debug('get_new_release')
         try:
+            # Use HTTPS URL to avoid potential spoofing of release page.
             self.new_release = (
-                urlopen('http://download.deluge-torrent.org/version-2.0')
+                urlopen('https://ftp.osuosl.org/pub/deluge/version-2.0')
                 .read()
                 .decode()
                 .strip()
