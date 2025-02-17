@@ -394,8 +394,8 @@ class ConsoleUIWithDaemonBaseTestCase(UIBaseTestCase):
         assert std_output.endswith('Configuration value successfully updated.\n')
 
 
-@pytest.mark.usefixtures('daemon', 'client')
-class TestConsoleScriptEntryWithDaemon(BaseTestCase, ConsoleUIWithDaemonBaseTestCase):
+@pytest.mark.usefixtures('daemon', 'client', 'base_fixture')
+class TestConsoleScriptEntryWithDaemon(ConsoleUIWithDaemonBaseTestCase):
     @pytest.fixture(autouse=True)
     def set_var(self, request):
         request.cls.var = {
