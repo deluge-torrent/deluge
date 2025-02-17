@@ -25,7 +25,6 @@ from deluge.ui import ui_entry
 from deluge.ui.web.server import DelugeWeb
 
 from . import common
-from .daemon_base import DaemonBase
 
 DEBUG_COMMAND = False
 
@@ -66,15 +65,6 @@ class UIBaseTestCase:
         if DEBUG_COMMAND:
             print('Executing: %s\n' % sys.argv, file=sys_stdout)
         return self.var['start_cmd']()
-
-
-class UIWithDaemonBaseTestCase(UIBaseTestCase, DaemonBase):
-    """Subclass for test that require a deluged daemon"""
-
-    def set_up(self):
-        d = self.common_set_up()
-        common.setup_test_logger(level='info', prefix=self.config_dir / self.id())
-        return d
 
 
 class TestDelugeEntry(BaseTestCase):
@@ -319,13 +309,13 @@ class ConsoleUIBaseTestCase(UIBaseTestCase):
             assert 'unrecognized arguments: --ui' in fd.out.getvalue()
 
 
-class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
+class ConsoleUIWithDaemonBaseTestCase(UIBaseTestCase):
     """Implement Console tests that require a running daemon"""
 
     def set_up(self):
         # Avoid calling reactor.shutdown after commands are executed by main.exec_args()
         deluge.ui.console.main.reactor = common.ReactorOverride()
-        return UIWithDaemonBaseTestCase.set_up(self)
+        return super().set_up()
 
     def patch_arg_command(self, command):
         if isinstance(command, str):
