@@ -12,8 +12,6 @@ from io import StringIO
 from unittest import mock
 
 import pytest
-import pytest_twisted
-from twisted.internet import defer
 
 import deluge
 import deluge.component as component
@@ -346,14 +344,13 @@ class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
             + command,
         )
 
-    @pytest_twisted.inlineCallbacks
-    def test_console_command_add(self):
+    async def test_console_command_add(self):
         filename = common.get_test_data_file('test.torrent')
         self.patch_arg_command([f'add "{filename}"'])
         fd = StringFileDescriptor(sys.stdout)
         self.patch(sys, 'stdout', fd)
 
-        yield self.exec_command()
+        await self.exec_command()
 
         std_output = fd.out.getvalue()
         assert (
@@ -361,8 +358,7 @@ class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
             == 'Attempting to add torrent: ' + filename + '\nTorrent added!\n'
         )
 
-    @pytest_twisted.inlineCallbacks
-    def test_console_command_add_move_completed(self):
+    async def test_console_command_add_move_completed(self):
         filename = common.get_test_data_file('test.torrent')
         tmp_path = 'c:\\tmp' if windows_check() else '/tmp'
         self.patch_arg_command(
@@ -377,7 +373,7 @@ class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
         fd = StringFileDescriptor(sys.stdout)
         self.patch(sys, 'stdout', fd)
 
-        yield self.exec_command()
+        await self.exec_command()
 
         std_output = fd.out.getvalue()
         assert std_output.endswith(
@@ -397,13 +393,12 @@ class ConsoleUIWithDaemonBaseTestCase(UIWithDaemonBaseTestCase):
         assert std_output.startswith('Total upload: ')
         assert std_output.endswith(' Moving: 0\n')
 
-    @defer.inlineCallbacks
-    def test_console_command_config_set_download_location(self):
+    async def test_console_command_config_set_download_location(self):
         fd = StringFileDescriptor(sys.stdout)
         self.patch_arg_command(['config --set download_location /downloads'])
         self.patch(sys, 'stdout', fd)
 
-        yield self.exec_command()
+        await self.exec_command()
         std_output = fd.out.getvalue()
         assert std_output.startswith('Setting "download_location" to: \'/downloads\'')
         assert std_output.endswith('Configuration value successfully updated.\n')
