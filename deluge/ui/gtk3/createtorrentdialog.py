@@ -493,7 +493,7 @@ class CreateTorrentDialog:
                 *textview_buf.get_bounds(), include_hidden_chars=False
             )
             log.debug('Create torrent tracker lines: %s', trackers_text)
-            self.config['createtorrent.trackers'] = trackers_text.split('/n')
+            self.config['createtorrent.trackers'] = trackers_text.splitlines()
 
             # Append trackers liststore with unique trackers and tiers starting from last tier number.
             last_tier, orig_trackers = last_tier_trackers_from_liststore(

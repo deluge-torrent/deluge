@@ -196,10 +196,26 @@ class CoroutineDeferred(defer.Deferred):
                 d = defer.ensureDeferred(self.coro)
             d.chainDeferred(self)
 
-    def addCallbacks(self, *args, **kwargs):  # noqa: N802
+    def _callback_activate(self):
+        """Verify awaited status before calling activate."""
         assert not self.awaited, 'Cannot add callbacks to an already awaited coroutine.'
         self.activate()
+
+    def addCallback(self, *args, **kwargs):  # noqa: N802
+        self._callback_activate()
+        return super().addCallback(*args, **kwargs)
+
+    def addCallbacks(self, *args, **kwargs):  # noqa: N802
+        self._callback_activate()
         return super().addCallbacks(*args, **kwargs)
+
+    def addErrback(self, *args, **kwargs):  # noqa: N802
+        self._callback_activate()
+        return super().addErrback(*args, **kwargs)
+
+    def addBoth(self, *args, **kwargs):  # noqa: N802
+        self._callback_activate()
+        return super().addBoth(*args, **kwargs)
 
 
 _RetT = TypeVar('_RetT')

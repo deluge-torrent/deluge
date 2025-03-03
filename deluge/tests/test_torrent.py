@@ -199,6 +199,8 @@ class TestTorrent(BaseTestCase):
         # self.print_priority_list(priorities)
 
     def test_torrent_error_data_missing(self):
+        if VersionSplit(lt.__version__) > VersionSplit('2.0.7.0'):
+            pytest.xfail('Test not working as expected after lt 2.0.7')
         options = {'seed_mode': True}
         filename = common.get_test_data_file('test_torrent.file.torrent')
         with open(filename, 'rb') as _file:
@@ -214,6 +216,8 @@ class TestTorrent(BaseTestCase):
         self.assert_state_wait(torrent, 'Error')
 
     def test_torrent_error_resume_original_state(self):
+        if VersionSplit(lt.__version__) > VersionSplit('2.0.7.0'):
+            pytest.xfail('Test not working as expected after lt 2.0.7')
         options = {'seed_mode': True, 'add_paused': True}
         filename = common.get_test_data_file('test_torrent.file.torrent')
         with open(filename, 'rb') as _file:
@@ -233,7 +237,7 @@ class TestTorrent(BaseTestCase):
 
     def test_torrent_error_resume_data_unaltered(self):
         if VersionSplit(lt.__version__) >= VersionSplit('1.2.0.0'):
-            pytest.skip('Test not working as expected on lt 1.2 or greater')
+            pytest.xfail('Test not working as expected on lt 1.2 or greater')
 
         resume_data = {
             'active_time': 13399,
