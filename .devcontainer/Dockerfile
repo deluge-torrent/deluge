@@ -31,6 +31,11 @@ apt-get install -y \
     python3-gi-cairo gir1.2-gtk-3.0 gir1.2-ayatanaappindicator3-0.1 python3-pygame libnotify4 \
     librsvg2-common xdg-utils
 
+apt-get install -y sudo
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+#pip install --upgrade pip wheel setuptools
+#pip install -r requirements-ci.txt
+
 # Clean up the package list to save space in the layer (~54MB)
 #rm -rf /var/lib/apt/lists/*
 
