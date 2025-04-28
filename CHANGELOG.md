@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.1.x (TBA)
+## 2.2.0 (2025-04-28)
 
 ### Breaking changes
 
