@@ -316,7 +316,7 @@ class ConnectionManager(component.Component):
 
             def dialog_finished(response_id):
                 if response_id == Gtk.ResponseType.OK:
-                    self._connect(host_id, dialog.get_username(), dialog.get_password())
+                    self._connect(host_id, dialog.account.username, dialog.account.password)
 
             return dialog.run().addCallback(dialog_finished)
 
