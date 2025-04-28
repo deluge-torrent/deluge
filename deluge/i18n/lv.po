@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2024-08-24 17:37+0100\n"
-"PO-Revision-Date: 2022-08-03 16:14+0000\n"
-"Last-Translator: Coool <Unknown>\n"
+"PO-Revision-Date: 2024-11-05 21:34+0000\n"
+"Last-Translator: ℂ𝕠𝕠𝕠𝕝 <Unknown>\n"
 "Language-Team: Latvian <lv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2024-08-24 16:48+0000\n"
-"X-Generator: Launchpad (build 1b1ed1ad2dbfc71ee62b5c5491c975135a771bf0)\n"
+"X-Launchpad-Export-Date: 2025-04-28 20:28+0000\n"
+"X-Generator: Launchpad (build e76edd883483c71c468bb038e98836435de44530)\n"
 
 #: deluge/argparserbase.py:169
 msgid "Common Options"
@@ -83,7 +83,7 @@ msgstr ""
 
 #: deluge/common.py:414
 msgid "B"
-msgstr ""
+msgstr "B"
 
 #: deluge/common.py:415
 msgid "KiB"
@@ -99,7 +99,7 @@ msgstr "GiB"
 
 #: deluge/common.py:418
 msgid "TiB"
-msgstr ""
+msgstr "TiB"
 
 #: deluge/common.py:419
 msgid "K"
@@ -115,7 +115,7 @@ msgstr "G"
 
 #: deluge/common.py:422
 msgid "T"
-msgstr ""
+msgstr "T"
 
 #: deluge/common.py:530 deluge/ui/gtk3/tab_data_funcs.py:34
 #: deluge/ui/gtk3/systemtray.py:237 deluge/ui/gtk3/systemtray.py:241
@@ -126,7 +126,7 @@ msgstr ""
 #: deluge/ui/gtk3/statusbar.py:526 deluge/ui/gtk3/statusbar.py:542
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:40
 msgid "K/s"
-msgstr ""
+msgstr "K/s"
 
 #: deluge/common.py:530 deluge/ui/console/widgets/statusbars.py:106
 #: deluge/ui/console/widgets/statusbars.py:116 deluge/ui/gtk3/menubar.py:491
@@ -143,7 +143,7 @@ msgstr "KiB/s"
 
 #: deluge/common.py:536
 msgid "M/s"
-msgstr ""
+msgstr "M/s"
 
 #: deluge/common.py:536
 msgid "MiB/s"
@@ -151,7 +151,7 @@ msgstr "MiB/s"
 
 #: deluge/common.py:542
 msgid "G/s"
-msgstr ""
+msgstr "G/s"
 
 #: deluge/common.py:542
 msgid "GiB/s"
@@ -159,11 +159,11 @@ msgstr "GiB/s"
 
 #: deluge/common.py:548
 msgid "T/s"
-msgstr ""
+msgstr "T/s"
 
 #: deluge/common.py:548
 msgid "TiB/s"
-msgstr ""
+msgstr "TiB/s"
 
 #: deluge/ui/client.py:680
 msgid ""
@@ -1029,7 +1029,7 @@ msgstr "Sīrija"
 
 #: deluge/ui/countries.py:221
 msgid "Taiwan"
-msgstr ""
+msgstr "Taivāna"
 
 #: deluge/ui/countries.py:222
 msgid "Tajikistan"
@@ -1287,7 +1287,7 @@ msgstr "Augšējā robeža"
 
 #: deluge/ui/common.py:60 deluge/ui/web/js/deluge-all/add/OptionsTab.js:101
 msgid "Max Connections"
-msgstr ""
+msgstr "Maksimālais savienojumu skaits"
 
 #: deluge/ui/common.py:61 deluge/ui/web/js/deluge-all/add/OptionsTab.js:109
 msgid "Max Upload Slots"
@@ -1302,7 +1302,7 @@ msgstr "Dalībnieki"
 #: deluge/ui/common.py:63 deluge/ui/gtk3/torrentview.py:314
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:132
 msgid "Seeds"
-msgstr ""
+msgstr "Devēji"
 
 #: deluge/ui/common.py:64 deluge/ui/gtk3/torrentview.py:377
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:177
@@ -1334,11 +1334,11 @@ msgstr "Trakeris"
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:217
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:31
 msgid "Download Folder"
-msgstr ""
+msgstr "Lejupielādes mape"
 
 #: deluge/ui/common.py:72
 msgid "Seeding Time"
-msgstr ""
+msgstr "Došanas laiks"
 
 #: deluge/ui/common.py:73
 msgid "Active Time"
@@ -1346,7 +1346,7 @@ msgstr ""
 
 #: deluge/ui/common.py:75
 msgid "Last Activity"
-msgstr ""
+msgstr "Pēdējā aktivitāte"
 
 #: deluge/ui/common.py:78
 msgid "Finished Time"
@@ -1360,7 +1360,7 @@ msgstr ""
 #: deluge/ui/common.py:83 deluge/ui/gtk3/torrentview.py:391
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:201
 msgid "Completed"
-msgstr ""
+msgstr "Pabeigts"
 
 #: deluge/ui/common.py:84 deluge/ui/gtk3/torrentview.py:363
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:162
@@ -1422,7 +1422,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/FilterPanel.js:32
 #: deluge/ui/web/js/deluge-all/TorrentGrid.js:225
 msgid "Owner"
-msgstr ""
+msgstr "Īpašnieks"
 
 #: deluge/ui/common.py:113
 msgid "Pieces"
@@ -1542,17 +1542,17 @@ msgstr ""
 #: deluge/ui/common.py:148 deluge/ui/web/js/deluge-all/Menus.js:381
 #: deluge/ui/web/js/deluge-all/Deluge.js:148
 msgid "Low"
-msgstr ""
+msgstr "Zema"
 
 #: deluge/ui/common.py:149 deluge/ui/web/js/deluge-all/Menus.js:387
 #: deluge/ui/web/js/deluge-all/Deluge.js:149
 msgid "Normal"
-msgstr ""
+msgstr "Normāla"
 
 #: deluge/ui/common.py:150 deluge/ui/web/js/deluge-all/Menus.js:393
 #: deluge/ui/web/js/deluge-all/Deluge.js:150
 msgid "High"
-msgstr ""
+msgstr "Augsta"
 
 #: deluge/ui/ui_entry.py:48
 msgid "UI Options"
@@ -1597,12 +1597,14 @@ msgstr ""
 
 #: deluge/ui/data/share/metainfo/deluge.metainfo.xml.in.h:1
 msgid "Deluge Team"
-msgstr ""
+msgstr "Deluge komanda"
 
 #: deluge/ui/data/share/metainfo/deluge.metainfo.xml.in.h:2
 msgid ""
 "Deluge is a lightweight, Free Software, cross-platform BitTorrent client."
 msgstr ""
+"Deluge ir viegls, bezmaksas programmatūras, vairāku platformu BitTorrent "
+"klients."
 
 #: deluge/ui/data/share/metainfo/deluge.metainfo.xml.in.h:3
 msgid ""
@@ -1653,7 +1655,7 @@ msgstr ""
 
 #: deluge/ui/console/console.py:126
 msgid "Description"
-msgstr ""
+msgstr "Apraksts"
 
 #: deluge/ui/console/console.py:127
 msgid "The following console commands are available:"
@@ -1750,7 +1752,7 @@ msgstr ""
 #: deluge/ui/console/modes/preferences/preference_panes.py:198
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:67
 msgid "Language"
-msgstr ""
+msgstr "Valoda"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:200
 msgid "Command Line Mode"
@@ -1776,7 +1778,7 @@ msgstr ""
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:18
 #: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:39
 msgid "Folders"
-msgstr ""
+msgstr "Mapes"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:235
 msgid "Download To"
@@ -1955,12 +1957,12 @@ msgstr "Maksimālais augšupielādes slotu skaits"
 #: deluge/ui/console/modes/preferences/preference_panes.py:428
 #: deluge/ui/console/modes/preferences/preference_panes.py:481
 msgid "Maximum Download Speed (KiB/s)"
-msgstr ""
+msgstr "Maksimālais lejupielādes ātrums (KiB/s)"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:435
 #: deluge/ui/console/modes/preferences/preference_panes.py:488
 msgid "Maximum Upload Speed (KiB/s)"
-msgstr ""
+msgstr "Maksimālais augšupielādes ātrums (KiB/s)"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:442
 msgid "Maximum Half-Open Connections"
@@ -2032,7 +2034,7 @@ msgstr ""
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:104
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:50
 msgid "Active Torrents"
-msgstr ""
+msgstr "Aktīvie torrenti"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:559
 msgid "Total"
@@ -2054,7 +2056,7 @@ msgstr ""
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:607
 msgid "Time (m)"
-msgstr ""
+msgstr "Laiks (m)"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:625
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:111
@@ -2068,7 +2070,7 @@ msgstr ""
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:644
 msgid "Proxy Settings"
-msgstr ""
+msgstr "Starpniekservera iestatījumi"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:647
 msgid "Type"
@@ -2212,7 +2214,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/EditTrackersWindow.js:35
 #: deluge/ui/web/js/deluge-all/preferences/PreferencesWindow.js:87
 msgid "OK"
-msgstr ""
+msgstr "Labi"
 
 #: deluge/ui/console/modes/torrentlist/torrentviewcolumns.py:93
 msgid "Columns"
@@ -2220,7 +2222,7 @@ msgstr ""
 
 #: deluge/ui/console/modes/torrentlist/torrentviewcolumns.py:93
 msgid "Width"
-msgstr ""
+msgstr "Platums"
 
 #: deluge/ui/console/cmdline/command.py:204
 #, python-format
@@ -2341,7 +2343,7 @@ msgstr ""
 
 #: deluge/ui/console/cmdline/commands/plugin.py:51
 msgid "Install a plugin from an .egg file"
-msgstr ""
+msgstr "Uzstādīt spraudni no .egg faila"
 
 #: deluge/ui/console/cmdline/commands/manage.py:26
 msgid "Usage: manage <torrent-id> [--set <key> <value>] [<key> [<key>...] ]"
@@ -2390,7 +2392,7 @@ msgstr ""
 
 #: deluge/ui/console/widgets/fields.py:1062
 msgid "Select Language"
-msgstr ""
+msgstr "Izvēlieties valodu"
 
 #: deluge/ui/web/web.py:28
 msgid "Web Server Options"
@@ -2444,7 +2446,7 @@ msgstr "Pakāpe"
 #: deluge/ui/gtk3/tab_data_funcs.py:25
 #, python-brace-format
 msgid "{state} {percent}%"
-msgstr ""
+msgstr "{state} {percent}%"
 
 #: deluge/ui/gtk3/tab_data_funcs.py:27
 #, python-brace-format
@@ -2582,7 +2584,7 @@ msgstr "Augšup"
 #: deluge/ui/gtk3/systemtray.py:394 deluge/ui/gtk3/statusbar.py:475
 #: deluge/ui/gtk3/menubar.py:489
 msgid "Download Speed Limit"
-msgstr ""
+msgstr "Lejupielādes ātruma limits"
 
 #: deluge/ui/gtk3/systemtray.py:395 deluge/ui/gtk3/statusbar.py:476
 #: deluge/ui/gtk3/menubar.py:490
@@ -2592,7 +2594,7 @@ msgstr ""
 #: deluge/ui/gtk3/systemtray.py:409 deluge/ui/gtk3/statusbar.py:482
 #: deluge/ui/gtk3/menubar.py:495
 msgid "Upload Speed Limit"
-msgstr ""
+msgstr "Augšupielādes ātruma limits"
 
 #: deluge/ui/gtk3/systemtray.py:410 deluge/ui/gtk3/statusbar.py:483
 #: deluge/ui/gtk3/menubar.py:496
@@ -2670,7 +2672,7 @@ msgstr ""
 #: deluge/ui/gtk3/statusbar.py:209 deluge/ui/gtk3/statusbar.py:409
 #, python-format
 msgid "<b>IP</b> <small>%s</small>"
-msgstr ""
+msgstr "<b>IP</b> <small>%s</small>"
 
 #: deluge/ui/gtk3/statusbar.py:216
 msgid "<b><small>Port Issue</small></b>"
@@ -2882,7 +2884,7 @@ msgstr "Spraudnis"
 
 #: deluge/ui/gtk3/preferences.py:892 deluge/ui/gtk3/preferences.py:902
 msgid "Attention"
-msgstr ""
+msgstr "Uzmanību"
 
 #: deluge/ui/gtk3/preferences.py:892
 msgid "You must choose a language"
@@ -2936,7 +2938,7 @@ msgstr "Izvēlieties spraudni"
 #: deluge/ui/gtk3/glade/remove_torrent_dialog.ui.h:2
 #: deluge/ui/gtk3/glade/add_torrent_dialog.url.ui.h:2
 msgid "_Cancel"
-msgstr ""
+msgstr "At_celt"
 
 #: deluge/ui/gtk3/preferences.py:1179 deluge/ui/gtk3/addtorrentdialog.py:699
 #: deluge/ui/gtk3/createtorrentdialog.py:131
@@ -3030,7 +3032,7 @@ msgstr "Faila nosaukums"
 #: deluge/ui/gtk3/addtorrentdialog.py:230
 #, python-format
 msgid "Add Torrents (%d)"
-msgstr ""
+msgstr "Pievienot torrentus (%d)"
 
 #: deluge/ui/gtk3/addtorrentdialog.py:236
 msgid "Duplicate torrent(s)"
@@ -3136,11 +3138,11 @@ msgstr "Prioritāte"
 
 #: deluge/ui/gtk3/dialogs.py:111
 msgid "_No"
-msgstr ""
+msgstr "_Nē"
 
 #: deluge/ui/gtk3/dialogs.py:111
 msgid "_Yes"
-msgstr ""
+msgstr "_Jā"
 
 #: deluge/ui/gtk3/dialogs.py:135 deluge/ui/gtk3/dialogs.py:159
 #: deluge/ui/gtk3/dialogs.py:470
@@ -3162,7 +3164,7 @@ msgstr ""
 
 #: deluge/ui/gtk3/dialogs.py:260
 msgid "Edit Account"
-msgstr ""
+msgstr "Rediģēt kontu"
 
 #: deluge/ui/gtk3/dialogs.py:261
 msgid "Edit existing account"
@@ -3180,7 +3182,7 @@ msgstr ""
 
 #: deluge/ui/gtk3/dialogs.py:274
 msgid "Create a new account"
-msgstr ""
+msgstr "Izveidot jaunu kontu"
 
 #: deluge/ui/gtk3/dialogs.py:276
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:20
@@ -3213,18 +3215,18 @@ msgstr "Aizsargāts ar paroli"
 #: deluge/ui/gtk3/glade/remove_torrent_dialog.ui.h:3
 #: deluge/ui/gtk3/glade/add_torrent_dialog.url.ui.h:3
 msgid "_OK"
-msgstr ""
+msgstr "_Labi"
 
 #: deluge/ui/gtk3/dialogs.py:467
 #: deluge/ui/web/js/deluge-all/CopyMagnetWindow.js:33
 #: deluge/ui/web/js/deluge-all/Menus.js:319
 msgid "Copy Magnet URI"
-msgstr ""
+msgstr "Kopēt Magnet URI"
 
 #: deluge/ui/gtk3/dialogs.py:482
 #: deluge/ui/web/js/deluge-all/CopyMagnetWindow.js:50
 msgid "Copy"
-msgstr ""
+msgstr "Kopēt"
 
 #: deluge/ui/gtk3/createtorrentdialog.py:125
 msgid "Choose a file"
@@ -3244,7 +3246,7 @@ msgstr "Saglabāt .torrent failu"
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:30
 #: deluge/ui/gtk3/glade/connection_manager.addhost.ui.h:3
 msgid "_Save"
-msgstr ""
+msgstr "_Saglabāt"
 
 #: deluge/ui/gtk3/glade/other_dialog.ui.h:3
 msgid "label"
@@ -3405,7 +3407,7 @@ msgstr "_Kopiena"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:26
 msgid "_About"
-msgstr ""
+msgstr "P_ar"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:27
 msgid "Add torrent"
@@ -3520,39 +3522,39 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:2
 msgid "64 KiB"
-msgstr ""
+msgstr "64 KiB"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:3
 msgid "128 KiB"
-msgstr ""
+msgstr "128 KiB"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:4
 msgid "256 KiB"
-msgstr ""
+msgstr "256 KiB"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:5
 msgid "512 KiB"
-msgstr ""
+msgstr "512 KiB"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:6
 msgid "1 MiB"
-msgstr ""
+msgstr "1 MiB"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:7
 msgid "2 MiB"
-msgstr ""
+msgstr "2 MiB"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:8
 msgid "4 MiB"
-msgstr ""
+msgstr "4 MiB"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:9
 msgid "8 MiB"
-msgstr ""
+msgstr "8 MiB"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:10
 msgid "16 MiB"
-msgstr ""
+msgstr "16 MiB"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:11
 msgid "Create Torrent"
@@ -3637,7 +3639,7 @@ msgstr "Izpl_est visu"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.menu_file.ui.h:4
 msgid "_Skip"
-msgstr ""
+msgstr "Izlai_st"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.menu_file.ui.h:5
 msgid "_Low"
@@ -3655,13 +3657,13 @@ msgstr ""
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:26
 #: deluge/ui/web/render/tab_status.html:9
 msgid "Down Speed:"
-msgstr ""
+msgstr "Lejupielādes ātrums:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:2
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:28
 #: deluge/ui/web/render/tab_status.html:10
 msgid "Up Speed:"
-msgstr ""
+msgstr "Augšupielādes ātrums:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:3
 #: deluge/ui/web/render/tab_status.html:2
@@ -3695,7 +3697,7 @@ msgstr ""
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:8
 #: deluge/ui/web/render/tab_status.html:18
 msgid "Availability:"
-msgstr ""
+msgstr "Pieejamība:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:9
 #: deluge/ui/web/render/tab_status.html:25
@@ -3740,16 +3742,16 @@ msgstr "Nosaukums:"
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:18
 #: deluge/ui/web/js/deluge-all/details/DetailsTab.js:25
 msgid "Download Folder:"
-msgstr ""
+msgstr "Lejupielādes mape:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:19
 msgid "Added:"
-msgstr ""
+msgstr "Pievienots:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:20
 #: deluge/ui/web/js/deluge-all/details/DetailsTab.js:26
 msgid "Total Size:"
-msgstr ""
+msgstr "Kopējais izmērs:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:21
 #: deluge/ui/web/js/deluge-all/details/DetailsTab.js:27
@@ -3770,11 +3772,11 @@ msgstr ""
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:31
 #: deluge/ui/web/render/tab_status.html:27
 msgid "Completed:"
-msgstr ""
+msgstr "Pabeigts:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:29
 msgid "Owner:"
-msgstr ""
+msgstr "Īpašnieks:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:34
 msgid "Move completed:"
@@ -3895,12 +3897,12 @@ msgstr "Trakeri:"
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:8
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:34
 msgid "Socks4"
-msgstr ""
+msgstr "Socks4"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:9
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:35
 msgid "Socks5"
-msgstr ""
+msgstr "Socks5"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:10
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:36
@@ -3920,7 +3922,7 @@ msgstr ""
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:13
 #: deluge/ui/web/js/deluge-all/preferences/ProxyField.js:39
 msgid "I2P"
-msgstr ""
+msgstr "I2P"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:19
 msgid "The standalone self-contained application"
@@ -3970,7 +3972,7 @@ msgstr ""
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:32
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:72
 msgid "Downloading:"
-msgstr ""
+msgstr "Lejuplādē:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:33
 msgid "Waiting:"
@@ -4035,7 +4037,7 @@ msgstr ""
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:49
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:94
 msgid "Theme"
-msgstr ""
+msgstr "Motīvs"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:50
 msgid "Notify about new releases"
@@ -4053,7 +4055,7 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:53
 msgid "<b>Language</b>"
-msgstr ""
+msgstr "<b>Valoda</b>"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:54
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:16
@@ -4079,7 +4081,7 @@ msgstr "Saglabāt iekš:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:59
 msgid "Download Folders"
-msgstr ""
+msgstr "Lejupielādes mapes"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:60
 #: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:93
@@ -4523,11 +4525,11 @@ msgstr "Savienojumi"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:196
 msgid "_Delete"
-msgstr ""
+msgstr "_Dzēst"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:197
 msgid "Accounts"
-msgstr ""
+msgstr "Konti"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:199
 #: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:29
@@ -4570,11 +4572,11 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/main_window.new_release.ui.h:6
 msgid "Server Version"
-msgstr ""
+msgstr "Servera versija"
 
 #: deluge/ui/gtk3/glade/main_window.new_release.ui.h:7
 msgid "Current Version:"
-msgstr ""
+msgstr "Pašreizējā versija:"
 
 #: deluge/ui/gtk3/glade/main_window.new_release.ui.h:8
 msgid "Do not show this dialog in the future"
@@ -4692,11 +4694,11 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:25
 msgid "Maximum torrent download speed"
-msgstr ""
+msgstr "Maksimālais torrenta lejupielādes ātrums"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:27
 msgid "Maximum torrent upload speed"
-msgstr ""
+msgstr "Maksimālais torrenta augšupielādes ātrums"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:29
 msgid "Maximum torrent connections"
@@ -4879,23 +4881,23 @@ msgstr "Saglabāt ceļu"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:15
 msgid "Ctrl+S"
-msgstr ""
+msgstr "Ctrl+S"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:16
 msgid "Ctrl+E"
-msgstr ""
+msgstr "Ctrl+E"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:17
 msgid "Ctrl+R"
-msgstr ""
+msgstr "Ctrl+R"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:18
 msgid "Ctrl+H"
-msgstr ""
+msgstr "Ctrl+H"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:19
 msgid "Ctrl+D"
-msgstr ""
+msgstr "Ctrl+D"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:22
 msgid "Toggle hidden files"
@@ -4923,7 +4925,7 @@ msgstr ""
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:30
 msgid "Open"
-msgstr ""
+msgstr "Atvērt"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:31
 #: deluge/ui/web/js/deluge-all/Toolbar.js:39
@@ -5113,7 +5115,7 @@ msgstr "Izlecošais paziņojums nav aktivizēts."
 
 #: deluge/plugins/Notifications/deluge_notifications/gtkui.py:174
 msgid "libnotify is not installed"
-msgstr ""
+msgstr "libnotify nav uzstādīts"
 
 #: deluge/plugins/Notifications/deluge_notifications/gtkui.py:182
 msgid "Failed to popup notification"
@@ -5246,7 +5248,7 @@ msgstr "<b>Etiķetes</b>"
 
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:1
 msgid "tracker1.org"
-msgstr ""
+msgstr "tracker1.org"
 
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:2
 #: deluge/plugins/Label/deluge_label/gtkui/sidebar_menu.py:173
@@ -5332,15 +5334,15 @@ msgstr "<b>Komandas</b>"
 
 #: deluge/plugins/Stats/deluge_stats/gtkui.py:60
 msgid "minutes"
-msgstr ""
+msgstr "minūtes"
 
 #: deluge/plugins/Stats/deluge_stats/gtkui.py:62
 msgid "1 minute"
-msgstr ""
+msgstr "1 minūte"
 
 #: deluge/plugins/Stats/deluge_stats/gtkui.py:64
 msgid "1 second"
-msgstr ""
+msgstr "1 sekunde"
 
 #: deluge/plugins/Stats/deluge_stats/gtkui.py:66
 msgid "seconds"
@@ -5348,15 +5350,15 @@ msgstr "sekundes"
 
 #: deluge/plugins/Stats/deluge_stats/data/config.ui.h:1
 msgid "Download color:"
-msgstr ""
+msgstr "Lejupielādes krāsa:"
 
 #: deluge/plugins/Stats/deluge_stats/data/config.ui.h:2
 msgid "Upload color:"
-msgstr ""
+msgstr "Augšupielādes krāsa:"
 
 #: deluge/plugins/Stats/deluge_stats/data/config.ui.h:3
 msgid "<b>Connections Graph</b>"
-msgstr ""
+msgstr "<b>Savienojumu grafiks</b>"
 
 #: deluge/plugins/Stats/deluge_stats/data/config.ui.h:4
 msgid "<b>Bandwidth Graph</b>"
@@ -5384,7 +5386,7 @@ msgstr ""
 
 #: deluge/plugins/Stats/deluge_stats/data/tabs.ui.h:1
 msgid "Stats"
-msgstr ""
+msgstr "Statistika"
 
 #: deluge/plugins/Stats/deluge_stats/data/tabs.ui.h:2
 msgid "Resolution"
@@ -5426,7 +5428,7 @@ msgstr ""
 #: deluge/plugins/AutoAdd/deluge_autoadd/gtkui.py:499
 #: deluge/plugins/AutoAdd/deluge_autoadd/gtkui.py:507
 msgid "Double-click to edit"
-msgstr ""
+msgstr "Dubultklikšķis, lai rediģētu"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/gtkui.py:503
 msgid "Path"
@@ -5511,7 +5513,7 @@ msgstr ""
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:25
 msgid "<b>Download Folder</b>"
-msgstr ""
+msgstr "<b>Lejupielādes mape</b>"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:26
 msgid "Set move completed folder"
@@ -5747,35 +5749,35 @@ msgstr "Lejupielādes ātrums"
 #: deluge/ui/web/js/deluge-all/Menus.js:82
 #: deluge/ui/web/js/deluge-all/Menus.js:127
 msgid "5 KiB/s"
-msgstr ""
+msgstr "5 KiB/s"
 
 #: deluge/ui/web/js/deluge-all/Statusbar.js:108
 #: deluge/ui/web/js/deluge-all/Statusbar.js:167
 #: deluge/ui/web/js/deluge-all/Menus.js:88
 #: deluge/ui/web/js/deluge-all/Menus.js:133
 msgid "10 KiB/s"
-msgstr ""
+msgstr "10 KiB/s"
 
 #: deluge/ui/web/js/deluge-all/Statusbar.js:114
 #: deluge/ui/web/js/deluge-all/Statusbar.js:173
 #: deluge/ui/web/js/deluge-all/Menus.js:94
 #: deluge/ui/web/js/deluge-all/Menus.js:139
 msgid "30 KiB/s"
-msgstr ""
+msgstr "30 KiB/s"
 
 #: deluge/ui/web/js/deluge-all/Statusbar.js:120
 #: deluge/ui/web/js/deluge-all/Statusbar.js:179
 #: deluge/ui/web/js/deluge-all/Menus.js:100
 #: deluge/ui/web/js/deluge-all/Menus.js:145
 msgid "80 KiB/s"
-msgstr ""
+msgstr "80 KiB/s"
 
 #: deluge/ui/web/js/deluge-all/Statusbar.js:126
 #: deluge/ui/web/js/deluge-all/Statusbar.js:185
 #: deluge/ui/web/js/deluge-all/Menus.js:106
 #: deluge/ui/web/js/deluge-all/Menus.js:151
 msgid "300 KiB/s"
-msgstr ""
+msgstr "300 KiB/s"
 
 #: deluge/ui/web/js/deluge-all/Statusbar.js:145
 msgid "Set Maximum Download Speed"
@@ -5800,7 +5802,7 @@ msgstr ""
 #: deluge/ui/web/js/deluge-all/Statusbar.js:357
 #, python-brace-format
 msgid "<b>IP</b> {0}"
-msgstr ""
+msgstr "<b>IP</b> {0}"
 
 #: deluge/ui/web/js/deluge-all/EditConnectionWindow.js:17
 msgid "Edit Connection"
@@ -5818,7 +5820,7 @@ msgstr ""
 
 #: deluge/ui/web/js/deluge-all/AboutWindow.js:19
 msgid "About Deluge"
-msgstr ""
+msgstr "Par Deluge"
 
 #: deluge/ui/web/js/deluge-all/AboutWindow.js:102
 msgid "Copyright 2007-2018 Deluge Team"
@@ -5842,7 +5844,7 @@ msgstr ""
 
 #: deluge/ui/web/js/deluge-all/Toolbar.js:32
 msgid "Create"
-msgstr ""
+msgstr "Izveidot"
 
 #: deluge/ui/web/js/deluge-all/Toolbar.js:100
 msgid "Help"
@@ -5961,15 +5963,15 @@ msgstr ""
 
 #: deluge/ui/web/js/deluge-all/FileBrowser.js:13
 msgid "File Browser"
-msgstr ""
+msgstr "Failu pārlūks"
 
 #: deluge/ui/web/js/deluge-all/FileBrowser.js:25
 msgid "Back"
-msgstr ""
+msgstr "Atpakaļ"
 
 #: deluge/ui/web/js/deluge-all/FileBrowser.js:29
 msgid "Forward"
-msgstr ""
+msgstr "Uz priekšu"
 
 #: deluge/ui/web/js/deluge-all/FileBrowser.js:37
 msgid "Home"
@@ -6026,11 +6028,11 @@ msgstr ""
 
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:85
 msgid "Max Down Speed"
-msgstr ""
+msgstr "Maks. lejupielādes ātrums"
 
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:93
 msgid "Max Up Speed"
-msgstr ""
+msgstr "Maks. augšupielādes ātrums"
 
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:116
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:272
@@ -6047,7 +6049,7 @@ msgstr ""
 
 #: deluge/ui/web/js/deluge-all/details/StatusTab.js:39
 msgid "Loading"
-msgstr ""
+msgstr "Ielādē"
 
 #: deluge/ui/web/js/deluge-all/details/StatusTab.js:118
 msgid "True"
@@ -6059,7 +6061,7 @@ msgstr "Sīkāka informācija"
 
 #: deluge/ui/web/js/deluge-all/details/DetailsTab.js:28
 msgid "Comment:"
-msgstr ""
+msgstr "Komentārs:"
 
 #: deluge/ui/web/js/deluge-all/details/DetailsTab.js:29
 msgid "Status:"
@@ -6125,7 +6127,7 @@ msgstr "Maksimālais augšupielādes pieslēgvietu skaits:"
 #: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:109
 #: deluge/ui/web/js/deluge-all/preferences/InstallPluginWindow.js:33
 msgid "Install"
-msgstr ""
+msgstr "Uzstādīt"
 
 #: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:116
 msgid "Find More"
@@ -6133,7 +6135,7 @@ msgstr ""
 
 #: deluge/ui/web/js/deluge-all/preferences/InstallPluginWindow.js:17
 msgid "Install Plugin"
-msgstr ""
+msgstr "Uzstādīt spraudni"
 
 #: deluge/ui/web/js/deluge-all/preferences/InstallPluginWindow.js:45
 msgid "Select an egg"
@@ -6177,11 +6179,11 @@ msgstr ""
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:141
 msgid "New:"
-msgstr ""
+msgstr "Jauns:"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:145
 msgid "Confirm:"
-msgstr ""
+msgstr "Apstiprināt:"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:151
 msgid "Server"
@@ -6226,7 +6228,7 @@ msgstr ""
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:294
 msgid "Invalid Password"
-msgstr ""
+msgstr "Nederīga parole"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:295
 msgid "Your passwords don't match!"
@@ -6242,11 +6244,11 @@ msgstr ""
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:320
 msgid "Your password was successfully changed!"
-msgstr ""
+msgstr "Jūsu parole veiksmīgi mainīta!"
 
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:215
 msgid "Pause torrent"
-msgstr ""
+msgstr "Pauzēt torrentu"
 
 #: deluge/ui/web/render/tab_status.html:11
 msgid "ETA:"
@@ -6254,7 +6256,7 @@ msgstr ""
 
 #: deluge/ui/web/render/tab_status.html:26
 msgid "Date Added:"
-msgstr ""
+msgstr "Pievienošanas datums:"
 
 #~ msgid "Daemon not running"
 #~ msgstr "Process ir neaktīvs"
