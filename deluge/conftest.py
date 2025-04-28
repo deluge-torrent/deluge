@@ -88,7 +88,44 @@ async def client(request, config_dir, monkeypatch, listen_port):
 
 
 @pytest_twisted.async_yield_fixture
-async def daemon(request, config_dir, tmp_path):
+async def daemon_factory():
+    created_daemons = []
+
+    async def _make_daemon(listen_port, logfile=None, custom_script='', config_dir=''):
+        for dummy in range(10):
+            try:
+                d, daemon = common.start_core(
+                    listen_port=listen_port,
+                    logfile=logfile,
+                    timeout=5,
+                    timeout_msg='Timeout!',
+                    custom_script=custom_script,
+                    print_stdout=True,
+                    print_stderr=True,
+                    config_directory=config_dir,
+                )
+                await d
+                daemon.listen_port = listen_port
+                created_daemons.append(daemon)
+                return daemon
+            except CannotListenError as ex:
+                exception_error = ex
+                listen_port += 1
+            except (KeyboardInterrupt, SystemExit):
+                raise
+            else:
+                break
+        else:
+            raise exception_error
+
+    yield _make_daemon
+
+    for d in created_daemons:
+        await d.kill()
+
+
+@pytest_twisted.async_yield_fixture
+async def daemon(request, config_dir, tmp_path, daemon_factory):
     listen_port = DEFAULT_LISTEN_PORT
     logfile = tmp_path / 'daemon.log'
 
@@ -97,29 +134,12 @@ async def daemon(request, config_dir, tmp_path):
     else:
         custom_script = ''
 
-    for dummy in range(10):
-        try:
-            d, daemon = common.start_core(
-                listen_port=listen_port,
-                logfile=logfile,
-                timeout=5,
-                timeout_msg='Timeout!',
-                custom_script=custom_script,
-                print_stdout=True,
-                print_stderr=True,
-                config_directory=config_dir,
-            )
-            await d
-        except CannotListenError as ex:
-            exception_error = ex
-            listen_port += 1
-        except (KeyboardInterrupt, SystemExit):
-            raise
-        else:
-            break
-    else:
-        raise exception_error
-    daemon.listen_port = listen_port
+    daemon = await daemon_factory(
+        listen_port=listen_port,
+        logfile=logfile,
+        custom_script=custom_script,
+        config_dir=config_dir,
+    )
     yield daemon
     try:
         await daemon.kill()

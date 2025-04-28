@@ -1275,6 +1275,56 @@ class Torrent:
             return False
         return True
 
+    def set_ssl_certificate(
+        self,
+        certificate_path: str,
+        private_key_path: str,
+        dh_params_path: str,
+        password: str = '',
+    ):
+        """add a peer to the torrent
+
+        Args:
+            certificate_path(str) : Path to the PEM-encoded x509 certificate
+            private_key_path(str) : Path to the PEM-encoded private key
+            dh_params_path(str) : Path to the PEM-encoded Diffie-Hellman parameter
+            password(str) : (Optional) password used to decrypt the private key
+
+        Returns:
+            bool: True is successful, otherwise False
+        """
+        try:
+            self.handle.set_ssl_certificate(
+                certificate_path, private_key_path, dh_params_path, password
+            )
+        except RuntimeError as ex:
+            log.error('Unable to set ssl certificate from file: %s', ex)
+            return False
+        return True
+
+    def set_ssl_certificate_buffer(
+        self,
+        certificate: str,
+        private_key: str,
+        dh_params: str,
+    ):
+        """add a peer to the torrent
+
+        Args:
+            certificate(str) : PEM-encoded content of the x509 certificate
+            private_key(str) : PEM-encoded content of the private key
+            dh_params(str) : PEM-encoded content of the Diffie-Hellman parameters
+
+        Returns:
+            bool: True is successful, otherwise False
+        """
+        try:
+            self.handle.set_ssl_certificate_buffer(certificate, private_key, dh_params)
+        except RuntimeError as ex:
+            log.error('Unable to set ssl certificate from buffer: %s', ex)
+            return False
+        return True
+
     def move_storage(self, dest):
         """Move a torrent's storage location
 

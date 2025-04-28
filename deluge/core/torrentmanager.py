@@ -15,6 +15,7 @@ import os
 import pickle
 import time
 from base64 import b64encode
+from pathlib import Path
 from tempfile import gettempdir
 from typing import Dict, List, NamedTuple, Tuple
 
@@ -210,6 +211,7 @@ class TorrentManager(component.Component):
             'torrent_finished',
             'torrent_paused',
             'torrent_checked',
+            'torrent_need_cert',
             'torrent_resumed',
             'tracker_reply',
             'tracker_announce',
@@ -767,6 +769,11 @@ class TorrentManager(component.Component):
             torrent_name,
             component.get('RPCServer').get_session_user(),
         )
+
+        for file in self.ssl_file_paths_for_torrent(torrent_id):
+            if file.is_file():
+                file.unlink()
+
         return True
 
     def fixup_state(self, state):
@@ -1339,6 +1346,50 @@ class TorrentManager(component.Component):
                 torrent.handle.pause()
 
         torrent.update_state()
+
+    def ssl_file_paths_for_torrent(self, torrent_id):
+        certs_dir = Path(self.config['ssl_torrents_certs'])
+
+        crt_file = certs_dir / f'{torrent_id}.crt.pem'
+        key_file = certs_dir / f'{torrent_id}.key.pem'
+        dh_params_file = certs_dir / f'{torrent_id}.dh.pem'
+
+        return crt_file, key_file, dh_params_file
+
+    def on_alert_torrent_need_cert(self, alert):
+        """Alert handler for libtorrent torrent_need_cert_alert"""
+
+        if not self.config['ssl_torrents']:
+            return
+
+        torrent_id = str(alert.handle.info_hash())
+
+        certs_dir = Path(self.config['ssl_torrents_certs'])
+        crt_file, key_file, dh_params_file = self.ssl_file_paths_for_torrent(torrent_id)
+        if not crt_file.is_file() or not key_file.is_file():
+            crt_file = certs_dir / 'default.crt.pem'
+            key_file = certs_dir / 'default.key.pem'
+        if not dh_params_file.is_file():
+            dh_params_file = certs_dir / 'default.dh.pem'
+        if not (crt_file.is_file() and key_file.is_file() and dh_params_file.is_file()):
+            log.error('Unable to load certs for SSL Torrent %s', torrent_id)
+            return
+
+        try:
+            # Cannot use the handle via self.torrents.
+            # torrent_need_cert_alert is raised before add_torrent_alert
+            alert.handle.set_ssl_certificate(
+                str(crt_file), str(key_file), str(dh_params_file)
+            )
+        except RuntimeError as err:
+            log.error(
+                'Unable to set ssl certificate for %s from files %s:%s:%s: %s',
+                torrent_id,
+                crt_file,
+                key_file,
+                dh_params_file,
+                err,
+            )
 
     def on_alert_tracker_reply(self, alert):
         """Alert handler for libtorrent tracker_reply_alert"""
