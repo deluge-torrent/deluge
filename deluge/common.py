@@ -7,6 +7,7 @@
 #
 
 """Common functions for various parts of Deluge to use."""
+
 import base64
 import binascii
 import functools
@@ -23,14 +24,20 @@ import tarfile
 import time
 from contextlib import closing
 from datetime import datetime
+from importlib import resources
 from io import BytesIO
+from pathlib import Path
 from urllib.parse import unquote_plus, urljoin
 from urllib.request import pathname2url
 
-import pkg_resources
-
 from deluge.decorators import deprecated
 from deluge.error import InvalidPathError
+
+try:
+    from importlib.metadata import distribution
+except ImportError:
+    from pkg_resources import get_distribution as distribution
+
 
 try:
     import chardet
@@ -90,7 +97,7 @@ def get_version():
     Returns:
         str: The version of Deluge.
     """
-    return pkg_resources.get_distribution('Deluge').version
+    return distribution('Deluge').version
 
 
 def get_default_config_dir(filename=None):
@@ -290,20 +297,22 @@ def get_pixmap(fname):
     return resource_filename('deluge', os.path.join('ui', 'data', 'pixmaps', fname))
 
 
-def resource_filename(module, path):
-    """Get filesystem path for a resource.
+def resource_filename(module: str, path: str) -> str:
+    """Get filesystem path for a non-python resource.
 
-    This function contains a work-around for pkg_resources.resource_filename
-    not returning the correct path with multiple packages installed.
-
-    So if there's a second deluge package, installed globally and another in
-    develop mode somewhere else, while pkg_resources.get_distribution('Deluge')
-    returns the proper deluge instance, pkg_resources.resource_filename
-    does not, it returns the first found on the python path, which is wrong.
+    Abstracts getting module resource files. Originally created to
+    workaround pkg_resources.resource_filename limitations with
+    multiple Deluge packages installed.
     """
-    return pkg_resources.get_distribution('Deluge').get_resource_filename(
-        pkg_resources._manager, os.path.join(*(module.split('.') + [path]))
-    )
+    path = Path(path)
+
+    try:
+        with resources.as_file(resources.files(module) / path) as resource_file:
+            return str(resource_file)
+    except AttributeError:
+        # Python <= 3.8
+        with resources.path(module, path.parts[0]) as resource_file:
+            return str(resource_file.joinpath(*path.parts[1:]))
 
 
 def open_file(path, timestamp=None):
@@ -415,24 +424,30 @@ def translate_size_units():
 
 
 def fsize(fsize_b, precision=1, shortform=False):
-    """Formats the bytes value into a string with KiB, MiB or GiB units.
+    """Formats the bytes value into a string with KiB, MiB, GiB or TiB units.
 
     Args:
         fsize_b (int): The filesize in bytes.
-        precision (int): The filesize float precision.
+        precision (int): The output float precision, 1 by default.
+        shortform (bool): The output short|long form, False (long form) by default.
 
     Returns:
-        str: A formatted string in KiB, MiB or GiB units.
+        str: A formatted string in KiB, MiB, GiB or TiB units.
 
     Examples:
         >>> fsize(112245)
         '109.6 KiB'
         >>> fsize(112245, precision=0)
         '110 KiB'
+        >>> fsize(112245, shortform=True)
+        '109.6 K'
 
     Note:
         This function has been refactored for performance with the
         fsize units being translated outside the function.
+
+        Notice that short forms K|M|G|T are synonymous here with
+        KiB|MiB|GiB|TiB. They are powers of 1024, not 1000.
 
     """
 
@@ -469,7 +484,7 @@ def fpcnt(dec, precision=2):
 
     Args:
         dec (float): The ratio in the range [0.0, 1.0].
-        precision (int): The percentage float precision.
+        precision (int): The output float precision, 2 by default.
 
     Returns:
         str: A formatted string representing a percentage.
@@ -493,6 +508,8 @@ def fspeed(bps, precision=1, shortform=False):
 
     Args:
         bps (int): The speed in bytes per second.
+        precision (int): The output float precision, 1 by default.
+        shortform (bool): The output short|long form, False (long form) by default.
 
     Returns:
         str: A formatted string representing transfer speed.
@@ -500,6 +517,10 @@ def fspeed(bps, precision=1, shortform=False):
     Examples:
         >>> fspeed(43134)
         '42.1 KiB/s'
+
+    Note:
+        Notice that short forms K|M|G|T are synonymous here with
+        KiB|MiB|GiB|TiB. They are powers of 1024, not 1000.
 
     """
 
@@ -537,7 +558,7 @@ def fpeer(num_peers, total_peers):
         total_peers (int): The total number of peers.
 
     Returns:
-        str: A formatted string 'num_peers (total_peers)' or total_peers < 0, just 'num_peers'.
+        str: A formatted string 'num_peers (total_peers)' or if total_peers < 0, just 'num_peers'.
 
     Examples:
         >>> fpeer(10, 20)
@@ -586,16 +607,16 @@ def ftime(secs):
         time_str = f'{secs // 604800}w {secs // 86400 % 7}d'
     else:
         time_str = f'{secs // 31449600}y {secs // 604800 % 52}w'
-
     return time_str
 
 
 def fdate(seconds, date_only=False, precision_secs=False):
-    """Formats a date time string in the locale's date representation based on the systems timezone.
+    """Formats a date time string in the locale's date representation based on the system's timezone.
 
     Args:
         seconds (float): Time in seconds since the Epoch.
-        precision_secs (bool): Include seconds in time format.
+        date_only (bool): Whether to include only the date, False by default.
+        precision_secs (bool): Include seconds in time format, False by default.
 
     Returns:
         str: A string in the locale's datetime representation or "" if seconds < 0
@@ -620,10 +641,14 @@ def tokenize(text):
     Returns:
         list: A list of strings and/or numbers.
 
-    This function is used to implement robust tokenization of user input
-    It automatically coerces integer and floating point numbers, ignores
-    whitespace and knows how to separate numbers from strings even without
-    whitespace.
+    Note:
+        This function is used to implement robust tokenization of user input
+        It automatically coerces integer and floating point numbers, ignores
+        whitespace and knows how to separate numbers from strings even without
+        whitespace.
+
+        Possible optimization: move the 2 regexes outside of function.
+
     """
     tokenized_input = []
     for token in re.split(r'(\d+(?:\.\d+)?)', text):
@@ -644,12 +669,16 @@ size_units = [
     {'prefix': 'GiB', 'divider': 1024**3},
     {'prefix': 'TiB', 'divider': 1024**4},
     {'prefix': 'PiB', 'divider': 1024**5},
+    {'prefix': 'k', 'divider': 1000**1},
+    {'prefix': 'm', 'divider': 1000**2},
+    {'prefix': 'g', 'divider': 1000**3},
+    {'prefix': 't', 'divider': 1000**4},
+    {'prefix': 'p', 'divider': 1000**5},
     {'prefix': 'KB', 'divider': 1000**1},
     {'prefix': 'MB', 'divider': 1000**2},
     {'prefix': 'GB', 'divider': 1000**3},
     {'prefix': 'TB', 'divider': 1000**4},
     {'prefix': 'PB', 'divider': 1000**5},
-    {'prefix': 'm', 'divider': 1000**2},
 ]
 
 
@@ -690,6 +719,16 @@ def parse_human_size(size):
     # We failed to parse the size specification.
     msg = 'Failed to parse size! (input %r was tokenized as %r)'
     raise InvalidSize(msg % (size, tokens))
+
+
+def anchorify_urls(text: str) -> str:
+    """
+    Wrap all occurrences of text URLs with HTML
+    """
+    url_pattern = r'((htt)|(ft)|(ud))ps?://\S+'
+    html_href_pattern = r'<a href="\g<0>">\g<0></a>'
+
+    return re.sub(url_pattern, html_href_pattern, text)
 
 
 def is_url(url):
@@ -833,7 +872,7 @@ def create_magnet_uri(infohash, name=None, trackers=None):
     Args:
         infohash (str): The info-hash of the torrent.
         name (str, optional): The name of the torrent.
-        trackers (list or dict, optional): A list of trackers or dict or {tracker: tier} pairs.
+        trackers (list or dict, optional): A list of trackers or a dict or some {tracker: tier} pairs.
 
     Returns:
         str: A magnet URI string.
@@ -875,7 +914,7 @@ def get_path_size(path):
         return os.path.getsize(path)
 
     dir_size = 0
-    for (p, dummy_dirs, files) in os.walk(path):
+    for p, dummy_dirs, files in os.walk(path):
         for _file in files:
             filename = os.path.join(p, _file)
             dir_size += os.path.getsize(filename)

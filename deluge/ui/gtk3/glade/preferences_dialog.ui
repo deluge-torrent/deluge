@@ -736,7 +736,7 @@ and daemon (does not apply in Standalone mode).</property>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
                                 <property name="padding">5</property>
-                                <property name="position">1</property>
+                                <property name="position">2</property>
                               </packing>
                             </child>
                             <child>
@@ -968,6 +968,48 @@ and daemon (does not apply in Standalone mode).</property>
                               </packing>
                             </child>
                             <child>
+                              <object class="GtkFrame" id="frame_theme">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="label-xalign">0</property>
+                                <property name="shadow-type">none</property>
+                                <child>
+                                  <object class="GtkAlignment" id="alignment_theme">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="top-padding">3</property>
+                                    <property name="left-padding">10</property>
+                                    <child>
+                                      <object class="GtkCheckButton" id="chk_prefer_dark_theme">
+                                        <property name="label" translatable="yes">Prefer Dark</property>
+                                        <property name="visible">True</property>
+                                        <property name="can-focus">True</property>
+                                        <property name="receives-default">False</property>
+                                        <property name="tooltip_text" translatable="yes">If available, use dark variant of GTK theme.</property>
+                                        <property name="draw-indicator">True</property>
+                                      </object>
+                                    </child>
+                                  </object>
+                                </child>
+                                <child type="label">
+                                  <object class="GtkLabel" id="label_theme">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label" translatable="yes">Theme</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
+                                  </object>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="padding">5</property>
+                                <property name="position">3</property>
+                              </packing>
+                            </child>
+                            <child>
                               <object class="GtkFrame" id="frame19">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
@@ -1024,7 +1066,7 @@ and daemon (does not apply in Standalone mode).</property>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
                                 <property name="padding">5</property>
-                                <property name="position">3</property>
+                                <property name="position">4</property>
                               </packing>
                             </child>
                             <child>
@@ -1101,7 +1143,7 @@ and daemon (does not apply in Standalone mode).</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">True</property>
-                                <property name="position">4</property>
+                                <property name="position">5</property>
                               </packing>
                             </child>
                           </object>

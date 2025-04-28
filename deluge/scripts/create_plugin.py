@@ -49,7 +49,6 @@ options = parser.parse_args()
 
 
 def create_plugin():
-
     if not options.url:
         options.url = ''
 

@@ -10,7 +10,6 @@ from base64 import b64encode
 from unittest import mock
 
 import pytest
-import pytest_twisted
 from twisted.internet import defer, reactor
 from twisted.internet.task import deferLater
 
@@ -24,6 +23,11 @@ from deluge.core.core import Core
 from deluge.core.rpcserver import RPCServer
 from deluge.core.torrent import Torrent
 from deluge.core.torrentmanager import TorrentManager, TorrentState
+
+try:
+    from unittest.mock import AsyncMock
+except ImportError:
+    from mock import AsyncMock
 
 
 class TestTorrent(BaseTestCase):
@@ -62,8 +66,21 @@ class TestTorrent(BaseTestCase):
         print(tmp)
 
     def assert_state(self, torrent, state):
+        """Assert torrent state matches expected state"""
         torrent.update_state()
         assert torrent.state == state
+
+    def assert_state_wait(self, torrent, expected, timeout=1, interval=0.2):
+        """Assert state but retry with timeout e.g. Allow for async lt alerts"""
+        start = time.time()
+
+        while time.time() - start < timeout:
+            torrent.update_state()
+            time.sleep(interval)
+            if torrent.state == expected:
+                break
+        else:
+            assert torrent.state == expected
 
     def get_torrent_atp(self, filename):
         filename = common.get_test_data_file(filename)
@@ -74,14 +91,12 @@ class TestTorrent(BaseTestCase):
             'save_path': os.getcwd(),
             'storage_mode': lt.storage_mode_t.storage_mode_sparse,
             'flags': (
-                lt.add_torrent_params_flags_t.flag_auto_managed
-                | lt.add_torrent_params_flags_t.flag_duplicate_is_error
-                & ~lt.add_torrent_params_flags_t.flag_paused
+                lt.torrent_flags.auto_managed
+                | lt.torrent_flags.duplicate_is_error & ~lt.torrent_flags.paused
             ),
         }
         return atp
 
-    @pytest_twisted.ensureDeferred
     async def test_set_file_priorities(self):
         if getattr(lt, 'file_prio_alert', None):
             # Libtorrent 2.0.3 and later has a file_prio_alert
@@ -184,6 +199,8 @@ class TestTorrent(BaseTestCase):
         # self.print_priority_list(priorities)
 
     def test_torrent_error_data_missing(self):
+        if VersionSplit(lt.__version__) > VersionSplit('2.0.7.0'):
+            pytest.xfail('Test not working as expected after lt 2.0.7')
         options = {'seed_mode': True}
         filename = common.get_test_data_file('test_torrent.file.torrent')
         with open(filename, 'rb') as _file:
@@ -191,15 +208,16 @@ class TestTorrent(BaseTestCase):
         torrent_id = self.core.add_torrent_file(filename, filedump, options)
         torrent = self.core.torrentmanager.torrents[torrent_id]
 
-        # time.sleep(0.5)  # Delay to wait for lt to finish check on Travis.
-        # self.assert_state(torrent, 'Seeding')
+        # Inital check will fail and return to download state
+        self.assert_state_wait(torrent, 'Downloading')
 
         # Force an error by reading (non-existant) piece from disk
         torrent.handle.read_piece(0)
-        time.sleep(0.2)  # Delay to wait for alert from lt
-        self.assert_state(torrent, 'Error')
+        self.assert_state_wait(torrent, 'Error')
 
     def test_torrent_error_resume_original_state(self):
+        if VersionSplit(lt.__version__) > VersionSplit('2.0.7.0'):
+            pytest.xfail('Test not working as expected after lt 2.0.7')
         options = {'seed_mode': True, 'add_paused': True}
         filename = common.get_test_data_file('test_torrent.file.torrent')
         with open(filename, 'rb') as _file:
@@ -212,15 +230,14 @@ class TestTorrent(BaseTestCase):
 
         # Force an error by reading (non-existant) piece from disk
         torrent.handle.read_piece(0)
-        time.sleep(0.2)  # Delay to wait for alert from lt
-        self.assert_state(torrent, 'Error')
+        self.assert_state_wait(torrent, 'Error')
 
         # Clear error and verify returned to original state
         torrent.force_recheck()
 
     def test_torrent_error_resume_data_unaltered(self):
         if VersionSplit(lt.__version__) >= VersionSplit('1.2.0.0'):
-            pytest.skip('Test not working as expected on lt 1.2 or greater')
+            pytest.xfail('Test not working as expected on lt 1.2 or greater')
 
         resume_data = {
             'active_time': 13399,
@@ -341,7 +358,7 @@ class TestTorrent(BaseTestCase):
         handle = self.session.add_torrent(atp)
         self.torrent = Torrent(handle, {})
         # Ignore TorrentManager method call
-        TorrentManager.save_resume_data = mock.MagicMock
+        TorrentManager.save_resume_data = AsyncMock()
 
         result = self.torrent.rename_folder('unicode_filenames', 'Горбачёв')
         assert isinstance(result, defer.DeferredList)

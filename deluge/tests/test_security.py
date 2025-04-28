@@ -46,7 +46,6 @@ class SecurityBaseTestCase:
         )
 
         def on_result(results):
-
             if test == '-e':
                 results = results[0].split(b'\n')[7:-6]
                 assert len(results) > 3
@@ -134,10 +133,10 @@ class TestDaemonSecurity(BaseTestCase, DaemonBase, SecurityBaseTestCase):
 @pytest.mark.security
 class TestWebUISecurity(WebServerTestBase, SecurityBaseTestCase):
     def start_webapi(self, arg):
-        self.port = self.webserver_listen_port = 8999
+        self.port = self.deluge_web.port = 8999
 
         config_defaults = deluge.ui.web.server.CONFIG_DEFAULTS.copy()
-        config_defaults['port'] = self.webserver_listen_port
+        config_defaults['port'] = self.deluge_web.port
         config_defaults['https'] = True
         self.config = configmanager.ConfigManager('web.conf', config_defaults)
 

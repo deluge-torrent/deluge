@@ -200,7 +200,10 @@ class PreferencesManager(component.Component):
     def __set_listen_on(self):
         """Set the ports and interface address to listen for incoming connections on."""
         if self.config['random_port']:
-            if not self.config['listen_random_port']:
+            if (
+                not self.config['listen_reuse_port']
+                or not self.config['listen_random_port']
+            ):
                 self.config['listen_random_port'] = random.randrange(49152, 65525)
             listen_ports = [
                 self.config['listen_random_port']

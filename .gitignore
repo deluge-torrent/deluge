@@ -12,14 +12,14 @@ __pycache__/
 *.tar.*
 .tox/
 deluge/i18n/*/
-deluge.pot
 deluge/ui/web/js/*.js
 deluge/ui/web/js/extjs/ext-extensions*.js
 *.desktop
-*.appdata.xml
+*.metainfo.xml
 .build_data*
 osx/app
 RELEASE-VERSION
 .venv*
 # used by setuptools to cache downloaded eggs
 /.eggs
+_pytest_temp/

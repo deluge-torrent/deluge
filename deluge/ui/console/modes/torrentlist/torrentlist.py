@@ -219,11 +219,11 @@ class TorrentList(BaseMode, PopupsHandler):
         # Update the status bars
         statusbar_args = {'scr': self.stdscr, 'bottombar_help': True}
         if self.torrentview.curr_filter is not None:
-            statusbar_args[
-                'topbar'
-            ] = '{}    {{!filterstatus!}}Current filter: {}'.format(
-                self.statusbars.topbar,
-                self.torrentview.curr_filter,
+            statusbar_args['topbar'] = (
+                '{}    {{!filterstatus!}}Current filter: {}'.format(
+                    self.statusbars.topbar,
+                    self.torrentview.curr_filter,
+                )
             )
 
         if self.minor_mode:

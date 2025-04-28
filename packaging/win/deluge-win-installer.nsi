@@ -112,7 +112,6 @@ FunctionEnd
 
 # --- Installation sections ---
 !define PROGRAM_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PROGRAM_NAME}"
-!define PROGRAM_UNINST_ROOT_KEY "HKLM"
 !define PROGRAM_UNINST_FILENAME "$INSTDIR\deluge-uninst.exe"
 
 BrandingText "${PROGRAM_NAME} Windows Installer v${DELUGE_INSTALLER_VERSION}"
@@ -121,12 +120,15 @@ OutFile "${INSTALLER_FILENAME}"
 
 !ifndef arch
 InstallDir "$PROGRAMFILES64\Deluge"
+!define PROGRAM_UNINST_ROOT_KEY "HKLM64"
 !endif
 !If "${arch}" == "x64"
 InstallDir "$PROGRAMFILES64\Deluge"
+!define PROGRAM_UNINST_ROOT_KEY "HKLM64"
 !endIf
 !If "${arch}" == "x86"
 InstallDir "$PROGRAMFILES32\Deluge"
+!define PROGRAM_UNINST_ROOT_KEY "HKLM"
 !endIf
 
 ShowInstDetails show
@@ -187,6 +189,7 @@ LangString DESC_Section3 ${LANG_ENGLISH} "Select this option to let Deluge handl
 Section -Uninstaller
     WriteUninstaller ${PROGRAM_UNINST_FILENAME}
     WriteRegStr ${PROGRAM_UNINST_ROOT_KEY} "${PROGRAM_UNINST_KEY}" "DisplayName" "$(^Name)"
+    WriteRegStr ${PROGRAM_UNINST_ROOT_KEY} "${PROGRAM_UNINST_KEY}" "DisplayVersion" ${PROGRAM_VERSION}
     WriteRegStr ${PROGRAM_UNINST_ROOT_KEY} "${PROGRAM_UNINST_KEY}" "UninstallString" ${PROGRAM_UNINST_FILENAME}
 SectionEnd
 
@@ -202,8 +205,8 @@ Section Uninstall
     !insertmacro MUI_STARTMENU_GETFOLDER Application $StartMenuFolder
         SetShellVarContext all
         Delete "$SMPROGRAMS\$StartMenuFolder\Deluge.lnk"
+        Delete "$SMPROGRAMS\$StartMenuFolder\Website.lnk"
         Delete "$SMPROGRAMS\$StartMenuFolder\Uninstall Deluge.lnk"
-        Delete "$SMPROGRAMS\$StartMenuFolder\Deluge Website.lnk"
         RmDir "$SMPROGRAMS\$StartMenuFolder"
         DeleteRegKey /ifempty HKCR "Software\Deluge"
 

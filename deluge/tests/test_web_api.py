@@ -26,7 +26,6 @@ common.disable_new_release_check()
 
 class TestWebAPI(WebServerTestBase):
     @pytest.mark.xfail(reason='This just logs an error at the moment.')
-    @pytest_twisted.ensureDeferred
     async def test_connect_invalid_host(self):
         with pytest.raises(Exception):
             await self.deluge_web.web_api.connect('id')
@@ -35,7 +34,7 @@ class TestWebAPI(WebServerTestBase):
         d = self.deluge_web.web_api.connect(self.host_id)
 
         def on_connect(result):
-            assert type(result) == tuple
+            assert isinstance(result, tuple)
             assert len(result) > 0
             return result
 
@@ -58,7 +57,7 @@ class TestWebAPI(WebServerTestBase):
 
     def test_get_config(self):
         config = self.deluge_web.web_api.get_config()
-        assert self.webserver_listen_port == config['port']
+        assert self.deluge_web.port == config['port']
 
     def test_set_config(self):
         config = self.deluge_web.web_api.get_config()
@@ -79,27 +78,28 @@ class TestWebAPI(WebServerTestBase):
 
     @defer.inlineCallbacks
     def get_host_status(self):
-        host = list(self.deluge_web.web_api._get_host(self.host_id))
+        host = list(self.deluge_web.web_api.hostlist.get_host_info(self.host_id))
         host[3] = 'Online'
         host[4] = '2.0.0.dev562'
         status = yield self.deluge_web.web_api.get_host_status(self.host_id)
         assert status == tuple(status)
 
-    def test_get_host(self):
-        assert not self.deluge_web.web_api._get_host('invalid_id')
-        conn = list(self.deluge_web.web_api.hostlist.get_hosts_info()[0])
-        assert self.deluge_web.web_api._get_host(conn[0]) == conn[0:4]
+    def test_get_hosts(self):
+        hosts = self.deluge_web.web_api.hostlist.get_hosts_info()
+        assert self.deluge_web.web_api.get_hosts() == hosts
 
     def test_add_host(self):
         conn = ['abcdef', '10.0.0.1', 0, 'user123', 'pass123']
-        assert not self.deluge_web.web_api._get_host(conn[0])
+        assert not self.deluge_web.web_api.hostlist.get_host_info(conn[0])
         # Add valid host
         result, host_id = self.deluge_web.web_api.add_host(
             conn[1], conn[2], conn[3], conn[4]
         )
         assert result
         conn[0] = host_id
-        assert self.deluge_web.web_api._get_host(conn[0]) == conn[0:4]
+        assert (
+            list(self.deluge_web.web_api.hostlist.get_host_info(conn[0])) == conn[0:4]
+        )
 
         # Add already existing host
         ret = self.deluge_web.web_api.add_host(conn[1], conn[2], conn[3], conn[4])
@@ -113,10 +113,10 @@ class TestWebAPI(WebServerTestBase):
     def test_remove_host(self):
         conn = ['connection_id', '', 0, '', '']
         self.deluge_web.web_api.hostlist.config['hosts'].append(conn)
-        assert self.deluge_web.web_api._get_host(conn[0]) == conn[0:4]
+        assert self.deluge_web.web_api.hostlist.get_host_info(conn[0]) == conn[0:4]
         # Remove valid host
         assert self.deluge_web.web_api.remove_host(conn[0])
-        assert not self.deluge_web.web_api._get_host(conn[0])
+        assert not self.deluge_web.web_api.hostlist.get_host_info(conn[0])
         # Remove non-existing host
         assert not self.deluge_web.web_api.remove_host(conn[0])
 
@@ -175,7 +175,7 @@ class TestWebAPI(WebServerTestBase):
         self.deluge_web.top_level.putChild(
             filename.encode(), File(common.get_test_data_file(filename))
         )
-        url = 'http://localhost:%d/%s' % (self.webserver_listen_port, filename)
+        url = 'http://localhost:%d/%s' % (self.deluge_web.port, filename)
         res = yield self.deluge_web.web_api.download_torrent_from_url(url)
         assert res.endswith(filename)
 
@@ -191,7 +191,7 @@ class TestWebAPI(WebServerTestBase):
         bad_body = b'{ method": "auth.login" }'
         d = yield agent.request(
             b'POST',
-            b'http://127.0.0.1:%i/json' % self.webserver_listen_port,
+            b'http://127.0.0.1:%i/json' % self.deluge_web.port,
             Headers(
                 {
                     b'User-Agent': [b'Twisted Web Client Example'],

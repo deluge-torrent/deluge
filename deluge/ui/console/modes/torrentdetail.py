@@ -181,7 +181,6 @@ class TorrentDetail(BaseMode, PopupsHandler):
         self.refresh()
 
     def set_state(self, state):
-
         if state.get('files'):
             self.full_names = {x['index']: x['path'] for x in state['files']}
 
@@ -363,7 +362,6 @@ class TorrentDetail(BaseMode, PopupsHandler):
             ).addCallback(self.set_state)
 
     def draw_files(self, files, depth, off, idx):
-
         color_selected = 'blue'
         color_partially_selected = 'magenta'
         color_highlighted = 'white'

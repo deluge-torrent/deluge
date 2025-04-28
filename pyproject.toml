@@ -1,11 +1,64 @@
 [build-system]
-requires = [
-    "setuptools",
-    "wheel",
+requires = ["setuptools", "wheel"]
+
+[tool.pytest.ini_options]
+# Dump tracebacks if a test takes longer than X seconds
+faulthandler_timeout = 60
+# Hide logged warnings and errors in test output.
+log_cli_level = "CRITICAL"
+addopts = "--basetemp=_pytest_temp"
+markers = [
+    "todo: Tests that are yet to be written",
+    "gtkui: Tests for GTK code",
+    "security: Security related tests",
+    "slow: Tests that are particularly slow",
+    "internet: Tests that require internet connectivity",
+]
+filterwarnings = [
+    "ignore::DeprecationWarning:gi",
+    "ignore::DeprecationWarning:twisted.internet.gireactor",
+    "ignore:twisted.web.resource.*:DeprecationWarning",
+    "ignore:Using readBody.*:DeprecationWarning",
+    "ignore:resume_data is deprecated.*:DeprecationWarning:deluge.core.alertmanager",
 ]
 
-[tool.black]
-skip-string-normalization = true
+[tool.ruff]
+line-length = 88
+builtins = ["_", "_n", "__request__"]
+extend-exclude = ["dist", "build"]
+target-version = "py37"
 
-[tool.isort]
-profile = "black"
+[tool.ruff.format]
+# Prefer single quotes over double quotes
+quote-style = "single"
+
+[tool.ruff.lint]
+ignore = [
+    "N818", # error-suffix-on-exception-name
+    "E501", # Line-too-long, let formatter resolve it
+
+]
+select = [
+    "A", # flake8-builtins
+    "E", # pycodestyle
+    "F", # Pyflakes
+    "N", # pep8-naming
+    "W", # pycodestyle
+    "INT", # flake8-gettext
+    "I", # isort
+
+]
+
+[tool.ruff.lint.flake8-gettext]
+extend-function-names = ["_n"]
+
+[tool.ruff.lint.extend-per-file-ignores]
+# E402 import not top of file (gi version check required before import)
+"deluge/**/gtkui/*.py" = ["E402"]
+"deluge/**/gtkui.py" = ["E402"]
+"deluge/plugins/Stats/deluge_stats/graph.py" = ["E402"]
+"deluge/ui/gtk3/*.py" = ["E402"]
+
+[tool.pyright]
+reportMissingImports = "information"
+reportMissingModuleSource = "information"

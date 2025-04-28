@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.1 -->
+<!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.0"/>
   <object class="GtkImage" id="about-image">
@@ -7,7 +7,6 @@
     <property name="can_focus">False</property>
     <property name="icon_name">help-about-symbolic</property>
   </object>
-  <object class="GtkAccelGroup" id="accelgroup1"/>
   <object class="GtkImage" id="add-image">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -67,6 +66,7 @@
     <property name="icon_name">zoom-fit-best-symbolic</property>
     <property name="icon_size">1</property>
   </object>
+  <object class="GtkAccelGroup" id="main_accelgroup"/>
   <object class="GtkImage" id="new-image">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -93,9 +93,9 @@
     <property name="can_focus">False</property>
     <property name="title">Deluge</property>
     <accel-groups>
-      <group name="accelgroup1"/>
+      <group name="main_accelgroup"/>
     </accel-groups>
-    <child>
+    <child type="titlebar">
       <placeholder/>
     </child>
     <child>
@@ -114,8 +114,10 @@
                 <property name="label" translatable="yes">_File</property>
                 <property name="use_underline">True</property>
                 <child type="submenu">
-                  <object class="GtkMenu" id="menuitem1_menu1">
+                  <object class="GtkMenu" id="submenu_file">
                     <property name="can_focus">False</property>
+                    <property name="accel_group">main_accelgroup</property>
+                    <property name="accel_path">&lt;Deluge-MainWindow&gt;/File</property>
                     <child>
                       <object class="GtkImageMenuItem" id="menuitem_addtorrent">
                         <property name="label" translatable="yes">_Add Torrent</property>
@@ -126,7 +128,6 @@
                         <property name="image">add-image</property>
                         <property name="use_stock">False</property>
                         <signal name="activate" handler="on_menuitem_addtorrent_activate" swapped="no"/>
-                        <accelerator key="O" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                     <child>
@@ -138,7 +139,6 @@
                         <property name="image">new-image</property>
                         <property name="use_stock">False</property>
                         <signal name="activate" handler="on_menuitem_createtorrent_activate" swapped="no"/>
-                        <accelerator key="N" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                     <child>
@@ -155,7 +155,6 @@
                         <property name="use_stock">False</property>
                         <property name="always_show_image">True</property>
                         <signal name="activate" handler="on_menuitem_quitdaemon_activate" swapped="no"/>
-                        <accelerator key="Q" signal="activate" modifiers="GDK_SHIFT_MASK | GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                     <child>
@@ -172,9 +171,8 @@
                         <property name="use_underline">True</property>
                         <property name="image">quit_image</property>
                         <property name="use_stock">False</property>
-                        <property name="accel_group">accelgroup1</property>
+                        <property name="accel_group">main_accelgroup</property>
                         <signal name="activate" handler="on_menuitem_quit_activate" swapped="no"/>
-                        <accelerator key="Q" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                   </object>
@@ -188,9 +186,11 @@
                 <property name="label" translatable="yes">_Edit</property>
                 <property name="use_underline">True</property>
                 <child type="submenu">
-                  <object class="GtkMenu" id="menu1">
+                  <object class="GtkMenu" id="submenu_edit">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="accel_group">main_accelgroup</property>
+                    <property name="accel_path">&lt;Deluge-MainWindow&gt;/Edit</property>
                     <child>
                       <object class="GtkImageMenuItem" id="menuitem_preferences">
                         <property name="label" translatable="yes">_Preferences</property>
@@ -199,9 +199,8 @@
                         <property name="use_underline">True</property>
                         <property name="image">prefs-image</property>
                         <property name="use_stock">False</property>
-                        <property name="accel_group">accelgroup1</property>
+                        <property name="accel_group">main_accelgroup</property>
                         <signal name="activate" handler="on_menuitem_preferences_activate" swapped="no"/>
-                        <accelerator key="P" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                     <child>
@@ -213,7 +212,6 @@
                         <property name="image">connection-image</property>
                         <property name="use_stock">False</property>
                         <signal name="activate" handler="on_menuitem_connectionmanager_activate" swapped="no"/>
-                        <accelerator key="M" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                   </object>
@@ -223,6 +221,7 @@
             <child>
               <object class="GtkMenuItem" id="menu_torrent">
                 <property name="can_focus">False</property>
+                <property name="accel_path">&lt;MainWindow&gt;/Torrent</property>
                 <property name="label" translatable="yes">_Torrent</property>
                 <property name="use_underline">True</property>
               </object>
@@ -234,9 +233,11 @@
                 <property name="label" translatable="yes">_View</property>
                 <property name="use_underline">True</property>
                 <child type="submenu">
-                  <object class="GtkMenu" id="menu2">
+                  <object class="GtkMenu" id="submenu_view">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="accel_group">main_accelgroup</property>
+                    <property name="accel_path">&lt;Deluge-MainWindow&gt;/View</property>
                     <child>
                       <object class="GtkCheckMenuItem" id="menuitem_toolbar">
                         <property name="visible">True</property>
@@ -297,7 +298,6 @@
                         <property name="label" translatable="yes">_Find ...</property>
                         <property name="use_underline">True</property>
                         <signal name="activate" handler="on_search_filter_toggle" swapped="no"/>
-                        <accelerator key="f" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </object>
                     </child>
                     <child>
@@ -356,8 +356,10 @@
                 <property name="label" translatable="yes">_Help</property>
                 <property name="use_underline">True</property>
                 <child type="submenu">
-                  <object class="GtkMenu" id="menuitem2_menu1">
+                  <object class="GtkMenu" id="submenu_help">
                     <property name="can_focus">False</property>
+                    <property name="accel_group">main_accelgroup</property>
+                    <property name="accel_path">&lt;Deluge-MainWindow&gt;/Help</property>
                     <child>
                       <object class="GtkImageMenuItem" id="menuitem_homepage">
                         <property name="label" translatable="yes">_Homepage</property>
@@ -377,7 +379,6 @@
                         <property name="use_underline">True</property>
                         <property name="use_stock">False</property>
                         <signal name="activate" handler="on_menuitem_faq_activate" swapped="no"/>
-                        <accelerator key="F1" signal="activate"/>
                       </object>
                     </child>
                     <child>
@@ -405,7 +406,7 @@
                         <property name="use_underline">True</property>
                         <property name="image">about-image</property>
                         <property name="use_stock">False</property>
-                        <property name="accel_group">accelgroup1</property>
+                        <property name="accel_group">main_accelgroup</property>
                         <signal name="activate" handler="on_menuitem_about_activate" swapped="no"/>
                       </object>
                     </child>
@@ -467,7 +468,6 @@ This will filter torrents for the current selection on the sidebar.</property>
                 <property name="label" translatable="yes">Filter</property>
                 <property name="icon_name">system-search-symbolic</property>
                 <signal name="clicked" handler="on_search_filter_toggle" swapped="no"/>
-                <accelerator key="f" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
               </object>
               <packing>
                 <property name="expand">False</property>

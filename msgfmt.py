@@ -24,6 +24,7 @@ Options:
     --version
         Display version information and exit.
 """
+
 import array
 import ast
 import getopt

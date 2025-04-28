@@ -20,7 +20,6 @@ log = logging.getLogger(__name__)
 
 
 class WebUI(WebPluginBase):
-
     scripts = [get_resource('stats.js')]
 
     # The enable and disable methods are not scrictly required on the WebUI

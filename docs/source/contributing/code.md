@@ -51,18 +51,19 @@ time. They are both run with [pre-commit].
 
 We follow [PEP8](http://www.python.org/dev/peps/pep-0008/) and
 [Python Code Style](http://docs.python-guide.org/en/latest/writing/style/)
-which is adhered to with [Black].
+which is adhered to with [ruff].
 
-- Code '''must''' pass [Black], [flake8] and [isort] source code checkers.
-  (Optionally [Pylint])
+- Code **must** pass [ruff] linting and formatting with [pre-commit]:
 
-        flake8 deluge
-        isort -rc -df deluge
-        pylint deluge
-        pylint deluge/plugins/\*/deluge/
+      pre-commit run --all-files
 
-- Using the [pre-commit] application can aid in identifying issues while
-  creating git commits.
+- Optionally [Pylint]:
+
+      pylint deluge
+      pylint deluge/plugins/\*/deluge/
+
+- Installing the [pre-commit] application can aid in identifying issues
+  while creating git commits.
 
 #### Strings and bytes
 
@@ -116,9 +117,7 @@ Verify that the documentation parses correctly with:
     python setup.py build_docs
 
 [pre-commit]: http://pre-commit.com/
-[flake8]: https://pypi.python.org/pypi/flake8
-[isort]: https://pypi.python.org/pypi/isort
+[ruff]: https://docs.astral.sh/ruff/
 [pylint]: http://www.pylint.org/
-[black]: https://github.com/python/black/
 [gtk3 unicode]: http://python-gtk-3-tutorial.readthedocs.org/en/latest/unicode.html
 [napoleon sections]: http://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html#docstring-sections

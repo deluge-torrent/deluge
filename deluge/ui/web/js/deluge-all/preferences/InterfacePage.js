@@ -88,6 +88,33 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
             })
         );
 
+        var themePanel = this.add({
+            xtype: 'fieldset',
+            border: false,
+            title: _('Theme'),
+            style: 'margin-bottom: 0px; padding-bottom: 5px; padding-top: 5px',
+            autoHeight: true,
+            labelWidth: 1,
+            defaultType: 'checkbox',
+        });
+        this.theme = om.bind(
+            'theme',
+            themePanel.add({
+                xtype: 'combo',
+                name: 'theme',
+                labelSeparator: '',
+                mode: 'local',
+                width: 200,
+                store: new Ext.data.ArrayStore({
+                    fields: ['id', 'text'],
+                }),
+                editable: false,
+                triggerAction: 'all',
+                valueField: 'id',
+                displayField: 'text',
+            })
+        );
+
         fieldset = this.add({
             xtype: 'fieldset',
             border: false,
@@ -140,7 +167,7 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
                 fieldLabel: _('Session Timeout:'),
                 decimalPrecision: 0,
                 minValue: -1,
-                maxValue: 99999,
+                maxValue: Number.MAX_SAFE_INTEGER || Number.MAX_VALUE,
             })
         );
         om.bind(
@@ -217,6 +244,24 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
                     icon: Ext.MessageBox.QUESTION,
                 });
             }
+            if ('theme' in changed) {
+                deluge.client.web.set_theme(changed['theme']);
+                Ext.Msg.show({
+                    title: _('WebUI Theme Changed'),
+                    msg: _(
+                        'Do you want to refresh the page now to use the new theme?'
+                    ),
+                    buttons: {
+                        yes: _('Refresh'),
+                        no: _('Close'),
+                    },
+                    multiline: false,
+                    fn: function (btnText) {
+                        if (btnText === 'yes') location.reload();
+                    },
+                    icon: Ext.MessageBox.QUESTION,
+                });
+            }
         }
         if (this.oldPassword.getValue() || this.newPassword.getValue()) {
             this.onPasswordChange();
@@ -235,6 +280,11 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
         info.unshift(['', _('System Default')]);
         this.language.store.loadData(info);
         this.language.setValue(this.optionsManager.get('language'));
+    },
+
+    onGotThemes: function (info, obj, response, request) {
+        this.theme.store.loadData(info);
+        this.theme.setValue(this.optionsManager.get('theme'));
     },
 
     onPasswordChange: function () {
@@ -293,6 +343,10 @@ Deluge.preferences.Interface = Ext.extend(Ext.form.FormPanel, {
         });
         deluge.client.webutils.get_languages({
             success: this.onGotLanguages,
+            scope: this,
+        });
+        deluge.client.webutils.get_themes({
+            success: this.onGotThemes,
             scope: this,
         });
     },

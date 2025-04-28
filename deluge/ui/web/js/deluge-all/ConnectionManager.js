@@ -162,12 +162,22 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
     },
 
     update: function () {
+        this.updating = setTimeout(this.update, 2000);
         this.list.getStore().each(function (r) {
             deluge.client.web.get_host_status(r.id, {
-                success: this.onGetHostStatus,
+                success: this.onUpdate,
                 scope: this,
             });
         }, this);
+    },
+    onUpdate: function (host) {
+        if (!this.isVisible()) return;
+        this.onGetHostStatus(host);
+
+        if (this.updating) {
+            clearTimeout(this.updating);
+        }
+        this.updating = setTimeout(this.update, 2000);
     },
 
     /**
@@ -312,7 +322,10 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
 
     // private
     onHide: function () {
-        if (this.running) window.clearInterval(this.running);
+        if (this.updating) {
+            window.clearTimeout(this.updating);
+            this.updating = undefined;
+        }
     },
 
     // private
@@ -396,8 +409,8 @@ Deluge.ConnectionManager = Ext.extend(Ext.Window, {
             this.stopHostButton = bbar.items.get('cm-stop');
         }
         this.loadHosts();
-        if (this.running) return;
-        this.running = window.setInterval(this.update, 2000, this);
+        if (this.updating) return;
+        this.updating = window.setTimeout(this.update, 2000);
     },
 
     // private

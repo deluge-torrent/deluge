@@ -9,9 +9,12 @@
 # This file is part of Deluge and is licensed under GNU General Public License 3.0, or later, with
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
-#
 
 import logging
+
+import gi  # isort:skip (Required before Gtk import).
+
+gi.require_version('Gtk', '3.0')
 
 from gi.repository import Gtk
 from gi.repository.Gdk import RGBA
@@ -190,7 +193,9 @@ class GraphsTab(Tab):
         self.colors = colors
         # Fake switch page to update the graph colors (HACKY)
         self._on_notebook_switch_page(
-            self.notebook, None, self.notebook.get_current_page()  # This is unused
+            self.notebook,
+            None,
+            self.notebook.get_current_page(),  # This is unused
         )
 
     def _on_intervals_changed(self, intervals):

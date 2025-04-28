@@ -3,7 +3,7 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
-
+import base64
 import os
 from base64 import b64encode
 from hashlib import sha1 as sha
@@ -116,9 +116,9 @@ class TestCore(BaseTestCase):
             self.patch(
                 deluge.core.torrentmanager,
                 'LT_DEFAULT_ADD_TORRENT_FLAGS',
-                lt.add_torrent_params_flags_t.flag_auto_managed
-                | lt.add_torrent_params_flags_t.flag_update_subscribe
-                | lt.add_torrent_params_flags_t.flag_apply_ip_filter,
+                lt.torrent_flags.auto_managed
+                | lt.torrent_flags.update_subscribe
+                | lt.torrent_flags.apply_ip_filter,
             )
         options = {'add_paused': paused, 'auto_managed': False}
         filepath = common.get_test_data_file(filename)
@@ -188,7 +188,6 @@ class TestCore(BaseTestCase):
         assert torrent_id == info_hash
         assert not os.path.isfile(mock_mkstemp[1])
 
-    @pytest_twisted.ensureDeferred
     async def test_add_torrent_url_with_cookie(self):
         url = 'http://localhost:%d/cookie' % self.listen_port
         options = {}
@@ -201,7 +200,6 @@ class TestCore(BaseTestCase):
         result = await self.core.add_torrent_url(url, options, headers)
         assert result == info_hash
 
-    @pytest_twisted.ensureDeferred
     async def test_add_torrent_url_with_redirect(self):
         url = 'http://localhost:%d/redirect' % self.listen_port
         options = {}
@@ -210,7 +208,6 @@ class TestCore(BaseTestCase):
         result = await self.core.add_torrent_url(url, options)
         assert result == info_hash
 
-    @pytest_twisted.ensureDeferred
     async def test_add_torrent_url_with_partial_download(self):
         url = 'http://localhost:%d/partial' % self.listen_port
         options = {}
@@ -486,3 +483,29 @@ class TestCore(BaseTestCase):
         assert self.core._create_peer_id('2.0.1rc1') == '-DE201r-'
         assert self.core._create_peer_id('2.11.0b2') == '-DE2B0b-'
         assert self.core._create_peer_id('2.4.12b2.dev3') == '-DE24CD-'
+
+    @pytest.mark.parametrize(
+        'path',
+        [
+            common.get_test_data_file('deluge.png'),
+            os.path.dirname(common.get_test_data_file('deluge.png')),
+        ],
+    )
+    @pytest.mark.parametrize('piece_length', [2**14, 2**16])
+    @pytest_twisted.inlineCallbacks
+    def test_create_torrent(self, path, tmp_path, piece_length):
+        target = tmp_path / 'test.torrent'
+
+        filename, filedump = yield self.core.create_torrent(
+            path=path,
+            tracker=None,
+            piece_length=piece_length,
+            target=target,
+            add_to_session=False,
+        )
+        filecontent = base64.b64decode(filedump)
+
+        with open(target, 'rb') as f:
+            assert f.read() == filecontent
+
+        lt.torrent_info(filecontent)

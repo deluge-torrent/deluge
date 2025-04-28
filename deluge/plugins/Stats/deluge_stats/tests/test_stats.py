@@ -7,7 +7,6 @@ import pytest
 import pytest_twisted
 from twisted.internet import defer
 
-import deluge.component as component
 from deluge.common import fsize, fspeed
 from deluge.ui.client import client
 
@@ -21,17 +20,15 @@ def print_totals(totals):
     print('down:', fsize(totals['total_download'] - totals['total_payload_download']))
 
 
-@pytest.mark.usefixtures('component')
 class TestStatsPlugin:
     @pytest_twisted.async_yield_fixture(autouse=True)
-    async def set_up(self):
+    async def set_up(self, component):
         defer.setDebugging(True)
         client.start_standalone()
         client.core.enable_plugin('Stats')
         await component.start()
         yield
         client.stop_standalone()
-        await component.shutdown()
 
     @defer.inlineCallbacks
     def test_client_totals(self):
@@ -61,12 +58,13 @@ class TestStatsPlugin:
 
     @pytest.mark.gtkui
     @defer.inlineCallbacks
-    def test_write(self):
+    def test_write(self, tmp_path):
         """
         writing to a file-like object; need this for webui.
 
         Not strictly a unit test, but tests if calls do not fail...
         """
+        # ruff: noqa: I001
         from deluge_stats import graph, gtkui
 
         from deluge.configmanager import ConfigManager
@@ -105,5 +103,5 @@ class TestStatsPlugin:
         file_like = FakeFile()
         surface.write_to_png(file_like)
         data = b''.join(file_like.data)
-        with open('file_like.png', 'wb') as _file:
+        with open(tmp_path / 'file_like.png', 'wb') as _file:
             _file.write(data)

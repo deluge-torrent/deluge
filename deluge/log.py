@@ -8,6 +8,7 @@
 #
 
 """Logging functions"""
+
 import inspect
 import logging
 import logging.handlers
@@ -155,8 +156,6 @@ def setup_logger(
             log.error(f'Unable to write to log file `{filename}`')
     else:
         handler = logging.StreamHandler(stream=output_stream)
-
-    handler.setLevel(level)
 
     formatter = logging.Formatter(
         DEFAULT_LOGGING_FORMAT % MAX_LOGGER_NAME_LENGTH, datefmt='%H:%M:%S'

@@ -10,7 +10,6 @@ import os
 from codecs import getwriter
 
 import pytest
-import pytest_twisted
 from twisted.internet import task
 
 from deluge.common import JSON_FORMAT
@@ -84,7 +83,6 @@ class TestConfig:
 
         config._save_timer.cancel()
 
-    @pytest_twisted.ensureDeferred
     async def test_on_changed_callback(self, mock_callback):
         config = Config('test.conf', config_dir=self.config_dir)
         config.register_change_callback(mock_callback)
@@ -93,7 +91,6 @@ class TestConfig:
         await mock_callback.deferred
         mock_callback.assert_called_once_with('foo', 1)
 
-    @pytest_twisted.ensureDeferred
     async def test_key_function_callback(self, mock_callback):
         config = Config(
             'test.conf', defaults={'foo': 1, 'bar': 1}, config_dir=self.config_dir

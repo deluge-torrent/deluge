@@ -99,7 +99,7 @@ Deluge.about.AboutWindow = Ext.extend(Ext.Window, {
             {
                 xtype: 'label',
                 style: 'padding-top: 10px; font-size: 10px;',
-                text: _('Copyright 2007-2018 Deluge Team'),
+                text: _('Copyright 2007-2025 Deluge Team'),
             },
             {
                 xtype: 'label',

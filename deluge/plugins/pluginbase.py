@@ -14,7 +14,6 @@ log = logging.getLogger(__name__)
 
 
 class PluginBase(component.Component):
-
     update_interval = 1
 
     def __init__(self, name):
@@ -35,7 +34,10 @@ class CorePluginBase(PluginBase):
         log.debug('CorePlugin initialized..')
 
     def __del__(self):
-        component.get('RPCServer').deregister_object(self)
+        try:
+            component.get('RPCServer').deregister_object(self)
+        except KeyError:
+            log.debug('RPCServer already deregistered')
 
     def enable(self):
         super().enable()
@@ -57,7 +59,6 @@ class Gtk3PluginBase(PluginBase):
 
 
 class WebPluginBase(PluginBase):
-
     scripts = []
     debug_scripts = []
 

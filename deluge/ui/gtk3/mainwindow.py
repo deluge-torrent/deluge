@@ -44,7 +44,6 @@ log = logging.getLogger(__name__)
 
 class _GtkBuilderSignalsHolder:
     def connect_signals(self, mapping_or_class):
-
         if isinstance(mapping_or_class, dict):
             for name, handler in mapping_or_class.items():
                 if hasattr(self, name):
@@ -72,6 +71,12 @@ class MainWindow(component.Component):
         component.Component.__init__(self, 'MainWindow', interval=2)
         self.config = ConfigManager('gtk3ui.conf')
         self.main_builder = Gtk.Builder()
+
+        # Set theme
+        Gtk.Settings.get_default().set_property(
+            'gtk-application-prefer-dark-theme',
+            self.config['prefer_dark_theme'],
+        )
 
         # Patch this GtkBuilder to avoid connecting signals from elsewhere
         #

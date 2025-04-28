@@ -50,6 +50,8 @@ def validate_host_info(hostname, port):
 
     if not isinstance(port, int):
         raise ValueError('Invalid port. Must be an integer')
+    if not 0 <= port <= 65535:
+        raise ValueError('Invalid port. Must be between 0-65535')
 
 
 def migrate_hostlist(old_filename, new_filename):

@@ -190,6 +190,7 @@ class SessionProxy(component.Component):
         :rtype: dict
 
         """
+
         # Helper functions and callbacks ---------------------------------------
         def on_status(result, torrent_ids, keys):
             # Update the internal torrent status dict with the update values

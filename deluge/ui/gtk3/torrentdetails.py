@@ -8,6 +8,7 @@
 
 
 """The torrent details component shows info about the selected torrent."""
+
 import logging
 from collections import namedtuple
 

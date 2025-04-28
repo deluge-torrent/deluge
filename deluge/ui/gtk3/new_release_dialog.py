@@ -61,7 +61,7 @@ class NewReleaseDialog:
         self.dialog.show()
 
     def _on_button_goto_downloads(self, widget):
-        deluge.common.open_url_in_browser('http://deluge-torrent.org')
+        deluge.common.open_url_in_browser('https://deluge-torrent.org')
         self.config['show_new_releases'] = not self.chk_not_show_dialog.get_active()
         self.dialog.destroy()
 

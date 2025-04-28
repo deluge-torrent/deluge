@@ -9,7 +9,7 @@
 import logging
 
 import deluge.component as component
-from deluge.common import ftime
+from deluge.common import anchorify_urls, ftime
 
 from .tab_data_funcs import fcount, ftranslate, fyes_no
 from .torrentdetails import Tab
@@ -54,7 +54,10 @@ class TrackersTab(Tab):
         for widget in self.tab_widgets.values():
             txt = self.widget_status_as_fstr(widget, status)
             if widget.obj.get_text() != txt:
-                widget.obj.set_text(txt)
+                if 'tracker_status' in widget.status_keys:
+                    widget.obj.set_markup(anchorify_urls(txt))
+                else:
+                    widget.obj.set_text(txt)
 
     def clear(self):
         for widget in self.tab_widgets.values():

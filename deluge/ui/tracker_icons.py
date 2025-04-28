@@ -461,15 +461,12 @@ class TrackerIcons(Component):
         # Requires Pillow(PIL) to resize.
         if icon and Image:
             filename = icon.get_filename()
-            remove_old = False
             with Image.open(filename) as img:
+                new_filename = os.path.splitext(filename)[0] + '.png'
                 if img.size > (16, 16):
-                    new_filename = filename.rpartition('.')[0] + '.png'
-                    img = img.resize((16, 16), Image.ANTIALIAS)
-                    img.save(new_filename)
-                    if new_filename != filename:
-                        remove_old = True
-            if remove_old:
+                    img = img.resize((16, 16), Image.Resampling.LANCZOS)
+                img.save(new_filename)
+            if new_filename != filename:
                 os.remove(filename)
                 icon = TrackerIcon(new_filename)
         return icon

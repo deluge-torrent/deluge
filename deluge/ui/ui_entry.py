@@ -11,6 +11,7 @@
 # user runs the command 'deluge'.
 
 """Main starting point for Deluge"""
+
 import argparse
 import logging
 import os

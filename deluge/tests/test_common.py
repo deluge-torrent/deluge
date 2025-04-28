@@ -30,6 +30,7 @@ from deluge.common import (
     is_ipv6,
     is_magnet,
     is_url,
+    parse_human_size,
     windows_check,
 )
 
@@ -150,26 +151,26 @@ class TestCommon:
         assert VersionSplit('1.4.0.dev1') < VersionSplit('1.4.0')
         assert VersionSplit('1.4.0a1') < VersionSplit('1.4.0')
 
-    def test_parse_human_size(self):
-        from deluge.common import parse_human_size
-
-        sizes = [
+    @pytest.mark.parametrize(
+        ('human_size', 'expected'),
+        [
             ('1', 1),
             ('10 bytes', 10),
             ('2048 bytes', 2048),
             ('1MiB', 2 ** (10 * 2)),
             ('1 MiB', 2 ** (10 * 2)),
             ('1 GiB', 2 ** (10 * 3)),
-            ('1 GiB', 2 ** (10 * 3)),
+            ('1 TiB', 2 ** (10 * 4)),
             ('1M', 10**6),
+            ('1p', 10**15),
             ('1MB', 10**6),
             ('1 GB', 10**9),
             ('1 TB', 10**12),
-        ]
-
-        for human_size, byte_size in sizes:
-            parsed = parse_human_size(human_size)
-            assert parsed == byte_size, 'Mismatch when converting: %s' % human_size
+        ],
+    )
+    def test_parse_human_size(self, human_size, expected):
+        parsed = parse_human_size(human_size)
+        assert parsed == expected, 'Mismatch when converting: %s' % human_size
 
     def test_archive_files(self):
         arc_filelist = [

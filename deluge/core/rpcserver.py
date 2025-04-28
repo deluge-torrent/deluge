@@ -7,6 +7,7 @@
 #
 
 """RPCServer Module"""
+
 import logging
 import os
 import sys
@@ -27,6 +28,7 @@ from deluge.core.authmanager import (
 )
 from deluge.crypto_utils import check_ssl_keys, get_context_factory
 from deluge.error import (
+    BadLoginError,
     DelugeError,
     IncompatibleClient,
     NotAuthorizedError,
@@ -46,13 +48,11 @@ TCallable = TypeVar('TCallable', bound=Callable)
 
 
 @overload
-def export(func: TCallable) -> TCallable:
-    ...
+def export(func: TCallable) -> TCallable: ...
 
 
 @overload
-def export(auth_level: int) -> Callable[[TCallable], TCallable]:
-    ...
+def export(auth_level: int) -> Callable[[TCallable], TCallable]: ...
 
 
 def export(auth_level=AUTH_LEVEL_DEFAULT):
@@ -274,14 +274,22 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                     raise IncompatibleClient(deluge.common.get_version())
                 ret = component.get('AuthManager').authorize(*args, **kwargs)
                 if ret:
-                    self.factory.authorized_sessions[
-                        self.transport.sessionno
-                    ] = self.AuthLevel(ret, args[0])
+                    self.factory.authorized_sessions[self.transport.sessionno] = (
+                        self.AuthLevel(ret, args[0])
+                    )
                     self.factory.session_protocols[self.transport.sessionno] = self
             except Exception as ex:
                 send_error()
                 if not isinstance(ex, _ClientSideRecreateError):
                     log.exception(ex)
+                if isinstance(ex, BadLoginError):
+                    peer = self.transport.getPeer()
+                    log.error(
+                        'Deluge client authentication error made from: %s:%s (%s)',
+                        peer.host,
+                        peer.port,
+                        str(ex),
+                    )
             else:
                 self.sendData((RPC_RESPONSE, request_id, (ret)))
                 if not ret:
@@ -545,8 +553,8 @@ class RPCServer(component.Component):
         :type event: :class:`deluge.event.DelugeEvent`
         """
         log.debug('intevents: %s', self.factory.interested_events)
-        # Find sessions interested in this event
-        for session_id, interest in self.factory.interested_events.items():
+        # Use copy of `interested_events` since it can mutate while iterating.
+        for session_id, interest in self.factory.interested_events.copy().items():
             if event.name in interest:
                 log.debug('Emit Event: %s %s', event.name, event.args)
                 # This session is interested so send a RPC_EVENT

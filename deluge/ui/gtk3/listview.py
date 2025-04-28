@@ -72,7 +72,7 @@ class ListView:
         """
 
         __gsignals__ = {
-            'button-press-event': (GObject.SIGNAL_RUN_LAST, None, (object,))
+            'button-press-event': (GObject.SignalFlags.RUN_LAST, None, (object,))
         }
 
         def __init__(self, title=None, cell_renderer=None, **args):
@@ -782,7 +782,7 @@ class ListView:
 
         return True
 
-    def on_keypress_search_by_name(self, model, column, key, _iter):
+    def on_keypress_search_by_name(self, model, column, key, _iter, *search_data):
         torrent_name_col = self.columns[_('Name')].column_indices[1]
         return not model[_iter][torrent_name_col].lower().startswith(key.lower())
 

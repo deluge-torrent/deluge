@@ -11,16 +11,15 @@ import locale
 import logging
 import os
 import sys
-import time
 
 from twisted.internet import defer, error, reactor
 
 import deluge.common
 import deluge.component as component
 from deluge.configmanager import ConfigManager
-from deluge.decorators import overrides
-from deluge.error import DelugeError
+from deluge.decorators import maybe_coroutine, overrides
 from deluge.ui.client import client
+from deluge.ui.console.eventlog import EventLog
 from deluge.ui.console.modes.addtorrents import AddTorrents
 from deluge.ui.console.modes.basemode import TermResizeHandler
 from deluge.ui.console.modes.cmdline import CmdLine
@@ -29,6 +28,7 @@ from deluge.ui.console.modes.preferences import Preferences
 from deluge.ui.console.modes.torrentdetail import TorrentDetail
 from deluge.ui.console.modes.torrentlist.torrentlist import TorrentList
 from deluge.ui.console.utils import colors
+from deluge.ui.console.utils.config import migrate_1_to_2
 from deluge.ui.console.widgets import StatusBars
 from deluge.ui.coreconfig import CoreConfig
 from deluge.ui.sessionproxy import SessionProxy
@@ -138,7 +138,7 @@ class ConsoleUI(component.Component, TermResizeHandler):
         except ImportError:
             wrapper = None
 
-        if deluge.common.windows_check() and not wrapper:
+        if deluge.common.windows_check():
             print(
                 """\nDeluge-console does not run in interactive mode on Windows. \n
 Please use commands from the command line, e.g.:\n
@@ -148,6 +148,7 @@ deluge-console.exe "add --help"
 deluge-console.exe "add -p c:\\mytorrents c:\\new.torrent"
 """
             )
+            return
 
         # We don't ever want log output to terminal when running in
         # interactive mode, so insert a dummy here
@@ -160,82 +161,54 @@ deluge-console.exe "add -p c:\\mytorrents c:\\new.torrent"
 
         wrapper(self.run)
 
-    def quit(self):
+    @maybe_coroutine
+    async def quit(self):
         if client.connected():
+            await client.disconnect()
 
-            def on_disconnect(result):
-                reactor.stop()
+        try:
+            reactor.stop()
+        except error.ReactorNotRunning:
+            pass
 
-            return client.disconnect().addCallback(on_disconnect)
-        else:
-            try:
-                reactor.stop()
-            except error.ReactorNotRunning:
-                pass
-
-    def exec_args(self, options):
+    @maybe_coroutine
+    async def exec_args(self, options):
         """Execute console commands from command line."""
         from deluge.ui.console.cmdline.command import Commander
 
         commander = Commander(self._commands)
-
-        def on_connect(result):
-            def on_components_started(result):
-                def on_started(result):
-                    def do_command(result, cmd):
-                        return commander.do_command(cmd)
-
-                    def exec_command(result, cmd):
-                        return commander.exec_command(cmd)
-
-                    d = defer.succeed(None)
-                    for command in options.parsed_cmds:
-                        if command.command in ('quit', 'exit'):
-                            break
-                        d.addCallback(exec_command, command)
-                    d.addCallback(do_command, 'quit')
-                    return d
-
-                # We need to wait for the rpcs in start() to finish before processing
-                # any of the commands.
-                self.started_deferred.addCallback(on_started)
-                return self.started_deferred
-
-            d = self.start_console()
-            d.addCallback(on_components_started)
-            return d
-
-        def on_connect_fail(reason):
-            if reason.check(DelugeError):
-                rm = reason.getErrorMessage()
+        try:
+            if not self.interactive and options.parsed_cmds[0].command == 'connect':
+                await commander.exec_command(options.parsed_cmds.pop(0))
             else:
-                rm = reason.value.message
+                daemon_options = (
+                    options.daemon_addr,
+                    options.daemon_port,
+                    options.daemon_user,
+                    options.daemon_pass,
+                )
+                log.info(
+                    'Connect: host=%s, port=%s, username=%s',
+                    *daemon_options[0:3],
+                )
+                await client.connect(*daemon_options)
+        except Exception as reason:
             print(
                 'Could not connect to daemon: %s:%s\n %s'
-                % (options.daemon_addr, options.daemon_port, rm)
+                % (options.daemon_addr, options.daemon_port, reason)
             )
             commander.do_command('quit')
 
-        d = None
-        if not self.interactive and options.parsed_cmds[0].command == 'connect':
-            d = commander.exec_command(options.parsed_cmds.pop(0))
-        else:
-            log.info(
-                'connect: host=%s, port=%s, username=%s, password=%s',
-                options.daemon_addr,
-                options.daemon_port,
-                options.daemon_user,
-                options.daemon_pass,
-            )
-            d = client.connect(
-                options.daemon_addr,
-                options.daemon_port,
-                options.daemon_user,
-                options.daemon_pass,
-            )
-        d.addCallback(on_connect)
-        d.addErrback(on_connect_fail)
-        return d
+        await self.start_console()
+        # Wait for RPCs in start() to finish before processing commands.
+        await self.started_deferred
+
+        for cmd in options.parsed_cmds:
+            if cmd.command in ('quit', 'exit'):
+                break
+            await commander.exec_command(cmd)
+
+        commander.do_command('quit')
 
     def run(self, stdscr):
         """This method is called by the curses.wrapper to start the mainloop and screen.
@@ -251,7 +224,7 @@ deluge-console.exe "add -p c:\\mytorrents c:\\new.torrent"
         self.config = ConfigManager(
             'console.conf', defaults=DEFAULT_CONSOLE_PREFS, file_version=2
         )
-        self.config.run_converter((0, 1), 2, self._migrate_config_1_to_2)
+        self.config.run_converter((0, 1), 2, migrate_1_to_2)
 
         self.statusbars = StatusBars()
         from deluge.ui.console.modes.connectionmanager import ConnectionManager
@@ -282,8 +255,8 @@ deluge-console.exe "add -p c:\\mytorrents c:\\new.torrent"
         reactor.run()
 
     @overrides(TermResizeHandler)
-    def on_terminal_size(self, *args):
-        rows, cols = super().on_terminal_size(args)
+    def on_resize(self, *args):
+        rows, cols = super().on_resize(*args)
         for mode in self.modes:
             self.modes[mode].on_resize(rows, cols)
 
@@ -353,78 +326,64 @@ deluge-console.exe "add -p c:\\mytorrents c:\\new.torrent"
     def is_active_mode(self, mode):
         return mode == self.active_mode
 
-    def start_components(self):
-        def on_started(result):
-            component.pause(
-                [
-                    'TorrentList',
-                    'EventView',
-                    'AddTorrents',
-                    'TorrentDetail',
-                    'Preferences',
-                ]
-            )
+    @maybe_coroutine
+    async def start_components(self):
+        if not self.interactive:
+            return await component.start(['SessionProxy', 'ConsoleUI', 'CoreConfig'])
 
-        if self.interactive:
-            d = component.start().addCallback(on_started)
-        else:
-            d = component.start(['SessionProxy', 'ConsoleUI', 'CoreConfig'])
-        return d
+        await component.start()
+        component.pause(
+            [
+                'TorrentList',
+                'EventView',
+                'AddTorrents',
+                'TorrentDetail',
+                'Preferences',
+            ]
+        )
 
-    def start_console(self):
-        # Maintain a list of (torrent_id, name) for use in tab completion
+    @maybe_coroutine
+    async def start_console(self):
         self.started_deferred = defer.Deferred()
 
-        if not self.initialized:
-            self.initialized = True
-            d = self.start_components()
+        if self.initialized:
+            await component.stop(['SessionProxy'])
+            await component.start(['SessionProxy'])
         else:
+            self.initialized = True
+            await self.start_components()
 
-            def on_stopped(result):
-                return component.start(['SessionProxy'])
+    @maybe_coroutine
+    async def start(self):
+        result = await client.core.get_session_state()
+        # Maintain a list of (torrent_id, name) for use in tab completion
+        self.torrents = []
+        self.events = []
 
-            d = component.stop(['SessionProxy']).addCallback(on_stopped)
-        return d
+        torrents = await client.core.get_torrents_status({'id': result}, ['name'])
+        for torrent_id, status in torrents.items():
+            self.torrents.append((torrent_id, status['name']))
 
-    def start(self):
-        def on_session_state(result):
-            self.torrents = []
-            self.events = []
-
-            def on_torrents_status(torrents):
-                for torrent_id, status in torrents.items():
-                    self.torrents.append((torrent_id, status['name']))
-                self.started_deferred.callback(True)
-
-            client.core.get_torrents_status({'id': result}, ['name']).addCallback(
-                on_torrents_status
-            )
-
-        d = client.core.get_session_state().addCallback(on_session_state)
+        self.started_deferred.callback(True)
 
         # Register event handlers to keep the torrent list up-to-date
-        client.register_event_handler('TorrentAddedEvent', self.on_torrent_added_event)
-        client.register_event_handler(
-            'TorrentRemovedEvent', self.on_torrent_removed_event
-        )
-        return d
+        client.register_event_handler('TorrentAddedEvent', self.on_torrent_added)
+        client.register_event_handler('TorrentRemovedEvent', self.on_torrent_removed)
 
-    def on_torrent_added_event(self, event, from_state=False):
-        def on_torrent_status(status):
-            self.torrents.append((event, status['name']))
+    @defer.inlineCallbacks
+    def on_torrent_added(self, event, from_state=False):
+        status = yield client.core.get_torrent_status(event, ['name'])
+        self.torrents.append((event, status['name']))
 
-        client.core.get_torrent_status(event, ['name']).addCallback(on_torrent_status)
-
-    def on_torrent_removed_event(self, event):
+    def on_torrent_removed(self, event):
         for index, (tid, name) in enumerate(self.torrents):
             if event == tid:
                 del self.torrents[index]
 
     def match_torrents(self, strings):
-        torrent_ids = []
-        for s in strings:
-            torrent_ids.extend(self.match_torrent(s))
-        return list(set(torrent_ids))
+        return list(
+            {torrent for string in strings for torrent in self.match_torrent(string)}
+        )
 
     def match_torrent(self, string):
         """
@@ -510,256 +469,3 @@ deluge-console.exe "add -p c:\\mytorrents c:\\new.torrent"
                 self.events.append(s)
         else:
             print(colors.strip_colors(s))
-
-    def _migrate_config_1_to_2(self, config):
-        """Create better structure by moving most settings out of dict root
-        and into sub categories. Some keys are also renamed to be consistent
-        with other UIs.
-        """
-
-        def move_key(source, dest, source_key, dest_key=None):
-            if dest_key is None:
-                dest_key = source_key
-            dest[dest_key] = source[source_key]
-            del source[source_key]
-
-        # These are moved to 'torrentview' sub dict
-        for k in [
-            'sort_primary',
-            'sort_secondary',
-            'move_selection',
-            'separate_complete',
-        ]:
-            move_key(config, config['torrentview'], k)
-
-        # These are moved to 'addtorrents' sub dict
-        for k in [
-            'show_misc_files',
-            'show_hidden_folders',
-            'sort_column',
-            'reverse_sort',
-            'last_path',
-        ]:
-            move_key(config, config['addtorrents'], 'addtorrents_%s' % k, dest_key=k)
-
-        # These are moved to 'cmdline' sub dict
-        for k in [
-            'ignore_duplicate_lines',
-            'torrents_per_tab_press',
-            'third_tab_lists_all',
-        ]:
-            move_key(config, config['cmdline'], k)
-
-        move_key(
-            config,
-            config['cmdline'],
-            'save_legacy_history',
-            dest_key='save_command_history',
-        )
-
-        # Add key for localization
-        config['language'] = DEFAULT_CONSOLE_PREFS['language']
-
-        # Migrate column settings
-        columns = [
-            'queue',
-            'size',
-            'state',
-            'progress',
-            'seeds',
-            'peers',
-            'downspeed',
-            'upspeed',
-            'eta',
-            'ratio',
-            'avail',
-            'added',
-            'tracker',
-            'savepath',
-            'downloaded',
-            'uploaded',
-            'remaining',
-            'owner',
-            'downloading_time',
-            'seeding_time',
-            'completed',
-            'seeds_peers_ratio',
-            'complete_seen',
-            'down_limit',
-            'up_limit',
-            'shared',
-            'name',
-        ]
-        column_name_mapping = {
-            'downspeed': 'download_speed',
-            'upspeed': 'upload_speed',
-            'added': 'time_added',
-            'savepath': 'download_location',
-            'completed': 'completed_time',
-            'complete_seen': 'last_seen_complete',
-            'down_limit': 'max_download_speed',
-            'up_limit': 'max_upload_speed',
-            'downloading_time': 'active_time',
-        }
-
-        from deluge.ui.console.modes.torrentlist.torrentview import default_columns
-
-        # These are moved to 'torrentview.columns' sub dict
-        for k in columns:
-            column_name = column_name_mapping.get(k, k)
-            config['torrentview']['columns'][column_name] = {}
-            if k == 'name':
-                config['torrentview']['columns'][column_name]['visible'] = True
-            else:
-                move_key(
-                    config,
-                    config['torrentview']['columns'][column_name],
-                    'show_%s' % k,
-                    dest_key='visible',
-                )
-            move_key(
-                config,
-                config['torrentview']['columns'][column_name],
-                '%s_width' % k,
-                dest_key='width',
-            )
-            config['torrentview']['columns'][column_name]['order'] = default_columns[
-                column_name
-            ]['order']
-
-        return config
-
-
-class EventLog(component.Component):
-    """
-    Prints out certain events as they are received from the core.
-    """
-
-    def __init__(self):
-        component.Component.__init__(self, 'EventLog')
-        self.console = component.get('ConsoleUI')
-        self.prefix = '{!event!}* [%H:%M:%S] '
-        self.date_change_format = 'On {!yellow!}%a, %d %b %Y{!input!} %Z:'
-
-        client.register_event_handler('TorrentAddedEvent', self.on_torrent_added_event)
-        client.register_event_handler(
-            'PreTorrentRemovedEvent', self.on_torrent_removed_event
-        )
-        client.register_event_handler(
-            'TorrentStateChangedEvent', self.on_torrent_state_changed_event
-        )
-        client.register_event_handler(
-            'TorrentFinishedEvent', self.on_torrent_finished_event
-        )
-        client.register_event_handler(
-            'NewVersionAvailableEvent', self.on_new_version_available_event
-        )
-        client.register_event_handler(
-            'SessionPausedEvent', self.on_session_paused_event
-        )
-        client.register_event_handler(
-            'SessionResumedEvent', self.on_session_resumed_event
-        )
-        client.register_event_handler(
-            'ConfigValueChangedEvent', self.on_config_value_changed_event
-        )
-        client.register_event_handler(
-            'PluginEnabledEvent', self.on_plugin_enabled_event
-        )
-        client.register_event_handler(
-            'PluginDisabledEvent', self.on_plugin_disabled_event
-        )
-
-        self.previous_time = time.localtime(0)
-
-    def on_torrent_added_event(self, torrent_id, from_state):
-        if from_state:
-            return
-
-        def on_torrent_status(status):
-            self.write(
-                '{!green!}Torrent Added: {!info!}%s ({!cyan!}%s{!info!})'
-                % (status['name'], torrent_id)
-            )
-            # Write out what state the added torrent took
-            self.on_torrent_state_changed_event(torrent_id, status['state'])
-
-        client.core.get_torrent_status(torrent_id, ['name', 'state']).addCallback(
-            on_torrent_status
-        )
-
-    def on_torrent_removed_event(self, torrent_id):
-        self.write(
-            '{!red!}Torrent Removed: {!info!}%s ({!cyan!}%s{!info!})'
-            % (self.console.get_torrent_name(torrent_id), torrent_id)
-        )
-
-    def on_torrent_state_changed_event(self, torrent_id, state):
-        # It's probably a new torrent, ignore it
-        if not state:
-            return
-        # Modify the state string color
-        if state in colors.state_color:
-            state = colors.state_color[state] + state
-
-        t_name = self.console.get_torrent_name(torrent_id)
-
-        # Again, it's most likely a new torrent
-        if not t_name:
-            return
-
-        self.write(f'{state}: {{!info!}}{t_name} ({{!cyan!}}{torrent_id}{{!info!}})')
-
-    def on_torrent_finished_event(self, torrent_id):
-        if component.get('TorrentList').config['ring_bell']:
-            import curses.beep
-
-            curses.beep()
-        self.write(
-            '{!info!}Torrent Finished: %s ({!cyan!}%s{!info!})'
-            % (self.console.get_torrent_name(torrent_id), torrent_id)
-        )
-
-    def on_new_version_available_event(self, version):
-        self.write('{!input!}New Deluge version available: {!info!}%s' % (version))
-
-    def on_session_paused_event(self):
-        self.write('{!input!}Session Paused')
-
-    def on_session_resumed_event(self):
-        self.write('{!green!}Session Resumed')
-
-    def on_config_value_changed_event(self, key, value):
-        color = '{!white,black,bold!}'
-        try:
-            color = colors.type_color[type(value)]
-        except KeyError:
-            pass
-
-        self.write(f'ConfigValueChanged: {{!input!}}{key}: {color}{value}')
-
-    def write(self, s):
-        current_time = time.localtime()
-
-        date_different = False
-        for field in ['tm_mday', 'tm_mon', 'tm_year']:
-            c = getattr(current_time, field)
-            p = getattr(self.previous_time, field)
-            if c != p:
-                date_different = True
-
-        if date_different:
-            string = time.strftime(self.date_change_format)
-            self.console.write_event(' ')
-            self.console.write_event(string)
-
-        p = time.strftime(self.prefix)
-
-        self.console.write_event(p + s)
-        self.previous_time = current_time
-
-    def on_plugin_enabled_event(self, name):
-        self.write('PluginEnabled: {!info!}%s' % name)
-
-    def on_plugin_disabled_event(self, name):
-        self.write('PluginDisabled: {!info!}%s' % name)

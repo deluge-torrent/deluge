@@ -50,7 +50,7 @@ All modules will require the [common](#common) section dependencies.
 - [PyGObject]
 - [Pycairo]
 - [librsvg] _>= 2_
-- [libappindicator3] w/GIR - Optional: Ubuntu system tray icon.
+- [ayatanaappindicator3] w/GIR - Optional: Ubuntu system tray icon.
 
 ### MacOS
 
@@ -95,6 +95,6 @@ All modules will require the [common](#common) section dependencies.
 [mako]: https://www.makotemplates.org/
 [pygame]: https://www.pygame.org/
 [libnotify]: https://developer.gnome.org/libnotify/
-[python-appindicator]: https://packages.ubuntu.com/xenial/python-appindicator
+[ayatanaappindicator3]: https://lazka.github.io/pgi-docs/AyatanaAppIndicator3-0.1/index.html
 [librsvg]: https://wiki.gnome.org/action/show/Projects/LibRsvg
 [ifaddr]: https://pypi.org/project/ifaddr/

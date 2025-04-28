@@ -51,7 +51,7 @@ def get_languages():
             name = LANGUAGES[lang_code]
         lang.append([lang_code, _(name)])
 
-    lang = sorted(lang, key=lambda l: l[1])
+    lang = sorted(lang, key=lambda k: k[1])
     return lang
 
 
@@ -66,6 +66,8 @@ def set_language(lang):
     :type lang: str
     """
     if not lang:
+        os.environ.pop('LANGUAGE', None)
+        os.environ.pop('LANG', None)
         return
 
     # Necessary to set these environment variables for GtkBuilder

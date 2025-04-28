@@ -1,12 +1,14 @@
 libtorrent
 twisted[tls]>=17.1
+twisted[tls]<23,>=17.1; sys_platform == 'win32'
 rencode
 pyopenssl
 pyxdg
 pillow
+pillow<=9; python_version=="3.7"
 mako
 setuptools
-chardet==4.0.0
+chardet
 setproctitle
 pywin32; sys_platform == 'win32'
 certifi; sys_platform == 'win32'
@@ -14,4 +16,4 @@ windows-curses; sys_platform == 'win32'
 zope.interface>=4.4.2
 distro; 'linux' in sys_platform or 'bsd' in sys_platform
 pygeoip
-ifaddr==0.2.0
+ifaddr>=0.2.0

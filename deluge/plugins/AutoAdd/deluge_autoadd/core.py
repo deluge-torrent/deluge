@@ -80,7 +80,6 @@ def check_input(cond, message):
 
 class Core(CorePluginBase):
     def enable(self):
-
         # reduce typing, assigning some values to self...
         self.config = deluge.configmanager.ConfigManager('autoadd.conf', DEFAULT_PREFS)
         self.config.run_converter((0, 1), 2, self.__migrate_config_1_to_2)
@@ -271,7 +270,7 @@ class Core(CorePluginBase):
 
             try:
                 filedump = self.load_torrent(filepath, magnet)
-            except (OSError, EOFError, InvalidTorrentError) as ex:
+            except (OSError, EOFError, RuntimeError, InvalidTorrentError) as ex:
                 # If torrent is invalid, keep track of it so can try again on the next pass.
                 # This catches torrent files that may not be fully saved to disk at load time.
                 log.debug('Torrent is invalid: %s', ex)
@@ -293,7 +292,7 @@ class Core(CorePluginBase):
                 if 'Label' in component.get('CorePluginManager').get_enabled_plugins():
                     if watchdir.get('label_toggle', True) and watchdir.get('label'):
                         label = component.get('CorePlugin.Label')
-                        if not watchdir['label'] in label.get_labels():
+                        if watchdir['label'] not in label.get_labels():
                             label.add(watchdir['label'])
                         try:
                             label.set_torrent(torrent_id, watchdir['label'])

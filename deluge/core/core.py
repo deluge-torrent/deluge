@@ -12,17 +12,16 @@ import logging
 import os
 import shutil
 import tempfile
-import threading
 from base64 import b64decode, b64encode
 from typing import Any, Dict, List, Optional, Tuple, Union
 from urllib.request import URLError, urlopen
 
-from twisted.internet import defer, reactor, task
+from twisted.internet import defer, reactor, task, threads
 from twisted.web.client import Agent, readBody
 
 import deluge.common
 import deluge.component as component
-from deluge import path_chooser_common
+from deluge import metafile, path_chooser_common
 from deluge._libtorrent import LT_VERSION, lt
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.alertmanager import AlertManager
@@ -199,7 +198,7 @@ class Core(component.Component):
         self.session_status_timer_interval = 0.5
         self.session_status_timer = task.LoopingCall(self.session.post_session_stats)
         self.alertmanager.register_handler(
-            'session_stats_alert', self._on_alert_session_stats
+            'session_stats', self._on_alert_session_stats
         )
         self.session_rates_timer_interval = 2
         self.session_rates_timer = task.LoopingCall(self._update_session_rates)
@@ -374,8 +373,9 @@ class Core(component.Component):
     def get_new_release(self):
         log.debug('get_new_release')
         try:
+            # Use HTTPS URL to avoid potential spoofing of release page.
             self.new_release = (
-                urlopen('http://download.deluge-torrent.org/version-2.0')
+                urlopen('https://ftp.osuosl.org/pub/deluge/version-2.0')
                 .read()
                 .decode()
                 .strip()
@@ -992,31 +992,33 @@ class Core(component.Component):
         path,
         tracker,
         piece_length,
-        comment,
-        target,
-        webseeds,
-        private,
-        created_by,
-        trackers,
-        add_to_session,
+        comment=None,
+        target=None,
+        webseeds=None,
+        private=False,
+        created_by=None,
+        trackers=None,
+        add_to_session=False,
+        torrent_format=metafile.TorrentFormat.V1,
     ):
+        if isinstance(torrent_format, str):
+            torrent_format = metafile.TorrentFormat(torrent_format)
 
         log.debug('creating torrent..')
-        threading.Thread(
-            target=self._create_torrent_thread,
-            args=(
-                path,
-                tracker,
-                piece_length,
-                comment,
-                target,
-                webseeds,
-                private,
-                created_by,
-                trackers,
-                add_to_session,
-            ),
-        ).start()
+        return threads.deferToThread(
+            self._create_torrent_thread,
+            path,
+            tracker,
+            piece_length,
+            comment=comment,
+            target=target,
+            webseeds=webseeds,
+            private=private,
+            created_by=created_by,
+            trackers=trackers,
+            add_to_session=add_to_session,
+            torrent_format=torrent_format,
+        )
 
     def _create_torrent_thread(
         self,
@@ -1030,27 +1032,41 @@ class Core(component.Component):
         created_by,
         trackers,
         add_to_session,
+        torrent_format,
     ):
         from deluge import metafile
 
-        metafile.make_meta_file(
+        filecontent = metafile.make_meta_file_content(
             path,
             tracker,
             piece_length,
             comment=comment,
-            target=target,
             webseeds=webseeds,
             private=private,
             created_by=created_by,
             trackers=trackers,
+            torrent_format=torrent_format,
         )
+
+        write_file = False
+        if target or not add_to_session:
+            write_file = True
+
+        if not target:
+            target = metafile.default_meta_file_path(path)
+        filename = os.path.split(target)[-1]
+
+        if write_file:
+            with open(target, 'wb') as _file:
+                _file.write(filecontent)
+
+        filedump = b64encode(filecontent)
         log.debug('torrent created!')
         if add_to_session:
             options = {}
             options['download_location'] = os.path.split(path)[0]
-            with open(target, 'rb') as _file:
-                filedump = b64encode(_file.read())
-                self.add_torrent_file(os.path.split(target)[1], filedump, options)
+            self.add_torrent_file(filename, filedump, options)
+        return filename, filedump
 
     @export
     def upload_plugin(self, filename: str, filedump: Union[str, bytes]) -> None:

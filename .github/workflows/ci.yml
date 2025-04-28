@@ -6,22 +6,25 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-
+    inputs:
+      core-dump:
+        description: "Set to 1 to enable retrieving core dump from crashes"
+        default: "0"
 jobs:
   test-linux:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         python-version: ["3.7", "3.10"]
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
           cache: "pip"
@@ -33,8 +36,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install --upgrade pip wheel
-          pip install -r requirements.txt -r requirements-tests.txt
+          pip install --upgrade pip wheel setuptools
+          pip install -r requirements-ci.txt
           pip install -e .
 
       - name: Install security dependencies
@@ -46,18 +49,21 @@ jobs:
           TESTSSL_VER: 3.0.6
           TESTSSL_URL: https://codeload.github.com/drwetter/testssl.sh/tar.gz/refs/tags/v
 
-      - name: Setup core dump directory
+      - name: Setup core dump catch and store
+        if: github.event.inputs.core-dump == '1'
         run: |
           sudo mkdir /cores/ && sudo chmod 777 /cores/
           echo "/cores/%E.%p" | sudo tee /proc/sys/kernel/core_pattern
+          ulimit -c unlimited
+          sudo apt install glibc-tools
+          echo "DEBUG_PREFIX=catchsegv python -X dev -m" >> $GITHUB_ENV
 
       - name: Test with pytest
         run: |
-          ulimit -c unlimited  # Enable core dumps to be captured
           python -c 'from deluge._libtorrent import lt; print(lt.__version__)';
-          catchsegv python -X dev -m pytest -v -m "not (todo or gtkui)" deluge
+          $DEBUG_PREFIX pytest -v -m "not (todo or gtkui)" deluge
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         # capture all crashes as build artifacts
         if: failure()
         with:
@@ -65,19 +71,19 @@ jobs:
           path: /cores
 
   test-windows:
-    runs-on: windows-2019
+    runs-on: windows-2022
     strategy:
       matrix:
         python-version: ["3.7", "3.10"]
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
           cache: "pip"
@@ -85,8 +91,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install --upgrade pip wheel
-          pip install -r requirements.txt -r requirements-tests.txt
+          pip install --upgrade pip wheel setuptools
+          pip install -r requirements-ci.txt
           pip install -e .
 
       - name: Test with pytest

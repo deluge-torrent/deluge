@@ -39,7 +39,7 @@ xgettext_cmd = [
 ]
 
 to_translate = []
-for (dirpath, dirnames, filenames) in os.walk('deluge'):
+for dirpath, dirnames, filenames in os.walk('deluge'):
     for filename in filenames:
         if dirpath not in EXCLUSIONS and not RE_EXC_PLUGIN_BUILD.match(dirpath):
             filepath = os.path.join(dirpath, filename)
@@ -67,13 +67,13 @@ call(xgettext_cmd)
 
 # find javascript files
 js_to_translate = []
-for (dirpath, dirnames, filenames) in os.walk(WEBUI_JS_DIR):
+for dirpath, dirnames, filenames in os.walk(WEBUI_JS_DIR):
     for filename in filenames:
         if os.path.splitext(filename)[1] == '.js':
             js_to_translate.append(os.path.join(dirpath, filename))
 
 # find render html files
-for (dirpath, dirnames, filenames) in os.walk(WEBUI_RENDER_DIR):
+for dirpath, dirnames, filenames in os.walk(WEBUI_RENDER_DIR):
     for filename in filenames:
         if os.path.splitext(filename)[1] == '.html':
             js_to_translate.append(os.path.join(dirpath, filename))

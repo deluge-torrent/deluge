@@ -8,7 +8,10 @@
 #
 
 import logging
+import signal
+import struct
 import sys
+from typing import Tuple
 
 import deluge.component as component
 import deluge.ui.console.utils.colors as colors
@@ -22,10 +25,8 @@ except ImportError:
     pass
 
 try:
-    import signal
-    import struct
-    import termios
     from fcntl import ioctl
+    from termios import TIOCGWINSZ
 except ImportError:
     pass
 
@@ -62,17 +63,20 @@ class InputKeyHandler:
 class TermResizeHandler:
     def __init__(self):
         try:
-            signal.signal(signal.SIGWINCH, self.on_terminal_size)
+            signal.signal(signal.SIGWINCH, self.on_resize)
         except ValueError as ex:
             log.debug('TermResize unavailable, unable to catch SIGWINCH signal: %s', ex)
         except AttributeError as ex:
             log.debug('TermResize unavailable, no SIGWINCH signal on Windows: %s', ex)
 
-    def on_terminal_size(self, *args):
-        # Get the new rows and cols value
-        rows, cols = struct.unpack('hhhh', ioctl(0, termios.TIOCGWINSZ, b'\000' * 8))[
-            0:2
-        ]
+    @staticmethod
+    def get_window_size(fd: int = 0) -> Tuple[int, int]:
+        """Return the tty window size as row, col."""
+        return struct.unpack('4h', ioctl(fd, TIOCGWINSZ, b'\x00' * 8))[0:2]
+
+    def on_resize(self, _signum, _frame):
+        """Handler for SIGWINCH when terminal changes size"""
+        rows, cols = self.get_window_size()
         curses.resizeterm(rows, cols)
         return rows, cols
 
@@ -232,7 +236,6 @@ class BaseMode(CursesStdIO, component.Component):
         curses.nocbreak()
         self.stdscr.keypad(0)
         curses.echo()
-        curses.endwin()
 
 
 def add_string(
