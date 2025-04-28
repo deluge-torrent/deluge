@@ -1,14 +1,57 @@
 # Changelog
 
-## 2.2.x (TBA)
+## 2.1.x (TBA)
 
 ### Breaking changes
 
-- Python 3.6 support removed (Python >= 3.7)
+- Removed Python 3.6 support (Python >= 3.7)
+
+### Core
+
+- Fix GHSL-2024-189 - insecure HTTP for new version check.
+- Fix alert handler segfault.
+- Add support for creating v2 torrents.
+
+### GTK UI
+
+- Fix changing torrent ownership.
+- Fix upper limit of upload/download in Add Torrent dialog.
+- Fix #3339 - Resizing window crashes with Piecesbar or Stats plugin.
+- Fix #3350 - Unable to use quick search.
+- Fix #3598 - Missing AppIndicator option in Preferences.
+- Set Appindicator as default for tray icon on Linux.
+- Add feature to switch between dark/light themes.
 
 ### Web UI
 
-- Accept network interface name in addition to IP adress in "Incoming Address"
+- Fix GHSL-2024-191 - potential flag endpoint path traversal.
+- Fix GHSL-2024-188 - js script dir traversal vulnerability.
+- Fix GHSL-2024-190 - insecure tracker icon endpoint.
+- Fix unable to stop daemon in connection manager.
+- Fix responsiveness to avoid "Connection lost".
+- Add support for network interface name as well as IP address.
+- Add ability to change UI theme.
+
+### Console UI
+
+- Fix 'rm' and 'move' commands hanging when done.
+- Fix #3538 - Unable to add host in connection manager.
+- Disable interactive-mode on Windows.
+
+### UI library
+
+- Fix tracker icon display by converting to png format.
+- Fix splitting trackers by newline
+- Add clickable URLs for torrent comment and tracker status.
+
+### Label
+
+- Fix torrent deletion not removed from config.
+- Fix label display name in submenu.
+
+### AutoAdd
+
+- Fix #3515 - Torrent file decoding errors disabled watch folder.
 
 ## 2.1.1 (2022-07-10)
 
