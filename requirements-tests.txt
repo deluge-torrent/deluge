@@ -1,4 +1,4 @@
-libtorrent
+libtorrent==2.0.7
 pytest
 pytest-twisted
 pytest-cov

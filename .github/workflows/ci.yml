@@ -10,13 +10,19 @@ on:
       core-dump:
         description: "Set to 1 to enable retrieving core dump from crashes"
         default: "0"
+      gvsbuild-tag:
+        description: "Use an alternative gvsbuild release for the windows build. Defaults to latest."
+        default: "latest"
 jobs:
   test-linux:
-    runs-on: ubuntu-22.04
     strategy:
       matrix:
-        python-version: ["3.7", "3.10"]
-
+        python-version: ["3.9", "3.10"]
+        os: ["ubuntu-24.04"]
+        include:
+          - os: ubuntu-22.04
+            python-version: 3.7
+    runs-on: ${{ matrix.os }}
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
@@ -74,7 +80,8 @@ jobs:
     runs-on: windows-2022
     strategy:
       matrix:
-        python-version: ["3.7", "3.10"]
+        python-version: ["3.7", "3.9", "3.10"]
+        arch: ["x64"]
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -88,6 +95,24 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: "pip"
           cache-dependency-path: "requirements*.txt"
+
+      - name: Determine gvsbuild release URL
+        id: gvsbuild-url
+        shell: bash
+        run: |
+          test -z "${{ github.event.inputs.gvsbuild-tag }}" && tag=latest || tag="${{ github.event.inputs.gvsbuild-tag }}"
+          if [[ "$tag" == "latest" ]]; then URL="https://github.com/${{ github.repository_owner }}/gvsbuild-release/releases/$tag/download"; else URL="https://github.com/${{ github.repository_owner }}/gvsbuild-release/releases/download/$tag" ; fi
+          echo "gvsbuild-release-url=$URL" >> $GITHUB_OUTPUT
+
+      - name: Install GTK
+        run: |
+          $WebClient = New-Object System.Net.WebClient
+          $WebClient.DownloadFile("${{ steps.gvsbuild-url.outputs.gvsbuild-release-url }}/gvsbuild-py${{ matrix.python-version }}-vs17-${{matrix.arch}}.zip","C:\GTK.zip")
+          7z x C:\GTK.zip -oc:\GTK
+          echo "C:\GTK\release\lib" | Out-File -FilePath $env:GITHUB_PATH -Append
+          echo "C:\GTK\release\bin" | Out-File -FilePath $env:GITHUB_PATH -Append
+          echo "C:\GTK\release" | Out-File -FilePath $env:GITHUB_PATH -Append
+          python -m pip install --no-index --find-links="C:\GTK\release\python" pycairo PyGObject
 
       - name: Install dependencies
         run: |
