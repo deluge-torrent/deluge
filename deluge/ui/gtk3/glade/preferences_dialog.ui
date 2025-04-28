@@ -2247,6 +2247,18 @@ used sparingly.</property>
                                               </packing>
                                             </child>
                                             <child>
+                                              <object class="GtkCheckButton" id="chk_announce_to_all_trackers">
+                                                <property name="label" translatable="yes">Announce to all trackers of the same tier</property>
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="receives_default">False</property>
+                                                <property name="draw_indicator">True</property>
+                                              </object>
+                                              <packing>
+                                                <property name="position">2</property>
+                                              </packing>
+                                            </child>
+                                            <child>
                                               <object class="GtkCheckButton" id="chk_auto_manage_prefer_seeds">
                                                 <property name="label" translatable="yes">Prefer seeding torrents</property>
                                                 <property name="visible">True</property>

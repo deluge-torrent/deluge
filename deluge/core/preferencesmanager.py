@@ -85,6 +85,7 @@ DEFAULT_PREFS = {
     'max_active_downloading': 3,
     'max_active_limit': 8,
     'dont_count_slow_torrents': False,
+    'announce_to_all_trackers': True,
     'queue_new_to_top': False,
     'stop_seed_at_ratio': False,
     'remove_seed_at_ratio': False,
@@ -369,6 +370,9 @@ class PreferencesManager(component.Component):
 
     def _on_set_dont_count_slow_torrents(self, key, value):
         self.core.apply_session_setting('dont_count_slow_torrents', value)
+
+    def _on_set_announce_to_all_trackers(self, key, value):
+        self.core.apply_session_setting('announce_to_all_trackers', value)
 
     def _on_set_send_info(self, key, value):
         """sends anonymous stats home"""
