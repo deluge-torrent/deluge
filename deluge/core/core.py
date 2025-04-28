@@ -10,6 +10,7 @@
 import glob
 import logging
 import os
+import re
 import shutil
 import tempfile
 from base64 import b64decode, b64encode
@@ -166,6 +167,17 @@ class Core(component.Component):
         if listen_interface:
             if deluge.common.is_interface(listen_interface):
                 self._old_listen_interface = self.config['listen_interface']
+                if deluge.common.windows_check:
+                    if deluge.common.is_interface(listen_interface):
+                        regex = '^{[0-9A-Z]{8}-([0-9A-Z]{4}-){3}[0-9A-Z]{12}}$'
+                        # if is_interface is true and doesnt match what a GUID would look like
+                        # It is a nice name find what GUID belongs to the nice name for use in LT
+                        if not bool(re.search(regex, str(listen_interface))):
+                            listen_interface = (
+                                deluge.common.convert_win_ifaddr_nice_name_to_name(
+                                    listen_interface
+                                )
+                            )
                 self.config['listen_interface'] = listen_interface
             else:
                 log.error(
@@ -177,6 +189,17 @@ class Core(component.Component):
         if outgoing_interface:
             if deluge.common.is_interface(outgoing_interface):
                 self._old_outgoing_interface = self.config['outgoing_interface']
+                if deluge.common.windows_check:
+                    if deluge.common.is_interface(outgoing_interface):
+                        regex = '^{[0-9A-Z]{8}-([0-9A-Z]{4}-){3}[0-9A-Z]{12}}$'
+                        # if is_interface is true and doesnt match what a GUID would look like
+                        # It is a nice name find what GUID belongs to the nice name for use in LT
+                        if not bool(re.search(regex, str(outgoing_interface))):
+                            outgoing_interface = (
+                                deluge.common.convert_win_ifaddr_nice_name_to_name(
+                                    outgoing_interface
+                                )
+                            )
                 self.config['outgoing_interface'] = outgoing_interface
             else:
                 log.error(
