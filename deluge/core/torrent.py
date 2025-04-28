@@ -17,7 +17,7 @@ import logging
 import os
 import socket
 import time
-from typing import Optional
+from typing import List, Optional
 from urllib.parse import urlparse
 
 from twisted.internet.defer import Deferred, DeferredList
@@ -238,6 +238,8 @@ class Torrent:
         self.magnet = magnet
         self._status: Optional['lt.torrent_status'] = None
         self._status_last_update: float = 0.0
+        self._trackers: Optional[List['lt.announce_entry']] = None
+        self._trackers_last_update: float = 0.0
 
         self.torrent_info = self.handle.torrent_file()
         self.has_metadata = self.status.has_metadata
@@ -263,6 +265,8 @@ class Torrent:
         self.state = None
         self.moving_storage_dest_path = None
         self.tracker_status = ''
+        self.trackers_status = {}
+        self.trackers_peers = {}
         self.tracker_host = None
         self.forcing_recheck = False
         self.forcing_recheck_paused = False
@@ -578,7 +582,7 @@ class Torrent:
             trackers (list of dicts): A list of trackers.
         """
         if trackers is None:
-            self.trackers = list(self.handle.trackers())
+            self.trackers = self.handle.trackers()
             self.tracker_host = None
             return
 
@@ -599,17 +603,60 @@ class Torrent:
             for tracker in self.handle.trackers():
                 log.debug(' [tier %s]: %s', tracker['tier'], tracker['url'])
         # Set the tracker list in the torrent object
-        self.trackers = trackers
+        self.trackers = self.handle.trackers()
         if len(trackers) > 0:
             # Force a re-announce if there is at least 1 tracker
             self.force_reannounce()
         self.tracker_host = None
 
-    def set_tracker_status(self, status):
+    def get_lt_trackers(self):
+        """Get the torrent trackers fresh, not from cache.
+
+        This should be used when a guaranteed fresh trackers is needed rather than
+        `torrent.handle.tracker()` because it will update the cache as well.
+        """
+        trackers = self.handle.trackers()
+        self.trackers = trackers
+        return trackers
+
+    @property
+    def trackers(self) -> List[dict]:
+        """Cached copy of the libtorrent Trackers for this torrent.
+
+        If it has not been updated within the last five seconds, it will be
+        automatically refreshed.
+        """
+        if self._trackers_last_update < (time.time() - 5):
+            self.trackers = self.handle.trackers()
+        trackers_list = []
+        for tracker in self._trackers:
+            torrent_tracker = {
+                'url': '',
+                'message': '',
+                'tier': 0,
+            }
+            for data_key in torrent_tracker:
+                torrent_tracker[data_key] = tracker.get(data_key)
+            trackers_list.append(torrent_tracker)
+        return trackers_list
+
+    @trackers.setter
+    def trackers(self, trackers: List['lt.announce_entry']) -> None:
+        """Updates the cached status.
+
+        Args:
+            trackers: a libtorrent torrent trackers
+        """
+        self._trackers = trackers
+        self._trackers_last_update = time.time()
+
+    def set_tracker_status(self, status: str, tracker_url: str, message: str = ''):
         """Sets the tracker status.
 
         Args:
-            status (str): The tracker status.
+            status: The tracker status.
+            tracker_url: The tracker url.
+            message: The message from tracker error/warning alerts
 
         Emits:
             TorrentTrackerStatusEvent upon tracker status change.
@@ -618,11 +665,34 @@ class Torrent:
 
         self.tracker_host = None
 
-        if self.tracker_status != status:
-            self.tracker_status = status
+        if self.state == 'Paused':
+            return
+
+        if self.trackers_status.get(tracker_url, {}).get('status') != status:
+            self.trackers_status[tracker_url] = {
+                'status': status,
+                'message': message,
+            }
+            self.tracker_status = f'{status}{f": {message}" if message else ""}'
             component.get('EventManager').emit(
-                TorrentTrackerStatusEvent(self.torrent_id, self.tracker_status)
+                TorrentTrackerStatusEvent(
+                    self.torrent_id,
+                    self.trackers_status[tracker_url],
+                )
             )
+
+    def set_tracker_peers(self, peers: int, tracker_url: str):
+        """Sets the tracker peers amount
+
+        Args:
+            peers: The number of peers the tracker has.
+            tracker_url: The tracker url.
+        """
+        if self.state == 'Paused':
+            return
+
+        if self.trackers_peers.get(tracker_url) != peers:
+            self.trackers_peers[tracker_url] = peers
 
     def merge_trackers(self, torrent_info):
         """Merges new trackers in torrent_info into torrent"""
@@ -666,6 +736,8 @@ class Torrent:
             self.state = 'Queued'
         elif session_paused or status.paused:
             self.state = 'Paused'
+            self.trackers_peers = {}
+            self.trackers_status = {}
         else:
             self.state = LT_TORRENT_STATE_MAP.get(str(status.state), str(status.state))
 
@@ -1157,7 +1229,10 @@ class Torrent:
             'tracker': lambda: self.status.current_tracker,
             'tracker_host': self.get_tracker_host,
             'trackers': lambda: self.trackers,
+            # Deprecated: Use trackers_status
             'tracker_status': lambda: self.tracker_status,
+            'trackers_status': lambda: self.trackers_status,
+            'trackers_peers': lambda: self.trackers_peers,
             'upload_payload_rate': lambda: self.status.upload_payload_rate,
             'comment': lambda: decode_bytes(self.torrent_info.comment())
             if self.has_metadata

@@ -721,14 +721,17 @@ def parse_human_size(size):
     raise InvalidSize(msg % (size, tokens))
 
 
-def anchorify_urls(text: str) -> str:
+def anchorify_urls(text: str, as_hyperlink: bool = True) -> str:
     """
     Wrap all occurrences of text URLs with HTML
     """
     url_pattern = r'((htt)|(ft)|(ud))ps?://\S+'
     html_href_pattern = r'<a href="\g<0>">\g<0></a>'
+    markup_pattern = r'<span foreground="dodger blue" underline="single">\g<0></span>'
 
-    return re.sub(url_pattern, html_href_pattern, text)
+    return re.sub(
+        url_pattern, html_href_pattern if as_hyperlink else markup_pattern, text
+    )
 
 
 def is_url(url):

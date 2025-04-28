@@ -390,3 +390,31 @@ class TestTorrent(BaseTestCase):
             # Advance time and verify cache expires and updates
             mock_time.return_value += 10
             assert torrent.status == 2
+
+    def test_trackers_cache(self):
+        atp = self.get_torrent_atp('test_torrent.file.torrent')
+        handle = self.session.add_torrent(atp)
+        mock_time = mock.Mock(return_value=time.time())
+        with mock.patch('time.time', mock_time):
+            torrent = Torrent(handle, {})
+            counter = itertools.count()
+            handle.trackers = mock.Mock(
+                side_effect=lambda: [
+                    {'tier': counter.__next__(), 'url': '', 'message': ''}
+                ]
+            )
+            first_trackers = torrent.get_lt_trackers()
+            assert first_trackers == [
+                {'tier': 0, 'url': '', 'message': ''}
+            ], 'sanity check'
+            assert first_trackers == torrent.trackers, 'cached trackers should be used'
+            torrent.set_trackers()
+            assert torrent.trackers == [
+                {'tier': 1, 'url': '', 'message': ''}
+            ], 'trackers should update'
+            assert torrent.get_lt_trackers() == [
+                {'tier': 2, 'url': '', 'message': ''}
+            ], 'trackers should update a second time'
+            # Advance time and verify cache expires and updates
+            mock_time.return_value += 10
+            assert torrent.trackers == [{'tier': 3, 'url': '', 'message': ''}]
