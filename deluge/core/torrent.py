@@ -115,6 +115,64 @@ def convert_lt_files(files):
     return filelist
 
 
+def peer_flags(peer):
+    """Returns a string representing flags about a peer.
+
+    Peer flags:
+        see also https://web.archive.org/web/20141111072948/http://www.utorrent.com/help/faq/misc#faq13
+        and http://libtorrent.org/reference-Core.html#peer_info
+        - S - snubbed
+        - D - we are interested and remote isn't choking us
+        - d - we are interested and remote is choking us
+        - U - peer is interested and we are not choking them
+        - u - peer is interested and we are choking them
+        - E - payload is encrypted
+        - e - only headers are encrypted
+        - O - optimistic unchoke
+        - I - incoming connection (we did not initiate connection)
+        - g - in endgame mode
+        - h - holepunched
+        - H - peer was discovered by DHT
+        - X - peer was discovered by peer exchange
+        - T - peer was discovered by tracker
+
+    Args:
+        peer: the peer from which to build the flags string.
+    """
+
+    peerflags = str()
+    if peer.flags & peer.snubbed:
+        peerflags += "S"
+    if peer.flags & peer.interesting and not peer.flags & peer.remote_choked:
+        peerflags += "D"
+    if peer.flags & peer.interesting and peer.flags & peer.remote_choked:
+        peerflags += "d"
+    if peer.flags & peer.remote_interested and not peer.flags & peer.choked:
+        peerflags += "U"
+    if peer.flags & peer.remote_interested and peer.flags & peer.choked:
+        peerflags += "u"
+    if peer.flags & peer.rc4_encrypted:
+        peerflags += "E"
+    if peer.flags & peer.plaintext_encrypted:
+        peerflags += "e"
+    if peer.flags & peer.optimistic_unchoke:
+        peerflags += "O"
+    if not peer.flags & peer.local_connection:
+        peerflags += "I"
+    if peer.flags & peer.endgame_mode:
+        peerflags += "g"
+    if peer.flags & peer.holepunched:
+        peerflags += "h"
+    if peer.source & peer.dht:
+        peerflags += "H"
+    if peer.source & peer.pex:
+        peerflags += "X"
+    if peer.source & peer.tracker:
+        peerflags += "T"
+
+    return peerflags
+
+
 class TorrentOptions(dict):
     """TorrentOptions create a dict of the torrent options.
 
@@ -860,6 +918,10 @@ class Torrent:
                     'progress': peer.progress,
                     'seed': peer.flags & peer.seed,
                     'up_speed': peer.payload_up_speed,
+                    "flags": peer_flags(peer),
+                    "total_download": peer.total_download,
+                    "total_upload": peer.total_upload,
+                    "rtt": peer.rtt,
                 }
             )
 

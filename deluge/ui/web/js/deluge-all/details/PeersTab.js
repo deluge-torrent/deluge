@@ -35,6 +35,13 @@
         var progress = (value * 100).toFixed(0);
         return Deluge.progressBar(progress, this.width - 8, progress + '%');
     }
+    function millisecondRenderer(value) {
+        if ( value > 0 ) {
+            return String.format('{0}ms', value);
+        } else {
+            return "&nbsp;";
+        }
+    }
 
     Deluge.details.PeersTab = Ext.extend(Ext.grid.GridPanel, {
         // fast way to figure out if we have a peer already.
@@ -97,6 +104,34 @@
                             renderer: fspeed,
                             dataIndex: 'up_speed',
                         },
+                        {
+                            header: _('Downloaded'),
+                            width: 100,
+                            sortable: true,
+                            renderer: fsize,
+                            dataIndex: 'total_download',
+                        },
+                        {
+                            header: _('Uploaded'),
+                            width: 100,
+                            sortable: true,
+                            renderer: fsize,
+                            dataIndex: 'total_upload',
+                        },
+                        {
+                            header: _('Flags'),
+                            width: 70,
+                            sortable: false,
+                            renderer: fplain,
+                            dataIndex: 'flags',
+                        },
+                        {
+                            header: _('RTT'),
+                            width: 70,
+                            sortable: true,
+                            renderer: millisecondRenderer,
+                            dataIndex: 'rtt',
+                        }
                     ],
                     stripeRows: true,
                     deferredRender: false,
