@@ -1,0 +1,34 @@
+version: "3.8"
+
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+    volumes:
+      - .:/app
+      - deluge-cache:/home/deluge/.cache:rw
+    environment:
+      - PYTHONPATH=/app
+    command: sleep infinity
+    stop_signal: SIGINT
+    stop_grace_period: 10s
+    ports:
+      - 8112:8112
+      - 58846:58846
+
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+    volumes:
+      - .:/app
+      - deluge-cache:/home/deluge/.cache:rw
+    environment:
+      - PYTHONPATH=/app
+    command: tox --parallel -e py3,lint
+
+volumes:
+  deluge-cache:

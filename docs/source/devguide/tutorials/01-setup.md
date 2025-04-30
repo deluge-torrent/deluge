@@ -36,6 +36,37 @@ Download the latest git code to local folder.
     git clone git://deluge-torrent.org/deluge.git
     cd deluge
 
+### Using Docker for development (Optional)
+
+As an alternative to setting up a local development environment, you can use Docker to develop Deluge. This approach isolates the development environment and ensures consistency across different systems.
+
+#### Prerequisites
+
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+
+#### Setup with Docker
+
+Deluge provides Docker configuration files in the repository to make development easier. The setup includes:
+
+1. **Dockerfile**: Defines the development environment with all necessary dependencies
+2. **docker-compose.yml**: Configures services for development and testing
+
+To start development using docker compose first we will need to build the image from `Dockerfile`
+
+    docker compose build
+
+There are two services present in docker compose, one for devlopment and another for running tests/linting. Exeuting `docker compose up` will run both at once
+
+If you just want run tests:
+
+    docker compose up test
+
+Otherwise, run and jump into dev container and continue to the next step
+
+    docker compose up dev -d
+    docker exec -it deluge-dev-1 bash
+
 ### Create Python virtual environment
 
 Creation of a [Python virtual environment] keeps the development isolated
