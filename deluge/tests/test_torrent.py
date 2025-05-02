@@ -390,3 +390,38 @@ class TestTorrent(BaseTestCase):
             # Advance time and verify cache expires and updates
             mock_time.return_value += 10
             assert torrent.status == 2
+
+    async def test_automatic_recheck_after_abrupt_shutdown(self):
+        """Test that torrents automatically recheck after a abrupt shutdown."""
+        # Create a test torrent
+        filename = common.get_test_data_file('test_torrent.file.torrent')
+        with open(filename, 'rb') as _file:
+            torrent_info = lt.torrent_info(lt.bdecode(_file.read()))
+        torrent_id = self.core.torrentmanager.add(
+            torrent_info=torrent_info, options={'download_location': os.getcwd()}
+        )
+        assert torrent_id is not None, 'Failed to add torrent'
+        torrent = self.core.torrentmanager.torrents[torrent_id]
+        assert torrent.state != 'Error', 'Torrent should not be in Error state'
+
+        # Force error state to simulate abrupt shutdown
+        torrent.force_error_state('Error: Abnormal shutdown detected')
+
+        # Verify state transitions
+        assert torrent.state == 'Error', 'Torrent should be in Error state'
+        assert torrent.forced_error is not None, 'Torrent should have forced error'
+        assert (
+            'abnormal shutdown' in torrent.forced_error.error_message.lower()
+        ), 'Error message should contain abnormal shutdown'
+
+        # Stop the TorrentManager first
+        await self.core.torrentmanager.stop()
+
+        # Now start it again to trigger automatic recheck
+        self.core.torrentmanager.start()
+
+        # Resume the session
+        self.core.resume_session()
+
+        # Wait for recheck to complete and verify state transition
+        self.assert_state_wait(torrent, 'Checking', timeout=10)
