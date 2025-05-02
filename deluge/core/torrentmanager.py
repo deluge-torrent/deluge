@@ -884,6 +884,13 @@ class TorrentManager(component.Component):
                 len(state.torrents),
                 str(datetime.datetime.now() - start),
             )
+
+            # After all torrents are loaded, perform force recheck for torrents in error state
+            for torrent in self.torrents.values():
+                if torrent.state == 'Error':
+                    log.info('Torrent %s is in error state, triggering recheck', torrent.torrent_id)
+                    torrent.force_recheck()
+
             component.get('EventManager').emit(SessionStartedEvent())
 
         deferred_list.addCallback(on_complete)
