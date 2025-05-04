@@ -37,15 +37,8 @@ sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 #pip install -r requirements-ci.txt
 
 # Clean up the package list to save space in the layer (~54MB)
-#rm -rf /var/lib/apt/lists/*
-
+rm -rf /var/lib/apt/lists/*
 EOF
 
-# Set the working directory
-#WORKDIR /app
-
-# Copy the current directory contents into the container at /app
-#COPY . /app
-
 # Specify the command to run on container start
-CMD ["bash"]
+CMD ["sleep", "infinity"]
