@@ -14,6 +14,7 @@ import os
 import tempfile
 from pathlib import Path
 
+from python_multipart import parse_form
 from twisted.application import internet, service
 from twisted.internet import defer, reactor
 from twisted.web import http, resource, server, static
@@ -126,7 +127,7 @@ class Upload(resource.Resource):
             request.finish()
             return server.NOT_DONE_YET
 
-        files = request.args.get(b'file', [])
+        files = self._parse_files(request)
         filenames = []
 
         if files:
@@ -144,6 +145,28 @@ class Upload(resource.Resource):
         request.setHeader(b'content-type', b'text/html')
         request.setResponseCode(http.OK)
         return json.dumps({'success': bool(filenames), 'files': filenames}).encode()
+
+    def _parse_files(self, request):
+        """
+        Parse multipart/form-data using python-multipart,
+        and return an array of bytestrings.
+        """
+        files = []
+
+        def on_file(file):
+            # Convert from python-multipart's internal File class to simmple bytestrings.
+            file.file_object.seek(0)
+            file_bytes = file.file_object.read()
+            files.append(file_bytes)
+
+        # Convert headers to dict of ascii strings for python-multipart.
+        headers_dict = dict(request.requestHeaders.getAllRawHeaders())
+        headers_ascii = {
+            k.decode('ascii'): v[0].decode('ascii') for k, v in headers_dict.items()
+        }
+        parse_form(headers_ascii, request.content, None, on_file)
+
+        return files
 
 
 class Render(resource.Resource):
