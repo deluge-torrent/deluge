@@ -22,6 +22,7 @@ from twisted.web.client import Agent, readBody
 import deluge.common
 import deluge.component as component
 from deluge import metafile, path_chooser_common
+from deluge._features import DelugeFeatures
 from deluge._libtorrent import LT_VERSION, lt
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.alertmanager import AlertManager
@@ -1301,3 +1302,8 @@ class Core(component.Component):
     @export(AUTH_LEVEL_ADMIN)
     def remove_account(self, username: str) -> bool:
         return self.authmanager.remove_account(username)
+
+    @export
+    def get_supported_features(self) -> int:
+        """Returns the supported features."""
+        return DelugeFeatures.ALL.value

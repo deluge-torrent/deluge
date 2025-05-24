@@ -60,7 +60,7 @@ class GtkUI(Gtk3PluginBase):
         self.plugin.deregister_hook('on_apply_prefs', self._on_apply_prefs)
         self.plugin.deregister_hook('on_show_prefs', self._on_show_prefs)
 
-        del self.glade
+        del self.builder
 
     def update(self):
         def _on_get_status(status):
