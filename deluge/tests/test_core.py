@@ -20,6 +20,7 @@ from twisted.web.static import File
 import deluge.common
 import deluge.component as component
 import deluge.core.torrent
+from deluge._features import DelugeFeatures
 from deluge._libtorrent import lt
 from deluge.conftest import BaseTestCase
 from deluge.core.core import Core
@@ -509,3 +510,7 @@ class TestCore(BaseTestCase):
             assert f.read() == filecontent
 
         lt.torrent_info(filecontent)
+
+    def test_get_supported_features(self):
+        features = self.core.get_supported_features()
+        assert features == DelugeFeatures.ALL

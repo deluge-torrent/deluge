@@ -15,7 +15,8 @@ from twisted.internet import defer, reactor, ssl
 from twisted.internet.protocol import ClientFactory
 
 from deluge import error
-from deluge.common import VersionSplit, get_localhost_auth, get_version
+from deluge._features import DelugeFeatures
+from deluge.common import get_localhost_auth, get_version
 from deluge.decorators import deprecated
 from deluge.transfer import DelugeTransferProtocol
 
@@ -561,6 +562,7 @@ class Client:
         self._daemon_proxy = None
         self.disconnect_callback = None
         self.__started_standalone = False
+        self._daemon_features = DelugeFeatures.NONE
 
     def connect(
         self,
@@ -596,6 +598,30 @@ class Client:
             self.disconnect()
             return reason
 
+        def get_method_list(auth_level):
+            d = self._daemon_proxy.call('daemon.get_method_list')
+            d.addCallback(on_get_method_list, auth_level)
+            return d
+
+        def on_get_method_list(daemon_methods, auth_level):
+            log.debug('Daemon methods: %s', daemon_methods)
+            if 'core.get_supported_features' in daemon_methods:
+                log.info('Getting daemon supported features')
+                d = self._daemon_proxy.call('core.get_supported_features')
+                d.addCallback(on_get_daemon_features, auth_level)
+                return d
+            else:
+                log.info(
+                    'Unable to get daemon supported features, new features will not be available'
+                )
+                self._daemon_features = DelugeFeatures.NONE
+                return auth_level
+
+        def on_get_daemon_features(daemon_features, auth_level):
+            self._daemon_features = DelugeFeatures(daemon_features)
+            log.debug('Daemon features: %s', self._daemon_features)
+            return auth_level
+
         def on_authenticate(result, daemon_info):
             log.debug('Authentication successful: %s', result)
             return result
@@ -612,6 +638,7 @@ class Client:
             d = self._daemon_proxy.authenticate(username, password)
             d.addCallback(on_authenticate, daemon_version)
             d.addErrback(on_authenticate_fail)
+            d.addCallback(get_method_list)
             return d
 
         d.addCallbacks(on_connected)
@@ -624,6 +651,7 @@ class Client:
         """
         Disconnects from the daemon.
         """
+        self._daemon_features = DelugeFeatures.NONE
         if self.is_standalone():
             self._daemon_proxy.disconnect()
             self.stop_standalone()
@@ -752,16 +780,9 @@ class Client:
         """
         return self._daemon_proxy.daemon_version if self.connected() else ''
 
-    def daemon_version_check_min(self, min_version=get_version()) -> bool:
-        """Check connected daemon against a minimum version.
-
-        Returns:
-            If connected daemon meets minimum version requirement.
-        """
-        if not (self.daemon_version and min_version):
-            return False
-
-        return VersionSplit(self.daemon_version) >= VersionSplit(min_version)
+    def is_feature_supported(self, feature: DelugeFeatures) -> bool:
+        """Check if the connected daemon supports a given feature"""
+        return self._daemon_features & feature == feature
 
     def register_event_handler(self, event, handler):
         """
