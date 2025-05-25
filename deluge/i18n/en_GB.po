@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2024-08-24 17:37+0100\n"
-"PO-Revision-Date: 2023-11-15 23:16+0000\n"
+"PO-Revision-Date: 2024-08-31 21:11+0000\n"
 "Last-Translator: Andi Chandler <Unknown>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2024-08-24 16:48+0000\n"
-"X-Generator: Launchpad (build 1b1ed1ad2dbfc71ee62b5c5491c975135a771bf0)\n"
+"X-Launchpad-Export-Date: 2025-04-28 20:29+0000\n"
+"X-Generator: Launchpad (build e76edd883483c71c468bb038e98836435de44530)\n"
 
 #: deluge/argparserbase.py:169
 msgid "Common Options"
@@ -1842,7 +1842,7 @@ msgstr "Pre-Allocate disk space"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:302
 msgid "Incoming Ports"
-msgstr "Incomming Ports"
+msgstr "Incoming Ports"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:311
 #: deluge/ui/console/modes/preferences/preference_panes.py:335
@@ -4093,16 +4093,16 @@ msgstr "System Tray"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:47
 msgid "Prefer Dark"
-msgstr ""
+msgstr "Prefer Dark"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:48
 msgid "If available, use dark variant of GTK theme."
-msgstr ""
+msgstr "If available, use dark variant of GTK theme."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:49
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:94
 msgid "Theme"
-msgstr ""
+msgstr "Theme"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:50
 msgid "Notify about new releases"
@@ -6322,11 +6322,11 @@ msgstr "Refresh"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:250
 msgid "WebUI Theme Changed"
-msgstr ""
+msgstr "WebUI Theme Changed"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:252
 msgid "Do you want to refresh the page now to use the new theme?"
-msgstr ""
+msgstr "Do you want to refresh the page now to use the new theme?"
 
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:294
 msgid "Invalid Password"

@@ -28,6 +28,7 @@ from deluge.core.authmanager import (
 )
 from deluge.crypto_utils import check_ssl_keys, get_context_factory
 from deluge.error import (
+    BadLoginError,
     DelugeError,
     IncompatibleClient,
     NotAuthorizedError,
@@ -281,6 +282,14 @@ class DelugeRPCProtocol(DelugeTransferProtocol):
                 send_error()
                 if not isinstance(ex, _ClientSideRecreateError):
                     log.exception(ex)
+                if isinstance(ex, BadLoginError):
+                    peer = self.transport.getPeer()
+                    log.error(
+                        'Deluge client authentication error made from: %s:%s (%s)',
+                        peer.host,
+                        peer.port,
+                        str(ex),
+                    )
             else:
                 self.sendData((RPC_RESPONSE, request_id, (ret)))
                 if not ret:

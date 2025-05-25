@@ -20,8 +20,9 @@ from twisted.web import http, resource, server, static
 from twisted.web.resource import EncodingResourceWrapper
 
 from deluge import common, component, configmanager
-from deluge.common import is_ipv6
+from deluge.common import AUTH_LEVEL_DEFAULT, is_ipv6
 from deluge.crypto_utils import check_ssl_keys, get_context_factory
+from deluge.error import NotAuthorizedError
 from deluge.i18n import set_language, setup_translation
 from deluge.ui.tracker_icons import TrackerIcons
 from deluge.ui.web.auth import Auth
@@ -182,8 +183,9 @@ class Tracker(resource.Resource):
         except KeyError:
             self.tracker_icons = TrackerIcons()
 
-    def getChild(self, path, request):  # NOQA: N802
-        request.tracker_name = path
+    def getChild(self, path: bytes, request):  # NOQA: N802
+        # Ensure tracker name only to prevent path traversal.
+        request.tracker_name = os.path.basename(path.decode())
         return self
 
     def on_got_icon(self, icon, request):
@@ -200,8 +202,22 @@ class Tracker(resource.Resource):
             request.finish()
 
     def render(self, request):
-        d = self.tracker_icons.fetch(request.tracker_name.decode())
-        d.addCallback(self.on_got_icon, request)
+        tracker_icon = self.tracker_icons.get(request.tracker_name)
+        if tracker_icon:
+            self.on_got_icon(tracker_icon, request)
+            return server.NOT_DONE_YET
+
+        # Tracker endpoint is secured to avoid exploits when downloading icons.
+        try:
+            component.get('Auth').check_request(request, level=AUTH_LEVEL_DEFAULT)
+        except NotAuthorizedError:
+            log.warning('Auth required to download tracker icon.')
+            request.setResponseCode(http.UNAUTHORIZED)
+            request.finish()
+        else:
+            self.tracker_icons.fetch(request.tracker_name).addCallback(
+                self.on_got_icon, request
+            )
         return server.NOT_DONE_YET
 
 
@@ -211,7 +227,9 @@ class Flag(resource.Resource):
         return self
 
     def render(self, request):
-        flag = request.country.decode().lower() + '.png'
+        country = request.country.decode().lower()
+        # Ensure filename only, to prevent path traversal.
+        flag = os.path.basename(f'{country}.png')
         path = ('ui', 'data', 'pixmaps', 'flags', flag)
         filename = common.resource_filename('deluge', os.path.join(*path))
         if os.path.exists(filename):
@@ -433,8 +451,18 @@ class ScriptResource(resource.Resource, component.Component):
                     filepath = filepath[0]
 
                 path = filepath + lookup_path[len(pattern) :]
+                path = os.path.abspath(path)
+
+                if not os.path.commonpath([path, filepath]) == filepath:
+                    log.warning(
+                        'Script path %s traverses out of common dir %s',
+                        path,
+                        filepath,
+                    )
+                    continue
 
                 if not os.path.isfile(path):
+                    log.warning('Unable to serve script which does not exist: %s', path)
                     continue
 
                 log.debug('Serving path: %s', path)

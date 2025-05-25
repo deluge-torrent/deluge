@@ -100,9 +100,9 @@ class Auth(JSONComponent):
         checksum = str(make_checksum(session_id))
 
         request.addCookie(
-            b'_session_id',
+            '_session_id',
             session_id + checksum,
-            path=request.base + b'json',
+            path=request.base,
             expires=expires_str,
         )
 
@@ -160,10 +160,10 @@ class Auth(JSONComponent):
 
             _session_id = request.getCookie(b'_session_id')
             request.addCookie(
-                b'_session_id',
+                '_session_id',
                 _session_id,
-                path=request.base + b'json',
-                expires=expires_str.encode('utf8'),
+                path=request.base,
+                expires=expires_str,
             )
 
         if method:
