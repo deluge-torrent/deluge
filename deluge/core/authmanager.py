@@ -10,6 +10,7 @@
 import logging
 import os
 import shutil
+from hashlib import scrypt
 
 import deluge.component as component
 import deluge.configmanager as configmanager
@@ -63,6 +64,13 @@ class AuthManager(component.Component):
         component.Component.__init__(self, 'AuthManager', interval=10)
         self.__auth = {}
         self.__auth_modification_time = None
+        self.__hash_parameters = {
+            'n': 16384,
+            'r': 8,
+            'p': 1,
+            'maxmem': 0,
+            'dklen': 64,
+        }
 
     def start(self):
         self.__load_auth_file()
@@ -72,6 +80,46 @@ class AuthManager(component.Component):
 
     def shutdown(self):
         pass
+
+    def _get_hash(self, password, salt=None):
+        """Hashes the password using scrypt.
+
+        Args:
+            password (str): The password to hash.
+            salt (bytes, optional): The salt to use for hashing. If not provided, a new salt will be generated.
+
+        Returns:
+            str: The hashed password in the format 'salt$hash'.
+        """
+        if not salt:
+            salt = os.urandom(16)
+
+        password = scrypt(
+            password.encode('utf-8'),
+            salt=salt,
+            **self.__hash_parameters,
+        )
+        hashed_password = f'{salt.hex()}${password.hex()}'
+        return hashed_password
+
+    def _validate_hash(self, password, hashed_password):
+        """Validates a password against a hashed password.
+
+        Args:
+            password (str): The password to validate.
+            hashed_password (str): The hashed password in the format 'salt$hash'.
+
+        Returns:
+            bool: True if the password matches the hashed password, False otherwise.
+        """
+        try:
+            salt, hashed = hashed_password.split('$')
+        except ValueError:
+            return False
+        salt = bytes.fromhex(salt)
+        hashed = bytes.fromhex(hashed)
+        password_hash = self._get_hash(password, salt=salt)
+        return password_hash == hashed_password
 
     def update(self):
         auth_file = configmanager.get_config_dir('auth')
@@ -112,8 +160,12 @@ class AuthManager(component.Component):
             if username not in self.__auth:
                 raise BadLoginError('Username does not exist', username)
 
-        if self.__auth[username].password == password:
+        if self._validate_hash(password, self.__auth[username].password):
             # Return the users auth level
+            return self.__auth[username].authlevel
+        #  Fall back to plaintext password for localclient account so that autologin doesn't break.
+        elif username == 'localclient' and self.__auth[username].password == password:
+            log.debug('Localclient account authenticated')
             return self.__auth[username].authlevel
         elif not password and self.__auth[username].password:
             raise AuthenticationRequired('Password is required', username)
@@ -129,13 +181,15 @@ class AuthManager(component.Component):
         return [account.data() for account in self.__auth.values()]
 
     def create_account(self, username, password, authlevel):
+        password_hash = self._get_hash(password)
+
         if username in self.__auth:
             raise AuthManagerError('Username in use.', username)
         if authlevel not in AUTH_LEVELS_MAPPING:
             raise AuthManagerError('Invalid auth level: %s' % authlevel)
         try:
             self.__auth[username] = Account(
-                username, password, AUTH_LEVELS_MAPPING[authlevel]
+                username, password_hash, AUTH_LEVELS_MAPPING[authlevel]
             )
             self.write_auth_file()
             return True
@@ -144,13 +198,18 @@ class AuthManager(component.Component):
             raise ex
 
     def update_account(self, username, password, authlevel):
+        # If the username is 'localclient', we don't hash the password
+        # to keep compatability with the current localclient autologin.
+        password_hash = None
+        if username != 'localclient':
+            password_hash = self._get_hash(password)
         if username not in self.__auth:
             raise AuthManagerError('Username not known', username)
         if authlevel not in AUTH_LEVELS_MAPPING:
             raise AuthManagerError('Invalid auth level: %s' % authlevel)
         try:
             self.__auth[username].username = username
-            self.__auth[username].password = password
+            self.__auth[username].password = password_hash or password
             self.__auth[username].authlevel = AUTH_LEVELS_MAPPING[authlevel]
             self.write_auth_file()
             return True
