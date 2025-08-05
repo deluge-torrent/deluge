@@ -150,7 +150,6 @@ class AuthManager(component.Component):
         return [account.data() for account in self.__auth.values()]
 
     def create_account(self, username, password, authlevel):
-        # password_hash = self._get_hash(password)
         password_hash = generate_password_hash(password)
 
         if username in self.__auth:
