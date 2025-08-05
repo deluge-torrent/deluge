@@ -36,6 +36,8 @@ import hashlib
 import hmac
 import secrets
 
+from deluge.error import InvalidHashError
+
 SALT_CHARS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
 
 
@@ -86,7 +88,7 @@ def generate_password_hash(
         salt_length (int): The length of the salt to generate. Defaults to 16.
 
         Returns:
-            str: The hashed password in the format 'method$salt$hash'.
+            str: The hashed password in the format 'salt$hash$method'.
 
     """
     salt = gen_salt(salt_length)
@@ -114,7 +116,10 @@ def check_password_hash(pwhash: str, password: str) -> bool:
     """
     try:
         salt, hashval, method = pwhash.split('$', 2)
-    except ValueError:
-        return False
+    except ValueError as ve:
+        raise InvalidHashError(
+            'Invalid password hash format. Expected format: "salt$hash$method".',
+            method=None,
+        ) from ve
 
     return hmac.compare_digest(_hash_internal(method, salt, password)[0], hashval)

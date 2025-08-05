@@ -21,7 +21,12 @@ from deluge.common import (
     AUTH_LEVEL_READONLY,
     create_localclient_account,
 )
-from deluge.error import AuthenticationRequired, AuthManagerError, BadLoginError
+from deluge.error import (
+    AuthenticationRequired,
+    AuthManagerError,
+    BadLoginError,
+    InvalidHashError,
+)
 from deluge.security import check_password_hash, generate_password_hash
 
 log = logging.getLogger(__name__)
@@ -113,8 +118,18 @@ class AuthManager(component.Component):
             if username not in self.__auth:
                 raise BadLoginError('Username does not exist', username)
 
-        # if self._validate_hash(password, self.__auth[username].password):
-        if check_password_hash(self.__auth[username].password, password):
+        try:
+            verified = check_password_hash(self.__auth[username].password, password)
+        except InvalidHashError as ex:
+            log.warning(
+                'Invalid hash method in password for user %s: %s'
+                ' Falling back to plaintext validation.',
+                username,
+                ex.method,
+            )
+            verified = password == self.__auth[username].password
+
+        if verified:
             # Return the users auth level
             return self.__auth[username].authlevel
         #  Fall back to plaintext password for localclient account so that autologin doesn't break.

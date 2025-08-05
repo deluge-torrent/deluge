@@ -94,3 +94,10 @@ class AuthManagerError(_UsernameBasedPasstroughError):
 
 class LibtorrentImportError(ImportError):
     pass
+
+
+class InvalidHashError(_ClientSideRecreateError):
+    def __init__(self, message, method):
+        super().__init__(message)
+        self.method = method
+        self.message = message
