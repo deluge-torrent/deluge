@@ -1,16 +1,16 @@
 # Installing Deluge On FreeBSD
 
-Deluge (1.3.x) is available in [Freshports](http://www.freshports.org/net-p2p/deluge/), with dependencies correctly identified and also stable. 
+Deluge (1.3.x) is available in [Freshports](http://www.freshports.org/net-p2p/deluge/), with dependencies correctly identified and also stable.
 
 ## Install package with GTK2 client
 
-```
+```sh
 pkg add deluge
 ```
 
 ## Install package for headless setups
 
-```
+```sh
 pkg add deluge-cli
 ```
 
@@ -19,13 +19,13 @@ pkg add deluge-cli
 
 For desktop use (X11):
 
-```
+```sh
 cd /usr/ports/net-p2p/deluge && make install clean
 ```
 
 Or using portmaster:
 
-```
+```sh
 portmaster net-p2p/deluge
 ```
 
@@ -35,7 +35,7 @@ portmaster net-p2p/deluge
 
 For headless setups (no X11):
 
-```
+```sh
 cd /usr/ports/net-p2p/deluge && make WITHOUT_X11=yes install clean
 ```
 and disable GTK2 in the port configuration options.

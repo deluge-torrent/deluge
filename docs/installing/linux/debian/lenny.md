@@ -1,6 +1,6 @@
 # Debian Lenny
 
-Installing a recent version of deluge (1.3.0) on Lenny can be done relatively easily. 
+Installing a recent version of deluge (1.3.0) on Lenny can be done relatively easily.
 
 However, it involves fetching a few packages from testing so be careful. Though this usually can be done without causing any problems it might interfere with other stuff on your system.
 
@@ -28,7 +28,7 @@ Pin-Priority: 650
 
 Now refresh apt:
 
-```
+```sh
 apt-get update
 ```
 
@@ -40,17 +40,17 @@ aptitude install python-libtorrent
 [a lot of output from aptitude now follows]
 
 Reading package lists... Done
-Building dependency tree       
+Building dependency tree
 Reading state information... Done
-Reading extended state information      
+Reading extended state information
 Initializing package states... Done
 Writing extended state information... Done
-Reading task descriptions... Done         
+Reading task descriptions... Done
 The following packages are BROKEN:
-  libtorrent-rasterbar5 python-libtorrent 
+  libtorrent-rasterbar5 python-libtorrent
 The following NEW packages will be installed:
-  file{a} libboost-filesystem1.42.0{a} libboost-python1.42.0{a} libboost-system1.42.0{a} libboost-thread1.42.0{a} libdb4.5{a} libmagic1{a} libsqlite3-0{a} mime-support{a} 
-  python{a} python-minimal{a} python2.5{a} python2.5-minimal{a} 
+  file{a} libboost-filesystem1.42.0{a} libboost-python1.42.0{a} libboost-system1.42.0{a} libboost-thread1.42.0{a} libdb4.5{a} libmagic1{a} libsqlite3-0{a} mime-support{a}
+  python{a} python-minimal{a} python2.5{a} python2.5-minimal{a}
 0 packages upgraded, 15 newly installed, 0 to remove and 0 not upgraded.
 Need to get 7962kB of archives. After unpacking 28.2MB will be used.
 The following packages have unmet dependencies:
@@ -77,10 +77,10 @@ Score is 39
 Accept this solution? [Y/n/q/?] Y
 
 The following NEW packages will be installed:
-  file{a} gcc-4.4-base{a} geoip-database{a} libboost-filesystem1.42.0{a} libboost-python1.42.0{a} libboost-system1.42.0{a} libboost-thread1.42.0{a} libdb4.5{a} libgeoip1{a} 
-  libmagic1{a} libsqlite3-0{a} libtorrent-rasterbar5{a} mime-support{a} python{a} python-libtorrent python-minimal{a} python-support{a} python2.5{a} python2.5-minimal{a} 
+  file{a} gcc-4.4-base{a} geoip-database{a} libboost-filesystem1.42.0{a} libboost-python1.42.0{a} libboost-system1.42.0{a} libboost-thread1.42.0{a} libdb4.5{a} libgeoip1{a}
+  libmagic1{a} libsqlite3-0{a} libtorrent-rasterbar5{a} mime-support{a} python{a} python-libtorrent python-minimal{a} python-support{a} python2.5{a} python2.5-minimal{a}
 The following packages will be upgraded:
-  libssl0.9.8 libstdc++6 
+  libssl0.9.8 libstdc++6
 2 packages upgraded, 19 newly installed, 0 to remove and 0 not upgraded.
 Need to get 14.5MB of archives. After unpacking 34.8MB will be used.
 Do you want to continue? [Y/n/?] Y
@@ -91,25 +91,25 @@ Basically, `aptitude` found a solution to our problem, it's going to upgrade the
 Now it's time to add yet another repository with the packages necessary to get deluge, so add the following to `/etc/apt/sources.list`:
 
 ```
-deb http://ppa.launchpad.net/ferramroberto/linuxfreedomlucid/ubuntu lucid main 
+deb http://ppa.launchpad.net/ferramroberto/linuxfreedomlucid/ubuntu lucid main
 deb-src http://ppa.launchpad.net/ferramroberto/linuxfreedomlucid/ubuntu lucid main
 ```
 
 Then, lets fetch and add the GPG key for that repository in order to be able to verify the downloaded packages:
 
-```
+```sh
 apt-key adv --recv-keys --keyserver pgp.surfnet.nl 249AD24C
 ```
 
 Refresh apt:
 
-```
+```sh
 apt-get update
 ```
 
 Install deluge, for example:
 
-```
+```sh
 apt-get install -t lucid deluge
 ```
 

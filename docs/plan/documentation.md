@@ -1,9 +1,7 @@
 # Create a UserGuide/Introduction page for Deluge
 
-* Describe the main components 
+* Describe the main components
 * An overview diagram
- 
-
 
 # Create individual wiki pages for each UI and the daemon, incorporate the FAQs.
 

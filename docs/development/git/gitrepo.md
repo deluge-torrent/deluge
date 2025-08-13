@@ -10,8 +10,6 @@ This guide uses commands which are meant to be typed at a command prompt, but mo
 
 [Install Git](http://git-scm.com/downloads)
 
-
-
 ## Deluge Branches
 There are multiple branches or tags that you can choose from which contain different stages of the Deluge code.
 
@@ -19,14 +17,13 @@ Note that we are currently transitioning to a different [git workflow](http://nv
 
 The current branches (at time of writing) are:
 
- **`1.3-stable`**::
-    This is the release branch for the 1.3-series and, until 1.4 release, is the recommended stable code. This branch is only for critical bug fixes and no new feature will appear in this branch.
- **`master`**::
-    ***This branch is in limbo until 1.4 release*** This branch contains development code that is now continued in `develop`. When the `develop` code is considered stable, 1.4 will be released and the code will be merged back into `master` code. This mean going forward from 1.4 release this branch will be considered to be the most stable code, replacing the use of *-stable branches.
- **`develop`**::
-    All development work will be put into this branch and should be considered unstable with risk of data loss and potential incompatibility with other Deluge versions.
- **`extjs4-port`**::
-   A branch for porting the WebUI code from `Ext JS 3.4` to `Ext JS 4`, still requiring a lot of development work.
+**`1.3-stable`**: This is the release branch for the 1.3-series and, until 1.4 release, is the recommended stable code. This branch is only for critical bug fixes and no new feature will appear in this branch.
+
+**`master`**: ***This branch is in limbo until 1.4 release*** This branch contains development code that is now continued in `develop`. When the `develop` code is considered stable, 1.4 will be released and the code will be merged back into `master` code. This mean going forward from 1.4 release this branch will be considered to be the most stable code, replacing the use of *-stable branches.
+
+**`develop`**: All development work will be put into this branch and should be considered unstable with risk of data loss and potential incompatibility with other Deluge versions.
+
+**`extjs4-port`**: A branch for porting the WebUI code from `Ext JS 3.4` to `Ext JS 4`, still requiring a lot of development work.
 
 ## Initial Clone
 

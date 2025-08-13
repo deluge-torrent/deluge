@@ -1,1 +1,1 @@
-Moved: https://deluge.readthedocs.io/en/latest/devguide/packaging/release.html
+Moved to: https://deluge.readthedocs.io/en/latest/devguide/packaging/release.html

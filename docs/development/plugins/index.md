@@ -24,8 +24,8 @@ The easiest way to get started is to use the [create_plugin.py](http://git.delug
 
 Running the script:
 
-```
-$ python create_plugin.py --name MyPlugin --basepath . --author-name "Your Name" --author-email "yourname@example.com"
+```sh
+python create_plugin.py --name MyPlugin --basepath . --author-name "Your Name" --author-email "yourname@example.com"
 ```
 
 This should create a directory called `myplugin` under which should be a collection of directories and files which will form the base of your plugin.
@@ -58,8 +58,8 @@ Whenever you want to test out your plugin in Deluge, you will need to build it i
 
 First off, navigate to your `myplugin` base directory, you should see a `setup.py` file in there.  Next, run the following command:
 
-```
-$ python setup.py bdist_egg
+```sh
+python setup.py bdist_egg
 ```
 
 It's as simple as that.  You can also use this method to create an egg for distribution to other Deluge users.  The egg will be located in the `dist` directory.
@@ -75,7 +75,6 @@ We'll start off by writing the Core portion of our plugin.  In this example, we'
 Let's start with a look at what our `create_plugin.py` script created for us in the `core.py` file.
 
 ```python
-
 from deluge.log import LOG as log
 from deluge.plugins.pluginbase import CorePluginBase
 import deluge.component as component
@@ -144,7 +143,6 @@ We see here that we're using Deluge's ConfigManager to handle loading our config
 You can read here: http://deluge-torrent.org/docs/current/modules/config.html for more information on the Config class.
 
 ```python
-
     @export
     def set_config(self, config):
         "sets the config dictionary"
@@ -169,7 +167,6 @@ The `get_config()` method will simply return a dict object representing all the 
 A example of how calling these methods would look like from the UI perspective:
 
 ```python
-
 def on_get_config(result):
     result["test"] = "i want to change this value"
     client.myplugin.set_config(result)
@@ -186,7 +183,6 @@ Now that we have configuration covered, it's time to start expanding our plugin 
 First off, since we're going to be storing values we want to be persistent, let's add these to our config dictionary.
 
 ```python
-
 DEFAULT_PREFS = {
     "total_download": 0,
     "total_upload": 0
@@ -198,7 +194,6 @@ Great!  Now we have a place to store our data that will be persistent between se
 Let's modify our `enable()` method to initialize some object members to the values contained in the config file.
 
 ```python
-
     def enable(self):
         self.config = deluge.configmanager.ConfigManager("myplugin.conf", DEFAULT_PREFS)
         self.total_download = self.config["total_download"]
@@ -208,7 +203,6 @@ Let's modify our `enable()` method to initialize some object members to the valu
 Now, every time the plugin is enabled, it will initialize these member variables to what was saved in the config file.  This means that we need to make sure we're saving this data when then plugin is disabled or shutdown!
 
 ```python
-
     def disable(self):
         self.config["total_upload"] = self.total_upload
         self.config["total_download"] = self.total_download
@@ -221,7 +215,6 @@ We'll want to poll the core every few seconds to get the latest byte count.  Wha
 Let's start by creating the method that will be called by the timer.
 
 ```python
-
     def update_stats(self):
         status = component.get("Core").get_session_status(["total_download", "total_upload"])
         self.total_upload = self.config["total_upload"] + status["total_upload"]
@@ -237,14 +230,12 @@ At this point the function isn't doing anything because it isn't called anywhere
 We need to import the `LoopingCall` class first.  Since we use Twisted for our mainloop, we import this class from there.  You will want to put this import with the rest at the top of the file.
 
 ```python
-
 from twisted.internet.task import LoopingCall
 ```
 
 Now, we want to setup and start the `LoopingCall` when the plugin is enabled, so lets modify `enable()` again.
 
 ```python
-
     def enable(self):
         self.config = deluge.configmanager.ConfigManager("myplugin.conf", DEFAULT_PREFS)
         self.total_download = self.config["total_download"]

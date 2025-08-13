@@ -8,30 +8,25 @@ This page is a collection of useful git tips.
 In this example we assume that your feature branch, `myfeature`, is based off `develop` and that you are currently in your feature branch.
 
 1. Squash/reword/edit any commits if need be
-
-```sh
-git rebase -i develop
-```
-1. Rebase your feature branch on top of current develop
-
-```sh
-git rebase develop
-```
-1. Change to develop
-
-```sh
-git checkout develop
-```
-1. `Fast-forward` merge your feature branch into develop
-
-```sh
-git merge myfeature
-```
-1. Delete your local feature branch (see above tip for remote deletion)
-
-```sh
-git branch -d myfeature
-```
+    ```sh
+    git rebase -i develop
+    ```
+2. Rebase your feature branch on top of current develop
+    ```sh
+    git rebase develop
+    ```
+3. Change to develop
+    ```sh
+    git checkout develop
+    ```
+4. *Fast-forward* merge your feature branch into develop
+    ```sh
+    git merge myfeature
+    ```
+5. Delete your local feature branch (see above tip for remote deletion)
+    ```sh
+    git branch -d myfeature
+    ```
 
 ## Ignore changes in a tracked file
 
@@ -134,25 +129,21 @@ git push --delete <repo> <branch>
 This technique uses cherry-pick to apply commits to branches that differ too much to use `merge`.
 
 1. Checkout `master` branch
-
-```sh
-git checkout master
-```
-1. Make commit
-
-```sh
-git commit -m "Fixed the bug that caused issue xyz"
-```
-1. Checkout stable branch
-
-```sh
-git checkout stable
-```
-1. Apply the last commit from master to this branch
-
-```sh
-git cherry-pick master
-```
+    ```sh
+    git checkout master
+    ```
+2. Make commit
+    ```sh
+    git commit -m "Fixed the bug that caused issue xyz"
+    ```
+3. Checkout stable branch
+    ```sh
+    git checkout stable
+    ```
+4. Apply the last commit from master to this branch
+    ```sh
+    git cherry-pick master
+    ```
 
 ## Commit Messages
 
@@ -163,7 +154,6 @@ Based on [git commit guidelines](http://git-scm.com/book/en/Distributed-Git-Cont
 
 The short answer on the golden rule for git commit subject lines is to you ask yourself:
   **If applied, this commit will...** *<your commit subject line here>*
-
 
 e.g. If applied, this commit will `Enable editing of torrent names in Add Dialog`
 

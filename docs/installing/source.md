@@ -13,7 +13,7 @@ The 1.3.x dependencies are listed below. You will also need to install the appro
 ## Debian & Ubuntu Dependencies
 Apt-get line to install all above dependencies:
 
-```
+```sh
 sudo apt-get install python python-twisted python-openssl python-setuptools intltool python-xdg python-chardet geoip-database python-libtorrent python-notify python-pygame python-glade2 librsvg2-common xdg-utils python-mako
 ```
 
@@ -28,7 +28,7 @@ Python dependencies should be **py2.7** and **win32** (32-bit)''
 
 After *Python* is installed, use *pip* to install the following from console:
 
-```
+```sh
 pip install twisted[tls] chardet mako pyxdg pillow slimit pypiwin32 pygame certifi
 ```
 
@@ -42,13 +42,13 @@ You can either get the source from a tarball on our [ftp](http://download.deluge
 # Building and Installing
 Extract the source tarball and in the extracted folder run the build command:
 
-```
+```sh
 python setup.py build
 ```
 
 Install the package to your system:
 
-```
+```sh
 sudo python setup.py install
 ```
 * *Debian & Ubuntu: Append `--install-layout=deb` to use `/usr/bin/` prefix instead of Debian default `/usr/bin/local/`.*
@@ -56,13 +56,13 @@ sudo python setup.py install
 
 For Linux Desktop systems an extra step is required due to an installer [bug](http://dev.deluge-torrent.orghttps://dev.deluge-torrent.org/ticket/1389) not copying data files, such as `deluge.desktop`:
 
-```
+```sh
 sudo python setup.py install_data
 ```
 
 If you have run the build before, ensure you have a clean build environment:
 
-```
+```sh
 python setup.py clean -a
 ```
 
@@ -70,20 +70,20 @@ python setup.py clean -a
 
 Installing Deluge with `develop` mode creates binaries that link back to source code. Therefore changes will be reflected immediately with no need to repeatedly install.
 
-```
+```sh
 python setup.py develop
 ```
 
 If you wish to use a specific development directory, the following will create a Deluge install in ~/delugeDev:
 
-```
+```sh
 export PYTHONPATH=${HOME}/delugeDev
 python setup.py develop --install-dir ~/delugeDev
 ```
 
 Do have the included plugins available, build them with
 
-```
+```sh
 python setup.py build_plugins develop
 ```
 
@@ -92,22 +92,20 @@ Another alternative for a separate Deluge development environment is to use Pyth
 # Removing From System
 In the unlikely event you want to remove Deluge installed by the previous method, you will have to manually delete the Deluge related files on your system. The main files are normally installed in one of the following places:
 
-```
-/usr/lib/python2.x/site-packages
-/usr/local/lib/python2.x/site-packages
-/usr/lib/python2.x/dist-packages
-/usr/local/lib/python2.x/dist-packages
-```
+* `/usr/lib/python2.x/site-packages`
+* `/usr/local/lib/python2.x/site-packages`
+* `/usr/lib/python2.x/dist-packages`
+* `/usr/local/lib/python2.x/dist-packages`
 
 Example:
 
-```
+```sh
 sudo rm -r /usr/lib/python2.7/dist-packages/deluge*
 ```
 
 To find and remove the remaining files use the `locate` command and to ensure up-to date information also run `updatedb`:
 
-```
+```sh
 sudo updatedb
 locate deluge
 ```

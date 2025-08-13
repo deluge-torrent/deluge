@@ -56,7 +56,7 @@ Alternatively you can edit `core.conf` (`deluged` must not be running) in the co
 
 ### Start Deluge Daemon
 
-```
+```sh
 deluged
 ```
 
@@ -94,32 +94,29 @@ Click on `Connect` and the Connection Manager should disappear.
 
 *Optional step:* Expand `Options` and select '`Automatically connect to selected host on startup`' and '`Do not show this dialog on start-up`'.
 
-
-
 Congratulations! You can now access the Deluge daemon, `deluged`, on the server via the GTK UI.
-
 
 ### Console
 
 If accessing a local `deluged` daemon run the following and it will connect automatically:
 
-```
+```sh
 deluge-console
 ```
 
 To connect to a remote daemon use the `connect` command in deluge-console:
 
-```
+```sh
 connect <host>[:<port>] <user> <password>
 ```
 or from the terminal:
 
-```
+```sh
 deluge-console "connect <host>[:<port>] <user> <password>"
 ```
 For adding torrents directly to the daemon through automatic methods such as with autodl-irssi:
 
-```
+```sh
 deluge-console "connect <host>[:<port>] <user> <password> ; add $(TorrentPathName) ; exit"
 ```
 

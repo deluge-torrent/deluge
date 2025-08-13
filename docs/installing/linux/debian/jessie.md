@@ -4,13 +4,13 @@ Install using the default package version of Deluge (this means you won't get an
 
 ## Install Deluge (GUI)
 
-```
+```sh
 apt-get install deluge
 ```
 
 ## Install (headless/server)
 
-```
+```sh
 apt-get install deluged deluge-web
 ```
 
@@ -19,7 +19,7 @@ apt-get install deluged deluge-web
 
 Install using the Deluge Ubuntu Launchpad PPA which contains the latest releases of Deluge and libtorrent.
 
-```
+```sh
 add-apt-repository 'deb http://ppa.launchpad.net/deluge-team/ppa/ubuntu trusty main'
 ```
 
@@ -31,21 +31,16 @@ deb http://ppa.launchpad.net/deluge-team/ppa/ubuntu trusty main
 deb-src http://ppa.launchpad.net/deluge-team/ppa/ubuntu trusty main
 ```
 
-
-
-
-
-
 Update and install
 
-```
+```sh
 apt-get update
 apt-get install -t trusty deluged deluge-web
 ```
 
 To upgrade libtorrent:
 
-```
+```sh
 apt-get install -t trusty libtorrent-rasterbar8 python-libtorrent
 ```
 
