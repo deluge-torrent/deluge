@@ -7,7 +7,7 @@ For a demo: set the webui-template to "ajax_demo".
 * url : /json/rpc
 * rpc-api : http://en.wikipedia.org/wiki/JSON-RPC#Version_1.0
 * methods : http://dev.deluge-torrent.org/wiki/Development/UiClient#Remoteapi
-  
+
 ## added methods, json only
 
 ### update_ui(keys ,filter_dict , cache_id = None )

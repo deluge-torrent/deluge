@@ -34,13 +34,13 @@ Pin-Priority: -1
 
 Update your packages list:
 
-```
+```sh
 aptitude update
 ```
 
 Now install the version of Deluge available in unstable:
 
-```
+```sh
 aptitude -t unstable install deluge
 ```
 
@@ -59,24 +59,24 @@ deb-src http://ppa.launchpad.net/deluge-team/ppa/ubuntu maverick main
 
 Add repository GPG key to verify the downloaded packages:
 
-```
+```sh
 apt-key adv --recv-keys --keyserver pgp.surfnet.nl 249AD24C
 ```
 
 Refresh apt:
 
-```
+```sh
 apt-get update
 ```
 
 Install Deluge:
 
-```
+```sh
 apt-get install -t maverick deluge-common deluged deluge-web
 ```
 
 To also upgrade libtorrent to 0.15:
 
-```
+```sh
 apt-get install -t maverick libtorrent-rasterbar6 python-libtorrent
 ```

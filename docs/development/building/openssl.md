@@ -11,17 +11,15 @@ These steps were sourced from http://www.magicsplat.com/blog/building-openssl-tl
 ## Build
 
 * Extract OpenSSL source and navigate to it in VC++ prompt.
-
 * In Visual C++ 2008 32-bit Command Prompt:
-
- ```
- set PATH=C:\Users\IEUser\AppData\Local\nasm;%PATH%
- perl Configure VC-WIN32 --prefix=C:\OpenSSL-Win32
- ms\do_nasm
- nmake -f ms\ntdll.mak
- nmake -f ms\ntdll.mak test
- nmake -f ms\ntdll.mak install
-```
+    ```
+    set PATH=C:\Users\IEUser\AppData\Local\nasm;%PATH%
+    perl Configure VC-WIN32 --prefix=C:\OpenSSL-Win32
+    ms\do_nasm
+    nmake -f ms\ntdll.mak
+    nmake -f ms\ntdll.mak test
+    nmake -f ms\ntdll.mak install
+    ```
 
 ## Precompiled
 There are precompiled but need to ensure the compiler is `msvc 9.0 (2008)` along with the openssl `include` and `lib` folders for libtorrent to link to.

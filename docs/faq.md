@@ -29,7 +29,7 @@ On Windows, the installer should do this automatically. On Linux/Unix (GNOME), r
 
 Users can associate Magnets with Deluge with the following commands:
 
-```
+```sh
 gconftool-2 -t string -s /desktop/gnome/url-handlers/magnet/command 'deluge "%s"'
 gconftool-2 -t bool -s /desktop/gnome/url-handlers/magnet/needs_terminal false
 gconftool-2 -t bool -s /desktop/gnome/url-handlers/magnet/enabled true
@@ -37,7 +37,7 @@ gconftool-2 -t bool -s /desktop/gnome/url-handlers/magnet/enabled true
 
 Also may require running the following:
 
-```
+```sh
 gvfs-mime --set x-scheme-handler/magnet deluge.desktop
 ```
 
@@ -45,20 +45,19 @@ gvfs-mime --set x-scheme-handler/magnet deluge.desktop
 
 Users can reset the Magnet association with:
 
-  * Put `about:config` into address bar and change `network.protocol-handler.expose.magnet` to `false`.
-  You will be prompted next time you click a Magnet to set an association with Deluge. (e.g. `/usr/bin/deluge`)
+* Put `about:config` into address bar and change `network.protocol-handler.expose.magnet` to `false`.
+
+    You will be prompted next time you click a Magnet to set an association with Deluge. (e.g. `/usr/bin/deluge`)
 * **Windows** users should simply re-run the installer and select the magnet association option.
-* **OSX** GTK does not support Magnet URIs (see [#2420](https://dev.deluge-torrent.org/ticket/2420)) but there is a plugin available: http://forum.deluge-torrent.org/viewtopic.php?f=9&t=52619
+* **OSX** GTK does not support Magnet URIs (see [#2420](https://dev.deluge-torrent.org/ticket/2420)) but there is a [plugin available](http://forum.deluge-torrent.org/viewtopic.php?f=9&t=52619)
 
 ### Where does Deluge store its settings/config?
 
 The default location for the Deluge config directory is in the `home` directory of the current user. The config location can be manually changed by using the `--config` option at startup.
 
- Linux, BSD and Mac OSX::
-    `~/.config/deluge`
+Linux, BSD and Mac OSX: `~/.config/deluge`
 
- Windows OS::
-    `%APPDATA%\deluge`
+Windows OS: `%APPDATA%\deluge`
 
 *When running Deluge as a service the config directory is relative to the user specified in the service configuration.*
 
@@ -94,11 +93,9 @@ There are two ways to enable this interface:
 1. From the GTK UI you can enable the `WebUI` plugin.
 2. If running the Deluge daemon `deluged` it is recommended not use the plugin and instead run the standalone Web UI:
 
-```
-deluge-web
-```
+        deluge-web
 
-Open the browser at `http://localhost:8112`.
+3. Open the browser at `http://localhost:8112`.
 
 #### What is the default password
 
@@ -135,23 +132,20 @@ The easiest way to configure plugins is using the GTK UI. If unable to use GTK U
 
    e.g. To connect to localhost you would open `hostlist.conf` as see a snippet such as:
 
-```
-...
-      "123459d5a5b414159caa1323f6e0c9b240c7abcd",
-      "localhost",
-      58846,
-...
-```
-1. Use the first entry from hostlist, which is the `id` and add it to `web.conf`:
+         ...
+               "123459d5a5b414159caa1323f6e0c9b240c7abcd",
+               "localhost",
+               58846,
+         ...
+3. Use the first entry from hostlist, which is the `id` and add it to `web.conf`:
 
-```
-"default_daemon": "123459d5a5b414159caa1323f6e0c9b240c7abcd",
-```
-1. Restart the Web UI.
+        "default_daemon": "123459d5a5b414159caa1323f6e0c9b240c7abcd",
+
+4. Restart the Web UI.
 
 #### How do I enable HTTPS?
 
-1. Create a (self-signed) SSL certificate: http://httpd.apache.org/docs/2.0/ssl/ssl_faq.html#selfcert
+1. Create a [(self-signed) SSL certificate](http://httpd.apache.org/docs/2.0/ssl/ssl_faq.html#selfcert)
 2. Put the resulting `deluge.crt` and `deluge.key` in the [config's](/faq.md#where-does-deluge-store-its-settingsconfig) `ssl` directory.
 3. Enable HTTPS in Web UI config and modify the filepaths to match the above files.
 4. Restart the Web UI.
@@ -250,7 +244,7 @@ To disable classic mode:
 2. Disable (untick) `Classic Mode`
 3. Restart Deluge and it will now start in thin-client mode
 4. Use the Connection Manager to enter the other daemon details
-5.
+
 See [ThinClient](/userguide/thinclient.md) for more information on remote GTK UI
 
 #### How do I stop Deluge from killing the daemon when I quit the GTK UI?
@@ -356,10 +350,7 @@ Run `netstat` to check if the port is free.
 
 ### What does "Auto Managed" do?
 
-An "auto managed" torrent, is a torrent managed by Deluge.
-This means that it obeys Deluge's queue settings.
-By disabling "auto managed", a torrent will become active (i.e. start downloading/uploading).
-It will still be be bound by the stop ratio though (see 'Stop seed at ratio' under the Queue section of the torrent's Options tab).
+An "auto managed" torrent, is a torrent managed by Deluge. This means that it obeys Deluge's queue settings. By disabling "auto managed", a torrent will become active (i.e. start downloading/uploading). It will still be be bound by the stop ratio though (see 'Stop seed at ratio' under the Queue section of the torrent's Options tab).
 
 Note: All active torrents (including those not "auto managed") are counted in the total active queue settings. This means that if the total number of active torrents ("auto managed" and not) exceed the limit for total active torrents in the queue settings, Deluge will automatically queue any "auto managed" torrents until the limit is no longer exceeded.
 
@@ -376,9 +367,14 @@ To make a torrent no longer "auto managed":
 Magnet URIs are an easy way to add torrents by their info-hash.  You can learn more about them [here](http://en.wikipedia.org/wiki/Magnet_URI_scheme).
 
 ### What is Peer TOS Byte?
-IPv4 Header Type Of Service Byte [http://shorewall.net/manpages/shorewall-tcclasses.html (More Info)](http://shorewall.net/manpages/shorewall-tcclasses.html (More Info))
+IPv4 Header Type Of Service Byte ([More Info](http://shorewall.net/manpages/shorewall-tcclasses.html))
 
-Masks: Normal Service `0x00`, Minimize Cost `0x02`, Maximize Reliability `0x04`, Maximize Throughput `0x08`, Minimize-delay `0x10`
+Masks:
+* `0x00` - Normal Service
+* `0x02` - Minimize Cost
+* `0x04` - Maximize Reliability
+* `0x08` - Maximize Throughput
+* `0x10` - Minimize-delay
 
 ### Can Deluge use blocklists such as SafePeer or PeerGuardian?
 

@@ -5,59 +5,49 @@ Check libtorrent [documentation](http://www.libtorrent.org/building.html) for an
 ## Ubuntu / Debian
 
 1. Install dependencies for libtorrent build automatically using `build-dep`:
-
- ```
- sudo apt-get build-dep libtorrent-rasterbar
- sudo apt-get install checkinstall
-```
-
- **OR** if that fails manually install them:
-
- ```
- sudo apt-get install build-essential checkinstall libboost-system-dev libboost-python-dev libboost-chrono-dev libboost-random-dev libssl-dev
- ```
-
+    ```sh
+    sudo apt-get build-dep libtorrent-rasterbar
+    sudo apt-get install checkinstall
+    ```
+    **OR** if that fails manually install them:
+    ```sh
+    sudo apt-get install build-essential checkinstall libboost-system-dev libboost-python-dev libboost-chrono-dev libboost-random-dev libssl-dev
+    ```
 2. Download [libtorrent](https://github.com/arvidn/libtorrent/releases) and extract:
-
-```
-tar xf libtorrent-rasterbar.tar.gz
-cd libtorrent-rasterbar
-```
+    ```sh
+    tar xf libtorrent-rasterbar.tar.gz
+    cd libtorrent-rasterbar
+    ```
 3. Configure:
-
- ```
- ./configure --enable-python-binding --with-libiconv
-```
-- Missing `configure` script: (e.g. source code from git) create it with `./autotool.sh` (requires extra packages: `sudo apt-get install autoconf automake libtool`).
-- *Logging:* Add `--enable-logging=default` to get logs in the current working directory. `verbose` and `error` can also be used.
-- *Debug:* To create a debug build add `--enable-debug=yes`.
-- ARM architecture (Raspberry Pi, etc): add `--with-boost-libdir=/usr/lib/arm-linux-gnueabihf` at the end to avoid boost library error.
+    ```sh
+    ./configure --enable-python-binding --with-libiconv
+    ```
+    * Missing `configure` script: (e.g. source code from git) create it with `./autotool.sh` (requires extra packages: `sudo apt-get install autoconf automake libtool`).
+    * *Logging:* Add `--enable-logging=default` to get logs in the current working directory. `verbose` and `error` can also be used.
+    * *Debug:* To create a debug build add `--enable-debug=yes`.
+    * ARM architecture (Raspberry Pi, etc): add `--with-boost-libdir=/usr/lib/arm-linux-gnueabihf` at the end to avoid boost library error.
 
 4. Build:
-
-```
-make -j$(nproc)
-```
-- *CPU Cores:* The `make` option `-j$(nproc)` will utilize all available cpu cores.
-- *Non-specific errors:* e.g. `g++: internal compiler error: Killed (program cc1plus)` try using a [#TemporarySwapFileforRasperryPiorlowmemorysystems temporary swap file]
+    ```sh
+    make -j$(nproc)
+    ```
+    * *CPU Cores:* The `make` option `-j$(nproc)` will utilize all available cpu cores.
+    * *Non-specific errors:* e.g. `g++: internal compiler error: Killed (program cc1plus)` try using a [temporary swap file](#temporary-swap-file-for-rasperry-pi-or-low-memory-systems)
 
 5. Install library and python bindings:
+    ```sh
+    sudo checkinstall
+    sudo ldconfig
+    ```
+    *Substituted `make install` for `checkinstall` as it creates a deb package for easier removal/re-install by `dpkg`.*
 
-```
-sudo checkinstall
-sudo ldconfig
-```
- *Substituted `make install` for `checkinstall` as it creates a deb package for easier removal/re-install by `dpkg`.*
-
- *Running `ldconfig` avoids an `ImportError` for `libtorrent-rasterbar.so`, a result of Python being unable to find the main library.*
+    *Running `ldconfig` avoids an `ImportError` for `libtorrent-rasterbar.so`, a result of Python being unable to find the main library.*
 
 6. Verify libtorrent and the python bindings are installed correctly:
-
-```
-python3 -c "import libtorrent; print (libtorrent.version)"
->> 1.0.6.0
-```
-
+    ```
+    python3 -c "import libtorrent; print (libtorrent.version)"
+    >> 1.0.6.0
+    ```
 
 ### Temporary Swap File for Rasperry Pi or low memory systems
 
@@ -66,38 +56,30 @@ Compiling libtorrent requires a lot of memory/swap during the `make` process ~1-
 If you get an internal error during the make phase on a computer with low memory and/or no swap partition (verify with `free -m` ) you can try the below procedure.
 
 1. Create a 1GB empty swap file, (use a drive location that has enough free space):
-
-```
-dd if=/dev/zero of=/.swapfile bs=1M count=1024
-```
+    ```sh
+    dd if=/dev/zero of=/.swapfile bs=1M count=1024
+    ```
 2. Format swap file:
-
-```
-mkswap /.swapfile
-```
+    ```sh
+    mkswap /.swapfile
+    ```
 3. Activate swap file:
-
-```
-sudo swapon /.swapfile
-```
+    ```sh
+    sudo swapon /.swapfile
+    ```
 4. Verify swap file is recognized:
-
-```
-swapon -s
-```
+    ```sh
+    swapon -s
+    ```
 5. Start/restart your libtorrent build.
 6. Disable swap file:
-
-```
-swapoff /.swapfile
-```
+    ```sh
+    swapoff /.swapfile
+    ```
 7. Delete swap file:
-
-```
-rm -f /.swapfile
-```
-
-
+    ```sh
+    rm -f /.swapfile
+    ```
 
 ## Windows
 
@@ -190,14 +172,11 @@ rm -f /.swapfile
   * After the crash execute: `!analyze -v -f`.
 * Symbols for libtorrent will be in the build output path:
 
-  ```
-  C:\libtorrent-rasterbar\bindings\python\bin\msvc-9.0\debug\boost-source\geoip-static\link-static\optimization-space\threading-multi
-```
-  So the full symbols line should look something like this:
+  * `C:\libtorrent-rasterbar\bindings\python\bin\msvc-9.0\debug\boost-source\geoip-static\link-static\optimization-space\threading-multi`
 
-  ```
-  srv*;C:\libtorrent-rasterbar\bindings\python\bin\msvc-9.0\debug\boost-source\geoip-static\link-static\optimization-space\threading-multi;C:\Python27\symbols;srv*c:\Symbols*http://msdl.microsoft.com/download/symbols
-```
+     So the full symbols line should look something like this:
+
+        srv*;C:\libtorrent-rasterbar\bindings\python\bin\msvc-9.0\debug\boost-source\geoip-static\link-static\optimization-space\threading-multi;C:\Python27\symbols;srv*c:\Symbols*http://msdl.microsoft.com/download/symbols
 
 Debug References:
 * [Mozilla WinDbg stacktrace](https://developer.mozilla.org/en/docs/How_to_get_a_stacktrace_with_WinDbg)

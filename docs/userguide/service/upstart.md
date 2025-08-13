@@ -4,7 +4,7 @@
 
 Firstly ensure Deluge daemon and Web UI are installed:
 
-```
+```sh
 sudo apt-get install deluged deluge-web
 ```
 
@@ -12,7 +12,7 @@ sudo apt-get install deluged deluge-web
 
 It is best to run Deluge upstart scripts with a specific user and group. You can create one using the following command:
 
-```
+```sh
 sudo adduser --system --group --home /var/lib/deluge deluge
 ```
 
@@ -20,7 +20,7 @@ sudo adduser --system --group --home /var/lib/deluge deluge
 
 Add any users you wish to be able to easily manage or access files downloaded through Deluge to the group deluge will run as, for example:
 
-```
+```sh
 sudo adduser <username> deluge
 ```
 
@@ -98,22 +98,22 @@ sudo update-rc.d deluge-daemon remove
 
 ### Deluge Daemon
 
-```
+```sh
 sudo start deluged
 ```
 
-```
+```sh
 sudo stop deluged
 ```
 
 ### Web UI
 Although the Web UI will start/stop automatically when deluged starts/stops it can be manually controlled with:
 
-```
+```sh
 sudo start deluge-web
 ```
 
-```
+```sh
 sudo stop deluge-web
 ```
 *Note: To prevent the web UI starting automatically comment out (# prefix) the '`start on`' line in `deluge-web.conf`.*
@@ -121,7 +121,7 @@ sudo stop deluge-web
 ## Logging
 Create a structure for Deluge to log to and give the user that Deluge is running as (in this case `deluge`) full access to that directory:
 
-```
+```sh
 sudo mkdir -p /var/log/deluge
 sudo chown -R deluge:deluge /var/log/deluge
 sudo chmod -R 750 /var/log/deluge
@@ -130,18 +130,18 @@ sudo chmod -R 750 /var/log/deluge
   * 750 grants full access to the deluge user, only recurse tree and read access to members of the deluge group and prevents access from all other accounts. [Chmod](http://en.wikipedia.org/wiki/Chmod#Octal_numbers)
 Edit the upstart job confs like so:
 
-```
+```sh
 exec start-stop-daemon -S -c $uid:$gid -k $umask -x /usr/bin/deluged -- -d -l /var/log/deluge/daemon.log -L warning
 ```
 
-```
+```sh
 exec start-stop-daemon -S -c $uid:$gid -k $umask -x /usr/bin/deluge-web -- -l /var/log/deluge/web.log -L warning
 ```
 * Refer to the [FAQ](/faq.md#enable-deluge-logging) for possible log-levels.
 
 Restart the daemon:
 
-```
+```sh
 sudo restart deluged
 ```
 

@@ -9,7 +9,6 @@ If you are not familiar with Twisted Deferred objects, then I would strongly sug
 Since I like to learn by example, I am going to start right away with a basic Deluge client.
 
 ```python
-
 # Import the client module
 from deluge.ui.client import client
 # Import the reactor module from Twisted - this is for our mainloop
@@ -46,7 +45,6 @@ d.addErrback(on_connect_fail)
 
 # Run the twisted main loop to make everything go
 reactor.run()
-
 ```
 
 All this client script will do is try to connect to a daemon running on localhost and then disconnect from it right away.  The script is pretty useless, but it shows how things are done in an asynchronous matter and this is an important concept for developing more complex interfaces.
@@ -54,7 +52,6 @@ All this client script will do is try to connect to a daemon running on localhos
 So now that we've got a basic script to get us connected to a daemon, let's extend it a bit to do something useful.  We'll start by adding a remote procedure call in the **on_connect_success()** function.
 
 ```python
-
 def on_connect_success(result):
     print "Connection was successful!"
     def on_get_config_value(value, key):
@@ -64,10 +61,9 @@ def on_connect_success(result):
         client.disconnect()
         # Stop the twisted main loop and exit
         reactor.stop()
-    
-    # Request the config value for the key 'download_location'    
-    client.core.get_config_value("download_location").addCallback(on_get_config_value, "download_location")
 
+    # Request the config value for the key 'download_location'
+    client.core.get_config_value("download_location").addCallback(on_get_config_value, "download_location")
 ```
 
 Ok! We now should be getting a print out of the *download_location* config value.  You'll notice that any RPC method returns a Deferred object, just like the **client.connect()** method.  Since the **core.get_config_value()** method only returns the value we are passing the *key* to the callback function too.  So in the **on_get_config_value()** callback, the first argument is the return value from the daemon and the second is from our **addCallback()** call.

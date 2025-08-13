@@ -16,7 +16,7 @@ We run deluge in thin client/daemon setup, so running deluge will only start the
 
 Running the GTK UI with profiling enabled:
 
-```
+```sh
  python -m cProfile -o deluge.profile deluge -l deluge.log -L info
 ```
 When you exit deluge, the profile stats are written to the file deluge.profile.
@@ -35,13 +35,13 @@ Lets examine this function using another tool; [line_profiler](http://packages.p
 
 After installing line_profiler, we add `@`profile to the function update_view in torrentview.py like this:
 
-```
+```python
 @profile
 def update_view(self, columns=None):
 ```
 and run deluge with kern_prof:
 
-```
+```sh
 kernprof.py -l -v ./deluge -l ~/deluge.log -L info
 ```
 Then connecting to the daemon to load the torrent list and letting it run a few seconds and then close the client.
@@ -157,13 +157,14 @@ Line #      Hits         Time  Per Hit   % Time  Line Contents
 
 Now you can see that line 414 uses 1.5 seconds instead of the previous 5.3.
 Also, line 418 (previously 417) uses 400ms instead of 10 seconds in the original code. Most importantly the line is now executed only 2162 times, and not 34592 times as it used to be. Including the the new if-test, the new code uses 560ms compared to 10 seconds in the old.
+
 The reason this is faster can be seen when comparing the time it takes to execute each of the lines one time. The if-test takes 4.4 microseconds on average, while setting the row value to True takes 189 microseconds.
 
 ### cProfile and Run Snake Run revisited
 
 Lets do a new profile with the changes to the code:
 
-```
+```sh
  python -m cProfile -o deluge.profile deluge -l deluge.log -L info
 ```
 
@@ -175,34 +176,33 @@ We can now see how update_view has dropped significantly on the list. Each call 
 
 The daemon can be profiled using the command line option --profile.
 
-```
+```sh
 deluged --profile
 ```
 Deluge 1.3.X uses [hotshot](http://docs.python.org/2/library/hotshot.html). You can convert hotshot profiling data to [KCachegrind](http://kcachegrind.sourceforge.net/html/Home.html) calltree format using hotshot2calltree:
 
-```
+```sh
 hotshot2calltree -o deluged_calltree.profile deluged.profile
 ```
 git-master uses cProfile so the output can be opened directly by [RunSnakeRun](http://www.vrplumber.com/programming/runsnakerun). To open this in KCachegrind (-k option opens the result in KCachegrind automatically):
 
-```
+```sh
 pyprof2calltree -i deluged.profile -k
 ```
 
 ## Profiling memory usage on the Deluge daemon with valgrind (massif)
 Be aware that this makes the daemon very slow!
 
-```
+```sh
 valgrind --tool=massif deluged -l ~/deluged.log -L info -d
 ```
 After exiting the daemon, a file named massif.out.<pid> (e.g. massif.out.26034) should've been writen to the working dir.
 Lets open that with [massif-visualizer](https://projects.kde.org/projects/extragear/sdk/massif-visualizer)
 
-```
+```sh
 massif-visualizer massif.out.26034
 ```
 
 ![](/assets/screenshots/daemon_massif_visualizer.jpg)
-
 
 Here we see a nice graph showing the memory usage at snapshots taken at regular intervals. It's clear that a lot of the memory used by the daemon is in fact used by libtorrent. It's possible to get a more detailed view of the memory usage of the different categories shown in the list on the right.

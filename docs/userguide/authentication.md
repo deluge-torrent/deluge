@@ -10,9 +10,8 @@ If you do not have an auth file in your config folder, first run the daemon to h
 
 Deluge 1.2.0 introduces different levels of authentication:
 
-|            |             |
-|------------|-------------|
 | Level Name | Level Value |
+|------------|-------------|
 | None | 0 |
 | Read Only | 1 |
 | Normal | 5 |
@@ -31,7 +30,7 @@ user3:anotherpass:5
 ```
 **Example of adding a new user under Linux:**
 
-```
+```sh
 echo "username:password:level" >> ~/.config/deluge/auth
 ```
 

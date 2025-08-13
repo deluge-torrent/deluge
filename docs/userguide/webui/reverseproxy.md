@@ -4,32 +4,32 @@ A reverse proxy is where there is an existing http web server (Apache, Nginx) th
 
 In the configurations below `deluge-web` is running on `localhost` with default port `8112` and reverse proxy url suffix `/deluge`.
 
- Apache Config: ::
+**Apache Config:**
 
- Enable the following apache modules:
+Enable the following apache modules:
 
- ```
- a2enmod proxy
- a2enmod proxy_html
- a2enmod proxy_http
- a2enmod headers
+```
+a2enmod proxy
+a2enmod proxy_html
+a2enmod proxy_http
+a2enmod headers
 ```
 
- And add the following to your `.conf` file:
+And add the following to your `.conf` file:
 
- ```
- ProxyPass /deluge http://localhost:8112/
- 
- <Location /deluge>
-     ProxyPassReverse /
-     ProxyPassReverseCookiePath / /deluge               
-     RequestHeader set X-Deluge-Base "/deluge/"          
-     Order allow,deny
-     Allow from all
- </Location>
+```
+ProxyPass /deluge http://localhost:8112/
+
+<Location /deluge>
+    ProxyPassReverse /
+    ProxyPassReverseCookiePath / /deluge
+    RequestHeader set X-Deluge-Base "/deluge/"
+    Order allow,deny
+    Allow from all
+</Location>
 ```
 
- Nginx Config: ::
+**Nginx Config:**
 
 ```
 location /deluge {
@@ -42,7 +42,8 @@ location /deluge {
 
  *Note: Ensure the trailing slashes are maintained.*
 
- lighttpd Config: ::
+**lighttpd Config:**
+
 You will need to install `lua` >= 5.1 and make sure `lighttpd` >= 1.4.12 is compiled with lua support. Lua will perform URL rewriting since lighty doesn't support it natively.
 
 ```
@@ -60,7 +61,7 @@ lighty.env["request.uri"] = string.sub(lighty.env["request.uri"], string.len('/d
 return
 ```
 
- HAProxy Config: ::
+**HAProxy Config:**
 
 ```
 frontend https
@@ -77,7 +78,8 @@ backend Deluge
 ```
 
 
- IIS Config: ::
+**IIS Config:**
+
 Assuming IIS is already setup for reverse proxying (plenty of tutorials on this online).
 Under site -> **URL Rewrite**, click on **View Server Variables...** and add a new variable name **HTTP_X_Deluge_Base**.
 Then open your **web.config** file and add/edit your rule as follow (edit url to match your setup):

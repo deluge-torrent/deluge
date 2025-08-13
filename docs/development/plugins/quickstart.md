@@ -1,7 +1,5 @@
 # Development/Plugins
 
-
-
 ## Intro
 Plugins consist of a core part and ui parts for the various user-interfaces.
 
@@ -14,7 +12,7 @@ A script is available to create a new plugin here (may not work with older versi
 
 Go to an empty directory, and run:
 
-```
+```sh
 python create_plugin.py --name MyPlugin2 --basepath . --author-name "Your Name" --author-email "yourname@example.com"
 ```
 
@@ -26,7 +24,9 @@ Restart deluge and deluged.
 ## Distributing a plugin
 Go to the plugin-name directory, and type
 
-`python setup.py bdist_egg`
+```sh
+python setup.py bdist_egg
+```
 
 This will build an egg.
 

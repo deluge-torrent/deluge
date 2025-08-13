@@ -121,7 +121,7 @@ Now test by running openvpn manually and see the output from the up/down scripts
  $ openvpn --config /usr/local/etc/openvpn/openvpn.conf
 ```
 
-#### Verify and run====
+#### Verify and run
 Verify the routing table content:
 
 ```
