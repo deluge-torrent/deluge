@@ -222,7 +222,7 @@ class AuthenticationDialog(BaseDialog):
         self.password_label.set_padding(5, 5)
         self.password_entry = Gtk.Entry()
         self.password_entry.set_visibility(False)
-        self.password_entry.connect('activate', self.on_password_activate)
+        self.password_entry.connect('activate', self._on_password_activate)
         table.attach(self.password_label, 0, 1, 1, 2)
         table.attach(self.password_entry, 1, 2, 1, 2)
 
@@ -236,14 +236,14 @@ class AuthenticationDialog(BaseDialog):
             self.set_focus(self.username_entry)
         self.show_all()
 
-    def get_username(self):
-        return self.username_entry.get_text()
-
-    def get_password(self):
-        return self.password_entry.get_text()
-
-    def on_password_activate(self, widget):
+    def _on_password_activate(self, widget):
         self.response(Gtk.ResponseType.OK)
+
+    def _on_response(self, widget, response):
+        result = None
+        if response == Gtk.ResponseType.OK:
+            result = (self.username_entry.get_text(), self.password_entry.get_text())
+        super()._on_response(widget, result)
 
 
 class AccountDialog(BaseDialog):
@@ -277,7 +277,7 @@ class AccountDialog(BaseDialog):
                 parent,
             )
 
-        self.account = None
+        self.account = Account('', '', 'DEFAULT')
 
         table = Gtk.Table(2, 3, False)
         username_label = Gtk.Label()
@@ -441,7 +441,7 @@ class PasswordDialog(BaseDialog):
         self.password_label.set_padding(5, 5)
         self.password_entry = Gtk.Entry()
         self.password_entry.set_visibility(False)
-        self.password_entry.connect('activate', self.on_password_activate)
+        self.password_entry.connect('activate', self._on_password_activate)
         table.attach(self.password_label, 0, 1, 1, 2)
         table.attach(self.password_entry, 1, 2, 1, 2)
 
@@ -450,11 +450,14 @@ class PasswordDialog(BaseDialog):
 
         self.show_all()
 
-    def get_password(self):
-        return self.password_entry.get_text()
-
-    def on_password_activate(self, widget):
+    def _on_password_activate(self, widget):
         self.response(Gtk.ResponseType.OK)
+
+    def _on_response(self, widget, response):
+        password = None
+        if response == Gtk.ResponseType.OK:
+            password = self.password_entry.get_text()
+        super()._on_response(widget, password)
 
 
 class CopyMagnetDialog(BaseDialog):

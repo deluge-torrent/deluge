@@ -10,12 +10,16 @@ on:
       core-dump:
         description: "Set to 1 to enable retrieving core dump from crashes"
         default: "0"
+
+env:
+  UV_SYSTEM_PYTHON: 1
+
 jobs:
   test-linux:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
-        python-version: ["3.7", "3.10"]
+        python-version: ["3.9", "3.13"]
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -27,8 +31,11 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-          cache: "pip"
-          cache-dependency-path: "requirements*.txt"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
 
       - name: Sets env var for security
         if: (github.event_name == 'pull_request' && contains(github.event.pull_request.body, 'security_test')) || (github.event_name == 'push' && contains(github.event.head_commit.message, 'security_test'))
@@ -36,9 +43,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install --upgrade pip wheel setuptools
-          pip install -r requirements-ci.txt
-          pip install -e .
+          uv pip install -r requirements-ci.txt
+          uv pip install -e .
 
       - name: Install security dependencies
         if: contains(env.SECURITY_TESTS, 'True')
@@ -74,7 +80,7 @@ jobs:
     runs-on: windows-2022
     strategy:
       matrix:
-        python-version: ["3.7", "3.10"]
+        python-version: ["3.9", "3.12"]
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -86,14 +92,16 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-          cache: "pip"
-          cache-dependency-path: "requirements*.txt"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
 
       - name: Install dependencies
         run: |
-          pip install --upgrade pip wheel setuptools
-          pip install -r requirements-ci.txt
-          pip install -e .
+          uv pip install -r requirements-ci.txt
+          uv pip install -e .
 
       - name: Test with pytest
         run: |

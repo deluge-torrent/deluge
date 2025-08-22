@@ -198,11 +198,11 @@ class MainWindow(component.Component):
         if self.config['lock_tray'] and not self.visible():
             dialog = PasswordDialog(_('Enter your password to show Deluge...'))
 
-            def on_dialog_response(response_id):
-                if response_id == Gtk.ResponseType.OK:
+            def on_dialog_response(password):
+                if password is not None:
                     if (
                         self.config['tray_password']
-                        == sha(decode_bytes(dialog.get_password()).encode()).hexdigest()
+                        == sha(decode_bytes(password).encode()).hexdigest()
                     ):
                         restore()
 
@@ -257,11 +257,11 @@ class MainWindow(component.Component):
         if self.config['lock_tray'] and not self.visible():
             dialog = PasswordDialog(_('Enter your password to Quit Deluge...'))
 
-            def on_dialog_response(response_id):
-                if response_id == Gtk.ResponseType.OK:
+            def on_dialog_response(password):
+                if password:
                     if (
                         self.config['tray_password']
-                        == sha(decode_bytes(dialog.get_password()).encode()).hexdigest()
+                        == sha(decode_bytes(password).encode()).hexdigest()
                     ):
                         quit_gtkui()
 

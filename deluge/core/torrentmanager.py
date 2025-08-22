@@ -15,6 +15,7 @@ import os
 import pickle
 import time
 from base64 import b64encode
+from pathlib import Path
 from tempfile import gettempdir
 from typing import Dict, List, NamedTuple, Tuple
 
@@ -338,8 +339,8 @@ class TorrentManager(component.Component):
         if log.isEnabledFor(logging.DEBUG):
             log.debug('Attempting to extract torrent_info from %s', filepath)
         try:
-            torrent_info = lt.torrent_info(filepath)
-        except RuntimeError as ex:
+            torrent_info = lt.torrent_info(Path(filepath).read_bytes())
+        except (RuntimeError, OSError) as ex:
             log.warning('Unable to open torrent file %s: %s', filepath, ex)
         else:
             return torrent_info

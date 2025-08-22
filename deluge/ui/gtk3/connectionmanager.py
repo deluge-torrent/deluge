@@ -314,9 +314,10 @@ class ConnectionManager(component.Component):
             log.debug('PasswordRequired exception')
             dialog = AuthenticationDialog(reason.value.message, reason.value.username)
 
-            def dialog_finished(response_id):
-                if response_id == Gtk.ResponseType.OK:
-                    self._connect(host_id, dialog.get_username(), dialog.get_password())
+            def dialog_finished(user_password):
+                if not user_password:
+                    return
+                self._connect(host_id, *user_password)
 
             return dialog.run().addCallback(dialog_finished)
 

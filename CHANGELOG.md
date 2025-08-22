@@ -1,6 +1,28 @@
 # Changelog
 
-## 2.1.x (TBA)
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Intended Effort Versioning (EffVer)](https://jacobtomlinson.dev/effver/).
+
+## [Unreleased]
+
+### Removed
+
+- Dropped support for Python 3.8 or older. (Requires Python >= 3.9)
+
+### Core
+
+#### Changed
+
+- Passwords are now stored encrypted with scrypt. A fallback mechanism will still validate existing plaintext passwords in auth files. (#2442)
+
+### GTK UI
+
+#### Fixed
+
+- Fix passwords being ignored in certain dialogs such as Tray Password and Connection Manager.
+
+## 2.2.0 (2025-04-28)
 
 ### Breaking changes
 

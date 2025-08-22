@@ -21,7 +21,13 @@ from deluge.common import (
     AUTH_LEVEL_READONLY,
     create_localclient_account,
 )
-from deluge.error import AuthenticationRequired, AuthManagerError, BadLoginError
+from deluge.error import (
+    AuthenticationRequired,
+    AuthManagerError,
+    BadLoginError,
+    InvalidHashError,
+)
+from deluge.security import check_password_hash, generate_password_hash
 
 log = logging.getLogger(__name__)
 
@@ -86,15 +92,15 @@ class AuthManager(component.Component):
             log.info('Auth file changed, reloading it!')
             self.__load_auth_file()
 
-    def authorize(self, username, password):
+    def authorize(self, username: str, password: str) -> int:
         """Authorizes users based on username and password.
 
         Args:
-            username (str): Username
-            password (str): Password
+            username: Username
+            password: Password
 
         Returns:
-            int: The auth level for this user.
+            The auth level for this user.
 
         Raises:
             AuthenticationRequired: If additional details are required to authenticate.
@@ -112,13 +118,30 @@ class AuthManager(component.Component):
             if username not in self.__auth:
                 raise BadLoginError('Username does not exist', username)
 
-        if self.__auth[username].password == password:
-            # Return the users auth level
-            return self.__auth[username].authlevel
-        elif not password and self.__auth[username].password:
+        stored_password = self.__auth[username].password
+        if not password and stored_password:
             raise AuthenticationRequired('Password is required', username)
-        else:
+
+        # Validate with plaintext password for localclient account
+        # to retain autologin compatibility for existing users.
+        if username == 'localclient' and stored_password == password:
+            return self.__auth[username].authlevel
+
+        try:
+            verified = check_password_hash(stored_password, password)
+        except InvalidHashError as ex:
+            log.warning(
+                'Invalid hash method in password for user %s: %s'
+                ' Falling back to plaintext validation.',
+                username,
+                ex.method,
+            )
+            verified = password == stored_password
+
+        if not verified:
             raise BadLoginError('Password does not match', username)
+
+        return self.__auth[username].authlevel
 
     def has_account(self, username):
         return username in self.__auth
@@ -129,13 +152,15 @@ class AuthManager(component.Component):
         return [account.data() for account in self.__auth.values()]
 
     def create_account(self, username, password, authlevel):
+        password_hash = generate_password_hash(password)
+
         if username in self.__auth:
             raise AuthManagerError('Username in use.', username)
         if authlevel not in AUTH_LEVELS_MAPPING:
-            raise AuthManagerError('Invalid auth level: %s' % authlevel)
+            raise AuthManagerError('Invalid auth level: %s' % authlevel, username)
         try:
             self.__auth[username] = Account(
-                username, password, AUTH_LEVELS_MAPPING[authlevel]
+                username, password_hash, AUTH_LEVELS_MAPPING[authlevel]
             )
             self.write_auth_file()
             return True
@@ -144,13 +169,18 @@ class AuthManager(component.Component):
             raise ex
 
     def update_account(self, username, password, authlevel):
+        # If the username is 'localclient', we don't hash the password
+        # to keep compatability with the current localclient autologin.
+        password_hash = None
+        if username != 'localclient':
+            password_hash = generate_password_hash(password)
         if username not in self.__auth:
             raise AuthManagerError('Username not known', username)
         if authlevel not in AUTH_LEVELS_MAPPING:
-            raise AuthManagerError('Invalid auth level: %s' % authlevel)
+            raise AuthManagerError('Invalid auth level: %s' % authlevel, username)
         try:
             self.__auth[username].username = username
-            self.__auth[username].password = password
+            self.__auth[username].password = password_hash or password
             self.__auth[username].authlevel = AUTH_LEVELS_MAPPING[authlevel]
             self.write_auth_file()
             return True
@@ -213,13 +243,14 @@ class AuthManager(component.Component):
             create_localclient_account()
             return self.__load_auth_file()
 
-        auth_file_modification_time = os.stat(auth_file).st_mtime
+        auth_file_modification_time = os.stat(auth_file).st_mtime_ns
         if self.__auth_modification_time is None:
             self.__auth_modification_time = auth_file_modification_time
         elif self.__auth_modification_time == auth_file_modification_time:
-            # File didn't change, no need for re-parsing's
+            log.debug('Auth file unchanged, skipping re-parsing.')
             return
 
+        file_data = []
         for _filepath in (auth_file, auth_file_bak):
             log.info('Opening %s for load: %s', filename, _filepath)
             try:
@@ -227,7 +258,6 @@ class AuthManager(component.Component):
                     file_data = _file.readlines()
             except OSError as ex:
                 log.warning('Unable to load %s: %s', _filepath, ex)
-                file_data = []
             else:
                 log.info('Successfully loaded %s: %s', filename, _filepath)
                 break
@@ -265,13 +295,13 @@ class AuthManager(component.Component):
                 authlevel = int(authlevel)
             except ValueError:
                 try:
-                    authlevel = AUTH_LEVELS_MAPPING[authlevel]
+                    authlevel = AUTH_LEVELS_MAPPING[str(authlevel)]
                 except KeyError:
                     log.error(
                         'Your auth file is malformed: %r is not a valid auth level',
                         authlevel,
                     )
-                continue
+                    continue
 
             self.__auth[username] = Account(username, password, authlevel)
 

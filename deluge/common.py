@@ -1306,6 +1306,9 @@ def get_localhost_auth():
             if username == 'localclient':
                 return (username, password)
 
+    log.warning('Could not find localclient account in auth file.')
+    return None, None
+
 
 def set_env_variable(name, value):
     """

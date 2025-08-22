@@ -588,17 +588,14 @@ setup(
         'Environment :: X11 Applications :: GTK',
         'Framework :: Twisted',
         'Intended Audience :: End Users/Desktop',
-        (
-            'License :: OSI Approved :: '
-            'GNU General Public License v3 or later (GPLv3+)'
-        ),
+        ('License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)'),
         'Programming Language :: Python',
         'Operating System :: MacOS :: MacOS X',
         'Operating System :: Microsoft :: Windows',
         'Operating System :: POSIX',
         'Topic :: Internet',
     ],
-    python_requires='>=3.6',
+    python_requires='>=3.9',
     license='GPLv3+',
     cmdclass=cmdclass,
     setup_requires=setup_requires,

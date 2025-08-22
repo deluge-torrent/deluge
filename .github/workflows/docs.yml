@@ -25,14 +25,15 @@ jobs:
           cache: "pip"
           cache-dependency-path: "requirements*.txt"
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
       - name: Install dependencies
-        run: |
-          pip install --upgrade pip wheel
-          pip install tox
-          sudo apt-get install enchant-2
+        run: sudo apt-get install enchant-2
 
       - name: Build docs with tox
         env:
           TOX_ENV: docs
-        run: |
-          tox -e $TOX_ENV
+        run: uvx tox -e $TOX_ENV
