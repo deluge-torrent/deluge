@@ -10,6 +10,7 @@
 import logging
 import os
 import shutil
+from typing import Literal, override
 
 import deluge.component as component
 import deluge.configmanager as configmanager
@@ -44,12 +45,12 @@ AUTH_LEVELS_MAPPING_REVERSE = {v: k for k, v in AUTH_LEVELS_MAPPING.items()}
 class Account:
     __slots__ = ('username', 'password', 'authlevel')
 
-    def __init__(self, username, password, authlevel):
-        self.username = username
-        self.password = password
-        self.authlevel = authlevel
+    def __init__(self, username: str, password: str, authlevel: int) -> None:
+        self.username: str = username
+        self.password: str = password
+        self.authlevel: int = authlevel
 
-    def data(self):
+    def data(self) -> dict[str, str | int]:
         return {
             'username': self.username,
             'password': self.password,
@@ -57,7 +58,8 @@ class Account:
             'authlevel_int': self.authlevel,
         }
 
-    def __repr__(self):
+    @override
+    def __repr__(self) -> str:
         return '<Account username="{username}" authlevel={authlevel}>'.format(
             username=self.username,
             authlevel=self.authlevel,
@@ -65,21 +67,21 @@ class Account:
 
 
 class AuthManager(component.Component):
-    def __init__(self):
+    def __init__(self) -> None:
         component.Component.__init__(self, 'AuthManager', interval=10)
         self.__auth = {}
         self.__auth_modification_time = None
 
-    def start(self):
+    def start(self) -> None:
         self.__load_auth_file()
 
-    def stop(self):
+    def stop(self) -> None:
         self.__auth = {}
 
-    def shutdown(self):
+    def shutdown(self) -> None:
         pass
 
-    def update(self):
+    def update(self) -> None:
         auth_file = configmanager.get_config_dir('auth')
         # Check for auth file and create if necessary
         if not os.path.isfile(auth_file):
@@ -145,7 +147,7 @@ class AuthManager(component.Component):
             )
             return stored_password == password
 
-    def has_account(self, username):
+    def has_account(self, username: str) -> bool:
         return username in self.__auth
 
     def get_known_accounts(self):
@@ -153,7 +155,7 @@ class AuthManager(component.Component):
         self.__load_auth_file()
         return [account.data() for account in self.__auth.values()]
 
-    def create_account(self, username, password, authlevel):
+    def create_account(self, username: str, password: str, authlevel: str) -> bool:
         password_hash = generate_password_hash(password)
 
         if username in self.__auth:
@@ -170,7 +172,7 @@ class AuthManager(component.Component):
             log.exception(ex)
             raise ex
 
-    def update_account(self, username, password, authlevel):
+    def update_account(self, username: str, password: str, authlevel: str) -> bool:
         # If the username is 'localclient', we don't hash the password
         # to keep compatability with the current localclient autologin.
         password_hash = None
@@ -190,7 +192,7 @@ class AuthManager(component.Component):
             log.exception(ex)
             raise ex
 
-    def remove_account(self, username):
+    def remove_account(self, username: str) -> Literal[True]:
         if username not in self.__auth:
             raise AuthManagerError('Username not known', username)
         elif username == component.get('RPCServer').get_session_user():
@@ -202,7 +204,7 @@ class AuthManager(component.Component):
         self.write_auth_file()
         return True
 
-    def write_auth_file(self):
+    def write_auth_file(self) -> None:
         filename = 'auth'
         filepath = os.path.join(configmanager.get_config_dir(), filename)
         filepath_bak = filepath + '.bak'
