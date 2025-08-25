@@ -20,7 +20,7 @@ class _ConfigManager:
     def __init__(self):
         log.debug('ConfigManager started..')
         self.config_files = {}
-        self.__config_directory = None
+        self.__config_directory: str | None = None
 
     @property
     def config_directory(self):
@@ -116,7 +116,7 @@ def set_config_dir(directory):
     return _configmanager.set_config_dir(deluge.common.decode_bytes(directory))
 
 
-def get_config_dir(filename=None):
+def get_config_dir(filename: str | None = None) -> str:
     if filename is not None:
         return os.path.join(_configmanager.get_config_dir(), filename)
     else:

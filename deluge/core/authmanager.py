@@ -69,18 +69,22 @@ class Account:
 class AuthManager(component.Component):
     def __init__(self) -> None:
         component.Component.__init__(self, 'AuthManager', interval=10)
-        self.__auth = {}
+        self.__auth: dict[str, Account] = {}
         self.__auth_modification_time = None
 
+    @override
     def start(self) -> None:
         self.__load_auth_file()
 
+    @override
     def stop(self) -> None:
         self.__auth = {}
 
+    @override
     def shutdown(self) -> None:
         pass
 
+    @override
     def update(self) -> None:
         auth_file = configmanager.get_config_dir('auth')
         # Check for auth file and create if necessary
@@ -140,8 +144,7 @@ class AuthManager(component.Component):
             return check_password_hash(stored_password, password)
         except InvalidHashError as ex:
             log.warning(
-                'Invalid hash method in password for user %s: %s'
-                ' Falling back to plaintext validation.',
+                'Invalid hash method in password for user %s: %s Falling back to plaintext validation.',
                 username,
                 ex.method,
             )
@@ -213,7 +216,7 @@ class AuthManager(component.Component):
         try:
             if os.path.isfile(filepath):
                 log.debug('Creating backup of %s at: %s', filename, filepath_bak)
-                shutil.copy2(filepath, filepath_bak)
+                _ = shutil.copy2(filepath, filepath_bak)
         except OSError as ex:
             log.error('Unable to backup %s to %s: %s', filepath, filepath_bak, ex)
         else:
@@ -221,22 +224,22 @@ class AuthManager(component.Component):
             try:
                 with open(filepath_tmp, 'w', encoding='utf8') as _file:
                     for account in self.__auth.values():
-                        _file.write(
+                        _ = _file.write(
                             '%(username)s:%(password)s:%(authlevel_int)s\n'
                             % account.data()
                         )
                     _file.flush()
                     os.fsync(_file.fileno())
-                shutil.move(filepath_tmp, filepath)
+                _ = shutil.move(filepath_tmp, filepath)
             except OSError as ex:
                 log.error('Unable to save %s: %s', filename, ex)
                 if os.path.isfile(filepath_bak):
                     log.info('Restoring backup of %s from: %s', filename, filepath_bak)
-                    shutil.move(filepath_bak, filepath)
+                    _ = shutil.move(filepath_bak, filepath)
 
         self.__load_auth_file()
 
-    def __load_auth_file(self):
+    def __load_auth_file(self) -> None:
         save_and_reload = False
         filename = 'auth'
         auth_file = configmanager.get_config_dir(filename)
@@ -244,7 +247,7 @@ class AuthManager(component.Component):
 
         # Check for auth file and create if necessary
         if not os.path.isfile(auth_file):
-            create_localclient_account()
+            _ = create_localclient_account()
             return self.__load_auth_file()
 
         auth_file_modification_time = os.stat(auth_file).st_mtime_ns
@@ -276,8 +279,7 @@ class AuthManager(component.Component):
             if len(lsplit) == 2:
                 username, password = lsplit
                 log.warning(
-                    'Your auth entry for %s contains no auth level, '
-                    'using AUTH_LEVEL_DEFAULT(%s)..',
+                    'Your auth entry for %s contains no auth level, using AUTH_LEVEL_DEFAULT(%s)..',
                     username,
                     AUTH_LEVEL_DEFAULT,
                 )
@@ -310,7 +312,7 @@ class AuthManager(component.Component):
             self.__auth[username] = Account(username, password, authlevel)
 
         if 'localclient' not in self.__auth:
-            create_localclient_account(True)
+            _ = create_localclient_account(True)
             return self.__load_auth_file()
 
         if save_and_reload:
