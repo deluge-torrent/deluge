@@ -8,6 +8,7 @@
 
 import logging
 import os
+from typing import Optional
 
 import deluge.common
 import deluge.log
@@ -116,7 +117,7 @@ def set_config_dir(directory):
     return _configmanager.set_config_dir(deluge.common.decode_bytes(directory))
 
 
-def get_config_dir(filename: str | None = None) -> str:
+def get_config_dir(filename: Optional[str] = None) -> str:
     if filename is not None:
         return os.path.join(_configmanager.get_config_dir(), filename)
     else:
