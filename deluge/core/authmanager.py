@@ -10,7 +10,7 @@
 import logging
 import os
 import shutil
-from typing import Literal, override
+from typing import Literal, Union
 
 import deluge.component as component
 import deluge.configmanager as configmanager
@@ -50,7 +50,7 @@ class Account:
         self.password: str = password
         self.authlevel: int = authlevel
 
-    def data(self) -> dict[str, str | int]:
+    def data(self) -> dict[str, Union[str, int]]:
         return {
             'username': self.username,
             'password': self.password,
@@ -58,7 +58,6 @@ class Account:
             'authlevel_int': self.authlevel,
         }
 
-    @override
     def __repr__(self) -> str:
         return '<Account username="{username}" authlevel={authlevel}>'.format(
             username=self.username,
@@ -72,19 +71,15 @@ class AuthManager(component.Component):
         self.__auth: dict[str, Account] = {}
         self.__auth_modification_time = None
 
-    @override
     def start(self) -> None:
         self.__load_auth_file()
 
-    @override
     def stop(self) -> None:
         self.__auth = {}
 
-    @override
     def shutdown(self) -> None:
         pass
 
-    @override
     def update(self) -> None:
         auth_file = configmanager.get_config_dir('auth')
         # Check for auth file and create if necessary
