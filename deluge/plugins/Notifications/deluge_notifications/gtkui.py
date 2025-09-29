@@ -225,9 +225,7 @@ class GtkUiNotifications(CustomNotifications):
         log.debug('Failed to get torrent status to be able to show the popup')
 
     def _on_torrent_finished_event_got_torrent_status(self, torrent_status):
-        log.debug(
-            'Handler for TorrentFinishedEvent GTKUI called. ' 'Got Torrent Status'
-        )
+        log.debug('Handler for TorrentFinishedEvent GTKUI called. Got Torrent Status')
         title = _('Finished Torrent')
         torrent_status['num_files'] = torrent_status['file_progress'].count(1.0)
         message = (

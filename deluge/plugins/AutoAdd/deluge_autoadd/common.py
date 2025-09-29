@@ -13,9 +13,9 @@
 
 import os.path
 
-from pkg_resources import resource_filename
+from deluge.plugins.backports import resource_filename
 
 
-def get_resource(filename, subdir=False):
+def get_resource(filename: str, subdir: bool = False) -> str:
     folder = os.path.join('data', 'autoadd_options') if subdir else 'data'
     return resource_filename(__package__, os.path.join(folder, filename))

@@ -10,10 +10,13 @@
 """PluginManagerBase"""
 
 import email
+import importlib.metadata
 import logging
 import os.path
+import sys
+from typing import NamedTuple
 
-import pkg_resources
+import pkginfo
 from twisted.internet import defer
 from twisted.python.failure import Failure
 
@@ -44,6 +47,18 @@ triggered this warning, please report to it's author.
 If you're the developer, please take a look at the plugins hosted on deluge's
 git repository to have an idea of what needs to be changed.
 """
+
+
+# This class exists largely to replicate
+# the metadata provided by pkg_resources
+class EggPlugin(NamedTuple):
+    name: str
+    version: str
+    location: str
+    author: str
+    author_email: str
+    homepage: str
+    description: str
 
 
 class PluginManagerBase:
@@ -85,11 +100,28 @@ class PluginManagerBase:
 
     def get_available_plugins(self):
         """Returns a list of the available plugins name"""
+        return [p.name for p in self.available_plugins]
         return self.available_plugins
 
     def get_enabled_plugins(self):
         """Returns a list of enabled plugins"""
         return list(self.plugins)
+
+    def _get_egg_metadata(self, egg_path: str) -> EggPlugin:
+        pkg_info = pkginfo.BDist(egg_path)
+        if pkg_info.name is None or pkg_info.version is None:
+            raise ValueError(
+                f'Invalid .egg plugin {egg_path}: No name or version found'
+            )
+        return EggPlugin(
+            name=pkg_info.name,
+            version=pkg_info.version,
+            location=egg_path,
+            author=pkg_info.author or '',
+            author_email=pkg_info.author_email or '',
+            homepage=pkg_info.home_page or '',
+            description=pkg_info.description or '',
+        )
 
     def scan_for_plugins(self):
         """Scans for available plugins"""
@@ -102,21 +134,24 @@ class PluginManagerBase:
         ]
         plugin_dirs = [base_dir, user_dir] + base_subdir
 
-        for dirname in plugin_dirs:
-            pkg_resources.working_set.add_entry(dirname)
-        self.pkg_env = pkg_resources.Environment(
-            plugin_dirs, platform=None, python=None
-        )
-
         self.available_plugins = []
-        for name in self.pkg_env:
-            log.debug(
-                'Found plugin: %s %s at %s',
-                self.pkg_env[name][0].project_name,
-                self.pkg_env[name][0].version,
-                self.pkg_env[name][0].location,
+        for dirname in plugin_dirs:
+            for f in os.listdir(dirname):
+                if f.endswith('.egg'):
+                    full_path = os.path.join(dirname, f)
+                    if full_path not in sys.path:
+                        try:
+                            self.available_plugins.append(
+                                self._get_egg_metadata(full_path)
+                            )
+                            sys.path.insert(0, full_path)
+                        except Exception as e:
+                            log.warning(f'Failed to load .egg plugin {full_path}: {e}')
+
+        for plugin in self.available_plugins:
+            log.info(
+                f'Found plugin: {plugin.name} {plugin.version} at {plugin.location}'
             )
-            self.available_plugins.append(self.pkg_env[name][0].project_name)
 
     def enable_plugin(self, plugin_name):
         """Enable a plugin.
@@ -129,7 +164,7 @@ class PluginManagerBase:
                 whether the plugin is enabled or not.
 
         """
-        if plugin_name not in self.available_plugins:
+        if plugin_name not in [plugin.name for plugin in self.available_plugins]:
             log.warning('Cannot enable non-existent plugin %s', plugin_name)
             return defer.succeed(False)
 
@@ -138,28 +173,32 @@ class PluginManagerBase:
             return defer.succeed(True)
 
         plugin_name = plugin_name.replace(' ', '-')
-        egg = self.pkg_env[plugin_name][0]
-        # Activate is required by non-namespace plugins.
-        egg.activate()
+        log.debug(f'Enabling plugin: {plugin_name}')
+        egg = None
+        for plugin in self.available_plugins:
+            if plugin.name == plugin_name:
+                egg = plugin
+                break
+        if egg is None:
+            raise ValueError(f'Could not find egg for plugin {plugin_name}')
         return_d = defer.succeed(True)
+        entry_points = importlib.metadata.entry_points(name=egg.name)
 
-        for name in egg.get_entry_map(self.entry_name):
+        for ep in entry_points:
             try:
-                cls = egg.load_entry_point(self.entry_name, name)
+                cls = ep.load()
                 instance = cls(plugin_name.replace('-', '_'))
             except component.ComponentAlreadyRegistered as ex:
                 log.error(ex)
                 return defer.succeed(False)
             except Exception as ex:
-                log.error(
-                    'Unable to instantiate plugin %r from %r!', name, egg.location
-                )
+                log.error('Unable to instantiate plugin from %r!', egg.location)
                 log.exception(ex)
                 continue
             try:
                 return_d = defer.maybeDeferred(instance.enable)
             except Exception as ex:
-                log.error('Unable to enable plugin: %s', name)
+                log.error('Unable to enable plugin: %s', egg.location)
                 log.exception(ex)
                 return_d = defer.fail(False)
 
@@ -167,7 +206,7 @@ class PluginManagerBase:
                 import warnings
 
                 warnings.warn_explicit(
-                    DEPRECATION_WARNING % name,
+                    DEPRECATION_WARNING % ep.name,
                     DeprecationWarning,
                     instance.__module__,
                     0,
@@ -254,20 +293,33 @@ class PluginManagerBase:
         d.addBoth(on_disabled)
         return d
 
-    def get_plugin_info(self, name):
+    def _get_plugin(self, name: str) -> EggPlugin | None:
+        for plugin in self.available_plugins:
+            if plugin.name == name:
+                return plugin
+        return None
+
+    def get_plugin_info(self, name) -> dict[str, str]:
         """Returns a dictionary of plugin info from the metadata"""
 
-        if not self.pkg_env[name]:
+        plugin = self._get_plugin(name)
+        if not plugin:
             log.warning('Failed to retrieve info for plugin: %s', name)
             info = {}.fromkeys(METADATA_KEYS, '')
             info['Name'] = info['Version'] = 'not available'
             return info
 
-        pkg_info = self.pkg_env[name][0].get_metadata('PKG-INFO')
-        return self.parse_pkg_info(pkg_info)
+        info: dict[str, str] = {
+            'Author': plugin.author,
+            'Version': plugin.version,
+            'Author-email': plugin.author_email,
+            'Home-page': plugin.homepage,
+            'Description': plugin.description,
+        }
+        return info
 
     @staticmethod
-    def parse_pkg_info(pkg_info):
+    def parse_pkg_info(pkg_info) -> dict[str, str]:
         metadata_msg = email.message_from_string(pkg_info)
         metadata_ver = metadata_msg.get('Metadata-Version')
 

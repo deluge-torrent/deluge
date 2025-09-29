@@ -11,10 +11,13 @@
 # See LICENSE for more details.
 #
 
+import logging
 import os.path
 
-from pkg_resources import resource_filename
+from deluge.plugins.backports import resource_filename
+
+log = logging.getLogger(__name__)
 
 
-def get_resource(filename):
+def get_resource(filename: str) -> str:
     return resource_filename(__package__, os.path.join('data', filename))
