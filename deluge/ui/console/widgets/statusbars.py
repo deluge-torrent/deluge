@@ -10,7 +10,7 @@ import deluge.common
 import deluge.component as component
 from deluge.ui.client import client
 
-DEFAULT_DAEMON_PORT = 58846
+DEFAULT_DAEMON_PORT = 61000
 
 
 class StatusBars(component.Component):

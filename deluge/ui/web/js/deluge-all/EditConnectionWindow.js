@@ -59,7 +59,7 @@ Deluge.EditConnectionWindow = Ext.extend(Ext.Window, {
                         maxValue: 65535,
                     },
                     anchor: '40%',
-                    value: 58846,
+                    value: 61000,
                 },
                 {
                     fieldLabel: _('Username:'),

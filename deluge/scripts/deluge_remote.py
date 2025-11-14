@@ -31,8 +31,8 @@ def is_float_digit(string):
 parser = OptionParser()
 parser.add_option(
     '--port',
-    help='port for deluge backend host (default: 58846)',
-    default='58846',
+    help='port for deluge backend host (default: 61000)',
+    default='61000',
     dest='port',
 )
 parser.add_option(

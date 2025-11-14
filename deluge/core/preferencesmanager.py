@@ -37,7 +37,7 @@ log = logging.getLogger(__name__)
 DEFAULT_PREFS = {
     'send_info': False,
     'info_sent': 0.0,
-    'daemon_port': 58846,
+    'daemon_port': 61000,
     'allow_remote': False,
     'pre_allocate_storage': False,
     'download_location': deluge.common.get_default_download_dir(),

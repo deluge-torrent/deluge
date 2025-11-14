@@ -464,7 +464,7 @@ class DaemonStandaloneProxy(DaemonProxy):
         log.debug('daemon created!')
         self.connected = True
         self.host = 'localhost'
-        self.port = 58846
+        self.port = 61000
         # Running in standalone mode, it's safe to import auth level
         from deluge.core.authmanager import (
             AUTH_LEVEL_ADMIN,
@@ -565,7 +565,7 @@ class Client:
     def connect(
         self,
         host='127.0.0.1',
-        port=58846,
+        port=61000,
         username='',
         password='',
         skip_authentication=False,

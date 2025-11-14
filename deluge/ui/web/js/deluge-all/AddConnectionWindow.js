@@ -58,7 +58,7 @@ Deluge.AddConnectionWindow = Ext.extend(Ext.Window, {
                         minValue: -1,
                         maxValue: 65535,
                     },
-                    value: '58846',
+                    value: '61000',
                     anchor: '40%',
                 },
                 {

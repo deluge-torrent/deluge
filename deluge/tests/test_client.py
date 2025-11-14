@@ -32,7 +32,7 @@ class NoVersionSendingClient(Client):
     def connect(
         self,
         host='127.0.0.1',
-        port=58846,
+        port=61000,
         username='',
         password='',
         skip_authentication=False,

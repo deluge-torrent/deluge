@@ -87,8 +87,8 @@ class Console(UI):
             metavar='<port>',
             dest='daemon_port',
             type=int,
-            help=_('Deluge daemon port to connect to (default 58846)'),
-            default='58846',
+            help=_('Deluge daemon port to connect to (default 61000)'),
+            default='61000',
         )
         group.add_argument(
             '-U',

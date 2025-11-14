@@ -21,7 +21,7 @@ from deluge.ui.client import Client, client
 log = logging.getLogger(__name__)
 
 DEFAULT_HOST = '127.0.0.1'
-DEFAULT_PORT = 58846
+DEFAULT_PORT = 61000
 LOCALHOST = ('127.0.0.1', 'localhost', '::1')
 
 

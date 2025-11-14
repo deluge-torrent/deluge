@@ -386,7 +386,7 @@ class RPCServer(component.Component):
     :type listen: bool
     """
 
-    def __init__(self, port=58846, interface='', allow_remote=False, listen=True):
+    def __init__(self, port=61000, interface='', allow_remote=False, listen=True):
         component.Component.__init__(self, 'RPCServer')
 
         self.factory = Factory()

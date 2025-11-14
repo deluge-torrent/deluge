@@ -37,7 +37,7 @@ Deluge.preferences.Daemon = Ext.extend(Ext.form.FormPanel, {
                 fieldLabel: _('Daemon port:'),
                 labelSeparator: '',
                 name: 'daemon_port',
-                value: 58846,
+                value: 61000,
                 decimalPrecision: 0,
                 minValue: -1,
                 maxValue: 65535,

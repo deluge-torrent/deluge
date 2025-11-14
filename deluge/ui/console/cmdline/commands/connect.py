@@ -47,7 +47,7 @@ class Command(BaseCommand):
             host, port = host.split(':')
             port = int(port)
         except ValueError:
-            port = 58846
+            port = 61000
 
         def do_connect():
             d = client.connect(host, port, options.username, options.password)
