@@ -61,7 +61,7 @@ See [Alternative Installs](#alternative-installs)
 ## <i class="icon-freebsd"></i> FreeBSD
 
 ```
-pkg add deluge
+pkg install deluge
 ```
 
 [Package details](https://www.freshports.org/net-p2p/deluge/)
