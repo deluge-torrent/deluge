@@ -87,7 +87,7 @@ class AuthManager(component.Component):
             self.__load_auth_file()
             return
 
-        auth_file_modification_time = os.stat(auth_file).st_mtime
+        auth_file_modification_time = os.stat(auth_file).st_mtime_ns
         if self.__auth_modification_time != auth_file_modification_time:
             log.info('Auth file changed, reloading it!')
             self.__load_auth_file()
