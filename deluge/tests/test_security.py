@@ -72,7 +72,6 @@ def testssl_bin():
     return str(testssl_sh)
 
 
-# TODO: This whole module has not been tested since migrating tests fully to pytest
 class SecurityBaseTestCase:
     @pytest.fixture(autouse=True)
     def setvars(self, testssl_bin):
