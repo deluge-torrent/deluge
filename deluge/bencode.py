@@ -37,6 +37,10 @@ def decode_int(x, f):
 def decode_string(x, f):
     colon = x.index(BYTE_SEP, f)
     n = int(x[f:colon])
+    # The length must be numeric digits only
+    if not x[f:colon].isdigit():
+        raise ValueError
+    n = int(x[f:colon])
     if x[f : f + 1] == b'0' and colon != f + 1:
         raise ValueError
     colon += 1
