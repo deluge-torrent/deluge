@@ -80,6 +80,16 @@ jobs:
           python -m pip install .
           python setup.py install_scripts
 
+      - name: Install OpenSSL 1.1.1 using Chocolatey
+        run: choco install openssl --version 1.1.1.2100
+        shell: powershell
+        # Note: The exact version number (e.g., 1.1.1.2000) may vary over time.
+  
+      - name: Verify OpenSSL version
+        run: |
+          openssl version
+        shell: powershell
+
       - name: Freeze Deluge
         working-directory: packaging/win
         run: |

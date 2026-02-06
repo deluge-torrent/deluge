@@ -105,6 +105,16 @@ jobs:
           uv pip install -r requirements-ci.txt
           uv pip install -e .
 
+      - name: Install OpenSSL 1.1.1 using Chocolatey
+        run: choco install openssl --version 1.1.1.2100
+        shell: powershell
+        # Note: The exact version number (e.g., 1.1.1.2000) may vary over time.
+  
+      - name: Verify OpenSSL version
+        run: |
+          openssl version
+        shell: powershell
+
       - name: Test with pytest
         run: |
           python -c 'import libtorrent as lt; print(lt.__version__)';
