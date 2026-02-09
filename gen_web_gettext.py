@@ -54,21 +54,23 @@ def check_missing_markup(js_dir):
         for filename in files:
             if os.path.splitext(filename)[1] != '.js':
                 continue
-            for lineno, line in enumerate(open(os.path.join(root, filename))):
-                for match in string_re.finditer(line):
-                    for string in match.groups():
-                        # Ignore string that contains only digits or specificied strings in skip.
-                        if (
-                            not string
-                            or string.split("'")[1].isdigit()
-                            or any(x in string for x in skip)
-                        ):
-                            continue
-                        locations = strings.get(string, [])
-                        locations.append(
-                            (os.path.join(root, filename), str(lineno + 1))
-                        )
-                        strings[string] = locations
+            filepath = os.path.join(root, filename)
+            with open(filepath) as f:
+                for lineno, line in enumerate(f):
+                    for match in string_re.finditer(line):
+                        for string in match.groups():
+                            # Ignore string that contains only digits or specificied strings in skip.
+                            if (
+                                not string
+                                or string.split("'")[1].isdigit()
+                                or any(x in string for x in skip)
+                            ):
+                                continue
+                            locations = strings.get(string, [])
+                            locations.append(
+                                (filepath, str(lineno + 1))
+                            )
+                            strings[string] = locations
     return strings
 
 
