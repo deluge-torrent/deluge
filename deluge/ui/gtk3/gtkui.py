@@ -21,16 +21,31 @@ gi.require_version('Gdk', '3.0')
 # isort:imports-thirdparty
 from gi.repository.GLib import set_prgname
 from gi.repository.Gtk import Builder, ResponseType
-from twisted.internet import defer, gtk3reactor
+from twisted.internet import defer
 from twisted.internet.error import ReactorAlreadyInstalledError
 from twisted.internet.task import LoopingCall
 
-try:
+if sys.platform.startswith('win'):
+    try:
+        from twisted.internet import selectreactor
+        from gi.repository import GLib
+        selectreactor.install()
+        def pump_glib():
+            ctx = GLib.MainContext.default()
+            while ctx.pending():
+                ctx.iteration(False)
+        LoopingCall(pump_glib).start(0.1)
+    except ReactorAlreadyInstalledError:
+        # Running unit tests so already installed a rector
+        from twisted.internet import reactor
+else:
     # Install twisted reactor, before any other modules import reactor.
-    reactor = gtk3reactor.install()
-except ReactorAlreadyInstalledError:
-    # Running unit tests so already installed a rector
-    from twisted.internet import reactor
+    try:
+        from twisted.internet import defer, gtk3reactor
+        reactor = gtk3reactor.install()
+    except ReactorAlreadyInstalledError:
+        # Running unit tests so already installed a rector
+        from twisted.internet import reactor
 
 # isort:imports-firstparty
 import deluge.component as component
