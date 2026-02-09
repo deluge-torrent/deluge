@@ -15,6 +15,7 @@ import sys
 from distutils.command.build import build as _build
 from distutils.command.clean import clean as _clean
 from distutils.command.install_data import install_data as _install_data
+from pathlib import Path
 from shutil import rmtree, which
 
 from setuptools import Command, find_packages, setup
@@ -570,7 +571,7 @@ setup(
     maintainer='Calum Lind',
     maintainer_email='calumlind+deluge@gmail.com',
     keywords='torrent bittorrent p2p fileshare filesharing',
-    long_description=open('README.md').read(),
+    long_description=Path('README.md').read_text(encoding='utf-8'),
     long_description_content_type='text/markdown',
     url='https://deluge-torrent.org',
     project_urls={
