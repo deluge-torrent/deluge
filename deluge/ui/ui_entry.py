@@ -17,7 +17,10 @@ import logging
 import os
 import sys
 
-import pkg_resources
+try:
+    from importlib import metadata
+except ImportError:
+    import importlib_metadata as metadata  # type: ignore
 
 import deluge.common
 import deluge.configmanager
@@ -35,7 +38,13 @@ def start_ui():
 
     # Get the registered UI entry points
     ui_entrypoints = {}
-    for entrypoint in pkg_resources.iter_entry_points('deluge.ui'):
+    eps = metadata.entry_points()
+    if hasattr(eps, 'select'):  # 3.10+
+        ui_eps = eps.select(group='deluge.ui')
+    else:  # 3.9
+        ui_eps = eps.get('deluge.ui', [])
+
+    for entrypoint in ui_eps:
         try:
             ui_entrypoints[entrypoint.name] = entrypoint.load()
         except ImportError:

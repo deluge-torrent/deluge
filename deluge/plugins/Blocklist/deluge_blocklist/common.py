@@ -15,11 +15,11 @@ import os.path
 from functools import wraps
 from sys import exc_info
 
-from pkg_resources import resource_filename
+import deluge.common
 
 
 def get_resource(filename):
-    return resource_filename(__package__, os.path.join('data', filename))
+    return deluge.common.resource_filename(__package__, os.path.join('data', filename))
 
 
 def raises_errors_as(error):

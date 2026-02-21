@@ -34,9 +34,13 @@ from deluge.decorators import deprecated
 from deluge.error import InvalidPathError
 
 try:
-    from importlib.metadata import distribution
+    from importlib import metadata
 except ImportError:
-    from pkg_resources import get_distribution as distribution
+    import importlib_metadata as metadata  # type: ignore
+
+
+def distribution(package_name):
+    return metadata.distribution(package_name)
 
 
 try:

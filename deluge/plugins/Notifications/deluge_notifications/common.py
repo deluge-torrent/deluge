@@ -14,7 +14,7 @@
 import logging
 import os.path
 
-from pkg_resources import resource_filename
+import deluge.common
 from twisted.internet import defer
 
 from deluge import component
@@ -24,7 +24,7 @@ log = logging.getLogger(__name__)
 
 
 def get_resource(filename):
-    return resource_filename(__package__, os.path.join('data', filename))
+    return deluge.common.resource_filename(__package__, os.path.join('data', filename))
 
 
 class CustomNotifications:

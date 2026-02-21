@@ -12,8 +12,13 @@
 import email
 import logging
 import os.path
+import sys
 
-import pkg_resources
+try:
+    from importlib import metadata
+except ImportError:
+    import importlib_metadata as metadata  # type: ignore
+
 from twisted.internet import defer
 from twisted.python.failure import Failure
 
@@ -103,20 +108,41 @@ class PluginManagerBase:
         plugin_dirs = [base_dir, user_dir] + base_subdir
 
         for dirname in plugin_dirs:
-            pkg_resources.working_set.add_entry(dirname)
-        self.pkg_env = pkg_resources.Environment(
-            plugin_dirs, platform=None, python=None
-        )
+            if dirname not in sys.path:
+                sys.path.insert(0, dirname)
+
+        self.pkg_env = {}
+        for dirname in plugin_dirs:
+            # metadata.distributions() path= is only available in Python 3.10+
+            try:
+                dists = metadata.distributions(path=[dirname])
+            except TypeError:
+                # Python 3.9 workaround
+                dists = metadata.MetadataPathFinder.find_distributions(
+                    context=type('Context', (object,), {'path': [dirname]})
+                )
+
+            for dist in dists:
+                # Use project name from metadata
+                name = dist.metadata.get('Name')
+                if not name:
+                    continue
+                # pkg_resources uses normalized names for keys
+                key = name.replace(' ', '-').replace('_', '-').lower()
+                if key not in self.pkg_env:
+                    self.pkg_env[key] = []
+                self.pkg_env[key].append(dist)
 
         self.available_plugins = []
         for name in self.pkg_env:
+            dist = self.pkg_env[name][0]
             log.debug(
                 'Found plugin: %s %s at %s',
-                self.pkg_env[name][0].project_name,
-                self.pkg_env[name][0].version,
-                self.pkg_env[name][0].location,
+                dist.metadata.get('Name'),
+                dist.version,
+                getattr(dist, 'path', 'unknown'),
             )
-            self.available_plugins.append(self.pkg_env[name][0].project_name)
+            self.available_plugins.append(dist.metadata.get('Name'))
 
     def enable_plugin(self, plugin_name):
         """Enable a plugin.
@@ -137,22 +163,35 @@ class PluginManagerBase:
             log.warning('Cannot enable already enabled plugin %s', plugin_name)
             return defer.succeed(True)
 
-        plugin_name = plugin_name.replace(' ', '-')
-        egg = self.pkg_env[plugin_name][0]
-        # Activate is required by non-namespace plugins.
-        egg.activate()
+        plugin_name_normalized = plugin_name.replace(' ', '-')
+        key = plugin_name_normalized.replace('_', '-').lower()
+        dist = self.pkg_env[key][0]
+        # Activation not directly supported by importlib.metadata,
+        # but adding to sys.path in scan_for_plugins should be enough.
         return_d = defer.succeed(True)
 
-        for name in egg.get_entry_map(self.entry_name):
+        entry_points = dist.entry_points
+        # Filter entry points by group
+        if hasattr(entry_points, 'select'):  # 3.10+
+            selected_entry_points = entry_points.select(group=self.entry_name)
+        else:  # 3.9
+            selected_entry_points = [
+                ep for ep in entry_points if ep.group == self.entry_name
+            ]
+
+        for entry_point in selected_entry_points:
+            name = entry_point.name
             try:
-                cls = egg.load_entry_point(self.entry_name, name)
-                instance = cls(plugin_name.replace('-', '_'))
+                cls = entry_point.load()
+                instance = cls(plugin_name_normalized.replace('-', '_'))
             except component.ComponentAlreadyRegistered as ex:
                 log.error(ex)
                 return defer.succeed(False)
             except Exception as ex:
                 log.error(
-                    'Unable to instantiate plugin %r from %r!', name, egg.location
+                    'Unable to instantiate plugin %r from %r!',
+                    name,
+                    getattr(dist, 'path', 'unknown'),
                 )
                 log.exception(ex)
                 continue
@@ -257,18 +296,20 @@ class PluginManagerBase:
     def get_plugin_info(self, name):
         """Returns a dictionary of plugin info from the metadata"""
 
-        if not self.pkg_env[name]:
+        if name not in self.pkg_env or not self.pkg_env[name]:
             log.warning('Failed to retrieve info for plugin: %s', name)
             info = {}.fromkeys(METADATA_KEYS, '')
             info['Name'] = info['Version'] = 'not available'
             return info
 
-        pkg_info = self.pkg_env[name][0].get_metadata('PKG-INFO')
-        return self.parse_pkg_info(pkg_info)
+        dist = self.pkg_env[name][0]
+        return self.parse_pkg_info(dist.metadata)
 
     @staticmethod
-    def parse_pkg_info(pkg_info):
-        metadata_msg = email.message_from_string(pkg_info)
+    def parse_pkg_info(metadata_msg):
+        if isinstance(metadata_msg, str):
+            metadata_msg = email.message_from_string(metadata_msg)
+
         metadata_ver = metadata_msg.get('Metadata-Version')
 
         info = {key: metadata_msg.get(key, '') for key in METADATA_KEYS}
