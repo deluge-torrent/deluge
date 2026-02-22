@@ -14,9 +14,9 @@
 - Fork us on [GitHub](https://github.com/deluge-torrent/deluge).
 - Clone your repository.
 - Ensure you have the latest version tag from the main repository (required for versioning):
-  - `LATEST_TAG=$(git ls-remote --tags --refs upstream 'deluge-[0-9]*' | cut -f2 | sed 's|^refs/tags/||' | sort -V | tail -n1)`
-  - `git fetch upstream tag "${LATEST_TAG?}"`
-  - `git push origin tag "${LATEST_TAG?}"`
+  - `git remote add upstream https://github.com/deluge-torrent/deluge.git`
+  - `git fetch upstream --tags`
+  - `git push origin --tags`
 - Create a feature branch for your issue.
 - Apply your changes:
   - Add them, and then commit them to your branch.
