@@ -550,6 +550,7 @@ install_requires = [
     "pywin32; sys_platform == 'win32'",
     "certifi; sys_platform == 'win32'",
     'zope.interface',
+    "importlib_metadata; python_version < '3.8'",
 ]
 extras_require = {
     'all': [
