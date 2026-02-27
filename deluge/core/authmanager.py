@@ -87,7 +87,7 @@ class AuthManager(component.Component):
             self.__load_auth_file()
             return
 
-        auth_file_modification_time = os.stat(auth_file).st_mtime
+        auth_file_modification_time = os.stat(auth_file).st_mtime_ns
         if self.__auth_modification_time != auth_file_modification_time:
             log.info('Auth file changed, reloading it!')
             self.__load_auth_file()
@@ -122,13 +122,20 @@ class AuthManager(component.Component):
         if not password and stored_password:
             raise AuthenticationRequired('Password is required', username)
 
-        # Validate with plaintext password for localclient account
-        # to retain autologin compatibility for existing users.
-        if username == 'localclient' and stored_password == password:
-            return self.__auth[username].authlevel
+        if not self._verify_password(username, password, stored_password):
+            raise BadLoginError('Password does not match', username)
+
+        return self.__auth[username].authlevel
+
+    @staticmethod
+    def _verify_password(username: str, password: str, stored_password: str) -> bool:
+        """Verifies a user's password either as hash or plaintext."""
+        if username == 'localclient':
+            # Plaintext validation to maintain localclient autologin compatibility
+            return stored_password == password
 
         try:
-            verified = check_password_hash(stored_password, password)
+            return check_password_hash(stored_password, password)
         except InvalidHashError as ex:
             log.warning(
                 'Invalid hash method in password for user %s: %s'
@@ -136,12 +143,7 @@ class AuthManager(component.Component):
                 username,
                 ex.method,
             )
-            verified = password == stored_password
-
-        if not verified:
-            raise BadLoginError('Password does not match', username)
-
-        return self.__auth[username].authlevel
+            return stored_password == password
 
     def has_account(self, username):
         return username in self.__auth

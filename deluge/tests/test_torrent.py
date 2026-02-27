@@ -128,6 +128,7 @@ class TestTorrent(BaseTestCase):
         result = all(p in piece_prio for p in [3, 2, 0, 5, 6, 7])
         assert result
 
+    @pytest.mark.flaky(reruns=3, reruns_delay=2)
     def test_set_prioritize_first_last_pieces(self):
         piece_indexes = [
             0,

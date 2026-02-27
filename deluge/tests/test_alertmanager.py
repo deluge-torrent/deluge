@@ -7,6 +7,7 @@ import sys
 from dataclasses import dataclass
 
 import pytest
+from twisted.internet import reactor, task
 
 from deluge.core.core import Core
 
@@ -94,6 +95,28 @@ class TestAlertManager:
         mock_callback.assert_not_called()
         assert not self.am._event.is_set()
         assert len(self.am.session.alerts) == 2
+
+    async def test_stop_while_paused_exits_thread(self, component, mock_alert1):
+        """Test alert-poller thread exits when component stopped while paused with pending alert.
+
+        Regression test: _event.wait() without a timeout blocked the alert-poller
+        thread indefinitely when paused, preventing clean shutdown.
+        """
+        alert_thread = self.am._thread
+        assert alert_thread.is_alive()
+
+        await component.pause(['AlertManager'])
+        self.am.session.push_alerts([mock_alert1])
+
+        # Let the alert-poller thread reach _event.wait() before stopping.
+        await task.deferLater(reactor, 0.1, lambda: None)
+
+        await component.stop(['AlertManager'])
+
+        alert_thread.join(timeout=2)
+        assert (
+            not alert_thread.is_alive()
+        ), 'Alert-poller thread is still running after stop'
 
     def test_deregister_handler(self):
         def handler(alert): ...

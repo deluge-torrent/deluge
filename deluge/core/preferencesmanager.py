@@ -48,6 +48,11 @@ DEFAULT_PREFS = {
     'listen_random_port': None,
     'listen_use_sys_port': False,
     'listen_reuse_port': True,
+    'ssl_torrents': False,
+    'ssl_listen_ports': [6892, 6896],
+    'ssl_torrents_certs': os.path.join(
+        deluge.configmanager.get_config_dir(), 'ssl_torrents_certs'
+    ),
     'outgoing_ports': [0, 0],
     'random_outgoing_ports': True,
     'copy_torrent_file': False,
@@ -227,6 +232,24 @@ class PreferencesManager(component.Component):
             f'{interface}:{port}'
             for port in range(listen_ports[0], listen_ports[1] + 1)
         ]
+
+        if self.config['ssl_torrents']:
+            if self.config['random_port']:
+                ssl_listen_ports = [self.config['listen_random_port'] + 1] * 2
+            else:
+                ssl_listen_ports = self.config['ssl_listen_ports']
+            interfaces.extend(
+                [
+                    f'{interface}:{port}s'
+                    for port in range(ssl_listen_ports[0], ssl_listen_ports[1] + 1)
+                ]
+            )
+            log.debug(
+                'SSL listen Interface: %s, Ports: %s',
+                interface,
+                listen_ports,
+            )
+
         self.core.apply_session_settings(
             {
                 'listen_system_port_fallback': self.config['listen_use_sys_port'],

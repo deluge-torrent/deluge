@@ -67,10 +67,10 @@ class AlertManager(component.Component):
         pass
 
     def start(self):
-        thread = threading.Thread(
+        self._thread = threading.Thread(
             target=self.wait_for_alert_in_thread, name='alert-poller', daemon=True
         )
-        thread.start()
+        self._thread.start()
         self._event.set()
 
     def stop(self):
@@ -88,10 +88,13 @@ class AlertManager(component.Component):
                 time.sleep(0.05)
                 continue
 
+            if not self._event.wait(timeout=1):
+                continue
+
             if self.session.wait_for_alert(1000) is None:
                 continue
-            if self._event.wait():
-                threads.blockingCallFromThread(reactor, self.maybe_handle_alerts)
+
+            threads.blockingCallFromThread(reactor, self.maybe_handle_alerts)
 
     def on_delayed_call_timeout(self, result, timeout, **kwargs):
         log.warning('Alert handler was timed-out before being called %s', kwargs)

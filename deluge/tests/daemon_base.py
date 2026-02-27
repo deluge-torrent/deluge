@@ -25,7 +25,7 @@ class DaemonBase:
             if hasattr(args[0], 'getTraceback'):
                 print('terminate_core: Errback Exception: %s' % args[0].getTraceback())
 
-        if not self.core.killed:
+        if self.core and not self.core.killed:
             d = self.core.kill()
             return d
 
@@ -43,7 +43,8 @@ class DaemonBase:
     ):
         logfile = f'daemon_{self.id()}.log' if logfile == '' else logfile
 
-        for dummy in range(port_range):
+        exception_error = RuntimeError('Failed to start daemon')
+        for _ in range(port_range):
             try:
                 d, self.core = common.start_core(
                     listen_port=self.listen_port,
@@ -54,7 +55,7 @@ class DaemonBase:
                     print_stdout=print_stdout,
                     print_stderr=print_stderr,
                     extra_callbacks=extra_callbacks,
-                    config_directory=self.config_dir,
+                    config_dir=self.config_dir,
                 )
                 yield d
             except CannotListenError as ex:

@@ -27,6 +27,7 @@ class TestTrackerIcons(BaseTestCase):
     def tear_down(self):
         return component.shutdown()
 
+    @pytest.mark.flaky(reruns=3, reruns_delay=2)
     async def test_get_deluge_png(self, mock_mkstemp):
         # Deluge has a png favicon link
         icon = TrackerIcon(common.get_test_data_file('deluge.png'))

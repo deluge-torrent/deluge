@@ -9,6 +9,7 @@
 import os
 import sys
 import traceback
+from pathlib import Path
 
 import pytest
 from twisted.internet import defer, protocol, reactor
@@ -96,6 +97,7 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
         logfile=None,
         print_stdout=True,
         print_stderr=True,
+        **kwargs,
     ):
         """Executes a script and handle the process' output to stdout and stderr.
 
@@ -119,6 +121,7 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
         self.quit_d = None
         self.killed = False
         self.watchdogs = []
+        self.options = kwargs
 
     def connectionMade(self):  # NOQA: N802
         self.transport.write(self.script)
@@ -158,14 +161,14 @@ class ProcessOutputHandler(protocol.ProcessProtocol):
             if not w.called and not w.cancelled:
                 w.cancel()
 
-    def processEnded(self, status):  # NOQA: N802
+    def processEnded(self, reason):  # NOQA: N802
         self.transport.loseConnection()
         if self.quit_d is None:
             return
-        if status.value.exitCode == 0:
+        if reason.value.exitCode == 0:
             self.quit_d.callback(True)
         else:
-            self.quit_d.errback(status)
+            self.quit_d.errback(reason)
 
     def check_callbacks(self, data, cb_type='stdout'):
         ret = False
@@ -220,7 +223,7 @@ def start_core(
     print_stdout=True,
     print_stderr=True,
     extra_callbacks=None,
-    config_directory='',
+    config_dir: Path = Path(),
 ):
     """Start the deluge core as a daemon.
 
@@ -261,7 +264,7 @@ except Exception:
     import traceback
     sys.stderr.write('Exception raised:\\n %%s' %% traceback.format_exc())
 """ % {
-        'dir': config_directory.as_posix(),
+        'dir': config_dir.as_posix(),
         'port': listen_port,
         'script': custom_script,
     }
@@ -270,6 +273,7 @@ except Exception:
     default_core_cb = {'deferred': Deferred(), 'types': 'stdout'}
     if timeout:
         default_core_cb['timeout'] = timeout
+        default_core_cb['timeout_msg'] = timeout_msg if timeout_msg else 'Timeout!'
 
     # Specify the triggers for daemon log output
     default_core_cb['triggers'] = [
@@ -299,6 +303,9 @@ except Exception:
     @defer.inlineCallbacks
     def shutdown_daemon():
         username, password = get_localhost_auth()
+        if not (username and password):
+            raise ValueError('No localhost username or password found')
+
         client = Client()
         yield client.connect(
             'localhost', listen_port, username=username, password=password
@@ -306,13 +313,26 @@ except Exception:
         yield client.daemon.shutdown()
 
     process_protocol = start_process(
-        daemon_script, shutdown_daemon, callbacks, logfile, print_stdout, print_stderr
+        daemon_script,
+        shutdown_daemon,
+        callbacks,
+        logfile,
+        print_stdout,
+        print_stderr,
+        listen_port=listen_port,
+        config_dir=config_dir,
     )
     return default_core_cb['deferred'], process_protocol
 
 
 def start_process(
-    script, shutdown_func, callbacks, logfile=None, print_stdout=True, print_stderr=True
+    script,
+    shutdown_func,
+    callbacks,
+    logfile=None,
+    print_stdout=True,
+    print_stderr=True,
+    **kwargs,
 ):
     """
     Starts an external python process which executes the given script.
@@ -324,6 +344,7 @@ def start_process(
         logfile (str, optional): Logfile name to write the output from the process.
         print_stderr (bool): If the output from the process' stderr should be printed to stdout.
         print_stdout (bool): If the output from the process' stdout should be printed to stdout.
+        **kwargs: Additional options that will be stored in the instance's options attribute.
 
     Returns:
         ProcessOutputHandler: The handler for the process's output.
@@ -347,6 +368,7 @@ def start_process(
         logfile,
         print_stdout,
         print_stderr,
+        **kwargs,
     )
 
     # Add timeouts to deferreds

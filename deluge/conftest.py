@@ -6,6 +6,7 @@
 import asyncio
 import tempfile
 import warnings
+from pathlib import Path
 from unittest.mock import Mock, patch
 
 import pytest
@@ -67,15 +68,15 @@ def config_dir(tmp_path):
     yield config_dir
 
 
-@pytest_twisted.async_yield_fixture()
+@pytest_twisted.async_yield_fixture
 async def client(request, config_dir, monkeypatch, listen_port):
     # monkeypatch.setattr(
     #     _client, 'connect', functools.partial(_client.connect, port=listen_port)
     # )
-    try:
-        username, password = get_localhost_auth()
-    except Exception:
-        username, password = '', ''
+    username, password = get_localhost_auth()
+    if not (username and password):
+        raise ValueError('No localhost username or password found')
+
     await _client.connect(
         'localhost',
         port=listen_port,
@@ -84,11 +85,56 @@ async def client(request, config_dir, monkeypatch, listen_port):
     )
     yield _client
     if _client.connected():
-        await _client.disconnect()
+        result = _client.disconnect()
+        if asyncio.iscoroutine(result):
+            await result
 
 
 @pytest_twisted.async_yield_fixture
-async def daemon(request, config_dir, tmp_path):
+async def daemon_factory():
+    created_daemons = []
+
+    async def _make_daemon(
+        listen_port=DEFAULT_LISTEN_PORT,
+        logfile=None,
+        custom_script='',
+        config_dir=Path(),
+    ):
+        exception_error = RuntimeError('Failed to start daemon')
+        for _ in range(10):
+            try:
+                d, daemon_proc = common.start_core(
+                    listen_port=listen_port,
+                    logfile=logfile,
+                    timeout=5,
+                    timeout_msg='Timeout!',
+                    custom_script=custom_script,
+                    print_stdout=True,
+                    print_stderr=True,
+                    config_dir=config_dir,
+                )
+                await d
+                created_daemons.append(daemon_proc)
+                return daemon_proc
+            except CannotListenError as ex:
+                exception_error = ex
+                listen_port += 1
+            except (KeyboardInterrupt, SystemExit):
+                raise
+        else:
+            raise exception_error
+
+    yield _make_daemon
+
+    for daemon in created_daemons:
+        try:
+            await daemon.kill()
+        except ProcessTerminated:
+            pass
+
+
+@pytest_twisted.async_yield_fixture
+async def daemon(request, config_dir, tmp_path, daemon_factory):
     listen_port = DEFAULT_LISTEN_PORT
     logfile = tmp_path / 'daemon.log'
 
@@ -97,29 +143,12 @@ async def daemon(request, config_dir, tmp_path):
     else:
         custom_script = ''
 
-    for dummy in range(10):
-        try:
-            d, daemon = common.start_core(
-                listen_port=listen_port,
-                logfile=logfile,
-                timeout=5,
-                timeout_msg='Timeout!',
-                custom_script=custom_script,
-                print_stdout=True,
-                print_stderr=True,
-                config_directory=config_dir,
-            )
-            await d
-        except CannotListenError as ex:
-            exception_error = ex
-            listen_port += 1
-        except (KeyboardInterrupt, SystemExit):
-            raise
-        else:
-            break
-    else:
-        raise exception_error
-    daemon.listen_port = listen_port
+    daemon = await daemon_factory(
+        listen_port=listen_port,
+        logfile=logfile,
+        custom_script=custom_script,
+        config_dir=config_dir,
+    )
     yield daemon
     try:
         await daemon.kill()
@@ -144,7 +173,7 @@ def common_fixture(config_dir, request, monkeypatch, listen_port):
         request.cls.fail = fail
 
 
-@pytest_twisted.async_yield_fixture(scope='function')
+@pytest_twisted.async_yield_fixture
 async def component():
     """Verify component registry is clean, and clean up after test."""
     if len(_component._ComponentRegistry.components) != 0:
@@ -161,7 +190,7 @@ async def component():
     _component._ComponentRegistry.dependents.clear()
 
 
-@pytest_twisted.async_yield_fixture(scope='function')
+@pytest_twisted.async_yield_fixture
 async def base_fixture(common_fixture, component, request):
     """This fixture is autoused on all tests that subclass BaseTestCase"""
     self = request.instance

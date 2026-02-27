@@ -1,6 +1,6 @@
+setuptools < 82
 libtorrent
 twisted[tls]>=17.1
-twisted[tls]<23,>=17.1; sys_platform == 'win32'
 rencode
 pyopenssl
 pyxdg
@@ -12,7 +12,7 @@ setproctitle
 pywin32; sys_platform == 'win32'
 certifi; sys_platform == 'win32'
 windows-curses; sys_platform == 'win32'
-zope.interface>=4.4.2
+zope.interface>=4.4.2,<8.0
 distro; 'linux' in sys_platform or 'bsd' in sys_platform
 pygeoip
 ifaddr>=0.2.0

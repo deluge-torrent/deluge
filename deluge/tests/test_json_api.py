@@ -217,7 +217,7 @@ class TestJSONRequestFailed(WebServerMockBase):
             print_stderr=False,
             timeout=5,
             extra_callbacks=[extra_callback],
-            config_directory=config_dir,
+            config_dir=config_dir,
         )
         extra_callback['deferred'].addCallback(on_test_raise, daemon)
 
