@@ -16,8 +16,7 @@ import argparse
 import logging
 import os
 import sys
-
-import pkg_resources
+from importlib.metadata import entry_points
 
 import deluge.common
 import deluge.configmanager
@@ -32,7 +31,8 @@ AMBIGUOUS_CMD_ARGS = ('-h', '--help', '-v', '-V', '--version')
 def get_ui_entrypoints():
     """Return a dict of loaded deluge.ui entry points, keyed by name."""
     ui_entrypoints = {}
-    for entrypoint in pkg_resources.iter_entry_points('deluge.ui'):
+    eps = entry_points(group='deluge.ui')
+    for entrypoint in eps.select():
         try:
             ui_entrypoints[entrypoint.name] = entrypoint.load()
         except ImportError:
