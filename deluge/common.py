@@ -25,6 +25,7 @@ import time
 from contextlib import closing
 from datetime import datetime
 from importlib import resources
+from importlib.metadata import distribution
 from io import BytesIO
 from pathlib import Path
 from urllib.parse import unquote_plus, urljoin
@@ -32,12 +33,6 @@ from urllib.request import pathname2url
 
 from deluge.decorators import deprecated
 from deluge.error import InvalidPathError
-
-try:
-    from importlib.metadata import distribution
-except ImportError:
-    from pkg_resources import get_distribution as distribution
-
 
 try:
     import chardet
