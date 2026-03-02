@@ -42,3 +42,16 @@ class TestBencode:
             bencode.bdecode(b' 3:abc')
         with pytest.raises(bencode.BTFailure):
             bencode.bdecode(b' +3:abc')
+
+    def test_bencode_recursion_decode(self):
+        nesting_level = 200
+        data = b'l' * nesting_level + b'i1e' + b'e' * nesting_level
+        with pytest.raises(bencode.BTFailure):
+            bencode.bdecode(data)
+
+    def test_bencode_recursion_encode(self):
+        obj = 'a'
+        for _ in range(200):
+            obj = [obj]
+        with pytest.raises(bencode.BTFailure):
+            bencode.bencode(obj)

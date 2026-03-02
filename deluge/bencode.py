@@ -22,8 +22,11 @@ INT_DELIM = b'i'
 LIST_DELIM = b'l'
 BYTE_SEP = b':'
 
+# The max depth permitted for recursive functions. Depths above this will throw a BTFailure.
+MAX_DEPTH: int = 100
 
-def decode_int(x, f):
+
+def decode_int(x, f, depth=0):
     f += 1
     newf = x.index(END_DELIM, f)
     n = int(x[f:newf])
@@ -34,7 +37,7 @@ def decode_int(x, f):
     return (n, newf + 1)
 
 
-def decode_string(x, f):
+def decode_string(x, f, depth=0):
     colon = x.index(BYTE_SEP, f)
     n = int(x[f:colon])
     # The length must be numeric digits only
@@ -47,19 +50,23 @@ def decode_string(x, f):
     return (x[colon : colon + n], colon + n)
 
 
-def decode_list(x, f):
+def decode_list(x, f, depth):
+    if depth > MAX_DEPTH:
+        raise BTFailure('Too much nesting in list')
     r, f = [], f + 1
     while x[f : f + 1] != END_DELIM:
-        v, f = decode_func[x[f : f + 1]](x, f)
+        v, f = decode_func[x[f : f + 1]](x, f, depth + 1)
         r.append(v)
     return (r, f + 1)
 
 
-def decode_dict(x, f):
+def decode_dict(x, f, depth):
+    if depth > MAX_DEPTH:
+        raise BTFailure('Too much nesting in dict')
     r, f = {}, f + 1
     while x[f : f + 1] != END_DELIM:
-        k, f = decode_string(x, f)
-        r[k], f = decode_func[x[f : f + 1]](x, f)
+        k, f = decode_string(x, f, depth + 1)
+        r[k], f = decode_func[x[f : f + 1]](x, f, depth + 1)
     return (r, f + 1)
 
 
@@ -81,7 +88,7 @@ decode_func[b'9'] = decode_string
 
 def bdecode(x):
     try:
-        r, __ = decode_func[x[0:1]](x, 0)
+        r, __ = decode_func[x[0:1]](x, 0, 0)
     except (LookupError, TypeError, ValueError):
         raise BTFailure('Not a valid bencoded string')
     else:
@@ -115,14 +122,18 @@ def encode_bytes(x, r):
     r.extend((str(len(x)).encode('utf8'), BYTE_SEP, x))
 
 
-def encode_list(x, r):
+def encode_list(x, r, depth):
+    if depth > MAX_DEPTH:
+        raise BTFailure('Too much nesting in list')
     r.append(LIST_DELIM)
     for i in x:
-        encode_func[type(i)](i, r)
+        encode_func[type(i)](i, r, depth + 1)
     r.append(END_DELIM)
 
 
-def encode_dict(x, r):
+def encode_dict(x, r, depth):
+    if depth > MAX_DEPTH:
+        raise BTFailure('Too much nesting in dict')
     r.append(DICT_DELIM)
     for k, v in sorted(x.items()):
         try:
@@ -130,22 +141,22 @@ def encode_dict(x, r):
         except AttributeError:
             pass
         r.extend((str(len(k)).encode('utf8'), BYTE_SEP, k))
-        encode_func[type(v)](v, r)
+        encode_func[type(v)](v, r, depth + 1)
     r.append(END_DELIM)
 
 
 encode_func = {}
-encode_func[Bencached] = encode_bencached
-encode_func[int] = encode_int
+encode_func[Bencached] = lambda x, r, d: encode_bencached(x, r)
+encode_func[int] = lambda x, r, d: encode_int(x, r)
 encode_func[list] = encode_list
 encode_func[tuple] = encode_list
 encode_func[dict] = encode_dict
-encode_func[bool] = encode_bool
-encode_func[str] = encode_string
-encode_func[bytes] = encode_bytes
+encode_func[bool] = lambda x, r, d: encode_bool(x, r)
+encode_func[str] = lambda x, r, d: encode_string(x, r)
+encode_func[bytes] = lambda x, r, d: encode_bytes(x, r)
 
 
 def bencode(x):
     r = []
-    encode_func[type(x)](x, r)
+    encode_func[type(x)](x, r, 0)
     return b''.join(r)
