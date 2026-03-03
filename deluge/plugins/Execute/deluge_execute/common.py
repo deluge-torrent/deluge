@@ -11,10 +11,8 @@
 # See LICENSE for more details.
 #
 
-import os.path
-
-from pkg_resources import resource_filename
+from importlib.resources import files
 
 
-def get_resource(filename):
-    return resource_filename(__package__, os.path.join('data', filename))
+def get_resource(filename: str) -> str:
+    return str(files(__package__) / 'data' / filename)
