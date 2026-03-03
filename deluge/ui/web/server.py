@@ -335,7 +335,7 @@ class ScriptResource(resource.Resource, component.Component):
         if script_type not in ('dev', 'debug', 'normal'):
             script_type = 'normal'
 
-        self.__scripts[script_type]['scripts'][path] = filepath
+        self.__scripts[script_type]['scripts'][path] = str(filepath)
         self.__scripts[script_type]['order'].append(path)
         if not os.path.isfile(filepath):
             self.__scripts[script_type]['files_exist'] = False
