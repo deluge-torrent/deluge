@@ -14,16 +14,16 @@
 import logging
 import os.path
 
-from pkg_resources import resource_filename
 from twisted.internet import defer
 
 from deluge import component
 from deluge.event import known_events
+from deluge.plugins.backports import resource_filename
 
 log = logging.getLogger(__name__)
 
 
-def get_resource(filename):
+def get_resource(filename: str) -> str:
     return resource_filename(__package__, os.path.join('data', filename))
 
 

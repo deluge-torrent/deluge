@@ -413,7 +413,7 @@ class Core(CorePluginBase):
         session_auth_level = self.rpcserver.get_session_auth_level()
         if session_auth_level == AUTH_LEVEL_ADMIN:
             log.debug(
-                'Current logged in user %s is an ADMIN, send all ' 'watchdirs',
+                'Current logged in user %s is an ADMIN, send all watchdirs',
                 session_user,
             )
             return self.watchdirs
@@ -424,8 +424,7 @@ class Core(CorePluginBase):
                 watchdirs[watchdir_id] = watchdir
 
         log.debug(
-            'Current logged in user %s is not an ADMIN, send only '
-            'their watchdirs: %s',
+            'Current logged in user %s is not an ADMIN, send only their watchdirs: %s',
             session_user,
             list(watchdirs),
         )

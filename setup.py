@@ -275,6 +275,7 @@ class BuildPlugins(Command):
                         + path
                         + '&& '
                         + sys.executable
+                        # TODO: This is a deprecated call
                         + ' setup.py develop --install-dir=%s' % self.install_dir
                     )
                 elif self.develop:
@@ -282,6 +283,7 @@ class BuildPlugins(Command):
                         'cd ' + path + '&& ' + sys.executable + ' setup.py develop'
                     )
                 else:
+                    # TODO: This is a deprecated call
                     os.system(
                         'cd '
                         + path
