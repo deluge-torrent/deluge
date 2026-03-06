@@ -10,16 +10,23 @@
 """PluginManagerBase"""
 
 import email
+import importlib.abc
+import importlib.machinery
 import logging
-import os.path
+import sys
+import unicodedata
+import zipfile
+from functools import cached_property
+from importlib.metadata import EntryPoints
+from importlib.resources import files
+from pathlib import Path
 
-import pkg_resources
 from twisted.internet import defer
 from twisted.python.failure import Failure
 
-import deluge.common
 import deluge.component as component
 import deluge.configmanager
+from deluge.common import VersionSplit
 
 log = logging.getLogger(__name__)
 
@@ -46,6 +53,204 @@ git repository to have an idea of what needs to be changed.
 """
 
 
+def _extract_egg(egg_path: Path, dest: Path) -> None:
+    """Extract a .egg zip to dest, skipping EGG-INFO metadata."""
+    dest.mkdir(parents=True, exist_ok=True)
+    with zipfile.ZipFile(egg_path) as zf:
+        for member in zf.namelist():
+            if not member.startswith('EGG-INFO/'):
+                zf.extract(member, dest)
+
+
+def _read_egg_info(egg_info: 'Path | zipfile.Path') -> tuple[str, str]:
+    """Read PKG-INFO and entry_points.txt from an egg-info directory.
+
+    Accepts a filesystem Path or zipfile.Path pointing directly at the
+    egg-info directory (e.g. EGG-INFO/ or PluginName.egg-info/).
+    """
+    pkg_info = (egg_info / 'PKG-INFO').read_text()
+    ep_path = egg_info / 'entry_points.txt'
+    ep_txt = ep_path.read_text() if ep_path.is_file() else ''
+    return pkg_info, ep_txt
+
+
+def _ep_module_root(entry_points: 'EntryPoints') -> str | None:
+    """Return the top-level package name from the first entry point."""
+    if ep := next(iter(entry_points), None):
+        return ep.value.split(':')[0].split('.')[0]
+    return None
+
+
+def plugin_name_to_id(name: str) -> str:
+    """Convert a plugin display name to its canonical id (lowercase kebab-case).
+
+    Applies NFKD unicode normalization and ASCII encoding to handle non-ASCII names.
+    Matches Python distribution name convention (PEP 503).
+    """
+    ascii_name = unicodedata.normalize('NFKD', name).encode('ascii', 'ignore').decode()
+    return ascii_name.lower().replace(' ', '-').replace('_', '-')
+
+
+def _load_plugin_metadata(
+    item_path: Path,
+) -> tuple[Path, str, str] | None:
+    """Detect plugin type and read (location, pkg_info, ep_txt), or None."""
+    match item_path.suffix:
+        case '.egg' if item_path.is_file():
+            location = item_path
+            pkg_info, ep_txt = _read_egg_info(zipfile.Path(location, 'EGG-INFO'))
+        case '.egg' if item_path.is_dir():
+            location = item_path
+            pkg_info, ep_txt = _read_egg_info(location / 'EGG-INFO')
+        case '.egg-info' if item_path.is_dir():
+            location = item_path.parent
+            pkg_info, ep_txt = _read_egg_info(item_path)
+        case '.egg-link' if item_path.is_file():
+            location = Path(item_path.read_text().splitlines()[0].strip())
+            pkg_info, ep_txt = _read_egg_info(next(location.glob('*.egg-info')))
+        case _:
+            return None
+    return location, pkg_info, ep_txt
+
+
+def _parse_pkg_info(pkg_info: str) -> dict:
+    """Parse a PKG-INFO string and return a dict of metadata fields."""
+    metadata_msg = email.message_from_string(pkg_info)
+    metadata_ver = metadata_msg.get('Metadata-Version')
+
+    info = {key: metadata_msg.get(key, '') for key in METADATA_KEYS}
+
+    # Optional Description field in body (Metadata spec >=2.1)
+    if not info['Description'] and (metadata_ver or '').startswith('2'):
+        info['Description'] = metadata_msg.get_payload().strip()
+
+    return info
+
+
+class _PluginDirFinder(importlib.abc.MetaPathFinder):
+    """MetaPathFinder that loads top-level packages from a single directory.
+
+    Used for both directory plugins and extracted zip egg plugins. Registered
+    on sys.meta_path so it can be cleanly removed on plugin deactivation,
+    without sys.path pollution or module cache issues.
+    """
+
+    def __init__(self, directory: Path):
+        self._finder = importlib.machinery.FileFinder(
+            str(directory),
+            (importlib.machinery.SourceFileLoader, ['.py']),
+            (importlib.machinery.SourcelessFileLoader, ['.pyc']),
+        )
+
+    def find_spec(self, fullname, _path, target=None):
+        """Find a module spec for a top-level plugin package.
+
+        Only handles top-level imports (e.g. deluge_foo), not namespace
+        subpackage imports (e.g. deluge.plugins.foo).
+        """
+        if '.' in fullname:
+            return None
+        return self._finder.find_spec(fullname, target)
+
+    def invalidate_caches(self):
+        self._finder.invalidate_caches()
+
+
+class _PluginDist:
+    """Discovered plugin distribution.
+
+    Attributes:
+        name: Display name from PKG-INFO (e.g. "Foo Bar").
+        id: Normalised distribution id (e.g. "foo-bar"), PEP 503.
+        module_root: Top-level package from entry point (e.g. "deluge_foobar").
+    """
+
+    def __init__(
+        self,
+        name: str,
+        version: str,
+        location: Path,
+        entry_points: EntryPoints,
+        pkg_info: str,
+    ):
+        self.name = name
+        self.id = plugin_name_to_id(name)
+        self.version = version
+        self.location = location
+        self._entry_points = entry_points
+        self._pkg_info = pkg_info
+        self._finder: _PluginDirFinder | None = None
+        self._active: bool = False
+        self.module_root: str = _ep_module_root(entry_points) or self.id.replace(
+            '-', '_'
+        )
+
+    @property
+    def is_active(self) -> bool:
+        """Returns True if the plugin is loaded and active, False if not."""
+        return self._active
+
+    @cached_property
+    def info(self) -> dict:
+        """Return a dict of plugin metadata fields."""
+        return _parse_pkg_info(self._pkg_info)
+
+    @property
+    def entry_points(self) -> EntryPoints:
+        """Return all the plugin's entry points."""
+        return self._entry_points
+
+    @cached_property
+    def _egg_cache_dir(self) -> Path:
+        cache_base = Path(deluge.configmanager.get_config_dir()) / 'plugin_cache'
+        return cache_base / f'{self.id}-{self.version}'
+
+    @classmethod
+    def from_metadata(cls, location: Path, pkg_info: str, ep_txt: str) -> '_PluginDist':
+        meta = email.message_from_string(pkg_info)
+        entry_points = EntryPoints._from_text_for(ep_txt, None)
+        return cls(
+            name=meta.get('Name', ''),
+            version=meta.get('Version', ''),
+            location=location,
+            entry_points=entry_points,
+            pkg_info=pkg_info,
+        )
+
+    def activate(self):
+        if self.is_active:
+            return
+
+        is_plugin_egg = self.location.is_file()
+
+        if is_plugin_egg:
+            plugin_dir = self._egg_cache_dir
+            # Extract if new plugin egg or egg has changed
+            if not plugin_dir.exists() or (
+                self.location.stat().st_mtime_ns > plugin_dir.stat().st_mtime_ns
+            ):
+                _extract_egg(self.location, plugin_dir)
+        else:
+            plugin_dir = self.location
+
+        self._finder = _PluginDirFinder(plugin_dir)
+        sys.meta_path.insert(0, self._finder)
+        self._active = True
+
+    def deactivate(self):
+        if self._finder:
+            try:
+                sys.meta_path.remove(self._finder)
+            except ValueError:
+                pass
+            self._finder = None
+        # Evict cached modules so a subsequent activate() re-imports cleanly.
+        for key in list(sys.modules):
+            if key == self.module_root or key.startswith(self.module_root + '.'):
+                del sys.modules[key]
+        self._active = False
+
+
 class PluginManagerBase:
     """PluginManagerBase is a base class for PluginManagers to inherit"""
 
@@ -53,7 +258,7 @@ class PluginManagerBase:
         self,
         config_file: str,
         entry_name: str,
-        plugin_dirs: list[str | os.PathLike] | None = None,
+        plugin_dirs: list[str | Path] | None = None,
     ) -> None:
         """Initialise the plugin manager.
 
@@ -70,10 +275,7 @@ class PluginManagerBase:
         self.config = deluge.configmanager.ConfigManager(config_file)
 
         # Create the plugins folder if it doesn't exist
-        if not os.path.exists(
-            os.path.join(deluge.configmanager.get_config_dir(), 'plugins')
-        ):
-            os.mkdir(os.path.join(deluge.configmanager.get_config_dir(), 'plugins'))
+        (Path(deluge.configmanager.get_config_dir()) / 'plugins').mkdir(exist_ok=True)
 
         # This is the entry we want to load..
         self.entry_name = entry_name
@@ -110,34 +312,73 @@ class PluginManagerBase:
         return list(self.plugins)
 
     @staticmethod
-    def default_plugin_dirs() -> list[str]:
+    def default_plugin_dirs() -> list[Path]:
         """Returns the default directories to scan for plugins."""
-        base_dir = deluge.common.resource_filename('deluge', 'plugins')
-        user_dir = os.path.join(deluge.configmanager.get_config_dir(), 'plugins')
-        base_subdir = [
-            os.path.join(base_dir, f)
-            for f in os.listdir(base_dir)
-            if os.path.isdir(os.path.join(base_dir, f))
-        ]
-        plugin_dirs = [base_dir, user_dir] + base_subdir
-        return plugin_dirs
+        base_dir = Path(str(files('deluge') / 'plugins'))
+        user_dir = Path(deluge.configmanager.get_config_dir()) / 'plugins'
+        base_subdir = [item for item in base_dir.iterdir() if item.is_dir()]
+        return [base_dir, user_dir] + base_subdir
 
     def scan_for_plugins(self) -> None:
         """Scan plugin_dirs for available plugins."""
-        str_dirs = [str(d) for d in self.plugin_dirs]
-        for dirname in str_dirs:
-            pkg_resources.working_set.add_entry(dirname)
-        self.pkg_env = pkg_resources.Environment(str_dirs, platform=None, python=None)
-
+        self._plugin_dist = {}
         self.available_plugins = []
-        for name in self.pkg_env:
-            log.debug(
-                'Found plugin: %s %s at %s',
-                self.pkg_env[name][0].project_name,
-                self.pkg_env[name][0].version,
-                self.pkg_env[name][0].location,
+
+        for scan_dir in self.plugin_dirs:
+            scan_path = Path(scan_dir)
+            if not scan_path.is_dir():
+                continue
+            for item in scan_path.iterdir():
+                self.register_plugin(item)
+
+    def register_plugin(self, plugin_path: Path) -> None:
+        try:
+            plugin_metadata = _load_plugin_metadata(plugin_path)
+            plugin_dist = (
+                _PluginDist.from_metadata(*plugin_metadata) if plugin_metadata else None
             )
-            self.available_plugins.append(self.pkg_env[name][0].project_name)
+        except Exception:
+            log.warning(
+                'Skipping %s: could not read plugin metadata',
+                plugin_path,
+                exc_info=True,
+            )
+            return
+
+        if plugin_dist is None or not plugin_dist.name:
+            return
+
+        log.debug(
+            'Found plugin: %s %s at %s',
+            plugin_dist.name,
+            plugin_dist.version,
+            plugin_dist.location,
+        )
+        key = plugin_dist.id
+        existing = self._plugin_dist.get(key)
+        if existing:
+            new_ver = VersionSplit(plugin_dist.version)
+            old_ver = VersionSplit(existing.version)
+            # Prefer newer version, or a source directory over a plugin of equal version.
+            prefer_new = new_ver > old_ver or (
+                new_ver == old_ver
+                and existing.location.is_file()
+                and plugin_dist.location.is_dir()
+            )
+            if not prefer_new:
+                log.debug('Skipping duplicate plugin: %s at %s', key, plugin_path)
+                return
+            log.debug(
+                'Replacing plugin %s %s at %s with %s at %s',
+                key,
+                existing.version,
+                existing.location,
+                plugin_dist.version,
+                plugin_dist.location,
+            )
+            self.available_plugins.remove(existing.name)
+        self._plugin_dist[key] = plugin_dist
+        self.available_plugins.append(plugin_dist.name)
 
     def enable_plugin(self, plugin_name):
         """Enable a plugin.
@@ -158,29 +399,30 @@ class PluginManagerBase:
             log.warning('Cannot enable already enabled plugin %s', plugin_name)
             return defer.succeed(True)
 
-        plugin_name = plugin_name.replace(' ', '-')
-        egg = self.pkg_env[plugin_name][0]
-        # Activate is required by non-namespace plugins.
-        egg.activate()
+        plugin_key = plugin_name_to_id(plugin_name)
+        plugin_dist = self._plugin_dist[plugin_key]
+        plugin_dist.activate()
         return_d = defer.succeed(True)
 
-        for name in egg.get_entry_map(self.entry_name):
+        for ep in plugin_dist.entry_points.select(group=self.entry_name):
             try:
-                cls = egg.load_entry_point(self.entry_name, name)
-                instance = cls(plugin_name.replace('-', '_'))
+                cls = ep.load()
+                instance = cls(plugin_dist.id)
             except component.ComponentAlreadyRegistered as ex:
                 log.error(ex)
                 return defer.succeed(False)
             except Exception as ex:
                 log.error(
-                    'Unable to instantiate plugin %r from %r!', name, egg.location
+                    'Unable to instantiate plugin %r from %r!',
+                    ep.name,
+                    plugin_dist.location,
                 )
                 log.exception(ex)
                 continue
             try:
                 return_d = defer.maybeDeferred(instance.enable)
             except Exception as ex:
-                log.error('Unable to enable plugin: %s', name)
+                log.error('Unable to enable plugin: %s', ep.name)
                 log.exception(ex)
                 return_d = defer.fail(False)
 
@@ -188,7 +430,7 @@ class PluginManagerBase:
                 import warnings
 
                 warnings.warn_explicit(
-                    DEPRECATION_WARNING % name,
+                    DEPRECATION_WARNING % ep.name,
                     DeprecationWarning,
                     instance.__module__,
                     0,
@@ -201,24 +443,24 @@ class PluginManagerBase:
                 return_d.addCallback(on_enabled, instance)
 
             def on_started(result, instance):
-                plugin_name_space = plugin_name.replace('-', ' ')
-                self.plugins[plugin_name_space] = instance
-                if plugin_name_space not in self.config['enabled_plugins']:
+                display_name = plugin_dist.name
+                self.plugins[display_name] = instance
+                if display_name not in self.config['enabled_plugins']:
                     log.debug(
-                        'Adding %s to enabled_plugins list in config', plugin_name_space
+                        'Adding %s to enabled_plugins list in config', display_name
                     )
-                    self.config['enabled_plugins'].append(plugin_name_space)
-                log.info('Plugin %s enabled...', plugin_name_space)
+                    self.config['enabled_plugins'].append(display_name)
+                log.info('Plugin %s enabled...', display_name)
                 return True
 
             def on_started_error(result, instance):
                 log.error(
                     'Failed to start plugin: %s\n%s',
-                    plugin_name,
+                    plugin_dist.name,
                     result.getTraceback(elideFrameworkCode=1, detail='brief'),
                 )
-                self.plugins[plugin_name.replace('-', ' ')] = instance
-                self.disable_plugin(plugin_name)
+                self.plugins[plugin_dist.name] = instance
+                self.disable_plugin(plugin_dist.name)
                 return False
 
             return_d.addCallbacks(
@@ -249,7 +491,10 @@ class PluginManagerBase:
         try:
             d = defer.maybeDeferred(self.plugins[name].disable)
         except Exception as ex:
-            log.error('Error when disabling plugin: %s', self.plugin._component_name)
+            log.error(
+                'Error when disabling plugin: %s',
+                self.plugins[name].plugin._component_name,
+            )
             log.debug(ex)
             d = defer.succeed(False)
 
@@ -264,6 +509,9 @@ class PluginManagerBase:
                 component.deregister(self.plugins[name].plugin)
                 del self.plugins[name]
                 self.config['enabled_plugins'].remove(name)
+                plugin_dist = self._plugin_dist.get(plugin_name_to_id(name))
+                if plugin_dist:
+                    plugin_dist.deactivate()
             except Exception as ex:
                 log.warning('Problems occurred disabling plugin: %s', name)
                 log.debug(ex)
@@ -277,25 +525,14 @@ class PluginManagerBase:
 
     def get_plugin_info(self, name):
         """Returns a dictionary of plugin info from the metadata"""
-
-        if not self.pkg_env[name]:
+        plugin_dist = self._plugin_dist.get(plugin_name_to_id(name))
+        if not plugin_dist:
             log.warning('Failed to retrieve info for plugin: %s', name)
-            info = {}.fromkeys(METADATA_KEYS, '')
-            info['Name'] = info['Version'] = 'not available'
-            return info
+            return {
+                **dict.fromkeys(METADATA_KEYS, ''),
+                'Name': 'not available',
+                'Version': 'not available',
+                'Location': '',
+            }
 
-        pkg_info = self.pkg_env[name][0].get_metadata('PKG-INFO')
-        return self.parse_pkg_info(pkg_info)
-
-    @staticmethod
-    def parse_pkg_info(pkg_info):
-        metadata_msg = email.message_from_string(pkg_info)
-        metadata_ver = metadata_msg.get('Metadata-Version')
-
-        info = {key: metadata_msg.get(key, '') for key in METADATA_KEYS}
-
-        # Optional Description field in body (Metadata spec >=2.1)
-        if not info['Description'] and metadata_ver.startswith('2'):
-            info['Description'] = metadata_msg.get_payload().strip()
-
-        return info
+        return {**plugin_dist.info, 'Location': str(plugin_dist.location)}

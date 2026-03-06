@@ -8,6 +8,7 @@ from pathlib import Path
 import pytest
 
 import deluge.common
+from deluge.pluginmanagerbase import _extract_egg, _PluginDirFinder
 
 
 @pytest.fixture(scope='session')
@@ -56,5 +57,25 @@ def fake_egg(tmp_path):
         zf.writestr('EGG-INFO/entry_points.txt', ep_txt)
         zf.writestr('fake_plugin/__init__.py', '')
         zf.writestr('fake_plugin/config.ui', '<ui/>')
+        zf.writestr('fake_plugin/data/script.js', 'console.log("test");')
 
     return plugins_dir, egg_path
+
+
+@pytest.fixture()
+def installed_fake_plugin(fake_egg, tmp_path):
+    """Extract fake_egg and register it via _PluginDirFinder on sys.meta_path.
+
+    Yields with fake_plugin importable via importlib.resources, then cleans up.
+    """
+    _, egg_path = fake_egg
+    dest = tmp_path / 'extracted'
+    _extract_egg(egg_path, dest)
+
+    finder = _PluginDirFinder(dest)
+    sys.meta_path.insert(0, finder)
+    # Evict any cached module so the import goes through our finder
+    sys.modules.pop('fake_plugin', None)
+    yield
+    sys.meta_path.remove(finder)
+    sys.modules.pop('fake_plugin', None)
