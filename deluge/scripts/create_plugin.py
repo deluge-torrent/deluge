@@ -222,15 +222,11 @@ setup(
 )
 """
 
-COMMON = """from __future__ import unicode_literals
-
-import os.path
-
-from pkg_resources import resource_filename
+COMMON = """from importlib.resources import files
 
 
-def get_resource(filename):
-    return resource_filename(__package__, os.path.join('data', filename))
+def get_resource(filename: str) -> str:
+    return str(files(__package__) / 'data' / filename)
 """
 
 GTK3UI = """from __future__ import unicode_literals

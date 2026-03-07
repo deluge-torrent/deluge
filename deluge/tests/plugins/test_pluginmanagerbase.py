@@ -1,15 +1,24 @@
 # SPDX-License-Identifier: GPL-3.0-or-later WITH GPL-3.0-linking-exception
 import sys
+import zipfile
+from importlib.metadata import EntryPoints
+from pathlib import Path
 
 import pytest
 
-from deluge.pluginmanagerbase import PluginManagerBase
+from deluge.pluginmanagerbase import (
+    PluginManagerBase,
+    _load_plugin_metadata,
+    _parse_pkg_info,
+    _PluginDist,
+    plugin_name_to_id,
+)
 
 
 def test_parse_pkg_info_metadata_1_x_no_description():
     """Metadata 1.x has no body fallback; Description must be empty string."""
     pkg_info = 'Metadata-Version: 1.0\nName: Foo\nVersion: 0.1\n'
-    info = PluginManagerBase.parse_pkg_info(pkg_info)
+    info = _parse_pkg_info(pkg_info)
     assert info['Description'] == ''
 
 
@@ -26,7 +35,7 @@ Platform: UNKNOWN
 
 Monitors folders for .torrent files.
     """
-    plugin_info = PluginManagerBase.parse_pkg_info(pkg_info)
+    plugin_info = _parse_pkg_info(pkg_info)
     for value in plugin_info.values():
         assert value != ''
     result = 'Monitors folders for .torrent files.'
@@ -101,12 +110,9 @@ def test_scan_egg_link(tmp_path):
     pm = PluginManagerBase('core.conf', 'deluge.plugin.core', plugin_dirs=[plugins_dir])
     assert 'MyPlugin' in pm.available_plugins
     assert pm.get_plugin_info('MyPlugin')['Version'] == '0.1'
+    assert pm._plugin_dist['myplugin'].entry_points.select(group='deluge.plugin.core')
 
 
-@pytest.mark.skipif(
-    sys.platform == 'win32',
-    reason='pkg_resources normalizes project_name to lowercase on Windows for directory eggs',
-)
 def test_scan_unpacked_egg_dir(tmp_path):
     """An unpacked .egg directory (Ubuntu-style) with EGG-INFO/ must be discovered."""
     plugins_dir = tmp_path / 'plugins'
@@ -144,3 +150,108 @@ def test_no_duplicate_plugins(fake_egg):
     )
     names = [n for n in pm.available_plugins if n == 'FakePlugin']
     assert len(names) == 1
+
+
+def test_higher_version_wins(tmp_path):
+    """When two eggs for the same plugin are found, the higher version must be kept."""
+
+    def make_egg(directory, version):
+        pkg_info = f'Metadata-Version: 1.0\nName: FakePlugin\nVersion: {version}\n'
+        egg_path = directory / f'FakePlugin-{version}-py3.egg'
+        with zipfile.ZipFile(egg_path, 'w') as zf:
+            zf.writestr('EGG-INFO/PKG-INFO', pkg_info)
+            zf.writestr('EGG-INFO/entry_points.txt', '')
+        return egg_path
+
+    old_dir = tmp_path / 'old'
+    new_dir = tmp_path / 'new'
+    old_dir.mkdir()
+    new_dir.mkdir()
+    make_egg(old_dir, '0.1')
+    make_egg(new_dir, '0.2')
+
+    pm = PluginManagerBase(
+        'core.conf', 'deluge.plugin.core', plugin_dirs=[old_dir, new_dir]
+    )
+    assert pm.get_plugin_info('FakePlugin')['Version'] == '0.2'
+
+
+@pytest.mark.parametrize(
+    'name, expected',
+    [
+        ('AutoAdd', 'autoadd'),
+        ('Auto Add', 'auto-add'),
+        ('my-plugin', 'my-plugin'),
+        ('my_plugin', 'my-plugin'),
+        ('My Plugin', 'my-plugin'),
+        ('Caf\u00e9', 'cafe'),  # NFKD strips combining accent
+    ],
+)
+def test_plugin_name_to_id(name, expected):
+    """plugin_name_to_id must return lowercase kebab-case ASCII."""
+    assert plugin_name_to_id(name) == expected
+
+
+def test_plugin_info_has_location(fake_egg):
+    """get_plugin_info must include a non-empty Location string."""
+    plugins_dir, _ = fake_egg
+    pm = PluginManagerBase('core.conf', 'deluge.plugin.core', plugin_dirs=[plugins_dir])
+    info = pm.get_plugin_info('FakePlugin')
+    assert 'Location' in info
+    assert info['Location']  # non-empty
+    assert Path(info['Location']).exists()
+
+
+def test_load_plugin_metadata_ignores_unknown_files(tmp_path):
+    """_load_plugin_metadata must return None for files it doesn't recognise."""
+    junk = tmp_path / 'something.txt'
+    junk.write_text('irrelevant')
+    assert _load_plugin_metadata(junk) is None
+
+
+def test_deactivate_clears_module_cache(tmp_path):
+    """deactivate() must evict the plugin package and its submodules from sys.modules."""
+    dist = _PluginDist(
+        name='FakePlugin',
+        version='0.1',
+        location=tmp_path,
+        entry_points=EntryPoints(),
+        pkg_info='',
+    )
+    dist._active = True
+
+    # Simulate modules loaded when the plugin was active
+    sys.modules['fakeplugin'] = object()
+    sys.modules['fakeplugin.core'] = object()
+
+    dist.deactivate()
+
+    assert 'fakeplugin' not in sys.modules
+    assert 'fakeplugin.core' not in sys.modules
+
+
+def test_deactivate_evicts_entry_point_module(tmp_path):
+    """deactivate() must use the entry point module name, not the dist id.
+
+    For deluge plugins the top-level package (e.g. deluge_fakeplugin) differs
+    from the distribution id (e.g. fakeplugin). The eviction must target the
+    actual imported package, derived from the entry point value.
+    """
+    ep_txt = '[deluge.plugin.core]\nFakePlugin = deluge_fakeplugin:CorePlugin\n'
+    eps = EntryPoints._from_text_for(ep_txt, None)
+    dist = _PluginDist(
+        name='FakePlugin',
+        version='0.1',
+        location=tmp_path,
+        entry_points=eps,
+        pkg_info='',
+    )
+    dist._active = True
+
+    sys.modules['deluge_fakeplugin'] = object()
+    sys.modules['deluge_fakeplugin.core'] = object()
+
+    dist.deactivate()
+
+    assert 'deluge_fakeplugin' not in sys.modules
+    assert 'deluge_fakeplugin.core' not in sys.modules

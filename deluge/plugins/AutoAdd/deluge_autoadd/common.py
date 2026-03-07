@@ -11,11 +11,9 @@
 # See LICENSE for more details.
 #
 
-import os.path
-
-from pkg_resources import resource_filename
+from importlib.resources import files
 
 
-def get_resource(filename, subdir=False):
-    folder = os.path.join('data', 'autoadd_options') if subdir else 'data'
-    return resource_filename(__package__, os.path.join(folder, filename))
+def get_resource(filename: str, subdir: bool = False) -> str:
+    folder = 'data/autoadd_options' if subdir else 'data'
+    return str(files(__package__) / folder / filename)
