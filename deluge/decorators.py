@@ -9,8 +9,9 @@
 import inspect
 import re
 import warnings
+from collections.abc import Callable, Coroutine
 from functools import wraps
-from typing import Any, Callable, Coroutine, TypeVar
+from typing import Any, TypeVar
 
 from twisted.internet import defer
 
