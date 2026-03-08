@@ -20,8 +20,9 @@ import logging
 import threading
 import time
 from collections import defaultdict
+from collections.abc import Callable
 from functools import partial
-from typing import Any, Callable
+from typing import Any
 
 from twisted.internet import reactor, task, threads
 

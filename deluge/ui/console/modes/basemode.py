@@ -11,7 +11,6 @@ import logging
 import signal
 import struct
 import sys
-from typing import Tuple
 
 import deluge.component as component
 import deluge.ui.console.utils.colors as colors
@@ -70,7 +69,7 @@ class TermResizeHandler:
             log.debug('TermResize unavailable, no SIGWINCH signal on Windows: %s', ex)
 
     @staticmethod
-    def get_window_size(fd: int = 0) -> Tuple[int, int]:
+    def get_window_size(fd: int = 0) -> tuple[int, int]:
         """Return the tty window size as row, col."""
         return struct.unpack('4h', ioctl(fd, TIOCGWINSZ, b'\x00' * 8))[0:2]
 

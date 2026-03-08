@@ -17,7 +17,7 @@ import time
 from base64 import b64encode
 from pathlib import Path
 from tempfile import gettempdir
-from typing import Dict, List, NamedTuple, Tuple
+from typing import NamedTuple
 
 from twisted.internet import defer, reactor, threads
 from twisted.internet.defer import Deferred, DeferredList
@@ -61,7 +61,7 @@ LT_DEFAULT_ADD_TORRENT_FLAGS = (
 
 class PrefetchQueueItem(NamedTuple):
     alert_deferred: Deferred
-    result_queue: List[Deferred]
+    result_queue: list[Deferred]
 
 
 class TorrentState:  # pylint: disable=old-style-class
@@ -171,7 +171,7 @@ class TorrentManager(component.Component):
         self.is_saving_state = False
         self.save_resume_data_file_lock = defer.DeferredLock()
         self.torrents_loading = {}
-        self.prefetching_metadata: Dict[str, PrefetchQueueItem] = {}
+        self.prefetching_metadata: dict[str, PrefetchQueueItem] = {}
 
         # This is a map of torrent_ids to Deferreds used to track needed resume data.
         # The Deferreds will be completed when resume data has been saved.
@@ -347,7 +347,7 @@ class TorrentManager(component.Component):
             return torrent_info
 
     @maybe_coroutine
-    async def prefetch_metadata(self, magnet: str, timeout: int) -> Tuple[str, bytes]:
+    async def prefetch_metadata(self, magnet: str, timeout: int) -> tuple[str, bytes]:
         """Download the metadata for a magnet URI.
 
         Args:

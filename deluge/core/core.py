@@ -14,7 +14,7 @@ import shutil
 import tempfile
 from base64 import b64decode, b64encode
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any
 from urllib.request import URLError, urlopen
 
 from twisted.internet import defer, reactor, task, threads
@@ -402,7 +402,7 @@ class Core(component.Component):
     @export
     def add_torrent_file_async(
         self, filename: str, filedump: str, options: dict, save_state: bool = True
-    ) -> 'defer.Deferred[Optional[str]]':
+    ) -> 'defer.Deferred[str | None]':
         """Adds a torrent file to the session asynchronously.
 
         Args:
@@ -436,7 +436,7 @@ class Core(component.Component):
     @maybe_coroutine
     async def prefetch_magnet_metadata(
         self, magnet: str, timeout: int = 30
-    ) -> Tuple[str, bytes]:
+    ) -> tuple[str, bytes]:
         """Download magnet metadata without adding to Deluge session.
 
         Used by UIs to get magnet files for selection before adding to session.
@@ -455,8 +455,8 @@ class Core(component.Component):
 
     @export
     def add_torrent_file(
-        self, filename: str, filedump: Union[str, bytes], options: dict
-    ) -> Optional[str]:
+        self, filename: str, filedump: str | bytes, options: dict
+    ) -> str | None:
         """Adds a torrent file to the session.
 
         Args:
@@ -482,8 +482,8 @@ class Core(component.Component):
 
     @export
     def add_torrent_files(
-        self, torrent_files: List[Tuple[str, Union[str, bytes], dict]]
-    ) -> 'defer.Deferred[List[AddTorrentError]]':
+        self, torrent_files: list[tuple[str, str | bytes, dict]]
+    ) -> 'defer.Deferred[list[AddTorrentError]]':
         """Adds multiple torrent files to the session asynchronously.
 
         Args:
@@ -514,7 +514,7 @@ class Core(component.Component):
     @maybe_coroutine
     async def add_torrent_url(
         self, url: str, options: dict, headers: dict = None
-    ) -> 'defer.Deferred[Optional[str]]':
+    ) -> 'defer.Deferred[str | None]':
         """Adds a torrent from a URL. Deluge will attempt to fetch the torrent
         from the URL prior to adding it to the session.
 
@@ -581,8 +581,8 @@ class Core(component.Component):
 
     @export
     def remove_torrents(
-        self, torrent_ids: List[str], remove_data: bool
-    ) -> 'defer.Deferred[List[Tuple[str, str]]]':
+        self, torrent_ids: list[str], remove_data: bool
+    ) -> 'defer.Deferred[list[tuple[str, str]]]':
         """Remove multiple torrents from the session.
 
         Args:
@@ -617,7 +617,7 @@ class Core(component.Component):
         return task.deferLater(reactor, 0, do_remove_torrents)
 
     @export
-    def get_session_status(self, keys: List[str]) -> Dict[str, Union[int, float]]:
+    def get_session_status(self, keys: list[str]) -> dict[str, int | float]:
         """Gets the session status values for 'keys', these keys are taking
         from libtorrent's session status.
 
@@ -648,7 +648,7 @@ class Core(component.Component):
         return status
 
     @export
-    def force_reannounce(self, torrent_ids: List[str]) -> None:
+    def force_reannounce(self, torrent_ids: list[str]) -> None:
         log.debug('Forcing reannouncment to: %s', torrent_ids)
         for torrent_id in torrent_ids:
             self.torrentmanager[torrent_id].force_reannounce()
@@ -663,7 +663,7 @@ class Core(component.Component):
             self.torrentmanager[torrent_id].pause()
 
     @export
-    def pause_torrents(self, torrent_ids: List[str] = None) -> None:
+    def pause_torrents(self, torrent_ids: list[str] = None) -> None:
         """Pauses a list of torrents"""
         if not torrent_ids:
             torrent_ids = self.torrentmanager.get_torrent_list()
@@ -728,7 +728,7 @@ class Core(component.Component):
                 )
 
     @export
-    def move_storage(self, torrent_ids: List[str], dest: str):
+    def move_storage(self, torrent_ids: list[str], dest: str):
         log.debug('Moving storage %s to %s', torrent_ids, dest)
         for torrent_id in torrent_ids:
             if not self.torrentmanager[torrent_id].move_storage(dest):
@@ -765,7 +765,7 @@ class Core(component.Component):
             self.torrentmanager[torrent_id].resume()
 
     @export
-    def resume_torrents(self, torrent_ids: List[str] = None) -> None:
+    def resume_torrents(self, torrent_ids: list[str] = None) -> None:
         """Resumes a list of torrents"""
         if not torrent_ids:
             torrent_ids = self.torrentmanager.get_torrent_list()
@@ -799,7 +799,7 @@ class Core(component.Component):
 
     @export
     def get_torrent_status(
-        self, torrent_id: str, keys: List[str], diff: bool = False
+        self, torrent_id: str, keys: list[str], diff: bool = False
     ) -> dict:
         torrent_keys, plugin_keys = self.torrentmanager.separate_keys(
             keys, [torrent_id]
@@ -816,7 +816,7 @@ class Core(component.Component):
     @export
     @maybe_coroutine
     async def get_torrents_status(
-        self, filter_dict: dict, keys: List[str], diff: bool = False
+        self, filter_dict: dict, keys: list[str], diff: bool = False
     ) -> dict:
         """returns all torrents , optionally filtered by filter_dict."""
         all_keys = not keys
@@ -832,15 +832,15 @@ class Core(component.Component):
 
     @export
     def get_filter_tree(
-        self, show_zero_hits: bool = True, hide_cat: List[str] = None
-    ) -> Dict:
+        self, show_zero_hits: bool = True, hide_cat: list[str] = None
+    ) -> dict:
         """returns {field: [(value,count)] }
         for use in sidebar(s)
         """
         return self.filtermanager.get_filter_tree(show_zero_hits, hide_cat)
 
     @export
-    def get_session_state(self) -> List[str]:
+    def get_session_state(self) -> list[str]:
         """Returns a list of torrent_ids in the session."""
         # Get the torrent list from the TorrentManager
         return self.torrentmanager.get_torrent_list()
@@ -856,12 +856,12 @@ class Core(component.Component):
         return self.config.get(key)
 
     @export
-    def get_config_values(self, keys: List[str]) -> Dict[str, Any]:
+    def get_config_values(self, keys: list[str]) -> dict[str, Any]:
         """Get the config values for the entered keys"""
         return {key: self.config.get(key) for key in keys}
 
     @export
-    def set_config(self, config: Dict[str, Any]):
+    def set_config(self, config: dict[str, Any]):
         """Set the config with values from dictionary"""
         # Load all the values into the configuration
         for key in config:
@@ -886,7 +886,7 @@ class Core(component.Component):
         return -1
 
     @export
-    def get_proxy(self) -> Dict[str, Any]:
+    def get_proxy(self) -> dict[str, Any]:
         """Returns the proxy settings
 
         Returns:
@@ -917,12 +917,12 @@ class Core(component.Component):
         return proxy_dict
 
     @export
-    def get_available_plugins(self) -> List[str]:
+    def get_available_plugins(self) -> list[str]:
         """Returns a list of plugins available in the core"""
         return self.pluginmanager.get_available_plugins()
 
     @export
-    def get_enabled_plugins(self) -> List[str]:
+    def get_enabled_plugins(self) -> list[str]:
         """Returns a list of enabled plugins in the core"""
         return self.pluginmanager.get_enabled_plugins()
 
@@ -935,14 +935,14 @@ class Core(component.Component):
         return self.pluginmanager.disable_plugin(plugin)
 
     @export
-    def force_recheck(self, torrent_ids: List[str]) -> None:
+    def force_recheck(self, torrent_ids: list[str]) -> None:
         """Forces a data recheck on torrent_ids"""
         for torrent_id in torrent_ids:
             self.torrentmanager[torrent_id].force_recheck()
 
     @export
     def set_torrent_options(
-        self, torrent_ids: List[str], options: Dict[str, Any]
+        self, torrent_ids: list[str], options: dict[str, Any]
     ) -> None:
         """Sets the torrent options for torrent_ids
 
@@ -962,7 +962,7 @@ class Core(component.Component):
 
     @export
     def set_torrent_trackers(
-        self, torrent_id: str, trackers: List[Dict[str, Any]]
+        self, torrent_id: str, trackers: list[dict[str, Any]]
     ) -> None:
         """Sets a torrents tracker list. trackers will be ``[{"url", "tier"}]``"""
         return self.torrentmanager[torrent_id].set_trackers(trackers)
@@ -1136,7 +1136,7 @@ class Core(component.Component):
         return filename, filedump
 
     @export
-    def upload_plugin(self, filename: str, filedump: Union[str, bytes]) -> None:
+    def upload_plugin(self, filename: str, filedump: str | bytes) -> None:
         """This method is used to upload new plugins to the daemon.  It is used
         when connecting to the daemon remotely and installing a new plugin on
         the client side. ``plugin_data`` is a ``xmlrpc.Binary`` object of the file data,
@@ -1160,7 +1160,7 @@ class Core(component.Component):
 
     @export
     def rename_files(
-        self, torrent_id: str, filenames: List[Tuple[int, str]]
+        self, torrent_id: str, filenames: list[tuple[int, str]]
     ) -> defer.Deferred:
         """Rename files in ``torrent_id``.  Since this is an asynchronous operation by
         libtorrent, watch for the TorrentFileRenamedEvent to know when the
@@ -1203,7 +1203,7 @@ class Core(component.Component):
         return self.torrentmanager[torrent_id].rename_folder(folder, new_folder)
 
     @export
-    def queue_top(self, torrent_ids: List[str]) -> None:
+    def queue_top(self, torrent_ids: list[str]) -> None:
         log.debug('Attempting to queue %s to top', torrent_ids)
         # torrent_ids must be sorted in reverse before moving to preserve order
         for torrent_id in sorted(
@@ -1217,7 +1217,7 @@ class Core(component.Component):
                 log.warning('torrent_id: %s does not exist in the queue', torrent_id)
 
     @export
-    def queue_up(self, torrent_ids: List[str]) -> None:
+    def queue_up(self, torrent_ids: list[str]) -> None:
         log.debug('Attempting to queue %s to up', torrent_ids)
         torrents = (
             (self.torrentmanager.get_queue_position(torrent_id), torrent_id)
@@ -1242,7 +1242,7 @@ class Core(component.Component):
                 prev_queue_position = queue_position
 
     @export
-    def queue_down(self, torrent_ids: List[str]) -> None:
+    def queue_down(self, torrent_ids: list[str]) -> None:
         log.debug('Attempting to queue %s to down', torrent_ids)
         torrents = (
             (self.torrentmanager.get_queue_position(torrent_id), torrent_id)
@@ -1267,7 +1267,7 @@ class Core(component.Component):
                 prev_queue_position = queue_position
 
     @export
-    def queue_bottom(self, torrent_ids: List[str]) -> None:
+    def queue_bottom(self, torrent_ids: list[str]) -> None:
         log.debug('Attempting to queue %s to bottom', torrent_ids)
         # torrent_ids must be sorted before moving to preserve order
         for torrent_id in sorted(
@@ -1281,11 +1281,11 @@ class Core(component.Component):
                 log.warning('torrent_id: %s does not exist in the queue', torrent_id)
 
     @export
-    def glob(self, path: str) -> List[str]:
+    def glob(self, path: str) -> list[str]:
         return glob.glob(path)
 
     @export
-    def test_listen_port(self) -> 'defer.Deferred[Optional[bool]]':
+    def test_listen_port(self) -> 'defer.Deferred[bool | None]':
         """Checks if the active port is open
 
         Returns:
@@ -1345,16 +1345,16 @@ class Core(component.Component):
         return LT_VERSION
 
     @export
-    def get_completion_paths(self, args: Dict[str, Any]) -> Dict[str, Any]:
+    def get_completion_paths(self, args: dict[str, Any]) -> dict[str, Any]:
         """Returns the available path completions for the input value."""
         return path_chooser_common.get_completion_paths(args)
 
     @export(AUTH_LEVEL_ADMIN)
-    def get_known_accounts(self) -> List[Dict[str, Any]]:
+    def get_known_accounts(self) -> list[dict[str, Any]]:
         return self.authmanager.get_known_accounts()
 
     @export(AUTH_LEVEL_NONE)
-    def get_auth_levels_mappings(self) -> Tuple[Dict[str, int], Dict[int, str]]:
+    def get_auth_levels_mappings(self) -> tuple[dict[str, int], dict[int, str]]:
         return (AUTH_LEVELS_MAPPING, AUTH_LEVELS_MAPPING_REVERSE)
 
     @export(AUTH_LEVEL_ADMIN)

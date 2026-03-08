@@ -14,7 +14,6 @@ The ui common module contains methods and classes that are deemed useful for all
 import logging
 import os
 from hashlib import sha1 as sha
-from typing import Tuple
 
 from deluge import bencode
 from deluge.common import decode_bytes
@@ -701,7 +700,7 @@ class FileTree2BTv2(FileTree2):
     def __init__(self, file_tree):
         self.tree = {'contents': {}, 'type': 'dir'}
 
-        def get_parent(curr_tree_dict, index, parent) -> Tuple[int, int]:
+        def get_parent(curr_tree_dict, index, parent) -> tuple[int, int]:
             total_length = 0
             for key, item in curr_tree_dict.items():
                 key = decode_bytes(key)

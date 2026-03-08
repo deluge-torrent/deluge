@@ -13,8 +13,9 @@ import os
 import sys
 import traceback
 from collections import namedtuple
+from collections.abc import Callable
 from types import FunctionType
-from typing import Callable, TypeVar, overload
+from typing import TypeVar, overload
 
 from twisted.internet import defer, reactor
 from twisted.internet.protocol import Factory, connectionDone
