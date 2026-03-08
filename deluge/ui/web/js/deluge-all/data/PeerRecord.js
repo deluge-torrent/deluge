@@ -47,7 +47,23 @@ Deluge.data.Peer = Ext.data.Record.create([
         type: 'int',
     },
     {
-        name: 'seed',
+        name: 'total_download',
         type: 'int',
     },
+    {
+        name: 'total_upload',
+        type: 'int',
+    },
+    {
+        name: 'flags',
+        type: 'string',
+    },
+    {
+        name: 'rtt',
+        type: 'int',
+    },
+    {
+        name: 'seed',
+        type: 'int',
+    }
 ]);
