@@ -3,11 +3,15 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
+from unittest.mock import patch
+
 import pytest
 import pytest_twisted
 from twisted.internet import defer
+from twisted.internet import error as twisted_error
 
 from deluge import error
+from deluge._features import DelugeFeatures
 from deluge.common import AUTH_LEVEL_NORMAL, get_localhost_auth, get_version
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
 from deluge.ui.client import Client, DaemonSSLProxy, client
@@ -72,6 +76,21 @@ class NoVersionSendingClient(Client):
             self.disconnect_callback()
 
 
+class NoFeatureDaemonSSLProxy(DaemonSSLProxy):
+    def call(self, method, *args, **kwargs):
+        def on_method_list(methods_list):
+            return tuple(
+                method_name
+                for method_name in methods_list
+                if method_name != 'core.get_supported_features'
+            )
+
+        d = super().call(method, *args, **kwargs)
+        if method == 'daemon.get_method_list':
+            d.addCallback(on_method_list)
+        return d
+
+
 @pytest.mark.usefixtures('daemon', 'client')
 class TestClient:
     def test_connect_no_credentials(self):
@@ -134,6 +153,21 @@ class TestClient:
         d.addCallbacks(self.fail, on_failure)
         return d
 
+    def test_connect_invalid_host(self):
+        username, password = get_localhost_auth()
+        d = client.connect(
+            'somehost', self.listen_port, username=username, password=password
+        )
+
+        def on_failure(failure):
+            assert (
+                failure.trap(twisted_error.DNSLookupError)
+                == twisted_error.DNSLookupError
+            )
+
+        d.addCallbacks(self.fail, on_failure)
+        return d
+
     @pytest_twisted.inlineCallbacks
     def test_connect_with_password(self):
         username, password = get_localhost_auth()
@@ -181,12 +215,33 @@ class TestClient:
         assert client.daemon_version == get_version()
 
     @pytest_twisted.inlineCallbacks
-    def test_daemon_version_check_min(self):
+    def test_is_feature_supported(self):
         username, password = get_localhost_auth()
         yield client.connect(
             'localhost', self.listen_port, username=username, password=password
         )
 
-        assert client.daemon_version_check_min(get_version())
-        assert not client.daemon_version_check_min(f'{get_version()}1')
-        assert client.daemon_version_check_min('0.1.0')
+        assert client._daemon_features == DelugeFeatures.ALL
+        assert client.is_feature_supported(DelugeFeatures.BASE)
+        assert not client.is_feature_supported(-1)
+
+    @pytest_twisted.inlineCallbacks
+    def test_is_feature_supported_older_daemon(self):
+        with patch('deluge.ui.client.DaemonSSLProxy', NoFeatureDaemonSSLProxy):
+            username, password = get_localhost_auth()
+            yield client.connect(
+                'localhost', self.listen_port, username=username, password=password
+            )
+
+            assert client._daemon_features == DelugeFeatures.NONE
+            assert not client.is_feature_supported(DelugeFeatures.BASE)
+
+    @pytest_twisted.inlineCallbacks
+    def test_daemon_features_resets_on_disconnect(self):
+        username, password = get_localhost_auth()
+        yield client.connect(
+            'localhost', self.listen_port, username=username, password=password
+        )
+        assert client._daemon_features == DelugeFeatures.ALL
+        yield client.disconnect()
+        assert client._daemon_features == DelugeFeatures.NONE
