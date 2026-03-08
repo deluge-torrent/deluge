@@ -224,9 +224,7 @@ class ConnectionManager(component.Component):
         try:
             getaddrinfo(host, None)
         except gaierror as ex:
-            log.error(
-                'Error resolving host %s to ip: %s', row[HOSTLIST_COL_HOST], ex.args[1]
-            )
+            log.error(f'Error resolving host {host} to ip: {ex.args[1]}')
             self.builder.get_object('button_connect').set_sensitive(False)
             return
 

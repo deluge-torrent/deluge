@@ -122,16 +122,45 @@ class DelugeTransferProtocol(Protocol):
         :param data: a zlib compressed string encoded with rencode.
 
         """
+
+        def log_exception(exception):
+            log.warning(
+                'Failed to decompress (%d bytes) and load serialized data with rencode: %s',
+                len(data),
+                exception,
+            )
+
+        def build_part(part):
+            if isinstance(part, bytes):
+                try:
+                    new_part = part.decode('UTF-8')
+                except UnicodeDecodeError:
+                    new_part = part
+            elif isinstance(part, dict):
+                new_part = {}
+                for k, v in part.items():
+                    new_part[build_part(k)] = build_part(v)
+            elif isinstance(part, list):
+                new_part = [build_part(i) for i in part]
+            elif isinstance(part, tuple):
+                new_part = [build_part(i) for i in part]
+                new_part = tuple(new_part)
+            else:
+                new_part = part
+            return new_part
+
         try:
             self.message_received(
                 rencode.loads(zlib.decompress(data), decode_utf8=True)
             )
+        except UnicodeDecodeError:
+            try:
+                decoded_data = rencode.loads(zlib.decompress(data))
+                self.message_received(build_part(decoded_data))
+            except Exception as ex:
+                log_exception(ex)
         except Exception as ex:
-            log.warning(
-                'Failed to decompress (%d bytes) and load serialized data with rencode: %s',
-                len(data),
-                ex,
-            )
+            log_exception(ex)
 
     def get_bytes_recv(self):
         """
