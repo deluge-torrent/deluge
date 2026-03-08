@@ -30,3 +30,28 @@ class TestBencode:
             bencode.bdecode(b'dEf')
         with pytest.raises(bencode.BTFailure):
             bencode.bdecode({'dEf': 123})
+
+    def test_bdecode_negative(self):
+        with pytest.raises(bencode.BTFailure):
+            bencode.bdecode(b'd-4:e')
+        with pytest.raises(bencode.BTFailure):
+            bencode.bdecode(b'd-0:i1ee')
+        with pytest.raises(bencode.BTFailure):
+            bencode.bdecode(b'd-1:i1ee')
+        with pytest.raises(bencode.BTFailure):
+            bencode.bdecode(b' 3:abc')
+        with pytest.raises(bencode.BTFailure):
+            bencode.bdecode(b' +3:abc')
+
+    def test_bencode_recursion_decode(self):
+        nesting_level = 200
+        data = b'l' * nesting_level + b'i1e' + b'e' * nesting_level
+        with pytest.raises(bencode.BTFailure):
+            bencode.bdecode(data)
+
+    def test_bencode_recursion_encode(self):
+        obj = 'a'
+        for _ in range(200):
+            obj = [obj]
+        with pytest.raises(bencode.BTFailure):
+            bencode.bencode(obj)
