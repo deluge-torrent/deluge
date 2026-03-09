@@ -526,7 +526,6 @@ install_requires = [
     'rencode',
     'pyopenssl',
     'pyxdg',
-    'mako',
     'setuptools',
     "pywin32; sys_platform == 'win32'",
     "certifi; sys_platform == 'win32'",
@@ -534,10 +533,11 @@ install_requires = [
 ]
 extras_require = {
     'all': [
-        'setproctitle',
-        'pillow',
         'chardet',
         'ifaddr',
+        'mako',
+        'pillow',
+        'setproctitle',
     ]
 }
 
