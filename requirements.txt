@@ -16,4 +16,3 @@ zope.interface>=4.4.2,<8.0
 distro; 'linux' in sys_platform or 'bsd' in sys_platform
 pygeoip
 ifaddr>=0.2.0
-importlib_metadata; python_version < "3.8"

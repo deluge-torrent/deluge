@@ -13,25 +13,10 @@
 """Main starting point for Deluge"""
 
 import argparse
+from importlib.metadata import entry_points
 import logging
 import os
 import sys
-
-try:
-    # Use importlib.metadata for Python 3.8+
-    from importlib.metadata import entry_points
-except ImportError:
-    # Fallback for Python < 3.8
-    try:
-        from importlib_metadata import entry_points
-    except ImportError:
-        # Last resort fallback to pkg_resources
-        import pkg_resources
-        _use_pkg_resources = True
-    else:
-        _use_pkg_resources = False
-else:
-    _use_pkg_resources = False
 
 import deluge.common
 import deluge.configmanager
@@ -49,35 +34,11 @@ def start_ui():
 
     # Get the registered UI entry points
     ui_entrypoints = {}
-    if _use_pkg_resources:
-        # Legacy method using pkg_resources
-        for entrypoint in pkg_resources.iter_entry_points('deluge.ui'):
-            try:
-                ui_entrypoints[entrypoint.name] = entrypoint.load()
-            except ImportError:
-                # Unable to load entrypoint so skip adding it.
-                pass
-    else:
-        # Modern method using importlib.metadata
+    for entrypoint in entry_points(group='deluge.ui'):
         try:
-            eps = entry_points(group='deluge.ui')
-            # Handle different return types between Python versions
-            if hasattr(eps, 'select'):  # Python 3.10+
-                for entrypoint in eps.select():
-                    try:
-                        ui_entrypoints[entrypoint.name] = entrypoint.load()
-                    except ImportError:
-                        # Unable to load entrypoint so skip adding it.
-                        pass
-            else:  # Python 3.8, 3.9
-                for entrypoint in eps:
-                    try:
-                        ui_entrypoints[entrypoint.name] = entrypoint.load()
-                    except ImportError:
-                        # Unable to load entrypoint so skip adding it.
-                        pass
-        except Exception:
-            # Fallback to empty dict if something goes wrong
+            ui_entrypoints[entrypoint.name] = entrypoint.load()
+        except ImportError:
+            # Unable to load entrypoint so skip adding it.
             pass
 
     ui_titles = sorted(ui_entrypoints)
