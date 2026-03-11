@@ -27,6 +27,7 @@ from datetime import datetime
 from importlib import resources
 from io import BytesIO
 from pathlib import Path
+from typing import Literal, Optional
 from urllib.parse import unquote_plus, urljoin
 from urllib.request import pathname2url
 
@@ -100,7 +101,7 @@ def get_version():
     return distribution('Deluge').version
 
 
-def get_default_config_dir(filename=None):
+def get_default_config_dir(filename: Optional[str] = None) -> str:
     """
     :param filename: if None, only the config path is returned, if provided,
                      a path including the filename will be returned
@@ -1239,7 +1240,9 @@ def create_auth_file(auth_file):
         os.chmod(auth_file, stat.S_IREAD | stat.S_IWRITE)
 
 
-def create_localclient_account(append=False, auth_file=None):
+def create_localclient_account(
+    append: bool = False, auth_file: Optional[str] = None
+) -> tuple[Literal['localclient'], str]:
     import random
     from hashlib import sha1 as sha
 

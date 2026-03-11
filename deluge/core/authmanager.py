@@ -10,6 +10,7 @@
 import logging
 import os
 import shutil
+from typing import Literal, Union
 
 import deluge.component as component
 import deluge.configmanager as configmanager
@@ -44,12 +45,12 @@ AUTH_LEVELS_MAPPING_REVERSE = {v: k for k, v in AUTH_LEVELS_MAPPING.items()}
 class Account:
     __slots__ = ('username', 'password', 'authlevel')
 
-    def __init__(self, username, password, authlevel):
-        self.username = username
-        self.password = password
-        self.authlevel = authlevel
+    def __init__(self, username: str, password: str, authlevel: int) -> None:
+        self.username: str = username
+        self.password: str = password
+        self.authlevel: int = authlevel
 
-    def data(self):
+    def data(self) -> dict[str, Union[str, int]]:
         return {
             'username': self.username,
             'password': self.password,
@@ -57,7 +58,7 @@ class Account:
             'authlevel_int': self.authlevel,
         }
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return '<Account username="{username}" authlevel={authlevel}>'.format(
             username=self.username,
             authlevel=self.authlevel,
@@ -65,21 +66,21 @@ class Account:
 
 
 class AuthManager(component.Component):
-    def __init__(self):
+    def __init__(self) -> None:
         component.Component.__init__(self, 'AuthManager', interval=10)
-        self.__auth = {}
+        self.__auth: dict[str, Account] = {}
         self.__auth_modification_time = None
 
-    def start(self):
+    def start(self) -> None:
         self.__load_auth_file()
 
-    def stop(self):
+    def stop(self) -> None:
         self.__auth = {}
 
-    def shutdown(self):
+    def shutdown(self) -> None:
         pass
 
-    def update(self):
+    def update(self) -> None:
         auth_file = configmanager.get_config_dir('auth')
         # Check for auth file and create if necessary
         if not os.path.isfile(auth_file):
@@ -138,14 +139,13 @@ class AuthManager(component.Component):
             return check_password_hash(stored_password, password)
         except InvalidHashError as ex:
             log.warning(
-                'Invalid hash method in password for user %s: %s'
-                ' Falling back to plaintext validation.',
+                'Invalid hash method in password for user %s: %s Falling back to plaintext validation.',
                 username,
                 ex.method,
             )
             return stored_password == password
 
-    def has_account(self, username):
+    def has_account(self, username: str) -> bool:
         return username in self.__auth
 
     def get_known_accounts(self):
@@ -153,7 +153,7 @@ class AuthManager(component.Component):
         self.__load_auth_file()
         return [account.data() for account in self.__auth.values()]
 
-    def create_account(self, username, password, authlevel):
+    def create_account(self, username: str, password: str, authlevel: str) -> bool:
         password_hash = generate_password_hash(password)
 
         if username in self.__auth:
@@ -170,7 +170,7 @@ class AuthManager(component.Component):
             log.exception(ex)
             raise ex
 
-    def update_account(self, username, password, authlevel):
+    def update_account(self, username: str, password: str, authlevel: str) -> bool:
         # If the username is 'localclient', we don't hash the password
         # to keep compatability with the current localclient autologin.
         password_hash = None
@@ -190,7 +190,7 @@ class AuthManager(component.Component):
             log.exception(ex)
             raise ex
 
-    def remove_account(self, username):
+    def remove_account(self, username: str) -> Literal[True]:
         if username not in self.__auth:
             raise AuthManagerError('Username not known', username)
         elif username == component.get('RPCServer').get_session_user():
@@ -202,7 +202,7 @@ class AuthManager(component.Component):
         self.write_auth_file()
         return True
 
-    def write_auth_file(self):
+    def write_auth_file(self) -> None:
         filename = 'auth'
         filepath = os.path.join(configmanager.get_config_dir(), filename)
         filepath_bak = filepath + '.bak'
@@ -211,7 +211,7 @@ class AuthManager(component.Component):
         try:
             if os.path.isfile(filepath):
                 log.debug('Creating backup of %s at: %s', filename, filepath_bak)
-                shutil.copy2(filepath, filepath_bak)
+                _ = shutil.copy2(filepath, filepath_bak)
         except OSError as ex:
             log.error('Unable to backup %s to %s: %s', filepath, filepath_bak, ex)
         else:
@@ -219,22 +219,22 @@ class AuthManager(component.Component):
             try:
                 with open(filepath_tmp, 'w', encoding='utf8') as _file:
                     for account in self.__auth.values():
-                        _file.write(
+                        _ = _file.write(
                             '%(username)s:%(password)s:%(authlevel_int)s\n'
                             % account.data()
                         )
                     _file.flush()
                     os.fsync(_file.fileno())
-                shutil.move(filepath_tmp, filepath)
+                _ = shutil.move(filepath_tmp, filepath)
             except OSError as ex:
                 log.error('Unable to save %s: %s', filename, ex)
                 if os.path.isfile(filepath_bak):
                     log.info('Restoring backup of %s from: %s', filename, filepath_bak)
-                    shutil.move(filepath_bak, filepath)
+                    _ = shutil.move(filepath_bak, filepath)
 
         self.__load_auth_file()
 
-    def __load_auth_file(self):
+    def __load_auth_file(self) -> None:
         save_and_reload = False
         filename = 'auth'
         auth_file = configmanager.get_config_dir(filename)
@@ -242,7 +242,7 @@ class AuthManager(component.Component):
 
         # Check for auth file and create if necessary
         if not os.path.isfile(auth_file):
-            create_localclient_account()
+            _ = create_localclient_account()
             return self.__load_auth_file()
 
         auth_file_modification_time = os.stat(auth_file).st_mtime_ns
@@ -274,8 +274,7 @@ class AuthManager(component.Component):
             if len(lsplit) == 2:
                 username, password = lsplit
                 log.warning(
-                    'Your auth entry for %s contains no auth level, '
-                    'using AUTH_LEVEL_DEFAULT(%s)..',
+                    'Your auth entry for %s contains no auth level, using AUTH_LEVEL_DEFAULT(%s)..',
                     username,
                     AUTH_LEVEL_DEFAULT,
                 )
@@ -308,7 +307,7 @@ class AuthManager(component.Component):
             self.__auth[username] = Account(username, password, authlevel)
 
         if 'localclient' not in self.__auth:
-            create_localclient_account(True)
+            _ = create_localclient_account(True)
             return self.__load_auth_file()
 
         if save_and_reload:
