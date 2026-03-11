@@ -20,6 +20,16 @@ Running the tests for a specific plugin (requires [pytest](https://pypi.python.o
 
     pytest deluge/plugins/<name-of-plugin>
 
+### Security
+
+Running the security tests requires `testssl.sh`. The test suite will automatically manage this dependency by cloning the repository into `deluge/tests/data/testssl_repo` if it is missing.
+
+To run the security tests locally:
+
+    SECURITY_TESTS=true pytest deluge/tests/test_security.py
+
+In CI (GitHub Actions), these tests are skipped by default to save time. To trigger them, include `security_test` in your commit message or pull request body.
+
 ## Tox
 
 All the tests for Deluge can be run using [Tox](https://pypi.python.org/pypi/tox)

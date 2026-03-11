@@ -47,14 +47,12 @@ jobs:
           uv pip install -r requirements-ci.txt
           uv pip install -e .
 
-      - name: Install security dependencies
+      - name: Cache testssl.sh
         if: contains(env.SECURITY_TESTS, 'True')
-        run: |
-          wget -O- $TESTSSL_URL$TESTSSL_VER | tar xz
-          mv -t deluge/tests/data testssl.sh-$TESTSSL_VER/testssl.sh testssl.sh-$TESTSSL_VER/etc/;
-        env:
-          TESTSSL_VER: 3.0.6
-          TESTSSL_URL: https://codeload.github.com/drwetter/testssl.sh/tar.gz/refs/tags/v
+        uses: actions/cache@v4
+        with:
+          path: deluge/tests/data/testssl_repo
+          key: testssl-repo-v1
 
       - name: Setup core dump catch and store
         if: github.event.inputs.core-dump == '1'
