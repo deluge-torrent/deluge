@@ -32,34 +32,33 @@ Deluge.Formatters = (function () {
         return charToEntity[capture];
     };
 
-    /**
-     * Formats a date string in the date representation of the current locale,
-     * based on the systems timezone.
-     *
-     * @param {Number} timestamp time in seconds since the Epoch.
-     * @return {String} a string in the date representation of the current locale
-     * or "" if seconds < 0.
-     */
+    // undefined locale will use the system default
+    var dateFormatter = new Intl.DateTimeFormat(undefined, {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,
+    });
+
     return (Formatters = {
+        /**
+         * Formats a date string in the date representation of the current locale,
+         * based on the systems timezone.
+         *
+         * @param {Number} timestamp time in seconds since the Epoch.
+         * @return {String} a string in the date representation of the current locale
+         * or "" if seconds < 0.
+         */
         date: function (timestamp) {
-            function zeroPad(num, count) {
-                var numZeropad = num + '';
-                while (numZeropad.length < count) {
-                    numZeropad = '0' + numZeropad;
-                }
-                return numZeropad;
-            }
             timestamp = timestamp * 1000;
-            var date = new Date(timestamp);
-            return String.format(
-                '{0}/{1}/{2} {3}:{4}:{5}',
-                zeroPad(date.getDate(), 2),
-                zeroPad(date.getMonth() + 1, 2),
-                date.getFullYear(),
-                zeroPad(date.getHours(), 2),
-                zeroPad(date.getMinutes(), 2),
-                zeroPad(date.getSeconds(), 2)
-            );
+            if (timestamp < 0) {
+                return '';
+            } else {
+                return dateFormatter.format(new Date(timestamp));
+            }
         },
 
         /**
