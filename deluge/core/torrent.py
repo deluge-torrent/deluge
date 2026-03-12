@@ -1491,6 +1491,7 @@ class Torrent:
                 self.handle.rename_file(index, filename.encode('utf8'))
             except (UnicodeDecodeError, TypeError):
                 self.handle.rename_file(index, filename)
+            self.options['mapped_files'][index] = filename
 
     def rename_folder(self, folder, new_folder):
         """Renames a folder within a torrent.
@@ -1505,6 +1506,12 @@ class Torrent:
             twisted.internet.defer.Deferred: A deferred which fires when the rename is complete
         """
         log.debug('Attempting to rename folder: %s to %s', folder, new_folder)
+
+        # Ensure folder and new_folder end with a slash to avoid partial matches
+        # and double slashes during replacement.
+        folder = folder.replace('\\', '/')
+        if folder and not folder.endswith('/'):
+            folder += '/'
 
         # Empty string means remove the dir and move its content to the parent
         if len(new_folder) > 0:
@@ -1527,6 +1534,7 @@ class Torrent:
                     self.handle.rename_file(_file['index'], new_path.encode('utf8'))
                 except (UnicodeDecodeError, TypeError):
                     self.handle.rename_file(_file['index'], new_path)
+                self.options['mapped_files'][_file['index']] = new_path
 
         def on_folder_rename_complete(dummy_result, torrent, folder, new_folder):
             """Folder rename complete"""
