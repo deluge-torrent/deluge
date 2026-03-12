@@ -100,6 +100,7 @@ class TorrentState:  # pylint: disable=old-style-class
         shared=False,
         super_seeding=False,
         name=None,
+        mapped_files=None,
     ):
         # Build the class attribute list from args
         for key, value in locals().items():
@@ -941,6 +942,7 @@ class TorrentManager(component.Component):
                 torrent.options['shared'],
                 torrent.options['super_seeding'],
                 torrent.options['name'],
+                torrent.options['mapped_files'],
             )
             state.torrents.append(torrent_state)
         return state
