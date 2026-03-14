@@ -12,7 +12,7 @@ from xml.sax.saxutils import escape as xml_escape
 import deluge.component as component
 from deluge.common import anchorify_urls, decode_bytes, fdate, fsize
 
-from .tab_data_funcs import fdate_or_dash, fpieces_num_size
+from .tab_data_funcs import fdate_or_dash, fpieces_num_size, fyes_no
 from .torrentdetails import Tab
 
 log = logging.getLogger(__name__)
@@ -34,6 +34,7 @@ class DetailsTab(Tab):
         self.add_tab_widget(
             'summary_pieces', fpieces_num_size, ('num_pieces', 'piece_length')
         )
+        self.add_tab_widget('summary_private', fyes_no, ('private',))
 
     def update(self):
         # Get the first selected torrent
