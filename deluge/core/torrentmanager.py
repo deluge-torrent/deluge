@@ -306,7 +306,12 @@ class TorrentManager(component.Component):
             Torrent: A torrent object.
 
         """
-        return self.torrents[torrent_id]
+        try:
+            return self.torrents[torrent_id]
+        except KeyError:
+            log.debug('Attempted to get torrent object not in torrents', torrent_id)
+            return None
+
 
     def get_torrent_list(self):
         """Creates a list of torrent_ids, owned by current user and any marked shared.
