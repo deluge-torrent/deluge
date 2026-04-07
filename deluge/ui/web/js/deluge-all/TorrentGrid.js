@@ -358,6 +358,7 @@
         ],
 
         constructor: function (config) {
+            console.log("meta:", this.meta);
             config = Ext.apply(
                 {
                     id: 'torrentGrid',
@@ -444,6 +445,8 @@
 
         update: function (torrents, wipe) {
             var store = this.getStore();
+            console.log("Store", store);
+            console.log("Torrents", this.torrents);
 
             // Need to perform a complete reload of the torrent grid.
             if (wipe) {

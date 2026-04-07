@@ -49,10 +49,12 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
     },
 
     createFilter: function (filter, states) {
-        var panel = new Deluge.FilterPanel({
-            filter: filter,
-        });
-        panel.on('selectionchange', function (view, nodes) {
+        var isTextFilter = states === null;
+        var panel = isTextFilter
+            ? new Deluge.TextFilterPanel({ filter: filter })
+            : new Deluge.FilterPanel({ filter: filter });
+
+        panel.on('selectionchange', function () {
             deluge.ui.update();
         });
         this.add(panel);
@@ -60,19 +62,21 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
         this.doLayout();
         this.panels[filter] = panel;
 
-        if (panel.header) {
-            panel.header.on('click', function (header) {
-                if (!deluge.config.sidebar_multiple_filters) {
-                    deluge.ui.update();
-                }
-                if (!panel.list.getSelectionCount()) {
-                    panel.list.select(0);
-                }
-            });
+        if (!isTextFilter) {
+            if (panel.header) {
+                panel.header.on('click', function (header) {
+                    if (!deluge.config.sidebar_multiple_filters) {
+                        deluge.ui.update();
+                    }
+                    if (!panel.list.getSelectionCount()) {
+                        panel.list.select(0);
+                    }
+                });
+            }
+            panel.updateStates(states);
         }
-        this.fireEvent('filtercreate', this, panel);
 
-        panel.updateStates(states);
+        this.fireEvent('filtercreate', this, panel);
         this.fireEvent('afterfiltercreate', this, panel);
     },
 
@@ -83,19 +87,31 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
     getFilterStates: function () {
         var states = {};
 
+        // Text filter panels always contribute their value regardless of
+        // accordion mode — collapsing the panel must not silently drop a
+        // filter the user has typed.
+        this.items.each(function (panel) {
+            if (!(panel instanceof Deluge.TextFilterPanel)) return;
+            var state = panel.getState();
+            if (state !== null) {
+                states[panel.filterType] = state;
+            }
+        }, this);
+
         if (deluge.config.sidebar_multiple_filters) {
-            // Grab the filters from each of the filter panels
             this.items.each(function (panel) {
+                if (panel instanceof Deluge.TextFilterPanel) return;
                 var state = panel.getState();
                 if (state == null) return;
                 states[panel.filterType] = state;
             }, this);
         } else {
             var panel = this.getLayout().activeItem;
-            if (panel) {
+            if (panel && !(panel instanceof Deluge.TextFilterPanel)) {
                 var state = panel.getState();
-                if (!state == null) return;
-                states[panel.filterType] = state;
+                if (state != null) {
+                    states[panel.filterType] = state;
+                }
             }
         }
 
@@ -120,6 +136,7 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
     },
 
     update: function (filters) {
+        console.log("Updating sidebar with filters", filters);
         for (var filter in filters) {
             var states = filters[filter];
             if (Ext.getKeys(this.panels).indexOf(filter) > -1) {

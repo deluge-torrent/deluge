@@ -106,6 +106,9 @@ class FilterManager(component.Component):
         self.register_filter('keyword', filter_keywords)
         self.register_filter('name', filter_by_name)
         self.tree_fields = {}
+        self.text_filter_fields = []
+        self.register_text_filter_field('keyword')
+        self.register_text_filter_field('name')
 
         self.register_tree_field('state', self._init_state_tree)
 
@@ -227,6 +230,23 @@ class FilterManager(component.Component):
 
         return sorted_items
 
+    def get_filter_tree_with_text_fields(self, show_zero_hits=True, hide_cat=None):
+        """
+        Returns the same structure as get_filter_tree() but additionally
+        includes text filter fields (e.g. 'keyword', 'name') as None-valued
+        entries.  None signals to the caller that the field expects a free-text
+        input rather than a list of (value, count) rows.
+
+        Only the WebUI calls this method.  GTK3 and the console call the
+        unmodified get_filter_tree() and are therefore unaffected.
+        """
+        result = self.get_filter_tree(show_zero_hits, hide_cat)
+        for field in self.text_filter_fields:
+            if hide_cat and field in hide_cat:
+                continue
+            result[field] = None
+        return result
+
     def _init_state_tree(self):
         init_state = {}
         init_state['All'] = len(self.torrents.get_torrent_list())
@@ -249,6 +269,14 @@ class FilterManager(component.Component):
     def deregister_tree_field(self, field):
         if field in self.tree_fields:
             del self.tree_fields[field]
+
+    def register_text_filter_field(self, field):
+        if field not in self.text_filter_fields:
+            self.text_filter_fields.append(field)
+
+    def deregister_text_filter_field(self, field):
+        if field in self.text_filter_fields:
+            self.text_filter_fields.remove(field)
 
     def filter_state_active(self, torrent_ids):
         for torrent_id in list(torrent_ids):

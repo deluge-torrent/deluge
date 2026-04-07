@@ -167,6 +167,66 @@ Deluge.FilterPanel = Ext.extend(Ext.Panel, {
     },
 });
 
+/**
+ * @class Deluge.TextFilterPanel
+ * @extends Ext.Panel
+ *
+ * A sidebar filter panel that renders a debounced text input instead of a
+ * list of (value, count) rows. Used for free-text filters such as 'keyword'
+ * and 'name' that have no enumerable values to display.
+ *
+ * Public interface mirrors Deluge.FilterPanel so Sidebar can treat both
+ * types uniformly:
+ *   filterType  {String}  — the filter key (e.g. 'name', 'keyword')
+ *   getState()  {String|null} — current text value, or null when blank
+ *   updateStates(states) — no-op (no count list to render)
+ *   fires 'selectionchange' when the value changes (after 350 ms debounce)
+ */
+Deluge.TextFilterPanel = Ext.extend(Ext.Panel, {
+    border: false,
+
+    initComponent: function () {
+        Deluge.TextFilterPanel.superclass.initComponent.call(this);
+        this.filterType = this.initialConfig.filter;
+
+        var title = this.filterType.replace(/_/g, ' ');
+        title = title.replace(/\b\w/g, function (c) {
+            return c.toUpperCase();
+        });
+        this.setTitle(_(title));
+
+        this.field = this.add({
+            xtype: 'textfield',
+            emptyText: _('Filter...'),
+            enableKeyEvents: true,
+            style: { margin: '4px' },
+            width: '90%',
+        });
+
+        var DEBOUNCE_MS = 350;
+        var debounceTimer = null;
+        var fireChange = function () {
+            this.fireEvent('selectionchange', this);
+        }.createDelegate(this);
+
+        this.field.on('keyup', function () {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(fireChange, DEBOUNCE_MS);
+        });
+    },
+
+    /**
+     * Returns the current text value, or null when the field is empty.
+     */
+    getState: function () {
+        var val = this.field.getValue();
+        return val && val.length > 0 ? val : null;
+    },
+
+    /** No-op — text panels have no enumerable states to update. */
+    updateStates: function (states) {},
+});
+
 Deluge.FilterPanel.templates = {
     tracker_host:
         '<div class="x-deluge-filter" style="background-image: url(' +

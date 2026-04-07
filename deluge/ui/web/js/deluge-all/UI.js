@@ -203,6 +203,7 @@ deluge.ui = {
                 ' - ' +
                 this.originalTitle;
         }
+
         if (Ext.areObjectsEqual(this.filters, this.oldFilters)) {
             deluge.torrents.update(data['torrents']);
         } else {
