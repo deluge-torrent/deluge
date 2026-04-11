@@ -16,7 +16,7 @@ Ext.ns('Deluge');
  * A sidebar filter panel that renders a debounced text input instead of a
  * list of (value, count) rows. Used for free-text filters such as 'keyword'
  * and 'name' that have no enumerable values to display. Debounce is used
- * to avoid excessive UI updates while the user is typing when there are a 
+ * to avoid excessive UI updates while the user is typing when there are a
  * large number of torrents.
  *
  * Public interface mirrors Deluge.FilterPanel so Sidebar can treat both
@@ -33,7 +33,7 @@ Deluge.TextFilterPanel = Ext.extend(Ext.Panel, {
         Deluge.TextFilterPanel.superclass.initComponent.call(this);
         this.filterType = this.initialConfig.filter;
 
-        // Currently the only text filters are 'name' and 'keyword', this is 
+        // Currently the only text filters are 'name' and 'keyword', this is
         // included to mirror current FilterPanel behavior of title-casing filter names
         var title = this.filterType.replace(/_/g, ' ');
         title = title.replace(/\b\w/g, function (c) {
@@ -49,20 +49,24 @@ Deluge.TextFilterPanel = Ext.extend(Ext.Panel, {
             width: '90%',
         });
 
-        this.on('afterrender', function () {
-            this.field = this.items.get(0);
+        this.on(
+            'afterrender',
+            function () {
+                this.field = this.items.get(0);
 
-            var DEBOUNCE_MS = 350;
-            var debounceTimer = null;
-            var fireChange = function () {
-                this.fireEvent('selectionchange', this);
-            }.createDelegate(this);
+                var DEBOUNCE_MS = 350;
+                var debounceTimer = null;
+                var fireChange = function () {
+                    this.fireEvent('selectionchange', this);
+                }.createDelegate(this);
 
-            this.field.on('keyup', function () {
-                clearTimeout(debounceTimer);
-                debounceTimer = setTimeout(fireChange, DEBOUNCE_MS);
-            });
-        }, this);
+                this.field.on('keyup', function () {
+                    clearTimeout(debounceTimer);
+                    debounceTimer = setTimeout(fireChange, DEBOUNCE_MS);
+                });
+            },
+            this
+        );
     },
 
     /**

@@ -105,13 +105,13 @@ class FilterManager(component.Component):
         self.registered_filters = {}
         self.tree_fields = {}
 
-        # text_filter_fields maps field name -> filter function. These filters 
-        # need to be tracked separately from the enum-based registered_filters 
+        # text_filter_fields maps field name -> filter function. These filters
+        # need to be tracked separately from the enum-based registered_filters
         # because they need to be exposed to the WebUI as text input fields rather
         # than lists of (value, count) rows
-        
+
         # When torrents are actually filtered in `filter_torrent_ids`, the text filters
-        # will be applied by name regardless of type so callers do not need to be aware 
+        # will be applied by name regardless of type so callers do not need to be aware
         # of this
         self.text_filter_fields = {}
         self.register_text_filter_field('keyword', filter_keywords)
