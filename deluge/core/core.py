@@ -840,6 +840,19 @@ class Core(component.Component):
         return self.filtermanager.get_filter_tree(show_zero_hits, hide_cat)
 
     @export
+    def get_filter_tree_with_text_fields(
+        self, show_zero_hits: bool = True, hide_cat: List[str] = None
+    ) -> Dict:
+        """Like get_filter_tree() but also includes text filter fields (e.g.
+        'keyword', 'name') as None-valued entries, signalling to the caller
+        that those fields expect a free-text input rather than a value list.
+        Intended for the WebUI only.
+        """
+        return self.filtermanager.get_filter_tree_with_text_fields(
+            show_zero_hits, hide_cat
+        )
+
+    @export
     def get_session_state(self) -> List[str]:
         """Returns a list of torrent_ids in the session."""
         # Get the torrent list from the TorrentManager

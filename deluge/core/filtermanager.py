@@ -103,9 +103,19 @@ class FilterManager(component.Component):
         self.core = core
         self.torrents = core.torrentmanager
         self.registered_filters = {}
-        self.register_filter('keyword', filter_keywords)
-        self.register_filter('name', filter_by_name)
         self.tree_fields = {}
+
+        # text_filter_fields maps field name -> filter function. These filters
+        # need to be tracked separately from the enum-based registered_filters
+        # because they need to be exposed to the WebUI as text input fields rather
+        # than lists of (value, count) rows
+
+        # When torrents are actually filtered in `filter_torrent_ids`, the text filters
+        # will be applied by name regardless of type so callers do not need to be aware
+        # of this
+        self.text_filter_fields = {}
+        self.register_text_filter_field('keyword', filter_keywords)
+        self.register_text_filter_field('name', filter_by_name)
 
         self.register_tree_field('state', self._init_state_tree)
 
@@ -159,7 +169,18 @@ class FilterManager(component.Component):
         if not filter_dict:
             return torrent_ids
 
-        # Registered filters
+        # Text filter fields (free-text search from the UI)
+        for field, values in list(filter_dict.items()):
+            if field in self.text_filter_fields:
+                torrent_ids = list(
+                    set(self.text_filter_fields[field](torrent_ids, values))
+                )
+                del filter_dict[field]
+
+        if not filter_dict:
+            return torrent_ids
+
+        # Registered filters (enum-based: tracker_host, plugin-supplied, etc.)
         for field, values in list(filter_dict.items()):
             if field in self.registered_filters:
                 # Filters out doubles
@@ -227,6 +248,23 @@ class FilterManager(component.Component):
 
         return sorted_items
 
+    def get_filter_tree_with_text_fields(self, show_zero_hits=True, hide_cat=None):
+        """
+        Returns the same structure as get_filter_tree() but additionally
+        includes text filter fields (e.g. 'keyword', 'name') as None-valued
+        entries.  None signals to the caller that the field expects a free-text
+        input rather than a list of (value, count) rows.
+
+        Only the WebUI calls this method.  GTK3 and the console call the
+        unmodified get_filter_tree() and are therefore unaffected.
+        """
+        result = self.get_filter_tree(show_zero_hits, hide_cat)
+        for field in self.text_filter_fields:
+            if hide_cat and field in hide_cat:
+                continue
+            result[field] = None
+        return result
+
     def _init_state_tree(self):
         init_state = {}
         init_state['All'] = len(self.torrents.get_torrent_list())
@@ -249,6 +287,21 @@ class FilterManager(component.Component):
     def deregister_tree_field(self, field):
         if field in self.tree_fields:
             del self.tree_fields[field]
+
+    def register_text_filter_field(self, field, filter_func):
+        """Register a free-text filter field and its filter function.
+
+        The filter_func is called by filter_torrent_ids() when the field
+        appears in a filter_dict, using the same calling convention as
+        registered_filters: filter_func(torrent_ids, values) -> torrent_ids.
+        The field is also exposed to the WebUI via get_filter_tree_with_text_fields()
+        so the sidebar renders a text input rather than a list.
+        """
+        self.text_filter_fields[field] = filter_func
+
+    def deregister_text_filter_field(self, field):
+        if field in self.text_filter_fields:
+            del self.text_filter_fields[field]
 
     def filter_state_active(self, torrent_ids):
         for torrent_id in list(torrent_ids):

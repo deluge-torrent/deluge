@@ -547,7 +547,7 @@ class WebApi(JSONComponent):
         d1 = component.get('SessionProxy').get_torrents_status(filter_dict, keys)
         d1.addCallback(got_torrents)
 
-        d2 = client.core.get_filter_tree()
+        d2 = client.core.get_filter_tree_with_text_fields()
         d2.addCallback(got_filters)
 
         d3 = client.core.get_session_status(
