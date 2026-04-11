@@ -104,9 +104,15 @@ class FilterManager(component.Component):
         self.torrents = core.torrentmanager
         self.registered_filters = {}
         self.tree_fields = {}
-        # text_filter_fields maps field name -> filter function.  Registering
-        # here is the single source of truth: no separate register_filter call
-        # is needed for text-type filters.
+
+        # text_filter_fields maps field name -> filter function. These filters 
+        # need to be tracked separately from the enum-based registered_filters 
+        # because they need to be exposed to the WebUI as text input fields rather
+        # than lists of (value, count) rows
+        
+        # When torrents are actually filtered in `filter_torrent_ids`, the text filters
+        # will be applied by name regardless of type so callers do not need to be aware 
+        # of this
         self.text_filter_fields = {}
         self.register_text_filter_field('keyword', filter_keywords)
         self.register_text_filter_field('name', filter_by_name)
@@ -163,9 +169,7 @@ class FilterManager(component.Component):
         if not filter_dict:
             return torrent_ids
 
-        # Text filter fields (free-text search from the UI).  Applied before
-        # the enum-based registered filters so that the result set is narrowed
-        # first by the most selective, user-typed criteria.
+        # Text filter fields (free-text search from the UI)
         for field, values in list(filter_dict.items()):
             if field in self.text_filter_fields:
                 torrent_ids = list(

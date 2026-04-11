@@ -88,7 +88,7 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
         var states = {};
 
         // Text filter panels always contribute their value regardless of
-        // accordion mode — collapsing the panel must not silently drop a
+        // accordion mode — collapsing the panel does not silently drop a
         // filter the user has typed.
         this.items.each(function (panel) {
             if (!(panel instanceof Deluge.TextFilterPanel)) return;
@@ -136,7 +136,6 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
     },
 
     update: function (filters) {
-        console.log("Updating sidebar with filters", filters);
         for (var filter in filters) {
             var states = filters[filter];
             if (Ext.getKeys(this.panels).indexOf(filter) > -1) {

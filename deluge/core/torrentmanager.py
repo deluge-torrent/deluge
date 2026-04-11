@@ -133,6 +133,7 @@ class TorrentManagerState:  # pylint: disable=old-style-class
     def __ne__(self, other):
         return not self == other
 
+
 class TorrentManager(component.Component):
     """TorrentManager contains a list of torrents in the current libtorrent session.
 
@@ -904,8 +905,6 @@ class TorrentManager(component.Component):
         state = TorrentManagerState()
         # Create the state for each Torrent and append to the list
         for torrent in self.torrents.values():
-            if getattr(torrent, 'is_dummy', False):
-                continue
             if self.session.is_paused():
                 paused = torrent.handle.is_paused()
             elif torrent.forced_error:
@@ -1026,7 +1025,7 @@ class TorrentManager(component.Component):
             torrent_ids = (
                 tid
                 for tid, t in self.torrents.items()
-                if not getattr(t, 'is_dummy', False) and t.handle.need_save_resume_data()
+                if t.handle.need_save_resume_data()
             )
 
         def on_torrent_resume_save(dummy_result, torrent_id):
