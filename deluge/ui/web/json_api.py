@@ -539,41 +539,6 @@ class WebApi(JSONComponent):
             ui_info['stats']['external_ip'] = external_ip
 
         def got_torrents(torrents):
-            base = {
-                'state': 'Seeding',
-                'distributed_copies': 0,
-                'download_payload_rate': 0,
-                'is_auto_managed': True,
-                'max_download_speed': -1,
-                'max_upload_speed': -1,
-                'num_peers': 8,
-                'num_seeds': 0,
-                'progress': 100,
-                'download_location': '/root/Downloads',
-                'seeds_peers_ratio': 1,
-                'time_added': 1775426604,
-                'total_done': 3405469696,
-                'total_peers': -1,
-                'total_seeds': -1,
-                'total_uploaded': 9509630,
-                'total_wanted': 3405469696,
-                'total_remaining': 0,
-                'tracker_host': 'ubuntu.com',
-                'upload_payload_rate': 0,
-                'eta': 0,
-                'queue': -1,
-                'ratio': 0.0027924575842916965,
-                'completed_time': 1775426768,
-                'last_seen_complete': 1775427463,
-                'time_since_transfer': 174,
-            }
-            for i in range(25):
-                for j in range(25):
-                    torrent = dict(base)
-                    torrent['name'] = 'Torrent_{0}_{1}'.format(
-                        chr(65 + i), chr(65 + j)
-                    )
-                    torrents['torrent_{0}_{1}'.format(i, j)] = torrent
             ui_info['torrents'] = torrents
 
         def on_complete(result):

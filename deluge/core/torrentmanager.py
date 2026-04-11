@@ -133,6 +133,155 @@ class TorrentManagerState:  # pylint: disable=old-style-class
     def __ne__(self, other):
         return not self == other
 
+import random
+class DummyTorrent:
+    """Synthetic torrent stub for development testing.
+
+    Implements the same interface as ``Torrent`` — ``get_status()``,
+    ``get_name()``, ``get_files()``, ``status_funcs``, and the key
+    attributes read by ``FilterManager`` and ``TorrentManager`` — but
+    without a libtorrent handle.  Instances are injected into
+    ``TorrentManager.torrents`` at startup so they travel through the real
+    filter pipeline alongside actual torrents.
+
+    The ``is_dummy`` class attribute lets persistence paths (``create_state``
+    and ``save_resume_data``) skip these entries without touching real data.
+    """
+
+    is_dummy = True
+
+    def __init__(self, torrent_id, name):
+        self.torrent_id = torrent_id
+        self.filename = name
+        self.state = ['Seeding', 'Downloading', 'Checking', 'Allocating', 'Paused', 'Queued'][random.randint(0, 5)]
+        self.trackers = [{'url': 'http://tracker.ubuntu.com/announce'}]
+        self.tracker_status = ''
+        self.is_finished = True
+        self.options = {
+            'auto_managed': True,
+            'download_location': '/root/Downloads',
+            'file_priorities': [],
+            'max_connections': -1,
+            'max_download_speed': -1,
+            'max_upload_slots': -1,
+            'max_upload_speed': -1,
+            'move_completed': False,
+            'move_completed_path': '',
+            'name': name,
+            'owner': 'localclient',
+            'prioritize_first_last_pieces': False,
+            'remove_at_ratio': False,
+            'sequential_download': False,
+            'shared': False,
+            'stop_at_ratio': False,
+            'stop_ratio': 2.0,
+            'super_seeding': False,
+        }
+        self._data = {
+            'active_time': 0,
+            'all_time_download': 3405469696,
+            'auto_managed': True,
+            'comment': '',
+            'completed_time': 1775426768,
+            'creator': '',
+            'distributed_copies': 0.0,
+            'download_location': '/root/Downloads',
+            'download_payload_rate': 0,
+            'eta': 0,
+            'file_priorities': [],
+            'file_progress': [],
+            'files': [{'path': name, 'size': 3405469696, 'index': 0}],
+            'finished_time': 0,
+            'hash': torrent_id,
+            'is_auto_managed': True,
+            'is_finished': True,
+            'is_seed': True,
+            'last_seen_complete': 1775427463,
+            'max_connections': -1,
+            'max_download_speed': -1,
+            'max_upload_slots': -1,
+            'max_upload_speed': -1,
+            'message': '',
+            'move_completed': False,
+            'move_completed_path': '',
+            'move_on_completed': False,
+            'move_on_completed_path': '',
+            'name': name,
+            'next_announce': 0,
+            'num_files': 1,
+            'num_peers': 8,
+            'num_pieces': 0,
+            'num_seeds': 0,
+            'orig_files': [{'path': name, 'size': 3405469696, 'index': 0}],
+            'owner': 'localclient',
+            'paused': False,
+            'peers': [],
+            'piece_length': 0,
+            'pieces': None,
+            'prioritize_first_last': False,
+            'prioritize_first_last_pieces': False,
+            'private': False,
+            'progress': 100.0,
+            'queue': -1,
+            'ratio': 0.0027924575842916965,
+            'remove_at_ratio': False,
+            'save_path': '/root/Downloads',
+            'seed_mode': False,
+            'seed_rank': 0,
+            'seeding_time': 0,
+            'seeds_peers_ratio': 1.0,
+            'sequential_download': False,
+            'shared': False,
+            'state': 'Seeding',
+            'stop_at_ratio': False,
+            'stop_ratio': 2.0,
+            'storage_mode': 'sparse',
+            'super_seeding': False,
+            'time_added': 1775426604,
+            'time_since_download': -1,
+            'time_since_transfer': 174,
+            'time_since_upload': -1,
+            'total_done': 3405469696,
+            'total_payload_download': 3405469696,
+            'total_payload_upload': 9509630,
+            'total_peers': -1,
+            'total_remaining': 0,
+            'total_seeds': -1,
+            'total_size': 3405469696,
+            'total_uploaded': 9509630,
+            'total_wanted': 3405469696,
+            'tracker': 'http://tracker.ubuntu.com/announce',
+            'tracker_host': 'ubuntu.com',
+            'trackers': self.trackers,
+            'tracker_status': '',
+            'upload_payload_rate': 0,
+        }
+        # status_funcs mirrors the Torrent interface used by separate_keys()
+        # and handle_torrents_status_callback().
+        self.status_funcs = {key: (lambda k=key: self._data[k]) for key in self._data}
+
+    def get_name(self):
+        return self._data['name']
+
+    def get_files(self):
+        return self._data['files']
+
+    def get_status(self, keys, diff=False, update=False, all_keys=False):
+        if all_keys:
+            return dict(self._data)
+        return {key: self._data[key] for key in keys if key in self._data}
+
+    def cleanup_prev_status(self):
+        pass
+
+    def __getattr__(self, name):
+        """Return a no-op for any Torrent method not explicitly implemented.
+
+        Called only when normal attribute lookup fails, so all explicitly
+        defined attributes and methods are unaffected.
+        """
+        return lambda *args, **kwargs: None
+
 
 class TorrentManager(component.Component):
     """TorrentManager contains a list of torrents in the current libtorrent session.
@@ -250,10 +399,21 @@ class TorrentManager(component.Component):
         # Try to load the state from file
         self.load_state()
 
+        self._add_dummy_torrents()
+
         # Save the state periodically
         self.save_state_timer.start(200, False)
         self.save_resume_data_timer.start(190, False)
         self.prev_status_cleanup_loop.start(10)
+
+    def _add_dummy_torrents(self):
+        """Inject 625 synthetic DummyTorrent instances (Torrent_A_A … Torrent_Y_Y)
+        into self.torrents so they pass through the real filter pipeline."""
+        for i in range(25):
+            for j in range(25):
+                name = 'Torrent_{0}_{1}'.format(chr(65 + i), chr(65 + j))
+                torrent_id = 'dummy_{0}_{1}'.format(i, j)
+                self.torrents[torrent_id] = DummyTorrent(torrent_id, name)
 
     @maybe_coroutine
     async def stop(self):
@@ -905,6 +1065,8 @@ class TorrentManager(component.Component):
         state = TorrentManagerState()
         # Create the state for each Torrent and append to the list
         for torrent in self.torrents.values():
+            if getattr(torrent, 'is_dummy', False):
+                continue
             if self.session.is_paused():
                 paused = torrent.handle.is_paused()
             elif torrent.forced_error:
@@ -1025,7 +1187,7 @@ class TorrentManager(component.Component):
             torrent_ids = (
                 tid
                 for tid, t in self.torrents.items()
-                if t.handle.need_save_resume_data()
+                if not getattr(t, 'is_dummy', False) and t.handle.need_save_resume_data()
             )
 
         def on_torrent_resume_save(dummy_result, torrent_id):

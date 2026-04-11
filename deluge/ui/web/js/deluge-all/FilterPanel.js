@@ -195,7 +195,9 @@ Deluge.TextFilterPanel = Ext.extend(Ext.Panel, {
         });
         this.setTitle(_(title));
 
-        this.field = this.add({
+        // Add the field config — it is not instantiated until render time in
+        // ExtJS 3, so this.field must be retrieved in afterrender.
+        this.add({
             xtype: 'textfield',
             emptyText: _('Filter...'),
             enableKeyEvents: true,
@@ -203,22 +205,28 @@ Deluge.TextFilterPanel = Ext.extend(Ext.Panel, {
             width: '90%',
         });
 
-        var DEBOUNCE_MS = 350;
-        var debounceTimer = null;
-        var fireChange = function () {
-            this.fireEvent('selectionchange', this);
-        }.createDelegate(this);
+        this.on('afterrender', function () {
+            this.field = this.items.get(0);
 
-        this.field.on('keyup', function () {
-            clearTimeout(debounceTimer);
-            debounceTimer = setTimeout(fireChange, DEBOUNCE_MS);
-        });
+            var DEBOUNCE_MS = 350;
+            var debounceTimer = null;
+            var fireChange = function () {
+                this.fireEvent('selectionchange', this);
+            }.createDelegate(this);
+
+            this.field.on('keyup', function () {
+                clearTimeout(debounceTimer);
+                debounceTimer = setTimeout(fireChange, DEBOUNCE_MS);
+            });
+        }, this);
     },
 
     /**
      * Returns the current text value, or null when the field is empty.
+     * Returns null before render (field not yet instantiated).
      */
     getState: function () {
+        if (!this.field) return null;
         var val = this.field.getValue();
         return val && val.length > 0 ? val : null;
     },

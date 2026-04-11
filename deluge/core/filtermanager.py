@@ -103,12 +103,13 @@ class FilterManager(component.Component):
         self.core = core
         self.torrents = core.torrentmanager
         self.registered_filters = {}
-        self.register_filter('keyword', filter_keywords)
-        self.register_filter('name', filter_by_name)
         self.tree_fields = {}
-        self.text_filter_fields = []
-        self.register_text_filter_field('keyword')
-        self.register_text_filter_field('name')
+        # text_filter_fields maps field name -> filter function.  Registering
+        # here is the single source of truth: no separate register_filter call
+        # is needed for text-type filters.
+        self.text_filter_fields = {}
+        self.register_text_filter_field('keyword', filter_keywords)
+        self.register_text_filter_field('name', filter_by_name)
 
         self.register_tree_field('state', self._init_state_tree)
 
@@ -162,7 +163,20 @@ class FilterManager(component.Component):
         if not filter_dict:
             return torrent_ids
 
-        # Registered filters
+        # Text filter fields (free-text search from the UI).  Applied before
+        # the enum-based registered filters so that the result set is narrowed
+        # first by the most selective, user-typed criteria.
+        for field, values in list(filter_dict.items()):
+            if field in self.text_filter_fields:
+                torrent_ids = list(
+                    set(self.text_filter_fields[field](torrent_ids, values))
+                )
+                del filter_dict[field]
+
+        if not filter_dict:
+            return torrent_ids
+
+        # Registered filters (enum-based: tracker_host, plugin-supplied, etc.)
         for field, values in list(filter_dict.items()):
             if field in self.registered_filters:
                 # Filters out doubles
@@ -270,13 +284,20 @@ class FilterManager(component.Component):
         if field in self.tree_fields:
             del self.tree_fields[field]
 
-    def register_text_filter_field(self, field):
-        if field not in self.text_filter_fields:
-            self.text_filter_fields.append(field)
+    def register_text_filter_field(self, field, filter_func):
+        """Register a free-text filter field and its filter function.
+
+        The filter_func is called by filter_torrent_ids() when the field
+        appears in a filter_dict, using the same calling convention as
+        registered_filters: filter_func(torrent_ids, values) -> torrent_ids.
+        The field is also exposed to the WebUI via get_filter_tree_with_text_fields()
+        so the sidebar renders a text input rather than a list.
+        """
+        self.text_filter_fields[field] = filter_func
 
     def deregister_text_filter_field(self, field):
         if field in self.text_filter_fields:
-            self.text_filter_fields.remove(field)
+            del self.text_filter_fields[field]
 
     def filter_state_active(self, torrent_ids):
         for torrent_id in list(torrent_ids):
