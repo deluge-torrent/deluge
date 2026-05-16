@@ -9,9 +9,9 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2024-08-24 17:37+0100\n"
-"PO-Revision-Date: 2026-05-14 16:15+0200\n"
+"PO-Revision-Date: 2026-05-16 12:11+0200\n"
 "Last-Translator: summoner <summoner@disroot.org>\n"
-"Language-Team: \n"
+"Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +26,7 @@ msgstr "Általános beállítások"
 
 #: deluge/argparserbase.py:172
 msgid "Print this help message"
-msgstr "Ennek a súgószövegnek a kiírása"
+msgstr "Súgó szövegének megjelenítése"
 
 #: deluge/argparserbase.py:179
 msgid "Print version information"
@@ -1259,7 +1259,7 @@ msgstr "Kapcsolatok maximális száma"
 
 #: deluge/ui/common.py:61 deluge/ui/web/js/deluge-all/add/OptionsTab.js:109
 msgid "Max Upload Slots"
-msgstr "Rekeszek maximális száma"
+msgstr "Feltöltési szálak maximális száma"
 
 #: deluge/ui/common.py:62 deluge/ui/gtk3/torrentview.py:322 deluge/ui/web/js/deluge-all/TorrentGrid.js:140
 #: deluge/ui/web/js/deluge-all/details/PeersTab.js:46
@@ -1842,7 +1842,7 @@ msgstr "Maximális kapcsolatok"
 #: deluge/ui/console/modes/preferences/preference_panes.py:474
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:63
 msgid "Maximum Upload Slots"
-msgstr "Maximális feltöltési rekeszek"
+msgstr "Feltöltési szálak maximális száma"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:428
 #: deluge/ui/console/modes/preferences/preference_panes.py:481
@@ -2613,11 +2613,11 @@ msgstr "Engedélyezés…"
 
 #: deluge/ui/gtk3/menubar.py:507
 msgid "Peer Upload Slots"
-msgstr "Partneri feltöltési rekeszek"
+msgstr "Feltöltési szálak száma partnerenként"
 
 #: deluge/ui/gtk3/menubar.py:508
 msgid "Set the maximum upload slots"
-msgstr "Maximális feltöltési rekeszek beállítása"
+msgstr "Feltöltési szálak maximális számának beállítása"
 
 #: deluge/ui/gtk3/menubar.py:513
 msgid "Stop Seed At Ratio"
@@ -3557,7 +3557,7 @@ msgstr "Kapcsolatok:"
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:43 deluge/ui/gtk3/glade/preferences_dialog.ui.h:81
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:32 deluge/plugins/Label/deluge_label/data/label_options.ui.h:5
 msgid "Upload Slots:"
-msgstr "Feltöltési rekeszek:"
+msgstr "Feltöltési szálak:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:44
 msgid "Bandwidth Limits"
@@ -3862,15 +3862,15 @@ msgstr "Félnyitott kapcsolatok:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:78
 msgid "The maximum number of connections allowed.  Set -1 for unlimited."
-msgstr "Megengedett kapcsolatok maximális száma. Állítsa -1-re a korlátlanhoz."
+msgstr "Kapcsolatok maximális száma. Állítsa -1-re a korlátlanhoz."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:80
 msgid "The maximum upload slots for all torrents.  Set -1 for unlimited."
-msgstr "Megengedett feltöltési rekeszek maximális száma az összes torrenthez. Állítsa -1-re a korlátlanhoz."
+msgstr "Feltöltési szálak maximális száma az összes torrenthez. Állítsa -1-re a korlátlanhoz."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:82
 msgid "The maximum download speed for all torrents.  Set -1 for unlimited."
-msgstr "Megengedett letöltési sebesség az összes torrenthez. Állítsa -1-re a korlátlanhoz."
+msgstr "Maximális letöltési sebesség az összes torrenthez. Állítsa -1-re a korlátlanhoz."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:84
 msgid "The maximum upload speed for all torrents.  Set -1 for unlimited."
@@ -3894,23 +3894,23 @@ msgstr "Globális sávszélességi korlátok"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:91
 msgid "The maximum upload slots per torrent.  Set -1 for unlimited."
-msgstr "Megengedett feltöltési rekeszek maximális száma torrentenként. Állítsa -1-re a korlátlanhoz."
+msgstr "Feltöltési szálak maximális száma torrentenként. Állítsa -1-re a korlátlanhoz."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:92
 msgid "The maximum number of connections per torrent.  Set -1 for unlimited."
-msgstr "Megengedett kapcsolatok maximális száma torrentenként. Állítsa -1-re a korlátlanhoz."
+msgstr "Kapcsolatok maximális száma torrentenként. Állítsa -1-re a korlátlanhoz."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:93
 msgid "The maximum number download speed per torrent.  Set -1 for unlimited."
-msgstr "Megengedett letöltési sebesség torrentenként. Állítsa -1-re a korlátlanhoz."
+msgstr "Maximális letöltési sebesség torrentenként. Állítsa -1-re a korlátlanhoz."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:94
 msgid "The maximum upload speed per torrent.  Set -1 for unlimited."
-msgstr "Megengedett feltöltési sebesség torrentenként. Állítsa -1-re a korlátlanhoz."
+msgstr "Maximális feltöltési sebesség torrentenként. Állítsa -1-re a korlátlanhoz."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:95
 msgid "Per-Torrent Bandwidth Limits"
-msgstr "Torrentenkénti sávszélességi korlátok"
+msgstr "Sávszélesség korlátozása torrentenként"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:98 deluge/ui/web/js/deluge-all/preferences/QueuePage.js:85
 msgid "Seeding:"
@@ -4378,11 +4378,11 @@ msgstr "Maximális torrentkapcsolatok száma"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:31
 msgid "Maximum torrent upload slots"
-msgstr "Maximális torrentfeltöltési rekeszek száma"
+msgstr "Maximális torrentfeltöltési szálak száma"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:34
 msgid "Apply To All"
-msgstr "Alkalmazás mindenre"
+msgstr "Alkalmazás az összesre"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:35
 msgid "Revert To Defaults"
@@ -4394,7 +4394,7 @@ msgstr "_Kapcsolati korlát"
 
 #: deluge/ui/gtk3/glade/torrent_menu.options.ui.h:4
 msgid "Upload _Slot Limit"
-msgstr "Feltöltési _rekeszek korlátja"
+msgstr "Feltöltési _szálak korlátja"
 
 #: deluge/ui/gtk3/glade/torrent_menu.options.ui.h:5
 msgid "Stop seed at _ratio"
@@ -5200,22 +5200,22 @@ msgstr "<b>Tulajdonos</b>"
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:33
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:103
 msgid "Max Upload Speed:"
-msgstr "Max feltöltési sebesség:"
+msgstr "Max. feltöltési sebesség:"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:34
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:130
 msgid "Max Connections:"
-msgstr "Max kapcsolatok:"
+msgstr "Max. kapcsolatok:"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:35
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:153
 msgid "Max Upload Slots:"
-msgstr "Max feltöltési helyek:"
+msgstr "Max. feltöltési szálak:"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:37
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:77
 msgid "Max Download Speed:"
-msgstr "Max letöltési sebesség:"
+msgstr "Max. letöltési sebesség:"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:38
 msgid "<b>Bandwidth</b>"
@@ -5526,7 +5526,7 @@ msgstr "Kapcsolati korlát"
 
 #: deluge/ui/web/js/deluge-all/Menus.js:210
 msgid "Upload Slot Limit"
-msgstr "Feltöltési hely korlátja"
+msgstr "Feltöltési szálak korlátja"
 
 #: deluge/ui/web/js/deluge-all/Menus.js:326
 msgid "Update Tracker"
@@ -5700,7 +5700,7 @@ msgstr "Állapot:"
 
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:242
 msgid "Move Completed:"
-msgstr "Elkészült áthelyezése:"
+msgstr "Elkészültek áthelyezése:"
 
 #: deluge/ui/web/js/deluge-all/details/OptionsTab.js:279
 msgid "Private"
@@ -5755,7 +5755,7 @@ msgstr "Maximális kapcsolódási kísérletek másodpercenként:"
 
 #: deluge/ui/web/js/deluge-all/preferences/BandwidthPage.js:172
 msgid "Maximum Upload Slots:"
-msgstr "Maximális feltöltési helyek:"
+msgstr "Maximális feltöltési szálak:"
 
 #: deluge/ui/web/js/deluge-all/preferences/PluginsPage.js:109
 #: deluge/ui/web/js/deluge-all/preferences/InstallPluginWindow.js:33
