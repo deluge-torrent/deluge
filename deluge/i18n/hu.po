@@ -4490,7 +4490,7 @@ msgstr "Eltávolítja a kiválasztott torrent(ek)et?"
 
 #: deluge/ui/gtk3/glade/remove_torrent_dialog.ui.h:5
 msgid "Include downloaded files"
-msgstr "Letöltött fájlok belefoglalása"
+msgstr "A letöltött fájlokkal együtt"
 
 #: deluge/ui/gtk3/glade/remove_torrent_dialog.ui.h:6
 msgid "(This is permanent!)"
@@ -4757,7 +4757,7 @@ msgid ""
 "Thank you,\n"
 "Deluge."
 msgstr ""
-"Ezzel az e-maillel szeretnénk értesíteni Önt, hogy a Deluge befejezte a „%(name)s” letöltését, amely "
+"Ezzel az e-maillel szeretnénk értesíteni Önt, hogy a Deluge befejezte a(z) „%(name)s” torrent letöltését, amely "
 "%(num_files)i fájlt tartalmaz.\n"
 "Ha nem szeretne többé ilyen értesítéseket kapni, egyszerűen kapcsolja ki az e-mailes értesítést a Deluge "
 "beállításaiban.\n"
