@@ -49,7 +49,7 @@ msgstr "Naplózási szint megadása (semmi, hiba, figyelmeztetés, infó, hibake
 msgid ""
 "Enable logfile rotation, with optional maximum logfile size, default: %(const)s (Logfile rotation count is 5)"
 msgstr ""
-"Naplófájl forgatásának engedélyezése, maximális naplófájl mérettel (nem kötelező), alapértelmezett: %(const)s "
+"Naplófájl forgatásának engedélyezése, maximális naplófájlmérettel (nem kötelező), alapértelmezett: %(const)s "
 "(Naplófájlforgatások száma: 5)"
 
 #: deluge/argparserbase.py:220
