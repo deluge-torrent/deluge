@@ -3397,7 +3397,7 @@ msgstr "Fájl _megnyitása"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.menu_file.ui.h:2
 msgid "_Show Folder"
-msgstr "_Mappa megjeleníté_se"
+msgstr "Mappa megjeleníté_se"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.menu_file.ui.h:3
 msgid "_Expand All"
