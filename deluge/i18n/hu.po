@@ -2672,11 +2672,11 @@ msgstr "Verzió"
 #: deluge/ui/gtk3/connectionmanager.py:203 deluge/ui/gtk3/dialogs.py:206
 #: deluge/ui/gtk3/glade/connection_manager.ui.h:3
 msgid "C_onnect"
-msgstr "Kap_csolódás"
+msgstr "Kapcs_olódás"
 
 #: deluge/ui/gtk3/connectionmanager.py:211 deluge/ui/gtk3/glade/connection_manager.ui.h:8
 msgid "_Start Daemon"
-msgstr "Démon _indítása"
+msgstr "Démon indítá_sa"
 
 #: deluge/ui/gtk3/connectionmanager.py:242
 msgid "_Stop Daemon"
@@ -2912,11 +2912,11 @@ msgstr "Nem sikerült letölteni:"
 
 #: deluge/ui/gtk3/torrentdetails.py:150
 msgid "_All"
-msgstr "_Összes"
+msgstr "Össze_s"
 
 #: deluge/ui/gtk3/torrentdetails.py:151 deluge/ui/gtk3/glade/main_window.tabs.ui.h:15
 msgid "_Status"
-msgstr "Álla_pot"
+msgstr "Áll_apot"
 
 #: deluge/ui/gtk3/torrentdetails.py:152 deluge/ui/gtk3/glade/main_window.tabs.ui.h:26
 msgid "_Details"
@@ -2925,7 +2925,7 @@ msgstr "_Részletek"
 #: deluge/ui/gtk3/torrentdetails.py:153 deluge/ui/gtk3/glade/main_window.tabs.ui.h:27
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:9
 msgid "Fi_les"
-msgstr "Fá_jlok"
+msgstr "Fáj_lok"
 
 #: deluge/ui/gtk3/torrentdetails.py:154 deluge/ui/gtk3/glade/main_window.tabs.ui.h:28
 msgid "_Peers"
@@ -2934,7 +2934,7 @@ msgstr "_Partnerek"
 #: deluge/ui/gtk3/torrentdetails.py:155 deluge/ui/gtk3/glade/main_window.tabs.ui.h:45
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:36
 msgid "_Options"
-msgstr "_Beállítások"
+msgstr "Beállítás_ok"
 
 #: deluge/ui/gtk3/torrentdetails.py:156 deluge/ui/gtk3/glade/main_window.tabs.ui.h:52
 msgid "_Trackers"
@@ -3108,12 +3108,12 @@ msgstr "Torrent _létrehozása"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:4
 msgid "Quit & _Shutdown Daemon"
-msgstr "Kilépés és a démon leál_lítása"
+msgstr "Kilépé_s és a démon leállítása"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:6 deluge/ui/gtk3/glade/preferences_dialog.ui.h:195
 #: deluge/ui/gtk3/glade/edit_trackers.ui.h:6 deluge/ui/gtk3/glade/connection_manager.ui.h:5
 msgid "_Edit"
-msgstr "_Szerkesztés"
+msgstr "Sz_erkesztés"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:7
 msgid "_Preferences"
@@ -3121,7 +3121,7 @@ msgstr "_Beállítások"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:8
 msgid "_Connection Manager"
-msgstr "_Kapcsolatkezelő"
+msgstr "Kap_csolatkezelő"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:9
 msgid "_Torrent"
@@ -3133,11 +3133,11 @@ msgstr "_Nézet"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:11
 msgid "_Toolbar"
-msgstr "_Eszköztár"
+msgstr "Eszköz_tár"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:12
 msgid "_Sidebar"
-msgstr "_Oldalsáv"
+msgstr "Oldal_sáv"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:13
 msgid "Status_bar"
@@ -3169,7 +3169,7 @@ msgstr "_Trackerek megjelenítése"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:20
 msgid "Show _Owners"
-msgstr "T_ulajdonosok megjelenítése"
+msgstr "Tulajd_onosok megjelenítése"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:21
 msgid "_Help"
@@ -3341,7 +3341,7 @@ msgstr "_Mappa"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:14
 msgid "_Remote Path"
-msgstr "_Távoli elérési útvonal"
+msgstr "Távoli elé_rési útvonal"
 
 #: deluge/ui/gtk3/glade/create_torrent_dialog.ui.h:15 deluge/ui/web/js/deluge-all/add/FilesTab.js:18
 #: deluge/ui/web/js/deluge-all/details/FilesTab.js:12 deluge/ui/web/js/deluge-all/details/FilesTab.js:74
@@ -3397,19 +3397,19 @@ msgstr "Fájl _megnyitása"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.menu_file.ui.h:2
 msgid "_Show Folder"
-msgstr "_Mappa megjelenítése"
+msgstr "_Mappa megjeleníté_se"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.menu_file.ui.h:3
 msgid "_Expand All"
-msgstr "Összes _kibontása"
+msgstr "Össz_es kibontása"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.menu_file.ui.h:4
 msgid "_Skip"
-msgstr "_Kihagyás"
+msgstr "Kihagyá_s"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.menu_file.ui.h:5
 msgid "_Low"
-msgstr "_Alacsony"
+msgstr "A_lacsony"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.menu_file.ui.h:6
 msgid "_Normal"
@@ -3585,7 +3585,7 @@ msgstr "Privát torrent:"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.ui.h:51 deluge/ui/gtk3/glade/torrent_menu.ui.h:9
 msgid "_Edit Trackers"
-msgstr "Trackerek _szerkesztése"
+msgstr "Trackerek sz_erkesztése"
 
 #: deluge/ui/gtk3/glade/edit_trackers.edit.ui.h:1 deluge/ui/web/js/deluge-all/EditTrackerWindow.js:17
 msgid "Edit Tracker"
@@ -4157,7 +4157,7 @@ msgstr "Olvasási gyorsítótár mérete:"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:178 deluge/ui/gtk3/glade/connection_manager.ui.h:7
 msgid "_Refresh"
-msgstr "_Frissítés"
+msgstr "F_rissítés"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:180
 msgid ""
@@ -4238,7 +4238,7 @@ msgstr "Új kiadás"
 
 #: deluge/ui/gtk3/glade/main_window.new_release.ui.h:3
 msgid "_Goto Website"
-msgstr "_Weboldal megnyitása"
+msgstr "Weboldal me_gnyitása"
 
 #: deluge/ui/gtk3/glade/main_window.new_release.ui.h:4
 msgid "New Release Available!"
@@ -4262,7 +4262,7 @@ msgstr "Ne jelenjen meg ez a párbeszédablakot a jövőben"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.menu_peer.ui.h:1
 msgid "_Add Peer"
-msgstr "Partner _hozzáadása"
+msgstr "Partner hozzá_adása"
 
 #: deluge/ui/gtk3/glade/main_window.tabs.menu_peer.ui.h:2
 msgid "Add a peer by its IP"
@@ -4344,7 +4344,7 @@ msgstr "Áthelyezés az elkészült mappába"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:12
 msgid "Add In _Paused State"
-msgstr "Hozzáadás szü_neteltetett állapotban"
+msgstr "Hozzáadás szüneteltetett álla_potban"
 
 #: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:13 deluge/ui/web/js/deluge-all/add/OptionsTab.js:134
 msgid "Prioritize First/Last Pieces"
@@ -4390,7 +4390,7 @@ msgstr "Visszaállítás alapértelmezettre"
 
 #: deluge/ui/gtk3/glade/torrent_menu.options.ui.h:3
 msgid "_Connection Limit"
-msgstr "_Kapcsolati korlát"
+msgstr "Kap_csolati korlát"
 
 #: deluge/ui/gtk3/glade/torrent_menu.options.ui.h:4
 msgid "Upload _Slot Limit"
@@ -4398,7 +4398,7 @@ msgstr "Feltöltési _szálak korlátja"
 
 #: deluge/ui/gtk3/glade/torrent_menu.options.ui.h:5
 msgid "Stop seed at _ratio"
-msgstr "Megosztás leállítása ennél az _aránynál"
+msgstr "Megosztás leállítása ennél az a_ránynál"
 
 #: deluge/ui/gtk3/glade/torrent_menu.options.ui.h:6
 msgid "_Auto Managed"
@@ -4446,7 +4446,7 @@ msgstr "Tracker _frissítése"
 
 #: deluge/ui/gtk3/glade/torrent_menu.ui.h:10
 msgid "_Remove Torrent"
-msgstr "Torrent _eltávolítása"
+msgstr "To_rrent eltávolítása"
 
 #: deluge/ui/gtk3/glade/torrent_menu.ui.h:11
 msgid "_Force Re-check"
@@ -4458,7 +4458,7 @@ msgstr "Áthelyezés a letöltési _mappába"
 
 #: deluge/ui/gtk3/glade/filtertree_menu.ui.h:1
 msgid "_Select All"
-msgstr "Összes _kiválasztása"
+msgstr "Össze_s kiválasztása"
 
 #: deluge/ui/gtk3/glade/filtertree_menu.ui.h:2
 msgid "_Pause All"
@@ -4950,7 +4950,7 @@ msgstr "Címke _eltávolítása"
 
 #: deluge/plugins/Label/deluge_label/gtkui/sidebar_menu.py:44
 msgid "_Add Label"
-msgstr "Címke _hozzáadása"
+msgstr "Címke hozzá_adása"
 
 #: deluge/plugins/Execute/deluge_execute/gtkui.py:33
 msgid "Torrent Complete"
