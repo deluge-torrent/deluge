@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: summoner <summoner@disroot.org>\n"
 "POT-Creation-Date: 2024-08-24 17:37+0100\n"
-"PO-Revision-Date: 2026-05-16 13:02+0200\n"
+"PO-Revision-Date: 2026-05-20 15:40+0100\n"
 "Last-Translator: summoner <summoner@disroot.org>\n"
 "Language-Team: \n"
 "Language: hu\n"
@@ -1511,7 +1511,7 @@ msgstr "Fájlok letöltése és megosztása BitTorrent segítségével"
 
 #: deluge/ui/data/share/applications/deluge.desktop.in.h:5
 msgid "bittorrent;torrent;magnet;download;p2p;torrents;downloading;uploading;share;sharing;"
-msgstr "bittorrent;torrent;magnet;download;p2p;torrents;downloading;uploading;share;sharing;"
+msgstr "bittorrent;torrent;mágnes;letöltés;p2p;torrentek;feltöltés;megosztás;"
 
 #: deluge/ui/data/share/metainfo/deluge.metainfo.xml.in.h:1
 msgid "Deluge Team"
@@ -1562,7 +1562,7 @@ msgstr "A Deluge démon portja, amelyhez kapcsolódni kell (alapértelmezett: 58
 
 #: deluge/ui/console/console.py:98
 msgid "Deluge daemon username to use when connecting"
-msgstr "A Deluge démon felhasználóneve a kapcsolódáskor"
+msgstr "A Deluge démon felhasználói neve a kapcsolódáskor"
 
 #: deluge/ui/console/console.py:105
 msgid "Deluge daemon password to use when connecting"
@@ -2110,7 +2110,7 @@ msgstr "Elkészült torrentek áthelyezése ebbe a mappába"
 
 #: deluge/ui/console/cmdline/commands/add.py:41
 msgid "One or more torrent files, URLs or magnet URIs"
-msgstr "Egy vagy több torrent fájl, webcím vagy mágnes URI"
+msgstr "Egy vagy több torrent fájl, webcím vagy mágneshivatkozás"
 
 #: deluge/ui/console/cmdline/commands/rm.py:30
 msgid "Also removes the torrent data"
@@ -2837,7 +2837,7 @@ msgstr "GTK-beállítások"
 #: deluge/ui/gtk3/__init__.py:35
 msgid "Add one or more torrent files, torrent URLs or magnet URIs to a currently running Deluge GTK instance"
 msgstr ""
-"Egy vagy több torrentfájl, torrent webcím vagy mágnes URI hozzáadása egy jelenleg futó Deluge GTK-példányhoz"
+"Egy vagy több torrentfájl, torrentwebcím vagy mágneshivatkozások hozzáadása egy jelenleg futó Deluge GTK-példányhoz"
 
 #: deluge/ui/gtk3/peers_tab.py:83 deluge/ui/web/js/deluge-all/details/PeersTab.js:66
 msgid "Address"
@@ -2850,7 +2850,7 @@ msgstr "Kliens"
 #: deluge/ui/gtk3/addtorrentdialog.py:108 deluge/ui/gtk3/files_tab.py:96 deluge/ui/gtk3/createtorrentdialog.py:59
 #: deluge/ui/web/js/deluge-all/add/FilesTab.js:28 deluge/ui/web/js/deluge-all/details/FilesTab.js:18
 msgid "Filename"
-msgstr "Fájl neve"
+msgstr "Fájlnév"
 
 #: deluge/ui/gtk3/addtorrentdialog.py:230
 #, python-format
@@ -3020,7 +3020,7 @@ msgstr "_OK"
 #: deluge/ui/gtk3/dialogs.py:467 deluge/ui/web/js/deluge-all/CopyMagnetWindow.js:33
 #: deluge/ui/web/js/deluge-all/Menus.js:319
 msgid "Copy Magnet URI"
-msgstr "Mágnes URI másolása"
+msgstr "Mágneshivatkozás másolása"
 
 #: deluge/ui/gtk3/dialogs.py:482 deluge/ui/web/js/deluge-all/CopyMagnetWindow.js:50
 msgid "Copy"
@@ -3953,7 +3953,7 @@ msgid ""
 "IP address or network interface name to listen for incoming BitTorrent connections. Leave empty to use system "
 "default."
 msgstr ""
-"IP-cím vagy hálózati csatoló név a bejövő BitTorrent kapcsolatok figyeléséhez. Hagyja üresen a rendszer "
+"IP-cím vagy hálózati csatoló neve a bejövő BitTorrent kapcsolatok figyeléséhez. Hagyja üresen a rendszer "
 "alapértelmezettjének használatához."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:114
@@ -3984,7 +3984,7 @@ msgid ""
 "                                        "
 msgstr ""
 "\n"
-"                                          IP-cím vagy hálózati csatoló név a kimenő BitTorrent kapcsolatokhoz. "
+"                                          IP-cím vagy hálózati csatoló neve a kimenő BitTorrent kapcsolatokhoz. "
 "Hagyja üresen a rendszer alapértelmezettjének használatához.\n"
 "                                        "
 
@@ -4189,7 +4189,7 @@ msgstr "Társítás a Deluge alkalmazáshoz"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:187
 msgid "Magnet Links"
-msgstr "Mágnes-hivatkozások"
+msgstr "Mágneshivatkozások"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:188 deluge/ui/web/js/deluge-all/preferences/DaemonPage.js:37
 msgid "Daemon port:"
@@ -4438,7 +4438,7 @@ msgstr "_Sorba állítás"
 
 #: deluge/ui/gtk3/glade/torrent_menu.ui.h:7
 msgid "_Copy Magnet URI"
-msgstr "Mágnes URI _másolása"
+msgstr "_Mágneshivatkozás másolása"
 
 #: deluge/ui/gtk3/glade/torrent_menu.ui.h:8
 msgid "_Update Tracker"
