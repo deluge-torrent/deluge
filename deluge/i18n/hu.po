@@ -9,9 +9,9 @@ msgstr ""
 "Project-Id-Version: deluge\n"
 "Report-Msgid-Bugs-To: summoner <summoner@disroot.org>\n"
 "POT-Creation-Date: 2024-08-24 17:37+0100\n"
-"PO-Revision-Date: 2026-05-20 15:40+0100\n"
+"PO-Revision-Date: 2026-05-21 17:35+0200\n"
 "Last-Translator: summoner <summoner@disroot.org>\n"
-"Language-Team: \n"
+"Language-Team: Hungarian <>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -46,8 +46,7 @@ msgstr "Naplózási szint megadása (semmi, hiba, figyelmeztetés, infó, hibake
 
 #: deluge/argparserbase.py:212
 #, python-format
-msgid ""
-"Enable logfile rotation, with optional maximum logfile size, default: %(const)s (Logfile rotation count is 5)"
+msgid "Enable logfile rotation, with optional maximum logfile size, default: %(const)s (Logfile rotation count is 5)"
 msgstr ""
 "Naplófájl forgatásának engedélyezése, maximális naplófájlmérettel (nem kötelező), alapértelmezett: %(const)s "
 "(Naplófájlforgatások száma: 5)"
@@ -60,8 +59,7 @@ msgstr "A naplózási kimenet tompítása (ugyanaz, mint a `--loglevel none`)"
 #, python-format
 msgid "Profile %(prog)s with cProfile. Outputs to stdout unless a filename is specified"
 msgstr ""
-"A %(prog)s profilozása a cProfile használatával. Kimenet a szabványos kimenetre, kivéve ha egy fájlnév meg van "
-"adva"
+"A %(prog)s profilozása a cProfile használatával. Kimenet a szabványos kimenetre, kivéve ha egy fájlnév meg van adva"
 
 #: deluge/argparserbase.py:348
 msgid "Process Control Options"
@@ -1184,7 +1182,7 @@ msgstr "Szüneteltetve"
 
 #: deluge/ui/common.py:41 deluge/ui/web/js/deluge-all/UI.js:26
 msgid "Queued"
-msgstr "Sorba állítva"
+msgstr "Várólistán"
 
 #: deluge/ui/common.py:42 deluge/ui/common.py:119 deluge/ui/gtk3/filtertreeview.py:128
 #: deluge/ui/gtk3/statusbar.py:396 deluge/plugins/AutoAdd/deluge_autoadd/gtkui.py:327
@@ -1418,11 +1416,11 @@ msgid "Bandwidth"
 msgstr "Sávszélesség"
 
 #: deluge/ui/common.py:129 deluge/ui/console/modes/preferences/preference_panes.py:548
-#: deluge/ui/console/modes/preferences/preferences.py:92
-#: deluge/plugins/Label/deluge_label/data/label_options.ui.h:15 deluge/ui/web/js/deluge-all/Menus.js:280
-#: deluge/ui/web/js/deluge-all/details/OptionsTab.js:176 deluge/ui/web/js/deluge-all/preferences/QueuePage.js:18
+#: deluge/ui/console/modes/preferences/preferences.py:92 deluge/plugins/Label/deluge_label/data/label_options.ui.h:15
+#: deluge/ui/web/js/deluge-all/Menus.js:280 deluge/ui/web/js/deluge-all/details/OptionsTab.js:176
+#: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:18
 msgid "Queue"
-msgstr "Sorba állítás"
+msgstr "Várólista"
 
 #: deluge/ui/common.py:130 deluge/ui/console/modes/preferences/preference_panes.py:298
 #: deluge/ui/console/modes/preferences/preferences.py:88 deluge/ui/web/js/deluge-all/preferences/NetworkPage.js:28
@@ -1654,7 +1652,7 @@ msgstr "Elkészült torrentek listázása a befejezetlenek után, a rendezési s
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:191
 msgid "Move selection when moving torrents in the queue"
-msgstr "Kijelölés mozgatása a torrentek sorba állításához való mozgatásakor"
+msgstr "Kijelölés mozgatása a torrentek mozgatásakor a várólistán"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:198
 #: deluge/ui/web/js/deluge-all/preferences/InterfacePage.js:67
@@ -1911,7 +1909,7 @@ msgstr "Új torrentek"
 #: deluge/ui/console/modes/preferences/preference_panes.py:554 deluge/ui/gtk3/glade/preferences_dialog.ui.h:96
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:42
 msgid "Queue to top"
-msgstr "Sorba állítás a tetejére"
+msgstr "Várólistára helyezés felül"
 
 #: deluge/ui/console/modes/preferences/preference_panes.py:556 deluge/ui/gtk3/glade/preferences_dialog.ui.h:104
 #: deluge/ui/web/js/deluge-all/preferences/QueuePage.js:50
@@ -2331,11 +2329,11 @@ msgstr "Torrent"
 
 #: deluge/ui/gtk3/queuedtorrents.py:115
 msgid " Torrents Queued"
-msgstr " Torrentek sorba állítva"
+msgstr " Torrentek hozzáadva a várólistához"
 
 #: deluge/ui/gtk3/queuedtorrents.py:117
 msgid " Torrent Queued"
-msgstr " Torrent sorba állítva"
+msgstr " Torrent hozzáadva a várólistához"
 
 #: deluge/ui/gtk3/aboutdialog.py:39
 #, python-format
@@ -2368,20 +2366,20 @@ msgid ""
 "License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any "
 "later version. \n"
 "\n"
-"This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the "
-"implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for "
-"more details. \n"
+"This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied "
+"warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more "
+"details. \n"
 "\n"
 "You should have received a copy of the GNU General Public License along with this program; if not, see <http://"
 "www.gnu.org/licenses>. \n"
 "\n"
 "In addition, as a special exception, the copyright holders give permission to link the code of portions of this "
-"program with the OpenSSL library. You must obey the GNU General Public License in all respects for all of the "
-"code used other than OpenSSL. \n"
+"program with the OpenSSL library. You must obey the GNU General Public License in all respects for all of the code "
+"used other than OpenSSL. \n"
 "\n"
 "If you modify file(s) with this exception, you may extend this exception to your version of the file(s), but you "
-"are not obligated to do so. If you do not wish to do so, delete this exception statement from your version. If "
-"you delete this exception statement from all source files in the program, then also delete it here."
+"are not obligated to do so. If you do not wish to do so, delete this exception statement from your version. If you "
+"delete this exception statement from all source files in the program, then also delete it here."
 msgstr ""
 "Ez a program szabad szoftver; terjesztheti és/vagy módosíthatja a Free Software Foundation által kiadott GNU "
 "General Public License feltételei szerint; a licenc 3-as, vagy (választása szerint) bármely későbbi verziója "
@@ -2395,8 +2393,8 @@ msgstr ""
 "http://www.gnu.org/licenses.\n"
 "\n"
 "Ezenfelül, speciális kivételként, a szerzői jogtulajdonosok engedélyezik a program bizonyos részeinek "
-"összekapcsolását (hivatkozását) az OpenSSL könyvtárral. Az OpenSSL-en kívül használt összes többi kód "
-"tekintetében mindenben eleget kell tennie a GNU General Public License feltételeinek.\n"
+"összekapcsolását (hivatkozását) az OpenSSL könyvtárral. Az OpenSSL-en kívül használt összes többi kód tekintetében "
+"mindenben eleget kell tennie a GNU General Public License feltételeinek.\n"
 "\n"
 "Ha módosítja az ezzel a kivétellel rendelkező fájl(oka)t, kiterjesztheti ezt a kivételt a fájl(ok) saját "
 "verziójára is, de nem köteles erre. Ha nem kíván így tenni, törölje ezt a kivételnyilatkozatot a saját "
@@ -3245,19 +3243,19 @@ msgstr "Folytatás"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:38
 msgid "Queue Torrent Up"
-msgstr "Torrent sorba állítása feljebb"
+msgstr "Torrent feljebb mozgatása a várólistán"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:39
 msgid "Queue Up"
-msgstr "Sorba állítás feljebb"
+msgstr "Feljebb mozgatás a várólistán"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:40
 msgid "Queue Torrent Down"
-msgstr "Torrent sorba állítása lejjebb"
+msgstr "Torrent lejjebb mozgatása a várólistán"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:41
 msgid "Queue Down"
-msgstr "Sorba állítás lejjebb"
+msgstr "Lejjebb mozgatás a várólistán"
 
 #: deluge/ui/gtk3/glade/main_window.ui.h:42 deluge/ui/gtk3/glade/preferences_dialog.ui.h:14
 #: deluge/ui/web/js/deluge-all/Toolbar.js:84 deluge/ui/web/js/deluge-all/preferences/PreferencesWindow.js:24
@@ -3782,8 +3780,7 @@ msgstr "<b>Nyelv</b>"
 msgid "Move completed to:"
 msgstr "Elkészült torrent áthelyezése ide:"
 
-#: deluge/ui/gtk3/glade/preferences_dialog.ui.h:55
-#: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:15
+#: deluge/ui/gtk3/glade/preferences_dialog.ui.h:55 deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:15
 #: deluge/ui/web/js/deluge-all/preferences/DownloadsPage.js:70
 msgid "Copy of .torrent files to:"
 msgstr ".torrent fájlok másolata ide:"
@@ -4076,8 +4073,8 @@ msgstr "Gyorsítótár mérete (16 KiB blokk):"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:157
 msgid ""
-"The number of seconds from the last cached write to a piece in the write cache, to when it's forcefully flushed "
-"to disk. Default is 60 seconds."
+"The number of seconds from the last cached write to a piece in the write cache, to when it's forcefully flushed to "
+"disk. Default is 60 seconds."
 msgstr ""
 "A kiíró gyorsítótárban lévő szelet utolsó gyorsítótárazott írása és annak lemezre történő kényszerített kiírása "
 "között eltelt másodpercek száma. Az alapértelmezett érték 60 másodperc."
@@ -4180,8 +4177,8 @@ msgid ""
 "If Deluge cannot find the database file at this location it will fallback to using DNS to resolve the peer's "
 "country."
 msgstr ""
-"Ha a Deluge nem találja az adatbázis-fájlt ezen a helyen, akkor visszatér a DNS használatához a partner "
-"országának feloldásához."
+"Ha a Deluge nem találja az adatbázis-fájlt ezen a helyen, akkor visszatér a DNS használatához a partner országának "
+"feloldásához."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:186
 msgid "Associate with Deluge"
@@ -4292,11 +4289,11 @@ msgstr "Cél:"
 
 #: deluge/ui/gtk3/glade/queuedtorrents.ui.h:1
 msgid "Queued Torrents"
-msgstr "Sorba állított torrentek"
+msgstr "Várólistás torrentek"
 
 #: deluge/ui/gtk3/glade/queuedtorrents.ui.h:4
 msgid "Add Queued Torrents"
-msgstr "Sorba állított torrentek hozzáadása"
+msgstr "Torrentek hozzáadása várólistásként"
 
 #: deluge/ui/gtk3/glade/queuedtorrents.ui.h:6
 msgid "_Clear"
@@ -4350,8 +4347,7 @@ msgstr "Hozzáadás szüneteltetett álla_potban"
 msgid "Prioritize First/Last Pieces"
 msgstr "Első/utolsó szeletek előnyben részesítése"
 
-#: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:21
-#: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:46
+#: deluge/ui/gtk3/glade/add_torrent_dialog.ui.h:21 deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:46
 #: deluge/ui/web/js/deluge-all/add/OptionsTab.js:152
 msgid "Skip File Hash Check"
 msgstr "Fájlkivonat ellenőrzésének kihagyása"
@@ -4434,7 +4430,7 @@ msgstr "Beállítá_sok"
 
 #: deluge/ui/gtk3/glade/torrent_menu.ui.h:6
 msgid "_Queue"
-msgstr "_Sorba állítás"
+msgstr "_Várólista"
 
 #: deluge/ui/gtk3/glade/torrent_menu.ui.h:7
 msgid "_Copy Magnet URI"
@@ -4920,7 +4916,7 @@ msgstr "Maximum"
 
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:14
 msgid "Apply Queue settings:"
-msgstr "Sorbeállítások alkalmazása:"
+msgstr "Várólista beállításainak alkalmazása:"
 
 #: deluge/plugins/Label/deluge_label/data/label_options.ui.h:17
 msgid "Apply folder settings:"
@@ -5231,11 +5227,11 @@ msgstr "Hozzáadás szüneteltetve:"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:43
 msgid "Queue to:"
-msgstr "Sorba állítás ide:"
+msgstr "Várólistán ide:"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:47
 msgid "<b>Queue</b>"
-msgstr "<b>Sorba állítás</b>"
+msgstr "<b>Várólista</b>"
 
 #: deluge/plugins/Extractor/deluge_extractor/gtkui.py:39 deluge/plugins/Extractor/deluge_extractor/gtkui.py:50
 msgid "Extractor"
@@ -5254,8 +5250,8 @@ msgid ""
 "This option will create a sub-folder using the torrent's name within the selected extract folder and put the "
 "extracted files there."
 msgstr ""
-"Ez a beállítás létrehoz egy almappát a torrent nevével a kiválasztott kicsomagolási mappán belül, és oda helyezi "
-"a kicsomagolt fájlokat."
+"Ez a beállítás létrehoz egy almappát a torrent nevével a kiválasztott kicsomagolási mappán belül, és oda helyezi a "
+"kicsomagolt fájlokat."
 
 #: deluge/plugins/Blocklist/deluge_blocklist/gtkui.py:42
 msgid "Blocked IP Ranges /Whitelisted IP Ranges"
