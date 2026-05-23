@@ -11,7 +11,7 @@ msgstr ""
 "POT-Creation-Date: 2024-08-24 17:37+0100\n"
 "PO-Revision-Date: 2026-05-21 17:35+0200\n"
 "Last-Translator: summoner <summoner@disroot.org>\n"
-"Language-Team: Hungarian <>\n"
+"Language-Team: <>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -53,13 +53,13 @@ msgstr ""
 
 #: deluge/argparserbase.py:220
 msgid "Quieten logging output (Same as `--loglevel none`)"
-msgstr "A naplózási kimenet tompítása (ugyanaz, mint a `--loglevel none`)"
+msgstr "Naplózási kimenet tompítása (ugyanaz, mint a `--loglevel none`)"
 
 #: deluge/argparserbase.py:228
 #, python-format
 msgid "Profile %(prog)s with cProfile. Outputs to stdout unless a filename is specified"
 msgstr ""
-"A %(prog)s profilozása a cProfile használatával. Kimenet a szabványos kimenetre, kivéve ha egy fájlnév meg van adva"
+"%(prog)s profilozása a cProfile használatával. Kimenet a szabványos kimenetre, kivéve ha egy fájlnév meg van adva"
 
 #: deluge/argparserbase.py:348
 msgid "Process Control Options"
@@ -2345,7 +2345,7 @@ msgid ""
 "A peer-to-peer file sharing program\n"
 "utilizing the BitTorrent protocol."
 msgstr ""
-"Egy peer-to-peer fájlmegosztó program,\n"
+"Egy egyenrangú fájlmegosztó program,\n"
 "amely a BitTorrent protokollt használja."
 
 #: deluge/ui/gtk3/aboutdialog.py:45 deluge/ui/web/js/deluge-all/AboutWindow.js:55
@@ -2438,7 +2438,7 @@ msgstr "Letöltési sebesség korlát"
 
 #: deluge/ui/gtk3/systemtray.py:395 deluge/ui/gtk3/statusbar.py:476 deluge/ui/gtk3/menubar.py:490
 msgid "Set the maximum download speed"
-msgstr "A maximális letöltési sebesség beállítása"
+msgstr "Maximális letöltési sebesség beállítása"
 
 #: deluge/ui/gtk3/systemtray.py:409 deluge/ui/gtk3/statusbar.py:482 deluge/ui/gtk3/menubar.py:495
 msgid "Upload Speed Limit"
@@ -2446,7 +2446,7 @@ msgstr "Feltöltési sebesség korlátja"
 
 #: deluge/ui/gtk3/systemtray.py:410 deluge/ui/gtk3/statusbar.py:483 deluge/ui/gtk3/menubar.py:496
 msgid "Set the maximum upload speed"
-msgstr "A maximális feltöltési sebesség beállítása"
+msgstr "Maximális feltöltési sebesség beállítása"
 
 #: deluge/ui/gtk3/filtertreeview.py:119 deluge/ui/web/js/deluge-all/FilterPanel.js:28
 msgid "States"
@@ -2529,7 +2529,7 @@ msgstr "Bejövő kapcsolatok"
 
 #: deluge/ui/gtk3/statusbar.py:490 deluge/ui/gtk3/menubar.py:502
 msgid "Set the maximum incoming connections"
-msgstr "A maximális bejövő kapcsolatok beállítása"
+msgstr "Maximális bejövő kapcsolatok beállítása"
 
 #: deluge/ui/gtk3/removetorrentdialog.py:64
 msgid "Remove the selected torrents?"
@@ -2538,7 +2538,7 @@ msgstr "Eltávolítja a kiválasztott torrenteket?"
 #: deluge/ui/gtk3/removetorrentdialog.py:65
 #, python-format
 msgid "Total of %s torrents selected"
-msgstr "Összesen %s torrent kiválasztva"
+msgstr "Összesen %s torrent van kiválasztva"
 
 #: deluge/ui/gtk3/gtkui.py:313
 msgid ""
@@ -2731,7 +2731,7 @@ msgstr "Válasszon egy nyelvet"
 
 #: deluge/ui/gtk3/preferences.py:903
 msgid "You must now restart the deluge UI for the changes to take effect."
-msgstr "A változások életbe lépéséhez most újra kell indítania a deluge felületet."
+msgstr "A változások életbe lépéséhez most újra kell indítania a Deluge felületet."
 
 #: deluge/ui/gtk3/preferences.py:956
 msgid "Thinclient"
@@ -3056,12 +3056,12 @@ msgstr "kiszolgálónév:port"
 #: deluge/ui/gtk3/glade/torrent_menu.queue.ui.h:1 deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:44
 #: deluge/ui/web/js/deluge-all/Menus.js:287
 msgid "Top"
-msgstr "Tetejére"
+msgstr "Első"
 
 #: deluge/ui/gtk3/glade/torrent_menu.queue.ui.h:4 deluge/plugins/AutoAdd/deluge_autoadd/data/autoadd_options.ui.h:45
 #: deluge/ui/web/js/deluge-all/Menus.js:308
 msgid "Bottom"
-msgstr "Aljára"
+msgstr "Utolsó"
 
 #: deluge/ui/gtk3/glade/tray_menu.ui.h:1
 msgid "_Show Deluge"
@@ -3675,7 +3675,7 @@ msgstr "Torrent-webcímek felismerése a vágólapról"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:26
 msgid "Automatically open Add Torrent dialog when clipboard contains a torrent URL"
-msgstr "A Torrent hozzáadása párbeszédablak automatikus megnyitása, ha a vágólap torrent-webcímet tartalmaz"
+msgstr "Torrent hozzáadási párbeszédablak automatikus megnyitása, ha a vágólap torrent-webcímet tartalmaz"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:27
 msgid ""
@@ -3683,13 +3683,13 @@ msgid ""
 "will increase bandwidth use between client\n"
 "and daemon (does not apply in Standalone mode)."
 msgstr ""
-"A szeletek sávja\n"
+"A szeletsáv\n"
 "megnöveli a sávszélesség használatát a kliens\n"
 "és a démon között (nem vonatkozik az Önálló módra)."
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:30
 msgid "Show a pieces bar in Status tab"
-msgstr "Szeletek sávjának megjelenítése az állapotlapon"
+msgstr "Szeletsáv megjelenítése az állapotlapon"
 
 #: deluge/ui/gtk3/glade/preferences_dialog.ui.h:32 deluge/ui/web/js/deluge-all/preferences/QueuePage.js:72
 msgid "Downloading:"
@@ -4603,7 +4603,7 @@ msgstr "Hozzáadás"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:32
 msgid "Add the current entry value to the list"
-msgstr "A jelenlegi bejegyzés értékének hozzáadása a listához"
+msgstr "Jelenlegi bejegyzés értékének hozzáadása a listához"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:33 deluge/ui/web/js/deluge-all/EditConnectionWindow.js:33
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:102 deluge/ui/web/js/deluge-all/EditTrackersWindow.js:99
@@ -4612,7 +4612,7 @@ msgstr "Szerkesztés"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:34
 msgid "Edit the selected entry"
-msgstr "A kiválasztott bejegyzés szerkesztése"
+msgstr "Kiválasztott bejegyzés szerkesztése"
 
 #: deluge/ui/gtk3/glade/path_combo_chooser.ui.h:35 deluge/ui/web/js/deluge-all/Toolbar.js:46
 #: deluge/ui/web/js/deluge-all/ConnectionManager.js:110 deluge/ui/web/js/deluge-all/EditTrackersWindow.js:105
@@ -5054,7 +5054,7 @@ msgstr "Nem kompatibilis beállítás"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/gtkui.py:415
 msgid "\"Watch Folder\" directory and \"Copy of .torrent files to\" directory cannot be the same!"
-msgstr "A „Figyelt mappa” könyvtár és a „.torrent fájlok másolata ide” könyvtár nem lehet azonos!"
+msgstr "A „Figyelt mappa” könyvtára és a „.torrent fájlok másolása ide” könyvtára nem lehet azonos!"
 
 #: deluge/plugins/AutoAdd/deluge_autoadd/gtkui.py:458 deluge/plugins/AutoAdd/deluge_autoadd/gtkui.py:462
 msgid "AutoAdd"
