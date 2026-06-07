@@ -222,6 +222,16 @@ class Core(CorePluginBase):
                     'move_completed_path': options['move_completed_path'],
                 }
             )
+            # The torrent_finished alert only fires once, so move an already
+            # finished torrent to the label's move completed path now.
+            if (
+                options['move_completed']
+                and options['move_completed_path']
+                and torrent.is_finished
+                and torrent.options['download_location']
+                != options['move_completed_path']
+            ):
+                torrent.move_storage(options['move_completed_path'])
 
     def _unset_torrent_options(self, torrent_id, label_id):
         options = self.labels[label_id]
