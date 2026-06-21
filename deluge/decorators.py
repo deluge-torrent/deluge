@@ -7,7 +7,9 @@
 #
 
 import inspect
+import linecache
 import re
+import sys
 import warnings
 from functools import wraps
 from typing import Any, Callable, Coroutine, TypeVar
@@ -34,6 +36,19 @@ def proxy(proxy_func):
     return decorator
 
 
+def _frameinfo(frame):
+    """Build a lightweight inspect.FrameInfo-compatible tuple for a single frame.
+
+    Mirrors the (frame, filename, lineno, function, code_context, index) shape
+    that inspect.stack() returns with the default context=1, but without walking
+    the whole stack or resolving modules.
+    """
+    filename = frame.f_code.co_filename
+    lineno = frame.f_lineno
+    line = linecache.getline(filename, lineno)
+    return (frame, filename, lineno, frame.f_code.co_name, [line], 0)
+
+
 def overrides(*args):
     """
     Decorater function to specify when class methods override
@@ -52,7 +67,15 @@ def overrides(*args):
     the argument will be the BaseClass
 
     """
-    stack = inspect.stack()
+    # NOTE: inspect.stack() walks the *entire* call stack and resolves a module
+    # for every frame (inspect.getmodule scans all of sys.modules), which makes
+    # it pathologically slow at import time. We only ever index stack[1] and
+    # stack[2], so build just those two FrameInfo-like entries directly.
+    stack = (
+        None,
+        _frameinfo(sys._getframe(1)),
+        _frameinfo(sys._getframe(2)),
+    )
     if inspect.isfunction(args[0]):
         return _overrides(stack, args[0])
     else:

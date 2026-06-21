@@ -5,7 +5,9 @@
 #
 
 
-from deluge.decorators import proxy
+import pytest
+
+from deluge.decorators import overrides, proxy
 
 
 class TestDecorators:
@@ -46,3 +48,64 @@ class TestDecorators:
         t = Test(5)
         assert t.diff(1) == -4
         assert t.no_diff(1) == 4
+
+
+class TestOverrides:
+    def test_basic(self):
+        class Base:
+            def method(self):
+                pass
+
+        class Child(Base):
+            @overrides
+            def method(self):
+                pass
+
+    def test_explicit_base_class(self):
+        class Base:
+            def method(self):
+                pass
+
+        class Child(Base):
+            @overrides(Base)
+            def method(self):
+                pass
+
+    def test_multiple_inheritance(self):
+        class A:
+            def method(self):
+                pass
+
+        class B(A):
+            pass
+
+        class C(B):
+            @overrides(A)
+            def method(self):
+                pass
+
+    def test_missing_method_raises(self):
+        class Base:
+            def method(self):
+                pass
+
+        with pytest.raises(Exception, match='not found'):
+            class Child(Base):
+                @overrides
+                def nonexistent(self):
+                    pass
+
+    def test_explicit_base_not_superclass_raises(self):
+        class Base:
+            def method(self):
+                pass
+
+        class Unrelated:
+            def method(self):
+                pass
+
+        with pytest.raises(Exception):
+            class Child(Base):
+                @overrides(Unrelated)
+                def method(self):
+                    pass
