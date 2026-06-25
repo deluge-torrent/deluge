@@ -1,0 +1,72 @@
+name: CI: WebTorrent
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test-linux-webtorrent:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        libtorrent:
+          - version: "RC_2_1"
+            libt_build_flags: "-Dwebtorrent=ON"
+          - version: "RC_2_0"
+            libt_build_flags: ""
+        python-version: ["3.13"]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            cmake \
+            libboost-python-dev \
+            libboost-system-dev \
+            libssl-dev \
+            python3-dev
+
+      - name: Clone libtorrent ${{ matrix.libtorrent.version }}
+        run: |
+          git clone --branch ${{ matrix.libtorrent.version }} --depth 1 \
+            https://github.com/arvidn/libtorrent.git
+
+      - name: Build libtorrent with Python bindings
+        run: |
+          cmake -B libtorrent/build -S libtorrent \
+            -DCMAKE_BUILD_TYPE=Release \
+            -Dpython-bindings=ON \
+            -Ddeprecated-functions=OFF \
+            ${{ matrix.libtorrent.libt_build_flags }}
+          cmake --build libtorrent/build -j$(nproc)
+          sudo cmake --install libtorrent/build
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
+      - name: Install Deluge dependencies
+        env:
+          UV_SYSTEM_PYTHON: 1
+        run: |
+          uv pip install -r requirements-ci.txt
+          uv pip install -e . --no-build-isolation
+
+      - name: Test with pytest
+        run: |
+          python -c 'from deluge._libtorrent import lt; print(lt.__version__)'
+          pytest -v -m "not (todo or gtkui or internet)" deluge
