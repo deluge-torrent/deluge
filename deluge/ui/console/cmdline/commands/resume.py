@@ -7,6 +7,8 @@
 # See LICENSE for more details.
 #
 
+from twisted.internet import defer
+
 import deluge.component as component
 from deluge.ui.client import client
 
@@ -31,7 +33,7 @@ class Command(BaseCommand):
 
         if options.torrent_ids[0] == '*':
             client.core.resume_session()
-            return
+            return defer.succeed(True)
 
         torrent_ids = []
         for t_id in options.torrent_ids:
