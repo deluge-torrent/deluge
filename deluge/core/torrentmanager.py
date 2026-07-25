@@ -734,8 +734,12 @@ class TorrentManager(component.Component):
         try:
             self.session.remove_torrent(torrent.handle, 1 if remove_data else 0)
         except RuntimeError as ex:
-            log.warning('Error removing torrent: %s', ex)
-            return False
+            # An invalid handle means libtorrent already dropped it; bailing out
+            # here would leave a Torrent no later remove could ever clear.
+            if torrent.handle.is_valid():
+                log.warning('Error removing torrent: %s', ex)
+                return False
+            log.warning('Removing torrent with an invalid handle: %s', ex)
 
         # Remove fastresume data if it is exists
         self.resume_data.pop(torrent_id, None)
@@ -746,15 +750,13 @@ class TorrentManager(component.Component):
         )
         torrent.delete_torrentfile(delete_copies)
 
-        # Remove from set if it wasn't finished
+        # Remove from set if it wasn't finished. The handle is already dead here,
+        # so an inconsistent set must not abort the removal.
         if not torrent.is_finished:
             try:
                 self.queued_torrents.remove(torrent_id)
             except KeyError:
                 log.debug('%s is not in queued torrents set.', torrent_id)
-                raise InvalidTorrentError(
-                    '%s is not in queued torrents set.' % torrent_id
-                )
 
         # Remove the torrent from deluge's session
         del self.torrents[torrent_id]

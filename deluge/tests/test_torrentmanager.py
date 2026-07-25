@@ -139,6 +139,58 @@ class TestTorrentmanager(BaseTestCase):
         with pytest.raises(InvalidTorrentError):
             self.tm.remove('torrentidthatdoesntexist')
 
+    @pytest_twisted.inlineCallbacks
+    def test_remove_torrent_missing_from_queued_set(self):
+        """An unfinished torrent absent from queued_torrents must still be removed.
+
+        By this point session.remove_torrent() has already destroyed the
+        libtorrent handle, so abandoning the removal leaves a Torrent whose
+        every later status read raises RuntimeError for the life of the daemon.
+
+        on_alert_torrent_finished reaches this state on its own: when a
+        move_completed path is set it queues the move and leaves is_finished
+        False, while still dropping the id from queued_torrents.
+        """
+        filename = common.get_test_data_file('test.torrent')
+        with open(filename, 'rb') as _file:
+            filedump = _file.read()
+        torrent_id = yield self.core.add_torrent_file_async(
+            filename, b64encode(filedump), {}
+        )
+        self.tm.queued_torrents.discard(torrent_id)
+        assert not self.tm.torrents[torrent_id].is_finished
+
+        assert self.tm.remove(torrent_id, False)
+        assert torrent_id not in self.tm.torrents
+
+    @pytest_twisted.inlineCallbacks
+    def test_remove_torrent_with_dead_handle(self):
+        """A torrent whose handle libtorrent already dropped must be removable.
+
+        remove_torrent() raises on an invalid handle, so returning False here
+        left the only existing zombies unremovable short of a daemon restart.
+        """
+        filename = common.get_test_data_file('test.torrent')
+        with open(filename, 'rb') as _file:
+            filedump = _file.read()
+        torrent_id = yield self.core.add_torrent_file_async(
+            filename, b64encode(filedump), {}
+        )
+        torrent = self.tm.torrents[torrent_id]
+
+        # Kill the handle behind TorrentManager's back, as an aborted remove does.
+        self.tm.session.remove_torrent(torrent.handle, 0)
+        for _ in range(100):
+            if not torrent.handle.is_valid():
+                break
+            yield task.deferLater(reactor, 0.05)
+        assert not torrent.handle.is_valid(), 'libtorrent never dropped the handle'
+        # A real zombie has outlived the 5s status cache, so reads hit the handle.
+        torrent._status_last_update = 0
+
+        assert self.tm.remove(torrent_id, False)
+        assert torrent_id not in self.tm.torrents
+
     def test_open_state(self):
         """Open a state with a UTF-8 encoded torrent filename."""
         shutil.copy(
