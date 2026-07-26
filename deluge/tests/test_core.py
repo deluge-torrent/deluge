@@ -389,6 +389,42 @@ class TestCore(BaseTestCase):
         assert val[0] == ('invalidid1', 'torrent_id invalidid1 not in session.')
         assert val[1] == ('invalidid2', 'torrent_id invalidid2 not in session.')
 
+    @pytest_twisted.inlineCallbacks
+    def test_get_torrents_status_diff_excludes_unchanged_plugin_keys(self):
+        torrent_id = self.add_torrent('test.torrent')
+        self.core.pluginmanager.register_status_field('testfield', lambda _: 'static')
+
+        keys = ['name', 'testfield']
+        yield self.core.get_torrents_status({}, keys, diff=True)
+        diff = yield self.core.get_torrents_status({}, keys, diff=True)
+
+        assert diff[torrent_id] == {}
+
+    @pytest_twisted.inlineCallbacks
+    def test_get_torrents_status_diff_includes_changed_plugin_keys(self):
+        torrent_id = self.add_torrent('test.torrent')
+        values = iter(['before', 'after'])
+        self.core.pluginmanager.register_status_field(
+            'testfield', lambda _: next(values)
+        )
+
+        keys = ['name', 'testfield']
+        yield self.core.get_torrents_status({}, keys, diff=True)
+        diff = yield self.core.get_torrents_status({}, keys, diff=True)
+
+        assert diff[torrent_id] == {'testfield': 'after'}
+
+    @pytest_twisted.inlineCallbacks
+    def test_get_torrent_status_diff_excludes_unchanged_plugin_keys(self):
+        torrent_id = self.add_torrent('test.torrent')
+        self.core.pluginmanager.register_status_field('testfield', lambda _: 'static')
+
+        keys = ['name', 'testfield']
+        yield self.core.get_torrent_status(torrent_id, keys, diff=True)
+        diff = yield self.core.get_torrent_status(torrent_id, keys, diff=True)
+
+        assert diff == {}
+
     def test_get_session_status(self):
         status = self.core.get_session_status(
             ['net.recv_tracker_bytes', 'net.sent_tracker_bytes']
