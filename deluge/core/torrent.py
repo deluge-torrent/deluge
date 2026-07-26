@@ -1010,7 +1010,9 @@ class Torrent:
         except ValueError:
             return -1
 
-    def get_status(self, keys, diff=False, update=False, all_keys=False):
+    def get_status(
+        self, keys, diff=False, update=False, all_keys=False, plugin_status=None
+    ):
         """Returns the status of the torrent based on the keys provided
 
         Args:
@@ -1021,6 +1023,8 @@ class Torrent:
                 if False, the cached values will be returned
             all_keys (bool): If True return all keys while ignoring the keys param
                 if False, return only the requested keys
+            plugin_status (dict): Status fields supplied by plugins. Merged in
+                before the diff is taken so unchanged plugin values diff out.
 
         Returns:
             dict: a dictionary of the status keys and their values
@@ -1035,6 +1039,9 @@ class Torrent:
 
         for key in keys:
             status_dict[key] = self.status_funcs[key]()
+
+        if plugin_status:
+            status_dict.update(plugin_status)
 
         if diff:
             session_id = self.rpcserver.get_session_id()
