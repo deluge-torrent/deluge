@@ -121,7 +121,7 @@ Deluge.ux.AddLabelWindow = Ext.extend(Ext.Window, {
 Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
     title: _('Label Options'),
     width: 325,
-    height: 240,
+    height: 300,
     closeAction: 'hide',
 
     initComponent: function () {
@@ -131,6 +131,24 @@ Deluge.ux.LabelOptionsWindow = Ext.extend(Ext.Window, {
 
         this.form = this.add({
             xtype: 'form',
+        });
+
+        this.form.add({
+            xtype: 'fieldset',
+            border: false,
+            autoHeight: true,
+            labelWidth: 1,
+            style: 'margin-bottom: 0px; padding-bottom: 0px;',
+            items: [
+                {
+                    xtype: 'spinnerfield',
+                    fieldLabel: _('Priority'),
+                    name: 'priority',
+                    width: 80,
+                    minValue: 0,
+                    value: 0,
+                },
+            ],
         });
 
         this.tabs = this.form.add({
@@ -465,16 +483,16 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
         this.torrentMenu.removeAll(true);
         this.torrentMenu.addMenuItem({
             text: _('No Label'),
-            label: '',
-            handler: this.onTorrentMenuClick,
+            handler: this.onNoLabelClick,
             scope: this,
         });
+        this.torrentMenu.addSeparator();
         for (var state in states) {
             if (!state || state == 'All') continue;
             this.torrentMenu.addMenuItem({
                 text: state,
-                label: state,
-                handler: this.onTorrentMenuClick,
+                checked: false,
+                checkHandler: this.onLabelToggle,
                 scope: this,
             });
         }
@@ -495,6 +513,7 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
             new Deluge.ux.preferences.LabelPage()
         );
         this.torrentMenu = new Ext.menu.Menu();
+        this.torrentMenu.on('show', this.onTorrentMenuShow, this);
 
         this.tmSep = deluge.menus.torrent.add({
             xtype: 'menuseparator',
@@ -617,18 +636,57 @@ Deluge.plugins.LabelPlugin = Ext.extend(Deluge.Plugin, {
         });
     },
 
-    onTorrentMenuClick: function (item, e) {
+    onTorrentMenuShow: function () {
         var ids = deluge.torrents.getSelectedIds();
-        Ext.each(ids, function (id, i) {
-            if (ids.length == i + 1) {
-                deluge.client.label.set_torrent(id, item.label, {
-                    success: function () {
-                        deluge.ui.update();
-                    },
+        if (!ids.length) return;
+        deluge.client.core.get_torrents_status({ id: ids }, ['label'], {
+            success: function (statuses) {
+                var that = this;
+                this.torrentMenu.items.each(function (item) {
+                    if (!item.checkHandler) return;
+                    var label = item.text;
+                    var checked = true;
+                    for (var i = 0; i < ids.length; i++) {
+                        var labels = (statuses[ids[i]] || {})['label'] || [];
+                        if (typeof labels == 'string') {
+                            labels = labels ? labels.split(', ') : [];
+                        }
+                        if (labels.indexOf(label) == -1) {
+                            checked = false;
+                            break;
+                        }
+                    }
+                    item.setChecked(checked, true);
                 });
-            } else {
-                deluge.client.label.set_torrent(id, item.label);
-            }
+            },
+            scope: this,
+        });
+    },
+
+    onLabelToggle: function (item, checked) {
+        var ids = deluge.torrents.getSelectedIds();
+        var remaining = ids.length;
+        var method = checked ? 'add_label' : 'remove_label';
+        Ext.each(ids, function (id) {
+            deluge.client.label[method](id, item.text, {
+                success: function () {
+                    remaining--;
+                    if (remaining === 0) deluge.ui.update();
+                },
+            });
+        });
+    },
+
+    onNoLabelClick: function () {
+        var ids = deluge.torrents.getSelectedIds();
+        var remaining = ids.length;
+        Ext.each(ids, function (id) {
+            deluge.client.label.set_torrent(id, '', {
+                success: function () {
+                    remaining--;
+                    if (remaining === 0) deluge.ui.update();
+                },
+            });
         });
     },
 });
