@@ -117,7 +117,7 @@ class FilterManager(component.Component):
         self.register_filter('tracker_host', tracker_error_filter)
 
         def _init_users_tree():
-            return {'': 0}
+            return {'All': 0, '': 0}
 
         self.register_tree_field('owner', _init_users_tree)
 
@@ -213,6 +213,9 @@ class FilterManager(component.Component):
             items['tracker_host']['Error'] = len(
                 tracker_error_filter(torrent_ids, ('Error',))
             )
+
+        if 'owner' in items:
+            items['owner']['All'] = len(torrent_ids)
 
         if not show_zero_hits:
             for cat in ['state', 'owner', 'tracker_host']:
