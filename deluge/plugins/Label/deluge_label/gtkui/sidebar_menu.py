@@ -127,7 +127,7 @@ class AddDialog:
 
 class OptionsDialog:
     spin_ids = ['max_download_speed', 'max_upload_speed', 'stop_ratio']
-    spin_int_ids = ['max_upload_slots', 'max_connections']
+    spin_int_ids = ['max_upload_slots', 'max_connections', 'priority']
     chk_ids = [
         'apply_max',
         'apply_queue',

@@ -180,9 +180,18 @@ class FilterManager(component.Component):
                 torrent_id, torrent_keys, plugin_keys
             )
             for field, values in filter_dict.items():
-                if field in status and status[field] in values:
-                    continue
-                elif torrent_id in torrent_ids:
+                if field in status:
+                    status_value = status[field]
+                    if isinstance(status_value, list):
+                        if not status_value:
+                            matched = '' in values
+                        else:
+                            matched = any(value in status_value for value in values)
+                    else:
+                        matched = status_value in values
+                    if matched:
+                        continue
+                if torrent_id in torrent_ids:
                     torrent_ids.remove(torrent_id)
         return torrent_ids
 
@@ -206,7 +215,16 @@ class FilterManager(component.Component):
             )  # status={key:value}
             for field in tree_keys:
                 value = status[field]
-                items[field][value] = items[field].get(value, 0) + 1
+                if isinstance(value, list):
+                    # Multi-valued status fields (e.g. labels): count under
+                    # each value, and under '' for empty (i.e. 'No Label').
+                    if not value:
+                        items[field][''] = items[field].get('', 0) + 1
+                    else:
+                        for v in value:
+                            items[field][v] = items[field].get(v, 0) + 1
+                else:
+                    items[field][value] = items[field].get(value, 0) + 1
 
         if 'tracker_host' in items:
             items['tracker_host']['All'] = len(torrent_ids)

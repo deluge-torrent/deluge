@@ -33,7 +33,7 @@ TRACKER = 'tracker'
 KEYWORD = 'keyword'
 LABEL = 'label'
 CONFIG_DEFAULTS = {
-    'torrent_labels': {},  # torrent_id:label_id
+    'torrent_labels': {},  # torrent_id:[label_id, ...]
     'labels': {},  # label_id:{name:value}
 }
 
@@ -56,6 +56,7 @@ OPTIONS_DEFAULTS = {
     'move_completed_path': '',
     'auto_add': False,
     'auto_add_trackers': [],
+    'priority': 0,
 }
 
 NO_LABEL = 'No Label'
@@ -69,7 +70,7 @@ def check_input(cond, message):
 class Core(CorePluginBase):
     """
     self.labels = {label_id:label_options_dict}
-    self.torrent_labels = {torrent_id:label_id}
+    self.torrent_labels = {torrent_id:[label_id, ...]}
     """
 
     def enable(self):
@@ -100,12 +101,14 @@ class Core(CorePluginBase):
         component.get('FilterManager').register_tree_field(
             'label', self.init_filter_dict
         )
+        component.get('FilterManager').register_filter('label', self._filter_label)
 
         log.debug('Label plugin enabled..')
 
     def disable(self):
         self.plugin.deregister_status_field('label')
         component.get('FilterManager').deregister_tree_field('label')
+        component.get('FilterManager').deregister_filter('label')
         component.get('EventManager').deregister_event_handler(
             'TorrentAddedEvent', self.post_torrent_add
         )
@@ -131,8 +134,7 @@ class Core(CorePluginBase):
         for label_id, options in self.labels.items():
             if options['auto_add']:
                 if self._has_auto_match(torrent, options):
-                    self.set_torrent(torrent_id, label_id)
-                    return
+                    self.add_label(torrent_id, label_id)
 
     def post_torrent_remove(self, torrent_id):
         log.debug('post_torrent_remove')
@@ -143,15 +145,23 @@ class Core(CorePluginBase):
     # Utils #
     def clean_config(self):
         """remove invalid data from config-file"""
-        for torrent_id, label_id in list(self.torrent_labels.items()):
-            if (label_id not in self.labels) or (torrent_id not in self.torrents):
-                log.debug('label: rm %s:%s', torrent_id, label_id)
+        for torrent_id, labels in list(self.torrent_labels.items()):
+            if torrent_id not in self.torrents:
+                log.debug('label: rm %s', torrent_id)
+                del self.torrent_labels[torrent_id]
+                continue
+            labels = [label for label in labels if label in self.labels]
+            if labels:
+                self.torrent_labels[torrent_id] = labels
+            else:
+                log.debug('label: rm %s:%s', torrent_id, labels)
                 del self.torrent_labels[torrent_id]
 
     def clean_initial_config(self):
         """
         *add any new keys in OPTIONS_DEFAULTS
         *set all None values to default <-fix development config
+        *migrate single-label config to multilabel
         """
         log.debug(list(self.labels))
         for key in self.labels:
@@ -163,6 +173,12 @@ class Core(CorePluginBase):
             for key, value in options.items():
                 if value is None:
                     self.labels[label][key] = OPTIONS_DEFAULTS[key]
+
+        # migrate torrent_labels values (label_id -> [label_id, ...])
+        for torrent_id, label_id in list(self.torrent_labels.items()):
+            if isinstance(label_id, list):
+                continue
+            self.torrent_labels[torrent_id] = [label_id] if label_id else []
 
     def save_config(self):
         self.clean_config()
@@ -223,8 +239,10 @@ class Core(CorePluginBase):
                 }
             )
 
-    def _unset_torrent_options(self, torrent_id, label_id):
-        options = self.labels[label_id]
+    def _unset_torrent_options(self, torrent_id, options):
+        """reset a torrents options to the core defaults, options is a dict
+        of the apply_* keys to reset (as used in _set_torrent_options).
+        """
         torrent = self.torrents[torrent_id]
 
         if options['apply_max']:
@@ -258,6 +276,55 @@ class Core(CorePluginBase):
                 }
             )
 
+    def _reapply_torrent_options(self, torrent_id):
+        """Recompute a torrents options from all of its labels.
+
+        Conflicting options are resolved by label priority (higher wins),
+        then alphabetically by label_id for determinism.
+        """
+        labels = self.torrent_labels.get(torrent_id, [])
+        options = {
+            'apply_max': False,
+            'apply_queue': False,
+            'apply_move_completed': False,
+        }
+        for label_id in labels:
+            label_options = self.labels[label_id]
+            for key in options:
+                if label_options[key]:
+                    options[key] = True
+
+        self._unset_torrent_options(torrent_id, options)
+        for label_id in sorted(
+            labels, key=lambda label: (self.labels[label]['priority'], label)
+        ):
+            self._set_torrent_options(torrent_id, label_id)
+
+    def _normalize_labels(self, label_id):
+        """Accept a single label or a list of labels; returns a list."""
+        if not label_id or label_id == NO_LABEL:
+            return []
+        if isinstance(label_id, str):
+            labels = [label_id]
+        else:
+            labels = list(label_id)
+        for label in labels:
+            check_input(label in self.labels, _('Unknown Label'))
+        return labels
+
+    def _filter_label(self, torrent_ids, values):
+        """Filter torrents by label, matching any of the torrent's labels."""
+        for torrent_id in torrent_ids:
+            labels = self.torrent_labels.get(torrent_id, [])
+            for value in values:
+                if not value or value == NO_LABEL:
+                    if not labels:
+                        yield torrent_id
+                        break
+                elif value in labels:
+                    yield torrent_id
+                    break
+
     def _has_auto_match(self, torrent, label_options):
         """match for auto_add fields"""
         for tracker_match in label_options['auto_add_trackers']:
@@ -288,16 +355,16 @@ class Core(CorePluginBase):
         self.labels[label_id].update(options_dict)
 
         # apply
-        for torrent_id, label in self.torrent_labels.items():
-            if label_id == label and torrent_id in self.torrents:
-                self._set_torrent_options(torrent_id, label_id)
+        for torrent_id, labels in self.torrent_labels.items():
+            if label_id in labels and torrent_id in self.torrents:
+                self._reapply_torrent_options(torrent_id)
 
         # auto add
         options = self.labels[label_id]
         if options['auto_add']:
             for torrent_id, torrent in self.torrents.items():
                 if self._has_auto_match(torrent, options):
-                    self.set_torrent(torrent_id, label_id)
+                    self.add_label(torrent_id, label_id)
 
         self.config.save()
 
@@ -309,24 +376,58 @@ class Core(CorePluginBase):
     @export
     def set_torrent(self, torrent_id, label_id):
         """
-        assign a label to a torrent
-        removes a label if the label_id parameter is empty.
+        assign one or more labels to a torrent, replacing any existing labels.
+        the label_id parameter can be a single label or a list of labels;
+        removes all labels if empty or 'No Label'.
         """
-        if label_id == NO_LABEL:
-            label_id = None
-
-        check_input((not label_id) or (label_id in self.labels), _('Unknown Label'))
         check_input(torrent_id in self.torrents, _('Unknown Torrent'))
-
-        if torrent_id in self.torrent_labels:
-            self._unset_torrent_options(torrent_id, self.torrent_labels[torrent_id])
-            del self.torrent_labels[torrent_id]
-            self.clean_config()
-        if label_id:
-            self.torrent_labels[torrent_id] = label_id
-            self._set_torrent_options(torrent_id, label_id)
-
+        labels = self._normalize_labels(label_id)
+        if labels:
+            self.torrent_labels[torrent_id] = labels
+        else:
+            self.torrent_labels.pop(torrent_id, None)
+        self._reapply_torrent_options(torrent_id)
         self.config.save()
+
+    @export
+    def add_label(self, torrent_id, label_id):
+        """
+        add one or more labels to a torrent.
+        the label_id parameter can be a single label or a list of labels.
+        """
+        check_input(torrent_id in self.torrents, _('Unknown Torrent'))
+        labels = self._normalize_labels(label_id)
+        current = list(self.torrent_labels.get(torrent_id, []))
+        for label in labels:
+            if label not in current:
+                current.append(label)
+        self.torrent_labels[torrent_id] = current
+        self._reapply_torrent_options(torrent_id)
+        self.config.save()
+
+    @export
+    def remove_label(self, torrent_id, label_id):
+        """
+        remove one or more labels from a torrent.
+        the label_id parameter can be a single label or a list of labels.
+        """
+        check_input(torrent_id in self.torrents, _('Unknown Torrent'))
+        labels = self._normalize_labels(label_id)
+        current = list(self.torrent_labels.get(torrent_id, []))
+        for label in labels:
+            if label in current:
+                current.remove(label)
+        if current:
+            self.torrent_labels[torrent_id] = current
+        else:
+            self.torrent_labels.pop(torrent_id, None)
+        self._reapply_torrent_options(torrent_id)
+        self.config.save()
+
+    @export
+    def get_torrent_labels(self, torrent_id):
+        """returns the labels assigned to a torrent"""
+        return list(self.torrent_labels.get(torrent_id, []))
 
     @export
     def get_config(self):
@@ -339,11 +440,11 @@ class Core(CorePluginBase):
     def set_config(self, options):
         """global_options:"""
         if options:
-            for key, value in options.items:
+            for key, value in options.items():
                 if key in CORE_OPTIONS:
                     self.config[key] = value
 
             self.config.save()
 
     def _status_get_label(self, torrent_id):
-        return self.torrent_labels.get(torrent_id) or ''
+        return list(self.torrent_labels.get(torrent_id, []))

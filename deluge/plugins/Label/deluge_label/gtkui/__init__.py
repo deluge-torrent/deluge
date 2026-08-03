@@ -19,7 +19,10 @@ NO_LABEL = 'No Label'
 
 
 def cell_data_label(column, cell, model, row, data):
-    cell.set_property('text', str(model.get_value(row, data)))
+    value = model.get_value(row, data)
+    if isinstance(value, list):
+        value = ', '.join(value)
+    cell.set_property('text', str(value))
 
 
 class GtkUI(Gtk3PluginBase):
