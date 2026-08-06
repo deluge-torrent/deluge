@@ -7,6 +7,7 @@ import base64
 import os
 from base64 import b64encode
 from hashlib import sha1 as sha
+from unittest import mock
 
 import pytest
 import pytest_twisted
@@ -510,3 +511,26 @@ class TestCore(BaseTestCase):
             assert f.read() == filecontent
 
         lt.torrent_info(filecontent)
+
+    @pytest_twisted.inlineCallbacks
+    def test_get_torrent_status_serves_cached_status(self):
+        """The single-torrent RPC must not force a synchronous handle.status().
+
+        That call takes libtorrent's session mutex, which at 3 Gbps is held almost
+        continuously, so a single call can block for hundreds of milliseconds. It
+        was measured at ~13.5% of reactor time, and it blocks the same reactor that
+        serves every other client request. get_torrents_status already serves from
+        cache; the singular form has to as well.
+        """
+        filename = common.get_test_data_file('test.torrent')
+        with open(filename, 'rb') as _file:
+            filedump = b64encode(_file.read())
+        torrent_id = yield self.core.add_torrent_file_async(filename, filedump, {})
+
+        handle = self.core.torrentmanager[torrent_id].handle
+        handle.status = mock.Mock(wraps=handle.status)
+
+        status = self.core.get_torrent_status(torrent_id, ['name', 'state'])
+
+        assert status['name']
+        handle.status.assert_not_called()
