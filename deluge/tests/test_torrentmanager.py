@@ -148,3 +148,28 @@ class TestTorrentmanager(BaseTestCase):
 
         state = self.tm.open_state()
         assert len(state.torrents) == 1
+
+    @pytest.mark.timeout(30)
+    def test_add_resumes_alertmanager_when_torrent_construction_fails(self):
+        """AlertManager must not be left paused if adding raises after the pause.
+
+        add() pauses AlertManager around session.add_torrent, but the resume for
+        the success path lives inside _add_torrent_obj. Anything raising between
+        the two left the pause set forever, so pop_alerts() was never called
+        again and the daemon went permanently deaf to libtorrent.
+        """
+        filename = common.get_test_data_file('test.torrent')
+        with open(filename, 'rb') as _file:
+            filedump = _file.read()
+
+        alertmanager = component.get('AlertManager')
+        assert alertmanager._component_state == 'Started'
+
+        with mock.patch(
+            'deluge.core.torrentmanager.Torrent',
+            side_effect=RuntimeError('handle went invalid'),
+        ):
+            with pytest.raises(RuntimeError):
+                self.tm.add(filedump=filedump, filename=filename)
+
+        assert alertmanager._component_state == 'Started'
