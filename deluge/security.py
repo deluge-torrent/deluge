@@ -121,7 +121,7 @@ def check_password_hash(pwhash: str, password: str) -> bool:
     except ValueError as ve:
         raise InvalidHashError(
             'Invalid password hash format. Expected format: "$method$salt$hash".',
-            method=method if method else pwhash,
+            method=method,
         ) from ve
 
     return hmac.compare_digest(computed_hash, stored_hash)

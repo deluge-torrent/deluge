@@ -136,12 +136,13 @@ class AuthManager(component.Component):
 
         try:
             return check_password_hash(stored_password, password)
-        except InvalidHashError as ex:
+        except InvalidHashError:
+            # The unparsed value is not logged: for an entry predating password
+            # hashing it is the user's password.
             log.warning(
-                'Invalid hash method in password for user %s: %s'
+                'Invalid password hash for user %s.'
                 ' Falling back to plaintext validation.',
                 username,
-                ex.method,
             )
             return stored_password == password
 
