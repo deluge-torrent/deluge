@@ -809,7 +809,9 @@ class Core(component.Component):
             torrent_keys,
             plugin_keys,
             diff=diff,
-            update=True,
+            # A fresh read here blocks the reactor for hundreds of ms on a
+            # contended session mutex. get_torrents_status also serves cache.
+            update=False,
             all_keys=not keys,
         )
 
