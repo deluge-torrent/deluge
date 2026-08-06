@@ -4,6 +4,7 @@
 # See LICENSE for more details.
 #
 
+import logging
 import os
 
 import pytest
@@ -119,3 +120,24 @@ class TestAuthManager(BaseTestCase):
         add_user_to_authfile('test', 'testpass', 'NORMAL')
 
         assert self.auth.authorize('test', 'testpass') == AUTH_LEVEL_NORMAL
+
+    @pytest.mark.parametrize(
+        ('password', 'leaked'),
+        [('testpass1', 'testpass1'), ('$testpa$$', 'testpa')],
+    )
+    def test_plaintext_password_not_logged(
+        self, password, leaked, add_user_to_authfile, caplog
+    ):
+        """A stored plaintext password must not reach the log.
+
+        check_password_hash reports the unparseable value as the hash "method"
+        and authmanager logs that, so an auth file entry that predates password
+        hashing wrote the user's password to the daemon log on every login.
+        Forced migration of such entries was deferred, so they persist.
+        """
+        add_user_to_authfile('test', password, AUTH_LEVEL_ADMIN)
+
+        with caplog.at_level(logging.WARNING):
+            assert self.auth.authorize('test', password) == AUTH_LEVEL_ADMIN
+
+        assert leaked not in caplog.text
