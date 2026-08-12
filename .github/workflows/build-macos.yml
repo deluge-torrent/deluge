@@ -1,0 +1,115 @@
+name: Build and Notarize macOS DMG
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build-macos:
+    runs-on: macos-14
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install System Dependencies
+        run: |
+          # Configure cross-compilation environment variables globally
+          export MACOSX_DEPLOYMENT_TARGET=11.0
+          export CFLAGS="-arch x86_64 -arch arm64 -mmacosx-version-min=11.0"
+          export CXXFLAGS="-arch x86_64 -arch arm64 -mmacosx-version-min=11.0"
+          export LDFLAGS="-arch x86_64 -arch arm64 -mmacosx-version-min=11.0"
+          
+          # Force Homebrew to compile universal packages targeting macOS 11.0+
+          brew install --formula --build-from-source dylibbundler create-dmg gtk+3 adwaita-icon-theme libtorrent-rasterbar
+
+      - name: Import Apple Developer Certificate
+        env:
+          BUILD_CERTIFICATE_BASE64: ${{ secrets.MACOS_CERTIFICATE }}
+          P12_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
+          KEYCHAIN_PASSWORD: "temporary_actions_password"
+        run: |
+          # Create a temporary keychain to hold the certificate securely
+          echo $BUILD_CERTIFICATE_BASE64 | base64 --decode --output certificate.p12
+          security create-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
+          security import certificate.p12 -k build.keychain -P "$P12_PASSWORD" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" build.keychain
+
+      - name: Create Entitlements File
+        run: |
+          cat <<EOF > entitlements.plist
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://apple.com">
+          <plist version="1.0">
+          <dict>
+              <key>com.apple.security.cs.allow-jit</key>
+              <true/>
+              <key>com.apple.security.cs.allow-unsigned-executable-memory</key>
+              <true/>
+              <key>com.apple.security.cs.disable-library-validation</key>
+              <true/>
+          </dict>
+          </plist>
+          EOF
+
+      - name: Compile and Package App
+        run: |
+          export MACOSX_DEPLOYMENT_TARGET=11.0
+          pip install --upgrade pip setuptools wheel
+          pip install --no-binary :all: pygobject pycairo
+          pip install pyinstaller
+          pip install .
+
+          # Package universal binaries via PyInstaller
+          pyinstaller --noconfirm --onedir --windowed --name="Deluge" \
+            --target-architecture universal2 \
+            --add-data "deluge/ui/data:deluge/ui/data" \
+            venv/bin/deluge-gtk
+
+          # Link non-python C libraries into the bundle
+          dylibbundler -od -b -x dist/Deluge.app/Contents/MacOS/Deluge -d dist/Deluge.app/Contents/libs/
+
+          # Deep sign the completed .app bundle
+          codesign --force --options runtime --deep --sign "Developer ID Application" --entitlements entitlements.plist dist/Deluge.app
+
+      - name: Build Outer DMG Installer
+        run: |
+          create-dmg \
+            --volname "Deluge Universal Installer" \
+            --identity "Developer ID Application" \
+            "Deluge-2.2.0-Universal.dmg" \
+            "dist/"
+
+          codesign --force --sign "Developer ID Application" "Deluge-2.2.0-Universal.dmg"
+
+      - name: Notarize and Staple DMG
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
+          TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          # Submit to Apple and block the workflow until processing completes
+          xcrun notarytool submit "Deluge-2.2.0-Universal.dmg" \
+            --apple-id "$APPLE_ID" \
+            --password "$APPLE_PASSWORD" \
+            --team-id "$TEAM_ID" \
+            --wait
+
+          # Permanently attach the notarization ticket to the file
+          xcrun stapler staple "Deluge-2.2.0-Universal.dmg"
+
+      - name: Upload Finished DMG Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Deluge-macOS-Universal
+          path: Deluge-2.2.0-Universal.dmg
