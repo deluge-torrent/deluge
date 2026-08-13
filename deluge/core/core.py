@@ -926,11 +926,11 @@ class Core(component.Component):
         """Returns a list of enabled plugins in the core"""
         return self.pluginmanager.get_enabled_plugins()
 
-    @export
+    @export(AUTH_LEVEL_ADMIN)
     def enable_plugin(self, plugin: str) -> 'defer.Deferred[bool]':
         return self.pluginmanager.enable_plugin(plugin)
 
-    @export
+    @export(AUTH_LEVEL_ADMIN)
     def disable_plugin(self, plugin: str) -> 'defer.Deferred[bool]':
         return self.pluginmanager.disable_plugin(plugin)
 
@@ -1135,7 +1135,7 @@ class Core(component.Component):
             self.add_torrent_file(filename, filedump, options)
         return filename, filedump
 
-    @export
+    @export(AUTH_LEVEL_ADMIN)
     def upload_plugin(self, filename: str, filedump: Union[str, bytes]) -> None:
         """This method is used to upload new plugins to the daemon.  It is used
         when connecting to the daemon remotely and installing a new plugin on
@@ -1153,7 +1153,7 @@ class Core(component.Component):
             _file.write(filedump)
         component.get('CorePluginManager').scan_for_plugins()
 
-    @export
+    @export(AUTH_LEVEL_ADMIN)
     def rescan_plugins(self) -> None:
         """Re-scans the plugin folders for new plugins"""
         component.get('CorePluginManager').scan_for_plugins()
