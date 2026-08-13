@@ -19,6 +19,8 @@ log = logging.getLogger(__name__)
 PROTOCOL_VERSION = 1
 MESSAGE_HEADER_FORMAT = '!BI'
 MESSAGE_HEADER_SIZE = struct.calcsize(MESSAGE_HEADER_FORMAT)
+MAX_COMPRESSED_MESSAGE_SIZE = 16 * 1024 * 1024
+MAX_DECOMPRESSED_MESSAGE_SIZE = 64 * 1024 * 1024
 
 
 class DelugeTransferProtocol(Protocol):
@@ -105,6 +107,12 @@ class DelugeTransferProtocol(Protocol):
                         version, PROTOCOL_VERSION
                     )
                 )
+            if self._message_length > MAX_COMPRESSED_MESSAGE_SIZE:
+                raise Exception(
+                    'Received message larger than the maximum compressed size: {}.'.format(
+                        MAX_COMPRESSED_MESSAGE_SIZE
+                    )
+                )
             # Remove the header from the buffer
             self._buffer = self._buffer[MESSAGE_HEADER_SIZE:]
         except Exception as ex:
@@ -123,9 +131,19 @@ class DelugeTransferProtocol(Protocol):
 
         """
         try:
-            self.message_received(
-                rencode.loads(zlib.decompress(data), decode_utf8=True)
+            decompressor = zlib.decompressobj()
+            message = decompressor.decompress(data, MAX_DECOMPRESSED_MESSAGE_SIZE + 1)
+            if (
+                len(message) > MAX_DECOMPRESSED_MESSAGE_SIZE
+                or decompressor.unconsumed_tail
+            ):
+                raise ValueError('Decompressed message exceeds maximum size')
+            message += decompressor.flush(
+                MAX_DECOMPRESSED_MESSAGE_SIZE + 1 - len(message)
             )
+            if len(message) > MAX_DECOMPRESSED_MESSAGE_SIZE or not decompressor.eof:
+                raise ValueError('Invalid or oversized compressed message')
+            self.message_received(rencode.loads(message, decode_utf8=True))
         except Exception as ex:
             log.warning(
                 'Failed to decompress (%d bytes) and load serialized data with rencode: %s',
