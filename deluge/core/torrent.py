@@ -841,8 +841,12 @@ class Torrent:
                 country = component.get('Core').geoip_instance.country_code_by_addr(
                     peer.ip[0]
                 )
-            except AttributeError:
-                country = ''
+            except Exception as e:
+                # Only ignore the IPv6 database error
+                if "supports IPv4 addresses, not IPv6" in str(e):
+                    country = ''
+                else:
+                    raise
             else:
                 try:
                     country = ''.join(

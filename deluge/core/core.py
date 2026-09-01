@@ -782,20 +782,23 @@ class Core(component.Component):
         all_keys=False,
     ):
         try:
-            status = self.torrentmanager[torrent_id].get_status(
-                torrent_keys, diff, update=update, all_keys=all_keys
-            )
+            torrent = self.torrentmanager[torrent_id]
         except KeyError:
-            import traceback
-
-            traceback.print_exc()
-            # Torrent was probably removed meanwhile
+            # Torrent was removed before status could be fetched
             return {}
 
-        # Ask the plugin manager to fill in the plugin keys
-        if len(plugin_keys) > 0 or all_keys:
-            status.update(self.pluginmanager.get_status(torrent_id, plugin_keys))
+        status = torrent.get_status(
+            torrent_keys, diff, update=update, all_keys=all_keys
+        )
+
+        # Only ask plugins if the torrent still exists
+        if status and (plugin_keys or all_keys):
+            plugin_status = self.pluginmanager.get_status(torrent_id, plugin_keys)
+            if plugin_status:
+                status.update(plugin_status)
+
         return status
+
 
     @export
     def get_torrent_status(
