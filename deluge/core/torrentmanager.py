@@ -1348,7 +1348,9 @@ class TorrentManager(component.Component):
         torrent.update_state()
 
     def ssl_file_paths_for_torrent(self, torrent_id):
-        certs_dir = Path(self.config['ssl_torrents_certs'])
+        certs_dir = Path(self.config.get('ssl_torrents_certs', ''))
+        if not certs_dir:
+            return []
 
         crt_file = certs_dir / f'{torrent_id}.crt.pem'
         key_file = certs_dir / f'{torrent_id}.key.pem'
