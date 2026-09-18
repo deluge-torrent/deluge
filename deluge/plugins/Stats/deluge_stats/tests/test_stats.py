@@ -15,9 +15,9 @@ def print_totals(totals):
     for name, value in totals.items():
         print(name, fsize(value))
 
-    print('overhead:')
-    print('up:', fsize(totals['total_upload'] - totals['total_payload_upload']))
-    print('down:', fsize(totals['total_download'] - totals['total_payload_download']))
+    print("overhead:")
+    print("up:", fsize(totals["total_upload"] - totals["total_payload_upload"]))
+    print("down:", fsize(totals["total_download"] - totals["total_payload_download"]))
 
 
 class TestStatsPlugin:
@@ -25,7 +25,7 @@ class TestStatsPlugin:
     async def set_up(self, component):
         defer.setDebugging(True)
         client.start_standalone()
-        client.core.enable_plugin('Stats')
+        client.core.enable_plugin("Stats")
         await component.start()
         yield
         client.stop_standalone()
@@ -33,27 +33,27 @@ class TestStatsPlugin:
     @defer.inlineCallbacks
     def test_client_totals(self):
         plugins = yield client.core.get_available_plugins()
-        if 'Stats' not in plugins:
-            pytest.skip('Stats plugin not available for testing')
+        if "Stats" not in plugins:
+            pytest.skip("Stats plugin not available for testing")
 
         totals = yield client.stats.get_totals()
-        assert totals['total_upload'] == 0
-        assert totals['total_payload_upload'] == 0
-        assert totals['total_payload_download'] == 0
-        assert totals['total_download'] == 0
+        assert totals["total_upload"] == 0
+        assert totals["total_payload_upload"] == 0
+        assert totals["total_payload_download"] == 0
+        assert totals["total_download"] == 0
         # print_totals(totals)
 
     @defer.inlineCallbacks
     def test_session_totals(self):
         plugins = yield client.core.get_available_plugins()
-        if 'Stats' not in plugins:
-            pytest.skip('Stats plugin not available for testing')
+        if "Stats" not in plugins:
+            pytest.skip("Stats plugin not available for testing")
 
         totals = yield client.stats.get_session_totals()
-        assert totals['total_upload'] == 0
-        assert totals['total_payload_upload'] == 0
-        assert totals['total_payload_download'] == 0
-        assert totals['total_download'] == 0
+        assert totals["total_upload"] == 0
+        assert totals["total_payload_upload"] == 0
+        assert totals["total_payload_download"] == 0
+        assert totals["total_download"] == 0
         # print_totals(totals)
 
     @pytest.mark.gtkui
@@ -75,7 +75,7 @@ class TestStatsPlugin:
         from deluge.ui.gtk3.torrentdetails import TorrentDetails
         from deluge.ui.gtk3.torrentview import TorrentView
 
-        ConfigManager('gtk3ui.conf', defaults=DEFAULT_PREFS)
+        ConfigManager("gtk3ui.conf", defaults=DEFAULT_PREFS)
 
         self.plugins = PluginManager()
         MainWindow()
@@ -90,18 +90,26 @@ class TestStatsPlugin:
             def write(self, data):
                 self.data.append(data)
 
-        stats_gtkui = gtkui.GtkUI('test_stats')
+        stats_gtkui = gtkui.GtkUI("test_stats")
         stats_gtkui.enable()
+        show_legend = stats_gtkui.builder.get_object("show_legend_checkbutton")
+        assert show_legend.get_active()
+        assert stats_gtkui.graphs_tab.graph.show_legend
+
+        show_legend.set_active(False)
+        stats_gtkui.on_apply_prefs()
+        assert not stats_gtkui.graphs_tab.graph.show_legend
+
         yield stats_gtkui.graphs_tab.update()
 
         g = stats_gtkui.graphs_tab.graph
-        g.add_stat('download_rate', color=graph.green)
-        g.add_stat('upload_rate', color=graph.blue)
+        g.add_stat("download_rate", color=graph.green)
+        g.add_stat("upload_rate", color=graph.blue)
         g.set_left_axis(formatter=fspeed, min=10240)
 
         surface = g.draw(900, 150)
         file_like = FakeFile()
         surface.write_to_png(file_like)
-        data = b''.join(file_like.data)
-        with open(tmp_path / 'file_like.png', 'wb') as _file:
+        data = b"".join(file_like.data)
+        with open(tmp_path / "file_like.png", "wb") as _file:
             _file.write(data)

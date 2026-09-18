@@ -19,7 +19,7 @@ import time
 
 import gi
 
-gi.require_foreign('cairo')
+gi.require_foreign("cairo")
 
 import cairo  # isort:skip (gi checks required before import).
 
@@ -68,7 +68,7 @@ class Graph:
         self.line_size = 2
         self.dash_length = [10]
         self.mean_selected = True
-        self.legend_selected = True
+        self.show_legend = True
         self.max_selected = True
         self.black = (0, 0, 0)
         self.interval = 2  # 2 secs
@@ -78,22 +78,22 @@ class Graph:
     def set_left_axis(self, **kargs):
         self.left_axis = kargs
 
-    def add_stat(self, stat, label='', axis='left', line=True, fill=True, color=None):
+    def add_stat(self, stat, label="", axis="left", line=True, fill=True, color=None):
         self.stat_info[stat] = {
-            'axis': axis,
-            'label': label,
-            'line': line,
-            'fill': fill,
-            'color': color,
+            "axis": axis,
+            "label": label,
+            "line": line,
+            "fill": fill,
+            "color": color,
         }
 
     def set_stats(self, stats):
-        self.last_update = stats['_last_update']
-        del stats['_last_update']
-        self.length = stats['_length']
-        del stats['_length']
-        self.interval = stats['_update_interval']
-        del stats['_update_interval']
+        self.last_update = stats["_last_update"]
+        del stats["_last_update"]
+        self.length = stats["_length"]
+        del stats["_length"]
+        self.interval = stats["_update_interval"]
+        del stats["_update_interval"]
         self.stats = stats
         return
 
@@ -117,7 +117,7 @@ class Graph:
         return surface
 
     def draw_x_axis(self, ctx, bounds):
-        (left, top, right, bottom) = bounds
+        left, top, right, bottom = bounds
         duration = self.length * self.interval
         start = self.last_update - duration
         ratio = (right - left) / duration
@@ -137,7 +137,7 @@ class Graph:
 
         for i in range(0, duration // x_step + 1):
             text = time.strftime(
-                '%H:%M', time.localtime(start + seconds_to_step + i * x_step)
+                "%H:%M", time.localtime(start + seconds_to_step + i * x_step)
             )
             # + 0.5 to allign x to nearest pixel
             x = int(ratio * (seconds_to_step + i * x_step) + left) + 0.5
@@ -155,20 +155,20 @@ class Graph:
 
         max_value = 0
         for stat in self.stat_info:
-            if self.stat_info[stat]['axis'] == 'left':
+            if self.stat_info[stat]["axis"] == "left":
                 try:
                     l_max = max(self.stats[stat])
                 except ValueError:
                     l_max = 0
                 if l_max > max_value:
                     max_value = l_max
-        if max_value < self.left_axis['min']:
-            max_value = self.left_axis['min']
+        if max_value < self.left_axis["min"]:
+            max_value = self.left_axis["min"]
 
         y_ticks = self.intervalise(max_value, tick_limit)
         max_value = y_ticks[-1]
         # find the width of the y_ticks
-        y_tick_text = [self.left_axis['formatter'](tick) for tick in y_ticks]
+        y_tick_text = [self.left_axis["formatter"](tick) for tick in y_ticks]
 
         def space_required(ctx, text):
             te = ctx.text_extents(text)
@@ -182,6 +182,8 @@ class Graph:
 
         self.draw_x_axis(ctx, bounds)
         self.draw_left_axis(ctx, bounds, y_ticks, y_tick_text)
+        if self.show_legend:
+            self.draw_legend(ctx, bounds)
 
     def intervalise(self, x, limit=None):
         """Given a value x create an array of tick points to got with the graph
@@ -195,8 +197,8 @@ class Graph:
             else:
                 limit = limit - 1
         scale = 1
-        if 'formatter_scale' in self.left_axis:
-            scale = self.left_axis['formatter_scale'](x)
+        if "formatter_scale" in self.left_axis:
+            scale = self.left_axis["formatter_scale"](x)
             x = x / scale
 
         # Find the largest power of 10 less than x
@@ -229,14 +231,14 @@ class Graph:
         return intervals
 
     def draw_left_axis(self, ctx, bounds, y_ticks, y_tick_text):
-        (left, top, right, bottom) = bounds
+        left, top, right, bottom = bounds
         stats = {}
         for stat in self.stat_info:
-            if self.stat_info[stat]['axis'] == 'left':
-                stats[stat] = self.stat_info[stat]
-                stats[stat]['values'] = self.stats[stat]
-                stats[stat]['fill_color'] = change_opacity(stats[stat]['color'], 0.5)
-                stats[stat]['color'] = change_opacity(stats[stat]['color'], 0.8)
+            if self.stat_info[stat]["axis"] == "left":
+                stats[stat] = self.stat_info[stat].copy()
+                stats[stat]["values"] = self.stats[stat]
+                stats[stat]["fill_color"] = change_opacity(stats[stat]["color"], 0.5)
+                stats[stat]["color"] = change_opacity(stats[stat]["color"], 0.8)
 
         height = bottom - top
         max_value = y_ticks[-1]
@@ -250,24 +252,56 @@ class Graph:
         self.draw_line(ctx, gray, left, top, left, bottom)
 
         for stat, info in stats.items():
-            if len(info['values']) > 0:
+            if len(info["values"]) > 0:
                 self.draw_value_poly(
-                    ctx, info['values'], info['color'], max_value, bounds
+                    ctx, info["values"], info["color"], max_value, bounds
                 )
                 self.draw_value_poly(
                     ctx,
-                    info['values'],
-                    info['fill_color'],
+                    info["values"],
+                    info["fill_color"],
                     max_value,
                     bounds,
-                    info['fill'],
+                    info["fill"],
                 )
 
-    def draw_legend(self):
-        pass
+    def draw_legend(self, ctx, bounds):
+        entries = [
+            info for info in self.stat_info.values() if info["label"] and info["color"]
+        ]
+        if not entries:
+            return
+
+        left, top, right, bottom = bounds
+        padding = 6
+        swatch_size = 8
+        row_height = max(ctx.font_extents()[2], swatch_size) + 4
+        text_width = max(ctx.text_extents(info["label"])[4] for info in entries)
+        legend_width = padding * 3 + swatch_size + text_width
+        legend_height = padding * 2 + row_height * len(entries)
+        legend_right = min(left + legend_width, right)
+        legend_bottom = min(top + legend_height, bottom)
+
+        ctx.save()
+        ctx.set_source_rgba(1, 1, 1, 0.75)
+        ctx.rectangle(left, top, legend_right - left, legend_bottom - top)
+        ctx.fill()
+
+        x = left + padding
+        y = top + padding
+        for info in entries:
+            swatch_y = y + (row_height - swatch_size) / 2
+            ctx.set_source_rgba(*info["color"])
+            ctx.rectangle(x, swatch_y, swatch_size, swatch_size)
+            ctx.fill()
+            ctx.set_source_rgba(*self.black)
+            ctx.move_to(x + swatch_size + padding, y + ctx.font_extents()[2])
+            ctx.show_text(info["label"])
+            y += row_height
+        ctx.restore()
 
     def trace_path(self, ctx, values, max_value, bounds):
-        (left, top, right, bottom) = bounds
+        left, top, right, bottom = bounds
         ratio = (bottom - top) / max_value
         line_width = self.line_size
 
