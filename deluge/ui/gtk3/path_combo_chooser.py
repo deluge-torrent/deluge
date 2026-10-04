@@ -128,14 +128,23 @@ class ValueList:
             sel = self.get_selection_path()
         self.add_values(paths, scroll_to_row=scroll_to_row, clear=True)
         if sel:
-            self.treeview.get_selection().select_path(sel)
+            tree_selection = self.treeview.get_selection()
+            if tree_selection is not None:
+                tree_selection.select_path(sel)
 
     def get_selection_path(self):
-        """Returns the (first) selected path from a treeview"""
+        """Returns the (first) selected path from a treeview."""
+        if self.treeview is None:
+            return None
+
         tree_selection = self.treeview.get_selection()
+        if tree_selection is None:
+            return None
+
         model, tree_paths = tree_selection.get_selected_rows()
-        if len(tree_paths) > 0:
+        if tree_paths:
             return tree_paths[0]
+
         return None
 
     def get_selected_value(self):
@@ -521,28 +530,51 @@ class CompletionList(ValueList):
 
 class PathChooserPopup:
     """This creates the popop window for the ComboEntry."""
-
     def __init__(self, min_visible_rows, max_visible_rows, popup_alignment_widget):
         self.min_visible_rows = min_visible_rows
         # Maximum number of rows to display without scrolling
         self.set_max_popup_rows(max_visible_rows)
-        self.popup_window.realize()
+
         self.alignment_widget = popup_alignment_widget
         # If set, the height of this widget is the minimum height
         self.popup_buttonbox = None
+
+        self._seat = None
+        self._seat_grabbed = False
 
     def popup(self):
         """Make the popup visible."""
         # Entry is not yet visible
         if not self.path_entry.get_realized():
             return
+
+        parent = self.path_entry.get_toplevel
+
+        if not isinstance(parent, Gtk.Window):
+            return
+
+        # Critical for GTK3/Wayland: assign the popup's parent
+        # before the popup is realized/mapped.
+        if self.popup_window.get_transient_for() is not parent:
+            self.popup_window.set_transient_for(parent)
+
         self.set_window_position_and_size()
 
     def popdown(self):
         if not self.is_popped_up():
             return
+
         if not self.path_entry.get_realized():
             return
+
+        if getattr(self, '_seat_grabbed', False):
+            seat = getattr(self, '_seat', None)
+            if seat is not None:
+                seat.ungrab()
+
+            self._seat = None
+            self._seat_grabbed = False
+
         self.popup_window.grab_remove()
         self.popup_window.hide()
 
@@ -554,15 +586,16 @@ class PathChooserPopup:
 
         """
         return self.popup_window.get_mapped()
-
     def set_window_position_and_size(self):
         if len(self.tree_store) < self.min_visible_rows:
             return False
+
         x, y, width, height = self.get_position()
         self.popup_window.set_size_request(width, height)
         self.popup_window.resize(width, height)
         self.popup_window.move(x, y)
         self.popup_window.show_all()
+        return True
 
     def get_position(self):
         """
@@ -668,32 +701,43 @@ class PathChooserPopup:
         return x, y, width, height
 
     def popup_grab_window(self):
-        activate_time = 0
-        if (
-            Gdk.pointer_grab(
-                self.popup_window.get_window(),
-                True,
-                (
-                    Gdk.EventMask.BUTTON_PRESS_MASK
-                    | Gdk.EventMask.BUTTON_RELEASE_MASK
-                    | Gdk.EventMask.POINTER_MOTION_MASK
-                ),
-                None,
-                None,
-                activate_time,
-            )
-            == 0
-        ):
-            if (
-                Gdk.keyboard_grab(self.popup_window.get_window(), True, activate_time)
-                == 0
-            ):
-                return True
-            else:
-                self.popup_window.get_window().get_display().pointer_ungrab(
-                    activate_time
-                )
-                return False
+        if getattr(self, '_seat_grabbed', False):
+            return True
+
+        # Never grab a popup that is currently hidden/unmapped.
+        if not self.popup_window.get_visible():
+            return False
+
+        if not self.popup_window.get_mapped():
+            return False
+
+        window = self.popup_window.get_window()
+        if window is None:
+            return False
+
+        if not window.is_visible():
+            return False
+
+        seat = window.get_display().get_default_seat()
+        if seat is None:
+            return False
+
+        status = seat.grab(
+            window,
+            Gdk.SeatCapabilities.ALL_POINTING
+            | Gdk.SeatCapabilities.KEYBOARD,
+            True,
+            None,
+            None,
+            None,
+            None,
+        )
+
+        if status == Gdk.GrabStatus.SUCCESS:
+            self._seat = seat
+            self._seat_grabbed = True
+            return True
+
         return False
 
     def set_entry_value(self, path, popdown=False):
@@ -791,11 +835,14 @@ class StoredValuesPopup(StoredValuesList, PathChooserPopup):
 
         """
         # Calling super popup
-        PathChooserPopup.popup(self)
+        if not PathChooserPopup.popup(self):
+                return
+
         self.popup_window.grab_focus()
 
         if not self.treeview.has_focus():
             self.treeview.grab_focus()
+
         if not self.popup_grab_window():
             self.popup_window.hide()
             return
@@ -815,7 +862,8 @@ class StoredValuesPopup(StoredValuesList, PathChooserPopup):
         Popup sometimes loses the focus to the text entry, e.g. when right click
         shows a popup menu on a row. This regains the focus.
         """
-        self.popup_grab_window()
+        if self.is_popped_up():
+            self.popup_grab_window()
         return True
 
     def on_scroll_event(self, widget, event):
@@ -926,7 +974,9 @@ class PathCompletionPopup(CompletionList, PathChooserPopup):
         Makes the popup visible.
 
         """
-        PathChooserPopup.popup(self)
+        if not PathChooserPopup.popup(self):
+            return
+
         self.popup_window.grab_focus()
 
         if not self.treeview.has_focus():
@@ -939,6 +989,7 @@ class PathCompletionPopup(CompletionList, PathChooserPopup):
         self.popup_window.grab_add()
         self.text_entry.grab_focus()
         self.text_entry.set_position(len(self.path_entry.text_entry.get_text()))
+
         self.set_selected_value(
             path_without_trailing_path_sep(self.path_entry.get_text()),
             select_first=True,
@@ -953,7 +1004,8 @@ class PathCompletionPopup(CompletionList, PathChooserPopup):
         Popup sometimes loses the focus to the text entry, e.g. when right click
         shows a popup menu on a row. This regains the focus.
         """
-        self.popup_grab_window()
+        if self.is_popped_up():
+            self.popup_grab_window()
         return True
 
     def on_scroll_event(self, widget, event):
