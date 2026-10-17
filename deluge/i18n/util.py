@@ -141,10 +141,15 @@ def setup_translation():
             libintl = load_libintl(['libintl.8.dylib', 'libintl.dylib'])
 
         if libintl:
+            # ctypes passes Python str as wchar_t*, so the domain must be
+            # encoded to bytes, otherwise libintl only sees the first char.
+            domain = I18N_DOMAIN.encode('ascii')
             libintl.bindtextdomain(
-                I18N_DOMAIN, translations_path.encode(sys.getfilesystemencoding())
+                domain, translations_path.encode(sys.getfilesystemencoding())
             )
-            libintl.textdomain(I18N_DOMAIN)
+            # GTK expects UTF-8 strings from gettext.
+            libintl.bind_textdomain_codeset(domain, b'UTF-8')
+            libintl.textdomain(domain)
             libintl.gettext.restype = ctypes.c_char_p
 
     except Exception as ex:
