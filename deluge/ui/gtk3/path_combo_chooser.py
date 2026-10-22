@@ -536,6 +536,12 @@ class PathChooserPopup:
         # Entry is not yet visible
         if not self.path_entry.get_realized():
             return
+        # Without a parent, Wayland cannot map the popup and the input grab
+        # keeps failing, leaving the UI unresponsive.
+        toplevel = self.path_entry.get_toplevel()
+        if toplevel.is_toplevel():
+            self.popup_window.set_transient_for(toplevel)
+            self.popup_window.set_attached_to(self.path_entry)
         self.set_window_position_and_size()
 
     def popdown(self):
@@ -544,6 +550,7 @@ class PathChooserPopup:
         if not self.path_entry.get_realized():
             return
         self.popup_window.grab_remove()
+        self.popup_window.get_display().get_default_seat().ungrab()
         self.popup_window.hide()
 
     def is_popped_up(self):
@@ -668,33 +675,25 @@ class PathChooserPopup:
         return x, y, width, height
 
     def popup_grab_window(self):
-        activate_time = 0
-        if (
-            Gdk.pointer_grab(
-                self.popup_window.get_window(),
-                True,
-                (
-                    Gdk.EventMask.BUTTON_PRESS_MASK
-                    | Gdk.EventMask.BUTTON_RELEASE_MASK
-                    | Gdk.EventMask.POINTER_MOTION_MASK
-                ),
-                None,
-                None,
-                activate_time,
-            )
-            == 0
-        ):
-            if (
-                Gdk.keyboard_grab(self.popup_window.get_window(), True, activate_time)
-                == 0
-            ):
-                return True
-            else:
-                self.popup_window.get_window().get_display().pointer_ungrab(
-                    activate_time
-                )
-                return False
-        return False
+        window = self.popup_window.get_window()
+        seat = window.get_display().get_default_seat()
+        status = seat.grab(
+            window, Gdk.SeatCapabilities.ALL, True, None, None, None, None
+        )
+        return status == Gdk.GrabStatus.SUCCESS
+
+    def regrab_popup_window(self):
+        """Regain the input grab if another widget took it, e.g. a context menu.
+
+        Grabbing on Wayland triggers a new focus-out event, so only grab again
+        when the keyboard is not already grabbed, otherwise this loops forever.
+        """
+        if not self.is_popped_up():
+            return
+        display = self.popup_window.get_display()
+        keyboard = display.get_default_seat().get_keyboard()
+        if not display.device_is_grabbed(keyboard):
+            self.popup_grab_window()
 
     def set_entry_value(self, path, popdown=False):
         """
@@ -815,7 +814,7 @@ class StoredValuesPopup(StoredValuesList, PathChooserPopup):
         Popup sometimes loses the focus to the text entry, e.g. when right click
         shows a popup menu on a row. This regains the focus.
         """
-        self.popup_grab_window()
+        self.regrab_popup_window()
         return True
 
     def on_scroll_event(self, widget, event):
@@ -953,7 +952,7 @@ class PathCompletionPopup(CompletionList, PathChooserPopup):
         Popup sometimes loses the focus to the text entry, e.g. when right click
         shows a popup menu on a row. This regains the focus.
         """
-        self.popup_grab_window()
+        self.regrab_popup_window()
         return True
 
     def on_scroll_event(self, widget, event):

@@ -26,6 +26,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 #### Fixed
 
 - Fix passwords being ignored in certain dialogs such as Tray Password and Connection Manager.
+- Fix UI freeze on Wayland when opening the path chooser completion or stored paths popups.
 
 ## 2.2.0 (2025-04-28)
 
