@@ -115,6 +115,15 @@ def convert_lt_files(files):
     return filelist
 
 
+def _get_torrent_file_storage(torrent_info, original=True):
+    """Return torrent file metadata across supported libtorrent versions."""
+    if hasattr(torrent_info, 'layout'):
+        return torrent_info.layout()
+    if original:
+        return torrent_info.orig_files()
+    return torrent_info.files()
+
+
 class TorrentOptions(dict):
     """TorrentOptions create a dict of the torrent options.
 
@@ -244,6 +253,10 @@ class Torrent:
 
         self.options = TorrentOptions()
         self.options.update(options)
+        mapped_files = self.options['mapped_files'] or {}
+        self.options['mapped_files'] = {
+            int(index): path for index, path in mapped_files.items()
+        }
 
         # Load values from state if we have it
         if state:
@@ -272,6 +285,8 @@ class Torrent:
 
         self._create_status_funcs()
         self.set_options(self.options)
+        if self.has_metadata and self.options['mapped_files']:
+            self.rename_files(self.options['mapped_files'].items())
         self.update_state()
 
         if log.isEnabledFor(logging.DEBUG):
@@ -292,7 +307,9 @@ class Torrent:
     def on_metadata_received(self):
         """Process the metadata received alert for this torrent"""
         self.has_metadata = True
-        self.torrent_info = self.handle.get_torrent_info()
+        self.torrent_info = self.handle.torrent_file()
+        if self.options['mapped_files']:
+            self.rename_files(self.options['mapped_files'].items())
         if self.options['prioritize_first_last_pieces']:
             self.set_prioritize_first_last_pieces(True)
         self.write_torrentfile()
@@ -410,8 +427,9 @@ class Torrent:
         def get_file_piece(idx, byte_offset):
             return self.torrent_info.map_file(idx, byte_offset, 0).piece
 
+        files = _get_torrent_file_storage(self.torrent_info)
         for idx in range(self.torrent_info.num_files()):
-            file_size = self.torrent_info.files().file_size(idx)
+            file_size = files.file_size(idx)
             two_percent_bytes = int(0.02 * file_size)
             # Get the pieces for the byte offsets
             first_start = get_file_piece(idx, 0)
@@ -787,8 +805,19 @@ class Torrent:
         if not self.has_metadata:
             return []
 
-        files = self.torrent_info.files()
-        return convert_lt_files(files)
+        files = _get_torrent_file_storage(self.torrent_info, original=False)
+        filelist = convert_lt_files(files)
+        if hasattr(self.handle, 'get_renamed_files'):
+            renamed_files = self.handle.get_renamed_files()
+            for file_info in filelist:
+                file_info['path'] = decode_bytes(
+                    renamed_files.file_path(files, file_info['index'])
+                )
+        for file_info in filelist:
+            mapped_path = self.options['mapped_files'].get(file_info['index'])
+            if mapped_path is not None:
+                file_info['path'] = sanitize_filepath(decode_bytes(mapped_path))
+        return filelist
 
     def get_orig_files(self):
         """Get the original filenames of files in this torrent.
@@ -800,7 +829,7 @@ class Torrent:
         if not self.has_metadata:
             return []
 
-        files = self.torrent_info.orig_files()
+        files = _get_torrent_file_storage(self.torrent_info)
         return convert_lt_files(files)
 
     def get_peers(self):
@@ -895,11 +924,15 @@ class Torrent:
 
         try:
             files_progresses = zip(
-                self.handle.file_progress(), self.torrent_info.files()
+                self.handle.file_progress(),
+                _get_torrent_file_storage(self.torrent_info, original=False),
             )
         except Exception:
             # Handle libtorrent >=2.0.0,<=2.0.4 file_progress error
-            files_progresses = zip(iter(lambda: 0, 1), self.torrent_info.files())
+            files_progresses = zip(
+                iter(lambda: 0, 1),
+                _get_torrent_file_storage(self.torrent_info, original=False),
+            )
 
         return [
             progress / _file.size if _file.size else 0.0
@@ -964,7 +997,7 @@ class Torrent:
 
         if self.has_metadata:
             # Use the top-level folder as torrent name.
-            filename = decode_bytes(self.torrent_info.files().file_path(0))
+            filename = self.get_files()[0]['path']
             name = filename.replace('\\', '/', 1).split('/', 1)[0]
         else:
             name = decode_bytes(self.handle.status().name)
@@ -1484,6 +1517,7 @@ class Torrent:
             filenames (list): A list of (index, filename) pairs.
         """
         for index, filename in filenames:
+            index = int(index)
             # Make sure filename is a sanitized unicode string.
             filename = sanitize_filepath(decode_bytes(filename))
             # lt needs utf8 byte-string. Otherwise if wstrings enabled, unicode string.

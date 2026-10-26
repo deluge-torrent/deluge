@@ -353,6 +353,14 @@ class TestTorrent(BaseTestCase):
         self.torrent = Torrent(handle, {})
         assert self.torrent.get_name() == 'সুকুমার রায়.txt'
 
+    def test_get_files_with_mapped_names(self):
+        atp = self.get_torrent_atp('dir_with_6_files.torrent')
+        handle = self.session.add_torrent(atp)
+        self.torrent = Torrent(handle, {'mapped_files': {0: 'renamed_file'}})
+
+        assert self.torrent.get_files()[0]['path'] == 'renamed_file'
+        assert self.torrent.get_orig_files()[0]['path'] != 'renamed_file'
+
     def test_rename_unicode(self):
         """Test renaming file/folders with unicode filenames."""
         atp = self.get_torrent_atp('unicode_filenames.torrent')
