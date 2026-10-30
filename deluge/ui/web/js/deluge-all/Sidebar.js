@@ -43,9 +43,28 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
     },
 
     // private
+    searchDelay: 250,
+
+    // private
     initComponent: function () {
+        this.searchField = new Ext.form.TextField({
+            emptyText: _('Filter by name...'),
+            enableKeyEvents: true,
+            listeners: {
+                keyup: this.onSearchChange,
+                render: function (field) {
+                    // keyup misses paste and autofill; input catches every edit.
+                    field.getEl().on('input', this.onSearchChange, this);
+                },
+                scope: this,
+            },
+        });
+        this.searchTask = new Ext.util.DelayedTask(deluge.ui.update, deluge.ui);
+        this.tbar = [this.searchField];
+
         Deluge.Sidebar.superclass.initComponent.call(this);
         deluge.events.on('disconnect', this.onDisconnect, this);
+        this.on('resize', this.onResize, this);
     },
 
     createFilter: function (filter, states) {
@@ -99,6 +118,12 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
             }
         }
 
+        // The name search sits outside the accordion so it always applies.
+        var search = this.searchField.getValue();
+        if (search) {
+            states['name'] = search;
+        }
+
         return states;
     },
 
@@ -117,6 +142,37 @@ Deluge.Sidebar = Ext.extend(Ext.Panel, {
 
     onFilterSelect: function (selModel, rowIndex, record) {
         deluge.ui.update();
+    },
+
+    // private
+    onResize: function (panel, adjWidth) {
+        if (Ext.isNumber(adjWidth)) {
+            this.searchField.setWidth(adjWidth - 6);
+        }
+    },
+
+    // private
+    onSearchChange: function () {
+        this.deselectNonMatching();
+        this.searchTask.delay(this.searchDelay);
+    },
+
+    // The torrent grid only drops non-matching torrents after the next
+    // server update. Until then they are still shown and may be selected,
+    // so deselect them now to keep actions such as remove from reaching
+    // torrents that are being filtered out.
+    deselectNonMatching: function () {
+        var search = this.searchField.getValue().toLowerCase();
+        if (!search) return;
+
+        var store = deluge.torrents.getStore();
+        var selModel = deluge.torrents.getSelectionModel();
+        Ext.each(selModel.getSelections(), function (record) {
+            var name = (record.get('name') || '').toLowerCase();
+            if (name.indexOf(search) == -1) {
+                selModel.deselectRow(store.indexOf(record));
+            }
+        });
     },
 
     update: function (filters) {
