@@ -268,14 +268,6 @@ class SessionProxy(component.Component):
         self.torrents[torrent_id] = [time() - self.cache_time - 1, {}]
         self.cache_times[torrent_id] = {}
 
-        def on_status(status):
-            self.torrents[torrent_id][1].update(status)
-            t = time()
-            for key in status:
-                self.cache_times[torrent_id][key] = t
-
-        client.core.get_torrent_status(torrent_id, []).addCallback(on_status)
-
     def on_torrent_removed(self, torrent_id):
         if torrent_id in self.torrents:
             del self.torrents[torrent_id]
