@@ -22,6 +22,7 @@ from typing import Dict, List, NamedTuple, Tuple
 from twisted.internet import defer, reactor, threads
 from twisted.internet.defer import Deferred, DeferredList
 from twisted.internet.task import LoopingCall
+from twisted.python.threadpool import ThreadPool
 
 import deluge.component as component
 from deluge._libtorrent import LT_VERSION, lt
@@ -237,8 +238,14 @@ class TorrentManager(component.Component):
         self.save_state_timer = LoopingCall(self.save_state)
         self.save_resume_data_timer = LoopingCall(self.save_resume_data)
         self.prev_status_cleanup_loop = LoopingCall(self.cleanup_torrents_prev_status)
+        self.status_threadpool = None
 
     def start(self):
+        # Kept apart from the reactor's pool, so a large request for slow status
+        # keys cannot hold up state saves and other deferToThread work.
+        self.status_threadpool = ThreadPool(0, 2, name='TorrentStatus')
+        self.status_threadpool.start()
+
         # Check for old temp file to verify safe shutdown
         if os.path.isfile(self.temp_file):
             self.archive_state('Bad shutdown detected so archiving state files')
@@ -266,6 +273,8 @@ class TorrentManager(component.Component):
 
         if self.prev_status_cleanup_loop.running:
             self.prev_status_cleanup_loop.stop()
+
+        self.status_threadpool.stop()
 
         # Save state on shutdown
         await self.save_state()
@@ -1704,37 +1713,72 @@ class TorrentManager(component.Component):
 
     def handle_torrents_status_callback(self, status_request):
         """Build the status dictionary with torrent values"""
-        d, torrent_ids, keys, diff = status_request
-        status_dict = {}.fromkeys(torrent_ids)
+        d, torrent_ids, keys, diff, session_id = status_request
         all_keys = not keys
         torrent_keys, plugin_keys = self.separate_keys(keys, torrent_ids)
 
-        # Passed into get_status rather than merged over its result: merged
-        # afterwards they never diff out, so every torrent lands in every diff.
-        pluginmanager = None
-        if plugin_keys or all_keys:
-            pluginmanager = component.get('CorePluginManager')
-
-        # Get the torrent status for each torrent_id
+        fetches = {}
         for torrent_id in torrent_ids:
-            if torrent_id not in self.torrents:
-                # The torrent_id does not exist in the dict.
-                # Could be the clients cache (sessionproxy) isn't up to speed.
-                del status_dict[torrent_id]
-            else:
-                plugin_status = (
-                    pluginmanager.get_status(torrent_id, plugin_keys)
-                    if pluginmanager
-                    else None
+            if torrent_id in self.torrents:
+                fetch = self.torrents[torrent_id].fetch_slow_status(
+                    torrent_keys, all_keys
                 )
-                status_dict[torrent_id] = self.torrents[torrent_id].get_status(
-                    torrent_keys,
-                    diff,
-                    all_keys=all_keys,
-                    plugin_status=plugin_status,
-                )
-        self.status_dict = status_dict
-        d.callback(status_dict)
+                if fetch:
+                    fetches[torrent_id] = fetch
+
+        def build_status(results):
+            fetched = {}
+            for torrent_id, (success, result) in zip(fetches, results):
+                if success:
+                    fetched[torrent_id] = result
+                elif torrent_id in self.torrents:
+                    log.warning(
+                        'Unable to get status of %s: %s',
+                        torrent_id,
+                        result.getTraceback(),
+                    )
+
+            status_dict = {}.fromkeys(torrent_ids)
+
+            # Passed into get_status rather than merged over its result: merged
+            # afterwards they never diff out, so every torrent lands in every diff.
+            pluginmanager = None
+            if plugin_keys or all_keys:
+                pluginmanager = component.get('CorePluginManager')
+
+            # Get the torrent status for each torrent_id
+            for torrent_id in torrent_ids:
+                if torrent_id not in self.torrents:
+                    # The torrent_id does not exist in the dict.
+                    # Could be the clients cache (sessionproxy) isn't up to speed.
+                    del status_dict[torrent_id]
+                elif torrent_id in fetches and torrent_id not in fetched:
+                    del status_dict[torrent_id]
+                else:
+                    plugin_status = (
+                        pluginmanager.get_status(torrent_id, plugin_keys)
+                        if pluginmanager
+                        else None
+                    )
+                    status_dict[torrent_id] = self.torrents[torrent_id].get_status(
+                        torrent_keys,
+                        diff,
+                        all_keys=all_keys,
+                        plugin_status=plugin_status,
+                        fetched=fetched.get(torrent_id),
+                        session_id=session_id,
+                    )
+            self.status_dict = status_dict
+            d.callback(status_dict)
+
+        # Every torrent is diffed once all the fetches are back, not as each
+        # returns, so the diffs reach the client in the order they were taken.
+        if fetches:
+            DeferredList(list(fetches.values()), consumeErrors=True).addCallback(
+                build_status
+            )
+        else:
+            build_status([])
 
     def torrents_status_update(self, torrent_ids, keys, diff=False):
         """Returns status dict for the supplied torrent_ids async.
@@ -1754,14 +1798,16 @@ class TorrentManager(component.Component):
 
         """
         d = Deferred()
+        # Captured now: by the time the status is built, other sessions' calls
+        # may have been dispatched, and get_session_id() reports the latest.
+        session_id = component.get('RPCServer').get_session_id()
+        status_request = (d, torrent_ids, keys, diff, session_id)
         now = time.time()
         # If last update was recent, use cached data instead of request updates from libtorrent
         if (now - self.last_state_update_alert_ts) < 1.5:
-            reactor.callLater(
-                0, self.handle_torrents_status_callback, (d, torrent_ids, keys, diff)
-            )
+            reactor.callLater(0, self.handle_torrents_status_callback, status_request)
         else:
             # Ask libtorrent for status update
-            self.torrents_status_requests.insert(0, (d, torrent_ids, keys, diff))
+            self.torrents_status_requests.insert(0, status_request)
             self.session.post_torrent_updates()
         return d

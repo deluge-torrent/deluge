@@ -5,6 +5,7 @@
 #
 import itertools
 import os
+import threading
 import time
 from base64 import b64encode
 from unittest import mock
@@ -12,6 +13,8 @@ from unittest import mock
 import pytest
 from twisted.internet import defer, reactor
 from twisted.internet.task import deferLater
+from twisted.python import threadable
+from twisted.python.threadpool import ThreadPool
 
 import deluge.component as component
 import deluge.core.torrent
@@ -352,6 +355,156 @@ class TestTorrent(BaseTestCase):
         handle = self.session.add_torrent(atp)
         self.torrent = Torrent(handle, {})
         assert self.torrent.get_name() == 'সুকুমার রায়.txt'
+
+    def _record_thread(self, torrent, key, value, release=None):
+        """Replace a status function with one recording if it ran on the reactor."""
+        calls = []
+
+        def status_func():
+            calls.append(threadable.isInIOThread())
+            if release:
+                release.wait(5)
+            return value
+
+        torrent.status_funcs[key] = status_func
+        return calls
+
+    async def test_get_status_runs_slow_keys_off_reactor(self):
+        atp = self.get_torrent_atp('test_torrent.file.torrent')
+        torrent = Torrent(self.session.add_torrent(atp), {})
+        calls = self._record_thread(torrent, 'peers', ['peer'])
+
+        result = torrent.get_status(['peers', 'name'], defer_slow=True)
+
+        assert isinstance(result, defer.Deferred)
+        status = await result
+        assert status == {'peers': ['peer'], 'name': torrent.get_name()}
+        assert calls == [False]
+
+    def test_get_status_fast_keys_stay_synchronous(self):
+        atp = self.get_torrent_atp('test_torrent.file.torrent')
+        torrent = Torrent(self.session.add_torrent(atp), {})
+        calls = self._record_thread(torrent, 'peers', ['peer'])
+
+        assert torrent.get_status(['name'], defer_slow=True) == {
+            'name': torrent.get_name()
+        }
+        # Without defer_slow, in-process callers keep a plain dict.
+        assert torrent.get_status(['peers']) == {'peers': ['peer']}
+        assert calls == [True]
+
+    async def test_get_status_shares_slow_fetch_in_flight(self):
+        atp = self.get_torrent_atp('test_torrent.file.torrent')
+        torrent = Torrent(self.session.add_torrent(atp), {})
+        release = threading.Event()
+        calls = self._record_thread(torrent, 'peers', ['peer'], release)
+
+        first = torrent.get_status(['peers'], defer_slow=True)
+        second = torrent.get_status(['peers'], defer_slow=True)
+        release.set()
+
+        assert (
+            await first.addTimeout(5, reactor)
+            == await second.addTimeout(5, reactor)
+            == {'peers': ['peer']}
+        )
+        assert len(calls) == 1
+        # Once delivered, the next request fetches afresh.
+        await torrent.get_status(['peers'], defer_slow=True).addTimeout(5, reactor)
+        assert len(calls) == 2
+
+    async def test_get_status_shared_fetch_failure_reaches_every_request(self):
+        atp = self.get_torrent_atp('test_torrent.file.torrent')
+        torrent = Torrent(self.session.add_torrent(atp), {})
+        release = threading.Event()
+
+        def get_peers():
+            release.wait(5)
+            raise ValueError('boom')
+
+        torrent.status_funcs['peers'] = get_peers
+        first = torrent.get_status(['peers'], defer_slow=True)
+        second = torrent.get_status(['peers'], defer_slow=True)
+        release.set()
+
+        for result in (first, second):
+            with pytest.raises(ValueError):
+                await result.addTimeout(5, reactor)
+        assert torrent._slow_status_waiters == {}
+
+    async def test_get_status_queued_fetch_dropped_when_pool_stops(self):
+        atp = self.get_torrent_atp('test_torrent.file.torrent')
+        torrent = Torrent(self.session.add_torrent(atp), {})
+        pool = ThreadPool(0, 1)
+        pool.start()
+        running_started = threading.Event()
+
+        def get_peers():
+            running_started.set()
+            # Hold the only thread until stop() has begun.
+            for _ in range(500):
+                if pool.joined:
+                    break
+                time.sleep(0.01)
+            return []
+
+        torrent.status_funcs['peers'] = get_peers
+        pieces_calls = self._record_thread(torrent, 'pieces', [])
+
+        tm = component.get('TorrentManager')
+        with mock.patch.object(tm, 'status_threadpool', pool):
+            running = torrent.get_status(['peers'], defer_slow=True)
+            queued = torrent.get_status(['pieces'], defer_slow=True)
+            assert running_started.wait(5)
+            pool.stop()
+
+        assert await running.addTimeout(5, reactor) == {'peers': []}
+        with pytest.raises(RuntimeError):
+            await queued.addTimeout(5, reactor)
+        assert pieces_calls == []
+
+    async def test_get_status_progress_off_reactor_only_while_moving(self):
+        atp = self.get_torrent_atp('test_torrent.file.torrent')
+        torrent = Torrent(self.session.add_torrent(atp), {})
+        calls = self._record_thread(torrent, 'progress', 50.0)
+
+        assert torrent.get_status(['progress'], defer_slow=True) == {'progress': 50.0}
+        torrent.state = 'Moving'
+        result = torrent.get_status(['progress'], defer_slow=True)
+
+        assert isinstance(result, defer.Deferred)
+        assert await result == {'progress': 50.0}
+        assert calls == [True, False]
+
+    async def test_get_status_slow_fetch_fails_while_pool_stopped(self):
+        atp = self.get_torrent_atp('test_torrent.file.torrent')
+        torrent = Torrent(self.session.add_torrent(atp), {})
+        self._record_thread(torrent, 'peers', ['peer'])
+        stopped_pool = ThreadPool(0, 1)
+
+        tm = component.get('TorrentManager')
+        with mock.patch.object(tm, 'status_threadpool', stopped_pool):
+            with pytest.raises(RuntimeError):
+                await torrent.get_status(['peers'], defer_slow=True).addTimeout(
+                    5, reactor
+                )
+
+        assert torrent._slow_status_waiters == {}
+        status = torrent.get_status(['peers'], defer_slow=True)
+        assert await status.addTimeout(5, reactor) == {'peers': ['peer']}
+
+    async def test_get_status_diffs_against_requesting_session(self):
+        atp = self.get_torrent_atp('test_torrent.file.torrent')
+        torrent = Torrent(self.session.add_torrent(atp), {})
+        self._record_thread(torrent, 'peers', ['peer'])
+        self.rpcserver.factory.session_id = 1
+
+        result = torrent.get_status(['peers'], diff=True, defer_slow=True)
+        # Another session's call is dispatched before the fetch returns.
+        self.rpcserver.factory.session_id = 2
+        await result
+
+        assert list(torrent.prev_status) == [1]
 
     def test_rename_unicode(self):
         """Test renaming file/folders with unicode filenames."""

@@ -229,6 +229,16 @@ class TestCore(BaseTestCase):
         assert torrent_status['trackers'][0]['url'] == tracker
         assert torrent_status['name'] == name
 
+    async def test_get_torrent_status_slow_keys_return_deferred(self):
+        torrent_id = self.add_torrent('test_torrent.file.torrent')
+
+        result = self.core.get_torrent_status(torrent_id, ['peers', 'name'])
+
+        assert isinstance(result, defer.Deferred)
+        status = await result
+        assert status['peers'] == []
+        assert set(status) == {'peers', 'name'}
+
     def test_resume_torrent(self):
         tid1 = self.add_torrent('test.torrent', paused=True)
         tid2 = self.add_torrent('test_torrent.file.torrent', paused=True)
