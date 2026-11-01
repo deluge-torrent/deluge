@@ -5,7 +5,7 @@
 #
 import pytest
 import pytest_twisted
-from twisted.internet import defer
+from twisted.internet import defer, reactor, task
 
 from deluge import error
 from deluge.common import AUTH_LEVEL_NORMAL, get_localhost_auth, get_version
@@ -190,3 +190,56 @@ class TestClient:
         assert client.daemon_version_check_min(get_version())
         assert not client.daemon_version_check_min(f'{get_version()}1')
         assert client.daemon_version_check_min('0.1.0')
+
+    @pytest_twisted.inlineCallbacks
+    def test_connect_again_closes_previous_connection(self):
+        # The client fixture has already connected, so this is the second connect.
+        previous = client._daemon_proxy
+        username, password = get_localhost_auth()
+        yield client.connect(
+            'localhost', self.listen_port, username=username, password=password
+        )
+
+        for _ in range(50):
+            if not previous.connected:
+                break
+            yield task.deferLater(reactor, 0.1, lambda: None)
+        assert not previous.connected
+        assert client.connected()
+
+    @pytest_twisted.inlineCallbacks
+    def test_connect_again_does_not_report_a_lost_connection(self):
+        # deluge-web stops its session cache and plugins on this callback, which
+        # would land after the new connection had started them.
+        lost = []
+        client.set_disconnect_callback(lambda: lost.append(True))
+        previous = client._daemon_proxy
+        username, password = get_localhost_auth()
+        yield client.connect(
+            'localhost', self.listen_port, username=username, password=password
+        )
+
+        for _ in range(50):
+            if not previous.connected:
+                break
+            yield task.deferLater(reactor, 0.1, lambda: None)
+        client.set_disconnect_callback(None)
+        assert not previous.connected
+        assert not lost
+
+    @pytest_twisted.inlineCallbacks
+    def test_reconnect_from_disconnect_still_reports_the_disconnect(self):
+        # The GTK UI switches hosts this way and resets its view on the callback.
+        lost = []
+        client.set_disconnect_callback(lambda: lost.append(True))
+        username, password = get_localhost_auth()
+
+        def connect_again(result):
+            return client.connect(
+                'localhost', self.listen_port, username=username, password=password
+            )
+
+        yield client.disconnect().addCallback(connect_again)
+        client.set_disconnect_callback(None)
+        assert lost
+        assert client.connected()

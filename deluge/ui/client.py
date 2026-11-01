@@ -581,6 +581,10 @@ class Client:
         :returns: a Deferred object that will be called once the connection
             has been established or fails
         """
+        if isinstance(self._daemon_proxy, DaemonSSLProxy) and self.connected():
+            # Replaced, not lost: an open old proxy keeps receiving daemon events.
+            self._daemon_proxy.set_disconnect_callback(None)
+            self._daemon_proxy.disconnect()
 
         self._daemon_proxy = DaemonSSLProxy(dict(self.__event_handlers))
         self._daemon_proxy.set_disconnect_callback(self.__on_disconnect)
