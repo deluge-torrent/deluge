@@ -152,3 +152,27 @@ class TestSessionProxy(BaseTestCase):
         client.core.torrents['a']['key2'] = 99
         result = await self.sp.get_torrents_status({'id': ['a']}, ['key2'])
         assert result == {'a': {'key2': 99}}
+
+    def test_torrent_added_does_not_fetch_status(self):
+        calls = []
+
+        def record_call(*args):
+            calls.append(args)
+            return succeed({})
+
+        self.patch(client.core, 'get_torrent_status', record_call)
+        self.patch(client.core, 'get_torrents_status', record_call)
+        self.sp.on_torrent_added('d', False)
+        assert calls == []
+
+    async def test_torrent_added_then_get_torrents_status(self):
+        client.core.torrents['d'] = {'key1': 4, 'key2': 5, 'key3': 6}
+        self.sp.on_torrent_added('d', False)
+        result = await self.sp.get_torrents_status({}, ['key1'])
+        assert result['d'] == {'key1': 4}
+
+    async def test_torrent_added_then_get_torrent_status(self):
+        client.core.torrents['d'] = {'key1': 4, 'key2': 5, 'key3': 6}
+        self.sp.on_torrent_added('d', False)
+        result = await self.sp.get_torrent_status('d', ['key2'])
+        assert result == {'key2': 5}
