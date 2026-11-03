@@ -20,7 +20,8 @@ import time
 from typing import Optional
 from urllib.parse import urlparse
 
-from twisted.internet.defer import Deferred, DeferredList
+from twisted.internet import reactor, threads
+from twisted.internet.defer import Deferred, DeferredList, maybeDeferred
 
 import deluge.component as component
 from deluge._libtorrent import lt
@@ -35,6 +36,10 @@ from deluge.event import (
 )
 
 log = logging.getLogger(__name__)
+
+# Status keys whose functions make synchronous libtorrent calls, each waiting on
+# libtorrent's network thread: around a second apiece when it is saturated.
+SLOW_STATUS_KEYS = ('file_progress', 'peers', 'pieces')
 
 LT_TORRENT_STATE_MAP = {
     'queued_for_checking': 'Checking',
@@ -268,6 +273,7 @@ class Torrent:
         self.forcing_recheck_paused = False
         self.status_funcs = None
         self.prev_status = {}
+        self._slow_status_waiters = {}
         self.waiting_on_folder_rename = []
 
         self._create_status_funcs()
@@ -1010,7 +1016,17 @@ class Torrent:
         except ValueError:
             return -1
 
-    def get_status(self, keys, diff=False, update=False, all_keys=False):
+    def get_status(
+        self,
+        keys,
+        diff=False,
+        update=False,
+        all_keys=False,
+        plugin_status=None,
+        defer_slow=False,
+        fetched=None,
+        session_id=None,
+    ):
         """Returns the status of the torrent based on the keys provided
 
         Args:
@@ -1021,9 +1037,16 @@ class Torrent:
                 if False, the cached values will be returned
             all_keys (bool): If True return all keys while ignoring the keys param
                 if False, return only the requested keys
+            plugin_status (dict): Status fields supplied by plugins. Merged in
+                before the diff is taken so unchanged plugin values diff out.
+            defer_slow (bool): Run the status functions that wait on libtorrent
+                in a thread, returning a Deferred if any of the keys need one.
+            fetched (dict): Values already fetched by fetch_slow_status.
+            session_id (int): The session to diff against, defaults to the
+                session of the RPC call being dispatched.
 
         Returns:
-            dict: a dictionary of the status keys and their values
+            dict or Deferred: a dictionary of the status keys and their values
         """
         if update:
             self.get_lt_status()
@@ -1031,13 +1054,80 @@ class Torrent:
         if all_keys:
             keys = list(self.status_funcs)
 
+        if diff and session_id is None:
+            session_id = self.rpcserver.get_session_id()
+
+        fetch = self.fetch_slow_status(keys) if defer_slow else None
+        if fetch:
+            return fetch.addCallback(
+                self._build_status, keys, plugin_status, diff, session_id
+            )
+        return self._build_status(fetched or {}, keys, plugin_status, diff, session_id)
+
+    def fetch_slow_status(self, keys, all_keys=False):
+        """Run the status functions that wait on libtorrent in a thread.
+
+        A fetch of the same keys already in flight is shared. Without that, a
+        client polling faster than libtorrent answers would queue fetches
+        without limit, since the reactor no longer blocks on them and so no
+        longer holds the client back.
+
+        Returns:
+            Deferred: Fires with a dict of the fetched values, or None if none
+                of the keys is slow.
+        """
+        if all_keys:
+            keys = self.status_funcs
+        slow_keys = [key for key in keys if key in SLOW_STATUS_KEYS]
+        # While moving, progress stats every file at the destination.
+        if 'progress' in keys and self.state == 'Moving':
+            slow_keys.append('progress')
+        if not slow_keys:
+            return None
+
+        keys = frozenset(slow_keys)
+        waiter = Deferred()
+        if keys in self._slow_status_waiters:
+            self._slow_status_waiters[keys].append(waiter)
+            return waiter
+        self._slow_status_waiters[keys] = [waiter]
+
+        def deliver(result):
+            for waiter in self._slow_status_waiters.pop(keys):
+                waiter.callback(result)
+
+        maybeDeferred(self._run_slow_status, keys).addBoth(deliver)
+        return waiter
+
+    def _run_slow_status(self, keys):
+        pool = component.get('TorrentManager').status_threadpool
+        # A stopped pool drops work silently, which would leave every later
+        # request for these keys waiting on a fetch that never returns.
+        if pool is None or not pool.started:
+            raise RuntimeError('Torrent status threadpool is not running')
+
+        def fetch():
+            # stop() still runs queued work, so drop it rather than hold up
+            # shutdown until the backlog drains.
+            if pool.joined:
+                raise RuntimeError('Torrent status threadpool is stopping')
+            return {key: self.status_funcs[key]() for key in keys}
+
+        return threads.deferToThreadPool(reactor, pool, fetch)
+
+    def _build_status(self, fetched, keys, plugin_status, diff, session_id):
         status_dict = {}
 
         for key in keys:
-            status_dict[key] = self.status_funcs[key]()
+            if key in fetched:
+                status_dict[key] = fetched[key]
+            else:
+                status_dict[key] = self.status_funcs[key]()
+
+        if plugin_status:
+            status_dict.update(plugin_status)
 
         if diff:
-            session_id = self.rpcserver.get_session_id()
             if session_id in self.prev_status:
                 # We have a previous status dict, so lets make a diff
                 status_diff = {}

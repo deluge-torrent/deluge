@@ -780,10 +780,22 @@ class Core(component.Component):
         diff=False,
         update=False,
         all_keys=False,
+        defer_slow=False,
     ):
         try:
-            status = self.torrentmanager[torrent_id].get_status(
-                torrent_keys, diff, update=update, all_keys=all_keys
+            # Passed into get_status rather than merged over its result, so the
+            # plugin values take part in the diff instead of always looking new.
+            plugin_status = None
+            if len(plugin_keys) > 0 or all_keys:
+                plugin_status = self.pluginmanager.get_status(torrent_id, plugin_keys)
+
+            return self.torrentmanager[torrent_id].get_status(
+                torrent_keys,
+                diff,
+                update=update,
+                all_keys=all_keys,
+                plugin_status=plugin_status,
+                defer_slow=defer_slow,
             )
         except KeyError:
             import traceback
@@ -791,11 +803,6 @@ class Core(component.Component):
             traceback.print_exc()
             # Torrent was probably removed meanwhile
             return {}
-
-        # Ask the plugin manager to fill in the plugin keys
-        if len(plugin_keys) > 0 or all_keys:
-            status.update(self.pluginmanager.get_status(torrent_id, plugin_keys))
-        return status
 
     @export
     def get_torrent_status(
@@ -811,6 +818,7 @@ class Core(component.Component):
             diff=diff,
             update=True,
             all_keys=not keys,
+            defer_slow=True,
         )
 
     @export
@@ -819,16 +827,10 @@ class Core(component.Component):
         self, filter_dict: dict, keys: List[str], diff: bool = False
     ) -> dict:
         """returns all torrents , optionally filtered by filter_dict."""
-        all_keys = not keys
         torrent_ids = self.filtermanager.filter_torrent_ids(filter_dict)
-        status_dict, plugin_keys = await self.torrentmanager.torrents_status_update(
+        return await self.torrentmanager.torrents_status_update(
             torrent_ids, keys, diff=diff
         )
-        # Ask the plugin manager to fill in the plugin keys
-        if len(plugin_keys) > 0 or all_keys:
-            for key in status_dict:
-                status_dict[key].update(self.pluginmanager.get_status(key, plugin_keys))
-        return status_dict
 
     @export
     def get_filter_tree(
