@@ -110,6 +110,8 @@ deluge.ui = {
         this.update = this.update.createDelegate(this);
         this.checkConnection = this.checkConnection.createDelegate(this);
 
+        // The grid starts empty, so the first update has to be a full one.
+        this.needsResync = true;
         this.originalTitle = document.title;
     },
 
@@ -126,11 +128,20 @@ deluge.ui = {
         this.oldFilters = this.filters;
         this.filters = filters;
 
-        deluge.client.web.update_ui(Deluge.Keys.Grid, filters, {
-            success: this.onUpdate,
-            failure: this.onUpdateError,
-            scope: this,
-        });
+        // A response the browser never applied still counts as sent on the
+        // server, so resync after any error rather than diffing onto a grid
+        // that may have missed an update.
+        deluge.client.web.update_ui(
+            Deluge.Keys.Grid,
+            filters,
+            !this.needsResync,
+            {
+                success: this.onUpdate,
+                failure: this.onUpdateError,
+                scope: this,
+            }
+        );
+        this.needsResync = false;
         deluge.details.update();
     },
 
@@ -158,6 +169,7 @@ deluge.ui = {
     },
 
     onUpdateError: function (error) {
+        this.needsResync = true;
         if (this.errorCount == 2) {
             Ext.MessageBox.show({
                 title: _('Lost Connection'),
@@ -203,10 +215,13 @@ deluge.ui = {
                 ' - ' +
                 this.originalTitle;
         }
-        if (Ext.areObjectsEqual(this.filters, this.oldFilters)) {
-            deluge.torrents.update(data['torrents']);
+        // The server decides whether it could produce a diff; a request for one
+        // still gets a full status when it has no baseline for this session.
+        if (data['diff']) {
+            deluge.torrents.update(data['torrents'], data['removed']);
         } else {
-            deluge.torrents.update(data['torrents'], true);
+            var wipe = !Ext.areObjectsEqual(this.filters, this.oldFilters);
+            deluge.torrents.update(data['torrents'], null, wipe);
         }
         deluge.statusbar.update(data['stats']);
         deluge.sidebar.update(data['filters']);
@@ -234,6 +249,10 @@ deluge.ui = {
      * @private
      */
     onDisconnect: function () {
+        // Every 'disconnect' listener empties its own view, TorrentGrid
+        // included, so the next update has to rebuild the grid rather than
+        // patch it.
+        this.needsResync = true;
         this.stop();
     },
 

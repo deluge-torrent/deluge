@@ -17,6 +17,7 @@ from twisted.web.http_headers import Headers
 from twisted.web.static import File
 
 import deluge.component as component
+from deluge.ui.web.json_api import GRID_STATE_EXPIRY, WebApi
 
 from . import common
 from .common_web import WebServerTestBase
@@ -201,3 +202,87 @@ class TestWebAPI(WebServerTestBase):
             FileBodyProducer(BytesIO(bad_body)),
         )
         yield d
+
+
+class TestGridDiff:
+    """update_ui's per-session diffing.
+
+    _diff_against_grid_state touches nothing but self.grid_state, so it is
+    exercised directly rather than through the web server fixture.
+    """
+
+    def setup_method(self):
+        self.api = WebApi.__new__(WebApi)
+        self.api.grid_state = {}
+
+    def diff(self, torrents, keys=None, filters=None, session='s1'):
+        return self.api._diff_against_grid_state(
+            session, keys or ['name'], filters if filters is not None else {}, torrents
+        )
+
+    def test_without_a_baseline_returns_everything(self):
+        torrents = {'a': {'name': 'one'}}
+        sent, removed = self.diff(torrents)
+        # update_ui tells a diff from a full status by identity, so this must
+        # be the dict it was handed and not a copy of it.
+        assert sent is torrents
+        assert removed == []
+
+    def test_drops_unchanged_torrents(self):
+        self.diff({'a': {'name': 'one'}, 'b': {'name': 'two'}})
+        sent, removed = self.diff({'a': {'name': 'one'}, 'b': {'name': 'two'}})
+        assert sent == {}
+        assert removed == []
+
+    def test_sends_only_changed_fields(self):
+        keys = ['name', 'progress']
+        self.diff({'a': {'name': 'one', 'progress': 1}}, keys=keys)
+        sent, removed = self.diff({'a': {'name': 'one', 'progress': 2}}, keys=keys)
+        assert sent == {'a': {'progress': 2}}
+        assert removed == []
+
+    def test_sends_a_full_status_for_a_torrent_the_client_has_not_seen(self):
+        self.diff({'a': {'name': 'one'}})
+        sent, removed = self.diff({'a': {'name': 'one'}, 'b': {'name': 'two'}})
+        assert sent == {'b': {'name': 'two'}}
+        assert removed == []
+
+    def test_reports_torrents_that_went_away(self):
+        self.diff({'a': {'name': 'one'}, 'b': {'name': 'two'}})
+        sent, removed = self.diff({'a': {'name': 'one'}})
+        assert sent == {}
+        assert removed == ['b']
+
+    def test_a_key_appearing_counts_as_a_change(self):
+        self.diff({'a': {'name': 'one'}})
+        sent, removed = self.diff({'a': {'name': 'one', 'progress': 1}})
+        assert sent == {'a': {'progress': 1}}
+
+    def test_restarts_when_the_requested_keys_change(self):
+        self.diff({'a': {'name': 'one'}}, keys=['name'])
+        torrents = {'a': {'name': 'one', 'progress': 1}}
+        sent, removed = self.diff(torrents, keys=['name', 'progress'])
+        assert sent is torrents
+        assert removed == []
+
+    def test_restarts_when_the_filters_change(self):
+        self.diff({'a': {'name': 'one'}})
+        torrents = {'a': {'name': 'one'}}
+        sent, removed = self.diff(torrents, filters={'state': ['Seeding']})
+        assert sent is torrents
+        assert removed == []
+
+    def test_keeps_a_baseline_per_session(self):
+        self.diff({'a': {'name': 'one'}}, session='s1')
+        torrents = {'a': {'name': 'one'}}
+        sent, removed = self.diff(torrents, session='s2')
+        assert sent is torrents
+        assert removed == []
+
+    def test_forgets_a_session_that_stopped_polling(self):
+        self.diff({'a': {'name': 'one'}})
+        self.api.grid_state['s1']['time'] -= GRID_STATE_EXPIRY + 1
+        torrents = {'a': {'name': 'one'}}
+        sent, _ = self.diff(torrents)
+        assert sent is torrents
+        assert list(self.api.grid_state) == ['s1']

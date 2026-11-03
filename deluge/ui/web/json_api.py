@@ -12,6 +12,7 @@ import logging
 import os
 import shutil
 import tempfile
+import time
 from base64 import b64encode
 from types import FunctionType
 
@@ -32,6 +33,10 @@ from deluge.ui.hostlist import HostList
 from deluge.ui.sessionproxy import SessionProxy
 
 log = logging.getLogger(__name__)
+
+# Drop a session's update_ui baseline once it has stopped polling, so a browser
+# that never logs out does not pin a copy of the whole torrent list forever.
+GRID_STATE_EXPIRY = 300
 
 
 class JSONComponent(component.Component):
@@ -382,6 +387,9 @@ class WebApi(JSONComponent):
         self.hostlist = HostList()
         self.core_config = CoreConfig()
         self.event_queue = EventQueue()
+        # session_id -> the last torrent status sent to that browser, so
+        # update_ui can send only what changed. See _diff_against_grid_state.
+        self.grid_state = {}
         try:
             self.sessionproxy = component.get('SessionProxy')
         except KeyError:
@@ -486,8 +494,51 @@ class WebApi(JSONComponent):
         d.addCallback(on_disconnect)
         return d
 
+    def _diff_against_grid_state(self, session_id, keys, filter_dict, torrents):
+        """Reduce a full status dict to what changed since this session's last update.
+
+        Returns ``(torrents, removed)``. The first element is ``torrents``
+        itself, unchanged, when there is no usable baseline and the caller has
+        to send everything.
+
+        The baseline is what was last *sent*, so a response lost in flight
+        leaves the browser behind. The browser is responsible for asking for a
+        full update again after any error; see UI.js.
+        """
+        now = time.time()
+        for stale_id, state in list(self.grid_state.items()):
+            if now - state['time'] > GRID_STATE_EXPIRY:
+                del self.grid_state[stale_id]
+
+        state = self.grid_state.get(session_id)
+        self.grid_state[session_id] = {
+            'keys': keys,
+            'filter_dict': filter_dict,
+            'sent': torrents,
+            'time': now,
+        }
+
+        # A different request shape makes the previous response no basis for a
+        # diff: the browser is about to rebuild the grid anyway.
+        if not state or state['keys'] != keys or state['filter_dict'] != filter_dict:
+            return torrents, []
+
+        previous = state['sent']
+        changed = {}
+        for torrent_id, status in torrents.items():
+            was = previous.get(torrent_id)
+            if was is None:
+                changed[torrent_id] = status
+                continue
+            delta = {k: v for k, v in status.items() if k not in was or was[k] != v}
+            if delta:
+                changed[torrent_id] = delta
+
+        removed = [t_id for t_id in previous if t_id not in torrents]
+        return changed, removed
+
     @export
-    def update_ui(self, keys, filter_dict):
+    def update_ui(self, keys, filter_dict, diff=False):
         """
         Gather the information required for updating the web interface.
 
@@ -495,6 +546,12 @@ class WebApi(JSONComponent):
         :type keys: list
         :param filter_dict: the filters to apply when selecting torrents.
         :type filter_dict: dictionary
+        :param diff: if True, send only the fields that changed since this
+            session's last update, plus a list of torrents that went away.
+            The response says which form it took in its own ``diff`` key,
+            since a request for a diff still gets a full status when there
+            is no baseline to compare against.
+        :type diff: bool
         :returns: The torrent and UI information.
         :rtype: dictionary
         """
@@ -502,6 +559,8 @@ class WebApi(JSONComponent):
         ui_info = {
             'connected': client.connected(),
             'torrents': None,
+            'removed': [],
+            'diff': False,
             'filters': None,
             'stats': {
                 'max_download': self.core_config.get('max_download_speed'),
@@ -513,6 +572,10 @@ class WebApi(JSONComponent):
         if not client.connected():
             d.callback(ui_info)
             return d
+
+        # __request__ is only valid for the duration of this call, but
+        # got_torrents runs later off a deferred.
+        session_id = getattr(__request__, 'session_id', None)  # noqa: F821
 
         def got_stats(stats):
             ui_info['stats']['num_connections'] = stats['peer.num_peers_connected']
@@ -539,7 +602,17 @@ class WebApi(JSONComponent):
             ui_info['stats']['external_ip'] = external_ip
 
         def got_torrents(torrents):
-            ui_info['torrents'] = torrents
+            if not diff or session_id is None:
+                self.grid_state.pop(session_id, None)
+                ui_info['torrents'] = torrents
+                return
+
+            sent, removed = self._diff_against_grid_state(
+                session_id, keys, filter_dict, torrents
+            )
+            ui_info['torrents'] = sent
+            ui_info['removed'] = removed
+            ui_info['diff'] = sent is not torrents
 
         def on_complete(result):
             d.callback(ui_info)

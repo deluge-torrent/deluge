@@ -442,7 +442,15 @@
             return ids;
         },
 
-        update: function (torrents, wipe) {
+        /**
+         * @param {Object} torrents keyed by id. Either a full status for every
+         *     torrent, or, when removed is given, only the fields that changed
+         *     plus a full status for torrents the client has not seen.
+         * @param {Array} removed ids to drop, or null when torrents is a full
+         *     status and anything missing from it is gone.
+         * @param {Boolean} wipe reload the grid from scratch.
+         */
+        update: function (torrents, removed, wipe) {
             var store = this.getStore();
 
             // Need to perform a complete reload of the torrent grid.
@@ -475,13 +483,29 @@
             }
             store.add(newTorrents);
 
-            // Remove any torrents that should not be in the store.
-            store.each(function (record) {
-                if (!torrents[record.id]) {
-                    store.remove(record);
-                    delete this.torrents[record.id];
-                }
-            }, this);
+            // Remove any torrents that should not be in the store. Scanning
+            // the store for absentees is only meaningful when torrents holds
+            // every torrent; against a delta, absent means unchanged.
+            if (removed) {
+                Ext.each(
+                    removed,
+                    function (torrentId) {
+                        var record = store.getById(torrentId);
+                        if (record) {
+                            store.remove(record);
+                        }
+                        delete this.torrents[torrentId];
+                    },
+                    this
+                );
+            } else {
+                store.each(function (record) {
+                    if (!torrents[record.id]) {
+                        store.remove(record);
+                        delete this.torrents[record.id];
+                    }
+                }, this);
+            }
             store.commitChanges();
 
             var sortState = store.getSortState();
