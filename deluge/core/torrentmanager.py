@@ -433,9 +433,7 @@ class TorrentManager(component.Component):
             name = torrent_info.name()
             if not name:
                 name = decode_bytes(
-                    _get_torrent_file_storage(
-                        torrent_info, original=False
-                    ).file_path(0)
+                    _get_torrent_file_storage(torrent_info, original=False).file_path(0)
                 )
                 name = name.replace('\\', '/', 1).split('/', 1)[0]
             add_torrent_params['name'] = name

@@ -477,9 +477,7 @@ class Torrent:
         """
         self.options['auto_managed'] = auto_managed
         if not (
-            _torrent_status_flag(
-                self.status, lt.torrent_flags.paused, 'paused'
-            )
+            _torrent_status_flag(self.status, lt.torrent_flags.paused, 'paused')
             and not _torrent_status_flag(
                 self.status, lt.torrent_flags.auto_managed, 'auto_managed'
             )
@@ -682,9 +680,7 @@ class Torrent:
         self.set_status_message()
         status_error = status.errc.message() if status.errc.value() else ''
 
-        status_paused = _torrent_status_flag(
-            status, lt.torrent_flags.paused, 'paused'
-        )
+        status_paused = _torrent_status_flag(status, lt.torrent_flags.paused, 'paused')
         status_auto_managed = _torrent_status_flag(
             status, lt.torrent_flags.auto_managed, 'auto_managed'
         )
@@ -756,9 +752,7 @@ class Torrent:
             flag=lt.torrent_flags.auto_managed,
             set_flag=False,
         )
-        status_paused = _torrent_status_flag(
-            status, lt.torrent_flags.paused, 'paused'
-        )
+        status_paused = _torrent_status_flag(status, lt.torrent_flags.paused, 'paused')
         self.forced_error = TorrentError(message, status_paused, restart_to_resume)
         if not status_paused:
             self.handle.pause()
@@ -1274,9 +1268,7 @@ class Torrent:
         )
         if self.state == 'Error':
             log.debug('Unable to pause torrent while in Error state')
-        elif _torrent_status_flag(
-            self.status, lt.torrent_flags.paused, 'paused'
-        ):
+        elif _torrent_status_flag(self.status, lt.torrent_flags.paused, 'paused'):
             # This torrent was probably paused due to being auto managed by lt
             # Since we turned auto_managed off, we should update the state which should
             # show it as 'Paused'.  We need to emit a torrent_paused signal because

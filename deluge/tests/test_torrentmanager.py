@@ -144,9 +144,7 @@ class TestTorrentmanager(BaseTestCase):
 
         with open(common.get_test_data_file('test.torrent'), 'rb') as _file:
             torrent_info = lt.torrent_info(lt.bdecode(_file.read()))
-        options = self.tm._build_torrent_options(
-            {'download_location': os.getcwd()}
-        )
+        options = self.tm._build_torrent_options({'download_location': os.getcwd()})
         resume_data = lt.bencode({'test': b'resume'})
         params = mock.MagicMock()
 

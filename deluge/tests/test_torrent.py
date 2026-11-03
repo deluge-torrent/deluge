@@ -42,9 +42,7 @@ class TestTorrent(BaseTestCase):
         )
 
         legacy_status = SimpleNamespace(paused=True, auto_managed=False)
-        assert _torrent_status_flag(
-            legacy_status, lt.torrent_flags.paused, 'paused'
-        )
+        assert _torrent_status_flag(legacy_status, lt.torrent_flags.paused, 'paused')
         assert not _torrent_status_flag(
             legacy_status, lt.torrent_flags.auto_managed, 'auto_managed'
         )
