@@ -264,6 +264,7 @@ class Torrent:
         self.moving_storage_dest_path = None
         self.tracker_status = ''
         self.tracker_host = None
+        self.scrape_check_pending = False
         self.forcing_recheck = False
         self.forcing_recheck_paused = False
         self.status_funcs = None

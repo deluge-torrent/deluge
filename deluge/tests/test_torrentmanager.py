@@ -148,3 +148,63 @@ class TestTorrentmanager(BaseTestCase):
 
         state = self.tm.open_state()
         assert len(state.torrents) == 1
+
+    async def _add_test_torrent(self, name='test.torrent'):
+        filename = common.get_test_data_file(name)
+        with open(filename, 'rb') as _file:
+            filedump = _file.read()
+        return await self.core.add_torrent_file_async(filename, b64encode(filedump), {})
+
+    def _tracker_reply(self, torrent_id):
+        handle = mock.Mock(info_hash=mock.Mock(return_value=torrent_id))
+        self.tm.on_alert_tracker_reply(mock.Mock(handle=handle))
+
+    def _state_update(self, torrent_id, num_complete, num_incomplete):
+        """Deliver a state_update_alert reporting these swarm counts."""
+        torrent = self.tm.torrents[torrent_id]
+        real_status = torrent.handle.status()
+        t_status = mock.Mock(
+            info_hash=torrent_id,
+            num_complete=num_complete,
+            num_incomplete=num_incomplete,
+        )
+        # The handler answers a queued status request; none is under test here.
+        self.tm.torrents_status_requests.insert(0, None)
+        try:
+            with mock.patch.object(self.tm, 'handle_torrents_status_callback'):
+                self.tm.on_alert_state_update(mock.Mock(status=[t_status]))
+        finally:
+            torrent.status = real_status
+
+    async def test_tracker_reply_does_not_read_status_from_libtorrent(self):
+        torrent_id = await self._add_test_torrent()
+        torrent = self.tm.torrents[torrent_id]
+        with mock.patch.object(torrent, 'handle', mock.Mock(wraps=torrent.handle)):
+            self._tracker_reply(torrent_id)
+            torrent.handle.status.assert_not_called()
+
+    @pytest.mark.parametrize('counts', [(-1, -1), (-1, 2), (5, -1)])
+    async def test_tracker_reply_without_swarm_counts_scrapes_once(self, counts):
+        torrent_id = await self._add_test_torrent()
+        torrent = self.tm.torrents[torrent_id]
+        with mock.patch.object(torrent, 'scrape_tracker') as scrape:
+            self._tracker_reply(torrent_id)
+            scrape.assert_not_called()
+            self._state_update(torrent_id, *counts)
+            self._state_update(torrent_id, *counts)
+        scrape.assert_called_once_with()
+
+    async def test_tracker_reply_with_swarm_counts_does_not_scrape(self):
+        torrent_id = await self._add_test_torrent()
+        torrent = self.tm.torrents[torrent_id]
+        with mock.patch.object(torrent, 'scrape_tracker') as scrape:
+            self._tracker_reply(torrent_id)
+            self._state_update(torrent_id, 5, 2)
+        scrape.assert_not_called()
+
+    async def test_status_update_without_tracker_reply_does_not_scrape(self):
+        torrent_id = await self._add_test_torrent()
+        torrent = self.tm.torrents[torrent_id]
+        with mock.patch.object(torrent, 'scrape_tracker') as scrape:
+            self._state_update(torrent_id, -1, -1)
+        scrape.assert_not_called()
