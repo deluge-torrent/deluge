@@ -124,6 +124,14 @@ def _get_torrent_file_storage(torrent_info, original=True):
     return torrent_info.files()
 
 
+def _torrent_status_flag(status, flag, legacy_attribute):
+    """Return a torrent status flag across libtorrent API versions."""
+    status_flags = getattr(status, 'flags', None)
+    if status_flags is None:
+        return getattr(status, legacy_attribute)
+    return bool(status_flags & flag)
+
+
 class TorrentOptions(dict):
     """TorrentOptions create a dict of the torrent options.
 
@@ -468,7 +476,14 @@ class Torrent:
             auto_managed (bool): Enable auto managed.
         """
         self.options['auto_managed'] = auto_managed
-        if not (self.status.paused and not self.status.auto_managed):
+        if not (
+            _torrent_status_flag(
+                self.status, lt.torrent_flags.paused, 'paused'
+            )
+            and not _torrent_status_flag(
+                self.status, lt.torrent_flags.auto_managed, 'auto_managed'
+            )
+        ):
             self._set_handle_flags(
                 flag=lt.torrent_flags.auto_managed,
                 set_flag=auto_managed,
@@ -667,6 +682,13 @@ class Torrent:
         self.set_status_message()
         status_error = status.errc.message() if status.errc.value() else ''
 
+        status_paused = _torrent_status_flag(
+            status, lt.torrent_flags.paused, 'paused'
+        )
+        status_auto_managed = _torrent_status_flag(
+            status, lt.torrent_flags.auto_managed, 'auto_managed'
+        )
+
         if self.forced_error:
             self.state = 'Error'
             self.set_status_message(self.forced_error.error_message)
@@ -680,9 +702,9 @@ class Torrent:
             self.set_status_message(decode_bytes(status_error))
         elif status.moving_storage:
             self.state = 'Moving'
-        elif not session_paused and status.paused and status.auto_managed:
+        elif not session_paused and status_paused and status_auto_managed:
             self.state = 'Queued'
-        elif session_paused or status.paused:
+        elif session_paused or status_paused:
             self.state = 'Paused'
         else:
             self.state = LT_TORRENT_STATE_MAP.get(str(status.state), str(status.state))
@@ -734,8 +756,11 @@ class Torrent:
             flag=lt.torrent_flags.auto_managed,
             set_flag=False,
         )
-        self.forced_error = TorrentError(message, status.paused, restart_to_resume)
-        if not status.paused:
+        status_paused = _torrent_status_flag(
+            status, lt.torrent_flags.paused, 'paused'
+        )
+        self.forced_error = TorrentError(message, status_paused, restart_to_resume)
+        if not status_paused:
             self.handle.pause()
         self.update_state()
 
@@ -1153,7 +1178,9 @@ class Torrent:
             'num_peers': lambda: self.status.num_peers - self.status.num_seeds,
             'num_seeds': lambda: self.status.num_seeds,
             'owner': lambda: self.options['owner'],
-            'paused': lambda: self.status.paused,
+            'paused': lambda: _torrent_status_flag(
+                self.status, lt.torrent_flags.paused, 'paused'
+            ),
             'prioritize_first_last': lambda: self.options[
                 'prioritize_first_last_pieces'
             ],
@@ -1247,7 +1274,9 @@ class Torrent:
         )
         if self.state == 'Error':
             log.debug('Unable to pause torrent while in Error state')
-        elif self.status.paused:
+        elif _torrent_status_flag(
+            self.status, lt.torrent_flags.paused, 'paused'
+        ):
             # This torrent was probably paused due to being auto managed by lt
             # Since we turned auto_managed off, we should update the state which should
             # show it as 'Paused'.  We need to emit a torrent_paused signal because
@@ -1264,7 +1293,11 @@ class Torrent:
 
     def resume(self):
         """Resumes this torrent."""
-        if self.status.paused and self.status.auto_managed:
+        if _torrent_status_flag(
+            self.status, lt.torrent_flags.paused, 'paused'
+        ) and _torrent_status_flag(
+            self.status, lt.torrent_flags.auto_managed, 'auto_managed'
+        ):
             log.debug('Resume not possible for auto-managed torrent!')
         elif self.forced_error and self.forced_error.was_paused:
             log.debug(
@@ -1499,7 +1532,9 @@ class Torrent:
             self.forcing_recheck_paused = self.forced_error.was_paused
             self.clear_forced_error_state(update_state=False)
         else:
-            self.forcing_recheck_paused = self.status.paused
+            self.forcing_recheck_paused = _torrent_status_flag(
+                self.status, lt.torrent_flags.paused, 'paused'
+            )
 
         try:
             self.handle.force_recheck()
