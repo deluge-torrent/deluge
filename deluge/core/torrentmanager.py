@@ -1401,10 +1401,10 @@ class TorrentManager(component.Component):
         # Set the tracker status for the torrent
         torrent.set_tracker_status('Announce OK')
 
-        # Check for peer information from the tracker, if none then send a scrape request.
-        torrent.get_lt_status()
-        if torrent.status.num_complete == -1 or torrent.status.num_incomplete == -1:
-            torrent.scrape_tracker()
+        # Whether to scrape for seed and peer counts is decided on the next state
+        # update, which always includes this torrent after a reply. Reading the
+        # status here would mean a blocking handle.status() call on the reactor.
+        torrent.scrape_check_pending = True
 
     def on_alert_tracker_announce(self, alert):
         """Alert handler for libtorrent tracker_announce_alert"""
@@ -1653,7 +1653,12 @@ class TorrentManager(component.Component):
             except RuntimeError:
                 continue
             if torrent_id in self.torrents:
-                self.torrents[torrent_id].status = t_status
+                torrent = self.torrents[torrent_id]
+                torrent.status = t_status
+                if torrent.scrape_check_pending:
+                    torrent.scrape_check_pending = False
+                    if t_status.num_complete == -1 or t_status.num_incomplete == -1:
+                        torrent.scrape_tracker()
 
         self.handle_torrents_status_callback(self.torrents_status_requests.pop())
 
