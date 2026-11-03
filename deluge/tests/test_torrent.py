@@ -7,6 +7,7 @@ import itertools
 import os
 import time
 from base64 import b64encode
+from types import SimpleNamespace
 from unittest import mock
 
 import pytest
@@ -21,7 +22,7 @@ from deluge.common import VersionSplit, utf8_encode_structure
 from deluge.conftest import BaseTestCase
 from deluge.core.core import Core
 from deluge.core.rpcserver import RPCServer
-from deluge.core.torrent import Torrent
+from deluge.core.torrent import Torrent, _torrent_status_flag
 from deluge.core.torrentmanager import TorrentManager, TorrentState
 
 try:
@@ -31,6 +32,21 @@ except ImportError:
 
 
 class TestTorrent(BaseTestCase):
+    def test_torrent_status_flags(self):
+        status = SimpleNamespace(
+            flags=lt.torrent_flags.paused | lt.torrent_flags.auto_managed
+        )
+        assert _torrent_status_flag(status, lt.torrent_flags.paused, 'paused')
+        assert _torrent_status_flag(
+            status, lt.torrent_flags.auto_managed, 'auto_managed'
+        )
+
+        legacy_status = SimpleNamespace(paused=True, auto_managed=False)
+        assert _torrent_status_flag(legacy_status, lt.torrent_flags.paused, 'paused')
+        assert not _torrent_status_flag(
+            legacy_status, lt.torrent_flags.auto_managed, 'auto_managed'
+        )
+
     def setup_config(self):
         core_config = deluge.config.Config(
             'core.conf',
@@ -352,6 +368,14 @@ class TestTorrent(BaseTestCase):
         handle = self.session.add_torrent(atp)
         self.torrent = Torrent(handle, {})
         assert self.torrent.get_name() == 'সুকুমার রায়.txt'
+
+    def test_get_files_with_mapped_names(self):
+        atp = self.get_torrent_atp('dir_with_6_files.torrent')
+        handle = self.session.add_torrent(atp)
+        self.torrent = Torrent(handle, {'mapped_files': {0: 'renamed_file'}})
+
+        assert self.torrent.get_files()[0]['path'] == 'renamed_file'
+        assert self.torrent.get_orig_files()[0]['path'] != 'renamed_file'
 
     def test_rename_unicode(self):
         """Test renaming file/folders with unicode filenames."""

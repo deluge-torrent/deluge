@@ -139,6 +139,28 @@ class TestTorrentmanager(BaseTestCase):
         with pytest.raises(InvalidTorrentError):
             self.tm.remove('torrentidthatdoesntexist')
 
+    def test_build_torrent_params_with_resume_data(self):
+        from deluge._libtorrent import lt
+
+        with open(common.get_test_data_file('test.torrent'), 'rb') as _file:
+            torrent_info = lt.torrent_info(lt.bdecode(_file.read()))
+        options = self.tm._build_torrent_options({'download_location': os.getcwd()})
+        resume_data = lt.bencode({'test': b'resume'})
+        params = mock.MagicMock()
+
+        with mock.patch.object(
+            lt, 'read_resume_data', return_value=params
+        ) as read_resume_data:
+            torrent_id, result = self.tm._build_torrent_params(
+                torrent_info, options=options, resume_data=resume_data
+            )
+
+        assert torrent_id == str(torrent_info.info_hash())
+        assert result is params
+        assert params.ti is torrent_info
+        assert params.save_path == os.getcwd().encode('utf8')
+        read_resume_data.assert_called_once_with(resume_data)
+
     def test_open_state(self):
         """Open a state with a UTF-8 encoded torrent filename."""
         shutil.copy(
