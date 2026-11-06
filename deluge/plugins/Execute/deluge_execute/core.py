@@ -9,9 +9,9 @@
 import hashlib
 import logging
 import os
+import subprocess
+import threading
 import time
-
-from twisted.internet.utils import getProcessOutputAndValue
 
 import deluge.component as component
 from deluge.common import windows_check
@@ -51,6 +51,31 @@ class ExecuteCommandRemovedEvent(DelugeEvent):
 
     def __init__(self, command_id):
         self._args = [command_id]
+
+
+def run_command(command, cmd_args):
+    if not (os.path.isfile(command) and os.access(command, os.X_OK)):
+        log.error('Execute script not found or not executable')
+        return
+
+    log.debug('Running %s with args: %s', command, cmd_args)
+    try:
+        result = subprocess.run(
+            [command, *cmd_args],
+            stdin=subprocess.DEVNULL,
+            capture_output=True,
+            creationflags=subprocess.CREATE_NO_WINDOW if windows_check() else 0,
+        )
+    except (OSError, ValueError) as ex:
+        log.warning('Command "%s" failed to start: %s', command, ex)
+        return
+
+    if result.returncode:
+        log.warning('Command "%s" failed with exit code %d', command, result.returncode)
+        if result.stdout:
+            log.warning('stdout: %s', result.stdout)
+        if result.stderr:
+            log.warning('stderr: %s', result.stderr)
 
 
 class Core(CorePluginBase):
@@ -104,20 +129,10 @@ class Core(CorePluginBase):
             torrent = component.get('TorrentManager').torrents[torrent_id]
             info = torrent.get_status(['name', 'download_location'])
             # Grab the torrent name and download location
-            # getProcessOutputAndValue requires args to be str
             torrent_name = info['name']
             download_location = info['download_location']
 
         log.debug('Running commands for %s', event)
-
-        def log_error(result, command):
-            (stdout, stderr, exit_code) = result
-            if exit_code:
-                log.warning('Command "%s" failed with exit code %d', command, exit_code)
-                if stdout:
-                    log.warning('stdout: %s', stdout)
-                if stderr:
-                    log.warning('stderr: %s', stderr)
 
         # Go through and execute all the commands
         for command in self.config['commands']:
@@ -134,12 +149,15 @@ class Core(CorePluginBase):
                     # Escape ampersand on windows (see #2784)
                     cmd_args = [cmd_arg.replace(b'&', b'^^^&') for cmd_arg in cmd_args]
 
-                if os.path.isfile(command) and os.access(command, os.X_OK):
-                    log.debug('Running %s with args: %s', command, cmd_args)
-                    d = getProcessOutputAndValue(command, cmd_args, env=os.environ)
-                    d.addCallback(log_error, command)
-                else:
-                    log.error('Execute script not found or not executable')
+                # Spawning blocks until the child execs, which can take seconds
+                # under heavy disk IO, so keep it off the reactor. A thread per
+                # command, since a script may run for minutes.
+                threading.Thread(
+                    target=run_command,
+                    args=(command, cmd_args),
+                    name='Execute',
+                    daemon=True,
+                ).start()
 
     def disable(self):
         self.config.save()
