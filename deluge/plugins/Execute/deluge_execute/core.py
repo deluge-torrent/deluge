@@ -129,7 +129,6 @@ class Core(CorePluginBase):
             torrent = component.get('TorrentManager').torrents[torrent_id]
             info = torrent.get_status(['name', 'download_location'])
             # Grab the torrent name and download location
-            # getProcessOutputAndValue requires args to be str
             torrent_name = info['name']
             download_location = info['download_location']
 
