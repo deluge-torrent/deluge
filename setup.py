@@ -10,6 +10,7 @@
 
 import glob
 import os
+import subprocess
 import platform
 import sys
 from distutils.command.build import build as _build
@@ -178,31 +179,14 @@ class BuildTranslations(Command):
         else:
             basedir = os.path.join(self.build_lib, 'deluge', 'i18n')
 
-        intltool_merge = 'intltool-merge'
-        if not windows_check() and which(intltool_merge):
-            intltool_merge_opts = '--utf8 --quiet'
-            for data_file in (desktop_data, metainfo_data):
-                # creates the translated file from .in file.
-                in_file = data_file + '.in'
-                if 'xml' in data_file:
-                    intltool_merge_opts += ' --xml-style'
-                elif 'desktop' in data_file:
-                    intltool_merge_opts += ' --desktop-style'
-
-                print('Creating file: %s' % data_file)
-                os.system(
-                    'C_ALL=C '
-                    + '%s '
-                    * 5
-                    % (intltool_merge, intltool_merge_opts, po_dir, in_file, data_file)
-                )
-
+        linguas = []
         print('Compiling po files from %s...' % po_dir)
         for path, names, filenames in os.walk(po_dir):
             for f in filenames:
                 upto_date = False
                 if f.endswith('.po'):
                     lang = f[: len(f) - 3]
+                    linguas.append(lang)
                     src = os.path.join(path, f)
                     dest_path = os.path.join(basedir, lang, 'LC_MESSAGES')
                     dest = os.path.join(dest_path, 'deluge.mo')
@@ -221,6 +205,29 @@ class BuildTranslations(Command):
                             msgfmt.make(src, dest)
                         else:
                             upto_date = True
+
+        if not windows_check() and which('msgfmt'):
+            linguafile = os.path.join(po_dir, "LINGUAS")
+            with open(linguafile, 'w') as f:
+                for lang in linguas:
+                    f.write(f'{lang}\n')
+            for data_file in (desktop_data, metainfo_data):
+                # creates the translated file from .in file.
+                in_file = data_file + '.in'
+                msgfmt_cmd = [
+                    'msgfmt',
+                    '-d', po_dir,
+                    '--template', in_file,
+                    '-o', data_file
+                ]
+                if 'xml' in data_file:
+                    msgfmt_cmd.append('--xml')
+                elif 'desktop' in data_file:
+                    msgfmt_cmd.append('--desktop')
+
+                print('Creating file: %s' % data_file)
+                subprocess.run(msgfmt_cmd)
+            os.remove(linguafile)
 
         if upto_date:
             sys.stdout.write(' po files already up to date.  ')

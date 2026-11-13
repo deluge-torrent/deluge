@@ -16,7 +16,7 @@ system.
 
 #### Build tools
 
-    sudo apt install git intltool closure-compiler python3-pip
+    sudo apt install git gettext closure-compiler python3-pip
     pip3 install --user tox
 
 You might need to add `~/.local/bin` to your PATH.
