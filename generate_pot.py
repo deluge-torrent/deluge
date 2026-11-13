@@ -43,19 +43,8 @@ for dirpath, dirnames, filenames in os.walk('deluge'):
     for filename in filenames:
         if dirpath not in EXCLUSIONS and not RE_EXC_PLUGIN_BUILD.match(dirpath):
             filepath = os.path.join(dirpath, filename)
-            if os.path.splitext(filepath)[1] in ('.py', '.glade'):
+            if os.path.splitext(filepath)[1] in ('.py', '.glade', '.in', '.ui'):
                 to_translate.append(filepath)
-            else:
-                if filename.endswith('.xml.in'):
-                    gtxt_type = 'gettext/xml'
-                elif filename.endswith('.in'):
-                    gtxt_type = 'gettext/ini'
-                elif filename.endswith('.ui'):
-                    gtxt_type = 'gettext/glade'
-                else:
-                    continue
-                call(['intltool-extract', '--quiet', '--type=%s' % gtxt_type, filepath])
-                filepath += '.h'
             to_translate.append(filepath)
 
 with open(INFILES_LIST, 'w') as f:
@@ -100,8 +89,5 @@ with open(POT_FILEPATH, 'w') as f:
 
 # Clean up temp files
 os.remove(INFILES_LIST)
-for filepath in to_translate:
-    if filepath.endswith('.h'):
-        os.remove(filepath)
 
 print('Created %s' % POT_FILEPATH)

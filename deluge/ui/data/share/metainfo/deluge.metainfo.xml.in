@@ -4,22 +4,22 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0+</project_license>
   <translation type="gettext">deluge</translation>
-  <_developer_name>Deluge Team</_developer_name>
-  <_summary>
+  <developer_name>Deluge Team</developer_name>
+  <summary>
     Deluge is a lightweight, Free Software, cross-platform BitTorrent client.
-  </_summary>
+  </summary>
   <url type="homepage">https://www.deluge-torrent.org/</url>
   <url type="bugtracker">https://dev.deluge-torrent.org</url>
   <description>
-    <_p>Deluge contains the common features to BitTorrent clients such as
+    <p>Deluge contains the common features to BitTorrent clients such as
     Protocol Encryption, DHT, Local Peer Discovery (LSD), Peer Exchange (PEX),
     UPnP, NAT-PMP, Proxy support, Web seeds, global and per-torrent speed
     limits. As Deluge heavily utilises the libtorrent library it has a
-    comprehensive list of the features provided.</_p>
-    <_p>Deluge has been designed to run as both a normal standalone desktop
+    comprehensive list of the features provided.</p>
+    <p>Deluge has been designed to run as both a normal standalone desktop
     application and as a client-server. In Thinclient mode a Deluge daemon
     handles all the BitTorrent activity and is able to run on headless machines
-    with the user-interfaces connecting remotely from any other platform.</_p>
+    with the user-interfaces connecting remotely from any other platform.</p>
   </description>
   <screenshots>
     <screenshot type="default">
