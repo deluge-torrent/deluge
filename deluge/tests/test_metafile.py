@@ -20,7 +20,10 @@ def check_torrent(filename):
     # Test loading with libtorrent to make sure it's valid
     from deluge._libtorrent import lt
 
-    lt.torrent_info(filename)
+    if hasattr(lt, 'load_torrent_file'):
+        assert lt.load_torrent_file(filename).ti.is_valid()
+    else:
+        assert lt.torrent_info(filename).is_valid()
 
     # Test loading with our internal TorrentInfo class
     from deluge.ui.common import TorrentInfo
@@ -81,6 +84,12 @@ class TestMetafile:
     @pytest.mark.parametrize('piece_length', [2**14, 2**15, 2**16])
     @pytest.mark.parametrize('private', [True, False])
     def test_create_info(self, path, torrent_format, piece_length, private):
+        if (
+            VersionSplit(LT_VERSION) < VersionSplit('2.0.0.0')
+            and torrent_format != metafile.TorrentFormat.V1
+        ):
+            pytest.skip('libtorrent 1.2 cannot create BitTorrent v2/hybrid metadata')
+
         our_info, our_piece_layers = metafile.makeinfo(
             path,
             piece_length,

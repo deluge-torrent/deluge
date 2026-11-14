@@ -8,8 +8,12 @@
 
 import os
 import stat
+from datetime import datetime, timedelta, timezone
 
-from OpenSSL import crypto
+from cryptography import x509
+from cryptography.hazmat.primitives import hashes, serialization
+from cryptography.hazmat.primitives.asymmetric import rsa
+from cryptography.x509.oid import NameOID
 from OpenSSL.crypto import FILETYPE_PEM
 from twisted.internet.ssl import (
     AcceptableCiphers,
@@ -99,38 +103,39 @@ def check_ssl_keys():
 
 
 def generate_ssl_keys():
+    """Generate a self-signed daemon certificate and private key.
+
+    Use cryptography's certificate builder instead of the removed
+    OpenSSL.crypto.X509Req interface.
     """
-    This method generates a new SSL key/cert.
-    """
-    digest = 'sha256'
+    private_key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
+    name = x509.Name([x509.NameAttribute(NameOID.COMMON_NAME, 'Deluge Daemon')])
+    now = datetime.now(timezone.utc)
+    certificate = (
+        x509.CertificateBuilder()
+        .subject_name(name)
+        .issuer_name(name)
+        .public_key(private_key.public_key())
+        .serial_number(x509.random_serial_number())
+        .not_valid_before(now)
+        .not_valid_after(now + timedelta(days=365 * 3))
+        .sign(private_key, hashes.SHA256())
+    )
 
-    # Generate key pair
-    pkey = crypto.PKey()
-    pkey.generate_key(crypto.TYPE_RSA, 2048)
-
-    # Generate cert request
-    req = crypto.X509Req()
-    subj = req.get_subject()
-    setattr(subj, 'CN', 'Deluge Daemon')
-    req.set_pubkey(pkey)
-    req.sign(pkey, digest)
-
-    # Generate certificate
-    cert = crypto.X509()
-    cert.set_serial_number(0)
-    cert.gmtime_adj_notBefore(0)
-    cert.gmtime_adj_notAfter(60 * 60 * 24 * 365 * 3)  # Three Years
-    cert.set_issuer(req.get_subject())
-    cert.set_subject(req.get_subject())
-    cert.set_pubkey(req.get_pubkey())
-    cert.sign(pkey, digest)
-
-    # Write out files
     ssl_dir = deluge.configmanager.get_config_dir('ssl')
     with open(os.path.join(ssl_dir, 'daemon.pkey'), 'wb') as _file:
-        _file.write(crypto.dump_privatekey(crypto.FILETYPE_PEM, pkey))
+        _file.write(
+            private_key.private_bytes(
+                encoding=serialization.Encoding.PEM,
+                format=serialization.PrivateFormat.TraditionalOpenSSL,
+                encryption_algorithm=serialization.NoEncryption(),
+            )
+        )
     with open(os.path.join(ssl_dir, 'daemon.cert'), 'wb') as _file:
-        _file.write(crypto.dump_certificate(crypto.FILETYPE_PEM, cert))
-    # Make the files only readable by this user
-    for f in ('daemon.pkey', 'daemon.cert'):
-        os.chmod(os.path.join(ssl_dir, f), stat.S_IREAD | stat.S_IWRITE)
+        _file.write(certificate.public_bytes(serialization.Encoding.PEM))
+
+    for filename in ('daemon.pkey', 'daemon.cert'):
+        os.chmod(
+            os.path.join(ssl_dir, filename),
+            stat.S_IREAD | stat.S_IWRITE,
+        )

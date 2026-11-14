@@ -20,7 +20,16 @@ jobs:
     timeout-minutes: 10
     strategy:
       matrix:
-        python-version: ["3.10", "3.13"]
+        include:
+          - python-version: "3.10"
+            libtorrent: "1.2.19"
+          - python-version: "3.10"
+            libtorrent: "2.0.11"
+          - python-version: "3.10"
+            libtorrent: "2.1.1"
+            webtorrent: true
+          - python-version: "3.13"
+            libtorrent: "latest"
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -43,9 +52,14 @@ jobs:
         run: echo "SECURITY_TESTS=True" >> $GITHUB_ENV
 
       - name: Install dependencies
+        env:
+          LIBTORRENT_VERSION: ${{ matrix.libtorrent }}
         run: |
-          uv pip install -r requirements-ci.txt
-          uv pip install -e .
+          if [ "$LIBTORRENT_VERSION" = "latest" ]; then
+            uv pip install -r requirements-ci.txt -e .
+          else
+            uv pip install -r requirements-ci.txt -e . "libtorrent==$LIBTORRENT_VERSION"
+          fi
 
       - name: Install security dependencies
         if: contains(env.SECURITY_TESTS, 'True')
@@ -70,11 +84,15 @@ jobs:
           python -c 'from deluge._libtorrent import lt; print(lt.__version__)';
           $DEBUG_PREFIX pytest -v -m "not (todo or gtkui or internet)" deluge
 
+      - name: Verify WSS offers and real WebRTC piece transfers
+        if: matrix.webtorrent
+        run: pytest -v deluge/tests/test_webtorrent.py
+
       - uses: actions/upload-artifact@v4
         # capture all crashes as build artifacts
         if: failure()
         with:
-          name: crashes
+          name: crashes-linux-py${{ matrix.python-version }}-lt${{ matrix.libtorrent }}
           path: /cores
 
   test-windows:
@@ -83,6 +101,7 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.10"]
+        libtorrent: ["1.2.19", "2.0.11", "2.1.1"]
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -101,9 +120,7 @@ jobs:
           enable-cache: true
 
       - name: Install dependencies
-        run: |
-          uv pip install -r requirements-ci.txt
-          uv pip install -e .
+        run: uv pip install -r requirements-ci.txt -e . "libtorrent==${{ matrix.libtorrent }}"
 
       - name: Install OpenSSL
         run: |
@@ -125,3 +142,7 @@ jobs:
         run: |
           python -c 'import libtorrent as lt; print(lt.__version__)';
           pytest -v -m "not (todo or gtkui or security or internet)" deluge
+
+      - name: Verify WSS offers and real WebRTC piece transfers
+        if: matrix.libtorrent == '2.1.1'
+        run: pytest -v deluge/tests/test_webtorrent.py

@@ -81,6 +81,8 @@ class TestCommon:
 
     def test_is_url(self):
         assert is_url('http://deluge-torrent.org')
+        assert is_url('ws://tracker.example.com/announce')
+        assert is_url('wss://tracker.example.com/announce')
         assert not is_url('file://test.torrent')
 
     def test_is_magnet(self):

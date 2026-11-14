@@ -744,7 +744,7 @@ def is_url(url):
     if not url:
         return False
 
-    return url.partition('://')[0] in ('http', 'https', 'ftp', 'udp')
+    return url.partition('://')[0] in ('http', 'https', 'ftp', 'udp', 'ws', 'wss')
 
 
 def is_infohash(infohash):

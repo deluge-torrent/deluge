@@ -16,10 +16,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - SSL torrents support for secure peer-to-peer connections. See [libtorrent docs](https://libtorrent.org/manual-ref.html#ssl-torrents) for further implementation details.
 - Add option to announce to trackers in all tiers (uTorrent behavior). (#1395)
+- Add WebTorrent support through WSS trackers and WebRTC peers with WebTorrent-enabled libtorrent 2.1 or newer builds.
+- Add the `webtorrent_stun_server` core preference for configuring STUN on compatible libtorrent builds.
 
 #### Changed
 
 - Passwords are now stored encrypted with scrypt. A fallback mechanism will still validate existing plaintext passwords in auth files. (#2442)
+- Support libtorrent 2.1 while retaining compatibility with libtorrent 1.2 and 2.0, including torrent metadata and session-state persistence.
+- Reject `force_proxy` when unsupported by the selected libtorrent build rather than silently disabling the requested proxy isolation.
+
+#### Fixed
+
+- Fix daemon TLS certificate generation with newer pyOpenSSL versions that no longer provide `OpenSSL.crypto.X509Req`.
 
 ### GTK UI
 
