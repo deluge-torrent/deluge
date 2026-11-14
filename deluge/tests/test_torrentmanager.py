@@ -8,6 +8,7 @@ import os
 import shutil
 import warnings
 from base64 import b64encode
+from types import SimpleNamespace
 from unittest import mock
 
 import pytest
@@ -19,12 +20,39 @@ from deluge.bencode import bencode
 from deluge.conftest import BaseTestCase
 from deluge.core.core import Core
 from deluge.core.rpcserver import RPCServer
-from deluge.error import InvalidTorrentError
+from deluge.core.torrentmanager import (
+    _torrent_info_from_bytes,
+    _tracker_endpoint_has_no_error,
+)
+from deluge.error import AddTorrentError, InvalidTorrentError
 
 from . import common
 
 warnings.filterwarnings('ignore', category=RuntimeWarning)
 warnings.resetwarnings()
+
+
+@pytest.mark.parametrize(
+    ('endpoint', 'expected'),
+    [
+        ({'last_error': {'value': 0}}, True),
+        ({'last_error': {'value': 5}}, False),
+        ({'info_hashes': [{'last_error': {'value': 0}}]}, True),
+        ({'info_hashes': [{'last_error': {'value': 5}}]}, False),
+        (
+            {
+                'info_hashes': [
+                    {'last_error': {'value': 5}},
+                    {'last_error': {'value': 0}},
+                ]
+            },
+            True,
+        ),
+        ({'info_hashes': []}, False),
+    ],
+)
+def test_tracker_endpoint_error_layout(endpoint, expected):
+    assert _tracker_endpoint_has_no_error(endpoint) == expected
 
 
 class TestTorrentmanager(BaseTestCase):
@@ -44,6 +72,81 @@ class TestTorrentmanager(BaseTestCase):
             del self.core
 
         return component.shutdown().addCallback(on_shutdown)
+
+    async def test_full_core_status_and_state_update(self):
+        """A modern state_update_alert must refresh GUI status and permit removal."""
+        filename = common.get_test_data_file('test.torrent')
+        with open(filename, 'rb') as source:
+            torrent_id = await self.core.add_torrent_file_async(
+                filename, b64encode(source.read()), {}
+            )
+        torrent = self.tm.torrents[torrent_id]
+        native_status = torrent.handle.status()
+        pending = object()
+        self.tm.torrents_status_requests.append(pending)
+        with mock.patch.object(self.tm, 'handle_torrents_status_callback') as callback:
+            self.tm.on_alert_state_update(SimpleNamespace(status=[native_status]))
+            callback.assert_called_once_with(pending)
+        assert torrent.status is native_status
+
+        # These are the bulk and per-torrent RPC requests the GTK UI needs.
+        all_status = self.core.get_torrent_status(torrent_id, [])
+        assert all_status['name']
+        assert isinstance(all_status['active_time'], int)
+        assert isinstance(all_status['creator'], str)
+        status = self.core.get_torrent_status(
+            torrent_id, ['name', 'peers', 'num_peers', 'num_seeds']
+        )
+        assert status['name']
+        assert isinstance(status['peers'], list)
+        assert self.tm.remove(torrent_id, False)
+
+    def test_unsolicited_state_update_without_pending_request(self):
+        """An update outside an RPC status request must not crash the handler."""
+        self.tm.torrents_status_requests.clear()
+        self.tm.on_alert_state_update(SimpleNamespace(status=[]))
+
+    async def test_remove_torrent_missing_queue_entry(self):
+        """Removal stays consistent if a torrent is absent from the queue."""
+        filename = common.get_test_data_file('test.torrent')
+        with open(filename, 'rb') as source:
+            torrent_id = await self.core.add_torrent_file_async(
+                filename, b64encode(source.read()), {}
+            )
+        self.tm.queued_torrents.discard(torrent_id)
+        assert self.tm.remove(torrent_id, False)
+        assert torrent_id not in self.tm.torrents
+
+    async def test_duplicate_torrent_merges_trackers_from_modern_params(self):
+        """ABI 4 no longer exposes trackers on torrent_info."""
+        from deluge._libtorrent import lt
+
+        if not hasattr(lt.add_torrent_params(), 'info_hashes'):
+            pytest.skip('Modern add_torrent_params is unavailable')
+
+        filename = common.get_test_data_file('test.torrent')
+        with open(filename, 'rb') as source:
+            data = source.read()
+        torrent_id = await self.core.add_torrent_file_async(
+            filename, b64encode(data), {}
+        )
+        params = lt.load_torrent_buffer(data)
+        assert not params.ti.priv()
+        url = 'wss://tracker.example.com/announce'
+        params.trackers = [url]
+        params.tracker_tiers = [2]
+
+        with pytest.raises(AddTorrentError, match='already in session'):
+            self.tm._build_torrent_params(
+                torrent_info=params.ti,
+                options=self.tm._build_torrent_options({}),
+                file_params=params,
+            )
+
+        assert any(
+            tracker['url'] == url and tracker['tier'] == 2
+            for tracker in self.tm.torrents[torrent_id].handle.trackers()
+        )
 
     @pytest_twisted.inlineCallbacks
     def test_remove_torrent(self):
@@ -66,15 +169,13 @@ class TestTorrentmanager(BaseTestCase):
         assert self.tm.remove(torrent_id, False)
 
     async def test_prefetch_metadata(self):
-        from deluge._libtorrent import lt
-
         with open(common.get_test_data_file('test.torrent'), 'rb') as _file:
-            t_info = lt.torrent_info(lt.bdecode(_file.read()))
+            t_info = _torrent_info_from_bytes(_file.read())
         mock_alert = mock.MagicMock()
         mock_alert.handle.info_hash = mock.MagicMock(
             return_value='ab570cdd5a17ea1b61e970bb72047de141bce173'
         )
-        mock_alert.handle.get_torrent_info = mock.MagicMock(return_value=t_info)
+        mock_alert.handle.torrent_file = mock.MagicMock(return_value=t_info)
 
         magnet = 'magnet:?xt=urn:btih:ab570cdd5a17ea1b61e970bb72047de141bce173'
         d = self.tm.prefetch_metadata(magnet, 30)
@@ -138,6 +239,72 @@ class TestTorrentmanager(BaseTestCase):
     def test_remove_invalid_torrent(self):
         with pytest.raises(InvalidTorrentError):
             self.tm.remove('torrentidthatdoesntexist')
+
+    def test_build_torrent_params_with_resume_data(self):
+        from deluge._libtorrent import lt
+
+        with open(common.get_test_data_file('test.torrent'), 'rb') as _file:
+            torrent_info = _torrent_info_from_bytes(_file.read())
+        options = self.tm._build_torrent_options({'download_location': os.getcwd()})
+        resume_data = lt.bencode({'test': b'resume'})
+        params = mock.MagicMock()
+
+        with mock.patch.object(
+            lt, 'read_resume_data', return_value=params
+        ) as read_resume_data:
+            torrent_id, result = self.tm._build_torrent_params(
+                torrent_info, options=options, resume_data=resume_data
+            )
+
+        assert torrent_id == str(torrent_info.info_hash())
+        assert result is params
+        assert params.ti is torrent_info
+        assert params.save_path == os.getcwd()
+        read_resume_data.assert_called_once_with(resume_data)
+
+    def test_build_magnet_params_with_libtorrent_2_1(self):
+        from deluge._libtorrent import lt
+
+        if not hasattr(lt.add_torrent_params(), 'info_hashes'):
+            pytest.skip('Requires current add_torrent_params API')
+
+        info_hash = 'ab570cdd5a17ea1b61e970bb72047de141bce173'
+        magnet = (
+            f'magnet:?xt=urn:btih:{info_hash}'
+            '&tr=wss%3A%2F%2Ftracker.example.com%2Fannounce'
+        )
+        options = self.tm._build_torrent_options({'download_location': os.getcwd()})
+        torrent_id, params = self.tm._build_torrent_params(
+            magnet=magnet, options=options
+        )
+
+        assert torrent_id == info_hash
+        assert isinstance(params, lt.add_torrent_params)
+        assert str(params.info_hashes.v1) == info_hash
+        assert params.trackers == ['wss://tracker.example.com/announce']
+        assert params.save_path == os.getcwd()
+
+    def test_restore_magnet_from_native_resume_params(self):
+        """Legacy resume params already carry a typed info hash."""
+        from deluge._libtorrent import lt
+
+        info_hash = 'ab570cdd5a17ea1b61e970bb72047de141bce173'
+        magnet = f'magnet:?xt=urn:btih:{info_hash}&dn=restored'
+        params = lt.parse_magnet_uri(magnet)
+        options = self.tm._build_torrent_options({'download_location': os.getcwd()})
+
+        with mock.patch.object(lt, 'read_resume_data', return_value=params):
+            torrent_id, result = self.tm._build_torrent_params(
+                magnet=magnet, options=options, resume_data=b'legacy-resume'
+            )
+
+        assert torrent_id == info_hash
+        assert result is params
+        if hasattr(lt.add_torrent_params(), 'info_hashes'):
+            assert str(result.info_hashes.v1) == info_hash
+        else:
+            assert str(result.info_hash) == info_hash
+        assert result.save_path == os.getcwd()
 
     def test_open_state(self):
         """Open a state with a UTF-8 encoded torrent filename."""

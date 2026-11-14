@@ -7,6 +7,8 @@ import itertools
 import os
 import time
 from base64 import b64encode
+from datetime import datetime, timedelta
+from types import SimpleNamespace
 from unittest import mock
 
 import pytest
@@ -21,8 +23,17 @@ from deluge.common import VersionSplit, utf8_encode_structure
 from deluge.conftest import BaseTestCase
 from deluge.core.core import Core
 from deluge.core.rpcserver import RPCServer
-from deluge.core.torrent import Torrent
-from deluge.core.torrentmanager import TorrentManager, TorrentState
+from deluge.core.torrent import (
+    Torrent,
+    _time_since_torrent_activity,
+    _torrent_duration,
+    _torrent_status_flag,
+)
+from deluge.core.torrentmanager import (
+    TorrentManager,
+    TorrentState,
+    _torrent_info_from_bytes,
+)
 
 try:
     from unittest.mock import AsyncMock
@@ -31,6 +42,145 @@ except ImportError:
 
 
 class TestTorrent(BaseTestCase):
+    def test_libtorrent_status_legacy_and_modern_activity(self):
+        modern = SimpleNamespace(
+            active_duration=timedelta(seconds=42),
+            seeding_duration=timedelta(seconds=12),
+            last_download=datetime.now() - timedelta(seconds=10),
+            last_upload=None,
+        )
+        assert _torrent_duration(modern, 'active_time', 'active_duration') == 42
+        elapsed = _time_since_torrent_activity(
+            modern, 'time_since_download', 'last_download'
+        )
+        assert 9 <= elapsed <= 12
+        assert (
+            _time_since_torrent_activity(modern, 'time_since_upload', 'last_upload')
+            == -1
+        )
+
+        legacy = SimpleNamespace(active_time=17, time_since_download=8)
+        assert _torrent_duration(legacy, 'active_time', 'active_duration') == 17
+        assert (
+            _time_since_torrent_activity(legacy, 'time_since_download', 'last_download')
+            == 8
+        )
+
+    def test_full_torrent_status_with_native_binding(self):
+        """GTK Details and Status require every status key to be queryable."""
+        handle = self.session.add_torrent(self.get_torrent_atp('test.torrent'))
+        torrent = Torrent(handle, {})
+        status = torrent.get_status([], update=True, all_keys=True)
+        assert 'name' in status
+        assert isinstance(status['active_time'], int)
+        assert isinstance(status['seeding_time'], int)
+        assert isinstance(status['finished_time'], int)
+        assert isinstance(status['time_since_transfer'], int)
+        assert isinstance(status['time_since_download'], int)
+        assert isinstance(status['time_since_upload'], int)
+        assert isinstance(status['super_seeding'], bool)
+        assert isinstance(status['seed_mode'], bool)
+        assert isinstance(status['creator'], str)
+        assert isinstance(status['comment'], str)
+
+    def test_peer_endpoints_with_current_and_legacy_bindings(self):
+        """The Peers tab must work without the removed peer_info.ip field."""
+        fields = {
+            'client': b'test peer',
+            'flags': 0,
+            'connecting': 1,
+            'handshake': 2,
+            'seed': 4,
+            'payload_down_speed': 1024,
+            'payload_up_speed': 512,
+            'progress': 0.5,
+        }
+        modern = SimpleNamespace(
+            **fields, remote_endpoint=lambda: ('2001:db8::1', 51413)
+        )
+        legacy = SimpleNamespace(**fields, ip=('192.0.2.5', 6881))
+        connecting = SimpleNamespace(
+            **{**fields, 'flags': 1},
+            remote_endpoint=lambda: ('192.0.2.6', 6882),
+        )
+        torrent = SimpleNamespace(
+            handle=SimpleNamespace(get_peer_info=lambda: [modern, legacy, connecting])
+        )
+
+        with mock.patch.object(deluge.core.torrent.component, 'get') as get:
+            get.return_value.geoip_instance.country_code_by_addr.return_value = 'AU'
+            peers = Torrent.get_peers(torrent)
+
+        assert [peer['ip'] for peer in peers] == [
+            '2001:db8::1:51413',
+            '192.0.2.5:6881',
+        ]
+        assert peers[0]['client'] == 'test peer'
+        assert peers[0]['country'] == 'AU'
+        assert peers[0]['down_speed'] == 1024
+        assert peers[0]['up_speed'] == 512
+        assert peers[0]['progress'] == 0.5
+
+    def test_file_progress_uses_indexed_storage(self):
+        """ABI 2/3 file_storage does not expose __iter__ in Python."""
+        storage = SimpleNamespace(
+            num_files=lambda: 3,
+            file_size=lambda index: [0, 16, 32][index],
+        )
+        torrent = SimpleNamespace(
+            has_metadata=True,
+            torrent_info=SimpleNamespace(layout=lambda: storage),
+            handle=SimpleNamespace(file_progress=lambda: [0, 4, 16]),
+        )
+        assert Torrent.get_file_progress(torrent) == [0.0, 0.25, 0.5]
+
+    def test_file_progress_handles_native_progress_failure(self):
+        """A libtorrent file_progress error must not break the Files tab."""
+        storage = SimpleNamespace(
+            num_files=lambda: 2,
+            file_size=lambda index: [16, 32][index],
+        )
+
+        def fail_progress():
+            raise RuntimeError('file_progress unavailable')
+
+        torrent = SimpleNamespace(
+            has_metadata=True,
+            torrent_info=SimpleNamespace(layout=lambda: storage),
+            handle=SimpleNamespace(file_progress=fail_progress),
+        )
+        assert Torrent.get_file_progress(torrent) == [0.0, 0.0]
+
+    def test_manual_pause_sets_native_paused_flag(self):
+        """A user pause command must stop the libtorrent torrent itself."""
+        atp = self.get_torrent_atp('test.torrent')
+        handle = self.session.add_torrent(atp)
+        torrent = Torrent(handle, {'auto_managed': False})
+        torrent.resume()
+        torrent.pause()
+        deadline = time.monotonic() + 5
+        while time.monotonic() < deadline:
+            if handle.status().flags & lt.torrent_flags.paused:
+                break
+            time.sleep(0.1)
+        else:
+            pytest.fail('Deluge manual pause did not pause the libtorrent handle')
+
+    def test_torrent_status_flags(self):
+        status = SimpleNamespace(
+            flags=lt.torrent_flags.paused | lt.torrent_flags.auto_managed
+        )
+        assert _torrent_status_flag(status, lt.torrent_flags.paused, 'paused')
+        assert _torrent_status_flag(
+            status, lt.torrent_flags.auto_managed, 'auto_managed'
+        )
+
+        legacy_status = SimpleNamespace(paused=True, auto_managed=False)
+        assert _torrent_status_flag(legacy_status, lt.torrent_flags.paused, 'paused')
+        assert not _torrent_status_flag(
+            legacy_status, lt.torrent_flags.auto_managed, 'auto_managed'
+        )
+
     def setup_config(self):
         core_config = deluge.config.Config(
             'core.conf',
@@ -85,7 +235,7 @@ class TestTorrent(BaseTestCase):
     def get_torrent_atp(self, filename):
         filename = common.get_test_data_file(filename)
         with open(filename, 'rb') as _file:
-            info = lt.torrent_info(lt.bdecode(_file.read()))
+            info = _torrent_info_from_bytes(_file.read())
         atp = {
             'ti': info,
             'save_path': os.getcwd(),
@@ -209,8 +359,8 @@ class TestTorrent(BaseTestCase):
         torrent_id = self.core.add_torrent_file(filename, filedump, options)
         torrent = self.core.torrentmanager.torrents[torrent_id]
 
-        # Inital check will fail and return to download state
-        self.assert_state_wait(torrent, 'Downloading')
+        # The initial seed-mode check runs asynchronously in libtorrent.
+        self.assert_state_wait(torrent, 'Downloading', timeout=10)
 
         # Force an error by reading (non-existant) piece from disk
         torrent.handle.read_piece(0)
@@ -346,12 +496,67 @@ class TestTorrent(BaseTestCase):
         assert result == 100
         assert isinstance(result, int)
 
+    def test_get_name_with_empty_file_view(self):
+        """A delayed metadata file listing must not break status or removal."""
+        torrent = mock.MagicMock()
+        torrent.options = {'name': ''}
+        torrent.has_metadata = True
+        torrent.get_files.return_value = []
+        torrent.torrent_id = 'abc123'
+        assert Torrent.get_name(torrent) == 'abc123'
+
+    def test_magnet_uri_preserves_hash_and_wss_tracker(self):
+        """The ABI 4 make_magnet_uri API requires add_torrent_params."""
+        from urllib.parse import unquote
+
+        handle = self.session.add_torrent(self.get_torrent_atp('test.torrent'))
+        torrent = Torrent(handle, {})
+        tracker_url = 'wss://tracker.example.com/announce'
+        handle.add_tracker({'url': tracker_url, 'tier': 1})
+
+        magnet = unquote(torrent.get_magnet_uri())
+        assert torrent.torrent_id in magnet
+        assert tracker_url in magnet
+
     def test_get_name_unicode(self):
         """Test retrieving a unicode torrent name from libtorrent."""
         atp = self.get_torrent_atp('unicode_file.torrent')
         handle = self.session.add_torrent(atp)
         self.torrent = Torrent(handle, {})
         assert self.torrent.get_name() == 'সুকুমার রায়.txt'
+
+    def test_get_files_normalizes_windows_renamed_paths(self):
+        """The native renamed-file view can return Windows separators."""
+        paths = (
+            'Tears of Steel\\poster.jpg',
+            'Tears of Steel\\Tears of Steel.de.srt',
+        )
+        storage = SimpleNamespace(
+            num_files=lambda: len(paths),
+            file_path=lambda index: paths[index],
+            file_size=lambda index: 100,
+            file_offset=lambda index: index * 100,
+        )
+        renamed_files = SimpleNamespace(file_path=lambda files, index: paths[index])
+        torrent = SimpleNamespace(
+            has_metadata=True,
+            torrent_info=SimpleNamespace(layout=lambda: storage),
+            handle=SimpleNamespace(get_renamed_files=lambda: renamed_files),
+            options={'mapped_files': {}},
+        )
+
+        assert [item['path'] for item in Torrent.get_files(torrent)] == [
+            'Tears of Steel/poster.jpg',
+            'Tears of Steel/Tears of Steel.de.srt',
+        ]
+
+    def test_get_files_with_mapped_names(self):
+        atp = self.get_torrent_atp('dir_with_6_files.torrent')
+        handle = self.session.add_torrent(atp)
+        self.torrent = Torrent(handle, {'mapped_files': {0: 'renamed_file'}})
+
+        assert self.torrent.get_files()[0]['path'] == 'renamed_file'
+        assert self.torrent.get_orig_files()[0]['path'] != 'renamed_file'
 
     def test_rename_unicode(self):
         """Test renaming file/folders with unicode filenames."""

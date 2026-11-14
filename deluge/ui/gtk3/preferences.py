@@ -23,7 +23,11 @@ from deluge.decorators import maybe_coroutine
 from deluge.error import AuthManagerError, NotAuthorizedError
 from deluge.i18n import get_languages
 from deluge.ui.client import client
-from deluge.ui.common import DISK_CACHE_KEYS, PREFS_CATOG_TRANS
+from deluge.ui.common import (
+    DISK_CACHE_KEYS,
+    PREFS_CATOG_TRANS,
+    get_disk_cache_block_metric,
+)
 
 from .common import associate_magnet_links, get_clipboard_text, get_deluge_icon
 from .dialogs import AccountDialog, ErrorDialog, InformationDialog, YesNoDialog
@@ -987,7 +991,6 @@ class Preferences(component.Component):
             'label_cache_read_hit_ratio',
             'label_cache_write_hit_ratio',
             'label_cache_disk_blocks_in_use',
-            'label_cache_read_cache_blocks',
         )
 
         for widget_name in cache_labels:
@@ -1002,6 +1005,24 @@ class Preferences(component.Component):
                 value = str(value)
 
             widget.set_text(value)
+
+        # libtorrent 1.2 has read-cache blocks; 2.1 has the differently
+        # defined cached-block count. Neither is exported in 2.0.
+        metric = get_disk_cache_block_metric(self.cache_status)
+        label = self.builder.get_object('label_cache_block_count_title')
+        value_label = self.builder.get_object('label_cache_read_cache_blocks')
+        if metric is None:
+            label.hide()
+            value_label.hide()
+        else:
+            label.set_text(
+                _('Read Cache Size:')
+                if metric == 'disk.read_cache_blocks'
+                else _('Cached Blocks:')
+            )
+            value_label.set_text(str(self.cache_status[metric]))
+            label.show()
+            value_label.show()
 
     def on_button_cache_refresh_clicked(self, widget):
         def on_get_session_status(status):

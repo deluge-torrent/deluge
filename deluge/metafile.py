@@ -268,14 +268,29 @@ def makeinfo_lt(
     if not name:
         name = os.path.split(path)[1]
 
-    fs = lt.file_storage()
-    if os.path.isfile(path):
-        lt.add_files(fs, path)
+    if hasattr(lt, 'add_files'):
+        # Legacy Python bindings accept file_storage in create_torrent().
+        fs = lt.file_storage()
+        if os.path.isfile(path):
+            lt.add_files(fs, path)
+        else:
+            for p, f in subfiles(path):
+                fs.add_file(os.path.join(name, *p), os.path.getsize(f))
+        files = fs
     else:
-        for p, f in subfiles(path):
-            fs.add_file(os.path.join(name, *p), os.path.getsize(f))
+        # ABI 4+ removed add_files() and the file_storage constructor.
+        # Modern create_torrent() accepts a list of create_file_entry.
+        if os.path.isfile(path):
+            files = [
+                lt.create_file_entry(os.path.basename(path), os.path.getsize(path))
+            ]
+        else:
+            files = [
+                lt.create_file_entry(os.path.join(name, *p), os.path.getsize(f))
+                for p, f in subfiles(path)
+            ]
     torrent = lt.create_torrent(
-        fs, piece_size=piece_length, flags=torrent_format.to_lt_flag()
+        files, piece_size=piece_length, flags=torrent_format.to_lt_flag()
     )
 
     lt.set_piece_hashes(torrent, os.path.dirname(path))

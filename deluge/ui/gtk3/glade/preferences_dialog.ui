@@ -4018,7 +4018,7 @@ the proxy instead of using the local DNS service</property>
                                                       </packing>
                                                     </child>
                                                     <child>
-                                                      <object class="GtkLabel" id="label117">
+                                                      <object class="GtkLabel" id="label_cache_block_count_title">
                                                         <property name="visible">True</property>
                                                         <property name="can_focus">False</property>
                                                         <property name="halign">start</property>

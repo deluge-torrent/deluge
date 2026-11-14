@@ -129,6 +129,7 @@ DEFAULT_PREFS = {
     'cache_size': 512,
     'cache_expiry': 60,
     'auto_manage_prefer_seeds': False,
+    'webtorrent_stun_server': 'stun.l.google.com:19302',
     'shared': False,
     'super_seeding': False,
 }
@@ -331,11 +332,15 @@ class PreferencesManager(component.Component):
 
     def _on_set_encryption(self, key, value):
         # Convert Deluge enc_level values to libtorrent enc_level values.
+        enc_level = lt.enc_level
         pe_enc_level = {
-            0: lt.enc_level.plaintext,
-            1: lt.enc_level.rc4,
-            2: lt.enc_level.both,
+            0: getattr(enc_level, 'plaintext', None),
+            1: getattr(enc_level, 'rc4', None),
+            2: getattr(enc_level, 'both', None),
         }
+        for index, name in enumerate(('plaintext', 'rc4', 'both')):
+            if pe_enc_level[index] is None:
+                pe_enc_level[index] = getattr(enc_level, f'pe_{name}')
         self.core.apply_session_settings(
             {
                 'out_enc_policy': lt.enc_policy(self.config['enc_out_policy']),
@@ -484,6 +489,13 @@ class PreferencesManager(component.Component):
             )
 
         self.core.apply_session_settings(proxy_settings)
+
+    def _on_set_webtorrent_stun_server(self, key, value):
+        """Configure STUN on libtorrent builds that support WebTorrent."""
+        if key in self.core.session.get_settings():
+            self.core.apply_session_setting(key, value)
+        elif value != DEFAULT_PREFS[key]:
+            log.warning('Libtorrent does not support WebTorrent setting %s', key)
 
     def _on_set_rate_limit_ip_overhead(self, key, value):
         self.core.apply_session_setting('rate_limit_ip_overhead', value)

@@ -7,3 +7,4 @@ mock
 pre-commit
 pylint
 cryptography
+websockets==13.1
