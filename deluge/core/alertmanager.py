@@ -17,6 +17,8 @@ This should typically only be used by the Core. Plugins should utilize the
 
 import contextlib
 import logging
+import select
+import socket
 import threading
 import time
 from collections import defaultdict
@@ -62,11 +64,16 @@ class AlertManager(component.Component):
         self.handlers_timeout_secs = 2
         self.delayed_calls = []
         self._event = threading.Event()
+        # Socket pair libtorrent signals pending alerts on, and the session
+        # it was set up for. See _setup_alert_notify.
+        self._alert_socks = None
+        self._alert_notify_session = None
 
     def update(self):
         pass
 
     def start(self):
+        self._setup_alert_notify()
         self._thread = threading.Thread(
             target=self.wait_for_alert_in_thread, name='alert-poller', daemon=True
         )
@@ -82,6 +89,57 @@ class AlertManager(component.Component):
     def resume(self):
         self._event.set()
 
+    def _setup_alert_notify(self):
+        """Have libtorrent signal pending alerts on a socket.
+
+        The alert-poller thread must not call ``session.wait_for_alert()``:
+        it returns a pointer to the first alert in libtorrent's queue, which
+        the Python bindings only wrap after re-acquiring the GIL. An alert
+        posted in between can make libtorrent reallocate the queue, leaving
+        the pointer dangling, and wrapping it then crashes the daemon
+        (arvidn/libtorrent#8312).
+
+        With ``set_alert_fd`` libtorrent writes a byte to a socket when its
+        alert queue becomes non-empty, so nothing from the queue is touched
+        until ``pop_alerts()``. Unlike ``set_alert_notify`` with a Python
+        callable no Python code runs in a libtorrent thread, which could
+        deadlock on the GIL (arvidn/libtorrent#4638).
+        """
+        if self._alert_notify_session is self.session:
+            return
+
+        self._alert_socks = None
+        self._alert_notify_session = self.session
+        if not hasattr(self.session, 'set_alert_fd'):
+            # Older libtorrent bindings: fallback to wait_for_alert.
+            return
+
+        rsock, wsock = socket.socketpair()
+        rsock.setblocking(False)
+        # libtorrent must never block writing the notification.
+        wsock.setblocking(False)
+        self.session.set_alert_fd(wsock.fileno())
+        self._alert_socks = (rsock, wsock)
+
+    def _alerts_pending(self, timeout: float) -> bool:
+        """Wait up to timeout seconds for libtorrent to have alerts queued."""
+        if self._alert_socks is None:
+            return self.session.wait_for_alert(int(timeout * 1000)) is not None
+
+        try:
+            return bool(select.select([self._alert_socks[0]], [], [], timeout)[0])
+        except (OSError, ValueError):
+            time.sleep(0.05)
+            return True
+
+    def _clear_alert_notify(self):
+        """Consume the pending notification, before the alerts are popped."""
+        if self._alert_socks is None:
+            return
+
+        with contextlib.suppress(OSError):
+            self._alert_socks[0].recv(4096)
+
     def wait_for_alert_in_thread(self):
         while self._component_state not in ('Stopping', 'Stopped'):
             if self.check_delayed_calls():
@@ -91,7 +149,7 @@ class AlertManager(component.Component):
             if not self._event.wait(timeout=1):
                 continue
 
-            if self.session.wait_for_alert(1000) is None:
+            if not self._alerts_pending(timeout=1):
                 continue
 
             threads.blockingCallFromThread(reactor, self.maybe_handle_alerts)
@@ -148,6 +206,9 @@ class AlertManager(component.Component):
         """
         Pops all libtorrent alerts in the session queue and handles them appropriately.
         """
+        # The notification is only consumed here, so that alerts left in the
+        # queue (e.g. while not started) are picked up on the next pass.
+        self._clear_alert_notify()
         alerts = self.session.pop_alerts()
         if not alerts:
             return

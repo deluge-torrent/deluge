@@ -3,6 +3,7 @@
 # the additional special exception to link portions of this program with the OpenSSL library.
 # See LICENSE for more details.
 #
+import socket
 import sys
 from dataclasses import dataclass
 
@@ -26,6 +27,38 @@ class LtSessionMock:
         alerts = self.alerts
         self.alerts = []
         return alerts
+
+
+class LtSessionNotifyMock(LtSessionMock):
+    """A session with set_alert_fd, as libtorrent's bindings have it: a byte is
+    written to the given socket when the alert queue becomes non-empty."""
+
+    def __init__(self):
+        super().__init__()
+        self.alert_fd = None
+
+    def set_alert_fd(self, fd):
+        self.alert_fd = fd
+        if self.alerts:
+            self._notify()
+
+    def _notify(self):
+        sock = socket.socket(fileno=self.alert_fd)
+        try:
+            sock.send(b'\0')
+        finally:
+            sock.detach()
+
+    def push_alerts(self, alerts):
+        notify = not self.alerts and bool(alerts)
+        super().push_alerts(alerts)
+        if notify and self.alert_fd is not None:
+            self._notify()
+
+    def wait_for_alert(self, timeout):
+        # The pointer it returns in libtorrent can be invalidated by a new alert
+        # before it is used, crashing the daemon.
+        raise AssertionError('wait_for_alert called with set_alert_fd available')
 
 
 @dataclass
@@ -52,12 +85,12 @@ def mock_alert2():
 
 
 class TestAlertManager:
-    @pytest.fixture(autouse=True)
-    def set_up(self, component):
+    @pytest.fixture(autouse=True, params=[LtSessionMock, LtSessionNotifyMock])
+    def set_up(self, component, request):
         self.core = Core()
         self.core.config.config['lsd'] = False
         self.am = component.get('AlertManager')
-        self.am.session = LtSessionMock()
+        self.am.session = request.param()
 
         component.start(['AlertManager'])
 
@@ -126,3 +159,20 @@ class TestAlertManager:
         self.am.deregister_handler(handler)
         assert self.am.handlers['dummy1'] == []
         assert self.am.handlers['dummy2'] == []
+
+    async def test_alerts_left_while_paused_are_handled(
+        self, component, mock_alert1, mock_callback
+    ):
+        """Alerts queued while paused are handled once resumed."""
+        await component.pause(['AlertManager'])
+
+        self.am.register_handler('mock_alert1', mock_callback)
+        self.am.session.push_alerts([mock_alert1])
+        await task.deferLater(reactor, 0.1, lambda: None)
+        mock_callback.assert_not_called()
+
+        await component.resume(['AlertManager'])
+        await mock_callback.deferred
+
+        mock_callback.assert_called_once_with(mock_alert1)
+        assert self.am.session.alerts == []
