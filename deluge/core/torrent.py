@@ -20,12 +20,14 @@ import time
 from typing import Optional
 from urllib.parse import urlparse
 
-from twisted.internet.defer import Deferred, DeferredList
+from twisted.internet import threads
+from twisted.internet.defer import Deferred, DeferredList, DeferredSemaphore
 
 import deluge.component as component
 from deluge._libtorrent import lt
 from deluge.common import decode_bytes
 from deluge.configmanager import ConfigManager, get_config_dir
+from deluge.core import filecopy
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
 from deluge.decorators import deprecated
 from deluge.event import (
@@ -35,6 +37,9 @@ from deluge.event import (
 )
 
 log = logging.getLogger(__name__)
+
+# Serialises Deluge-managed copies between volumes.
+_copy_semaphore = DeferredSemaphore(1)
 
 LT_TORRENT_STATE_MAP = {
     'queued_for_checking': 'Checking',
@@ -262,6 +267,11 @@ class Torrent:
         self.statusmsg = None
         self.state = None
         self.moving_storage_dest_path = None
+        # Set while Deluge itself copies the data to another volume.
+        self.copy_progress = None
+        # Source files to delete once libtorrent confirms the new save path.
+        self._moved_sources = None
+        self._move_verify_pending = False
         self.tracker_status = ''
         self.tracker_host = None
         self.forcing_recheck = False
@@ -660,7 +670,7 @@ class Torrent:
                 set_flag=False,
             )
             self.set_status_message(decode_bytes(status_error))
-        elif status.moving_storage:
+        elif status.moving_storage or self.copy_progress is not None:
             self.state = 'Moving'
         elif not session_paused and status.paused and status.auto_managed:
             self.state = 'Queued'
@@ -989,6 +999,8 @@ class Torrent:
 
         if self.state == 'Error':
             progress = 100.0
+        elif self.state == 'Moving' and self.copy_progress is not None:
+            progress = self.copy_progress.percent
         elif self.state == 'Moving':
             # Check if torrent has downloaded any data yet.
             if self.status.total_done:
@@ -1353,6 +1365,20 @@ class Torrent:
                 )
                 return False
 
+        if self.copy_progress is not None or self._moved_sources:
+            log.warning('Torrent %s is already being moved', self.torrent_id)
+            return False
+
+        if self._can_copy_move():
+            self._copy_move_storage(dest)
+        elif not self._lt_move_storage(dest):
+            return False
+        self.moving_storage_dest_path = dest
+        self.update_state()
+        return True
+
+    def _lt_move_storage(self, dest):
+        """Have libtorrent move the data, returns True if it accepted the request."""
         try:
             # lt needs utf8 byte-string. Otherwise if wstrings enabled, unicode string.
             # Keyword argument flags=2 (dont_replace) dont overwrite target files but delete source.
@@ -1363,9 +1389,200 @@ class Torrent:
         except RuntimeError as ex:
             log.error('Error calling libtorrent move_storage: %s', ex)
             return False
-        self.moving_storage_dest_path = dest
-        self.update_state()
         return True
+
+    def _can_copy_move(self):
+        """Whether Deluge may copy the data itself instead of libtorrent.
+
+        Only complete torrents qualify. Whether the destination really is on
+        another volume is decided in the copy thread to avoid blocking on
+        network filesystems here.
+        """
+        if not hasattr(lt.move_flags_t, 'reset_save_path') or not self.has_metadata:
+            return False
+
+        status = self.get_lt_status()
+        if not status.is_seeding or status.moving_storage:
+            return False
+
+        # Pieces of skipped files live in a part file that libtorrent only
+        # relocates when it moves the data itself. Pad files are always skipped.
+        file_storage = self.torrent_info.files()
+        return not any(
+            prio == 0
+            and not file_storage.file_flags(index) & lt.file_storage.flag_pad_file
+            for index, prio in enumerate(self.handle.get_file_priorities())
+        )
+
+    def _copy_move_storage(self, dest):
+        """Move the data to another volume by copy, verify and delete.
+
+        On the same volume, or when a part file exists, it hands over to
+        libtorrent. Otherwise the files are copied in a thread, libtorrent is
+        pointed at the copy with ``reset_save_path``, which makes it recheck
+        every piece, and the source files are only deleted after that check
+        passes (see :meth:`on_moved_storage_checked`). Files already at the
+        destination are kept, like libtorrent's ``dont_replace``.
+        """
+        source = decode_bytes(self.get_lt_status().save_path)
+        file_storage = self.torrent_info.files()
+        files = [
+            (f['path'], f['size'])
+            for f in convert_lt_files(file_storage)
+            if not file_storage.file_flags(f['index']) & lt.file_storage.flag_pad_file
+        ]
+        part_file = os.path.join(source, f'.{self.torrent_id}.parts')
+        progress = filecopy.CopyProgress()
+        self.copy_progress = progress
+        created = []
+
+        def plan_and_copy():
+            if os.path.exists(part_file):
+                log.debug('Part file present, libtorrent will move %s', self.torrent_id)
+                return None
+            if filecopy.is_same_device(source, dest):
+                return None
+            log.info('Copying torrent %s from %s to %s', self.torrent_id, source, dest)
+            pairs = []
+            for rel_path, size in files:
+                src = os.path.join(source, rel_path)
+                dst = os.path.join(dest, rel_path)
+                if os.path.lexists(dst):
+                    continue
+                if not os.path.isfile(src):
+                    if size:
+                        raise FileNotFoundError(f'Missing source file: {src}')
+                    continue
+                pairs.append((src, dst))
+            try:
+                filecopy.copy_files(pairs, progress=progress, created=created)
+            except BaseException:
+                filecopy.remove_files(created)
+                raise
+            return [src for src, _ in pairs]
+
+        def on_copied(sources):
+            self.copy_progress = None
+            if sources is None:
+                if not self._lt_move_storage(dest):
+                    on_failed('libtorrent refused to move storage')
+                return
+            if progress.cancelled or not self._is_in_session():
+                log.info('Discarding copy of removed torrent %s', self.torrent_id)
+                threads.deferToThread(filecopy.remove_files, created)
+                return
+            self._moved_sources = (source, sources, created)
+            try:
+                self.handle.move_storage(dest, flags=lt.move_flags_t.reset_save_path)
+            except RuntimeError as ex:
+                self._moved_sources = None
+                threads.deferToThread(filecopy.remove_files, created)
+                on_failed(str(ex))
+                return
+            log.info('Copied torrent %s, verifying data at %s', self.torrent_id, dest)
+
+        def on_copy_failed(failure):
+            self.copy_progress = None
+            if failure.check(filecopy.CopyCancelled):
+                log.info('Cancelled moving torrent %s', self.torrent_id)
+                if self._is_in_session():
+                    on_failed(None)
+                return
+            log.error(
+                'Failed to copy torrent %s to %s: %s',
+                self.torrent_id,
+                dest,
+                failure.getErrorMessage(),
+            )
+            if self._is_in_session():
+                on_failed(failure.getErrorMessage())
+
+        def on_failed(message):
+            self.moving_storage_dest_path = None
+            if message:
+                self.force_error_state(f'Failed to move download folder: {message}')
+            else:
+                self.update_state()
+            component.get('TorrentManager').on_move_storage_failed(self.torrent_id)
+
+        # Copy one torrent at a time; parallel streams to one share are slower.
+        d = _copy_semaphore.run(threads.deferToThread, plan_and_copy)
+        d.addCallbacks(on_copied, on_copy_failed)
+        d.addErrback(lambda f: log.error('Error moving storage: %s', f.getTraceback()))
+        return d
+
+    def _is_in_session(self):
+        return self.torrent_id in component.get('TorrentManager').torrents
+
+    def cancel_copy_move(self):
+        """Abort an in-progress Deluge copy-move, leaving data at the source."""
+        if self.copy_progress is not None:
+            self.copy_progress.cancel()
+
+    def on_move_storage_failed(self):
+        """libtorrent could not switch to the copied data, keep the source."""
+        if self._moved_sources:
+            created = self._moved_sources[2]
+            self._moved_sources = None
+            threads.deferToThread(filecopy.remove_files, created)
+
+    def on_storage_moved(self):
+        """libtorrent switched to the copied data and will now recheck it."""
+        if self._moved_sources:
+            self._move_verify_pending = True
+
+    def on_moved_storage_checked(self):
+        """After the recheck following a copy-move, delete or keep the source.
+
+        If every piece verified, the source files are deleted. Otherwise
+        libtorrent is pointed back at the untouched source and the copy is
+        left in place for inspection.
+        """
+        # Ignore check alerts queued before libtorrent switched to the copy.
+        if not self._moved_sources or not self._move_verify_pending:
+            return None
+        self._move_verify_pending = False
+        source, sources, created = self._moved_sources
+        self._moved_sources = None
+        status = self.get_lt_status()
+
+        if not status.is_seeding or status.errc.value():
+            log.error(
+                'Copied data for torrent %s failed verification, '
+                'reverting to %s and keeping the copy',
+                self.torrent_id,
+                source,
+            )
+            try:
+                self.handle.move_storage(source, flags=lt.move_flags_t.reset_save_path)
+            except RuntimeError as ex:
+                log.error('Unable to revert to %s: %s', source, ex)
+            self.force_error_state(
+                'Failed to move download folder: copied data failed verification'
+            )
+            return None
+
+        def delete():
+            filecopy.remove_files(sources)
+            dirs = set()
+            for path in sources:
+                parent = os.path.dirname(path)
+                while len(parent) > len(source) and os.path.normcase(
+                    parent
+                ) != os.path.normcase(source):
+                    dirs.add(parent)
+                    parent = os.path.dirname(parent)
+            # Deepest first so parents are empty by the time we reach them.
+            for folder in sorted(dirs, key=len, reverse=True):
+                try:
+                    os.rmdir(folder)
+                except OSError:
+                    pass
+
+        log.info('Verified moved data for torrent %s, removing source', self.torrent_id)
+        return threads.deferToThread(delete).addErrback(
+            lambda f: log.error('Error removing moved files: %s', f.getErrorMessage())
+        )
 
     def save_resume_data(self, flush_disk_cache=False):
         """Signals libtorrent to build resume data for this torrent.

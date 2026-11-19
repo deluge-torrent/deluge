@@ -267,6 +267,10 @@ class TorrentManager(component.Component):
         if self.prev_status_cleanup_loop.running:
             self.prev_status_cleanup_loop.stop()
 
+        # Abort in-progress copies so shutdown is not blocked; data stays at the source.
+        for torrent in self.torrents.values():
+            torrent.cancel_copy_move()
+
         # Save state on shutdown
         await self.save_state()
 
@@ -730,6 +734,7 @@ class TorrentManager(component.Component):
 
         # Emit the signal to the clients
         component.get('EventManager').emit(PreTorrentRemovedEvent(torrent_id))
+        torrent.cancel_copy_move()
 
         try:
             self.session.remove_torrent(torrent.handle, 1 if remove_data else 0)
@@ -1346,6 +1351,7 @@ class TorrentManager(component.Component):
                 torrent.handle.pause()
 
         torrent.update_state()
+        torrent.on_moved_storage_checked()
 
     def ssl_file_paths_for_torrent(self, torrent_id):
         certs_dir = Path(self.config['ssl_torrents_certs'])
@@ -1461,6 +1467,8 @@ class TorrentManager(component.Component):
 
         torrent.set_download_location(os.path.normpath(alert.storage_path()))
         torrent.set_move_completed(False)
+        torrent.moving_storage_dest_path = None
+        torrent.on_storage_moved()
         torrent.update_state()
 
         if torrent_id in self.waiting_on_finish_moving:
@@ -1479,11 +1487,16 @@ class TorrentManager(component.Component):
         log.warning('on_alert_storage_moved_failed: %s', decode_bytes(alert.message()))
         # Set an Error message and pause the torrent
         alert_msg = decode_bytes(alert.message()).split(':', 1)[1].strip()
+        torrent.on_move_storage_failed()
         torrent.force_error_state('Failed to move download folder: %s' % alert_msg)
+        self.on_move_storage_failed(torrent_id)
 
+    def on_move_storage_failed(self, torrent_id):
+        """Finish a torrent whose move to the completed folder failed."""
         if torrent_id in self.waiting_on_finish_moving:
             self.waiting_on_finish_moving.remove(torrent_id)
-            torrent.is_finished = True
+            if torrent_id in self.torrents:
+                self.torrents[torrent_id].is_finished = True
             component.get('EventManager').emit(TorrentFinishedEvent(torrent_id))
 
     def on_alert_torrent_resumed(self, alert):
