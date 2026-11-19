@@ -21,6 +21,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Passwords are now stored encrypted with scrypt. A fallback mechanism will still validate existing plaintext passwords in auth files. (#2442)
 
+#### Fixed
+
+- Moving completed torrents to another drive or a network share no longer stalls the daemon. The data is copied in the background with progress, verified by a recheck, and only then removed from the original location.
+
 ### GTK UI
 
 #### Fixed

@@ -391,3 +391,90 @@ class TestTorrent(BaseTestCase):
             # Advance time and verify cache expires and updates
             mock_time.return_value += 10
             assert torrent.status == 2
+
+
+class TestCopyMoveStorage(BaseTestCase):
+    """Moving a finished torrent to another volume by copy, verify and delete."""
+
+    def set_up(self):
+        deluge.config.Config(
+            'core.conf',
+            defaults=deluge.core.preferencesmanager.DEFAULT_PREFS,
+            config_dir=self.config_dir,
+        ).save()
+        self.rpcserver = RPCServer(listen=False)
+        self.core = Core()
+        self.core.config.config['lsd'] = False
+        self.core.config.config['new_release_check'] = False
+        self.src = os.path.join(self.config_dir, 'src')
+        self.dst = os.path.join(self.config_dir, 'dst')
+        os.makedirs(os.path.join(self.src, 'data'))
+        self.content = {}
+        for name, size in (('a.bin', 300_000), ('sub/b.bin', 70_000)):
+            path = os.path.join(self.src, 'data', name)
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            self.content[name] = os.urandom(size)
+            with open(path, 'wb') as _file:
+                _file.write(self.content[name])
+        return component.start()
+
+    def tear_down(self):
+        return component.shutdown()
+
+    async def wait_for(self, condition, timeout=15):
+        start = time.time()
+        while not condition():
+            if time.time() - start > timeout:
+                raise AssertionError('Timed out waiting for condition')
+            await deferLater(reactor, 0.1)
+
+    async def add_seeding_torrent(self):
+        file_storage = lt.file_storage()
+        lt.add_files(file_storage, os.path.join(self.src, 'data'))
+        creator = lt.create_torrent(file_storage, 16384)
+        lt.set_piece_hashes(creator, self.src)
+        filedump = b64encode(lt.bencode(creator.generate()))
+        torrent_id = self.core.add_torrent_file(
+            'data.torrent', filedump, {'download_location': self.src}
+        )
+        torrent = self.core.torrentmanager.torrents[torrent_id]
+        await self.wait_for(lambda: torrent.get_lt_status().is_seeding)
+        return torrent
+
+    async def test_copy_move_verifies_then_removes_source(self):
+        torrent = await self.add_seeding_torrent()
+        with mock.patch(
+            'deluge.core.filecopy.is_same_device', return_value=False
+        ) as same_device:
+            assert torrent.move_storage(self.dst)
+            await self.wait_for(
+                lambda: not os.path.exists(os.path.join(self.src, 'data', 'a.bin'))
+            )
+        assert same_device.called
+        assert torrent.options['download_location'] == os.path.normpath(self.dst)
+        for name, data in self.content.items():
+            with open(os.path.join(self.dst, 'data', name), 'rb') as _file:
+                assert _file.read() == data
+        assert not os.path.exists(os.path.join(self.src, 'data'))
+        assert torrent.get_lt_status().is_seeding
+
+    async def test_copy_move_corrupt_copy_keeps_source(self):
+        torrent = await self.add_seeding_torrent()
+
+        def corrupt_copy(src, tmp, progress, block_size):
+            with open(tmp, 'wb') as _file:
+                _file.write(b'\0' * os.path.getsize(src))
+
+        with (
+            mock.patch('deluge.core.filecopy.is_same_device', return_value=False),
+            mock.patch('deluge.core.filecopy._copy_once', corrupt_copy),
+        ):
+            assert torrent.move_storage(self.dst)
+            await self.wait_for(lambda: torrent.state == 'Error')
+
+        await self.wait_for(
+            lambda: torrent.options['download_location'] == os.path.normpath(self.src)
+        )
+        for name, data in self.content.items():
+            with open(os.path.join(self.src, 'data', name), 'rb') as _file:
+                assert _file.read() == data
