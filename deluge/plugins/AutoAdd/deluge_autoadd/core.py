@@ -291,7 +291,7 @@ class Core(CorePluginBase):
             def on_torrent_added(torrent_id, filename, filepath):
                 if 'Label' in component.get('CorePluginManager').get_enabled_plugins():
                     if watchdir.get('label_toggle', True) and watchdir.get('label'):
-                        label = component.get('CorePlugin.Label')
+                        label = component.get('CorePlugin.label')
                         if watchdir['label'] not in label.get_labels():
                             label.add(watchdir['label'])
                         try:
