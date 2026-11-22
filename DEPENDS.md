@@ -20,6 +20,7 @@ All modules will require the [common](#common) section dependencies.
 - [Twisted] _>= 17.1_ - Use `TLS` extras for `service_identity` and `idna`.
 - [OpenSSL] _>= 1.0.1_
 - [pyOpenSSL]
+- [cryptography]
 - [rencode] _>= 1.0.2_ - Encoding library.
 - [PyXDG] - Access freedesktop.org standards for \*nix.
 - [xdg-utils] - Provides xdg-open for \*nix.
@@ -74,6 +75,7 @@ All modules will require the [common](#common) section dependencies.
 [rjsmin]: https://pypi.org/project/rjsmin/
 [openssl]: https://www.openssl.org/
 [pyopenssl]: https://pyopenssl.org
+[cryptography]: https://cryptography.io
 [twisted]: https://twistedmatrix.com
 [pillow]: https://pypi.org/project/Pillow/
 [libtorrent]: https://libtorrent.org/

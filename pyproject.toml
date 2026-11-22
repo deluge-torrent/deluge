@@ -24,6 +24,7 @@ dependencies = [
     "twisted[tls]>=17.1",
     "rencode",
     "pyopenssl",
+    "cryptography",
     "pyxdg",
     "mako",
     "setuptools",

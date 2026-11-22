@@ -819,6 +819,7 @@ name = "deluge"
 source = { editable = "." }
 dependencies = [
     { name = "certifi", marker = "sys_platform == 'win32'" },
+    { name = "cryptography" },
     { name = "mako" },
     { name = "pyopenssl" },
     { name = "pywin32", marker = "sys_platform == 'win32'" },
@@ -881,6 +882,7 @@ tests = [
 requires-dist = [
     { name = "certifi", marker = "sys_platform == 'win32'" },
     { name = "chardet", marker = "extra == 'all'" },
+    { name = "cryptography" },
     { name = "distro", marker = "('bsd' in sys_platform and extra == 'all') or ('linux' in sys_platform and extra == 'all')" },
     { name = "ifaddr", marker = "extra == 'all'", specifier = ">=0.2.0" },
     { name = "mako" },

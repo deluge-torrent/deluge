@@ -9,6 +9,7 @@
 import os
 import stat
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 
 from cryptography import x509
 from cryptography.hazmat.primitives import hashes, serialization
@@ -133,10 +134,8 @@ def generate_ssl_keys():
         'daemon.cert': cert.public_bytes(serialization.Encoding.PEM),
     }
     for name, data in files.items():
-        path = os.path.join(ssl_dir, name)
-        fd = os.open(
-            path, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, stat.S_IRUSR | stat.S_IWUSR
-        )
-        with os.fdopen(fd, 'wb') as _file:
-            _file.write(data)
-        os.chmod(path, stat.S_IRUSR | stat.S_IWUSR)
+        path = Path(ssl_dir, name)
+        # Recreate the file so the mode always applies.
+        path.unlink(missing_ok=True)
+        path.touch(mode=stat.S_IRUSR | stat.S_IWUSR, exist_ok=False)
+        path.write_bytes(data)
