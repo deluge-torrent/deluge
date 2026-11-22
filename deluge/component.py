@@ -8,7 +8,7 @@
 
 import logging
 import traceback
-from collections import defaultdict
+from collections import UserDict
 
 from twisted.internet import reactor
 from twisted.internet.defer import DeferredList, fail, maybeDeferred, succeed
@@ -248,6 +248,38 @@ class Component:
         pass
 
 
+class CaseInsensitiveDict(UserDict):
+    """Dict with case-insensitive keys that preserves the original key case."""
+
+    def __init__(self):
+        self._folded = {}
+        super().__init__()
+
+    def __missing__(self, key):
+        try:
+            return self.data[self._folded[key.casefold()]]
+        except KeyError:
+            raise KeyError(key) from None
+
+    def __contains__(self, key):
+        return key in self.data or key.casefold() in self._folded
+
+    def __setitem__(self, key, item):
+        folded = key.casefold()
+        old_key = self._folded.get(folded)
+        if old_key is not None and old_key != key:
+            del self.data[old_key]
+        self.data[key] = item
+        self._folded[folded] = key
+
+    def __delitem__(self, key):
+        try:
+            key = self._folded.pop(key.casefold())
+        except KeyError:
+            raise KeyError(key) from None
+        del self.data[key]
+
+
 class ComponentRegistry:
     """The ComponentRegistry holds a list of currently registered :class:`Component` objects.
 
@@ -255,9 +287,9 @@ class ComponentRegistry:
     """
 
     def __init__(self):
-        self.components = {}
+        self.components = CaseInsensitiveDict()
         # Stores all of the components that are dependent on a particular component
-        self.dependents = defaultdict(list)
+        self.dependents = CaseInsensitiveDict()
 
     def register(self, obj):
         """Register a component object with the registry.
@@ -281,7 +313,7 @@ class ComponentRegistry:
         self.components[obj._component_name] = obj
         if obj._component_depend:
             for depend in obj._component_depend:
-                self.dependents[depend].append(name)
+                self.dependents.setdefault(depend, []).append(name)
 
     def deregister(self, obj):
         """Deregister a component from the registry.  A stop will be

@@ -190,3 +190,65 @@ class TestComponent:
         assert c._component_state == 'Stopped'
         assert not c._component_timer.running
         assert c.stop.call_count == 1
+
+    def test_get_case_insensitive(self):
+        c = ComponentTester('CorePlugin.Label')
+
+        assert component.get('CorePlugin.Label') is c
+        assert component.get('coreplugin.label') is c
+        with pytest.raises(KeyError, match='CorePlugin.Missing'):
+            component.get('CorePlugin.Missing')
+
+    def test_register_case_insensitive_duplicate(self):
+        ComponentTester('test_dupe')
+
+        with pytest.raises(component.ComponentAlreadyRegistered):
+            ComponentTester('TEST_DUPE')
+
+    async def test_start_case_insensitive(self):
+        c = ComponentTester('test_start_ci')
+        await component.start(['TEST_START_CI'])
+
+        assert c._component_state == 'Started'
+
+    async def test_stop_dependents_case_insensitive(self):
+        ComponentTester('CorePlugin.Label')
+        dependent = ComponentTester('test_dependent', depend=['CorePlugin.Label'])
+        await component.start(['test_dependent'])
+
+        await component.stop(['CorePlugin.label'])
+
+        assert dependent.stop.call_count == 1
+        assert dependent._component_state == 'Stopped'
+
+
+class TestCaseInsensitiveDict:
+    def test_preserves_key_case(self):
+        d = component.CaseInsensitiveDict()
+        d['Label'] = 1
+
+        assert list(d) == ['Label']
+        assert d['label'] == 1
+        assert 'LABEL' in d
+        assert 'other' not in d
+
+    def test_set_replaces_differently_cased_key(self):
+        d = component.CaseInsensitiveDict()
+        d['Label'] = 1
+        d['label'] = 2
+
+        assert len(d) == 1
+        assert list(d.items()) == [('label', 2)]
+
+    def test_delete_and_clear(self):
+        d = component.CaseInsensitiveDict()
+        d['Label'] = 1
+        d['Other'] = 2
+        del d['LABEL']
+
+        assert list(d) == ['Other']
+        with pytest.raises(KeyError):
+            del d['label']
+        d.clear()
+        assert len(d) == 0
+        assert 'other' not in d
