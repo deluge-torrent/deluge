@@ -12,7 +12,12 @@ on:
         default: "0"
 
 env:
-  UV_SYSTEM_PYTHON: 1
+  # Install exactly what uv.lock says and fail if it is out of date.
+  UV_LOCKED: true
+  # Only the groups named in the sync command, not the project defaults (dev).
+  UV_NO_DEFAULT_GROUPS: true
+  # uv run uses the synced environment as is, without syncing or touching the lock.
+  UV_NO_SYNC: true
 
 jobs:
   test-linux:
@@ -28,15 +33,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
-
       - name: Install uv
         uses: astral-sh/setup-uv@v6
         with:
           enable-cache: true
+          python-version: ${{ matrix.python-version }}
 
       - name: Sets env var for security
         if: (github.event_name == 'pull_request' && contains(github.event.pull_request.body, 'security_test')) || (github.event_name == 'push' && contains(github.event.head_commit.message, 'security_test'))
@@ -44,8 +45,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          uv pip install -r requirements-ci.txt
-          uv pip install -e .
+          uv sync --group tests --extra all
 
       - name: Install security dependencies
         if: contains(env.SECURITY_TESTS, 'True')
@@ -67,8 +67,8 @@ jobs:
 
       - name: Test with pytest
         run: |
-          python -c 'from deluge._libtorrent import lt; print(lt.__version__)';
-          $DEBUG_PREFIX pytest -v -m "not (todo or gtkui or internet)" deluge
+          uv run python -c 'from deluge._libtorrent import lt; print(lt.__version__)';
+          uv run $DEBUG_PREFIX pytest -v -m "not (todo or gtkui or internet)" deluge
 
       - uses: actions/upload-artifact@v4
         # capture all crashes as build artifacts
@@ -90,20 +90,15 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
-
       - name: Install uv
         uses: astral-sh/setup-uv@v6
         with:
           enable-cache: true
+          python-version: ${{ matrix.python-version }}
 
       - name: Install dependencies
         run: |
-          uv pip install -r requirements-ci.txt
-          uv pip install -e .
+          uv sync --group tests --extra all
 
       - name: Install OpenSSL
         run: |
@@ -113,7 +108,7 @@ jobs:
         shell: bash
         run: |
           # Find the site-packages where Twisted source installed
-          SITE_PACKAGES=$(python -c "import sysconfig; print(sysconfig.get_path('purelib'))")
+          SITE_PACKAGES=$(uv run python -c "import sysconfig; print(sysconfig.get_path('purelib'))")
           echo "Site packages at: $SITE_PACKAGES"
 
           cd "$SITE_PACKAGES"
@@ -123,5 +118,5 @@ jobs:
 
       - name: Test with pytest
         run: |
-          python -c 'import libtorrent as lt; print(lt.__version__)';
-          pytest -v -m "not (todo or gtkui or security or internet)" deluge
+          uv run python -c 'import libtorrent as lt; print(lt.__version__)';
+          uv run pytest -v -m "not (todo or gtkui or security or internet)" deluge

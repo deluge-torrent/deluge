@@ -1,6 +1,73 @@
 [build-system]
 requires = ["setuptools", "wheel"]
 
+[project]
+name = "deluge"
+requires-python = ">=3.10"
+# The remaining metadata (version, description, entry points, ...) is still
+# provided by setup.py.
+dynamic = [
+    "version",
+    "description",
+    "readme",
+    "license",
+    "authors",
+    "maintainers",
+    "keywords",
+    "classifiers",
+    "urls",
+    "scripts",
+    "gui-scripts",
+    "entry-points",
+]
+dependencies = [
+    "twisted[tls]>=17.1",
+    "rencode",
+    "pyopenssl",
+    "pyxdg",
+    "mako",
+    "setuptools",
+    "pywin32; sys_platform == 'win32'",
+    "certifi; sys_platform == 'win32'",
+    "zope.interface>=4.4.2,<8.0",
+]
+
+[project.optional-dependencies]
+all = [
+    "setproctitle",
+    "pillow",
+    "chardet",
+    "ifaddr>=0.2.0",
+    "distro; 'linux' in sys_platform or 'bsd' in sys_platform",
+    "pygeoip",
+    "windows-curses; sys_platform == 'win32'",
+]
+
+[dependency-groups]
+# libtorrent is usually provided by the system, so it is not a project dependency.
+libtorrent = ["libtorrent"]
+tests = [
+    { include-group = "libtorrent" },
+    "pytest",
+    "pytest-twisted",
+    "pytest-cov",
+    "pytest-rerunfailures",
+    "mock",
+    "pre-commit",
+    "pylint",
+    "cryptography",
+    "setuptools < 82",
+]
+dev = [
+    { include-group = "tests" },
+    "sphinx-autobuild",
+    "tox",
+    "rjsmin",
+]
+
+[tool.uv]
+default-groups = ["dev"]
+
 [tool.pytest.ini_options]
 # Dump tracebacks if a test takes longer than X seconds
 faulthandler_timeout = 60

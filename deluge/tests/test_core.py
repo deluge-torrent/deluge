@@ -426,6 +426,9 @@ class TestCore(BaseTestCase):
         assert space >= 0
         assert self.core.get_free_space('/someinvalidpath') == -1
 
+    @pytest.mark.xfail(
+        reason='deluge-torrent.org serves a bot protection challenge page to the request.'
+    )
     @pytest.mark.flaky(reruns=3, reruns_delay=2)
     @pytest.mark.slow
     def test_test_listen_port(self):
