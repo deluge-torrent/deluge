@@ -134,7 +134,9 @@ def generate_ssl_keys():
     }
     for name, data in files.items():
         path = os.path.join(ssl_dir, name)
-        fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, stat.S_IRUSR | stat.S_IWUSR)
+        fd = os.open(
+            path, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, stat.S_IRUSR | stat.S_IWUSR
+        )
         with os.fdopen(fd, 'wb') as _file:
             _file.write(data)
         os.chmod(path, stat.S_IRUSR | stat.S_IWUSR)
