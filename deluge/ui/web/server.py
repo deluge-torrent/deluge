@@ -126,6 +126,14 @@ class Upload(resource.Resource):
             request.finish()
             return server.NOT_DONE_YET
 
+        try:
+            component.get('Auth').check_request(request, level=AUTH_LEVEL_DEFAULT)
+        except NotAuthorizedError:
+            log.warning('Auth required to upload torrent files.')
+            request.setResponseCode(http.UNAUTHORIZED)
+            request.finish()
+            return server.NOT_DONE_YET
+
         files = request.args.get(b'file', [])
         filenames = []
 
