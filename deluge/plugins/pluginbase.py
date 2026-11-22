@@ -13,7 +13,7 @@ import deluge.component as component
 log = logging.getLogger(__name__)
 
 
-def _plugin_rpc_name(plugin_name: str) -> str:
+def plugin_rpc_name(plugin_name: str) -> str:
     """Return the RPC namespace for a plugin name (lowercase snake_case)."""
     return plugin_name.lower().replace('-', '_').replace(' ', '_')
 
@@ -33,7 +33,7 @@ class PluginBase(component.Component):
 
 class CorePluginBase(PluginBase):
     def __init__(self, plugin_name):
-        name = _plugin_rpc_name(plugin_name)
+        name = plugin_rpc_name(plugin_name)
         super().__init__('CorePlugin.' + name)
         component.get('RPCServer').register_object(self, name)
         log.debug('CorePlugin.%s initialized..', name)
@@ -53,7 +53,7 @@ class CorePluginBase(PluginBase):
 
 class Gtk3PluginBase(PluginBase):
     def __init__(self, plugin_name):
-        name = _plugin_rpc_name(plugin_name)
+        name = plugin_rpc_name(plugin_name)
         super().__init__('Gtk3Plugin.' + name)
         log.debug('Gtk3Plugin.%s initialized..', name)
 
@@ -72,7 +72,7 @@ class WebPluginBase(PluginBase):
     debug_stylesheets = []
 
     def __init__(self, plugin_name):
-        name = _plugin_rpc_name(plugin_name)
+        name = plugin_rpc_name(plugin_name)
         super().__init__('WebPlugin.' + name)
         component.get('JSON').register_object(self, name)
         log.debug('WebPlugin.%s initialized..', name)

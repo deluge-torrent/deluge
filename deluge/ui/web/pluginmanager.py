@@ -12,6 +12,7 @@ import os
 from deluge import component
 from deluge.configmanager import ConfigManager
 from deluge.pluginmanagerbase import PluginManagerBase
+from deluge.plugins.pluginbase import plugin_rpc_name
 from deluge.ui.client import client
 
 log = logging.getLogger(__name__)
@@ -60,7 +61,7 @@ class PluginManager(PluginManagerBase, component.Component):
     def disable_plugin(self, name):
         # Get the plugin instance
         try:
-            plugin = component.get('WebPlugin.' + name)
+            plugin = component.get('WebPlugin.' + plugin_rpc_name(name))
         except KeyError:
             log.debug(
                 '%s plugin contains no WebUI code, ignoring WebUI disable call.', name
@@ -88,7 +89,7 @@ class PluginManager(PluginManagerBase, component.Component):
 
         # Get the plugin instance
         try:
-            plugin = component.get('WebPlugin.' + name)
+            plugin = component.get('WebPlugin.' + plugin_rpc_name(name))
         except KeyError:
             log.info(
                 '%s plugin contains no WebUI code, ignoring WebUI enable call.', name
@@ -137,7 +138,7 @@ class PluginManager(PluginManagerBase, component.Component):
     def get_plugin_resources(self, name):
         # Get the plugin instance
         try:
-            plugin = component.get('WebPlugin.' + name)
+            plugin = component.get('WebPlugin.' + plugin_rpc_name(name))
         except KeyError:
             log.info('Plugin has no web ui')
             return
