@@ -16,7 +16,6 @@ Attributes:
 import logging
 import os
 import socket
-import time
 from typing import Optional
 from urllib.parse import urlparse
 
@@ -237,10 +236,9 @@ class Torrent:
 
         self.magnet = magnet
         self._status: Optional['lt.torrent_status'] = None
-        self._status_last_update: float = 0.0
 
         self.torrent_info = self.handle.torrent_file()
-        self.has_metadata = self.status.has_metadata
+        self.has_metadata = self.get_lt_status().has_metadata
 
         self.options = TorrentOptions()
         self.options.update(options)
@@ -450,7 +448,8 @@ class Torrent:
             auto_managed (bool): Enable auto managed.
         """
         self.options['auto_managed'] = auto_managed
-        if not (self.status.paused and not self.status.auto_managed):
+        status = self.get_lt_status()
+        if not (status.paused and not status.auto_managed):
             self._set_handle_flags(
                 flag=lt.torrent_flags.auto_managed,
                 set_flag=auto_managed,
@@ -875,7 +874,7 @@ class Torrent:
 
     def get_file_priorities(self):
         """Return the file priorities"""
-        if not self.handle.status().has_metadata:
+        if not self.has_metadata:
             return []
 
         if not self.options['file_priorities']:
@@ -967,7 +966,7 @@ class Torrent:
             filename = decode_bytes(self.torrent_info.files().file_path(0))
             name = filename.replace('\\', '/', 1).split('/', 1)[0]
         else:
-            name = decode_bytes(self.handle.status().name)
+            name = decode_bytes(self.status.name)
 
         if not name:
             name = self.torrent_id
@@ -1069,11 +1068,13 @@ class Torrent:
     def status(self) -> 'lt.torrent_status':
         """Cached copy of the libtorrent status for this torrent.
 
-        If it has not been updated within the last five seconds, it will be
-        automatically refreshed.
+        Never refreshes itself. `handle.status()` is a synchronous call into
+        libtorrent that contends for the session mutex, so refreshing here would
+        block the reactor thread once per torrent per status poll. The cache is
+        kept warm asynchronously by `session.post_torrent_updates()`, which
+        reports every torrent whose status actually changed. Callers needing a
+        guaranteed fresh read must use `get_lt_status()`.
         """
-        if self._status_last_update < (time.time() - 5):
-            self.status = self.handle.status()
         return self._status
 
     @status.setter
@@ -1084,7 +1085,6 @@ class Torrent:
             status: a libtorrent torrent status
         """
         self._status = status
-        self._status_last_update = time.time()
 
     def _create_status_funcs(self):
         """Creates the functions for getting torrent status"""
@@ -1214,7 +1214,7 @@ class Torrent:
         )
         if self.state == 'Error':
             log.debug('Unable to pause torrent while in Error state')
-        elif self.status.paused:
+        elif self.get_lt_status().paused:
             # This torrent was probably paused due to being auto managed by lt
             # Since we turned auto_managed off, we should update the state which should
             # show it as 'Paused'.  We need to emit a torrent_paused signal because
@@ -1228,17 +1228,22 @@ class Torrent:
                 self.handle.pause()
             except RuntimeError as ex:
                 log.debug('Unable to pause torrent: %s', ex)
+            else:
+                # torrent_paused_alert arrives too late for a client that reads
+                # status straight after pausing.
+                self.get_lt_status()
 
     def resume(self):
         """Resumes this torrent."""
-        if self.status.paused and self.status.auto_managed:
+        status = self.get_lt_status()
+        if status.paused and status.auto_managed:
             log.debug('Resume not possible for auto-managed torrent!')
         elif self.forced_error and self.forced_error.was_paused:
             log.debug(
                 'Resume skipped for forced_error torrent as it was originally paused.'
             )
         elif (
-            self.status.is_finished
+            status.is_finished
             and self.options['stop_at_ratio']
             and self.get_ratio() >= self.options['stop_ratio']
         ):
@@ -1254,6 +1259,8 @@ class Torrent:
                 self.handle.resume()
             except RuntimeError as ex:
                 log.debug('Unable to resume torrent: %s', ex)
+            else:
+                self.get_lt_status()
 
         # Clear torrent error state.
         if self.forced_error and not self.forced_error.restart_to_resume:
@@ -1466,7 +1473,7 @@ class Torrent:
             self.forcing_recheck_paused = self.forced_error.was_paused
             self.clear_forced_error_state(update_state=False)
         else:
-            self.forcing_recheck_paused = self.status.paused
+            self.forcing_recheck_paused = self.get_lt_status().paused
 
         try:
             self.handle.force_recheck()

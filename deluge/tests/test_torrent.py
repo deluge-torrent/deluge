@@ -358,14 +358,15 @@ class TestTorrent(BaseTestCase):
         atp = self.get_torrent_atp('unicode_filenames.torrent')
         handle = self.session.add_torrent(atp)
         self.torrent = Torrent(handle, {})
-        # Ignore TorrentManager method call
-        TorrentManager.save_resume_data = AsyncMock()
 
-        result = self.torrent.rename_folder('unicode_filenames', 'Горбачёв')
-        assert isinstance(result, defer.DeferredList)
+        # Ignore TorrentManager method call. Patch it for this test only: a bare
+        # assignment here leaks onto the class for the rest of the process.
+        with mock.patch.object(TorrentManager, 'save_resume_data', AsyncMock()):
+            result = self.torrent.rename_folder('unicode_filenames', 'Горбачёв')
+            assert isinstance(result, defer.DeferredList)
 
-        result = self.torrent.rename_files([[0, 'new_рбачёв']])
-        assert result is None
+            result = self.torrent.rename_files([[0, 'new_рбачёв']])
+            assert result is None
 
     def test_connect_peer_port(self):
         """Test to ensure port is int for libtorrent"""
@@ -388,6 +389,24 @@ class TestTorrent(BaseTestCase):
             assert first_status == torrent.status, 'cached status should be used'
             assert torrent.get_lt_status() == 1, 'status should update'
             assert torrent.status == 1
-            # Advance time and verify cache expires and updates
+            # A stale cache must still be served. Refreshing it here would mean a
+            # blocking, session-mutex-contended call on the reactor thread for every
+            # torrent that post_torrent_updates() did not report as changed.
             mock_time.return_value += 10
-            assert torrent.status == 2
+            assert torrent.status == 1, 'stale cache should be served, not refreshed'
+
+    def test_get_status_never_calls_libtorrent(self):
+        """The status poll path must not block on handle.status().
+
+        state_update_alert only carries torrents that changed since the last
+        post_torrent_updates(), so any unchanged torrent would otherwise force a
+        synchronous libtorrent call on the reactor thread on every poll.
+        """
+        atp = self.get_torrent_atp('test_torrent.file.torrent')
+        handle = self.session.add_torrent(atp)
+        torrent = Torrent(handle, {})
+        handle.status = mock.Mock(wraps=handle.status)
+
+        torrent.get_status([], all_keys=True)
+
+        handle.status.assert_not_called()

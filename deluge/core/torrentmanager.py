@@ -58,6 +58,12 @@ LT_DEFAULT_ADD_TORRENT_FLAGS = (
     | lt.torrent_flags.apply_ip_filter
 )
 
+# Bounds for the status cache sweep in TorrentManager.update(). handle.status()
+# costs 0.055ms on an idle session but hundreds of ms on a contended one, so the
+# budget matters far more than the count.
+STATUS_REFRESH_PER_TICK = 50
+STATUS_REFRESH_BUDGET = 0.005
+
 
 class PrefetchQueueItem(NamedTuple):
     alert_deferred: Deferred
@@ -186,6 +192,8 @@ class TorrentManager(component.Component):
         self.torrents_status_requests = []
         self.status_dict = {}
         self.last_state_update_alert_ts = 0
+        self._status_refresh_cursor = 0
+        self._status_refresh_running = False
 
         # Keep the previous saved state
         self.prev_saved_state = None
@@ -278,6 +286,10 @@ class TorrentManager(component.Component):
             os.remove(self.temp_file)
 
     def update(self):
+        # Nothing else refreshes the status cache when no client is polling.
+        self.session.post_torrent_updates()
+        self.refresh_status_slice()
+
         for torrent_id, torrent in self.torrents.items():
             # XXX: Should the state check be those that _can_ be stopped at ratio
             if torrent.options['stop_at_ratio'] and torrent.state not in (
@@ -295,6 +307,56 @@ class TorrentManager(component.Component):
                         break
 
                     torrent.pause()
+
+    def _refresh_status_cache(self, torrent_ids):
+        """Refresh these torrents' cached status. Runs in a thread.
+
+        Returns the number refreshed, which stops short of the whole slice once
+        STATUS_REFRESH_BUDGET is spent so a contended session mutex slows the
+        sweep down rather than tying up a pool thread.
+        """
+        deadline = time.monotonic() + STATUS_REFRESH_BUDGET
+        done = 0
+        for torrent_id in torrent_ids:
+            try:
+                self.torrents[torrent_id].get_lt_status()
+            except (KeyError, RuntimeError):
+                pass
+            done += 1
+            if time.monotonic() > deadline:
+                break
+        return done
+
+    def refresh_status_slice(self):
+        """Refresh the next slice of torrents that libtorrent will not report.
+
+        Rotates through every torrent so a torrent whose status never changes
+        still gets its counters updated. Runs off the reactor thread: a single
+        contended `handle.status()` can block for hundreds of milliseconds at
+        multi-gigabit speeds, so no per-tick count or time budget makes it safe
+        to do here. Skips a tick if the previous sweep is still running.
+        """
+        torrent_ids = list(self.torrents)
+        if not torrent_ids or self._status_refresh_running:
+            return None
+
+        count = min(STATUS_REFRESH_PER_TICK, len(torrent_ids))
+        start = self._status_refresh_cursor % len(torrent_ids)
+        window = torrent_ids[start : start + count]
+        # Wrap around without repeating a torrent within the same tick.
+        window += torrent_ids[: count - len(window)]
+        self._status_refresh_running = True
+
+        def on_refreshed(done):
+            self._status_refresh_running = False
+            if isinstance(done, int):
+                self._status_refresh_cursor = start + done
+            else:
+                log.warning('Status cache refresh failed: %s', done)
+            return None
+
+        d = threads.deferToThread(self._refresh_status_cache, window)
+        return d.addBoth(on_refreshed)
 
     def __getitem__(self, torrent_id):
         """Return the Torrent with torrent_id.
@@ -1008,7 +1070,25 @@ class TorrentManager(component.Component):
                 log.info('Restoring backup of state from: %s', filepath_bak)
                 os.rename(filepath_bak, filepath)
 
-    def save_resume_data(self, torrent_ids=None, flush_disk_cache=False):
+    def _torrents_needing_resume_data(self, torrent_ids):
+        """Ask libtorrent which of these torrents have resume data worth saving.
+
+        Runs in a thread. Every `need_save_resume_data()` takes libtorrent's
+        session mutex, which is held almost continuously while saturating a fast
+        link, so scanning ~900 torrents on the reactor thread was measured
+        blocking the daemon for 40-110 seconds at a time.
+        """
+        needed = []
+        for torrent_id in torrent_ids:
+            try:
+                if self.torrents[torrent_id].handle.need_save_resume_data():
+                    needed.append(torrent_id)
+            except (KeyError, RuntimeError):
+                continue
+        return needed
+
+    @maybe_coroutine
+    async def save_resume_data(self, torrent_ids=None, flush_disk_cache=False):
         """Saves torrents resume data.
 
         Args:
@@ -1022,10 +1102,8 @@ class TorrentManager(component.Component):
 
         """
         if torrent_ids is None:
-            torrent_ids = (
-                tid
-                for tid, t in self.torrents.items()
-                if t.handle.need_save_resume_data()
+            torrent_ids = await threads.deferToThread(
+                self._torrents_needing_resume_data, list(self.torrents)
             )
 
         def on_torrent_resume_save(dummy_result, torrent_id):
@@ -1034,12 +1112,17 @@ class TorrentManager(component.Component):
 
         deferreds = []
         for torrent_id in torrent_ids:
+            # Skip before the waiting entry is created: only a save_resume_data
+            # alert clears one, and none arrives for a torrent never asked to save.
+            torrent = self.torrents.get(torrent_id)
+            if torrent is None:
+                continue
             d = self.waiting_on_resume_data.get(torrent_id)
             if not d:
                 d = Deferred().addBoth(on_torrent_resume_save, torrent_id)
                 self.waiting_on_resume_data[torrent_id] = d
             deferreds.append(d)
-            self.torrents[torrent_id].save_resume_data(flush_disk_cache)
+            torrent.save_resume_data(flush_disk_cache)
 
         def on_all_resume_data_finished(dummy_result):
             """Saves resume data file when no more torrents waiting for resume data.
@@ -1055,7 +1138,7 @@ class TorrentManager(component.Component):
             if not self.waiting_on_resume_data or flush_disk_cache:
                 return self.save_resume_data_file(queue_task=flush_disk_cache)
 
-        return DeferredList(deferreds).addBoth(on_all_resume_data_finished)
+        return await DeferredList(deferreds).addBoth(on_all_resume_data_finished)
 
     def load_resume_data_file(self):
         """Load the resume data from file for all torrents.
@@ -1655,7 +1738,8 @@ class TorrentManager(component.Component):
             if torrent_id in self.torrents:
                 self.torrents[torrent_id].status = t_status
 
-        self.handle_torrents_status_callback(self.torrents_status_requests.pop())
+        if self.torrents_status_requests:
+            self.handle_torrents_status_callback(self.torrents_status_requests.pop())
 
     def on_alert_external_ip(self, alert):
         """Alert handler for libtorrent external_ip_alert"""
