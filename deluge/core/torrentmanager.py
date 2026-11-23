@@ -543,17 +543,28 @@ class TorrentManager(component.Component):
         # for this torrent being generated before a Torrent object is created.
         component.pause('AlertManager')
 
+        # finally, not just the except below: a paused AlertManager never calls
+        # pop_alerts() again, so any escape here stops every alert handler for good.
         try:
-            handle = self.session.add_torrent(add_torrent_params)
-            if not handle.is_valid():
-                raise InvalidTorrentError('Torrent handle is invalid!')
-        except (RuntimeError, InvalidTorrentError) as ex:
-            component.resume('AlertManager')
-            raise AddTorrentError('Unable to add torrent to session: %s' % ex)
+            try:
+                handle = self.session.add_torrent(add_torrent_params)
+                if not handle.is_valid():
+                    raise InvalidTorrentError('Torrent handle is invalid!')
+            except (RuntimeError, InvalidTorrentError) as ex:
+                raise AddTorrentError('Unable to add torrent to session: %s' % ex)
 
-        torrent = self._add_torrent_obj(
-            handle, options, state, filename, magnet, resume_data, filedump, save_state
-        )
+            torrent = self._add_torrent_obj(
+                handle,
+                options,
+                state,
+                filename,
+                magnet,
+                resume_data,
+                filedump,
+                save_state,
+            )
+        finally:
+            component.resume('AlertManager')
         return torrent.torrent_id
 
     def add_async(
