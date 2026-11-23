@@ -6,11 +6,13 @@
 
 import os
 import tempfile
+import time
 
 import pytest
 
 from deluge import metafile
 from deluge._libtorrent import LT_VERSION
+from deluge.bencode import bdecode
 from deluge.common import VersionSplit
 
 from . import common
@@ -61,6 +63,24 @@ class TestMetafile:
             metafile.make_meta_file(tmp_data, '', 32768, target=tmp_torrent)
 
             check_torrent(tmp_torrent)
+
+    @pytest.mark.skipif(not hasattr(time, 'tzset'), reason='requires time.tzset')
+    @pytest.mark.parametrize('timezone', ['UTC0', 'IST-5:30', 'EST5'])
+    def test_creation_date(self, tmp_path, monkeypatch, timezone):
+        data_file = tmp_path / 'testdata'
+        data_file.write_bytes(b'a' * 1024)
+        torrent_file = tmp_path / 'testdata.torrent'
+
+        with monkeypatch.context() as patch:
+            patch.setenv('TZ', timezone)
+            time.tzset()
+            before = int(time.time())
+            metafile.make_meta_file(str(data_file), '', 32768, target=str(torrent_file))
+            after = int(time.time())
+        time.tzset()
+
+        torrent = bdecode(torrent_file.read_bytes())
+        assert before <= torrent[b'creation date'] <= after
 
     @pytest.mark.parametrize(
         'path',

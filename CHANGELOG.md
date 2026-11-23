@@ -21,6 +21,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - Passwords are now stored encrypted with scrypt. A fallback mechanism will still validate existing plaintext passwords in auth files. (#2442)
 
+#### Fixed
+
+- Fix the creation date of new torrents being off by the local timezone offset.
+
 ### GTK UI
 
 #### Fixed
