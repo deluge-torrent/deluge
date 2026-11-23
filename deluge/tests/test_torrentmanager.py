@@ -6,6 +6,7 @@
 
 import os
 import shutil
+import threading
 import warnings
 from base64 import b64encode
 from unittest import mock
@@ -13,6 +14,7 @@ from unittest import mock
 import pytest
 import pytest_twisted
 from twisted.internet import reactor, task
+from twisted.python import threadable
 
 from deluge import component
 from deluge.bencode import bencode
@@ -129,6 +131,95 @@ class TestTorrentmanager(BaseTestCase):
         result = await d
         expected = ('deadbeefdeadbeefdeadbeefdeadbeefdeadbeef', b'')
         assert result == expected
+
+    async def _add_test_torrent(self, name='test.torrent'):
+        filename = common.get_test_data_file(name)
+        with open(filename, 'rb') as _file:
+            filedump = _file.read()
+        return await self.core.add_torrent_file_async(filename, b64encode(filedump), {})
+
+    async def test_status_request_runs_slow_keys_off_reactor(self):
+        torrent_id = await self._add_test_torrent()
+        calls = []
+
+        def get_peers():
+            calls.append(threadable.isInIOThread())
+            return ['peer']
+
+        self.tm[torrent_id].status_funcs['peers'] = get_peers
+        self.tm.session.post_torrent_updates = mock.Mock()
+        self.tm.last_state_update_alert_ts = 0
+
+        d = self.tm.torrents_status_update([torrent_id], ['peers', 'name'])
+        self.tm.on_alert_state_update(mock.Mock(status=[]))
+        status = await d
+
+        assert status[torrent_id]['peers'] == ['peer']
+        assert status[torrent_id]['name'] == self.tm[torrent_id].get_name()
+        assert calls == [False]
+
+    async def test_status_request_leaves_out_torrent_whose_fetch_failed(self):
+        torrent_id = await self._add_test_torrent()
+
+        def get_peers():
+            raise ValueError('boom')
+
+        self.tm[torrent_id].status_funcs['peers'] = get_peers
+        self.tm.session.post_torrent_updates = mock.Mock()
+        self.tm.last_state_update_alert_ts = 0
+
+        other_id = await self._add_test_torrent('test_torrent.file.torrent')
+
+        with mock.patch('deluge.core.torrentmanager.log') as log:
+            d = self.tm.torrents_status_update(
+                [torrent_id, other_id], ['peers', 'name']
+            )
+            self.tm.on_alert_state_update(mock.Mock(status=[]))
+            assert list(await d) == [other_id]
+
+        assert 'boom' in log.warning.call_args[0][-1]
+
+    async def test_status_request_diffs_every_torrent_after_its_fetches(self):
+        moving_id = await self._add_test_torrent()
+        other_id = await self._add_test_torrent('test_torrent.file.torrent')
+        release = threading.Event()
+
+        def get_progress():
+            release.wait(5)
+            return 50.0
+
+        self.tm[moving_id].state = 'Moving'
+        self.tm[moving_id].status_funcs['progress'] = get_progress
+        self.tm.session.post_torrent_updates = mock.Mock()
+        self.tm.last_state_update_alert_ts = 0
+        self.rpcserver.factory.session_id = 1
+
+        d = self.tm.torrents_status_update(
+            [moving_id, other_id], ['progress'], diff=True
+        )
+        self.tm.on_alert_state_update(mock.Mock(status=[]))
+        # Diffed now, a torrent with nothing slow to fetch would reach the
+        # client after a newer diff of it sent by a quicker request.
+        assert self.tm[other_id].prev_status == {}
+        release.set()
+        status = await d.addTimeout(5, reactor)
+
+        assert set(status) == {moving_id, other_id}
+        assert 1 in self.tm[other_id].prev_status
+
+    async def test_status_request_diffs_against_requesting_session(self):
+        torrent_id = await self._add_test_torrent()
+        self.tm.session.post_torrent_updates = mock.Mock()
+        self.tm.last_state_update_alert_ts = 0
+        self.rpcserver.factory.session_id = 1
+
+        d = self.tm.torrents_status_update([torrent_id], ['name'], diff=True)
+        # Another session's call is dispatched before the alert arrives.
+        self.rpcserver.factory.session_id = 2
+        self.tm.on_alert_state_update(mock.Mock(status=[]))
+        await d
+
+        assert list(self.tm[torrent_id].prev_status) == [1]
 
     @pytest.mark.todo
     def test_remove_torrent_false(self):
