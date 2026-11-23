@@ -1706,7 +1706,14 @@ class TorrentManager(component.Component):
         """Build the status dictionary with torrent values"""
         d, torrent_ids, keys, diff = status_request
         status_dict = {}.fromkeys(torrent_ids)
+        all_keys = not keys
         torrent_keys, plugin_keys = self.separate_keys(keys, torrent_ids)
+
+        # Passed into get_status rather than merged over its result: merged
+        # afterwards they never diff out, so every torrent lands in every diff.
+        pluginmanager = None
+        if plugin_keys or all_keys:
+            pluginmanager = component.get('CorePluginManager')
 
         # Get the torrent status for each torrent_id
         for torrent_id in torrent_ids:
@@ -1715,11 +1722,19 @@ class TorrentManager(component.Component):
                 # Could be the clients cache (sessionproxy) isn't up to speed.
                 del status_dict[torrent_id]
             else:
+                plugin_status = (
+                    pluginmanager.get_status(torrent_id, plugin_keys)
+                    if pluginmanager
+                    else None
+                )
                 status_dict[torrent_id] = self.torrents[torrent_id].get_status(
-                    torrent_keys, diff, all_keys=not keys
+                    torrent_keys,
+                    diff,
+                    all_keys=all_keys,
+                    plugin_status=plugin_status,
                 )
         self.status_dict = status_dict
-        d.callback((status_dict, plugin_keys))
+        d.callback(status_dict)
 
     def torrents_status_update(self, torrent_ids, keys, diff=False):
         """Returns status dict for the supplied torrent_ids async.
