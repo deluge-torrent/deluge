@@ -331,11 +331,15 @@ class PreferencesManager(component.Component):
 
     def _on_set_encryption(self, key, value):
         # Convert Deluge enc_level values to libtorrent enc_level values.
+        enc_level = lt.enc_level
         pe_enc_level = {
-            0: lt.enc_level.plaintext,
-            1: lt.enc_level.rc4,
-            2: lt.enc_level.both,
+            0: getattr(enc_level, 'plaintext', None),
+            1: getattr(enc_level, 'rc4', None),
+            2: getattr(enc_level, 'both', None),
         }
+        for index, name in enumerate(('plaintext', 'rc4', 'both')):
+            if pe_enc_level[index] is None:
+                pe_enc_level[index] = getattr(enc_level, f'pe_{name}')
         self.core.apply_session_settings(
             {
                 'out_enc_policy': lt.enc_policy(self.config['enc_out_policy']),

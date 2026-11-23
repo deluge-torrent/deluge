@@ -34,7 +34,11 @@ from deluge.common import (
 )
 from deluge.configmanager import ConfigManager, get_config_dir
 from deluge.core.authmanager import AUTH_LEVEL_ADMIN
-from deluge.core.torrent import Torrent, TorrentOptions, sanitize_filepath
+from deluge.core.torrent import (
+    Torrent,
+    TorrentOptions,
+    _get_torrent_file_storage,
+)
 from deluge.decorators import maybe_coroutine
 from deluge.error import AddTorrentError, InvalidTorrentError
 from deluge.event import (
@@ -422,15 +426,16 @@ class TorrentManager(component.Component):
     def _build_torrent_params(
         self, torrent_info=None, magnet=None, options=None, resume_data=None
     ):
-        """Create the add_torrent_params dict for adding torrent to libtorrent."""
+        """Create the add_torrent_params for adding a torrent to libtorrent."""
         add_torrent_params = {}
         if torrent_info:
             add_torrent_params['ti'] = torrent_info
             name = torrent_info.name()
             if not name:
-                name = (
-                    torrent_info.file_at(0).path.replace('\\', '/', 1).split('/', 1)[0]
+                name = decode_bytes(
+                    _get_torrent_file_storage(torrent_info, original=False).file_path(0)
                 )
+                name = name.replace('\\', '/', 1).split('/', 1)[0]
             add_torrent_params['name'] = name
             torrent_id = str(torrent_info.info_hash())
         elif magnet:
@@ -456,18 +461,6 @@ class TorrentManager(component.Component):
             # Cancel and remove metadata fetching torrent.
             self.prefetching_metadata[torrent_id].alert_deferred.cancel()
 
-        # Check for renamed files and if so, rename them in the torrent_info before adding.
-        if options['mapped_files'] and torrent_info:
-            for index, fname in options['mapped_files'].items():
-                fname = sanitize_filepath(decode_bytes(fname))
-                if log.isEnabledFor(logging.DEBUG):
-                    log.debug('renaming file index %s to %s', index, fname)
-                try:
-                    torrent_info.rename_file(index, fname.encode('utf8'))
-                except TypeError:
-                    torrent_info.rename_file(index, fname)
-            add_torrent_params['ti'] = torrent_info
-
         if log.isEnabledFor(logging.DEBUG):
             log.debug('options: %s', options)
 
@@ -477,8 +470,6 @@ class TorrentManager(component.Component):
             add_torrent_params['name'] = options['name']
         if options['pre_allocate_storage']:
             add_torrent_params['storage_mode'] = lt.storage_mode_t.storage_mode_allocate
-        if resume_data:
-            add_torrent_params['resume_data'] = resume_data
 
         # Set flags: enable duplicate_is_error & override_resume_data, disable auto_managed.
         add_torrent_params['flags'] = (
@@ -488,6 +479,17 @@ class TorrentManager(component.Component):
             add_torrent_params['flags'] |= lt.torrent_flags.seed_mode
         if options['super_seeding']:
             add_torrent_params['flags'] |= lt.torrent_flags.super_seeding
+
+        if resume_data:
+            resume_data_bytes = (
+                resume_data
+                if isinstance(resume_data, bytes)
+                else lt.bencode(resume_data)
+            )
+            params = lt.read_resume_data(resume_data_bytes)
+            for key, value in add_torrent_params.items():
+                setattr(params, key, value)
+            add_torrent_params = params
 
         return torrent_id, add_torrent_params
 
@@ -1578,6 +1580,7 @@ class TorrentManager(component.Component):
 
         new_name = decode_bytes(alert.new_name())
         log.debug('index: %s name: %s', alert.index, new_name)
+        torrent.options['mapped_files'][alert.index] = new_name
 
         # We need to see if this file index is in a waiting_on_folder dict
         for wait_on_folder in torrent.waiting_on_folder_rename:
@@ -1611,7 +1614,7 @@ class TorrentManager(component.Component):
         except KeyError:
             pass
         else:
-            torrent_info = alert.handle.get_torrent_info()
+            torrent_info = alert.handle.torrent_file()
             return d.callback(torrent_info)
 
     def on_alert_file_error(self, alert):
