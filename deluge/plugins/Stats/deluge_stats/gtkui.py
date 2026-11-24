@@ -1,4 +1,6 @@
 #
+# Copyright (C) 2012 Tydus Ken <Tydus@Tydus.org>
+# Copyright (C) 2009 Szentandrasi Istvan <szentandrasii@gmail.com>
 # Copyright (C) 2009 Ian Martin <ianmartin@cantab.net>
 # Copyright (C) 2008 Martijn Voncken <mvoncken@gmail.com>
 #
@@ -22,6 +24,7 @@ from gi.repository.Gdk import RGBA
 import deluge
 from deluge import component
 from deluge.common import fspeed
+from deluge.decorators import maybe_coroutine
 from deluge.plugins.pluginbase import Gtk3PluginBase
 from deluge.ui.client import client
 from deluge.ui.gtk3.torrentdetails import Tab
@@ -40,6 +43,8 @@ ORANGE = 'rgb(255,165,0)'
 
 DEFAULT_CONF = {
     'version': 2,
+    'show_payload': False,
+    'show_total': False,
     'colors': {
         'bandwidth_graph': {'upload_rate': BLUE, 'download_rate': GREEN},
         'connections_graph': {
@@ -172,14 +177,17 @@ class GraphsTab(Tab):
     def select_connections_graph(self):
         log.debug('Selecting connections graph')
         self.graph_widget = self.connections_graph
-        g = Graph()
-        self.graph = g
+        self.graph = Graph()
         colors = self.colors['connections_graph']
-        g.add_stat('dht_nodes', color=text_to_rgba(colors['dht_nodes']))
-        g.add_stat('dht_cache_nodes', color=text_to_rgba(colors['dht_cache_nodes']))
-        g.add_stat('dht_torrents', color=text_to_rgba(colors['dht_torrents']))
-        g.add_stat('num_connections', color=text_to_rgba(colors['num_connections']))
-        g.set_left_axis(formatter=int_str, min=10)
+        self.graph.add_stat('dht_nodes', color=text_to_rgba(colors['dht_nodes']))
+        self.graph.add_stat(
+            'dht_cache_nodes', color=text_to_rgba(colors['dht_cache_nodes'])
+        )
+        self.graph.add_stat('dht_torrents', color=text_to_rgba(colors['dht_torrents']))
+        self.graph.add_stat(
+            'num_connections', color=text_to_rgba(colors['num_connections'])
+        )
+        self.graph.set_left_axis(formatter=int_str, min=10)
 
     def select_seeds_graph(self):
         log.debug('Selecting connections graph')
@@ -256,6 +264,16 @@ class GtkUI(Gtk3PluginBase):
         self.torrent_details = component.get('TorrentDetails')
         self.torrent_details.add_tab(self.graphs_tab)
 
+        self.status_item = component.get('StatusBar').add_item(
+            image=get_resource('totaltraffic16.png'),
+            text='',
+            tooltip=_('Session Downloaded/Upload Total Downloaded/Upload'),
+        )
+        self.builder.get_object('reset').connect('clicked', self._reset_counters)
+
+    def _reset_counters(self, widget, data=None):
+        client.stats.reset_counters()
+
     def disable(self):
         component.get('Preferences').remove_page('Stats')
         component.get('PluginManager').deregister_hook(
@@ -265,6 +283,39 @@ class GtkUI(Gtk3PluginBase):
             'on_show_prefs', self.on_show_prefs
         )
         self.torrent_details.remove_tab(self.graphs_tab.get_name())
+
+        component.get('StatusBar').remove_item(self.status_item)
+        del self.status_item
+
+    @maybe_coroutine
+    async def update_status(self):
+        def handle_stats(session_stats, total_stats):
+            def fsize(x, y):
+                return deluge.common.fsize(x[y])
+
+            def format_str(x, keys):
+                return f"{fsize(x, keys['download'])}/{fsize(x, keys['upload'])}"
+
+            payload_str = 'payload_' if self.config['show_payload'] else ''
+            keys = {
+                stat_type: f'total_{payload_str}{stat_type}'
+                for stat_type in ['download', 'upload']
+            }
+            session_stats_str = f'S: {format_str(session_stats, keys)}'
+            total_stats_str = ''
+            if total_stats:
+                total_stats_str = f' T: {format_str(total_stats, keys)}'
+
+            self.status_item.set_text(f'{session_stats_str}{total_stats_str}')
+
+        session_totals = await client.stats.get_session_totals()
+        totals = None
+        if self.config['show_total']:
+            totals = await client.stats.get_totals()
+        handle_stats(session_totals, totals)
+
+    def update(self):
+        self.update_status()
 
     def on_apply_prefs(self):
         log.debug('applying prefs for Stats')
@@ -278,12 +329,18 @@ class GtkUI(Gtk3PluginBase):
                 except Exception:
                     gtkconf[graph][value] = DEFAULT_CONF['colors'][graph][value]
         self.config['colors'] = gtkconf
+        self.config['show_payload'] = self.builder.get_object(
+            'show_payload'
+        ).get_active()
+        self.config['show_total'] = self.builder.get_object('show_total').get_active()
         self.graphs_tab.set_colors(self.config['colors'])
 
         config = {}
         client.stats.set_config(config)
 
     def on_show_prefs(self):
+        self.builder.get_object('show_payload').set_active(self.config['show_payload'])
+        self.builder.get_object('show_total').set_active(self.config['show_total'])
         for graph, colors in self.config['colors'].items():
             for value, color in colors.items():
                 try:

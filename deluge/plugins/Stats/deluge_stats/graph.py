@@ -16,6 +16,7 @@ port of old plugin by markybob.
 import logging
 import math
 import time
+from collections import defaultdict
 
 import gi
 
@@ -72,6 +73,8 @@ class Graph:
         self.max_selected = True
         self.black = (0, 0, 0)
         self.interval = 2  # 2 secs
+        self.last_update = 0
+        self.stats = defaultdict(lambda: [0])
         self.text_bg = (255, 255, 255, 128)  # prototyping
         self.set_left_axis()
 
@@ -119,6 +122,8 @@ class Graph:
     def draw_x_axis(self, ctx, bounds):
         (left, top, right, bottom) = bounds
         duration = self.length * self.interval
+        if self.last_update == 0:
+            self.last_update = duration
         start = self.last_update - duration
         ratio = (right - left) / duration
 
@@ -156,10 +161,7 @@ class Graph:
         max_value = 0
         for stat in self.stat_info:
             if self.stat_info[stat]['axis'] == 'left':
-                try:
-                    l_max = max(self.stats[stat])
-                except ValueError:
-                    l_max = 0
+                l_max = max(self.stats[stat])
                 if l_max > max_value:
                     max_value = l_max
         if max_value < self.left_axis['min']:
