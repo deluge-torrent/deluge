@@ -36,10 +36,6 @@ for i in (0xFFFE, 0xFFFF):
     noncharacter_translate[i] = ord('-')
 
 
-def gmtime():
-    return time.mktime(time.gmtime())
-
-
 def dummy(*v):
     pass
 
@@ -100,7 +96,7 @@ def make_meta_file_content(
     torrent_format=TorrentFormat.V1,
     ca_cert=None,
 ):
-    data = {'creation date': int(gmtime())}
+    data = {'creation date': int(time.time())}
     if url:
         data['announce'] = url.strip()
 
