@@ -389,6 +389,21 @@ class TestCore(BaseTestCase):
         assert val[0] == ('invalidid1', 'torrent_id invalidid1 not in session.')
         assert val[1] == ('invalidid2', 'torrent_id invalidid2 not in session.')
 
+    def test_current_session_state_roundtrip(self):
+        if deluge.common.VersionSplit(lt.__version__) < deluge.common.VersionSplit(
+            '2.1.0.0'
+        ):
+            pytest.skip('Requires libtorrent 2.1 session APIs')
+
+        self.core.apply_session_setting('connections_limit', 137)
+        self.core._save_session_state()
+        params = self.core._load_session_state()
+        assert isinstance(params, lt.session_params)
+        assert params.settings['connections_limit'] == 137
+
+        restored = lt.session(params)
+        assert restored.get_settings()['connections_limit'] == 137
+
     def test_get_session_status(self):
         status = self.core.get_session_status(
             ['net.recv_tracker_bytes', 'net.sent_tracker_bytes']

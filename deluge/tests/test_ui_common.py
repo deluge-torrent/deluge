@@ -6,12 +6,28 @@
 # See LICENSE for more details.
 #
 
-from deluge.ui.common import TorrentInfo
+from deluge.ui.common import TorrentInfo, get_disk_cache_block_metric
 
 from . import common
 
 
 class TestUICommon:
+    def test_disk_cache_metric_legacy_libtorrent(self):
+        status = {'disk.read_cache_blocks': 12, 'disk.disk_blocks_in_use': 20}
+        assert get_disk_cache_block_metric(status) == 'disk.read_cache_blocks'
+
+    def test_disk_cache_metric_modern_libtorrent(self):
+        status = {'disk.cached_blocks': 8, 'disk.disk_blocks_in_use': 20}
+        assert get_disk_cache_block_metric(status) == 'disk.cached_blocks'
+
+    def test_disk_cache_metric_libtorrent_2_0(self):
+        status = {'disk.disk_blocks_in_use': 20}
+        assert get_disk_cache_block_metric(status) is None
+
+    def test_disk_cache_metric_prefers_legacy(self):
+        status = {'disk.read_cache_blocks': 12, 'disk.cached_blocks': 8}
+        assert get_disk_cache_block_metric(status) == 'disk.read_cache_blocks'
+
     def test_hash_optional_single_file(self):
         """Ensure single file with `ed2k` and `sha1` keys are not in filetree output."""
         filename = common.get_test_data_file('test.torrent')

@@ -153,7 +153,8 @@ FILE_PRIORITY = {
 
 del _
 
-# The keys from session statistics for cache status.
+# Session status keys used by the Preferences disk-cache page. The optional
+# cache metrics vary across libtorrent versions and are ignored if unavailable.
 DISK_CACHE_KEYS = [
     'disk.num_blocks_read',
     'disk.num_blocks_written',
@@ -163,7 +164,20 @@ DISK_CACHE_KEYS = [
     'write_hit_ratio',
     'disk.disk_blocks_in_use',
     'disk.read_cache_blocks',
+    'disk.cached_blocks',
 ]
+
+
+def get_disk_cache_block_metric(status):
+    """Select the available disk-cache block metric across libtorrent versions.
+
+    libtorrent 1.2 exports read_cache_blocks, 2.0 exports neither metric, and
+    2.1 exports cached_blocks (which includes both read and write cache).
+    """
+    for key in ('disk.read_cache_blocks', 'disk.cached_blocks'):
+        if key in status:
+            return key
+    return None
 
 
 class TorrentInfo:
