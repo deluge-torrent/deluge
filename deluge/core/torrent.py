@@ -17,6 +17,7 @@ import logging
 import os
 import socket
 import time
+from datetime import datetime
 from typing import Optional
 from urllib.parse import urlparse
 
@@ -46,6 +47,23 @@ LT_TORRENT_STATE_MAP = {
     'allocating': 'Allocating',
     'checking_resume_data': 'Checking',
 }
+
+
+def _torrent_duration(status, legacy_name, modern_name):
+    """Return elapsed torrent time in seconds for libtorrent 1.2 through 2.1."""
+    if hasattr(status, legacy_name):
+        return getattr(status, legacy_name)
+    return int(getattr(status, modern_name).total_seconds())
+
+
+def _time_since_torrent_activity(status, legacy_name, modern_name):
+    """Return seconds since transfer, or -1 if no transfer has occurred."""
+    if hasattr(status, legacy_name):
+        return getattr(status, legacy_name)
+    timestamp = getattr(status, modern_name)
+    if timestamp is None:
+        return -1
+    return max(0, int((datetime.now() - timestamp).total_seconds()))
 
 
 def sanitize_filepath(filepath, folder=False):
@@ -113,6 +131,23 @@ def convert_lt_files(files):
         )
 
     return filelist
+
+
+def _get_torrent_file_storage(torrent_info, original=True):
+    """Return torrent file metadata across supported libtorrent versions."""
+    if hasattr(torrent_info, 'layout'):
+        return torrent_info.layout()
+    if original:
+        return torrent_info.orig_files()
+    return torrent_info.files()
+
+
+def _torrent_status_flag(status, flag, legacy_attribute):
+    """Return a torrent status flag across libtorrent API versions."""
+    status_flags = getattr(status, 'flags', None)
+    if status_flags is None:
+        return getattr(status, legacy_attribute)
+    return bool(status_flags & flag)
 
 
 class TorrentOptions(dict):
@@ -244,6 +279,10 @@ class Torrent:
 
         self.options = TorrentOptions()
         self.options.update(options)
+        mapped_files = self.options['mapped_files'] or {}
+        self.options['mapped_files'] = {
+            int(index): path for index, path in mapped_files.items()
+        }
 
         # Load values from state if we have it
         if state:
@@ -272,6 +311,8 @@ class Torrent:
 
         self._create_status_funcs()
         self.set_options(self.options)
+        if self.has_metadata and self.options['mapped_files']:
+            self.rename_files(self.options['mapped_files'].items())
         self.update_state()
 
         if log.isEnabledFor(logging.DEBUG):
@@ -292,7 +333,9 @@ class Torrent:
     def on_metadata_received(self):
         """Process the metadata received alert for this torrent"""
         self.has_metadata = True
-        self.torrent_info = self.handle.get_torrent_info()
+        self.torrent_info = self.handle.torrent_file()
+        if self.options['mapped_files']:
+            self.rename_files(self.options['mapped_files'].items())
         if self.options['prioritize_first_last_pieces']:
             self.set_prioritize_first_last_pieces(True)
         self.write_torrentfile()
@@ -410,8 +453,9 @@ class Torrent:
         def get_file_piece(idx, byte_offset):
             return self.torrent_info.map_file(idx, byte_offset, 0).piece
 
+        files = _get_torrent_file_storage(self.torrent_info)
         for idx in range(self.torrent_info.num_files()):
-            file_size = self.torrent_info.files().file_size(idx)
+            file_size = files.file_size(idx)
             two_percent_bytes = int(0.02 * file_size)
             # Get the pieces for the byte offsets
             first_start = get_file_piece(idx, 0)
@@ -450,7 +494,12 @@ class Torrent:
             auto_managed (bool): Enable auto managed.
         """
         self.options['auto_managed'] = auto_managed
-        if not (self.status.paused and not self.status.auto_managed):
+        if not (
+            _torrent_status_flag(self.status, lt.torrent_flags.paused, 'paused')
+            and not _torrent_status_flag(
+                self.status, lt.torrent_flags.auto_managed, 'auto_managed'
+            )
+        ):
             self._set_handle_flags(
                 flag=lt.torrent_flags.auto_managed,
                 set_flag=auto_managed,
@@ -624,8 +673,8 @@ class Torrent:
                 TorrentTrackerStatusEvent(self.torrent_id, self.tracker_status)
             )
 
-    def merge_trackers(self, torrent_info):
-        """Merges new trackers in torrent_info into torrent"""
+    def merge_trackers(self, torrent_info, file_params=None):
+        """Merge trackers from an added .torrent without changing its data."""
         log.info(
             'Adding any new trackers to torrent (%s) already in session...',
             self.torrent_id,
@@ -635,11 +684,22 @@ class Torrent:
         # Don't merge trackers if either torrent has private flag set.
         if torrent_info.priv() or self.get_status(['private'])['private']:
             log.info('Adding trackers aborted: Torrent has private flag set.')
-        else:
+            return
+
+        if file_params is not None:
+            # In ABI 4+ tracker lists live in add_torrent_params, not torrent_info.
+            for index, url in enumerate(file_params.trackers):
+                tier = (
+                    file_params.tracker_tiers[index]
+                    if index < len(file_params.tracker_tiers)
+                    else 0
+                )
+                self.handle.add_tracker({'url': url, 'tier': tier})
+        elif hasattr(torrent_info, 'trackers'):
             for tracker in torrent_info.trackers():
                 self.handle.add_tracker({'url': tracker.url, 'tier': tracker.tier})
-            # Update torrent.trackers from libtorrent handle.
-            self.set_trackers()
+        # Update torrent.trackers from libtorrent handle.
+        self.set_trackers()
 
     def update_state(self):
         """Updates the state, based on libtorrent's torrent state"""
@@ -648,6 +708,11 @@ class Torrent:
         old_state = self.state
         self.set_status_message()
         status_error = status.errc.message() if status.errc.value() else ''
+
+        status_paused = _torrent_status_flag(status, lt.torrent_flags.paused, 'paused')
+        status_auto_managed = _torrent_status_flag(
+            status, lt.torrent_flags.auto_managed, 'auto_managed'
+        )
 
         if self.forced_error:
             self.state = 'Error'
@@ -662,9 +727,9 @@ class Torrent:
             self.set_status_message(decode_bytes(status_error))
         elif status.moving_storage:
             self.state = 'Moving'
-        elif not session_paused and status.paused and status.auto_managed:
+        elif not session_paused and status_paused and status_auto_managed:
             self.state = 'Queued'
-        elif session_paused or status.paused:
+        elif session_paused or status_paused:
             self.state = 'Paused'
         else:
             self.state = LT_TORRENT_STATE_MAP.get(str(status.state), str(status.state))
@@ -716,8 +781,9 @@ class Torrent:
             flag=lt.torrent_flags.auto_managed,
             set_flag=False,
         )
-        self.forced_error = TorrentError(message, status.paused, restart_to_resume)
-        if not status.paused:
+        status_paused = _torrent_status_flag(status, lt.torrent_flags.paused, 'paused')
+        self.forced_error = TorrentError(message, status_paused, restart_to_resume)
+        if not status_paused:
             self.handle.pause()
         self.update_state()
 
@@ -787,8 +853,19 @@ class Torrent:
         if not self.has_metadata:
             return []
 
-        files = self.torrent_info.files()
-        return convert_lt_files(files)
+        files = _get_torrent_file_storage(self.torrent_info, original=False)
+        filelist = convert_lt_files(files)
+        if hasattr(self.handle, 'get_renamed_files'):
+            renamed_files = self.handle.get_renamed_files()
+            for file_info in filelist:
+                file_info['path'] = decode_bytes(
+                    renamed_files.file_path(files, file_info['index'])
+                ).replace('\\', '/')
+        for file_info in filelist:
+            mapped_path = self.options['mapped_files'].get(file_info['index'])
+            if mapped_path is not None:
+                file_info['path'] = sanitize_filepath(decode_bytes(mapped_path))
+        return filelist
 
     def get_orig_files(self):
         """Get the original filenames of files in this torrent.
@@ -800,7 +877,7 @@ class Torrent:
         if not self.has_metadata:
             return []
 
-        files = self.torrent_info.orig_files()
+        files = _get_torrent_file_storage(self.torrent_info)
         return convert_lt_files(files)
 
     def get_peers(self):
@@ -831,6 +908,12 @@ class Torrent:
             if peer.flags & peer.connecting or peer.flags & peer.handshake:
                 continue
 
+            # peer_info.ip is not exposed by newer libtorrent Python ABIs.
+            # remote_endpoint() is supported by current bindings.
+            endpoint = (
+                peer.remote_endpoint() if hasattr(peer, 'remote_endpoint') else peer.ip
+            )
+
             try:
                 client = decode_bytes(peer.client)
             except UnicodeDecodeError:
@@ -839,7 +922,7 @@ class Torrent:
 
             try:
                 country = component.get('Core').geoip_instance.country_code_by_addr(
-                    peer.ip[0]
+                    endpoint[0]
                 )
             except AttributeError:
                 country = ''
@@ -856,7 +939,7 @@ class Torrent:
                     'client': client,
                     'country': country,
                     'down_speed': peer.payload_down_speed,
-                    'ip': f'{peer.ip[0]}:{peer.ip[1]}',
+                    'ip': f'{endpoint[0]}:{endpoint[1]}',
                     'progress': peer.progress,
                     'seed': peer.flags & peer.seed,
                     'up_speed': peer.payload_up_speed,
@@ -893,18 +976,21 @@ class Torrent:
         if not self.has_metadata:
             return []
 
+        # The file_storage iterator is only exposed by libtorrent's Python
+        # bindings with ABI 1. Query file sizes by index for ABI 2/3 as well.
+        files = _get_torrent_file_storage(self.torrent_info, original=False)
         try:
-            files_progresses = zip(
-                self.handle.file_progress(), self.torrent_info.files()
-            )
+            progress = self.handle.file_progress()
         except Exception:
-            # Handle libtorrent >=2.0.0,<=2.0.4 file_progress error
-            files_progresses = zip(iter(lambda: 0, 1), self.torrent_info.files())
+            # libtorrent 2.0.0-2.0.4 may fail to return file progress.
+            progress = []
 
-        return [
-            progress / _file.size if _file.size else 0.0
-            for progress, _file in files_progresses
-        ]
+        result = []
+        for index in range(files.num_files()):
+            size = files.file_size(index)
+            completed = progress[index] if index < len(progress) else 0
+            result.append(completed / size if size else 0.0)
+        return result
 
     def get_tracker_host(self):
         """Get the hostname of the currently connected tracker.
@@ -945,8 +1031,18 @@ class Torrent:
         return ''
 
     def get_magnet_uri(self):
-        """Returns a magnet URI for this torrent"""
-        return lt.make_magnet_uri(self.handle)
+        """Returns a magnet URI for this torrent."""
+        try:
+            return lt.make_magnet_uri(self.handle)
+        except TypeError:
+            # Newer bindings accept add_torrent_params instead of torrent_handle.
+            params = lt.add_torrent_params()
+            params.info_hashes = self.handle.info_hashes()
+            params.name = self.get_name()
+            trackers = self.handle.trackers()
+            params.trackers = [entry['url'] for entry in trackers]
+            params.tracker_tiers = [entry['tier'] for entry in trackers]
+            return lt.make_magnet_uri(params)
 
     def get_name(self):
         """The name of the torrent (distinct from the filenames).
@@ -963,9 +1059,12 @@ class Torrent:
             return self.options['name']
 
         if self.has_metadata:
-            # Use the top-level folder as torrent name.
-            filename = decode_bytes(self.torrent_info.files().file_path(0))
-            name = filename.replace('\\', '/', 1).split('/', 1)[0]
+            # File metadata and libtorrent's renamed-file view can be
+            # temporarily unavailable while restoring a session.
+            files = self.get_files()
+            name = (
+                files[0]['path'].replace('\\', '/', 1).split('/', 1)[0] if files else ''
+            )
         else:
             name = decode_bytes(self.handle.status().name)
 
@@ -1004,7 +1103,14 @@ class Torrent:
 
     def get_time_since_transfer(self):
         """The time since either upload/download from peers"""
-        time_since = (self.status.time_since_download, self.status.time_since_upload)
+        time_since = (
+            _time_since_torrent_activity(
+                self.status, 'time_since_download', 'last_download'
+            ),
+            _time_since_torrent_activity(
+                self.status, 'time_since_upload', 'last_upload'
+            ),
+        )
         try:
             return min(x for x in time_since if x != -1)
         except ValueError:
@@ -1089,9 +1195,15 @@ class Torrent:
     def _create_status_funcs(self):
         """Creates the functions for getting torrent status"""
         self.status_funcs = {
-            'active_time': lambda: self.status.active_time,
-            'seeding_time': lambda: self.status.seeding_time,
-            'finished_time': lambda: self.status.finished_time,
+            'active_time': lambda: _torrent_duration(
+                self.status, 'active_time', 'active_duration'
+            ),
+            'seeding_time': lambda: _torrent_duration(
+                self.status, 'seeding_time', 'seeding_duration'
+            ),
+            'finished_time': lambda: _torrent_duration(
+                self.status, 'finished_time', 'finished_duration'
+            ),
             'all_time_download': lambda: self.status.all_time_download,
             'storage_mode': lambda: self.status.storage_mode.name.split('_')[
                 2
@@ -1120,7 +1232,9 @@ class Torrent:
             'num_peers': lambda: self.status.num_peers - self.status.num_seeds,
             'num_seeds': lambda: self.status.num_seeds,
             'owner': lambda: self.options['owner'],
-            'paused': lambda: self.status.paused,
+            'paused': lambda: _torrent_status_flag(
+                self.status, lt.torrent_flags.paused, 'paused'
+            ),
             'prioritize_first_last': lambda: self.options[
                 'prioritize_first_last_pieces'
             ],
@@ -1163,10 +1277,14 @@ class Torrent:
             'tracker_status': lambda: self.tracker_status,
             'upload_payload_rate': lambda: self.status.upload_payload_rate,
             'comment': lambda: (
-                decode_bytes(self.torrent_info.comment()) if self.has_metadata else ''
+                decode_bytes(self.torrent_info.comment())
+                if self.has_metadata and hasattr(self.torrent_info, 'comment')
+                else ''
             ),
             'creator': lambda: (
-                decode_bytes(self.torrent_info.creator()) if self.has_metadata else ''
+                decode_bytes(self.torrent_info.creator())
+                if self.has_metadata and hasattr(self.torrent_info, 'creator')
+                else ''
             ),
             'num_files': lambda: (
                 self.torrent_info.num_files() if self.has_metadata else 0
@@ -1193,10 +1311,18 @@ class Torrent:
             'last_seen_complete': lambda: self.status.last_seen_complete,
             'name': self.get_name,
             'pieces': self._get_pieces_info,
-            'seed_mode': lambda: self.status.seed_mode,
-            'super_seeding': lambda: self.status.super_seeding,
-            'time_since_download': lambda: self.status.time_since_download,
-            'time_since_upload': lambda: self.status.time_since_upload,
+            'seed_mode': lambda: _torrent_status_flag(
+                self.status, lt.torrent_flags.seed_mode, 'seed_mode'
+            ),
+            'super_seeding': lambda: _torrent_status_flag(
+                self.status, lt.torrent_flags.super_seeding, 'super_seeding'
+            ),
+            'time_since_download': lambda: _time_since_torrent_activity(
+                self.status, 'time_since_download', 'last_download'
+            ),
+            'time_since_upload': lambda: _time_since_torrent_activity(
+                self.status, 'time_since_upload', 'last_upload'
+            ),
             'time_since_transfer': self.get_time_since_transfer,
         }
 
@@ -1214,7 +1340,7 @@ class Torrent:
         )
         if self.state == 'Error':
             log.debug('Unable to pause torrent while in Error state')
-        elif self.status.paused:
+        elif _torrent_status_flag(self.status, lt.torrent_flags.paused, 'paused'):
             # This torrent was probably paused due to being auto managed by lt
             # Since we turned auto_managed off, we should update the state which should
             # show it as 'Paused'.  We need to emit a torrent_paused signal because
@@ -1231,7 +1357,11 @@ class Torrent:
 
     def resume(self):
         """Resumes this torrent."""
-        if self.status.paused and self.status.auto_managed:
+        if _torrent_status_flag(
+            self.status, lt.torrent_flags.paused, 'paused'
+        ) and _torrent_status_flag(
+            self.status, lt.torrent_flags.auto_managed, 'auto_managed'
+        ):
             log.debug('Resume not possible for auto-managed torrent!')
         elif self.forced_error and self.forced_error.was_paused:
             log.debug(
@@ -1409,8 +1539,26 @@ class Torrent:
         filepath = os.path.join(get_config_dir(), 'state', self.torrent_id + '.torrent')
 
         if filedump is None:
-            lt_ct = lt.create_torrent(self.torrent_info)
-            filedump = lt.bencode(lt_ct.generate())
+            if hasattr(lt.add_torrent_params(), 'info_hashes'):
+                # Preserve the original info dictionary (and its hashes), as
+                # well as the live tracker list when saving magnet metadata.
+                params = lt.add_torrent_params()
+                params.ti = self.torrent_info
+                trackers = self.handle.trackers()
+                params.trackers = [tracker['url'] for tracker in trackers]
+                params.tracker_tiers = [tracker['tier'] for tracker in trackers]
+                params.url_seeds = self.handle.url_seeds()
+                filedump = lt.bencode(lt.write_torrent_file(params))
+            else:
+                # The published 2.1 wheels can expose the legacy Python ABI.
+                # Recreating a torrent_info alone drops live tracker endpoints
+                # discovered from a magnet, even after successful RTC transfer.
+                lt_ct = lt.create_torrent(self.torrent_info)
+                for tracker in self.handle.trackers():
+                    lt_ct.add_tracker(tracker['url'], tracker['tier'])
+                for url in self.handle.url_seeds():
+                    lt_ct.add_url_seed(url)
+                filedump = lt.bencode(lt_ct.generate())
 
         write_file(filepath, filedump)
 
@@ -1466,7 +1614,9 @@ class Torrent:
             self.forcing_recheck_paused = self.forced_error.was_paused
             self.clear_forced_error_state(update_state=False)
         else:
-            self.forcing_recheck_paused = self.status.paused
+            self.forcing_recheck_paused = _torrent_status_flag(
+                self.status, lt.torrent_flags.paused, 'paused'
+            )
 
         try:
             self.handle.force_recheck()
@@ -1484,6 +1634,7 @@ class Torrent:
             filenames (list): A list of (index, filename) pairs.
         """
         for index, filename in filenames:
+            index = int(index)
             # Make sure filename is a sanitized unicode string.
             filename = sanitize_filepath(decode_bytes(filename))
             # lt needs utf8 byte-string. Otherwise if wstrings enabled, unicode string.

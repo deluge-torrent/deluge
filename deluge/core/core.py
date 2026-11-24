@@ -36,7 +36,7 @@ from deluge.core.authmanager import (
 from deluge.core.eventmanager import EventManager
 from deluge.core.filtermanager import FilterManager
 from deluge.core.pluginmanager import PluginManager
-from deluge.core.preferencesmanager import PreferencesManager
+from deluge.core.preferencesmanager import DEFAULT_PREFS, PreferencesManager
 from deluge.core.rpcserver import export
 from deluge.core.torrentmanager import TorrentManager
 from deluge.decorators import deprecated, maybe_coroutine
@@ -104,11 +104,40 @@ SESSION_RATES_MAPPING = {
 
 DELUGE_VER = deluge.common.get_version()
 
+# Legacy settings without a direct equivalent in libtorrent's current session API.
+# Keep them in Deluge's configuration for older supported libtorrent builds.
+REMOVED_SESSION_SETTINGS = frozenset(
+    {
+        'half_open_limit',
+        'ignore_limits_on_local_network',
+        'cache_size',
+        'cache_expiry',
+        'ignore_resume_timestamps',
+    }
+)
+
 
 class Core(component.Component):
     def __init__(
         self, listen_interface=None, outgoing_interface=None, read_only_config_keys=None
     ):
+        # The removed force_proxy option cannot guarantee network isolation in
+        # modern libtorrent. Reject such a saved configuration *before* opening
+        # a session and any sockets.
+        config = ConfigManager('core.conf', DEFAULT_PREFS)
+        if deluge.common.VersionSplit(LT_VERSION) >= deluge.common.VersionSplit(
+            '2.1.0.0'
+        ):
+            proxy = config.get('proxy') or {}
+            old_proxies = config.get('proxies') or {}
+            peer_proxy = old_proxies.get('peer') or {}
+            if proxy.get('force_proxy') or peer_proxy.get('force_proxy'):
+                raise ValueError(
+                    'force_proxy is not supported by this libtorrent build; '
+                    'Deluge will not start a network session with this '
+                    'unsupported privacy requirement'
+                )
+
         component.Component.__init__(self, 'Core')
 
         # Start the libtorrent session.
@@ -118,12 +147,27 @@ class Core(component.Component):
         settings_pack = {
             'peer_fingerprint': peer_id,
             'user_agent': user_agent,
-            'ignore_resume_timestamps': True,
         }
-        self.session = lt.session(settings_pack, flags=0)
-
-        # Load the settings, if available.
-        self._load_session_state()
+        if deluge.common.VersionSplit(LT_VERSION) < deluge.common.VersionSplit(
+            '2.1.0.0'
+        ):
+            settings_pack['ignore_resume_timestamps'] = True
+        if deluge.common.VersionSplit(LT_VERSION) >= deluge.common.VersionSplit(
+            '2.1.0.0'
+        ):
+            # Current libtorrent restores session state through session_params
+            # at construction time. The old load_state method is a no-op.
+            params = self._load_session_state()
+            if params is not None:
+                saved_settings = params.settings
+                saved_settings.update(settings_pack)
+                params.settings = saved_settings
+                self.session = lt.session(params)
+            else:
+                self.session = lt.session(settings_pack, flags=0)
+        else:
+            self.session = lt.session(settings_pack, flags=0)
+            self._load_session_state()
 
         # Enable libtorrent extensions
         # Allows peers to download the metadata from the swarm directly
@@ -238,12 +282,45 @@ class Core(component.Component):
         self.apply_session_settings({key: value})
 
     def apply_session_settings(self, settings):
-        """Apply libtorrent session settings.
+        """Apply libtorrent session settings with compatibility for renamed keys."""
+        supported = self.session.get_settings()
+        compatible = settings.copy()
 
-        Args:
-            settings: A dict of lt session settings to apply.
-        """
-        self.session.apply_settings(settings)
+        if 'force_proxy' in compatible:
+            can_enforce = 'force_proxy' in supported and deluge.common.VersionSplit(
+                LT_VERSION
+            ) < deluge.common.VersionSplit('2.1.0.0')
+            if not can_enforce and compatible.pop('force_proxy'):
+                self.session.pause()
+                raise ValueError(
+                    'This libtorrent build cannot enforce force_proxy; '
+                    'the running session has been paused instead'
+                )
+
+        if (
+            'peer_tos' in compatible
+            and 'peer_tos' not in supported
+            and 'peer_dscp' in supported
+        ):
+            compatible['peer_dscp'] = compatible.pop('peer_tos')
+
+        for key in REMOVED_SESSION_SETTINGS & compatible.keys():
+            if key not in supported:
+                del compatible[key]
+                log.warning(
+                    'Libtorrent does not support legacy session setting %s; '
+                    'the saved Deluge preference has no effect',
+                    key,
+                )
+
+        unknown = compatible.keys() - supported.keys()
+        if unknown:
+            raise KeyError(
+                f'Unsupported libtorrent session setting: {sorted(unknown)[0]}'
+            )
+
+        if compatible:
+            self.session.apply_settings(compatible)
 
     @staticmethod
     def _create_peer_id(version: str) -> str:
@@ -303,7 +380,15 @@ class Core(component.Component):
             log.info('Saving the %s at: %s', filename, filepath)
             try:
                 with open(filepath_tmp, 'wb') as _file:
-                    _file.write(lt.bencode(self.session.save_state()))
+                    if deluge.common.VersionSplit(
+                        LT_VERSION
+                    ) >= deluge.common.VersionSplit('2.1.0.0'):
+                        state = lt.write_session_params_buf(
+                            self.session.session_state()
+                        )
+                    else:
+                        state = lt.bencode(self.session.save_state())
+                    _file.write(state)
                     _file.flush()
                     os.fsync(_file.fileno())
                 shutil.move(filepath_tmp, filepath)
@@ -313,12 +398,8 @@ class Core(component.Component):
                     log.info('Restoring backup of %s from: %s', filename, filepath_bak)
                     shutil.move(filepath_bak, filepath)
 
-    def _load_session_state(self) -> dict:
-        """Loads the libtorrent session state
-
-        Returns:
-            A libtorrent sesion state, empty dict if unable to load it.
-        """
+    def _load_session_state(self):
+        """Load the current session_params, or apply legacy session state."""
         filename = 'session.state'
         filepath = get_config_dir(filename)
         filepath_bak = filepath + '.bak'
@@ -327,12 +408,24 @@ class Core(component.Component):
             log.debug('Opening %s for load: %s', filename, _filepath)
             try:
                 with open(_filepath, 'rb') as _file:
-                    state = lt.bdecode(_file.read())
-            except (OSError, EOFError, RuntimeError) as ex:
+                    data = _file.read()
+                if deluge.common.VersionSplit(LT_VERSION) >= deluge.common.VersionSplit(
+                    '2.1.0.0'
+                ):
+                    state = lt.read_session_params(data)
+                else:
+                    state = lt.bdecode(data)
+            except (OSError, EOFError, RuntimeError, ValueError) as ex:
                 log.warning('Unable to load %s: %s', _filepath, ex)
             else:
                 log.info('Successfully loaded %s: %s', filename, _filepath)
-                self.session.load_state(state)
+                if deluge.common.VersionSplit(LT_VERSION) < deluge.common.VersionSplit(
+                    '2.1.0.0'
+                ):
+                    self.session.load_state(state)
+                return state
+
+        return None
 
     def _on_alert_session_stats(self, alert):
         """The handler for libtorrent session stats alert"""

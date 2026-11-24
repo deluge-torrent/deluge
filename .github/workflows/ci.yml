@@ -12,11 +12,10 @@ on:
         default: "0"
 
 env:
-  # Install exactly what uv.lock says and fail if it is out of date.
+  # Keep shared dependencies locked while allowing each matrix job to select
+  # the libtorrent version it is validating.
   UV_LOCKED: true
-  # Only the groups named in the sync command, not the project defaults (dev).
   UV_NO_DEFAULT_GROUPS: true
-  # uv run uses the synced environment as is, without syncing or touching the lock.
   UV_NO_SYNC: true
 
 jobs:
@@ -25,7 +24,16 @@ jobs:
     timeout-minutes: 10
     strategy:
       matrix:
-        python-version: ["3.10", "3.13"]
+        include:
+          - python-version: "3.10"
+            libtorrent: "1.2.19"
+          - python-version: "3.10"
+            libtorrent: "2.0.11"
+          - python-version: "3.10"
+            libtorrent: "2.1.3"
+            webtorrent: true
+          - python-version: "3.13"
+            libtorrent: "2.1.3"
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -44,8 +52,14 @@ jobs:
         run: echo "SECURITY_TESTS=True" >> $GITHUB_ENV
 
       - name: Install dependencies
-        run: |
-          uv sync --group tests --extra all
+        run: uv sync --group tests --extra all
+
+      - name: Select libtorrent version
+        run: uv pip install --reinstall "libtorrent==${{ matrix.libtorrent }}"
+
+      - name: Install WebTorrent test dependency
+        if: matrix.webtorrent
+        run: uv pip install "websockets==16.1.1"
 
       - name: Install security dependencies
         if: contains(env.SECURITY_TESTS, 'True')
@@ -70,11 +84,15 @@ jobs:
           uv run python -c 'from deluge._libtorrent import lt; print(lt.__version__)';
           uv run $DEBUG_PREFIX pytest -v -m "not (todo or gtkui or internet)" deluge
 
+      - name: Verify WSS offers and real WebRTC piece transfers
+        if: matrix.webtorrent
+        run: uv run pytest -v deluge/tests/test_webtorrent.py
+
       - uses: actions/upload-artifact@v4
         # capture all crashes as build artifacts
         if: failure()
         with:
-          name: crashes
+          name: crashes-linux-py${{ matrix.python-version }}-lt${{ matrix.libtorrent }}
           path: /cores
 
   test-windows:
@@ -83,6 +101,7 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.10"]
+        libtorrent: ["1.2.19", "2.0.11", "2.1.3"]
 
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -97,8 +116,14 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Install dependencies
-        run: |
-          uv sync --group tests --extra all
+        run: uv sync --group tests --extra all
+
+      - name: Select libtorrent version
+        run: uv pip install --reinstall "libtorrent==${{ matrix.libtorrent }}"
+
+      - name: Install WebTorrent test dependency
+        if: startsWith(matrix.libtorrent, '2.1.')
+        run: uv pip install "websockets==16.1.1"
 
       - name: Install OpenSSL
         run: |
@@ -120,3 +145,7 @@ jobs:
         run: |
           uv run python -c 'import libtorrent as lt; print(lt.__version__)';
           uv run pytest -v -m "not (todo or gtkui or security or internet)" deluge
+
+      - name: Verify WSS offers and real WebRTC piece transfers
+        if: startsWith(matrix.libtorrent, '2.1.')
+        run: uv run pytest -v deluge/tests/test_webtorrent.py
