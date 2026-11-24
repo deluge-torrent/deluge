@@ -23,7 +23,6 @@ import deluge.component as component
 import deluge.configmanager
 from deluge.common import is_url
 from deluge.core.rpcserver import export
-from deluge.httpdownloader import download_file
 from deluge.plugins.pluginbase import CorePluginBase
 
 from .common import IP, BadIP
@@ -326,7 +325,7 @@ class Core(CorePluginBase):
         log.debug('Attempting to download blocklist %s', url)
         log.debug('Sending headers: %s', headers)
         self.is_downloading = True
-        return download_file(
+        return self.core.download_file(
             url,
             deluge.configmanager.get_config_dir('blocklist.download'),
             on_retrieve_data,
