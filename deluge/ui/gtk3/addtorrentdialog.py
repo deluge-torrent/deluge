@@ -12,7 +12,7 @@ from base64 import b64decode, b64encode
 from xml.sax.saxutils import escape as xml_escape
 from xml.sax.saxutils import unescape as xml_unescape
 
-from gi.repository import Gtk
+from gi.repository import GLib, Gtk
 from gi.repository.GObject import TYPE_INT64, TYPE_UINT64
 
 import deluge.component as component
@@ -138,6 +138,11 @@ class AddTorrentDialog(component.Component):
         self.setup_move_completed_path_chooser()
         self.setup_download_location_path_chooser()
 
+        self.gtkui_config = ConfigManager('gtk3ui.conf')
+        self._size_info_idle = None
+        self._free_space = None  # (path, bytes or None) of the last free space query
+        self.setup_side_by_side_layout()
+
         # Get default config values from the core
         self.core_keys = [
             'pre_allocate_storage',
@@ -156,9 +161,6 @@ class AddTorrentDialog(component.Component):
             'super_seeding',
         ]
         # self.core_keys += self.move_completed_path_chooser.get_config_keys()
-        self.builder.get_object('notebook1').connect(
-            'switch-page', self._on_switch_page
-        )
 
     def start(self):
         self.update_core_config()
@@ -195,10 +197,15 @@ class AddTorrentDialog(component.Component):
         self.torrent_liststore.clear()
         self.files_treestore.clear()
         self.prefetching_magnets = []
+        self._free_space = None
         self.dialog.set_transient_for(component.get('MainWindow').window)
 
     def _on_config_values(self, config, show=False, focus=False):
         self.core_config = config
+        last_location = self.gtkui_config.get('addtorrent_last_download_location')
+        if self.core_config and last_location:
+            # Offer the location used for the previously added torrent as default.
+            self.core_config = dict(config, download_location=last_location)
         if self.core_config:
             self.set_default_options()
         if show:
@@ -356,14 +363,11 @@ class AddTorrentDialog(component.Component):
         self.prefetch_waiting_message(torrent_id, files_list)
 
         self.previous_selected_torrent = row
+        self.update_size_info()
 
     def _on_torrent_name_edit(self, w, row, new_name):
         # TODO: Update torrent name
         pass
-
-    def _on_switch_page(self, widget, page, page_num):
-        # Save the torrent options when switching notebook pages
-        self.save_torrent_options()
 
     def prepare_file_store(self, files):
         with listview_replace_treestore(self.listview_files):
@@ -450,6 +454,112 @@ class AddTorrentDialog(component.Component):
         self.move_completed_path_chooser.set_sensitive(
             self.core_config['move_completed']
         )
+
+    def setup_side_by_side_layout(self):
+        """Show the Options and the Files side by side instead of in notebook tabs."""
+        notebook = self.builder.get_object('notebook1')
+        container = notebook.get_parent()
+        files_page = self.builder.get_object('vbox1')
+        options_page = self.builder.get_object('vbox3')
+        for page in (files_page, options_page):
+            notebook.remove_page(notebook.page_num(page))
+
+        # Torrent size and free space at the download location.
+        self.size_info_label = Gtk.Label(xalign=0, selectable=True)
+        self.size_info_label.set_margin_bottom(4)
+
+        files_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=2)
+        files_box.pack_start(self.size_info_label, False, False, 0)
+        files_box.pack_start(files_page, True, True, 0)
+
+        paned = Gtk.Paned(orientation=Gtk.Orientation.HORIZONTAL)
+        paned.pack1(options_page, False, False)
+        paned.pack2(files_box, True, False)
+
+        container.remove(notebook)
+        container.add(paned)
+        paned.show_all()
+
+        self.builder.get_object('vpaned1').set_position(120)
+        self.dialog.set_default_size(1000, 640)
+
+        self.files_treestore.connect('row-changed', self.update_size_info)
+        self.files_treestore.connect('row-inserted', self.update_size_info)
+        self.files_treestore.connect('row-deleted', self.update_size_info)
+        self.download_location_path_chooser.connect(
+            'text-changed', self.update_size_info
+        )
+
+    def update_size_info(self, *args):
+        """Schedule a refresh of the size and free space label."""
+        if self._size_info_idle is None:
+            self._size_info_idle = GLib.idle_add(self._refresh_size_info)
+
+    def _selected_files_size(self):
+        """Total size of the files ticked for download, None if there are none listed."""
+        if self.files_treestore.get_iter_first() is None:
+            return None
+
+        total = 0
+
+        def add_size(model, path, itr):
+            nonlocal total
+            # Folders have a sequence number of -1, they are included via their files.
+            if model[itr][3] > -1 and model[itr][0]:
+                total += model[itr][2]
+
+        self.files_treestore.foreach(add_size)
+        return total
+
+    def _refresh_size_info(self):
+        self._size_info_idle = None
+        size = self._selected_files_size()
+        path = decode_bytes(self.download_location_path_chooser.get_text()).strip()
+
+        if size is None:
+            self.size_info_label.set_text('')
+            return False
+
+        if path and (self._free_space is None or self._free_space[0] != path):
+            self._free_space = (path, None)
+            self._request_free_space(path, path)
+
+        free = self._free_space[1] if self._free_space else None
+        if free is None:
+            free_text = '...'  # Still waiting for the core.
+        elif free < 0:
+            free_text = _('unknown')
+        else:
+            free_text = fsize(free)
+        text = _('Size: %(size)s (Free space: %(free)s)') % {
+            'size': fsize(size),
+            'free': free_text,
+        }
+        if free is not None and 0 <= free < size:
+            text = '<span foreground="red">%s</span>' % GLib.markup_escape_text(text)
+            self.size_info_label.set_markup(text)
+        else:
+            self.size_info_label.set_text(text)
+        return False
+
+    def _request_free_space(self, path, probe, depth=0):
+        """Ask the core for the free space, falling back to the nearest existing parent."""
+
+        def on_free_space(free):
+            if self._free_space and self._free_space[0] == path:
+                self._free_space = (path, free)
+                self.update_size_info()
+
+        def on_error(failure):
+            parent = probe.rstrip('/\\')
+            parent = parent[: max(parent.rfind('/'), parent.rfind('\\')) + 1]
+            if parent and parent != probe and depth < 10:
+                self._request_free_space(path, parent, depth + 1)
+            elif self._free_space and self._free_space[0] == path:
+                self._free_space = (path, -1)
+                self.update_size_info()
+
+        client.core.get_free_space(probe).addCallbacks(on_free_space, on_error)
 
     def setup_move_completed_path_chooser(self):
         self.move_completed_hbox = self.builder.get_object(
@@ -626,6 +736,7 @@ class AddTorrentDialog(component.Component):
         self.builder.get_object('chk_super_seeding').set_active(
             self.core_config['super_seeding']
         )
+        self.update_size_info()
 
     def get_file_priorities(self, torrent_id):
         # A list of priorities
@@ -889,6 +1000,13 @@ class AddTorrentDialog(component.Component):
         (model, row) = self.listview_torrents.get_selection().get_selected()
         if row is not None:
             self.save_torrent_options(row)
+            # Remember the chosen location as the default for the next torrent.
+            last_location = self.options[model.get_value(row, 0)].get(
+                'download_location'
+            )
+            if last_location:
+                self.gtkui_config['addtorrent_last_download_location'] = last_location
+                self.gtkui_config.save()
 
         torrents_to_add = []
 
