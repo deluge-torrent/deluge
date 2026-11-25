@@ -12,7 +12,7 @@ All modules will require the [common](#common) section dependencies.
 ## Build
 
 - [setuptools]
-- [intltool] - Optional: Desktop file translation for \*nix.
+- [gettext] - Optional: Desktop file translation for \*nix.
 - [closure-compiler] - Minify javascript (alternative is [rjsmin])
 
 ## Common
