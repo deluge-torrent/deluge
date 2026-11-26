@@ -65,7 +65,10 @@ def get_version(prefix='deluge-', suffix='.dev0'):
     if not version:
         version = release_version
     if not version:
-        version = "2.2.1.dev0"
+        raise ValueError(
+            'Cannot find the version number! If you are using a git clone, '
+            'please ensure you have tags fetched (e.g., git fetch --tags).'
+        )
 
     if version != release_version:
         with open(VERSION_FILE, 'w') as f:
