@@ -23,7 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 #### Fixed
 
-- Moving completed torrents to another drive or a network share no longer stalls the daemon. The data is copied in the background with progress, verified by a recheck, and only then removed from the original location.
+- Moving completed torrents to another drive or a network share no longer stalls the daemon. The data is copied in the background with progress, verified against the torrent's piece hashes, and only then removed from the original location. Moves run one at a time, including verification.
 
 ### GTK UI
 

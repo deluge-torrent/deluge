@@ -19,6 +19,7 @@ import deluge.tests.common as common
 from deluge._libtorrent import lt
 from deluge.common import VersionSplit, utf8_encode_structure
 from deluge.conftest import BaseTestCase
+from deluge.core import filecopy
 from deluge.core.core import Core
 from deluge.core.rpcserver import RPCServer
 from deluge.core.torrent import Torrent
@@ -408,15 +409,18 @@ class TestCopyMoveStorage(BaseTestCase):
         self.core.config.config['new_release_check'] = False
         self.src = os.path.join(self.config_dir, 'src')
         self.dst = os.path.join(self.config_dir, 'dst')
-        os.makedirs(os.path.join(self.src, 'data'))
-        self.content = {}
-        for name, size in (('a.bin', 300_000), ('sub/b.bin', 70_000)):
-            path = os.path.join(self.src, 'data', name)
-            os.makedirs(os.path.dirname(path), exist_ok=True)
-            self.content[name] = os.urandom(size)
-            with open(path, 'wb') as _file:
-                _file.write(self.content[name])
+        self.content = self.make_data('data')
         return component.start()
+
+    def make_data(self, folder):
+        content = {}
+        for name, size in (('a.bin', 300_000), ('sub/b.bin', 70_000)):
+            path = os.path.join(self.src, folder, name)
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            content[name] = os.urandom(size)
+            with open(path, 'wb') as _file:
+                _file.write(content[name])
+        return content
 
     def tear_down(self):
         return component.shutdown()
@@ -428,14 +432,14 @@ class TestCopyMoveStorage(BaseTestCase):
                 raise AssertionError('Timed out waiting for condition')
             await deferLater(reactor, 0.1)
 
-    async def add_seeding_torrent(self):
+    async def add_seeding_torrent(self, folder='data', flags=0):
         file_storage = lt.file_storage()
-        lt.add_files(file_storage, os.path.join(self.src, 'data'))
-        creator = lt.create_torrent(file_storage, 16384)
+        lt.add_files(file_storage, os.path.join(self.src, folder))
+        creator = lt.create_torrent(file_storage, 16384, flags=flags)
         lt.set_piece_hashes(creator, self.src)
         filedump = b64encode(lt.bencode(creator.generate()))
         torrent_id = self.core.add_torrent_file(
-            'data.torrent', filedump, {'download_location': self.src}
+            f'{folder}.torrent', filedump, {'download_location': self.src}
         )
         torrent = self.core.torrentmanager.torrents[torrent_id]
         await self.wait_for(lambda: torrent.get_lt_status().is_seeding)
@@ -472,9 +476,65 @@ class TestCopyMoveStorage(BaseTestCase):
             assert torrent.move_storage(self.dst)
             await self.wait_for(lambda: torrent.state == 'Error')
 
-        await self.wait_for(
-            lambda: torrent.options['download_location'] == os.path.normpath(self.src)
-        )
+        # Caught before libtorrent was pointed at the copy, which is removed.
+        assert torrent.options['download_location'] == self.src
+        assert not os.path.exists(os.path.join(self.dst, 'data', 'a.bin'))
+        assert 'failed verification' in torrent.get_status(['message'])['message']
         for name, data in self.content.items():
             with open(os.path.join(self.src, 'data', name), 'rb') as _file:
                 assert _file.read() == data
+
+    async def test_copy_move_v2_only_uses_libtorrent_recheck(self):
+        torrent = await self.add_seeding_torrent(flags=lt.create_torrent.v2_only)
+        with (
+            mock.patch('deluge.core.filecopy.is_same_device', return_value=False),
+            mock.patch('deluge.core.filecopy.verify_pieces') as verify,
+        ):
+            assert torrent.move_storage(self.dst)
+            await self.wait_for(
+                lambda: not os.path.exists(os.path.join(self.src, 'data', 'a.bin'))
+            )
+        assert not verify.called
+        assert torrent.options['download_location'] == os.path.normpath(self.dst)
+        assert torrent.get_lt_status().is_seeding
+
+    async def test_copy_moves_do_not_overlap(self):
+        self.make_data('data2')
+        first = await self.add_seeding_torrent('data')
+        second = await self.add_seeding_torrent('data2')
+        events = []
+        copy_files = filecopy.copy_files
+        verify_pieces = filecopy.verify_pieces
+
+        def name_of(path):
+            return os.path.relpath(path, self.dst).split(os.sep)[0]
+
+        def record_copy(pairs, **kwargs):
+            events.append(('copy', name_of(pairs[0][1])))
+            time.sleep(0.2)
+            return copy_files(pairs, **kwargs)
+
+        def record_verify(entries, *args, **kwargs):
+            events.append(('verify-start', name_of(entries[0][0])))
+            time.sleep(0.2)
+            result = verify_pieces(entries, *args, **kwargs)
+            events.append(('verify-end', name_of(entries[0][0])))
+            return result
+
+        with (
+            mock.patch('deluge.core.filecopy.is_same_device', return_value=False),
+            mock.patch('deluge.core.filecopy.copy_files', record_copy),
+            mock.patch('deluge.core.filecopy.verify_pieces', record_verify),
+        ):
+            assert first.move_storage(self.dst)
+            assert second.move_storage(self.dst)
+            await self.wait_for(lambda: len(events) == 6)
+
+        assert events == [
+            ('copy', 'data'),
+            ('verify-start', 'data'),
+            ('verify-end', 'data'),
+            ('copy', 'data2'),
+            ('verify-start', 'data2'),
+            ('verify-end', 'data2'),
+        ]

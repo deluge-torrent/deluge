@@ -21,6 +21,7 @@ interrupted copy never leaves a truncated file that looks complete. Permission
 bits and timestamps are preserved where the filesystem allows.
 """
 
+import hashlib
 import logging
 import os
 import shutil
@@ -128,18 +129,96 @@ def copy_files(pairs, progress=None, created=None, **kwargs):
 
     Args:
         pairs (list of tuple): (source path, destination path) pairs.
-        progress (CopyProgress, optional): Its total is set to the sum of sizes.
+        progress (CopyProgress, optional): Shared progress; its total is left
+            to the caller. A new one is totalled from the source sizes.
         created (list, optional): Each destination is appended once in place,
             so a caller can roll back after a failure.
     """
     if progress is None:
-        progress = CopyProgress()
-    progress.total = sum(os.stat(src).st_size for src, _ in pairs)
+        progress = CopyProgress(sum(os.stat(src).st_size for src, _ in pairs))
     for src, dst in pairs:
         copy_file(src, dst, progress=progress, **kwargs)
         if created is not None:
             created.append(dst)
     return progress
+
+
+def verify_pieces(
+    entries, piece_length, piece_hashes, progress=None, block_size=BLOCK_SIZE
+):
+    """Check files against BitTorrent v1 piece hashes (SHA-1).
+
+    The files are read once, sequentially, in large blocks and hashed as the
+    concatenation the torrent describes, which is how a client rechecks data.
+
+    Args:
+        entries (list of tuple): (path, size) in torrent order. A path of None
+            is a pad file and contributes ``size`` zero bytes without any I/O.
+        piece_length (int): The torrent's piece length.
+        piece_hashes (list of bytes): The expected SHA-1 digest of each piece.
+        progress (CopyProgress, optional): Updated with bytes read.
+
+    Returns:
+        int or None: Index of the first piece that does not match, else None.
+
+    Raises:
+        OSError: If a file is missing or not the expected size.
+        CopyCancelled: If cancelled via progress.
+    """
+    if progress is None:
+        progress = CopyProgress(sum(size for path, size in entries if path))
+    buf = bytearray(block_size)
+    view = memoryview(buf)
+    zeros = memoryview(bytes(block_size))
+    state = {'piece': 0, 'filled': 0, 'hash': hashlib.sha1()}
+
+    def piece_done():
+        ok = state['hash'].digest() == piece_hashes[state['piece']]
+        state['piece'] += 1
+        state['filled'] = 0
+        state['hash'] = hashlib.sha1()
+        return ok
+
+    def feed(data):
+        """Hash data, returns False as soon as a completed piece mismatches."""
+        while data:
+            take = min(len(data), piece_length - state['filled'])
+            state['hash'].update(data[:take])
+            state['filled'] += take
+            data = data[take:]
+            if state['filled'] == piece_length and not piece_done():
+                return False
+        return True
+
+    for path, size in entries:
+        remaining = size
+        if path is None:
+            while remaining:
+                n = min(remaining, block_size)
+                if not feed(zeros[:n]):
+                    return state['piece'] - 1
+                remaining -= n
+            continue
+        with open(path, 'rb', buffering=0) as file:
+            actual = os.fstat(file.fileno()).st_size
+            if actual != size:
+                raise OSError(f'Size of {path} is {actual}, expected {size}')
+            while remaining:
+                if progress.cancelled:
+                    raise CopyCancelled()
+                nread = file.readinto(view[: min(block_size, remaining)])
+                if not nread:
+                    raise OSError(f'File is shorter than expected: {path}')
+                progress.done += nread
+                remaining -= nread
+                if not feed(view[:nread]):
+                    return state['piece'] - 1
+
+    if state['filled'] and not piece_done():
+        return state['piece'] - 1
+    if state['piece'] != len(piece_hashes):
+        return state['piece']
+    return None
 
 
 def remove_files(paths):
